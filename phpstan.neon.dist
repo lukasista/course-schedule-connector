@@ -1,0 +1,15 @@
+parameters:
+	level: 6
+	paths:
+		- course-schedule-connector.php
+		- includes
+		- templates
+	excludePaths:
+		- vendor
+		- node_modules
+		- build
+	bootstrapFiles:
+		- tests/bootstrap-phpstan.php
+	ignoreErrors:
+		# Divi 5 ships no stubs; its classes are guarded by class_exists().
+		- '#^Class ET\\Builder\\.* not found\.$#'

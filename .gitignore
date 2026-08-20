@@ -1,0 +1,34 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Build output
+/build/
+/dist/
+*.zip
+
+# Compiled assets
+/assets/js/*.min.js
+/assets/css/*.min.css
+/visual-builder/build/
+
+# Environment / local
+.env
+.env.*
+*.log
+.phpunit.result.cache
+.phpcs-cache
+/.cache/
+
+# Editors
+.idea/
+.vscode/
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Never commit credentials
+auth.json
+*.pem

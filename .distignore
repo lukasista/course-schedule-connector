@@ -1,0 +1,23 @@
+# Files excluded from the distributed plugin ZIP and from the WordPress.org SVN build.
+.git
+.github
+.gitignore
+.editorconfig
+.distignore
+.wordpress-org
+node_modules
+vendor/bin
+tests
+docs
+phpcs.xml.dist
+phpstan.neon.dist
+composer.json
+composer.lock
+package.json
+package-lock.json
+webpack.config.js
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+SECURITY.md
+PLAN.md
+README.md
