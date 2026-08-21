@@ -31,8 +31,10 @@ jobs:
           coverage: none
           tools: composer:v2
 
-      - name: Install dependencies
-        uses: ramsey/composer-install@v3
+      # The plugin ships no runtime dependency, so there is no lock file to
+      # install from; the development toolchain is resolved fresh each run.
+      - name: Install development tooling
+        run: composer update --no-interaction --no-progress --prefer-dist
 
       - name: Coding standards
         run: composer run lint
@@ -43,40 +45,19 @@ jobs:
       - name: Unit tests
         run: composer run test
 
-  js:
-    name: JavaScript
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - run: npm ci
-      - run: npm run lint:js
-      - run: npm run lint:css
-      - run: npm run build
-
   plugin-check:
     name: WordPress.org Plugin Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Build plugin
-        run: |
-          npm ci
-          npm run build
-
       - name: Run Plugin Check
         uses: wordpress/plugin-check-action@v1
         with:
-          build-dir: '.'
-          exclude-directories: 'node_modules,vendor,tests,docs'
+          build-dir: './'
+          exclude-directories: 'node_modules,vendor,tests,docs,.github'
+          exclude-files: 'PLAN.md'
+
+  # The JavaScript job is added in the phase that introduces the block and the
+  # Divi modules. Until then the plugin ships no JavaScript, and a build step
+  # with nothing to build only produces noise.

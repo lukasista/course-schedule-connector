@@ -13,6 +13,8 @@ use CSCS\Api\Mapper;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * Exercises the translation of raw payloads into typed records.
+ *
  * @covers \CSCS\Api\Mapper
  */
 final class MapperTest extends TestCase {

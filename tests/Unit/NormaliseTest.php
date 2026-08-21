@@ -13,6 +13,8 @@ use CSCS\Support\Normalise;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * Exercises every coercion the API payload demands.
+ *
  * @covers \CSCS\Support\Normalise
  */
 final class NormaliseTest extends TestCase {

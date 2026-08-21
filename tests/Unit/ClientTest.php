@@ -20,6 +20,8 @@ use CSCS\Settings;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * Exercises the retry, ceiling, breaker and cache behaviour of the client.
+ *
  * @covers \CSCS\Api\Client
  */
 final class ClientTest extends TestCase {

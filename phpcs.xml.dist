@@ -37,6 +37,24 @@
 		</properties>
 	</rule>
 
+	<!--
+		The test suite deliberately declares stand-ins for a handful of WordPress
+		functions and constants so that the data layer can be exercised without a
+		WordPress installation. Tests are never shipped, so the prefix, alternative
+		function and unused parameter rules do not apply to them.
+	-->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<rule ref="WordPress.WP.AlternativeFunctions">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">

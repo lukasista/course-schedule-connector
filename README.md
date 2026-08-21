@@ -116,14 +116,14 @@ Synchronisation commands (`wp cscs sync`, `wp cscs match`) arrive with the data 
 
 ## Quality gates
 
-Every pull request runs:
+Every pull request runs, on PHP 8.1, 8.2 and 8.3:
 
-- **PHP_CodeSniffer** with `WordPress` and `WordPress-Docs` rulesets
-- **PHPStan** at level 6 with WordPress stubs
+- **PHP_CodeSniffer** with the `WordPress`, `WordPress-Docs` and `PHPCompatibilityWP` rulesets
+- **PHPStan** at level 6 with WordPress and WP-CLI stubs
 - **PHPUnit**
 - **[Plugin Check](https://wordpress.org/plugins/plugin-check/)**, the official WordPress.org pre-submission scanner, in the same configuration the review team uses
 
-A pull request that fails any of these cannot be merged.
+A pull request that fails any of these cannot be merged. The JavaScript job joins them in the phase that introduces the block and the Divi modules; until the plugin ships JavaScript, a build step with nothing to build only produces noise.
 
 ## Distribution
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * iSport System API client.
+ * API client for the iSport System.
  *
  * @package CourseScheduleConnector
  */
@@ -270,10 +270,12 @@ final class Client {
 	 */
 	private function decode( Response $response ) {
 		if ( 200 !== $response->status ) {
+			$status = absint( $response->status );
+
 			throw new ApiException(
-				sprintf( 'The API answered with status %d.', $response->status ),
+				esc_html( sprintf( 'The API answered with status %d.', $status ) ),
 				'bad_status',
-				$response->status
+				$status // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- An integer status code passed as the exception code, never output.
 			);
 		}
 
@@ -290,7 +292,7 @@ final class Client {
 		$decoded = json_decode( $body, true );
 
 		if ( JSON_ERROR_NONE !== json_last_error() ) {
-			throw new ApiException( 'The API response could not be decoded: ' . json_last_error_msg(), 'bad_json' );
+			throw new ApiException( esc_html( 'The API response could not be decoded: ' . json_last_error_msg() ), 'bad_json' );
 		}
 
 		if ( ! is_array( $decoded ) ) {

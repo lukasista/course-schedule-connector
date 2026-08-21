@@ -17,6 +17,12 @@ define( 'CSCS_MIN_PHP', '8.1' );
 define( 'HOUR_IN_SECONDS', 3600 );
 define( 'DAY_IN_SECONDS', 86400 );
 
+$cscs_composer_autoload = dirname( __DIR__ ) . '/vendor/autoload.php';
+
+if ( is_readable( $cscs_composer_autoload ) ) {
+	require_once $cscs_composer_autoload;
+}
+
 require_once dirname( __DIR__ ) . '/includes/Autoloader.php';
 
 \CSCS\Autoloader::register( dirname( __DIR__ ) . '/includes/' );
@@ -111,6 +117,30 @@ if ( ! function_exists( 'update_option' ) ) {
 		$GLOBALS['cscs_test_options'][ $key ] = $value;
 
 		return true;
+	}
+}
+
+if ( ! function_exists( 'absint' ) ) {
+	/**
+	 * Integer stub.
+	 *
+	 * @param mixed $value Value.
+	 * @return int
+	 */
+	function absint( $value ): int {
+		return abs( (int) $value );
+	}
+}
+
+if ( ! function_exists( 'esc_html' ) ) {
+	/**
+	 * Escaping stub.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	function esc_html( string $text ): string {
+		return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
 	}
 }
 

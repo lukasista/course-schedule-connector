@@ -17,9 +17,9 @@ final class CourseTerm {
 	/**
 	 * Constructor.
 	 *
-	 * @param int         $stamp         Unix timestamp of the term.
-	 * @param string      $date_text     Date as printed by the API, in D.M.Y form.
-	 * @param string      $datetime_text Date and time as printed by the API.
+	 * @param int    $stamp         Unix timestamp of the term.
+	 * @param string $date_text     Date as printed by the API, in D.M.Y form.
+	 * @param string $datetime_text Date and time as printed by the API.
 	 */
 	public function __construct(
 		public readonly int $stamp,

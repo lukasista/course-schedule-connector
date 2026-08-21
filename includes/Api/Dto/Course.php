@@ -20,32 +20,32 @@ final class Course {
 	/**
 	 * Constructor.
 	 *
-	 * @param int                $id                 Internal course id.
-	 * @param string             $name               Course name.
-	 * @param string             $description        Course description as supplied by the API.
-	 * @param string             $activity_name      Activity name, which may differ from the course name.
-	 * @param string             $match_key          Key used to match class occurrences to this course.
-	 * @param string|null        $url                Direct link into the iSport schedule.
-	 * @param int|null           $stamp_from         Start timestamp.
-	 * @param int|null           $stamp_to           End timestamp.
-	 * @param string|null        $date_from          Start date, Y-m-d.
-	 * @param string|null        $date_to            End date, Y-m-d.
-	 * @param string|null        $price              Price as a decimal string, or null when the course is free.
-	 * @param int                $number_lessons     Number of terms.
-	 * @param string             $trainer_name       Trainer name.
-	 * @param string             $room_name          Room name as reported by the API. Only a fallback: the authoritative
-	 *                                               room list is derived from the course's matched classes.
-	 * @param string|null        $colour             Text colour, bare hex.
-	 * @param string|null        $background         Background colour, bare hex.
-	 * @param int                $capacity           Total capacity.
-	 * @param int                $capacity_waiting   Waiting-list capacity.
-	 * @param int                $occupied           Occupied places.
-	 * @param int                $available          Free places.
-	 * @param int                $available_waiting  Free waiting-list places.
-	 * @param string|null        $image              Course image URL.
-	 * @param string|null        $trainer_image      Trainer image URL.
-	 * @param array<int, string> $tags               Tag id to tag name.
-	 * @param string             $rating             Rating as supplied by the API.
+	 * @param int                    $id                 Internal course id.
+	 * @param string                 $name               Course name.
+	 * @param string                 $description        Course description as supplied by the API.
+	 * @param string                 $activity_name      Activity name, which may differ from the course name.
+	 * @param string                 $match_key          Key used to match class occurrences to this course.
+	 * @param string|null            $url                Direct link into the iSport schedule.
+	 * @param int|null               $stamp_from         Start timestamp.
+	 * @param int|null               $stamp_to           End timestamp.
+	 * @param string|null            $date_from          Start date, Y-m-d.
+	 * @param string|null            $date_to            End date, Y-m-d.
+	 * @param string|null            $price              Price as a decimal string, or null when the course is free.
+	 * @param int                    $number_lessons     Number of terms.
+	 * @param string                 $trainer_name       Trainer name.
+	 * @param string                 $room_name          Room name as reported by the API. Only a fallback: the authoritative
+	 *                                                   room list is derived from the course's matched classes.
+	 * @param string|null            $colour             Text colour, bare hex.
+	 * @param string|null            $background         Background colour, bare hex.
+	 * @param int                    $capacity           Total capacity.
+	 * @param int                    $capacity_waiting   Waiting-list capacity.
+	 * @param int                    $occupied           Occupied places.
+	 * @param int                    $available          Free places.
+	 * @param int                    $available_waiting  Free waiting-list places.
+	 * @param string|null            $image              Course image URL.
+	 * @param string|null            $trainer_image      Trainer image URL.
+	 * @param array<int, string>     $tags               Tag id to tag name.
+	 * @param string                 $rating             Rating as supplied by the API.
 	 * @param array<int, CourseTerm> $terms          Scheduled terms.
 	 */
 	public function __construct(

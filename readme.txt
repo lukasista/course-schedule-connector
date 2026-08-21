@@ -71,14 +71,6 @@ The last successfully retrieved data continues to be displayed. Repeated failure
 
 No. Design controls are restricted to users with the `cscs_manage_design` capability, which is granted to administrators only, and the restriction is enforced server-side when settings are saved.
 
-== Screenshots ==
-
-1. Course listing displayed as cards.
-2. Course table collapsed on a mobile screen.
-3. Weekly schedule grid.
-4. Display set configuration screen.
-5. Synchronisation overview with the request counter.
-
 == Changelog ==
 
 = 0.1.0 =

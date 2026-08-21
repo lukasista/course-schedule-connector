@@ -70,7 +70,7 @@ final class WpHttp implements Http {
 		if ( is_wp_error( $response ) ) {
 			$reason = str_contains( $response->get_error_message(), 'timed out' ) ? 'timeout' : 'transport';
 
-			throw new ApiException( $response->get_error_message(), $reason );
+			throw new ApiException( esc_html( $response->get_error_message() ), esc_html( $reason ) );
 		}
 
 		$body = (string) wp_remote_retrieve_body( $response );

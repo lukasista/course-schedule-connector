@@ -13,6 +13,8 @@ use CSCS\Support\Url;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * Exercises the base URL guard, including the addresses it must refuse.
+ *
  * @covers \CSCS\Support\Url
  */
 final class UrlTest extends TestCase {
