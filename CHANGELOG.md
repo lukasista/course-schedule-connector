@@ -24,5 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `readme.txt` no longer promises screenshots that are not in the repository, and declares the current WordPress release.
 - `yoast/phpunit-polyfills` removed: it caps PHPUnit at 9 and is only needed by the WordPress core test suite, which this plugin does not use.
 - Plugin Check now runs against a build of the WordPress.org artefact rather than the repository, with the slug supplied explicitly, so it sees what would actually be submitted instead of the development tree.
+- The redundant PHP version guard is gone. WordPress enforces `Requires PHP` itself and refuses to activate a plugin the server cannot run, so the check was an unreachable branch that static analysis rightly flagged.
+
+### Changed
+- Every quality gate now runs even when an earlier one fails, and each writes its output to the run summary. One push therefore reports every problem at once, and the results are readable from the run page without downloading an artifact.
 
 [Unreleased]: https://github.com/lukasista/wpdissi/commits/main

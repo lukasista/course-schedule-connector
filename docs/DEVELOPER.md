@@ -7,7 +7,7 @@
 | Component | Class | Notes |
 |---|---|---|
 | Autoloader | `CSCS\Autoloader` | PSR-4 over `includes/`. No Composer runtime dependency. |
-| Bootstrap | `CSCS\Plugin` | Lazy service container; refuses to boot below PHP 8.1 with an admin notice. |
+| Bootstrap | `CSCS\Plugin` | Lazy service container. The minimum PHP version is declared in the plugin header and enforced by WordPress, which refuses to activate a plugin the server cannot run; the plugin deliberately does not duplicate that check. |
 | Settings | `CSCS\Settings` | One option, typed access, base URL validated on read. |
 | Base URL validation | `CSCS\Support\Url` | SSRF guard. WordPress-free, unit-tested. |
 | Type normalisation | `CSCS\Support\Normalise` | WordPress-free, unit-tested. |

@@ -22,7 +22,6 @@ declare( strict_types=1 );
 defined( 'ABSPATH' ) || exit;
 
 const CSCS_VERSION     = '0.1.0';
-const CSCS_MIN_PHP     = '8.1';
 const CSCS_TEXT_DOMAIN = 'course-schedule-connector';
 
 define( 'CSCS_FILE', __FILE__ );

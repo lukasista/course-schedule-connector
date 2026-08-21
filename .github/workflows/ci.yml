@@ -22,7 +22,7 @@ jobs:
       matrix:
         php: ['8.1', '8.2', '8.3']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -36,20 +36,42 @@ jobs:
       - name: Install development tooling
         run: composer update --no-interaction --no-progress --prefer-dist
 
+      # Each gate runs even when an earlier one failed, so one push reports
+      # every problem instead of only the first, and each writes its output to
+      # the run summary where it can be read without downloading an artifact.
       - name: Coding standards
-        run: composer run lint
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          composer run lint 2>&1 | tee -a ci-report.txt
 
       - name: Static analysis
-        run: composer run analyse
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          composer run analyse 2>&1 | tee -a ci-report.txt
 
       - name: Unit tests
-        run: composer run test
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          composer run test 2>&1 | tee -a ci-report.txt
+
+      - name: Publish report
+        if: ${{ !cancelled() }}
+        run: |
+          {
+            echo "## PHP ${{ matrix.php }}"
+            echo '```'
+            cat ci-report.txt 2>/dev/null || echo 'No output was captured.'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
   plugin-check:
     name: WordPress.org Plugin Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Check exactly what would be submitted, not the repository. The build
       # below reproduces the WordPress.org artefact: development files removed
@@ -63,12 +85,25 @@ jobs:
           rm -rf build/course-schedule-connector/includes/Updater
           sed -i '/^ \* Update URI:/d' build/course-schedule-connector/course-schedule-connector.php
           ! grep -q 'Update URI' build/course-schedule-connector/course-schedule-connector.php
+          echo 'Files in the artefact:'
+          find build/course-schedule-connector -type f | sort
 
       - name: Run Plugin Check
+        if: ${{ !cancelled() }}
         uses: wordpress/plugin-check-action@v1
         with:
           build-dir: 'build/course-schedule-connector'
           slug: 'course-schedule-connector'
+
+      - name: Publish report
+        if: ${{ !cancelled() }}
+        run: |
+          {
+            echo '## Plugin Check'
+            echo '```json'
+            cat "${RUNNER_TEMP}/plugin-check-results.txt" 2>/dev/null || echo 'No results file was produced.'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
   # The JavaScript job is added in the phase that introduces the block and the
   # Divi modules. Until then the plugin ships no JavaScript, and a build step

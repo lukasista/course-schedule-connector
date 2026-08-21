@@ -45,15 +45,14 @@ final class Plugin {
 	/**
 	 * Boots the plugin.
 	 *
+	 * The minimum PHP version is declared in the plugin header and enforced by
+	 * WordPress itself, which refuses to activate a plugin the server cannot
+	 * run and explains why. A second check here would only duplicate that, so
+	 * there is deliberately none.
+	 *
 	 * @return void
 	 */
 	public static function boot(): void {
-		if ( version_compare( PHP_VERSION, CSCS_MIN_PHP, '<' ) ) {
-			add_action( 'admin_notices', array( self::class, 'render_php_notice' ) );
-
-			return;
-		}
-
 		self::instance()->register();
 	}
 
@@ -149,24 +148,5 @@ final class Plugin {
 		}
 
 		return $this->services[ $id ];
-	}
-
-	/**
-	 * Renders the notice shown when the PHP version is too old.
-	 *
-	 * @return void
-	 */
-	public static function render_php_notice(): void {
-		printf(
-			'<div class="notice notice-error"><p>%s</p></div>',
-			esc_html(
-				sprintf(
-					/* translators: 1: required PHP version, 2: current PHP version */
-					__( 'Course & Schedule Connector for iSport requires PHP %1$s or newer. This site runs PHP %2$s.', 'course-schedule-connector' ),
-					CSCS_MIN_PHP,
-					PHP_VERSION
-				)
-			)
-		);
 	}
 }

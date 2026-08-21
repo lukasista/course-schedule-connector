@@ -13,7 +13,6 @@ declare( strict_types=1 );
 
 define( 'ABSPATH', __DIR__ . '/' );
 define( 'CSCS_VERSION', '0.1.0' );
-define( 'CSCS_MIN_PHP', '8.1' );
 define( 'HOUR_IN_SECONDS', 3600 );
 define( 'DAY_IN_SECONDS', 86400 );
 
