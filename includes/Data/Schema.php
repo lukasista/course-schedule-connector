@@ -30,8 +30,12 @@ final class Schema {
 
 	/**
 	 * Schema version. Bump when a table definition changes.
+	 *
+	 * Version 2 made id_course NOT NULL with a zero default. $wpdb->prepare()
+	 * turns a null bound to %d into 0, so "no course" was already being stored
+	 * as zero while every query looked for NULL and therefore found nothing.
 	 */
-	public const VERSION = 1;
+	public const VERSION = 2;
 
 	/**
 	 * Returns the lessons table name.
@@ -80,7 +84,7 @@ final class Schema {
 			"CREATE TABLE {$lessons} (
 				id_activity_term bigint(20) unsigned NOT NULL,
 				id_activity bigint(20) unsigned NOT NULL DEFAULT 0,
-				id_course bigint(20) unsigned NULL DEFAULT NULL,
+				id_course bigint(20) unsigned NOT NULL DEFAULT 0,
 				match_method varchar(20) NOT NULL DEFAULT '',
 				activity_name varchar(255) NOT NULL DEFAULT '',
 				match_key varchar(191) NOT NULL DEFAULT '',
@@ -131,7 +135,7 @@ final class Schema {
 			) {$charset};"
 		);
 
-		update_option( self::VERSION_OPTION, self::VERSION, false );
+		update_option( self::VERSION_OPTION, self::VERSION, true );
 	}
 
 	/**

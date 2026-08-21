@@ -17,7 +17,7 @@
 | Mapping | `CSCS\Api\Mapper`, `CSCS\Api\Dto\*` | Typed records. |
 | Cache | `CSCS\Cache\Store` | Transients with stale-while-revalidate. |
 | CLI | `CSCS\Cli\ApiCommand`, `SyncCommand`, `SettingsCommand` | `wp cscs api`, `wp cscs sync`, `wp cscs settings`. |
-| Schema | `CSCS\Data\Schema` | Versioned tables through `dbDelta()`. |
+| Schema | `CSCS\Data\Schema` | Versioned tables through `dbDelta()`, upgraded on the next request after a version bump. `id_course = 0` means no course: `$wpdb->prepare()` cannot bind a real NULL to `%d`. |
 | Post type | `CSCS\Data\PostType` | `cscs_course` plus four taxonomies. |
 | Course storage | `CSCS\Data\CourseRepository` | Never deletes, never overwrites a locked field. |
 | Occurrence storage | `CSCS\Data\LessonRepository` | Idempotent bulk upsert keyed on the remote occurrence id. |

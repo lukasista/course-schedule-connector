@@ -86,6 +86,12 @@ final class Plugin {
 	 * @return void
 	 */
 	private function register(): void {
+		// A schema change has to apply without the site owner having to guess
+		// that deactivating and reactivating is what makes a fix take effect.
+		// The check is one autoloaded option read and returns immediately when
+		// the stored version is current.
+		Schema::install();
+
 		add_action( 'init', array( PostType::class, 'register' ) );
 		add_action( 'cscs_setting_changed', array( $this, 'on_setting_changed' ) );
 

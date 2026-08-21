@@ -59,42 +59,9 @@ final class LessonRepository {
 			$placeholders = array();
 
 			foreach ( $chunk as $lesson ) {
-				$assignment = $outcome instanceof MatchResult ? ( $outcome->assignments[ $lesson->id_term ] ?? null ) : null;
-				$reason     = $outcome instanceof MatchResult ? ( $outcome->unmatched[ $lesson->id_term ]['reason'] ?? '' ) : '';
+				$placeholders[] = '(%d,%d,%d,%s,%s,%s,%d,%d,%s,%s,%s,%d,%s,%d,%s,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%s,%d)';
 
-				$placeholders[] = '(%d,%d,%s,%s,%s,%s,%d,%d,%s,%s,%s,%d,%s,%d,%s,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%s,%d)';
-
-				array_push(
-					$rows,
-					$lesson->id_term,
-					$lesson->id_activity,
-					$assignment instanceof Assignment ? (string) $assignment->course_id : null,
-					$assignment instanceof Assignment ? $assignment->method : '',
-					$lesson->activity_name,
-					$lesson->match_key,
-					(int) $lesson->stamp_from,
-					(int) $lesson->stamp_to,
-					$lesson->date,
-					(string) $lesson->time_from,
-					(string) $lesson->time_to,
-					$lesson->id_tab,
-					$lesson->tab_name,
-					$lesson->id_lane,
-					$lesson->lane_name,
-					$lesson->id_trainer,
-					$lesson->trainer_name,
-					$lesson->price,
-					$lesson->capacity,
-					$lesson->capacity_waiting,
-					$lesson->occupied,
-					$lesson->available,
-					$lesson->available_waiting,
-					$lesson->canceled ? 1 : 0,
-					$lesson->booking_allowed ? 1 : 0,
-					'no_candidate' === $reason ? 1 : 0,
-					LessonPayload::encode( $lesson ),
-					$now
-				);
+				array_push( $rows, ...array_values( self::row_values( $lesson, $outcome, $now ) ) );
 			}
 
 			$sql = 'INSERT INTO ' . $table . ' (
@@ -142,6 +109,56 @@ final class LessonRepository {
 		}
 
 		return $written;
+	}
+
+	/**
+	 * Builds the column values for one occurrence.
+	 *
+	 * Kept separate and free of the database so that the value of id_course for
+	 * an unmatched occurrence can be asserted in a test. It has to be zero, not
+	 * null: $wpdb->prepare() turns a null bound to %d into 0, so storing null
+	 * was never possible, and every query that looked for NULL silently matched
+	 * nothing.
+	 *
+	 * @param Lesson           $lesson  Occurrence.
+	 * @param MatchResult|null $outcome Matching outcome, when one is available.
+	 * @param int              $now     Timestamp to record.
+	 * @return array<string, mixed> Values in column order.
+	 */
+	public static function row_values( Lesson $lesson, ?MatchResult $outcome, int $now ): array {
+		$assignment = $outcome instanceof MatchResult ? ( $outcome->assignments[ $lesson->id_term ] ?? null ) : null;
+		$reason     = $outcome instanceof MatchResult ? ( $outcome->unmatched[ $lesson->id_term ]['reason'] ?? '' ) : '';
+
+		return array(
+			'id_activity_term'  => $lesson->id_term,
+			'id_activity'       => $lesson->id_activity,
+			'id_course'         => $assignment instanceof Assignment ? $assignment->course_id : 0,
+			'match_method'      => $assignment instanceof Assignment ? $assignment->method : '',
+			'activity_name'     => $lesson->activity_name,
+			'match_key'         => $lesson->match_key,
+			'stamp_from'        => (int) $lesson->stamp_from,
+			'stamp_to'          => (int) $lesson->stamp_to,
+			'lesson_date'       => $lesson->date,
+			'time_from'         => (string) $lesson->time_from,
+			'time_to'           => (string) $lesson->time_to,
+			'id_tab'            => $lesson->id_tab,
+			'tab_name'          => $lesson->tab_name,
+			'id_lane'           => $lesson->id_lane,
+			'lane_name'         => $lesson->lane_name,
+			'id_trainer'        => $lesson->id_trainer,
+			'trainer_name'      => $lesson->trainer_name,
+			'price'             => $lesson->price,
+			'capacity'          => $lesson->capacity,
+			'capacity_waiting'  => $lesson->capacity_waiting,
+			'occupied'          => $lesson->occupied,
+			'available'         => $lesson->available,
+			'available_waiting' => $lesson->available_waiting,
+			'canceled'          => $lesson->canceled ? 1 : 0,
+			'booking_allowed'   => $lesson->booking_allowed ? 1 : 0,
+			'is_external'       => 'no_candidate' === $reason ? 1 : 0,
+			'payload'           => LessonPayload::encode( $lesson ),
+			'synced_at'         => $now,
+		);
 	}
 
 	/**
@@ -206,7 +223,7 @@ final class LessonRepository {
 			$wpdb->prepare(
 				"SELECT id_activity_term, activity_name, lesson_date, time_from, tab_name, trainer_name
 				FROM {$table}
-				WHERE id_course IS NULL AND is_external = 0
+				WHERE id_course = 0 AND is_external = 0
 				ORDER BY stamp_from ASC
 				LIMIT %d",
 				max( 1, $limit )
@@ -234,9 +251,9 @@ final class LessonRepository {
 		$row = $wpdb->get_row(
 			"SELECT
 				COUNT(*) AS total,
-				SUM(id_course IS NOT NULL) AS matched,
+				SUM(id_course > 0) AS matched,
 				SUM(is_external = 1) AS external,
-				SUM(id_course IS NULL AND is_external = 0) AS unmatched,
+				SUM(id_course = 0 AND is_external = 0) AS unmatched,
 				SUM(canceled = 1) AS canceled
 			FROM {$table}",
 			ARRAY_A
