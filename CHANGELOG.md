@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The redundant PHP version guard is gone. WordPress enforces `Requires PHP` itself and refuses to activate a plugin the server cannot run, so the check was an unreachable branch that static analysis rightly flagged.
 
 ### Changed
+- The repository is renamed to match the plugin slug, so a checkout directory is never mistaken for the plugin name.
 - Every quality gate now runs even when an earlier one fails, and each writes its output to the run summary. One push therefore reports every problem at once, and the results are readable from the run page without downloading an artifact.
 
-[Unreleased]: https://github.com/lukasista/wpdissi/commits/main
+[Unreleased]: https://github.com/lukasista/course-schedule-connector/commits/main

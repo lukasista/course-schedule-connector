@@ -16,7 +16,7 @@
 | Divi | 5.11.0 |
 | Aktivní šablona | child theme **JoJo Gym 2.0** |
 | Vývoj | WordPress Studio, web **jojogym 2**, `http://localhost:8888` |
-| Repozitář | `https://github.com/lukasista/wpdissi` (veřejný) |
+| Repozitář | `https://github.com/lukasista/course-schedule-connector` (veřejný) |
 | Účet na WordPress.org | `1uka5i5ta`, propojený s GitHubem |
 | Jazyk | web česky, kód plně připravený na překlad (`__()`, `.pot`, text domain `course-schedule-connector`) |
 
@@ -325,7 +325,7 @@ Podání do adresáře WordPress.org proběhne **teprve po naprosté jistotě**,
 
 Na konci jsou dva podpisy – můj a váš. Bez obou se nic nikam neodesílá.
 
-*Vyřešeno:* účet na WordPress.org je `1uka5i5ta`, repozitář `wpdissi` je veřejný (což zároveň splňuje pravidlo 4 a odpadá potřeba tokenu pro aktualizace z GitHubu), podání do adresáře je podmíněné touto branou.
+*Vyřešeno:* účet na WordPress.org je `1uka5i5ta`, repozitář `course-schedule-connector` je veřejný (což zároveň splňuje pravidlo 4 a odpadá potřeba tokenu pro aktualizace z GitHubu), podání do adresáře je podmíněné touto branou.
 
 ## 12. Rizika
 

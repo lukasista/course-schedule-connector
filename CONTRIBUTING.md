@@ -5,7 +5,7 @@ Thanks for your interest in improving this plugin.
 ## Getting set up
 
 ```bash
-git clone https://github.com/lukasista/wpdissi.git course-schedule-connector
+git clone https://github.com/lukasista/course-schedule-connector.git
 cd course-schedule-connector
 composer install
 npm ci

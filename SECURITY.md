@@ -10,7 +10,7 @@
 
 **Please do not open a public issue for a security problem.**
 
-Report it privately through [GitHub Security Advisories](https://github.com/lukasista/wpdissi/security/advisories/new), or by e-mail to the address in `composer.json`.
+Report it privately through [GitHub Security Advisories](https://github.com/lukasista/course-schedule-connector/security/advisories/new), or by e-mail to the address in `composer.json`.
 
 Please include:
 

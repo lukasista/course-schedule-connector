@@ -6,7 +6,7 @@
   "author": "Lukas Pivonka <info@pivonka.co.uk>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lukasista/wpdissi.git"
+    "url": "https://github.com/lukasista/course-schedule-connector.git"
   },
   "private": true,
   "scripts": {

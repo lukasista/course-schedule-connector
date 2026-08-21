@@ -7,7 +7,7 @@ How this plugin satisfies each of the eighteen [Detailed Plugin Guidelines](http
 | 1 | GPL-compatible licence | ✅ | Plugin is GPL-2.0-or-later. Every bundled asset is GPL-compatible; no third-party PHP library is bundled at runtime. Build tooling is dev-only and never shipped. |
 | 2 | Developer responsibility | ✅ | A single maintainer is accountable; no guideline is circumvented by design. |
 | 3 | Stable version on WordPress.org | ⚠️ | Resolved by shipping two builds — see [Distribution](#distribution) below. |
-| 4 | Human-readable code | ✅ | No obfuscation, no minified-only PHP. Source is public at [`lukasista/wpdissi`](https://github.com/lukasista/wpdissi) and linked from the readme. The repository is public, which also means the GitHub build needs no access token. |
+| 4 | Human-readable code | ✅ | No obfuscation, no minified-only PHP. Source is public at [`lukasista/course-schedule-connector`](https://github.com/lukasista/course-schedule-connector) and linked from the readme, which also means the GitHub build needs no access token. The repository is named for the plugin slug, so a checkout is never mistaken for a differently named plugin. |
 | 5 | No trialware | ✅ | No feature is paywalled, time-limited or restricted to a sandbox. |
 | 6 | Third-party services permitted when disclosed | ✅ | The iSport System dependency is disclosed in a dedicated `== External services ==` section of `readme.txt`, naming the exact endpoints, the data retrieved, when requests occur, and who operates the service. |
 | 7 | No unauthorised tracking | ✅ | No analytics, no telemetry, no phone-home. The only outbound host is the one the administrator enters, and nothing is sent until they enter it. **No visitor data leaves the site** — requests carry no personal data, cookies or identifiers, and are never made from a visitor's browser. |
@@ -29,7 +29,7 @@ Guidelines 3 and 8 make a self-updating GitHub distribution incompatible with a 
 
 | Artefact | `includes/Updater/` | `Update URI` header | Distributed via |
 |---|---|---|---|
-| `course-schedule-connector.zip` | present | `https://github.com/lukasista/wpdissi` | GitHub Releases, self-updating |
+| `course-schedule-connector.zip` | present | `https://github.com/lukasista/course-schedule-connector` | GitHub Releases, self-updating |
 | `course-schedule-connector-wporg.zip` | **removed at build time** | absent | WordPress.org SVN |
 
 The updater is an isolated namespace with no other component depending on it, so its removal cannot affect plugin behaviour. This is verified by the Plugin Check job in CI, which runs against the WordPress.org build.

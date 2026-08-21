@@ -55,7 +55,7 @@ Download `course-schedule-connector.zip` from the [Releases](../../releases) pag
 ### From source
 
 ```bash
-git clone https://github.com/lukasista/wpdissi.git course-schedule-connector
+git clone https://github.com/lukasista/course-schedule-connector.git
 cd course-schedule-connector
 composer install
 npm ci

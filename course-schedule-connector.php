@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Course & Schedule Connector for iSport
- * Plugin URI:        https://github.com/lukasista/wpdissi
+ * Plugin URI:        https://github.com/lukasista/course-schedule-connector
  * Description:       Display courses and class schedules from an iSport System installation, as a shortcode, a block, or Divi 5 modules.
  * Version:           0.1.0
  * Requires at least: 6.5
@@ -12,7 +12,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       course-schedule-connector
  * Domain Path:       /languages
- * Update URI:        https://github.com/lukasista/wpdissi
+ * Update URI:        https://github.com/lukasista/course-schedule-connector
  *
  * @package CourseScheduleConnector
  */
