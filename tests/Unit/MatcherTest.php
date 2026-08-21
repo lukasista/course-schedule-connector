@@ -371,6 +371,37 @@ final class MatcherTest extends TestCase {
 	}
 
 	/**
+	 * A weekly course that matched nothing produces one name, not many problems.
+	 *
+	 * @return void
+	 */
+	public function test_unresolved_occurrences_are_grouped_by_activity_name(): void {
+		$trainer = array(
+			'trainer_name' => 'Lukáš Moutelík',
+			'price'        => '4160.00',
+		);
+
+		$result = $this->run(
+			array(),
+			array(
+				$this->lesson_data( 1, 'Parkour', 1000, $trainer ),
+				$this->lesson_data( 2, 'Parkour', 2000, $trainer ),
+				$this->lesson_data( 3, 'Parkour', 3000, $trainer ),
+				$this->lesson_data( 4, 'Lezení', 1000, $trainer ),
+				$this->lesson_data( 5, 'Veřejnost', 1000, array( 'price' => null ) ),
+			)
+		);
+
+		$this->assertSame(
+			array(
+				'Parkour' => 3,
+				'Lezení'  => 1,
+			),
+			$result->unresolved_by_name()
+		);
+	}
+
+	/**
 	 * With nothing to match, the rate is a hundred rather than a division by zero.
 	 *
 	 * @return void

@@ -285,6 +285,17 @@ final class SyncCommand {
 			\WP_CLI::warning( sprintf( '%d occurrence(s) unresolved: %s', $count, $reason ) );
 		}
 
+		$by_name = $outcome->unresolved_by_name();
+
+		if ( array() !== $by_name ) {
+			\WP_CLI::log( '' );
+			\WP_CLI::log( sprintf( 'Unresolved activities (%d distinct):', count( $by_name ) ) );
+
+			foreach ( array_slice( $by_name, 0, 15, true ) as $name => $count ) {
+				\WP_CLI::log( sprintf( '  %3d x  %s', $count, $name ) );
+			}
+		}
+
 		if ( $outcome->rate() < 95.0 ) {
 			\WP_CLI::warning( 'The match rate is below 95%. Run "wp cscs sync unmatched" to see what is left.' );
 		}

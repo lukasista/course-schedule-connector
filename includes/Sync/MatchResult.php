@@ -90,6 +90,32 @@ final class MatchResult {
 	}
 
 	/**
+	 * Groups the occurrences that need attention by activity name.
+	 *
+	 * Twenty-two unresolved occurrences are rarely twenty-two problems. A course
+	 * runs weekly, so one unrecognised name accounts for a whole column of them.
+	 * Grouping turns an intimidating count into the two or three names actually
+	 * worth looking at.
+	 *
+	 * @return array<string, int> Activity name to occurrence count, largest first.
+	 */
+	public function unresolved_by_name(): array {
+		$names = array();
+
+		foreach ( $this->unmatched as $entry ) {
+			if ( 'no_candidate' === $entry['reason'] ) {
+				continue;
+			}
+
+			$names[ $entry['name'] ] = ( $names[ $entry['name'] ] ?? 0 ) + 1;
+		}
+
+		arsort( $names );
+
+		return $names;
+	}
+
+	/**
 	 * Counts assignments made by each method.
 	 *
 	 * @return array<string, int>

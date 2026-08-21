@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Retention: occurrences are kept for a configurable window behind today and then removed; courses are never deleted, only closed.
 - WP-CLI: `wp cscs sync courses|lessons|rematch|unmatched|assign|retention`.
 - `uninstall.php`, which removes data only when the administrator opted into that in the settings.
+- The matching report groups unresolved occurrences by activity name. A weekly course that matched nothing produces one name rather than a dozen apparent problems, which is the difference between a number to worry about and a list to act on.
 - Settings are written through a validating setter and seeded with their defaults on activation, so there is always something to read and edit. WP-CLI: `wp cscs settings list|get|set`.
 
 ### Fixed
