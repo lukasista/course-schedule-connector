@@ -90,6 +90,7 @@ Tested on a **clean** WordPress install, not the development site.
 - [ ] A page with a full weekly calendar adds fewer than 15 queries
 - [ ] No outbound HTTP request occurs during a front-end page load — verified with Query Monitor's HTTP panel
 - [ ] Front-end CSS and JS are enqueued only on pages that actually render plugin output
+- [ ] **Peak memory contribution measured** with the plugin off and on, on an admin page and a front-end page, and recorded in the pull request. A page builder can leave a site sitting near its ceiling, so the plugin's own cost must be a known number rather than an assumption.
 
 ## 8. Internationalisation
 

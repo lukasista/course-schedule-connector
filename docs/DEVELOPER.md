@@ -267,6 +267,20 @@ wp cscs cache flush
 wp cscs retention run
 ```
 
+## Measuring the plugin's memory cost
+
+Divi 5 parses a generated metadata file of some forty thousand lines on every request, which can leave a site sitting close to its PHP ceiling before this plugin loads anything at all. Do not guess at the plugin's footprint — measure it:
+
+```bash
+WP=/path/to/wordpress
+php -d memory_limit=512M "$(command -v wp)" --path="$WP" plugin deactivate course-schedule-connector
+php -d memory_limit=512M "$(command -v wp)" --path="$WP" eval 'echo size_format( memory_get_peak_usage( true ) ), PHP_EOL;'
+php -d memory_limit=512M "$(command -v wp)" --path="$WP" plugin activate course-schedule-connector
+php -d memory_limit=512M "$(command -v wp)" --path="$WP" eval 'echo size_format( memory_get_peak_usage( true ) ), PHP_EOL;'
+```
+
+The difference is the plugin's cost. On a request that renders nothing, the plugin loads one file and registers one autoloader, so the difference should be negligible; anything else is a bug worth chasing.
+
 ## Options
 
 All options are prefixed `cscs_`. Settings are stored as a single serialised array under `cscs_settings`; display sets under `cscs_display_sets`; schema version under `cscs_schema_version`.
