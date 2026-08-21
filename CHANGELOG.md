@@ -15,7 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Base URL validation that refuses plain http, credentials, non-standard ports, and any address in loopback, private, link-local or other reserved space.
 - Payload mapper and type normalisation for both endpoints, including the course-to-class match key.
 - WP-CLI commands `wp cscs api courses`, `wp cscs api lessons` and `wp cscs api doctor`.
-- Unit tests with fixtures for normalisation, URL validation, mapping and every client guard.
+- Unit tests with fixtures for normalisation, URL validation, mapping, every client guard, matching and the storage round trip.
+- Data model: the `cscs_course` post type with room, trainer, activity and tag taxonomies, plus tables for class occurrences and the synchronisation log.
+- Matching of class occurrences to courses on the normalised name and the term timestamp, with an accent-stripped fallback, permanent manual assignments, and a reported success rate that excludes hall rentals but not orphaned course lessons.
+- Rooms of a course derived from the occurrences it actually runs in, rather than from the single room name the course record carries.
+- Scheduled synchronisation: the course list, a near window of occurrences, a far window to the end of the term, and daily retention. Every job queries forward in time only.
+- Retention: occurrences are kept for a configurable window behind today and then removed; courses are never deleted, only closed.
+- WP-CLI: `wp cscs sync courses|lessons|rematch|unmatched|assign|retention`.
+- `uninstall.php`, which removes data only when the administrator opted into that in the settings.
 
 ### Fixed
 - Continuous integration: the first run failed every job. `npm ci` had no lock file to install from and there was no JavaScript to build, `phpunit/phpunit` and `phpstan/phpstan` were missing from the development requirements, and PHPStan was pointed at a `templates` directory that does not exist yet.

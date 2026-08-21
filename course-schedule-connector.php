@@ -32,4 +32,7 @@ require_once CSCS_DIR . 'includes/Autoloader.php';
 
 \CSCS\Autoloader::register( CSCS_DIR . 'includes/' );
 
+register_activation_hook( __FILE__, array( \CSCS\Plugin::class, 'activate' ) );
+register_deactivation_hook( __FILE__, array( \CSCS\Plugin::class, 'deactivate' ) );
+
 add_action( 'plugins_loaded', array( \CSCS\Plugin::class, 'boot' ) );

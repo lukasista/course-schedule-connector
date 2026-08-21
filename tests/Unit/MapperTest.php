@@ -53,7 +53,7 @@ final class MapperTest extends TestCase {
 	public function test_courses_are_keyed_by_id(): void {
 		$courses = $this->mapper->map_courses( $this->fixture( 'courses' ) );
 
-		$this->assertCount( 3, $courses );
+		$this->assertCount( 4, $courses );
 		$this->assertArrayHasKey( 1070, $courses );
 		$this->assertSame( 1070, $courses[1070]->id );
 	}

@@ -90,7 +90,7 @@ final class ClientTest extends TestCase {
 
 		$courses = $client->get_courses();
 
-		$this->assertCount( 3, $courses );
+		$this->assertCount( 4, $courses );
 		$this->assertSame( 1, $http->calls );
 	}
 
@@ -124,7 +124,7 @@ final class ClientTest extends TestCase {
 
 		$courses = $this->client( $http )->get_courses();
 
-		$this->assertCount( 3, $courses );
+		$this->assertCount( 4, $courses );
 		$this->assertSame( 2, $http->calls );
 	}
 
@@ -229,7 +229,7 @@ final class ClientTest extends TestCase {
 
 		$courses = $client->get_courses();
 
-		$this->assertCount( 3, $courses, 'The last known data must still be served.' );
+		$this->assertCount( 4, $courses, 'The last known data must still be served.' );
 		$this->assertSame( 2, $http->calls );
 	}
 

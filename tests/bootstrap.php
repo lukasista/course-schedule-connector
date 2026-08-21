@@ -119,6 +119,18 @@ if ( ! function_exists( 'update_option' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wp_json_encode' ) ) {
+	/**
+	 * JSON stub.
+	 *
+	 * @param mixed $data Data.
+	 * @return string|false
+	 */
+	function wp_json_encode( $data ) {
+		return json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+	}
+}
+
 if ( ! function_exists( 'absint' ) ) {
 	/**
 	 * Integer stub.

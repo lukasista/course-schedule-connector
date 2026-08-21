@@ -2,6 +2,7 @@ parameters:
 	level: 6
 	paths:
 		- course-schedule-connector.php
+		- uninstall.php
 		- includes
 	excludePaths:
 		- vendor (?)

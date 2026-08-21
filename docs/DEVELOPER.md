@@ -1,8 +1,8 @@
 # Developer documentation
 
-> Status: written ahead of the implementation and used as the specification the code is built against. Phase F1 has landed, so the API layer below is descriptive; everything from the data model onwards is still specification.
+> Status: written ahead of the implementation and used as the specification the code is built against. Phases F1 and F2 have landed, so the API layer, the data model and synchronisation below are descriptive; everything from the renderer onwards is still specification.
 
-## Implemented so far (phase F1)
+## Implemented so far (phases F1 and F2)
 
 | Component | Class | Notes |
 |---|---|---|
@@ -17,6 +17,25 @@
 | Mapping | `CSCS\Api\Mapper`, `CSCS\Api\Dto\*` | Typed records. |
 | Cache | `CSCS\Cache\Store` | Transients with stale-while-revalidate. |
 | CLI | `CSCS\Cli\ApiCommand` | `wp cscs api courses\|lessons\|doctor`. |
+| Schema | `CSCS\Data\Schema` | Versioned tables through `dbDelta()`. |
+| Post type | `CSCS\Data\PostType` | `cscs_course` plus four taxonomies. |
+| Course storage | `CSCS\Data\CourseRepository` | Never deletes, never overwrites a locked field. |
+| Occurrence storage | `CSCS\Data\LessonRepository` | Idempotent bulk upsert keyed on the remote occurrence id. |
+| Serialisation | `CSCS\Data\LessonPayload` | Store and restore, unit-tested round trip. |
+| Matching | `CSCS\Sync\Matcher`, `MatchResult`, `Assignment` | WordPress-free, unit-tested. |
+| Synchronisation | `CSCS\Sync\Synchroniser` | Course list, occurrence windows, re-matching. |
+| Schedule | `CSCS\Sync\Scheduler` | Four jobs, all querying forward in time. |
+| Retention | `CSCS\Sync\Retention` | Purges occurrences, closes finished courses. |
+| Log | `CSCS\Sync\Logger` | Counts, durations and error codes only. |
+
+### Guarantees the data layer makes
+
+- A course is never deleted. It moves from `running` to `finished` to `archived`.
+- A field recorded in `_cscs_locked_fields` is never overwritten by a synchronisation.
+- An occurrence write is idempotent: the same window can be synchronised repeatedly without duplicates, because the remote occurrence id is the primary key.
+- A manual assignment recorded through `wp cscs sync assign` survives every later run.
+- No job ever asks the remote system about a date that has passed.
+- Two runs never overlap; the second is skipped and logged.
 
 ### Guarantees the client makes
 
@@ -234,7 +253,8 @@ The design restriction is enforced when settings are saved, not only in the inte
 | `cscs_template_path` | Override template resolution | planned |
 | `cscs_price_format` | Change price formatting | planned |
 | `cscs_availability_state` | Change the thresholds behind availability states | planned |
-| `cscs_is_rental` | Decide whether a lesson counts as an external rental | planned |
+| `cscs_is_external_lesson` | Decide whether an unmatched occurrence is an external booking | implemented |
+| `cscs_course_rewrite_slug` | Change the URL slug of a course | implemented |
 
 **Actions**
 
@@ -244,27 +264,29 @@ The design restriction is enforced when settings are saved, not only in the inte
 | `cscs_circuit_opened` | When repeated failures pause outbound requests | implemented |
 | `cscs_before_sync` / `cscs_after_sync` | Around each synchronisation job | planned |
 | `cscs_sync_failed` | On failure, with the error | planned |
-| `cscs_course_updated` | After a course record changes | planned |
+| `cscs_course_saved` | After a course record is written | implemented |
 
 ## WP-CLI
 
 Implemented:
 
 ```bash
+wp cscs sync courses [--force]
+wp cscs sync lessons [--from=<Ymd>] [--to=<Ymd>] [--force]
+wp cscs sync rematch                                  # re-match stored data, no network request
+wp cscs sync unmatched [--limit=<n>] [--format=<format>]
+wp cscs sync assign <term> <course>                   # permanent manual assignment
+wp cscs sync retention
+
 wp cscs api doctor                                    # configuration and connectivity
 wp cscs api courses [--date=<Ymd>] [--force] [--format=<format>]
 wp cscs api lessons [--from=<Ymd>] [--to=<Ymd>] [--tab=<id>] [--limit=<n>] [--force] [--format=<format>]
 ```
 
-Planned with the data layer:
+Still planned:
 
 ```bash
-wp cscs sync courses
-wp cscs sync lessons [--from=<Ymd>] [--to=<Ymd>]
-wp cscs match --report
-wp cscs match --rebuild
 wp cscs cache flush
-wp cscs retention run
 ```
 
 ## Measuring the plugin's memory cost

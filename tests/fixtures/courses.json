@@ -22,11 +22,21 @@
     "available_waiting": 2,
     "image": "",
     "trainer_image": "",
-    "tags": {"9": "Pronájem haly"},
+    "tags": {
+      "9": "Pronájem haly"
+    },
     "rating": "",
     "terms": [
-      {"date_txt": "18.09.2026", "date_time_txt": "18.09.2026 16:00", "stamp": "1789740000"},
-      {"date_txt": "11.09.2026", "date_time_txt": "11.09.2026 16:00", "stamp": "1789135200"}
+      {
+        "date_txt": "18.09.2026",
+        "date_time_txt": "18.09.2026 16:00",
+        "stamp": "1789740000"
+      },
+      {
+        "date_txt": "11.09.2026",
+        "date_time_txt": "11.09.2026 16:00",
+        "stamp": "1789135200"
+      }
     ]
   },
   {
@@ -55,7 +65,46 @@
     "tags": [],
     "rating": "",
     "terms": [
-      {"date_txt": "11.09.2026", "date_time_txt": "11.09.2026 15:00", "stamp": "1789131600"}
+      {
+        "date_txt": "11.09.2026",
+        "date_time_txt": "11.09.2026 15:00",
+        "stamp": "1789131600"
+      }
+    ]
+  },
+  {
+    "id_course": "1120",
+    "course_name": "33-Gymnastika 7-9 let dívky I. pololetí",
+    "course_description": "",
+    "course_url": "https://jojogym.isportsystem.cz/?op=course1120",
+    "stamp_from": "1789128000",
+    "stamp_to": "1800000000",
+    "date_from": "2026-09-11",
+    "date_to": "2027-01-22",
+    "activity_name": "33-Gymnastika 7-9 let dívky I. pololetí",
+    "price": "4160.00",
+    "number_lessons": "18",
+    "trainer_name": "Markéta Tomandlová",
+    "room_name": "Gymnastická hala 2",
+    "color": "ffffff",
+    "background": "4A90D9",
+    "capacity": "16",
+    "capacity_waiting": "0",
+    "occupied": "4",
+    "available": 12,
+    "available_waiting": 0,
+    "image": "",
+    "trainer_image": "",
+    "tags": {
+      "3": "Kurz"
+    },
+    "rating": "",
+    "terms": [
+      {
+        "date_txt": "11.09.2026",
+        "date_time_txt": "11.09.2026 14:00",
+        "stamp": "1789128000"
+      }
     ]
   },
   {

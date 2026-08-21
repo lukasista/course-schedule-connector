@@ -16,6 +16,16 @@ use CSCS\Api\RateLimiter;
 use CSCS\Api\WpHttp;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
+use CSCS\Cli\SyncCommand;
+use CSCS\Data\CourseRepository;
+use CSCS\Data\LessonRepository;
+use CSCS\Data\PostType;
+use CSCS\Data\Schema;
+use CSCS\Sync\Logger;
+use CSCS\Sync\Matcher;
+use CSCS\Sync\Retention;
+use CSCS\Sync\Scheduler;
+use CSCS\Sync\Synchroniser;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -75,8 +85,13 @@ final class Plugin {
 	 * @return void
 	 */
 	private function register(): void {
+		add_action( 'init', array( PostType::class, 'register' ) );
+
+		$this->scheduler()->register();
+
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			ApiCommand::register( $this );
+			SyncCommand::register( $this );
 		}
 
 		/**
@@ -133,6 +148,94 @@ final class Plugin {
 				);
 			}
 		);
+	}
+
+	/**
+	 * Returns the course storage.
+	 *
+	 * @return CourseRepository
+	 */
+	public function courses(): CourseRepository {
+		return $this->service( 'courses', static fn(): CourseRepository => new CourseRepository() );
+	}
+
+	/**
+	 * Returns the class occurrence storage.
+	 *
+	 * @return LessonRepository
+	 */
+	public function lessons(): LessonRepository {
+		return $this->service( 'lessons', static fn(): LessonRepository => new LessonRepository() );
+	}
+
+	/**
+	 * Returns the synchronisation log.
+	 *
+	 * @return Logger
+	 */
+	public function logger(): Logger {
+		return $this->service( 'logger', static fn(): Logger => new Logger() );
+	}
+
+	/**
+	 * Returns the synchroniser.
+	 *
+	 * @return Synchroniser
+	 */
+	public function synchroniser(): Synchroniser {
+		return $this->service(
+			'synchroniser',
+			fn(): Synchroniser => new Synchroniser(
+				$this->client(),
+				$this->courses(),
+				$this->lessons(),
+				new Matcher(),
+				$this->logger()
+			)
+		);
+	}
+
+	/**
+	 * Returns the retention job.
+	 *
+	 * @return Retention
+	 */
+	public function retention(): Retention {
+		return $this->service(
+			'retention',
+			fn(): Retention => new Retention( $this->lessons(), $this->logger(), $this->settings() )
+		);
+	}
+
+	/**
+	 * Returns the scheduler.
+	 *
+	 * @return Scheduler
+	 */
+	public function scheduler(): Scheduler {
+		return $this->service( 'scheduler', fn(): Scheduler => new Scheduler( $this, $this->settings() ) );
+	}
+
+	/**
+	 * Prepares the site on activation.
+	 *
+	 * @return void
+	 */
+	public static function activate(): void {
+		Schema::install();
+		PostType::register();
+		self::instance()->scheduler()->schedule();
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Stands the plugin down on deactivation, leaving the data alone.
+	 *
+	 * @return void
+	 */
+	public static function deactivate(): void {
+		self::instance()->scheduler()->unschedule();
+		flush_rewrite_rules();
 	}
 
 	/**
