@@ -77,6 +77,45 @@ final class Store {
 	}
 
 	/**
+	 * Drops every cached API response.
+	 *
+	 * Transients have no prefix search, so the option table is asked directly.
+	 * This runs on demand, never on a page view.
+	 *
+	 * @return int Number of entries removed.
+	 */
+	public function flush_responses(): int {
+		global $wpdb;
+
+		if ( wp_using_ext_object_cache() ) {
+			wp_cache_flush();
+
+			return 0;
+		}
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery -- Transients offer no prefix lookup, and this runs only on demand.
+		$names = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s",
+				$wpdb->esc_like( '_transient_' . self::PREFIX . 'api_' ) . '%'
+			)
+		);
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery
+
+		$removed = 0;
+
+		foreach ( $names as $name ) {
+			$key = substr( (string) $name, strlen( '_transient_' ) );
+
+			if ( delete_transient( $key ) ) {
+				++$removed;
+			}
+		}
+
+		return $removed;
+	}
+
+	/**
 	 * Reads a raw counter or state value.
 	 *
 	 * @param string $key Key without the plugin prefix.

@@ -194,6 +194,26 @@ final class ApiCommand {
 	}
 
 	/**
+	 * Closes the circuit and drops every cached response.
+	 *
+	 * Use after fixing whatever the failures were about, rather than waiting out
+	 * the cool-down.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp cscs api reset
+	 *
+	 * @return void
+	 */
+	public function reset(): void {
+		$removed = $this->plugin->reset_connection_state();
+
+		\WP_CLI::success(
+			sprintf( 'Circuit closed, failure count cleared, %d cached response(s) dropped.', $removed )
+		);
+	}
+
+	/**
 	 * Reports on configuration and connectivity.
 	 *
 	 * ## EXAMPLES
@@ -215,6 +235,12 @@ final class ApiCommand {
 
 		if ( '' === $base ) {
 			\WP_CLI::warning( 'Set a base URL before running a synchronisation.' );
+
+			return;
+		}
+
+		if ( ! $client->breaker()->is_closed() ) {
+			\WP_CLI::warning( 'Requests are paused. Run "wp cscs api reset" once the cause is fixed.' );
 
 			return;
 		}

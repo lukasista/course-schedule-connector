@@ -155,6 +155,17 @@ if ( ! function_exists( 'esc_html' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wp_using_ext_object_cache' ) ) {
+	/**
+	 * Object cache stub.
+	 *
+	 * @return bool
+	 */
+	function wp_using_ext_object_cache(): bool {
+		return false;
+	}
+}
+
 if ( ! function_exists( 'add_option' ) ) {
 	/**
 	 * Option stub.

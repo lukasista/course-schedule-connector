@@ -157,6 +157,16 @@ final class Settings {
 
 		$this->values = $values;
 
+		/**
+		 * Fires after one setting has been written and validated.
+		 *
+		 * @since 0.2.0
+		 *
+		 * @param string $key   Setting name.
+		 * @param mixed  $clean The stored value.
+		 */
+		do_action( 'cscs_setting_changed', $key, $clean );
+
 		return $clean;
 	}
 

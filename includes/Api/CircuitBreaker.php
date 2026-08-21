@@ -96,6 +96,20 @@ final class CircuitBreaker {
 	 * @return void
 	 */
 	public function record_success(): void {
+		$this->reset();
+	}
+
+	/**
+	 * Closes the circuit and forgets the failure count.
+	 *
+	 * Called when something has changed that could plausibly fix the cause: a
+	 * new base URL, an updated timeout, or an administrator saying so directly.
+	 * A breaker that keeps refusing after the fault has been repaired is just a
+	 * thirty-minute punishment for fixing it.
+	 *
+	 * @return void
+	 */
+	public function reset(): void {
 		$this->store->delete( self::FAILURES_KEY );
 		$this->store->delete( self::OPEN_KEY );
 	}

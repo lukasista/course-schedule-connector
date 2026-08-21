@@ -87,6 +87,7 @@ final class Plugin {
 	 */
 	private function register(): void {
 		add_action( 'init', array( PostType::class, 'register' ) );
+		add_action( 'cscs_setting_changed', array( $this, 'on_setting_changed' ) );
 
 		$this->scheduler()->register();
 
@@ -150,6 +151,51 @@ final class Plugin {
 				);
 			}
 		);
+	}
+
+	/**
+	 * Clears the failure state when a setting that could have caused it changes.
+	 *
+	 * Nothing is more discouraging than correcting a bad base URL and being told
+	 * for the next half hour that requests are paused.
+	 *
+	 * @param string $key Setting that changed.
+	 * @return void
+	 */
+	public function on_setting_changed( string $key ): void {
+		$affects_requests = array(
+			'api_base_url',
+			'allow_http',
+			'request_timeout',
+			'request_retries',
+			'request_cap_per_hour',
+			'breaker_threshold',
+			'breaker_cooldown',
+		);
+
+		if ( ! in_array( $key, $affects_requests, true ) ) {
+			return;
+		}
+
+		$this->settings()->flush();
+		$this->reset_connection_state();
+	}
+
+	/**
+	 * Closes the circuit and drops every cached response.
+	 *
+	 * @return int Number of cached responses removed.
+	 */
+	public function reset_connection_state(): int {
+		$store = $this->store();
+
+		( new CircuitBreaker(
+			$store,
+			$this->settings()->get_int( 'breaker_threshold', 1, 20 ),
+			$this->settings()->get_int( 'breaker_cooldown', 60, 86400 )
+		) )->reset();
+
+		return $store->flush_responses();
 	}
 
 	/**

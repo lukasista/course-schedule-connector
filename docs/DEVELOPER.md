@@ -266,6 +266,7 @@ The design restriction is enforced when settings are saved, not only in the inte
 | `cscs_before_sync` / `cscs_after_sync` | Around each synchronisation job | planned |
 | `cscs_sync_failed` | On failure, with the error | planned |
 | `cscs_course_saved` | After a course record is written | implemented |
+| `cscs_setting_changed` | After one setting is written and validated | implemented |
 
 ## WP-CLI
 
@@ -284,6 +285,7 @@ wp cscs settings set api_base_url https://example.com # validated the way the ad
 wp cscs settings get <key>
 
 wp cscs api doctor                                    # configuration and connectivity
+wp cscs api reset                                     # close the circuit, drop cached responses
 wp cscs api courses [--date=<Ymd>] [--force] [--format=<format>]
 wp cscs api lessons [--from=<Ymd>] [--to=<Ymd>] [--tab=<id>] [--limit=<n>] [--force] [--format=<format>]
 ```

@@ -244,6 +244,32 @@ final class ClientTest extends TestCase {
 	}
 
 	/**
+	 * An open circuit can be closed deliberately, so that repairing the cause
+	 * does not mean waiting out the cool-down.
+	 *
+	 * @return void
+	 */
+	public function test_an_open_circuit_can_be_closed_on_demand(): void {
+		$http   = new FakeHttp( array_fill( 0, 12, new ApiException( 'Connection timed out', 'timeout' ) ) );
+		$client = $this->client( $http, 60, 2 );
+
+		for ( $attempt = 0; $attempt < 2; $attempt++ ) {
+			try {
+				$client->get_courses( null, true );
+			} catch ( ApiException $e ) {
+				unset( $e );
+			}
+		}
+
+		$this->assertFalse( $client->breaker()->is_closed() );
+
+		$client->breaker()->reset();
+
+		$this->assertTrue( $client->breaker()->is_closed() );
+		$this->assertSame( 0, $client->breaker()->failures() );
+	}
+
+	/**
 	 * The hourly ceiling is a hard stop, not a suggestion.
 	 *
 	 * @return void
