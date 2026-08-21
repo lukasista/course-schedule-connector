@@ -57,6 +57,10 @@ jobs:
           set -o pipefail
           composer run test 2>&1 | tee -a ci-report.txt
 
+      # The run summary and the logs both require signing in to read. Workflow
+      # annotations do not, so the outcome is also emitted as an annotation:
+      # that is the only channel that carries a result off a private log and
+      # onto a page anyone can open.
       - name: Publish report
         if: ${{ !cancelled() }}
         run: |
@@ -66,6 +70,15 @@ jobs:
             cat ci-report.txt 2>/dev/null || echo 'No output was captured.'
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ '${{ job.status }}' = 'success' ]; then
+            tests=$(grep -Eo 'OK \([0-9]+ tests?, [0-9]+ assertions?\)' ci-report.txt | tail -n 1)
+            echo "::notice title=PHP ${{ matrix.php }} passed::${tests:-all gates passed}"
+          else
+            tail -n 8 ci-report.txt | while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error title=PHP ${{ matrix.php }} failed::${line}"
+            done
+          fi
 
   plugin-check:
     name: WordPress.org Plugin Check
@@ -98,12 +111,22 @@ jobs:
       - name: Publish report
         if: ${{ !cancelled() }}
         run: |
+          results="${RUNNER_TEMP}/plugin-check-results.txt"
+
           {
             echo '## Plugin Check'
             echo '```json'
-            cat "${RUNNER_TEMP}/plugin-check-results.txt" 2>/dev/null || echo 'No results file was produced.'
+            cat "$results" 2>/dev/null || echo 'No results file was produced.'
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ '${{ job.status }}' = 'success' ]; then
+            echo "::notice title=Plugin Check passed::No errors or warnings in the WordPress.org artefact."
+          else
+            head -c 1500 "$results" 2>/dev/null | tr '\n' ' ' | while IFS= read -r line; do
+              echo "::error title=Plugin Check failed::${line}"
+            done
+          fi
 
   # The JavaScript job is added in the phase that introduces the block and the
   # Divi modules. Until then the plugin ships no JavaScript, and a build step
