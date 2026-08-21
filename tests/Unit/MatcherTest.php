@@ -343,6 +343,7 @@ final class MatcherTest extends TestCase {
 					array(
 						'trainer_name' => 'Lukáš Moutelík',
 						'price'        => '4160.00',
+						'tags'         => array( '4' => 'Kurz' ),
 					)
 				),
 			)
@@ -399,6 +400,95 @@ final class MatcherTest extends TestCase {
 			),
 			$result->unresolved_by_name()
 		);
+	}
+
+	/**
+	 * The timetable may use either of a course's two names, so both are indexed.
+	 * The API documents that activity_name may be an alternative name, and this
+	 * cost six courses on the first live run.
+	 *
+	 * @return void
+	 */
+	public function test_a_course_is_found_under_either_of_its_names(): void {
+		$result = $this->run(
+			array(
+				$this->course_data(
+					10,
+					'Interní název kurzu',
+					array( 1000 ),
+					array( 'course_name' => '32-Gymnastika 7-10 let dívky pokročilé I. pololetí' )
+				),
+			),
+			array( $this->lesson_data( 1, '32-Gymnastika 7-10 let dívky pokročilé I. pololetí', 1000 ) )
+		);
+
+		$this->assertSame( 10, $result->assignments[1]->course_id );
+		$this->assertSame( Assignment::STRICT, $result->assignments[1]->method );
+	}
+
+	/**
+	 * A course indexed under two names must not become ambiguous with itself.
+	 *
+	 * @return void
+	 */
+	public function test_a_course_with_two_names_does_not_collide_with_itself(): void {
+		$result = $this->run(
+			array( $this->course_data( 10, 'Parkour', array( 1000 ), array( 'course_name' => 'Parkour' ) ) ),
+			array( $this->lesson_data( 1, 'Parkour', 1000 ) )
+		);
+
+		$this->assertSame( 10, $result->assignments[1]->course_id );
+	}
+
+	/**
+	 * A drop-in class or a make-up lesson carries a trainer and a price but
+	 * belongs to no course by design. The tag says so, and the tag is believed.
+	 *
+	 * @return void
+	 */
+	public function test_a_lesson_tagged_as_something_other_than_a_course_is_not_a_problem(): void {
+		$result = $this->run(
+			array(),
+			array(
+				$this->lesson_data(
+					1,
+					'Náhradní lekce 7-9 let I.pololetí',
+					1000,
+					array(
+						'trainer_name' => 'Lukáš Moutelík',
+						'price'        => '260.00',
+						'tags'         => array( '11' => 'Náhradní lekce' ),
+					)
+				),
+			)
+		);
+
+		$this->assertSame( 'no_candidate', $result->unmatched[1]['reason'] );
+		$this->assertSame( 0, $result->problematic() );
+		$this->assertSame( 100.0, $result->rate() );
+	}
+
+	/**
+	 * A rental is tagged as one, and is set aside on that evidence rather than
+	 * on the absence of other fields.
+	 *
+	 * @return void
+	 */
+	public function test_a_rental_is_recognised_by_its_tag(): void {
+		$result = $this->run(
+			array(),
+			array(
+				$this->lesson_data(
+					1,
+					'Gym Dobřichovice',
+					1000,
+					array( 'tags' => array( '9' => 'Pronájem haly' ) )
+				),
+			)
+		);
+
+		$this->assertSame( 'no_candidate', $result->unmatched[1]['reason'] );
+		$this->assertSame( 1, $result->external() );
 	}
 
 	/**

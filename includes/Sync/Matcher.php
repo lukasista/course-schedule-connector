@@ -106,7 +106,7 @@ final class Matcher {
 		}
 
 		if ( array() === $candidates ) {
-			return $this->looks_external( $lesson ) ? 'no_candidate' : 'orphan';
+			return $this->expects_course( $lesson ) ? 'orphan' : 'no_candidate';
 		}
 
 		$on_stamp = array_values(
@@ -148,27 +148,51 @@ final class Matcher {
 	/**
 	 * Whether an occurrence that matched no course was ever meant to.
 	 *
-	 * Hall rentals and open public sessions carry neither a trainer nor a price,
-	 * because nobody books a place in them through the course system. A leftover
-	 * that does carry both is a different animal: it looks exactly like a course
-	 * lesson whose course is missing, and that deserves someone's attention
-	 * rather than being filed away as "not our problem".
+	 * The API already answers this. Every course lesson carries a tag labelled
+	 * "Kurz", and hall rentals carry "Pronajem haly" instead, so the tag says
+	 * outright what the record is. Guessing from the absence of a trainer and a
+	 * price, which is what this used to do, misfiles a drop-in class or a
+	 * make-up lesson as a problem: those have both, and belong to no course by
+	 * design.
+	 *
+	 * The tag identifier is not stable between installations, so the label is
+	 * what is compared. Where a record carries no tags at all, the old heuristic
+	 * still decides.
 	 *
 	 * @param Lesson $lesson Occurrence.
-	 * @return bool
+	 * @return bool True when the occurrence should have found a course.
 	 */
-	private function looks_external( Lesson $lesson ): bool {
-		$external = '' === $lesson->trainer_name && null === $lesson->price;
-
+	private function expects_course( Lesson $lesson ): bool {
 		/**
-		 * Filters whether an unmatched occurrence counts as an external booking.
+		 * Filters the tag labels that mark an occurrence as part of a course.
 		 *
 		 * @since 0.2.0
 		 *
-		 * @param bool   $external Whether the occurrence is external.
-		 * @param Lesson $lesson   The occurrence.
+		 * @param array<int, string> $labels Lowercase labels.
 		 */
-		return (bool) apply_filters( 'cscs_is_external_lesson', $external, $lesson );
+		$labels = apply_filters( 'cscs_course_lesson_tags', array( 'kurz', 'course' ) );
+
+		if ( array() !== $lesson->tags ) {
+			foreach ( $lesson->tags as $tag ) {
+				if ( in_array( $this->lower( $tag ), $labels, true ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		return '' !== $lesson->trainer_name && null !== $lesson->price;
+	}
+
+	/**
+	 * Lowercases a string, multibyte-safe.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private function lower( string $value ): string {
+		return function_exists( 'mb_strtolower' ) ? mb_strtolower( $value, 'UTF-8' ) : strtolower( $value );
 	}
 
 	/**
@@ -182,16 +206,42 @@ final class Matcher {
 		$index = array();
 
 		foreach ( $courses as $course ) {
-			$key = $loose ? Normalise::match_key_loose( $course->activity_name ) : $course->match_key;
+			foreach ( $this->keys_for( $course, $loose ) as $key ) {
+				if ( in_array( $course->id, $index[ $key ] ?? array(), true ) ) {
+					continue;
+				}
 
-			if ( '' === $key ) {
-				continue;
+				$index[ $key ][] = $course->id;
 			}
-
-			$index[ $key ][] = $course->id;
 		}
 
 		return $index;
+	}
+
+	/**
+	 * Returns every key a course can be recognised by.
+	 *
+	 * @param Course $course Course.
+	 * @param bool   $loose  Build accent-stripped keys.
+	 * @return array<int, string>
+	 */
+	private function keys_for( Course $course, bool $loose ): array {
+		$names = array( $course->activity_name, $course->name );
+		$keys  = array();
+
+		foreach ( $names as $name ) {
+			if ( '' === $name ) {
+				continue;
+			}
+
+			$key = $loose ? Normalise::match_key_loose( $name ) : Normalise::match_key( $name );
+
+			if ( '' !== $key && ! in_array( $key, $keys, true ) ) {
+				$keys[] = $key;
+			}
+		}
+
+		return $keys;
 	}
 
 	/**

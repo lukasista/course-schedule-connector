@@ -167,7 +167,8 @@ The working join key is `activity_name` + `stamp`:
 ```
 match_key = normalise( activity_name )
 normalise: trim → collapse whitespace → casefold → (fallback: strip diacritics)
-match: lesson.match_key === course.match_key AND lesson.stamp_from ∈ course.terms[].stamp
+index:  every course under match_key( activity_name ) and match_key( course_name )
+match:  lesson.match_key ∈ index AND lesson.stamp_from ∈ course.terms[].stamp
 ```
 
 Names are not byte-identical between the two endpoints — course 1070 has `"113- Deskové hry…"` while its lessons have `"113-Deskové hry…"` — hence the normalisation. The timestamp equality makes a false positive essentially impossible.
@@ -254,7 +255,7 @@ The design restriction is enforced when settings are saved, not only in the inte
 | `cscs_template_path` | Override template resolution | planned |
 | `cscs_price_format` | Change price formatting | planned |
 | `cscs_availability_state` | Change the thresholds behind availability states | planned |
-| `cscs_is_external_lesson` | Decide whether an unmatched occurrence is an external booking | implemented |
+| `cscs_course_lesson_tags` | Tag labels that mark an occurrence as part of a course | implemented |
 | `cscs_course_rewrite_slug` | Change the URL slug of a course | implemented |
 
 **Actions**

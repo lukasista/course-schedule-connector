@@ -221,7 +221,7 @@ final class LessonRepository {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- The plugin's own table: there is no core API for it, the table name comes from $wpdb->prefix and cannot be a placeholder, and the results are already served from the object cache one layer up.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT id_activity_term, activity_name, lesson_date, time_from, tab_name, trainer_name
+				"SELECT id_activity_term, activity_name, lesson_date, time_from, tab_name, trainer_name, payload
 				FROM {$table}
 				WHERE id_course = 0 AND is_external = 0
 				ORDER BY stamp_from ASC
@@ -233,7 +233,22 @@ final class LessonRepository {
 
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
 
-		return is_array( $rows ) ? $rows : array();
+		if ( ! is_array( $rows ) ) {
+			return array();
+		}
+
+		// The tags say what the record is, which is the first thing anybody
+		// looking at an unresolved occurrence wants to know.
+		foreach ( $rows as $index => $row ) {
+			$decoded = json_decode( (string) ( $row['payload'] ?? '' ), true );
+			$tags    = is_array( $decoded ) && is_array( $decoded['tags'] ?? null ) ? $decoded['tags'] : array();
+
+			$rows[ $index ]['tags'] = implode( ', ', array_map( 'strval', $tags ) );
+
+			unset( $rows[ $index ]['payload'] );
+		}
+
+		return $rows;
 	}
 
 	/**

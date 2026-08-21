@@ -189,7 +189,7 @@ final class SyncCommand {
 		\WP_CLI\Utils\format_items(
 			(string) ( $assoc_args['format'] ?? 'table' ),
 			$rows,
-			array( 'id_activity_term', 'lesson_date', 'time_from', 'activity_name', 'tab_name', 'trainer_name' )
+			array( 'id_activity_term', 'lesson_date', 'time_from', 'activity_name', 'tags', 'tab_name', 'trainer_name' )
 		);
 	}
 
