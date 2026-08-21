@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Retention: occurrences are kept for a configurable window behind today and then removed; courses are never deleted, only closed.
 - WP-CLI: `wp cscs sync courses|lessons|rematch|unmatched|assign|retention`.
 - `uninstall.php`, which removes data only when the administrator opted into that in the settings.
+- Settings are written through a validating setter and seeded with their defaults on activation, so there is always something to read and edit. WP-CLI: `wp cscs settings list|get|set`.
 
 ### Fixed
 - Continuous integration: the first run failed every job. `npm ci` had no lock file to install from and there was no JavaScript to build, `phpunit/phpunit` and `phpstan/phpstan` were missing from the development requirements, and PHPStan was pointed at a `templates` directory that does not exist yet.

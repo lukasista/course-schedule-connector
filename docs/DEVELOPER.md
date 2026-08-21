@@ -16,7 +16,7 @@
 | Guards | `CSCS\Api\RateLimiter`, `CSCS\Api\CircuitBreaker` | |
 | Mapping | `CSCS\Api\Mapper`, `CSCS\Api\Dto\*` | Typed records. |
 | Cache | `CSCS\Cache\Store` | Transients with stale-while-revalidate. |
-| CLI | `CSCS\Cli\ApiCommand` | `wp cscs api courses\|lessons\|doctor`. |
+| CLI | `CSCS\Cli\ApiCommand`, `SyncCommand`, `SettingsCommand` | `wp cscs api`, `wp cscs sync`, `wp cscs settings`. |
 | Schema | `CSCS\Data\Schema` | Versioned tables through `dbDelta()`. |
 | Post type | `CSCS\Data\PostType` | `cscs_course` plus four taxonomies. |
 | Course storage | `CSCS\Data\CourseRepository` | Never deletes, never overwrites a locked field. |
@@ -36,6 +36,7 @@
 - A manual assignment recorded through `wp cscs sync assign` survives every later run.
 - No job ever asks the remote system about a date that has passed.
 - Two runs never overlap; the second is skipped and logged.
+- A setting is validated wherever it is written. The base URL passes the same guard from the command line as it will from the admin screen, so there is no back door that stores an address the client would then refuse.
 
 ### Guarantees the client makes
 
@@ -277,6 +278,10 @@ wp cscs sync rematch                                  # re-match stored data, no
 wp cscs sync unmatched [--limit=<n>] [--format=<format>]
 wp cscs sync assign <term> <course>                   # permanent manual assignment
 wp cscs sync retention
+
+wp cscs settings list                                 # every setting and its value
+wp cscs settings set api_base_url https://example.com # validated the way the admin screens will
+wp cscs settings get <key>
 
 wp cscs api doctor                                    # configuration and connectivity
 wp cscs api courses [--date=<Ymd>] [--force] [--format=<format>]

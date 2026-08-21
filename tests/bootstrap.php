@@ -155,6 +155,51 @@ if ( ! function_exists( 'esc_html' ) ) {
 	}
 }
 
+if ( ! function_exists( 'add_option' ) ) {
+	/**
+	 * Option stub.
+	 *
+	 * @param string $key      Key.
+	 * @param mixed  $value    Value.
+	 * @param string $deprecated Unused.
+	 * @param bool   $autoload Unused.
+	 * @return bool
+	 */
+	function add_option( string $key, $value = '', string $deprecated = '', bool $autoload = true ): bool {
+		if ( array_key_exists( $key, $GLOBALS['cscs_test_options'] ) ) {
+			return false;
+		}
+
+		$GLOBALS['cscs_test_options'][ $key ] = $value;
+
+		return true;
+	}
+}
+
+if ( ! function_exists( 'sanitize_text_field' ) ) {
+	/**
+	 * Sanitising stub.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	function sanitize_text_field( string $text ): string {
+		return trim( (string) preg_replace( '/[\r\n\t]+/', ' ', wp_strip_all_tags_stub( $text ) ) );
+	}
+}
+
+if ( ! function_exists( 'wp_strip_all_tags_stub' ) ) {
+	/**
+	 * Tag-stripping helper for the sanitising stub.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	function wp_strip_all_tags_stub( string $text ): string {
+		return strip_tags( $text );
+	}
+}
+
 if ( ! function_exists( 'apply_filters' ) ) {
 	/**
 	 * Filter stub.

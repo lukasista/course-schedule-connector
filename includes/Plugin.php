@@ -16,6 +16,7 @@ use CSCS\Api\RateLimiter;
 use CSCS\Api\WpHttp;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
+use CSCS\Cli\SettingsCommand;
 use CSCS\Cli\SyncCommand;
 use CSCS\Data\CourseRepository;
 use CSCS\Data\LessonRepository;
@@ -92,6 +93,7 @@ final class Plugin {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			ApiCommand::register( $this );
 			SyncCommand::register( $this );
+			SettingsCommand::register( $this );
 		}
 
 		/**
@@ -222,6 +224,7 @@ final class Plugin {
 	 * @return void
 	 */
 	public static function activate(): void {
+		Settings::seed_defaults();
 		Schema::install();
 		PostType::register();
 		self::instance()->scheduler()->schedule();

@@ -134,6 +134,102 @@ final class Settings {
 	}
 
 	/**
+	 * Writes one setting, validating it against what the key expects.
+	 *
+	 * @param string $key   Setting name.
+	 * @param mixed  $value Raw value.
+	 * @return mixed The stored value.
+	 * @throws \InvalidArgumentException When the key is unknown or the value unusable.
+	 */
+	public function set( string $key, $value ) {
+		$defaults = self::defaults();
+
+		if ( ! array_key_exists( $key, $defaults ) ) {
+			throw new \InvalidArgumentException( 'Unknown setting.' );
+		}
+
+		$clean  = $this->sanitise( $key, $value, $defaults[ $key ] );
+		$values = $this->all();
+
+		$values[ $key ] = $clean;
+
+		update_option( self::OPTION, $values, false );
+
+		$this->values = $values;
+
+		return $clean;
+	}
+
+	/**
+	 * Writes the defaults if the option does not exist yet.
+	 *
+	 * Called on activation so that there is always something to read, and always
+	 * something for an administrator to edit rather than an absent option that
+	 * every tool then refuses to patch.
+	 *
+	 * @return void
+	 */
+	public static function seed_defaults(): void {
+		add_option( self::OPTION, self::defaults(), '', false );
+	}
+
+	/**
+	 * Coerces and validates a value for a given key.
+	 *
+	 * @param string $key     Setting name.
+	 * @param mixed  $value   Raw value.
+	 * @param mixed  $default_value The default, used to infer the expected type.
+	 * @return mixed
+	 * @throws \InvalidArgumentException When the value cannot be used.
+	 */
+	private function sanitise( string $key, $value, $default_value ) {
+		if ( 'api_base_url' === $key ) {
+			$raw = trim( (string) $value );
+
+			if ( '' === $raw ) {
+				return '';
+			}
+
+			// Throws when the URL is malformed or points somewhere it must not.
+			return Url::validate_base( $raw, (bool) $this->get( 'allow_http' ) );
+		}
+
+		if ( in_array( $key, array( 'semester_from', 'semester_to' ), true ) ) {
+			$raw = trim( (string) $value );
+
+			if ( '' !== $raw && 1 !== preg_match( '/^\d{4}-\d{2}-\d{2}$/', $raw ) ) {
+				throw new \InvalidArgumentException( 'Expected a date in Y-m-d form.' );
+			}
+
+			return $raw;
+		}
+
+		if ( 'lesson_price_when_empty' === $key ) {
+			$raw = strtolower( trim( (string) $value ) );
+
+			if ( ! in_array( $raw, array( 'free', 'on_request' ), true ) ) {
+				throw new \InvalidArgumentException( 'Expected "free" or "on_request".' );
+			}
+
+			return $raw;
+		}
+
+		if ( is_bool( $default_value ) ) {
+			return in_array( strtolower( (string) $value ), array( '1', 'true', 'yes', 'on' ), true );
+		}
+
+		if ( is_int( $default_value ) ) {
+			if ( ! is_numeric( $value ) ) {
+				throw new \InvalidArgumentException( 'Expected a number.' );
+			}
+
+			return (int) $value;
+		}
+
+		return sanitize_text_field( (string) $value );
+	}
+
+	/**
 	 * Discards the in-memory copy so the next read hits the database.
 	 *
 	 * @return void

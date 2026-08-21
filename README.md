@@ -106,13 +106,18 @@ composer run test      # PHPUnit
 WP-CLI commands are provided for local work:
 
 ```bash
+wp cscs settings set api_base_url https://example.com
+wp cscs sync courses
+wp cscs sync lessons --from=20260911 --to=20261002
+wp cscs sync unmatched
+
 wp cscs api doctor                              # configuration and connectivity
 wp cscs api courses                             # courses straight from the API
 wp cscs api lessons --from=20260911 --to=20260911
 wp cscs api courses --format=json --force       # bypass the cache
 ```
 
-Synchronisation commands (`wp cscs sync`, `wp cscs match`) arrive with the data layer in the next phase.
+
 
 ## Quality gates
 
