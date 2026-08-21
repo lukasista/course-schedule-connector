@@ -51,12 +51,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Check exactly what would be submitted, not the repository. The build
+      # below reproduces the WordPress.org artefact: development files removed
+      # through .distignore, the updater dropped, and the Update URI header
+      # stripped, because guideline 8 forbids a hosted plugin from updating
+      # itself from elsewhere.
+      - name: Build the WordPress.org artefact
+        run: |
+          mkdir -p build/course-schedule-connector
+          rsync -a --exclude-from=.distignore --exclude='build' ./ build/course-schedule-connector/
+          rm -rf build/course-schedule-connector/includes/Updater
+          sed -i '/^ \* Update URI:/d' build/course-schedule-connector/course-schedule-connector.php
+          ! grep -q 'Update URI' build/course-schedule-connector/course-schedule-connector.php
+
       - name: Run Plugin Check
         uses: wordpress/plugin-check-action@v1
         with:
-          build-dir: './'
-          exclude-directories: 'node_modules,vendor,tests,docs,.github'
-          exclude-files: 'PLAN.md'
+          build-dir: 'build/course-schedule-connector'
+          slug: 'course-schedule-connector'
 
   # The JavaScript job is added in the phase that introduces the block and the
   # Divi modules. Until then the plugin ships no JavaScript, and a build step

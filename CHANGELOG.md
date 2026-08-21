@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Continuous integration: the first run failed every job. `npm ci` had no lock file to install from and there was no JavaScript to build, `phpunit/phpunit` and `phpstan/phpstan` were missing from the development requirements, and PHPStan was pointed at a `templates` directory that does not exist yet.
 - Coding standards: every violation reported by PHP_CodeSniffer against the `WordPress`, `WordPress-Docs` and `PHPCompatibilityWP` rulesets, verified locally against the same tool versions the pipeline resolves.
 - Static analysis: WP-CLI stubs and the WordPress time constants are now declared, so PHPStan resolves every symbol at level 6.
-- `readme.txt` no longer promises screenshots that are not in the repository.
+- `readme.txt` no longer promises screenshots that are not in the repository, and declares the current WordPress release.
+- `yoast/phpunit-polyfills` removed: it caps PHPUnit at 9 and is only needed by the WordPress core test suite, which this plugin does not use.
+- Plugin Check now runs against a build of the WordPress.org artefact rather than the repository, with the slug supplied explicitly, so it sees what would actually be submitted instead of the development tree.
 
 [Unreleased]: https://github.com/lukasista/wpdissi/commits/main
