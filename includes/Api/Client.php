@@ -245,8 +245,9 @@ final class Client {
 			} catch ( ApiException $e ) {
 				$last = $e;
 
-				// A malformed payload will be just as malformed on a retry.
-				if ( in_array( $e->get_reason(), array( 'bad_json', 'bad_shape', 'blocked_url' ), true ) ) {
+				// A malformed payload, or an error page, will be exactly the same
+				// on a retry. Only transport faults are worth attempting again.
+				if ( in_array( $e->get_reason(), array( 'bad_json', 'bad_shape', 'blocked_url', 'html_response' ), true ) ) {
 					break;
 				}
 
@@ -266,7 +267,7 @@ final class Client {
 	 *
 	 * @param Response $response Raw response.
 	 * @return mixed Decoded payload.
-	 * @throws ApiException When the status, content type or body is unusable.
+	 * @throws ApiException When the status or the body is unusable.
 	 */
 	private function decode( Response $response ) {
 		if ( 200 !== $response->status ) {
@@ -279,14 +280,22 @@ final class Client {
 			);
 		}
 
-		if ( '' !== $response->content_type && ! str_contains( $response->content_type, 'json' ) ) {
-			throw new ApiException( 'The API answered with an unexpected content type.', 'bad_content_type' );
-		}
-
-		$body = trim( $response->body );
+		$body = $this->clean_body( $response->body );
 
 		if ( '' === $body ) {
 			throw new ApiException( 'The API returned an empty body.', 'empty_body' );
+		}
+
+		// Judge the body, not the label. The endpoints are hand-written PHP and
+		// announce themselves as text/html while emitting perfectly good JSON,
+		// so a content type check would reject working data. A body that opens
+		// with a tag, on the other hand, is an error page or a login screen, and
+		// saying so is far more useful than a JSON syntax error.
+		if ( str_starts_with( $body, '<' ) ) {
+			throw new ApiException(
+				'The API returned an HTML page rather than data, which usually means an error page or a redirect to a login screen.',
+				'html_response'
+			);
 		}
 
 		$decoded = json_decode( $body, true );
@@ -300,6 +309,25 @@ final class Client {
 		}
 
 		return $decoded;
+	}
+
+	/**
+	 * Trims a response body and removes a byte order mark.
+	 *
+	 * A leading byte order mark is invisible, survives trimming, and makes
+	 * json_decode fail with a syntax error that points at nothing.
+	 *
+	 * @param string $body Raw body.
+	 * @return string
+	 */
+	private function clean_body( string $body ): string {
+		$body = trim( $body );
+
+		if ( str_starts_with( $body, "\xEF\xBB\xBF" ) ) {
+			$body = trim( substr( $body, 3 ) );
+		}
+
+		return $body;
 	}
 
 	/**

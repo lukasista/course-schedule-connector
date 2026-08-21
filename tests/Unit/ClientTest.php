@@ -151,6 +151,68 @@ final class ClientTest extends TestCase {
 	}
 
 	/**
+	 * The endpoints are hand-written PHP that labels JSON as text/html. Refusing
+	 * that would refuse the live system, which is exactly what happened once.
+	 *
+	 * @return void
+	 */
+	public function test_json_labelled_as_html_is_still_accepted(): void {
+		$http = new FakeHttp(
+			array(
+				new Response(
+					200,
+					(string) file_get_contents( __DIR__ . '/../fixtures/courses.json' ),
+					'text/html; charset=utf-8'
+				),
+			)
+		);
+
+		$this->assertCount( 4, $this->client( $http )->get_courses() );
+	}
+
+	/**
+	 * A body that opens with a tag is an error page, and saying so beats a
+	 * syntax error pointing at character one.
+	 *
+	 * @return void
+	 * @throws ApiException Re-thrown after the reason has been asserted.
+	 */
+	public function test_an_html_error_page_is_reported_as_such(): void {
+		$http = new FakeHttp(
+			array( new Response( 200, '<!doctype html><title>Login</title>', 'text/html' ) )
+		);
+
+		$this->expectException( ApiException::class );
+
+		try {
+			$this->client( $http )->get_courses();
+		} catch ( ApiException $e ) {
+			$this->assertSame( 'html_response', $e->get_reason() );
+
+			throw $e;
+		}
+	}
+
+	/**
+	 * An invisible byte order mark must not defeat decoding.
+	 *
+	 * @return void
+	 */
+	public function test_a_byte_order_mark_does_not_break_decoding(): void {
+		$http = new FakeHttp(
+			array(
+				new Response(
+					200,
+					"\xEF\xBB\xBF" . (string) file_get_contents( __DIR__ . '/../fixtures/courses.json' ),
+					''
+				),
+			)
+		);
+
+		$this->assertCount( 4, $this->client( $http )->get_courses() );
+	}
+
+	/**
 	 * Repeated failures open the circuit, after which nothing is attempted.
 	 *
 	 * @return void

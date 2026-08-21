@@ -44,7 +44,7 @@
 - No request is attempted while the circuit is open or the hourly ceiling is spent.
 - A transport error is retried; a malformed payload is not, because it will be malformed again.
 - When a request fails and stale data exists, the stale data is returned instead of an exception.
-- A response is only decoded if the status is 200, the content type looks like JSON, and the body decodes to an array.
+- A response is only decoded if the status is 200 and the body decodes to an array. The content type is deliberately not part of that judgement: these endpoints label JSON as `text/html`, so the label proves nothing. A body opening with a tag is reported as an error page.
 
 ## Contents
 
