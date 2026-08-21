@@ -1,5 +1,5 @@
 # Jojo Gym – iSport System ↔ WordPress / Divi 5
-## Projektový plán v1.4
+## Projektový plán v1.5
 
 **Datum:** 19. 8. 2026
 **Název pluginu:** **Course & Schedule Connector for iSport** (slug `course-schedule-connector`, prefix kódu `cscs`)
@@ -259,7 +259,7 @@ Nastavení jen pro administrátora: typografie, barvy, mezery, rámečky, hover 
 | # | Fáze | Obsah | Odhad |
 |---|---|---|---|
 | **F0** | Repozitář a standardy | ✅ *hotovo* – licence GPL-2.0+, `README.md`, `readme.txt`, `CHANGELOG`, `CONTRIBUTING`, `SECURITY`, Code of Conduct, PHPCS/PHPStan konfigurace, CI a release workflow, šablony issues, Dependabot, `docs/` | 0,5 dne |
-| **F1** | Jádro + API klient | Bootstrap, autoloader, klient s retry/timeout/circuit breakerem, **validace base URL proti SSRF**, mapper, normalizace typů, cache | 2 dny |
+| **F1** | Jádro + API klient | ✅ *hotovo* – bootstrap, vlastní PSR-4 autoloader, klient s retry/timeout/circuit breakerem a hodinovým stropem, **validace base URL proti SSRF**, mapper, normalizace typů, cache se stale-while-revalidate, WP-CLI `wp cscs api`, 47 unit testů | 2 dny |
 | **F2** | Datový model + synchronizace | CPT, taxonomie, tabulky, migrace, cron s okny, **párování name+stamp**, odvození sálů, soft-delete, zámky polí, retence, WP-CLI | 2,5 dne |
 | **F3** | Administrace + práva | Menu, Zobrazovací sady, Nastavení, mapování sálů, nespárované lekce, hromadné akce, role Správce iSport, serverová validace | 2,5 dne |
 | **F4** | Renderer + styly | Šablonový systém, responzivní tabulky, stavy (vyprodáno, zrušeno, poslední místa), formátování ceny, přístupnost | 1,5 dne |

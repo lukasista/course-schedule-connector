@@ -106,11 +106,13 @@ composer run test      # PHPUnit
 WP-CLI commands are provided for local work:
 
 ```bash
-wp cscs sync courses
-wp cscs sync lessons --from=2026-09-01 --to=2026-09-30
-wp cscs match --report      # course ↔ lesson matching success rate
-wp cscs cache flush
+wp cscs api doctor                              # configuration and connectivity
+wp cscs api courses                             # courses straight from the API
+wp cscs api lessons --from=20260911 --to=20260911
+wp cscs api courses --format=json --force       # bypass the cache
 ```
+
+Synchronisation commands (`wp cscs sync`, `wp cscs match`) arrive with the data layer in the next phase.
 
 ## Quality gates
 

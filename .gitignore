@@ -32,3 +32,6 @@ Thumbs.db
 # Never commit credentials
 auth.json
 *.pem
+
+# Scratch folder used when files must be removed by hand
+/_to_delete/

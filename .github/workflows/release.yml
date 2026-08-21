@@ -57,6 +57,9 @@ jobs:
         run: |
           cp -r build/course-schedule-connector build/wporg
           rm -rf build/wporg/includes/Updater
+          # Guideline 8: a directory-hosted plugin must not update itself from elsewhere.
+          sed -i '/^ \* Update URI:/d' build/wporg/course-schedule-connector.php
+          ! grep -q 'Update URI' build/wporg/course-schedule-connector.php
           cd build/wporg
           zip -qr ../../course-schedule-connector-wporg.zip .
           cd ../..

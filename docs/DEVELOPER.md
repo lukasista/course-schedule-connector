@@ -1,6 +1,30 @@
 # Developer documentation
 
-> Status: this document is written ahead of the implementation and is the specification the code is built against. Sections marked *planned* describe intent; they become descriptive as each phase lands.
+> Status: written ahead of the implementation and used as the specification the code is built against. Phase F1 has landed, so the API layer below is descriptive; everything from the data model onwards is still specification.
+
+## Implemented so far (phase F1)
+
+| Component | Class | Notes |
+|---|---|---|
+| Autoloader | `CSCS\Autoloader` | PSR-4 over `includes/`. No Composer runtime dependency. |
+| Bootstrap | `CSCS\Plugin` | Lazy service container; refuses to boot below PHP 8.1 with an admin notice. |
+| Settings | `CSCS\Settings` | One option, typed access, base URL validated on read. |
+| Base URL validation | `CSCS\Support\Url` | SSRF guard. WordPress-free, unit-tested. |
+| Type normalisation | `CSCS\Support\Normalise` | WordPress-free, unit-tested. |
+| Transport | `CSCS\Api\Http`, `CSCS\Api\WpHttp` | Interface plus a `wp_remote_get()` implementation with certificate verification on. |
+| Client | `CSCS\Api\Client` | Retries, ceiling, breaker, cache, decoding. |
+| Guards | `CSCS\Api\RateLimiter`, `CSCS\Api\CircuitBreaker` | |
+| Mapping | `CSCS\Api\Mapper`, `CSCS\Api\Dto\*` | Typed records. |
+| Cache | `CSCS\Cache\Store` | Transients with stale-while-revalidate. |
+| CLI | `CSCS\Cli\ApiCommand` | `wp cscs api courses\|lessons\|doctor`. |
+
+### Guarantees the client makes
+
+- No request is attempted without a validated base URL.
+- No request is attempted while the circuit is open or the hourly ceiling is spent.
+- A transport error is retried; a malformed payload is not, because it will be malformed again.
+- When a request fails and stale data exists, the stale data is returned instead of an exception.
+- A response is only decoded if the status is 200, the content type looks like JSON, and the body decodes to an array.
 
 ## Contents
 
@@ -39,7 +63,10 @@ course-schedule-connector/
 ├── course-schedule-connector.php   Bootstrap: headers, constants, autoload, activation
 ├── uninstall.php                   Optional data removal
 ├── includes/
-│   ├── Api/                        Client, Mapper, Normaliser
+│   ├── Autoloader.php              PSR-4 autoloader
+│   ├── Plugin.php                  Bootstrap and service container
+│   ├── Settings.php                Typed settings access
+│   ├── Api/                        Client, transport, mapper, guards, DTOs
 │   ├── Sync/                       Synchroniser, Matcher, Scheduler, Retention
 │   ├── Data/                       CourseRepository, LessonRepository, Schema
 │   ├── Admin/                      Screens, DisplaySets, Settings, Permissions
@@ -198,26 +225,38 @@ The design restriction is enforced when settings are saved, not only in the inte
 
 **Filters**
 
-| Filter | Purpose |
-|---|---|
-| `cscs_api_request_args` | Modify `wp_remote_get()` arguments |
-| `cscs_normalise_course` | Adjust a course record after normalisation |
-| `cscs_normalise_lesson` | Adjust a lesson record after normalisation |
-| `cscs_match_key` | Replace the matching key algorithm |
-| `cscs_template_path` | Override template resolution |
-| `cscs_price_format` | Change price formatting |
-| `cscs_availability_state` | Change the thresholds behind availability states |
-| `cscs_is_rental` | Decide whether a lesson counts as an external rental |
+| Filter | Purpose | Status |
+|---|---|---|
+| `cscs_api_request_args` | Modify `wp_remote_get()` arguments | implemented |
+| `cscs_normalise_course` | Adjust a course record after normalisation | planned |
+| `cscs_normalise_lesson` | Adjust a lesson record after normalisation | planned |
+| `cscs_match_key` | Replace the matching key algorithm | planned |
+| `cscs_template_path` | Override template resolution | planned |
+| `cscs_price_format` | Change price formatting | planned |
+| `cscs_availability_state` | Change the thresholds behind availability states | planned |
+| `cscs_is_rental` | Decide whether a lesson counts as an external rental | planned |
 
 **Actions**
 
-| Action | Fires |
-|---|---|
-| `cscs_before_sync` / `cscs_after_sync` | Around each synchronisation job |
-| `cscs_sync_failed` | On failure, with the error |
-| `cscs_course_updated` | After a course record changes |
+| Action | Fires | Status |
+|---|---|---|
+| `cscs_booted` | Once the plugin has booted and its services exist | implemented |
+| `cscs_circuit_opened` | When repeated failures pause outbound requests | implemented |
+| `cscs_before_sync` / `cscs_after_sync` | Around each synchronisation job | planned |
+| `cscs_sync_failed` | On failure, with the error | planned |
+| `cscs_course_updated` | After a course record changes | planned |
 
 ## WP-CLI
+
+Implemented:
+
+```bash
+wp cscs api doctor                                    # configuration and connectivity
+wp cscs api courses [--date=<Ymd>] [--force] [--format=<format>]
+wp cscs api lessons [--from=<Ymd>] [--to=<Ymd>] [--tab=<id>] [--limit=<n>] [--force] [--format=<format>]
+```
+
+Planned with the data layer:
 
 ```bash
 wp cscs sync courses
@@ -226,7 +265,6 @@ wp cscs match --report
 wp cscs match --rebuild
 wp cscs cache flush
 wp cscs retention run
-wp cscs doctor            # environment and configuration check
 ```
 
 ## Options
