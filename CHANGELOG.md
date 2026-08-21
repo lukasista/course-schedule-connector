@@ -9,5 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Repository scaffolding: licence, documentation, coding standards, CI and release automation.
+- Release checklist: the acceptance gate that must be fully satisfied before any submission to WordPress.org.
 
 [Unreleased]: https://github.com/lukasista/wpdissi/commits/main

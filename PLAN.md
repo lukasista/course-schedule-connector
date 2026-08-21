@@ -1,5 +1,5 @@
 # Jojo Gym – iSport System ↔ WordPress / Divi 5
-## Projektový plán v1.3
+## Projektový plán v1.4
 
 **Datum:** 19. 8. 2026
 **Název pluginu:** **Course & Schedule Connector for iSport** (slug `course-schedule-connector`, prefix kódu `cscs`)
@@ -16,7 +16,8 @@
 | Divi | 5.11.0 |
 | Aktivní šablona | child theme **JoJo Gym 2.0** |
 | Vývoj | WordPress Studio, web **jojogym 2**, `http://localhost:8888` |
-| Repozitář | `https://github.com/lukasista/wpdissi` |
+| Repozitář | `https://github.com/lukasista/wpdissi` (veřejný) |
+| Účet na WordPress.org | `1uka5i5ta`, propojený s GitHubem |
 | Jazyk | web česky, kód plně připravený na překlad (`__()`, `.pot`, text domain `course-schedule-connector`) |
 
 ---
@@ -269,8 +270,9 @@ Nastavení jen pro administrátora: typografie, barvy, mezery, rámečky, hover 
 | **F9** | Výkon, i18n, přístupnost | Profilování dotazů, cache-warming, `.pot` + čeština, audit WCAG 2.1 AA | 1,5 dne |
 | **F10** | Testy a Plugin Check | PHPUnit s fixturami odpovědí API, průchod oficiálním **Plugin Check** bez chyb a varování, test bez Divi i s Divi | 1,5 dne |
 | **F11** | Dokumentace a dodání | Dopsání `USER-GUIDE.md` a `DEVELOPER.md` podle skutečné implementace, snímky obrazovek, verzování, dva buildy, případné podání na WordPress.org | 2 dny |
+| **F12** | Akceptační brána | Průchod celým `docs/RELEASE-CHECKLIST.md` na **čisté** instalaci WordPressu, doložení každé položky, oboustranný podpis; teprve pak případné podání do adresáře | 1,5 dne |
 
-**Celkem ≈ 22 pracovních dnů** (nárůst proti v1.2 o shortcode a blok, samostatný bezpečnostní audit, Plugin Check a plnou dokumentaci).
+**Celkem ≈ 23,5 pracovního dne** (nárůst proti v1.2 o shortcode a blok, samostatný bezpečnostní audit, Plugin Check a plnou dokumentaci).
 
 Fáze F1–F5 jsou nezávislé na Divi a plně otestovatelné přes shortcode. Kdyby se Divi 5 API změnilo, přijdeme maximálně o práci z F6.
 
@@ -300,16 +302,30 @@ PHP_CodeSniffer (WordPress + WordPress-Docs), PHPStan level 6, PHPUnit a oficiá
 | `docs/DEVELOPER.md` | vývojáři – datový model, hooky, šablony, REST, WP-CLI |
 | `docs/COMPLIANCE.md` | mapování všech 18 pravidel WordPress.org |
 | `docs/SECURITY-CHECKLIST.md` | bezpečnostní kontroly, každá jako podmínka pro merge |
+| `docs/RELEASE-CHECKLIST.md` | akceptační brána před vydáním, s podpisy |
 | `README.md`, `readme.txt` | GitHub / WordPress.org |
 | `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md` | přispěvatelé |
 
-## 11. Otevřené otázky
+## 11. Akceptační brána před vydáním
 
-1. **Uživatelské jméno na WordPress.org** – pole `Contributors` v `readme.txt` přijímá jen skutečná uživatelská jména z WordPress.org, jinak se nezobrazí odkaz na profil. Zatím je tam `lukasista`; potvrďte prosím, že takový účet na WordPress.org existuje, nebo mi pošlete správné jméno.
-2. **Viditelnost repozitáře** – `wpdissi` má být privátní, nebo veřejný? Pokud plugin míří na WordPress.org, pravidlo 4 stejně vyžaduje veřejně dostupný zdrojový kód, takže veřejný repozitář je jednodušší. U privátního bude navíc potřeba osobní token v `wp-config.php`, aby fungovaly aktualizace z GitHubu.
-3. **Podání na WordPress.org** – chcete plugin skutečně podat do adresáře po dokončení v1.0.0, nebo zatím jen splnit standardy a rozhodnout se později? Na plán to nemá vliv, jen na to, jestli po F11 přibude kolo revize (schvalování obvykle trvá několik týdnů a může přinést připomínky).
+Podání do adresáře WordPress.org proběhne **teprve po naprosté jistotě**, že plugin splňuje bezpečnostní i obsahové požadavky a spolehlivě funguje. Aby to nebyl jen dobrý pocit, je ta jistota rozepsaná do měřitelného seznamu v `docs/RELEASE-CHECKLIST.md`. Deset oddílů, u každé položky musí existovat důkaz – běh CI, snímek obrazovky nebo log, ne názor.
 
-*Vyřešeno v této verzi:* distribuce (dva buildy), název a slug (`course-schedule-connector`), rozsah v1 (shortcode + blok + konfigurovatelná URL), přístup do lokálního webu.
+| Oddíl | Co se ověřuje | Tvrdé kritérium |
+|---|---|---|
+| 1. Automatické brány | PHPCS, PHPStan, PHPUnit, build, Plugin Check | **nula chyb i varování**, včetně kategorie *Plugin Repository* |
+| 2. Bezpečnost | každý řádek `SECURITY-CHECKLIST.md` ověřený čtením kódu | mimo jiné: pokus uložit design bez oprávnění musí selhat na serveru |
+| 3. Pravidla adresáře | znovu projité mapování všech 18 pravidel | build pro WordPress.org neobsahuje updater — ověřeno rozbalením balíčku |
+| 4. Funkční ověření | čistá instalace WordPressu, ne vývojový web | **funguje s vypnutým Divi**; úspěšnost párování nad 95 %; při nedostupném API se web nerozbije |
+| 5. Oprávnění | role Správce iSport | nevidí design v Divi a **neuloží ho ani podvrženým požadavkem** |
+| 6. Přístupnost | Axe, čtečka, klávesnice, 200% zoom, 320 px | nula porušení |
+| 7. Výkon | Query Monitor | **na frontendu nesmí vzniknout žádný odchozí HTTP požadavek** |
+| 8. Lokalizace | `.pot`, čeština, formátování data a ceny | žádné skládání řetězců uvnitř překladové funkce |
+| 9. Dokumentace | příručka i vývojářská dokumentace odpovídají skutečnosti | včetně snímků obrazovek |
+| 10. Čistý debug | `WP_DEBUG`, `WP_DEBUG_LOG`, `SCRIPT_DEBUG`, `SAVEQUERIES` | **prázdný log**, žádná chyba v konzoli |
+
+Na konci jsou dva podpisy – můj a váš. Bez obou se nic nikam neodesílá.
+
+*Vyřešeno:* účet na WordPress.org je `1uka5i5ta`, repozitář `wpdissi` je veřejný (což zároveň splňuje pravidlo 4 a odpadá potřeba tokenu pro aktualizace z GitHubu), podání do adresáře je podmíněné touto branou.
 
 ## 12. Rizika
 

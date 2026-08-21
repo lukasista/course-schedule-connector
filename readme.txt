@@ -1,5 +1,5 @@
 === Course & Schedule Connector for iSport ===
-Contributors: lukasista
+Contributors: 1uka5i5ta
 Tags: courses, schedule, timetable, booking, sports
 Requires at least: 6.5
 Tested up to: 7.0

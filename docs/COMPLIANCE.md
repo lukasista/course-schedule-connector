@@ -7,7 +7,7 @@ How this plugin satisfies each of the eighteen [Detailed Plugin Guidelines](http
 | 1 | GPL-compatible licence | ✅ | Plugin is GPL-2.0-or-later. Every bundled asset is GPL-compatible; no third-party PHP library is bundled at runtime. Build tooling is dev-only and never shipped. |
 | 2 | Developer responsibility | ✅ | A single maintainer is accountable; no guideline is circumvented by design. |
 | 3 | Stable version on WordPress.org | ⚠️ | Resolved by shipping two builds — see [Distribution](#distribution) below. |
-| 4 | Human-readable code | ✅ | No obfuscation, no minified-only PHP. Source is public in this repository, linked from the readme. |
+| 4 | Human-readable code | ✅ | No obfuscation, no minified-only PHP. Source is public at [`lukasista/wpdissi`](https://github.com/lukasista/wpdissi) and linked from the readme. The repository is public, which also means the GitHub build needs no access token. |
 | 5 | No trialware | ✅ | No feature is paywalled, time-limited or restricted to a sandbox. |
 | 6 | Third-party services permitted when disclosed | ✅ | The iSport System dependency is disclosed in a dedicated `== External services ==` section of `readme.txt`, naming the exact endpoints, the data retrieved, when requests occur, and who operates the service. |
 | 7 | No unauthorised tracking | ✅ | No analytics, no telemetry, no phone-home. The only outbound host is the one the administrator enters, and nothing is sent until they enter it. **No visitor data leaves the site** — requests carry no personal data, cookies or identifiers, and are never made from a visitor's browser. |
@@ -19,7 +19,7 @@ How this plugin satisfies each of the eighteen [Detailed Plugin Guidelines](http
 | 13 | Use WordPress libraries | ✅ | HTTP through the WordPress HTTP API, scheduling through WP-Cron, escaping and sanitising through core functions. No bundled HTTP client, no bundled jQuery. |
 | 14 | Limit SVN commits | ✅ | Development happens on GitHub; SVN receives tagged releases only. |
 | 15 | Increment version numbers | ✅ | Enforced in CI: the release workflow fails unless the git tag, the `Version:` header and `Stable tag:` all match. |
-| 16 | Complete at submission | ✅ | Submission happens only after v1.0.0 is feature-complete against the project plan. |
+| 16 | Complete at submission | ✅ | Submission happens only after every item in [`RELEASE-CHECKLIST.md`](RELEASE-CHECKLIST.md) is ticked and both sign-offs are given. |
 | 17 | Respect trademarks | ✅ | Slug is `course-schedule-connector` — no trademark as the first or sole term. Display name uses the permitted "*Feature* for *Brand*" form. `README.md` carries an explicit non-affiliation notice for both iSport System and Divi. |
 | 18 | Directory maintenance rights | ✅ | Acknowledged. |
 
@@ -57,11 +57,6 @@ A suggested privacy-policy paragraph is registered through `wp_add_privacy_polic
 
 ## Pre-submission routine
 
-Before any submission or release:
+The full acceptance gate is [`RELEASE-CHECKLIST.md`](RELEASE-CHECKLIST.md) — ten sections covering automated gates, security, guidelines, functional verification, permissions, accessibility, performance, internationalisation, documentation and a clean debug pass, ending in a developer and a site-owner signature.
 
-1. `composer run check` — coding standards, static analysis, tests
-2. `npm run build && npm run lint:js && npm run lint:css`
-3. [Plugin Check](https://wordpress.org/plugins/plugin-check/) against the WordPress.org build with all checks enabled, including the "Plugin Repository" category
-4. Manual test on a clean WordPress install with Divi absent, then with Divi active
-5. Test with `WP_DEBUG`, `WP_DEBUG_LOG` and `SCRIPT_DEBUG` enabled and confirm a clean log
-6. Confirm `readme.txt` stays under 10 KB and the short description under 150 characters
+Nothing is submitted until every item is ticked and evidenced by a CI run, a screenshot or a log.

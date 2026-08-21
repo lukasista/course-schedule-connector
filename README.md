@@ -142,6 +142,7 @@ Guideline 8 of the WordPress.org plugin directory forbids a hosted plugin from u
 | [`docs/DEVELOPER.md`](docs/DEVELOPER.md) | Developers |
 | [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) | WordPress.org guideline mapping |
 | [`docs/SECURITY-CHECKLIST.md`](docs/SECURITY-CHECKLIST.md) | Reviewers |
+| [`docs/RELEASE-CHECKLIST.md`](docs/RELEASE-CHECKLIST.md) | Release sign-off |
 | [`PLAN.md`](PLAN.md) | Project plan *(Czech)* |
 
 ## Security
