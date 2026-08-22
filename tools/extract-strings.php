@@ -1,0 +1,43 @@
+<?php
+$funcs = array('__'=>1,'_e'=>1,'esc_html__'=>1,'esc_html_e'=>1,'esc_attr__'=>1,'esc_attr_e'=>1,'_x'=>2,'_n'=>3,'_nx'=>4);
+$strings = array();
+$rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator( dirname( __DIR__ ) ));
+foreach ($rii as $file) {
+    $path = $file->getPathname();
+    if ($file->getExtension() !== 'php') continue;
+    if (str_contains($path, '/vendor/') || str_contains($path, '/tools/') || str_contains($path,'/tests/') || str_contains($path,'/node_modules/')) continue;
+    $tokens = token_get_all(file_get_contents($path));
+    $count = count($tokens);
+    for ($i = 0; $i < $count; $i++) {
+        $t = $tokens[$i];
+        if (!is_array($t) || $t[0] !== T_STRING || !isset($funcs[$t[1]])) continue;
+        // next non-whitespace must be (
+        $j = $i + 1;
+        while ($j < $count && is_array($tokens[$j]) && $tokens[$j][0] === T_WHITESPACE) $j++;
+        if ($tokens[$j] !== '(') continue;
+        $args = array(); $depth = 0; $current = null;
+        for ($k = $j; $k < $count; $k++) {
+            $tok = $tokens[$k];
+            if ($tok === '(') { $depth++; continue; }
+            if ($tok === ')') { $depth--; if ($depth === 0) break; continue; }
+            if ($tok === ',' && $depth === 1) { $args[] = $current; $current = null; continue; }
+            if (is_array($tok) && $tok[0] === T_CONSTANT_ENCAPSED_STRING && $depth === 1 && $current === null) {
+                $current = stripcslashes(substr($tok[1], 1, -1));
+                if ($tok[1][0] === "'") $current = str_replace(array("\\'","\\\\"), array("'","\\"), substr($tok[1],1,-1));
+            }
+        }
+        $args[] = $current;
+        $fn = $t[1];
+        $singular = $args[0] ?? null;
+        $plural = null;
+        if ($fn === '_n') { $plural = $args[1] ?? null; }
+        if ($fn === '_nx') { $plural = $args[1] ?? null; }
+        if ($singular === null) continue;
+        $key = $singular . "\x00" . (string) $plural;
+        if (!isset($strings[$key])) $strings[$key] = array('singular'=>$singular,'plural'=>$plural,'refs'=>array());
+        $strings[$key]['refs'][] = ltrim( str_replace( dirname( __DIR__ ), '', $path ), '/' ) . ':' . $t[2];
+    }
+}
+ksort($strings);
+file_put_contents( __DIR__ . '/i18n/strings.json', json_encode(array_values($strings), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+echo count($strings), " strings\n";
