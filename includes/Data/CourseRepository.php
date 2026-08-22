@@ -52,6 +52,14 @@ final class CourseRepository {
 	public const MANUAL_ID_BASE = 1000000000;
 
 	/**
+	 * Meta key holding one room id the course actually runs in.
+	 *
+	 * Repeated: a course can run in more than one room, and a listing filtered
+	 * by room has to be able to ask whether one particular id is among them.
+	 */
+	public const META_ROOM_ID = '_cscs_room_ids';
+
+	/**
 	 * Meta key marking a course somebody created by hand.
 	 */
 	public const META_MANUAL = '_cscs_manual';
@@ -171,7 +179,20 @@ final class CourseRepository {
 	 */
 	public function set_rooms( int $post_id, array $rooms ): void {
 		wp_set_object_terms( $post_id, $this->term_names( array_values( $rooms ) ), PostType::ROOM );
-		update_post_meta( $post_id, '_cscs_room_ids', array_map( 'intval', array_keys( $rooms ) ) );
+
+		// One meta row per room rather than one row holding a list. A serialised
+		// array cannot be asked "is this id in you?", and filtering a listing by
+		// room is exactly that question.
+		$stored = array_map( 'intval', (array) get_post_meta( $post_id, self::META_ROOM_ID ) );
+		$wanted = array_map( 'intval', array_keys( $rooms ) );
+
+		foreach ( array_diff( $stored, $wanted ) as $gone ) {
+			delete_post_meta( $post_id, self::META_ROOM_ID, $gone );
+		}
+
+		foreach ( array_diff( $wanted, $stored ) as $added ) {
+			add_post_meta( $post_id, self::META_ROOM_ID, $added );
+		}
 	}
 
 	/**

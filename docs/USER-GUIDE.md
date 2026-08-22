@@ -60,14 +60,18 @@ Podle toho, jak je stránka postavená:
 
 **V editoru bloků** – přidejte blok *Kurzy a rozvrh* a vyberte sadu.
 
-**Kdekoli jinde** (klasický editor, textový widget) – vložte zkrácený kód:
+**Kdekoli jinde** (klasický editor, textový widget, šablona) – vložte zkrácený kód:
 
 ```
 [cscs_courses set="kurzy-pro-deti"]
 [cscs_schedule set="tydenni-rozvrh"]
 ```
 
-Slug sady najdete v seznamu Zobrazovacích sad.
+Přesné znění je napsané u každé sady v seznamu Zobrazovacích sad, takže ho stačí zkopírovat. Když máte jen jednu sadu daného typu, funguje i `[cscs_courses]` bez parametru — s více sadami by plugin musel hádat, a to raději neudělá a napíše to.
+
+Když sada s daným jménem neexistuje, přihlášený redaktor uvidí na stránce vysvětlující poznámku, návštěvník nic. Chyba, se kterou návštěvník stejně nic nezmůže, mu nemá kazit stránku.
+
+> Všechny tři cesty — Divi modul, blok i shortcode — vykresluje **tentýž kód**. Výpis tedy nemůže vypadat jinak v editoru a jinak na webu, a změna se projeví všude naráz.
 
 ## Správa kurzů
 
@@ -161,20 +165,20 @@ Tlačítko **Synchronizovat nyní** vynutí okamžité načtení. Používejte h
 
 ## Co plugin dělá na mobilu
 
-Tabulky se na malých displejích **překlopí**: každý řádek se změní v kartu, kde je vlevo popisek sloupce a vpravo hodnota.
+Každá tabulka se pod nastavenou šířkou (výchozí 768 px, mění se v Nastavení) **překlopí**: řádek se změní v kartu, popisky sloupců jdou v levém sloupci a hodnoty v pravém.
 
 ```
-Na počítači                      Na mobilu
+Desktop                          Mobil
 ┌────────┬─────┬──────┐          ┌──────────────────────┐
 │ Kurz   │Cena │Místa │          │ Kurz    Aerobic mini │
-├────────┼─────┼──────┤    →     │ Cena         1 200 Kč│
-│Aerobic │1200 │  3   │          │ Místa               3│
+├────────┼─────┼──────┤    →     │ Cena         1 960 Kč│
+│Aerobic │1960 │  3   │          │ Místa               3│
 └────────┴─────┴──────┘          └──────────────────────┘
 ```
 
-Týdenní kalendář se na mobilu přepne do seznamu podle dnů, protože mřížka sál × čas se na úzký displej nevejde čitelně.
+Proto se u sloupců vyplatí krátký popisek: na mobilu je z něj nadpis vedle hodnoty, ne záhlaví tabulky.
 
-Nemusíte pro mobil nic nastavovat – je to automatické.
+Zrušené lekce jsou přeškrtnuté a označené, plné kurzy mají místo tlačítka text „Obsazeno“ (nebo ten, který si nastavíte v sadě).
 
 ## Kdy volat administrátora
 

@@ -30,6 +30,8 @@ use CSCS\Data\LessonRepository;
 use CSCS\Data\PostType;
 use CSCS\Data\RoomMap;
 use CSCS\Data\Schema;
+use CSCS\Render\Renderer;
+use CSCS\Render\Shortcodes;
 use CSCS\Sync\Logger;
 use CSCS\Sync\Matcher;
 use CSCS\Sync\Retention;
@@ -108,6 +110,8 @@ final class Plugin {
 			( new CourseEditor( $this ) )->register();
 			( new CourseList() )->register();
 		}
+		( new Shortcodes( $this ) )->register();
+
 		add_action( 'cscs_setting_changed', array( $this, 'on_setting_changed' ) );
 
 		$this->scheduler()->register();
@@ -243,6 +247,15 @@ final class Plugin {
 	 */
 	public function courses(): CourseRepository {
 		return $this->service( 'courses', static fn(): CourseRepository => new CourseRepository() );
+	}
+
+	/**
+	 * Returns the renderer.
+	 *
+	 * @return Renderer
+	 */
+	public function renderer(): Renderer {
+		return $this->service( 'renderer', fn(): Renderer => new Renderer( $this ) );
 	}
 
 	/**

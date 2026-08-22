@@ -83,7 +83,7 @@ msgstr ""
 msgid "A make-up slot usually repeats: the same name, the same weekday, the same hour, the same room. Where you have already assigned one of a series, the others can be assigned like it in one press, and each row offers the same button on its own. Where two occurrences of one series were assigned to two different courses, nothing is offered — the series is not a series. The trainer is not part of the comparison, because the timetable fills it in some weeks and leaves it blank others; it is on screen for you to weigh."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:522
+#: includes/Admin/Screen/DisplaySetsPage.php:561
 msgid "A set needs a name."
 msgstr ""
 
@@ -116,7 +116,7 @@ msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:130
 #: includes/Admin/Screen/UnmatchedPage.php:143
-#: includes/Admin/Screen/DisplaySetsPage.php:427
+#: includes/Admin/Screen/DisplaySetsPage.php:466
 #: includes/Admin/CourseEditor.php:199
 #: includes/Data/PostType.php:163
 msgid "Activity"
@@ -181,7 +181,7 @@ msgid "Between two dates"
 msgstr ""
 
 #: includes/Admin/CourseList.php:55
-#: includes/Admin/Screen/DisplaySetsPage.php:438
+#: includes/Admin/Screen/DisplaySetsPage.php:477
 #: includes/Admin/CourseEditor.php:139
 msgid "Booking button"
 msgstr ""
@@ -208,8 +208,9 @@ msgstr ""
 msgid "Button text"
 msgstr ""
 
+#: includes/Render/Listing.php:237
 #: includes/Admin/Screen/Overview.php:225
-#: includes/Admin/Screen/DisplaySetsPage.php:437
+#: includes/Admin/Screen/DisplaySetsPage.php:476
 msgid "Cancelled"
 msgstr ""
 
@@ -264,8 +265,8 @@ msgstr ""
 msgid "Contact and booking"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:425
-#: includes/Admin/Screen/DisplaySetsPage.php:426
+#: includes/Admin/Screen/DisplaySetsPage.php:464
+#: includes/Admin/Screen/DisplaySetsPage.php:465
 #: includes/Data/PostType.php:61
 msgid "Course"
 msgstr ""
@@ -337,11 +338,11 @@ msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:128
 #: includes/Admin/Screen/UnmatchedPage.php:141
-#: includes/Admin/Screen/DisplaySetsPage.php:429
+#: includes/Admin/Screen/DisplaySetsPage.php:468
 msgid "Date"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:428
+#: includes/Admin/Screen/DisplaySetsPage.php:467
 msgid "Days and times"
 msgstr ""
 
@@ -448,6 +449,8 @@ msgstr ""
 msgid "For example when to ring, or that places are arranged individually."
 msgstr ""
 
+#: includes/Render/Listing.php:297
+#: includes/Render/Listing.php:301
 #: includes/Admin/Screen/SettingsPage.php:118
 #: includes/Admin/CourseEditor.php:342
 msgid "Free"
@@ -459,6 +462,10 @@ msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:258
 msgid "From:"
+msgstr ""
+
+#: includes/Render/Listing.php:129
+msgid "Full"
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:333
@@ -543,7 +550,7 @@ msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:108
 #: includes/Admin/Screen/DisplaySetsPage.php:173
-#: includes/Admin/Screen/DisplaySetsPage.php:458
+#: includes/Admin/Screen/DisplaySetsPage.php:497
 msgid "Name"
 msgstr ""
 
@@ -614,11 +621,15 @@ msgstr ""
 msgid "Nothing has run yet."
 msgstr ""
 
+#: includes/Render/Listing.php:107
+msgid "Nothing is listed here at the moment."
+msgstr ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:242
 msgid "Nothing ticked means every activity."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:240
+#: includes/Admin/Screen/DisplaySetsPage.php:384
 msgid "Nothing ticked means every room."
 msgstr ""
 
@@ -626,7 +637,8 @@ msgstr ""
 msgid "Nothing ticked means every trainer."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:375
+#: includes/Admin/Screen/DisplaySetsPage.php:371
+#: includes/Admin/Screen/DisplaySetsPage.php:414
 msgid "Nothing to choose from yet. Synchronise first."
 msgstr ""
 
@@ -639,7 +651,7 @@ msgstr ""
 msgid "Nothing was assigned: the series either disagrees about its course or has no assignment to copy."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:434
+#: includes/Admin/Screen/DisplaySetsPage.php:473
 msgid "Number of classes"
 msgstr ""
 
@@ -647,6 +659,7 @@ msgstr ""
 msgid "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear."
 msgstr ""
 
+#: includes/Render/Listing.php:302
 #: includes/Admin/Screen/SettingsPage.php:117
 msgid "On request"
 msgstr ""
@@ -681,13 +694,13 @@ msgstr ""
 msgid "Past occurrences older than this are removed. Courses are never deleted."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:436
-#: includes/Admin/Screen/DisplaySetsPage.php:461
+#: includes/Admin/Screen/DisplaySetsPage.php:475
+#: includes/Admin/Screen/DisplaySetsPage.php:500
 msgid "Places left"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:435
-#: includes/Admin/Screen/DisplaySetsPage.php:460
+#: includes/Admin/Screen/DisplaySetsPage.php:474
+#: includes/Admin/Screen/DisplaySetsPage.php:499
 #: includes/Admin/CourseEditor.php:201
 #: includes/Admin/CourseEditor.php:314
 msgid "Price"
@@ -744,8 +757,8 @@ msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Admin/Screen/UnmatchedPage.php:144
-#: includes/Admin/Screen/DisplaySetsPage.php:431
-#: includes/Admin/Screen/DisplaySetsPage.php:462
+#: includes/Admin/Screen/DisplaySetsPage.php:470
+#: includes/Admin/Screen/DisplaySetsPage.php:501
 #: includes/Admin/CourseEditor.php:313
 #: includes/Data/PostType.php:155
 msgid "Room"
@@ -754,7 +767,7 @@ msgstr ""
 #: includes/Admin/Menu.php:135
 #: includes/Admin/Menu.php:136
 #: includes/Admin/Screen/RoomsPage.php:68
-#: includes/Admin/Screen/DisplaySetsPage.php:240
+#: includes/Admin/Screen/DisplaySetsPage.php:368
 #: includes/Data/PostType.php:154
 msgid "Rooms"
 msgstr ""
@@ -768,7 +781,7 @@ msgstr ""
 msgid "Runs from"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:433
+#: includes/Admin/Screen/DisplaySetsPage.php:472
 msgid "Runs from and to"
 msgstr ""
 
@@ -801,15 +814,15 @@ msgstr ""
 msgid "Search courses"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:528
+#: includes/Admin/Screen/DisplaySetsPage.php:567
 msgid "Set created. Refer to it as \"%s\"."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:553
+#: includes/Admin/Screen/DisplaySetsPage.php:592
 msgid "Set deleted. Any page still referring to it now shows nothing."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:531
+#: includes/Admin/Screen/DisplaySetsPage.php:570
 msgid "Set saved."
 msgstr ""
 
@@ -841,6 +854,10 @@ msgstr ""
 #: includes/Admin/Screen/DisplaySetsPage.php:109
 #: includes/Admin/Screen/DisplaySetsPage.php:192
 msgid "Shows"
+msgstr ""
+
+#: includes/Render/Listing.php:118
+msgid "Sign up in iSport"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:112
@@ -920,8 +937,16 @@ msgstr ""
 msgid "The whole term"
 msgstr ""
 
+#: includes/Render/Renderer.php:72
+msgid "There is no display set called \"%s\"."
+msgstr ""
+
 #: includes/Admin/Screen/SettingsPage.php:122
 msgid "They appear struck through and labelled. Unticking hides them entirely."
+msgstr ""
+
+#: includes/Render/Shortcodes.php:124
+msgid "This shortcode needs a display set, for example [cscs_courses set=\"kurzy-pro-deti\"]."
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:249
@@ -938,7 +963,7 @@ msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:129
 #: includes/Admin/Screen/UnmatchedPage.php:142
-#: includes/Admin/Screen/DisplaySetsPage.php:430
+#: includes/Admin/Screen/DisplaySetsPage.php:469
 msgid "Time"
 msgstr ""
 
@@ -952,7 +977,7 @@ msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Admin/Screen/UnmatchedPage.php:145
-#: includes/Admin/Screen/DisplaySetsPage.php:432
+#: includes/Admin/Screen/DisplaySetsPage.php:471
 #: includes/Admin/CourseEditor.php:312
 #: includes/Data/PostType.php:159
 msgid "Trainer"
@@ -1002,7 +1027,7 @@ msgstr ""
 msgid "When a course is full"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:459
+#: includes/Admin/Screen/DisplaySetsPage.php:498
 msgid "When it starts"
 msgstr ""
 
@@ -1076,12 +1101,22 @@ msgstr ""
 msgid "iSport settings"
 msgstr ""
 
+#: includes/Render/Listing.php:322
+msgid "last %d place"
+msgid_plural "last %d places"
+msgstr[0] ""
+msgstr[1] ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:125
 msgid "— being edited"
 msgstr ""
 
 #: includes/Admin/Screen/UnmatchedPage.php:262
 msgid "— belongs to no course —"
+msgstr ""
+
+#: includes/Admin/Screen/DisplaySetsPage.php:379
+msgid "— hidden everywhere"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:247

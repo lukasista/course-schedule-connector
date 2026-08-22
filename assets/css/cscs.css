@@ -1,0 +1,87 @@
+/*
+ * Course & Schedule Connector for iSport
+ *
+ * Deliberately small. The plugin owns the shape of a listing — what is a row,
+ * what is a heading, what folds where — and leaves the look to the theme: no
+ * fonts, no brand colours, no spacing scale. Everything colourish is a custom
+ * property with a quiet default, so a theme overrides one line rather than
+ * fighting a stylesheet.
+ *
+ * The rule that folds the table onto one column below the chosen width is not
+ * here. It depends on a setting, and a media query takes a number rather than a
+ * custom property, so it is printed alongside this file.
+ */
+
+.cscs {
+	--cscs-border: #e0e0e0;
+	--cscs-muted: #666;
+	--cscs-accent: currentColor;
+}
+
+.cscs-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.cscs-table th,
+.cscs-table td {
+	padding: 0.5rem 0.75rem;
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid var(--cscs-border);
+}
+
+.cscs-table th {
+	font-weight: 600;
+}
+
+.cscs-col-price,
+.cscs-col-places,
+.cscs-col-lessons {
+	white-space: nowrap;
+}
+
+/* A cancelled class is still information: it says do not come on Tuesday. */
+.cscs-row--cancelled {
+	opacity: 0.65;
+}
+
+.cscs-row--cancelled .cscs-col-name,
+.cscs-row--cancelled .cscs-col-course,
+.cscs-row--cancelled .cscs-col-activity,
+.cscs-row--cancelled .cscs-col-time,
+.cscs-row--cancelled .cscs-col-date {
+	text-decoration: line-through;
+}
+
+.cscs-cancelled {
+	font-weight: 600;
+	text-transform: uppercase;
+	font-size: 0.85em;
+	letter-spacing: 0.03em;
+}
+
+.cscs-row--full .cscs-col-places {
+	color: var(--cscs-muted);
+}
+
+.cscs-row--few .cscs-col-places {
+	font-weight: 600;
+}
+
+.cscs-button {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.cscs-empty,
+.cscs-notice {
+	color: var(--cscs-muted);
+}
+
+@media (prefers-color-scheme: dark) {
+	.cscs {
+		--cscs-border: #3a3a3a;
+		--cscs-muted: #a0a0a0;
+	}
+}

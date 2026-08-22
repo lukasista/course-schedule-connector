@@ -237,7 +237,7 @@ final class DisplaySetsPage {
 			<h3><?php esc_html_e( 'What to include', 'course-schedule-connector' ); ?></h3>
 			<table class="form-table" role="presentation">
 				<?php
-				$this->term_row( 'rooms', __( 'Rooms', 'course-schedule-connector' ), PostType::ROOM, $set->rooms, __( 'Nothing ticked means every room.', 'course-schedule-connector' ) );
+				$this->rooms_row( $set->rooms );
 				$this->term_row( 'trainers', __( 'Trainers', 'course-schedule-connector' ), PostType::TRAINER, $set->trainers, __( 'Nothing ticked means every trainer.', 'course-schedule-connector' ) );
 				$this->term_row( 'activities', __( 'Activities', 'course-schedule-connector' ), PostType::ACTIVITY, $set->activities, __( 'Nothing ticked means every activity.', 'course-schedule-connector' ) );
 				?>
@@ -346,6 +346,45 @@ final class DisplaySetsPage {
 				<?php endif; ?>
 			</p>
 		</form>
+		<?php
+	}
+
+	/**
+	 * Renders the rooms, under the names the site chose for them.
+	 *
+	 * Rooms are picked by the id iSport gives them rather than by a taxonomy
+	 * term, because that id is what a class carries and what the course record
+	 * stores. A room renamed on the Rooms screen, or in iSport, is still the
+	 * same room to a set that was configured before the rename.
+	 *
+	 * @param array<int, int> $selected Selected room ids.
+	 * @return void
+	 */
+	private function rooms_row( array $selected ): void {
+		$rooms = $this->plugin->rooms()->decorate( $this->plugin->lessons()->rooms() );
+
+		?>
+		<tr>
+			<th scope="row"><?php esc_html_e( 'Rooms', 'course-schedule-connector' ); ?></th>
+			<td>
+				<?php if ( array() === $rooms ) : ?>
+					<p class="description"><?php esc_html_e( 'Nothing to choose from yet. Synchronise first.', 'course-schedule-connector' ); ?></p>
+				<?php else : ?>
+					<fieldset style="max-height:14em;overflow:auto;border:1px solid #dcdcde;padding:.5em">
+						<?php foreach ( $rooms as $room ) : ?>
+							<label style="display:block">
+								<input type="checkbox" name="cscs_set[rooms][]" value="<?php echo esc_attr( (string) $room['id'] ); ?>" <?php checked( in_array( $room['id'], $selected, true ) ); ?> />
+								<?php echo esc_html( $room['name'] ); ?>
+								<?php if ( $room['hidden'] ) : ?>
+									<span class="description"><?php esc_html_e( '— hidden everywhere', 'course-schedule-connector' ); ?></span>
+								<?php endif; ?>
+							</label>
+						<?php endforeach; ?>
+					</fieldset>
+					<p class="description"><?php esc_html_e( 'Nothing ticked means every room.', 'course-schedule-connector' ); ?></p>
+				<?php endif; ?>
+			</td>
+		</tr>
 		<?php
 	}
 

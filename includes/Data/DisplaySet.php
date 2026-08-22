@@ -84,7 +84,11 @@ final class DisplaySet {
 	public array $labels;
 
 	/**
-	 * Room term ids to keep, or an empty list for all of them.
+	 * Room ids to keep, as iSport numbers them, or an empty list for all.
+	 *
+	 * The remote id rather than a term, because that is what a class carries
+	 * and what a course records, and because it survives a rename on either
+	 * side.
 	 *
 	 * @var array<int, int>
 	 */
