@@ -79,6 +79,7 @@ final class MakeupCommand {
 	public function list( array $args, array $assoc_args ): void {
 		$repository = $this->plugin->lessons();
 		$links      = $repository->makeup_links();
+		$courses    = $this->course_names();
 		$rows       = array();
 		$names      = array();
 
@@ -91,14 +92,14 @@ final class MakeupCommand {
 			$rows[ $key ] = array(
 				'activity_name' => $name,
 				'occurrences'   => ( $rows[ $key ]['occurrences'] ?? 0 ) + 1,
-				'course'        => (string) ( $links[ $key ] ?? '' ),
+				'course'        => $this->label( $links[ $key ] ?? 0, $courses ),
 				'suggested'     => '',
 			);
 		}
 
 		foreach ( $this->suggestions( $names ) as $key => $course_id ) {
 			if ( isset( $rows[ $key ] ) && '' === $rows[ $key ]['course'] ) {
-				$rows[ $key ]['suggested'] = (string) $course_id;
+				$rows[ $key ]['suggested'] = $this->label( $course_id, $courses );
 			}
 		}
 
@@ -116,6 +117,57 @@ final class MakeupCommand {
 	}
 
 	/**
+	 * Renders a course as its id and its name.
+	 *
+	 * The id alone is unreadable, and an unreadable id is how a make-up lesson
+	 * for four-year-olds ends up tied to a board games course for teenagers
+	 * without anybody noticing.
+	 *
+	 * @param int                $course_id Course id, or 0.
+	 * @param array<int, string> $courses   Course id to name.
+	 * @return string
+	 */
+	private function label( int $course_id, array $courses ): string {
+		if ( 0 === $course_id ) {
+			return '';
+		}
+
+		$name = $courses[ $course_id ] ?? '';
+
+		return '' === $name ? (string) $course_id : $course_id . ' · ' . $name;
+	}
+
+	/**
+	 * Returns course names keyed by course id.
+	 *
+	 * @return array<int, string>
+	 */
+	private function course_names(): array {
+		$names = array();
+
+		foreach ( $this->courses() as $course ) {
+			$names[ $course->id ] = $course->name;
+		}
+
+		return $names;
+	}
+
+	/**
+	 * Reads the course list, which the last synchronisation already cached.
+	 *
+	 * @return array<int, \CSCS\Api\Dto\Course>
+	 */
+	private function courses(): array {
+		try {
+			return $this->plugin->client()->get_courses();
+		} catch ( \CSCS\Api\ApiException $e ) {
+			unset( $e );
+
+			return array();
+		}
+	}
+
+	/**
 	 * Asks the resolver which course each make-up lesson names, if any.
 	 *
 	 * Reading the course list costs nothing extra: it is already cached from the
@@ -130,15 +182,7 @@ final class MakeupCommand {
 			return array();
 		}
 
-		try {
-			$courses = $this->plugin->client()->get_courses();
-		} catch ( \CSCS\Api\ApiException $e ) {
-			unset( $e );
-
-			return array();
-		}
-
-		return ( new MakeupResolver() )->suggest( array_values( $names ), $courses );
+		return ( new MakeupResolver() )->suggest( array_values( $names ), $this->courses() );
 	}
 
 	/**
