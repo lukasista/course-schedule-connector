@@ -34,6 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The matching report groups unresolved occurrences by activity name. A weekly course that matched nothing produces one name rather than a dozen apparent problems, which is the difference between a number to worry about and a list to act on.
 - Settings are written through a validating setter and seeded with their defaults on activation, so there is always something to read and edit. WP-CLI: `wp cscs settings list|get|set`.
 
+- Admin: an **iSport** menu with an overview screen showing what is stored, how the last runs went, and how many requests have been made this hour — the remote system belongs to somebody else, so that figure should be readable off a screen rather than estimated.
+- Admin: a settings screen covering the connection, the term, refresh intervals, retention, display defaults and the list of activities that take no bookings. Every field is written through the same validating setter the command line uses, so the form cannot store an address the client would refuse.
+- An **iSport manager** role with `cscs_manage_content`, granted to editors and administrators. `cscs_manage_design`, which covers settings and anything that reaches the network, stays with administrators. The split is enforced when a request is handled, not by hiding fields: hiding is a courtesy, a capability check is the rule.
+
 ### Fixed
 - Continuous integration: the first run failed every job. `npm ci` had no lock file to install from and there was no JavaScript to build, `phpunit/phpunit` and `phpstan/phpstan` were missing from the development requirements, and PHPStan was pointed at a `templates` directory that does not exist yet.
 - Coding standards: every violation reported by PHP_CodeSniffer against the `WordPress`, `WordPress-Docs` and `PHPCompatibilityWP` rulesets, verified locally against the same tool versions the pipeline resolves.

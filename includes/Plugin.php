@@ -14,6 +14,8 @@ use CSCS\Api\Client;
 use CSCS\Api\Mapper;
 use CSCS\Api\RateLimiter;
 use CSCS\Api\WpHttp;
+use CSCS\Admin\Capabilities;
+use CSCS\Admin\Menu;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
 use CSCS\Cli\SettingsCommand;
@@ -93,6 +95,10 @@ final class Plugin {
 		Schema::install();
 
 		add_action( 'init', array( PostType::class, 'register' ) );
+
+		if ( is_admin() ) {
+			( new Menu( $this ) )->register();
+		}
 		add_action( 'cscs_setting_changed', array( $this, 'on_setting_changed' ) );
 
 		$this->scheduler()->register();
@@ -278,6 +284,7 @@ final class Plugin {
 	public static function activate(): void {
 		Settings::seed_defaults();
 		Schema::install();
+		Capabilities::install();
 		PostType::register();
 		self::instance()->scheduler()->schedule();
 		flush_rewrite_rules();

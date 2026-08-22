@@ -1,5 +1,5 @@
 # Jojo Gym – iSport System ↔ WordPress / Divi 5
-## Projektový plán v1.8
+## Projektový plán v1.9
 
 **Datum:** 19. 8. 2026
 **Název pluginu:** **Course & Schedule Connector for iSport** (slug `course-schedule-connector`, prefix kódu `cscs`)
@@ -285,7 +285,8 @@ Nastavení jen pro administrátora: typografie, barvy, mezery, rámečky, hover 
 | **F0** | Repozitář a standardy | ✅ *hotovo* – licence GPL-2.0+, `README.md`, `readme.txt`, `CHANGELOG`, `CONTRIBUTING`, `SECURITY`, Code of Conduct, PHPCS/PHPStan konfigurace, CI a release workflow, šablony issues, Dependabot, `docs/` | 0,5 dne |
 | **F1** | Jádro + API klient | ✅ *hotovo* – bootstrap, vlastní PSR-4 autoloader, klient s retry/timeout/circuit breakerem a hodinovým stropem, **validace base URL proti SSRF**, mapper, normalizace typů, cache se stale-while-revalidate, WP-CLI `wp cscs api`, 47 unit testů | 2 dny |
 | **F2** | Datový model + synchronizace | ✅ *hotovo a ověřeno na ostrých datech* – CPT `cscs_course` a 4 taxonomie, tabulky lekcí a logu, cron se čtyřmi úlohami, **párování name+stamp**, odvození sálů z lekcí, zámky polí, retence, `uninstall.php`, WP-CLI `wp cscs sync` a `wp cscs settings`, 93 unit testů. **Úspěšnost párování 100 %** (113 kurzů, 661 termínů, 334 spárovaných, 0 nevyřešených) | 2,5 dne |
-| **F3** | Administrace + práva | Menu, Zobrazovací sady, Nastavení, mapování sálů, nespárované lekce, hromadné akce, role Správce iSport, serverová validace | 2,5 dne |
+| **F3a** | Administrace – základ | ✅ *hotovo* – menu iSport, obrazovka Přehled (co je uloženo, stav připojení, poslední běhy, ruční synchronizace), obrazovka Nastavení přes validující setter, role **Správce iSport** a oprávnění vynucená při uložení | 1 den |
+| **F3b** | Administrace – obsah | Zobrazovací sady, editace kurzu (obohacený obsah, kontakt na lektora, příznak přihlášek, zámky polí), **ruční kurzy** zakládané ručně i jedním kliknutím z nespárovaného termínu, obrazovka nespárovaných lekcí, mapování sálů, hromadné akce | 1,5 dne |
 | **F4** | Renderer + styly | Šablonový systém, responzivní tabulky, stavy (vyprodáno, zrušeno, poslední místa), formátování ceny, přístupnost | 1,5 dne |
 | **F5** | Shortcode + Gutenberg blok | Nezávislost na Divi: `[cscs_courses]`, `[cscs_schedule]`, blok `cscs/display`, REST náhled | 1,5 dne |
 | **F6** | Divi 5 moduly | 4 moduly: `module.json`, PHP render, React edit přes REST náhled, webpack build, oddělení skupin dle role | 3 dny |
