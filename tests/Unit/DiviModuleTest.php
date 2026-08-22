@@ -110,6 +110,24 @@ final class DiviModuleTest extends TestCase {
 	}
 
 	/**
+	 * The group the field sits in declares a groupName. The documentation lists
+	 * it among a group's required keys, and Divi's own modules all carry one:
+	 * without it the field renders and the panel looks finished, which is the
+	 * worst way for a required key to be missing.
+	 *
+	 * @return void
+	 */
+	public function test_the_group_is_declared_the_way_divi_declares_its_own(): void {
+		$groups = $this->metadata()['settings']['groups'] ?? array();
+		$slug   = $this->metadata()['attributes']['set']['settings']['advanced']['id']['item']['groupSlug'] ?? '';
+
+		$this->assertArrayHasKey( $slug, $groups );
+		$this->assertSame( 'content', $groups[ $slug ]['panel'] ?? '' );
+		$this->assertNotSame( '', (string) ( $groups[ $slug ]['groupName'] ?? '' ) );
+		$this->assertSame( 'divi/composite', $groups[ $slug ]['component']['name'] ?? '' );
+	}
+
+	/**
 	 * The module registers under its own name. Sharing one with the editor
 	 * block would mean one of the two never registering at all.
 	 *

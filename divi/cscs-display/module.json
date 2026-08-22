@@ -47,13 +47,13 @@
 					"id": {
 						"groupType": "group-item",
 						"item": {
-							"groupSlug": "contentSet",
-							"priority": 5,
-							"render": true,
+							"groupSlug": "content",
 							"attrName": "set.advanced.id",
 							"label": "Display set",
 							"description": "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.",
-							"category": "basic_option",
+							"category": "configuration",
+							"priority": 10,
+							"render": true,
 							"features": {
 								"sticky": false,
 								"responsive": false,
@@ -81,9 +81,10 @@
 		"design": "auto",
 		"advanced": "auto",
 		"groups": {
-			"contentSet": {
+			"content": {
 				"panel": "content",
 				"priority": 10,
+				"groupName": "content",
 				"component": {
 					"name": "divi/composite",
 					"props": {
