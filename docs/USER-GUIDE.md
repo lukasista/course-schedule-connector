@@ -14,7 +14,8 @@ Příručka je pro **správce webu** – člověka, který spravuje nabídku kur
 - [Tlačítko „Přihlásit v iSport systému“](#tlačítko-přihlásit-v-isport-systému)
 - [Nespárované lekce](#nespárované-lekce)
 - [Náhradní lekce](#náhradní-lekce)
-- [Sály a aktivity](#sály-a-aktivity)
+- [Sály](#sály)
+- [Kurzy, které v iSportu nejsou](#kurzy-které-v-isportu-nejsou)
 - [Přehled a synchronizace](#přehled-a-synchronizace)
 - [Co plugin dělá na mobilu](#co-plugin-dělá-na-mobilu)
 - [Kdy volat administrátora](#kdy-volat-administrátora)
@@ -123,14 +124,29 @@ Slouží k tomu obrazovka **iSport → Náhradní lekce**. U každého termínu 
 
 Přiřazení přežívá synchronizaci. Když termín zestárne a plugin ho podle nastavené doby uchovávání smaže, zmizí s ním i jeho vazba – budoucích termínů se to nedotkne.
 
-## Sály a aktivity
+## Sály
 
-**iSport → Sály a aktivity** slouží k tomu, aby se sály na webu jmenovaly srozumitelně. U každého sálu můžete nastavit:
+**iSport → Sály** slouží k tomu, aby se sály na webu jmenovaly srozumitelně. iSport je pojmenovává pro lidi, kteří rozvrh spravují — „Gymnastická hala 1 a veřejnost“ je přesné a v tabulce na mobilu nečitelné. U každého sálu proto můžete nastavit:
 
-- **zobrazovaný název** (například `Hala 1` místo `Gymnastická hala 1 a veřejnost`),
-- **pořadí** ve výpisech a v kalendáři,
-- **barvu**, pokud nechcete použít barvu z iSportu,
-- **viditelnost** – sál, který nechcete na webu ukazovat vůbec.
+- **název na webu** (například `Hala 1`); prázdný název použije ten z iSportu,
+- **pořadí** ve výpisech; sály se stejným pořadím se řadí abecedně, takže nechat všude nulu je v pořádku,
+- **barvu**, pokud nechcete použít barvu z iSportu — použije se jen když zaškrtnete „Použít“,
+- **skrytí** – sál, který se na webu nemá objevit vůbec.
+
+Ve výpisu jsou sály, které uložený rozvrh skutečně používá. Žádný seznam sálů API nenabízí, a vymýšlet ho ze zastaralých dat by znamenalo nabízet sály, které už neexistují. V iSportu se přejmenováním nic nerozbije: název na webu je navázaný na ID sálu, ne na jeho jméno.
+
+## Kurzy, které v iSportu nejsou
+
+Na některé kurzy — typicky kurzy externích lektorů — Jojo Gym nepřijímá přihlášky ani platby, takže v iSportu žádný záznam kurzu nikdy nevznikne. Přesto zabírají místo v rozvrhu a na web patří.
+
+Takový kurz můžete založit dvěma způsoby:
+
+1. **Z lekce** – na obrazovce *Nespárované lekce* je u každé lekce bez kurzu tlačítko **Založit z toho vlastní kurz**. Plugin převezme název, lektora, sál a cenu, kurz vytvoří a lekci k němu trvale přiřadí.
+2. **Ručně** – v *iSport → Kurzy* přes *Přidat nový*, jako každý jiný obsah.
+
+Ručně založený kurz se chová jako každý jiný: má stránku, obsah, kontakt na lektora i tlačítko. Synchronizace se ho nedotkne a nikdy ho neoznačí jako „už se nenabízí“ — v iSportu nikdy nebyl, takže jeho nepřítomnost tam nic neznamená. Poznáte ho v panelu *Z iSportu* podle poznámky u ID.
+
+Další lekce k takovému kurzu přiřadíte na obrazovce *Nespárované lekce* výběrem ze seznamu; podle názvu se nespárují, protože ručně založený kurz nemá v datech termíny, proti kterým by se čas dal ověřit.
 
 ## Přehled a synchronizace
 

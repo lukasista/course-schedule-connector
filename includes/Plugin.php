@@ -28,6 +28,7 @@ use CSCS\Data\CourseRepository;
 use CSCS\Data\DisplaySetRepository;
 use CSCS\Data\LessonRepository;
 use CSCS\Data\PostType;
+use CSCS\Data\RoomMap;
 use CSCS\Data\Schema;
 use CSCS\Sync\Logger;
 use CSCS\Sync\Matcher;
@@ -251,6 +252,15 @@ final class Plugin {
 	 */
 	public function sets(): DisplaySetRepository {
 		return $this->service( 'sets', static fn(): DisplaySetRepository => new DisplaySetRepository() );
+	}
+
+	/**
+	 * Returns the room map.
+	 *
+	 * @return RoomMap
+	 */
+	public function rooms(): RoomMap {
+		return $this->service( 'rooms', static fn(): RoomMap => new RoomMap() );
 	}
 
 	/**

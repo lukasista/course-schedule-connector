@@ -653,4 +653,47 @@ final class MatcherTest extends TestCase {
 		$this->assertSame( 100.0, $result->rate() );
 		$this->assertSame( 0, $result->matched() );
 	}
+	/**
+	 * A class tied by hand to a course that exists only on this site is matched,
+	 * not reported as pointing at a course that has gone missing.
+	 *
+	 * Courses Jojo Gym takes no bookings for are created in the admin and have
+	 * no record in iSport at all, so the API list can never vouch for them. The
+	 * matcher is told their ids separately.
+	 *
+	 * @return void
+	 */
+	public function test_a_class_tied_to_a_hand_made_course_is_matched(): void {
+		$lessons = $this->mapper->map_lessons( array( $this->lesson_data( 55918, 'Kurz externího lektora', 1789200000 ) ) );
+		$manual  = array( 55918 => 1000000042 );
+
+		$refused = $this->matcher->match( array(), $lessons, $manual );
+
+		$this->assertSame( 'manual_course_missing', $refused->unmatched[55918]['reason'] );
+
+		$accepted = $this->matcher->match( array(), $lessons, $manual, array( 1000000042 ) );
+
+		$this->assertArrayHasKey( 55918, $accepted->assignments );
+		$this->assertSame( 1000000042, $accepted->assignments[55918]->course_id );
+		$this->assertSame( Assignment::MANUAL, $accepted->assignments[55918]->method );
+	}
+
+	/**
+	 * A hand-made course is deliberately not indexed by name. It carries no
+	 * term list, so every timestamp check against it would fail, and classes
+	 * that are correctly reported as belonging to nobody would turn into
+	 * failures instead.
+	 *
+	 * @return void
+	 */
+	public function test_a_hand_made_course_does_not_match_by_name(): void {
+		$result = $this->matcher->match(
+			array(),
+			$this->mapper->map_lessons( array( $this->lesson_data( 55918, 'Kurz externího lektora', 1789200000 ) ) ),
+			array(),
+			array( 1000000042 )
+		);
+
+		$this->assertArrayNotHasKey( 55918, $result->assignments );
+	}
 }

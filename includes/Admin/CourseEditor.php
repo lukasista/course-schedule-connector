@@ -59,6 +59,7 @@ final class CourseEditor {
 	 */
 	public function register(): void {
 		add_action( 'add_meta_boxes_' . PostType::COURSE, array( $this, 'add_boxes' ) );
+		add_action( 'save_post_' . PostType::COURSE, array( $this, 'ensure_id' ), 5, 2 );
 		add_action( 'save_post_' . PostType::COURSE, array( $this, 'save' ), 10, 2 );
 	}
 
@@ -185,8 +186,16 @@ final class CourseEditor {
 		$url    = (string) get_post_meta( $post->ID, '_cscs_course_url', true );
 		$synced = (int) get_post_meta( $post->ID, '_cscs_synced_at', true );
 
+		$course_id = (int) get_post_meta( $post->ID, CourseRepository::META_ID, true );
+
 		$rows = array(
-			__( 'Course id', 'course-schedule-connector' )   => (string) get_post_meta( $post->ID, CourseRepository::META_ID, true ),
+			__( 'Course id', 'course-schedule-connector' )   => CourseRepository::is_manual( $course_id )
+				? sprintf(
+					/* translators: %d: course id */
+					__( '%d — created here, not in iSport', 'course-schedule-connector' ),
+					$course_id
+				)
+				: (string) $course_id,
 			__( 'Activity', 'course-schedule-connector' )    => (string) get_post_meta( $post->ID, '_cscs_activity_name', true ),
 			__( 'State', 'course-schedule-connector' )       => $this->state_label( (string) get_post_meta( $post->ID, CourseRepository::META_STATUS, true ) ),
 			__( 'Price', 'course-schedule-connector' )       => $this->price_label( get_post_meta( $post->ID, '_cscs_price', true ) ),
@@ -216,6 +225,30 @@ final class CourseEditor {
 				esc_html__( 'Open this course in iSport', 'course-schedule-connector' )
 			);
 		}
+	}
+
+	/**
+	 * Gives a hand-made course an id of its own.
+	 *
+	 * A course created through the WordPress editor has no id in iSport, and
+	 * everything downstream is written in terms of course ids. Rather than
+	 * teach each of those about a second kind of course, one is invented here,
+	 * once, in a range the remote system will never reach.
+	 *
+	 * @param int      $post_id Course id.
+	 * @param \WP_Post $post    Course.
+	 * @return void
+	 */
+	public function ensure_id( int $post_id, \WP_Post $post ): void {
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
+		if ( in_array( $post->post_status, array( 'auto-draft', 'trash', 'inherit' ), true ) ) {
+			return;
+		}
+
+		$this->plugin->courses()->ensure_manual_id( $post_id );
 	}
 
 	/**

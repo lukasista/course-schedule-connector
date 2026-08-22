@@ -94,9 +94,15 @@ final class Matcher {
 	 * @param array<int, Course> $courses Courses keyed by course id.
 	 * @param array<int, Lesson> $lessons Class occurrences keyed by occurrence id.
 	 * @param array<int, int>    $manual  Permanent manual assignments, occurrence id to course id.
+	 * @param array<int, int>    $known   Ids of courses that exist outside the API list — the ones a
+	 *                                    person created by hand. They are honoured for a manual
+	 *                                    assignment and deliberately not indexed by name, because
+	 *                                    they carry no term list and would fail every timestamp check.
 	 * @return MatchResult
 	 */
-	public function match( array $courses, array $lessons, array $manual = array() ): MatchResult {
+	public function match( array $courses, array $lessons, array $manual = array(), array $known = array() ): MatchResult {
+		$known = array_flip( array_map( 'intval', $known ) );
+
 		$by_strict = $this->index( $courses, false );
 		$by_loose  = $this->index( $courses, true );
 
@@ -105,7 +111,7 @@ final class Matcher {
 		$rooms       = array();
 
 		foreach ( $lessons as $lesson ) {
-			$assignment = $this->match_one( $lesson, $courses, $by_strict, $by_loose, $manual );
+			$assignment = $this->match_one( $lesson, $courses, $by_strict, $by_loose, $manual, $known );
 
 			if ( $assignment instanceof Assignment ) {
 				$assignments[ $lesson->id_term ] = $assignment;
@@ -140,13 +146,14 @@ final class Matcher {
 	 * @param array<string, array<int, int>> $by_strict Strict key to course ids.
 	 * @param array<string, array<int, int>> $by_loose  Loose key to course ids.
 	 * @param array<int, int>                $manual    Manual assignments.
+	 * @param array<int, int>                $known     Ids of hand-made courses, as a lookup.
 	 * @return Assignment|string An assignment, or a reason code explaining the failure.
 	 */
-	private function match_one( Lesson $lesson, array $courses, array $by_strict, array $by_loose, array $manual ) {
+	private function match_one( Lesson $lesson, array $courses, array $by_strict, array $by_loose, array $manual, array $known ) {
 		if ( isset( $manual[ $lesson->id_term ] ) ) {
 			$course_id = $manual[ $lesson->id_term ];
 
-			return isset( $courses[ $course_id ] )
+			return isset( $courses[ $course_id ] ) || isset( $known[ $course_id ] )
 				? new Assignment( $lesson->id_term, $course_id, Assignment::MANUAL )
 				: 'manual_course_missing';
 		}

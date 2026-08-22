@@ -248,6 +248,7 @@ Every route declares an explicit `permission_callback`.
 | Overview | `cscs` | `cscs_manage_content` | What is stored, how the last runs went, requests this hour. Synchronising and clearing failure state need `cscs_manage_design`. |
 | Courses | `edit.php?post_type=cscs_course` | post capabilities | Editorial content, contact, booking button, field locks; bulk button changes. |
 | Display sets | `cscs-sets` | `cscs_manage_content` | What a listing shows: columns, filters, range, sorting, wording. |
+| Rooms | `cscs-rooms` | `cscs_manage_content` | The name, order, colour and visibility a room has on the site. |
 | Unmatched lessons | `cscs-unmatched` | `cscs_manage_content` | Permanent manual assignments, and a look at what was classified as belonging to nobody. |
 | Make-up lessons | `cscs-makeup` | `cscs_manage_content` | Which course each make-up occurrence stands in for. |
 | Settings | `cscs-settings` | `cscs_manage_design` | Connection, term, intervals, retention, display defaults, classification lists. |
@@ -356,6 +357,20 @@ wp i18n make-mo languages/ languages/
 Czech takes three plural forms, `nplurals=3; plural=(n==1) ? 0 : ((n>=2 && n<=4) ? 1 : 2);`, so every `_n()` call needs three. A string that reads well in English and awkwardly in Czech is a string worth rewording in both: the source text is not sacred.
 
 Once the plugin is listed on WordPress.org, translations come from translate.wordpress.org and land in `WP_LANG_DIR/plugins`, which wins over anything shipped here. The bundled Czech file is what makes the admin readable before that happens.
+
+## Courses made by hand
+
+Not every course exists in iSport. `CourseRepository::create_manual()` writes one as an ordinary `cscs_course` post and gives it a course id of `MANUAL_ID_BASE + post_id` — a billion and up, where the remote system's low-thousands ids will never reach. Everything downstream is written in terms of course ids, so this is one code path rather than two.
+
+Three consequences, each deliberate:
+
+- `archive_missing()` skips manual ids. Absence from the remote list is not evidence about a course that was never in it.
+- `Matcher::match()` takes the manual ids as a fourth argument and honours a manual assignment to one, but never indexes them by name: a manual course has no term list, so a name match would fail the timestamp check and report classes as failures that are correctly classified today.
+- `CourseEditor::ensure_id()` runs on `save_post` at priority 5, so a course created through the WordPress editor gets its id before anything else looks for one.
+
+## Rooms
+
+`RoomMap` keeps label, order, colour and visibility per remote room id in the autoloaded option `cscs_rooms`, and stores only the rows somebody actually configured. `RoomMap::apply()` merges that with the rooms the stored timetable mentions — `LessonRepository::rooms()`, since no endpoint lists them — and sorts by order then by the name the site shows. Hidden rooms stay in the list; filtering them out belongs to whoever renders, or the screen that edits them could never show one again.
 
 ## Display sets
 

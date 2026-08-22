@@ -426,6 +426,70 @@ final class LessonRepository {
 	}
 
 	/**
+	 * Returns one stored occurrence, or an empty array when there is no such id.
+	 *
+	 * @param int $term_id Occurrence id.
+	 * @return array<string, mixed>
+	 */
+	public function find( int $term_id ): array {
+		global $wpdb;
+
+		$table = Schema::lessons_table();
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- The plugin's own table: the table name comes from $wpdb->prefix and cannot be a placeholder, and the bound value is prepared.
+		$row = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT id_activity_term, id_course, activity_name, lesson_date, time_from, time_to, tab_name, trainer_name, price, status
+				FROM {$table}
+				WHERE id_activity_term = %d",
+				$term_id
+			),
+			ARRAY_A
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+
+		return is_array( $row ) ? $row : array();
+	}
+
+	/**
+	 * Returns every room the stored timetable mentions, keyed by its remote id.
+	 *
+	 * Rooms are not synchronised as a list of their own — the API has no such
+	 * endpoint — so the only honest source is the timetable itself. A room that
+	 * hosted nothing this term does not exist as far as the site is concerned.
+	 *
+	 * @return array<int, string> Room id to the name the timetable uses.
+	 */
+	public function rooms(): array {
+		global $wpdb;
+
+		$table = Schema::lessons_table();
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- The plugin's own table: the table name comes from $wpdb->prefix and cannot be a placeholder, and no user input is interpolated.
+		$rows = $wpdb->get_results(
+			"SELECT id_tab, tab_name FROM {$table} WHERE id_tab > 0 GROUP BY id_tab, tab_name ORDER BY tab_name ASC",
+			ARRAY_A
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+
+		if ( ! is_array( $rows ) ) {
+			return array();
+		}
+
+		$rooms = array();
+
+		foreach ( $rows as $row ) {
+			$id = (int) ( $row['id_tab'] ?? 0 );
+
+			if ( 0 !== $id && ! isset( $rooms[ $id ] ) ) {
+				$rooms[ $id ] = (string) ( $row['tab_name'] ?? '' );
+			}
+		}
+
+		return $rooms;
+	}
+
+	/**
 	 * Returns counts used by the overview screen.
 	 *
 	 * @return array<string, int>

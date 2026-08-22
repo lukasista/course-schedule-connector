@@ -169,7 +169,7 @@ final class Synchroniser {
 			// A cached course list costs no request, and matching without it
 			// would file every occurrence as an orphan.
 			$courses = $this->client->get_courses();
-			$match   = $this->matcher->match( $courses, $lessons, $this->lessons->manual_assignments() );
+			$match   = $this->matcher->match( $courses, $lessons, $this->lessons->manual_assignments(), $this->courses->manual_ids() );
 			$written = $this->lessons->save( $lessons, $match );
 
 			$this->apply_rooms( $match );
@@ -206,7 +206,7 @@ final class Synchroniser {
 
 		$lessons = $this->lessons->all();
 		$courses = $this->client->get_courses();
-		$match   = $this->matcher->match( $courses, $lessons, $this->lessons->manual_assignments() );
+		$match   = $this->matcher->match( $courses, $lessons, $this->lessons->manual_assignments(), $this->courses->manual_ids() );
 
 		$this->lessons->save( $lessons, $match );
 		$this->apply_rooms( $match );

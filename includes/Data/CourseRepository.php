@@ -40,6 +40,23 @@ final class CourseRepository {
 	public const META_STATUS = '_cscs_status';
 
 	/**
+	 * Where the ids of hand-made courses start.
+	 *
+	 * A course a person creates here has no id in iSport, and everything
+	 * downstream — a manual assignment, a make-up link, a rendered listing —
+	 * is written in terms of course ids. Rather than teach each of those about
+	 * a second kind of course, one is invented in a range the remote system
+	 * will never reach: iSport's ids are in the low thousands, and a billion is
+	 * a long way from that.
+	 */
+	public const MANUAL_ID_BASE = 1000000000;
+
+	/**
+	 * Meta key marking a course somebody created by hand.
+	 */
+	public const META_MANUAL = '_cscs_manual';
+
+	/**
 	 * Meta key deciding whether the booking button shows on this course.
 	 *
 	 * One of `default`, `always` or `never`. The default follows the setting,
@@ -209,6 +226,110 @@ final class CourseRepository {
 	}
 
 	/**
+	 * Whether a course id belongs to a course somebody created by hand.
+	 *
+	 * @param int $course_id Course id.
+	 * @return bool
+	 */
+	public static function is_manual( int $course_id ): bool {
+		return $course_id >= self::MANUAL_ID_BASE;
+	}
+
+	/**
+	 * Returns the ids of the courses somebody created by hand.
+	 *
+	 * @return array<int, int>
+	 */
+	public function manual_ids(): array {
+		$ids = array();
+
+		foreach ( $this->all_ids() as $course_id => $post_id ) {
+			unset( $post_id );
+
+			if ( self::is_manual( (int) $course_id ) ) {
+				$ids[] = (int) $course_id;
+			}
+		}
+
+		return $ids;
+	}
+
+	/**
+	 * Gives a course post an id of its own when it has none.
+	 *
+	 * Called for anything created through the WordPress editor rather than by a
+	 * synchronisation. The id is derived from the post id, so it is stable and
+	 * cannot collide with another course on the same site.
+	 *
+	 * @param int $post_id Post id.
+	 * @return int The course id the post now has.
+	 */
+	public function ensure_manual_id( int $post_id ): int {
+		$existing = (int) get_post_meta( $post_id, self::META_ID, true );
+
+		if ( 0 !== $existing ) {
+			return $existing;
+		}
+
+		$course_id = self::MANUAL_ID_BASE + $post_id;
+
+		update_post_meta( $post_id, self::META_ID, $course_id );
+		update_post_meta( $post_id, self::META_MANUAL, 1 );
+		update_post_meta( $post_id, self::META_STATUS, self::STATUS_RUNNING );
+
+		return $course_id;
+	}
+
+	/**
+	 * Creates a course by hand, from whatever is known about it.
+	 *
+	 * Used for the courses Jojo Gym does not take bookings or payments for: an
+	 * outside lecturer's class occupies a slot in the timetable and belongs on
+	 * the website, but no record of it will ever arrive from iSport.
+	 *
+	 * @param string               $name   Course name.
+	 * @param array<string, mixed> $fields Optional meta to seed it with.
+	 * @return int Post id, or 0 when the write failed.
+	 */
+	public function create_manual( string $name, array $fields = array() ): int {
+		$name = trim( $name );
+
+		if ( '' === $name ) {
+			return 0;
+		}
+
+		$post_id = wp_insert_post(
+			array(
+				'post_type'    => PostType::COURSE,
+				'post_status'  => 'publish',
+				'post_title'   => $name,
+				'post_content' => '',
+			),
+			true
+		);
+
+		if ( $post_id instanceof \WP_Error || 0 === (int) $post_id ) {
+			return 0;
+		}
+
+		$post_id = (int) $post_id;
+
+		$this->ensure_manual_id( $post_id );
+
+		foreach ( $fields as $key => $value ) {
+			update_post_meta( $post_id, (string) $key, $value );
+		}
+
+		// The name is the whole record here, so it is locked from the start:
+		// nothing should ever overwrite it, and there is no remote record that
+		// could, but saying so out loud costs nothing and survives a change of
+		// mind about what synchronisation touches.
+		update_post_meta( $post_id, self::META_LOCKED, array( 'post_title' ) );
+
+		return $post_id;
+	}
+
+	/**
 	 * Returns course names keyed by remote course id, ordered by name.
 	 *
 	 * Read from what is stored rather than from the remote system, because the
@@ -255,7 +376,9 @@ final class CourseRepository {
 		$archived = 0;
 
 		foreach ( $this->all_ids() as $remote_id => $post_id ) {
-			if ( in_array( $remote_id, $seen, true ) ) {
+			// A hand-made course was never in the remote list and its absence
+			// from it means nothing.
+			if ( self::is_manual( (int) $remote_id ) || in_array( $remote_id, $seen, true ) ) {
 				continue;
 			}
 

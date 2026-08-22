@@ -12,6 +12,7 @@ namespace CSCS\Admin;
 use CSCS\Admin\Screen\DisplaySetsPage;
 use CSCS\Admin\Screen\MakeupPage;
 use CSCS\Admin\Screen\Overview;
+use CSCS\Admin\Screen\RoomsPage;
 use CSCS\Admin\Screen\UnmatchedPage;
 use CSCS\Admin\Screen\SettingsPage;
 use CSCS\Data\PostType;
@@ -125,6 +126,17 @@ final class Menu {
 			Capabilities::MANAGE_CONTENT,
 			MakeupPage::SLUG,
 			array( $makeup, 'render' )
+		);
+
+		$rooms = new RoomsPage( $this->plugin );
+
+		add_submenu_page(
+			self::SLUG,
+			__( 'Rooms', 'course-schedule-connector' ),
+			__( 'Rooms', 'course-schedule-connector' ),
+			Capabilities::MANAGE_CONTENT,
+			RoomsPage::SLUG,
+			array( $rooms, 'render' )
 		);
 
 		// Settings decide where the plugin sends requests, so they are an

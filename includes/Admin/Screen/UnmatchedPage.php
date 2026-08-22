@@ -11,6 +11,7 @@ namespace CSCS\Admin\Screen;
 
 use CSCS\Admin\Capabilities;
 use CSCS\Api\ApiException;
+use CSCS\Data\CourseRepository;
 use CSCS\Data\LessonRepository;
 use CSCS\Data\Schema;
 use CSCS\Plugin;
@@ -47,6 +48,13 @@ final class UnmatchedPage {
 	 * @var Plugin
 	 */
 	private Plugin $plugin;
+
+	/**
+	 * Post id of the course just created from a class, when one was.
+	 *
+	 * @var int
+	 */
+	private int $created = 0;
 
 	/**
 	 * Constructor.
@@ -98,7 +106,14 @@ final class UnmatchedPage {
 			</p>
 
 			<?php if ( '' !== $notice ) : ?>
-				<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $notice ); ?></p></div>
+				<div class="notice notice-success is-dismissible">
+					<p>
+						<?php echo esc_html( $notice ); ?>
+						<?php if ( 0 !== $this->created ) : ?>
+							<a href="<?php echo esc_url( (string) get_edit_post_link( $this->created ) ); ?>"><?php esc_html_e( 'Edit the new course', 'course-schedule-connector' ); ?></a>
+						<?php endif; ?>
+					</p>
+				</div>
 			<?php endif; ?>
 
 			<ul class="subsubsub">
@@ -157,6 +172,65 @@ final class UnmatchedPage {
 	}
 
 	/**
+	 * Turns one class into a course of its own.
+	 *
+	 * This is for the activities Jojo Gym neither takes bookings nor payments
+	 * for: an outside lecturer's class occupies a slot in the timetable and
+	 * belongs on the website, but no course record will ever arrive from iSport
+	 * because there is nothing there to arrive. What is known about the class —
+	 * its name, its trainer, its room, its price — is copied across, and the
+	 * class is tied to it permanently. Everything else somebody writes.
+	 *
+	 * @param int $term_id Occurrence id.
+	 * @return string Message to show.
+	 */
+	private function create_course( int $term_id ): string {
+		$row = $this->plugin->lessons()->find( $term_id );
+
+		if ( array() === $row ) {
+			return __( 'That class is no longer stored.', 'course-schedule-connector' );
+		}
+
+		$name = (string) ( $row['activity_name'] ?? '' );
+
+		$post_id = $this->plugin->courses()->create_manual(
+			$name,
+			array(
+				'_cscs_activity_name' => $name,
+				'_cscs_trainer_name'  => (string) ( $row['trainer_name'] ?? '' ),
+				'_cscs_room_name'     => (string) ( $row['tab_name'] ?? '' ),
+				'_cscs_price'         => $row['price'] ?? null,
+			)
+		);
+
+		if ( 0 === $post_id ) {
+			return __( 'The course could not be created.', 'course-schedule-connector' );
+		}
+
+		$this->created = $post_id;
+
+		$course_id = (int) get_post_meta( $post_id, CourseRepository::META_ID, true );
+
+		$this->plugin->lessons()->assign_manually( $term_id, $course_id );
+
+		try {
+			$this->plugin->synchroniser()->rematch();
+		} catch ( ApiException $e ) {
+			return sprintf(
+				/* translators: %s: error message */
+				__( 'Course created, but the matching could not be re-run: %s', 'course-schedule-connector' ),
+				$e->getMessage()
+			);
+		}
+
+		return sprintf(
+			/* translators: %s: course name */
+			__( 'Course "%s" created and this class tied to it.', 'course-schedule-connector' ),
+			$name
+		);
+	}
+
+	/**
 	 * Renders one occurrence.
 	 *
 	 * @param array<string, mixed> $row     Stored row.
@@ -190,6 +264,13 @@ final class UnmatchedPage {
 						<option value="<?php echo esc_attr( (string) $id ); ?>" <?php selected( $course_id, $id ); ?>><?php echo esc_html( $id . ' · ' . $name ); ?></option>
 					<?php endforeach; ?>
 				</select>
+				<?php if ( 0 === $course_id ) : ?>
+					<p>
+						<button type="submit" name="cscs_action" value="create-<?php echo esc_attr( (string) $term_id ); ?>" class="button button-small">
+							<?php esc_html_e( 'Make this a course of its own', 'course-schedule-connector' ); ?>
+						</button>
+					</p>
+				<?php endif; ?>
 			</td>
 		</tr>
 		<?php
@@ -257,6 +338,12 @@ final class UnmatchedPage {
 
 		if ( ! Capabilities::can_manage_content() ) {
 			return '';
+		}
+
+		$action = sanitize_key( wp_unslash( $_POST['cscs_action'] ) );
+
+		if ( str_starts_with( $action, 'create-' ) ) {
+			return $this->create_course( (int) substr( $action, 7 ) );
 		}
 
 		$submitted = isset( $_POST['cscs_assign'] ) && is_array( $_POST['cscs_assign'] )

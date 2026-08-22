@@ -47,6 +47,7 @@ $cscs_options = array(
 	\CSCS\Data\LessonRepository::MANUAL_OPTION,
 	\CSCS\Data\LessonRepository::MAKEUP_OPTION,
 	\CSCS\Data\DisplaySetRepository::OPTION,
+	\CSCS\Data\RoomMap::OPTION,
 );
 
 foreach ( $cscs_options as $cscs_option ) {
