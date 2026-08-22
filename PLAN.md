@@ -97,7 +97,7 @@ Třetí kategorie má **tři různé důvody**, které se liší tím, co má n�
 |---|---|---|
 | Kurz externího lektora | Zdravé cvičení, Barre, Karate, Capoeira, Balet, Judo pro děti, Pohyb dětem, Street dance, Tango base, Fyzio cvičení, Zdravá záda, Intenzivní kruhový trénink | kontakt na lektora |
 | **Individuální trénink** | Individuální trénink | **cena za lekci + „termín i platba po domluvě, mimo iSport“**; nemá pevné termíny, takže u něj nedává smysl vypisovat rozvrh kurzu |
-| Náhradní lekce | Náhradní lekce 4-6 let I. pololetí | **vlastní kategorie.** Je vždy vázaná na jeden konkrétní kurz, ale z dat se nedá poznat na který — přiřazuje se ručně podle názvu aktivity. Na frontendu se má zobrazovat u příslušného kurzu (vlastní blok i Divi modul). |
+| Náhradní lekce | Náhradní lekce 4-6 let I. pololetí | **vlastní kategorie.** Je vždy vázaná na jeden konkrétní kurz, ale z dat se nedá poznat na který — přiřazuje se ručně, a to **po jednotlivých termínech**, ne podle názvu: stejný název se používá pro náhradní termín kteréhokoli kurzu dané věkové kategorie a daného pololetí, takže dva termíny se shodným názvem mohou patřit dvěma různým kurzům. Na frontendu se má zobrazovat u příslušného kurzu (vlastní blok i Divi modul). |
 
 V API je od běžných kurzů **nic neodlišuje** — nesou stejný štítek „Kurz“, protože to kurzy jsou. Seznam je proto nastavení (`non_bookable_activities`), porovnává se volně jako podřetězec bez diakritiky (rozvrh píše „Zdravé cvičení s overbaly“, ceník „Zdravé cvičení (overbaly)“) a **skutečný kurz má vždy přednost před seznamem**.
 

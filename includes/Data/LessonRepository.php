@@ -33,7 +33,9 @@ final class LessonRepository {
 	public const MANUAL_OPTION = 'cscs_manual_matches';
 
 	/**
-	 * Option tying make-up lessons to the courses they replace a class for.
+	 * Option tying make-up occurrences to the courses they replace a class for.
+	 *
+	 * Keyed by occurrence id, the same as the manual assignments above.
 	 */
 	public const MAKEUP_OPTION = 'cscs_makeup_links';
 
@@ -260,10 +262,80 @@ final class LessonRepository {
 	public function purge_before( int $before ): int {
 		global $wpdb;
 
-		$table = Schema::lessons_table();
+		$table  = Schema::lessons_table();
+		$doomed = $this->linked_before( $before );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- Table name from $wpdb->prefix; the bound value is prepared.
-		return (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE stamp_from < %d", $before ) );
+		$removed = (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE stamp_from < %d", $before ) );
+
+		$this->forget_links( $doomed );
+
+		return $removed;
+	}
+
+	/**
+	 * Returns the occurrences about to be purged that somebody linked by hand.
+	 *
+	 * Only the linked ones are looked up, and only when there is a link to lose,
+	 * so retention costs one extra query on installations where a person has
+	 * assigned something and none at all where nobody has.
+	 *
+	 * @param int $before Timestamp.
+	 * @return array<int, int> Occurrence ids.
+	 */
+	private function linked_before( int $before ): array {
+		global $wpdb;
+
+		$linked = array_merge( array_keys( $this->manual_assignments() ), array_keys( $this->makeup_links() ) );
+
+		if ( array() === $linked ) {
+			return array();
+		}
+
+		$table        = Schema::lessons_table();
+		$placeholders = implode( ', ', array_fill( 0, count( $linked ), '%d' ) );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- The plugin's own table: the table name comes from $wpdb->prefix and cannot be a placeholder, and every bound value is prepared.
+		$ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT id_activity_term FROM {$table} WHERE stamp_from < %d AND id_activity_term IN ( {$placeholders} )",
+				array_merge( array( $before ), $linked )
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+
+		return is_array( $ids ) ? array_map( 'intval', $ids ) : array();
+	}
+
+	/**
+	 * Drops the manual assignments and make-up links of purged occurrences.
+	 *
+	 * A link outlives the row it points at unless somebody removes it, and a
+	 * purged occurrence is not coming back. Only the ids actually deleted are
+	 * dropped: an id missing from the table may simply not have been retrieved
+	 * yet, and forgetting that link would undo somebody's work.
+	 *
+	 * @param array<int, int> $term_ids Occurrence ids that were removed.
+	 * @return void
+	 */
+	private function forget_links( array $term_ids ): void {
+		if ( array() === $term_ids ) {
+			return;
+		}
+
+		foreach ( array( self::MANUAL_OPTION, self::MAKEUP_OPTION ) as $option ) {
+			$stored = get_option( $option, array() );
+
+			if ( ! is_array( $stored ) || array() === $stored ) {
+				continue;
+			}
+
+			$kept = array_diff_key( $stored, array_flip( $term_ids ) );
+
+			if ( count( $kept ) !== count( $stored ) ) {
+				update_option( $option, $kept, false );
+			}
+		}
 	}
 
 	/**
@@ -394,18 +466,16 @@ final class LessonRepository {
 	}
 
 	/**
-	 * Returns the course each make-up lesson stands in for.
+	 * Returns the course each make-up occurrence stands in for.
 	 *
-	 * A make-up lesson replaces a class in exactly one course. Which one cannot
-	 * be worked out from the data — the timetable calls it "Náhradní lekce 4-6
-	 * let" and several courses run for that age group — so a person records it.
+	 * Keyed by occurrence, not by name, and that distinction was learned the
+	 * hard way. "Náhradní lekce 4-6 let I. pololetí" is not one make-up lesson
+	 * repeating weekly: the gym reuses that name for the make-up slot of any
+	 * course in the age group, and it runs twelve of them. Two occurrences
+	 * sharing a name can belong to two different courses, so a link recorded
+	 * against the name would be right once and wrong the rest of the time.
 	 *
-	 * Keyed by the normalised activity name rather than by occurrence, because
-	 * the same make-up lesson repeats week after week under the same name.
-	 * Recording it once covers the occurrences already stored and the ones that
-	 * arrive next month.
-	 *
-	 * @return array<string, int> Match key to course id.
+	 * @return array<int, int> Occurrence id to course id.
 	 */
 	public function makeup_links(): array {
 		$stored = get_option( self::MAKEUP_OPTION, array() );
@@ -416,12 +486,12 @@ final class LessonRepository {
 
 		$links = array();
 
-		foreach ( $stored as $key => $course_id ) {
-			$key       = (string) $key;
+		foreach ( $stored as $term_id => $course_id ) {
+			$term_id   = (int) $term_id;
 			$course_id = (int) $course_id;
 
-			if ( '' !== $key && 0 !== $course_id ) {
-				$links[ $key ] = $course_id;
+			if ( 0 !== $term_id && 0 !== $course_id ) {
+				$links[ $term_id ] = $course_id;
 			}
 		}
 
@@ -429,42 +499,37 @@ final class LessonRepository {
 	}
 
 	/**
-	 * Records or clears the course a make-up lesson stands in for.
+	 * Records or clears the course one make-up occurrence stands in for.
 	 *
-	 * @param string $activity_name Activity name as the timetable spells it.
-	 * @param int    $course_id     Course id, or 0 to clear the link.
-	 * @return string The key the link was stored under, empty when the name is unusable.
+	 * @param int $term_id   Occurrence id.
+	 * @param int $course_id Course id, or 0 to clear the link.
+	 * @return bool False when the occurrence id is unusable.
 	 */
-	public function link_makeup( string $activity_name, int $course_id ): string {
-		$key = Normalise::match_key( $activity_name );
-
-		if ( '' === $key ) {
-			return '';
+	public function link_makeup( int $term_id, int $course_id ): bool {
+		if ( 0 === $term_id ) {
+			return false;
 		}
 
 		$links = $this->makeup_links();
 
 		if ( 0 === $course_id ) {
-			unset( $links[ $key ] );
+			unset( $links[ $term_id ] );
 		} else {
-			$links[ $key ] = $course_id;
+			$links[ $term_id ] = $course_id;
 		}
 
 		update_option( self::MAKEUP_OPTION, $links, false );
 
-		return $key;
+		return true;
 	}
 
 	/**
-	 * Returns the make-up lessons that stand in for a course.
-	 *
-	 * One course can have several: a different make-up slot for each age group
-	 * or day it runs.
+	 * Returns the make-up occurrences that stand in for a course.
 	 *
 	 * @param int $course_id Course id.
-	 * @return array<int, string> Match keys.
+	 * @return array<int, int> Occurrence ids.
 	 */
-	public function makeup_keys_for_course( int $course_id ): array {
+	public function makeup_terms_for_course( int $course_id ): array {
 		return array_keys(
 			array_filter(
 				$this->makeup_links(),

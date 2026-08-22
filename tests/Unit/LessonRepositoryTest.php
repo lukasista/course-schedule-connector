@@ -154,43 +154,51 @@ final class LessonRepositoryTest extends TestCase {
 	}
 
 	/**
-	 * A make-up lesson is tied to exactly one course, recorded against its name
-	 * so that next month's occurrences are covered without touching anything.
+	 * A make-up lesson is tied to exactly one course, recorded against the single
+	 * occurrence rather than the name, because the gym reuses one name across the
+	 * make-up slots of every course in an age group.
 	 *
 	 * @return void
 	 */
-	public function test_a_make_up_lesson_is_tied_to_one_course_by_name(): void {
+	public function test_a_make_up_occurrence_is_tied_to_one_course(): void {
 		cscs_reset_test_state();
 
 		$repository = new LessonRepository();
 
-		$key = $repository->link_makeup( 'Náhradní lekce 4-6 let I.pololetí', 1070 );
+		$this->assertTrue( $repository->link_makeup( 55368, 1072 ) );
 
-		$this->assertSame( 'náhradnílekce4-6leti.pololetí', $key );
-		$this->assertSame( array( $key => 1070 ), $repository->makeup_links() );
-		$this->assertSame( array( $key ), $repository->makeup_keys_for_course( 1070 ) );
-		$this->assertSame( array(), $repository->makeup_keys_for_course( 9999 ) );
+		$this->assertSame( array( 55368 => 1072 ), $repository->makeup_links() );
+		$this->assertSame( array( 55368 ), $repository->makeup_terms_for_course( 1072 ) );
+		$this->assertSame( array(), $repository->makeup_terms_for_course( 9999 ) );
 	}
 
 	/**
-	 * The same name spelled differently by the timetable still finds the link,
-	 * for the same reason course matching normalises names at all.
+	 * Two occurrences sharing a name may stand in for two different courses, which
+	 * is the whole reason the link hangs off the occurrence. Linking one must not
+	 * decide anything about the other.
 	 *
 	 * @return void
 	 */
-	public function test_a_make_up_link_survives_loose_spelling(): void {
+	public function test_two_make_up_occurrences_of_one_name_may_differ(): void {
 		cscs_reset_test_state();
 
 		$repository = new LessonRepository();
 
+		$repository->link_makeup( 55368, 1072 );
+		$repository->link_makeup( 55301, 1075 );
+
 		$this->assertSame(
-			$repository->link_makeup( 'Náhradní lekce 4-6 let I.pololetí', 1070 ),
-			$repository->link_makeup( 'Náhradní  lekce 4-6 let I.pololetí', 1070 )
+			array(
+				55368 => 1072,
+				55301 => 1075,
+			),
+			$repository->makeup_links()
 		);
 	}
 
 	/**
-	 * Passing no course clears the link rather than storing a nonsense zero.
+	 * Passing no course clears the link rather than storing a nonsense zero, and
+	 * an occurrence id of zero is refused instead of being recorded.
 	 *
 	 * @return void
 	 */
@@ -199,10 +207,11 @@ final class LessonRepositoryTest extends TestCase {
 
 		$repository = new LessonRepository();
 
-		$repository->link_makeup( 'Náhradní lekce 4-6 let I.pololetí', 1070 );
-		$repository->link_makeup( 'Náhradní lekce 4-6 let I.pololetí', 0 );
+		$repository->link_makeup( 55368, 1072 );
+		$repository->link_makeup( 55368, 0 );
 
 		$this->assertSame( array(), $repository->makeup_links() );
+		$this->assertFalse( $repository->link_makeup( 0, 1072 ) );
 	}
 
 	/**

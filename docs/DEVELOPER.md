@@ -290,8 +290,8 @@ wp cscs sync rematch                                  # re-match stored data, no
 wp cscs sync unmatched [--limit=<n>] [--format=<format>]
 wp cscs sync list --status=matched|external|not_bookable|makeup|unresolved
 
-wp cscs makeup list
-wp cscs makeup link "<activity name>" <course-id>   # 0 or omitted clears it
+wp cscs makeup list [--unlinked]                       # one row per make-up occurrence
+wp cscs makeup link <term-id> <course-id>             # 0 or omitted clears it
 wp cscs sync assign <term> <course>                   # permanent manual assignment
 wp cscs sync retention
 

@@ -11,6 +11,7 @@ namespace CSCS\Cli;
 
 use CSCS\Data\LessonRepository;
 use CSCS\Plugin;
+use CSCS\Support\Normalise;
 use CSCS\Sync\MakeupResolver;
 
 defined( 'ABSPATH' ) || exit;
@@ -19,11 +20,13 @@ defined( 'ABSPATH' ) || exit;
  * Ties each make-up lesson to the course it stands in for.
  *
  * A make-up lesson replaces a class in exactly one course, but its name never
- * says which: the timetable calls it "Náhradní lekce 4-6 let" and several
- * courses run for that age group. Nothing in the data resolves it, so a person
- * does — once per activity name rather than once per occurrence, because the
- * same lesson repeats weekly and a link recorded now should cover the ones
- * that arrive next month too.
+ * says which: the timetable calls it "Náhradní lekce 4-6 let I. pololetí" and
+ * twelve courses run for that age group. The name is reused rather than owned,
+ * so two occurrences spelled identically can belong to two different courses.
+ * That is why the link is recorded per occurrence and not per name: a name-wide
+ * link would be right once and wrong eleven times.
+ *
+ * Nothing in the data resolves this, so a person does, one occurrence at a time.
  */
 final class MakeupCommand {
 
@@ -54,9 +57,12 @@ final class MakeupCommand {
 	}
 
 	/**
-	 * Lists make-up lessons and the courses they are tied to.
+	 * Lists make-up occurrences and the courses they are tied to.
 	 *
 	 * ## OPTIONS
+	 *
+	 * [--unlinked]
+	 * : Show only occurrences that are not tied to a course yet.
 	 *
 	 * [--format=<format>]
 	 * : Output format.
@@ -71,48 +77,56 @@ final class MakeupCommand {
 	 * ## EXAMPLES
 	 *
 	 *     wp cscs makeup list
+	 *     wp cscs makeup list --unlinked
 	 *
 	 * @param array<int, string>    $args       Positional arguments.
 	 * @param array<string, string> $assoc_args Named arguments.
 	 * @return void
 	 */
 	public function list( array $args, array $assoc_args ): void {
-		$repository = $this->plugin->lessons();
-		$links      = $repository->makeup_links();
-		$courses    = $this->course_names();
-		$rows       = array();
-		$names      = array();
+		unset( $args );
 
-		foreach ( $repository->by_status( LessonRepository::STATUS_MAKEUP, 500 ) as $row ) {
-			$name = (string) $row['activity_name'];
-			$key  = \CSCS\Support\Normalise::match_key( $name );
+		$repository  = $this->plugin->lessons();
+		$links       = $repository->makeup_links();
+		$courses     = $this->course_names();
+		$occurrences = $repository->by_status( LessonRepository::STATUS_MAKEUP, 500 );
+		$suggestions = $this->suggestions( $occurrences );
+		$only_open   = isset( $assoc_args['unlinked'] );
+		$rows        = array();
 
-			$names[ $key ] = $name;
+		foreach ( $occurrences as $row ) {
+			$term_id   = (int) ( $row['id_activity_term'] ?? 0 );
+			$name      = (string) ( $row['activity_name'] ?? '' );
+			$course_id = $links[ $term_id ] ?? 0;
 
-			$rows[ $key ] = array(
+			if ( $only_open && 0 !== $course_id ) {
+				continue;
+			}
+
+			$rows[] = array(
+				'term'          => $term_id,
+				'date'          => (string) ( $row['lesson_date'] ?? '' ),
+				'time'          => substr( (string) ( $row['time_from'] ?? '' ), 0, 5 ),
 				'activity_name' => $name,
-				'occurrences'   => ( $rows[ $key ]['occurrences'] ?? 0 ) + 1,
-				'course'        => $this->label( $links[ $key ] ?? 0, $courses ),
-				'suggested'     => '',
+				'room'          => (string) ( $row['tab_name'] ?? '' ),
+				'trainer'       => (string) ( $row['trainer_name'] ?? '' ),
+				'course'        => $this->label( $course_id, $courses ),
+				'suggested'     => 0 === $course_id
+					? $this->label( $suggestions[ Normalise::match_key_loose( $name ) ] ?? 0, $courses )
+					: '',
 			);
 		}
 
-		foreach ( $this->suggestions( $names ) as $key => $course_id ) {
-			if ( isset( $rows[ $key ] ) && '' === $rows[ $key ]['course'] ) {
-				$rows[ $key ]['suggested'] = $this->label( $course_id, $courses );
-			}
-		}
-
 		if ( array() === $rows ) {
-			\WP_CLI::success( 'No make-up lessons are stored.' );
+			\WP_CLI::success( $only_open ? 'Every make-up occurrence is tied to a course.' : 'No make-up lessons are stored.' );
 
 			return;
 		}
 
 		\WP_CLI\Utils\format_items(
 			(string) ( $assoc_args['format'] ?? 'table' ),
-			array_values( $rows ),
-			array( 'activity_name', 'occurrences', 'course', 'suggested' )
+			$rows,
+			array( 'term', 'date', 'time', 'activity_name', 'room', 'trainer', 'course', 'suggested' )
 		);
 	}
 
@@ -174,10 +188,24 @@ final class MakeupCommand {
 	 * last synchronisation. A failure here is not worth an error, because a
 	 * suggestion is a convenience and the listing is the point.
 	 *
-	 * @param array<string, string> $names Match key to activity name.
-	 * @return array<string, int>
+	 * A suggestion follows from the name alone, so it is the same for every
+	 * occurrence sharing a name. It stays a suggestion for that reason: the
+	 * person confirms it once per occurrence.
+	 *
+	 * @param array<int, array<string, mixed>> $occurrences Make-up occurrences.
+	 * @return array<string, int> Loose match key to course id.
 	 */
-	private function suggestions( array $names ): array {
+	private function suggestions( array $occurrences ): array {
+		$names = array();
+
+		foreach ( $occurrences as $row ) {
+			$name = (string) ( $row['activity_name'] ?? '' );
+
+			if ( '' !== $name ) {
+				$names[ Normalise::match_key_loose( $name ) ] = $name;
+			}
+		}
+
 		if ( array() === $names ) {
 			return array();
 		}
@@ -186,51 +214,51 @@ final class MakeupCommand {
 	}
 
 	/**
-	 * Ties a make-up lesson to the course it stands in for.
+	 * Ties one make-up occurrence to the course it stands in for.
 	 *
-	 * The link is recorded against the activity name, so it covers every
-	 * occurrence of that lesson, including ones not yet retrieved.
+	 * The link is recorded against the occurrence, so it says nothing about the
+	 * next lesson of the same name: that one is a separate slot and may belong
+	 * to a different course. Run `wp cscs makeup list` for the occurrence ids.
 	 *
 	 * ## OPTIONS
 	 *
-	 * <activity>
-	 * : Activity name as the timetable spells it.
+	 * <term>
+	 * : Occurrence id, as shown in the "term" column of `wp cscs makeup list`.
 	 *
 	 * [<course>]
 	 * : Course id. Pass none, or 0, to clear the link.
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp cscs makeup link "Náhradní lekce 4-6 let I.pololetí" 1070
-	 *     wp cscs makeup link "Náhradní lekce 4-6 let I.pololetí"
+	 *     wp cscs makeup link 55368 1072
+	 *     wp cscs makeup link 55368
 	 *
 	 * @param array<int, string> $args Positional arguments.
 	 * @return void
 	 */
 	public function link( array $args ): void {
-		$activity = (string) ( $args[0] ?? '' );
+		$term_id = (int) ( $args[0] ?? 0 );
 
-		if ( '' === $activity ) {
-			\WP_CLI::error( 'An activity name is required.' );
+		if ( 0 === $term_id ) {
+			\WP_CLI::error( 'An occurrence id is required. Run `wp cscs makeup list` to see them.' );
 
 			return;
 		}
 
 		$course_id = (int) ( $args[1] ?? 0 );
-		$key       = $this->plugin->lessons()->link_makeup( $activity, $course_id );
 
-		if ( '' === $key ) {
-			\WP_CLI::error( 'That activity name normalises to nothing usable.' );
+		if ( ! $this->plugin->lessons()->link_makeup( $term_id, $course_id ) ) {
+			\WP_CLI::error( 'That occurrence id is not usable.' );
 
 			return;
 		}
 
 		if ( 0 === $course_id ) {
-			\WP_CLI::success( sprintf( 'Cleared the course tied to "%s".', $activity ) );
+			\WP_CLI::success( sprintf( 'Cleared the course tied to occurrence %d.', $term_id ) );
 
 			return;
 		}
 
-		\WP_CLI::success( sprintf( '"%s" now stands in for course %d.', $activity, $course_id ) );
+		\WP_CLI::success( sprintf( 'Occurrence %d now stands in for course %d.', $term_id, $course_id ) );
 	}
 }
