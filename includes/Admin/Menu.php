@@ -11,6 +11,7 @@ namespace CSCS\Admin;
 
 use CSCS\Admin\Screen\MakeupPage;
 use CSCS\Admin\Screen\Overview;
+use CSCS\Admin\Screen\UnmatchedPage;
 use CSCS\Admin\Screen\SettingsPage;
 use CSCS\Data\PostType;
 use CSCS\Plugin;
@@ -92,12 +93,23 @@ final class Menu {
 			'edit.php?post_type=' . PostType::COURSE
 		);
 
+		$unmatched = new UnmatchedPage( $this->plugin );
+
+		add_submenu_page(
+			self::SLUG,
+			__( 'Unmatched lessons', 'course-schedule-connector' ),
+			$this->bubble( __( 'Unmatched lessons', 'course-schedule-connector' ), UnmatchedPage::pending( $this->plugin ) ),
+			Capabilities::MANAGE_CONTENT,
+			UnmatchedPage::SLUG,
+			array( $unmatched, 'render' )
+		);
+
 		$makeup = new MakeupPage( $this->plugin );
 
 		add_submenu_page(
 			self::SLUG,
 			__( 'Make-up lessons', 'course-schedule-connector' ),
-			$this->makeup_title(),
+			$this->bubble( __( 'Make-up lessons', 'course-schedule-connector' ), MakeupPage::pending( $this->plugin ) ),
 			Capabilities::MANAGE_CONTENT,
 			MakeupPage::SLUG,
 			array( $makeup, 'render' )
@@ -116,18 +128,17 @@ final class Menu {
 	}
 
 	/**
-	 * Builds the make-up menu label, with a count of the ones still unassigned.
+	 * Adds a count to a menu label, the way core marks pending updates.
 	 *
-	 * Make-up lessons turn up a few at a time, and nobody opens a screen on the
-	 * off chance that something new is waiting on it. The bubble is the only
-	 * thing that tells them.
+	 * Make-up lessons and unplaceable classes both turn up a few at a time, and
+	 * nobody opens a screen on the off chance that something new is waiting on
+	 * it. The bubble is the only thing that tells them.
 	 *
+	 * @param string $label   Menu label.
+	 * @param int    $pending Number of things waiting.
 	 * @return string
 	 */
-	private function makeup_title(): string {
-		$label   = __( 'Make-up lessons', 'course-schedule-connector' );
-		$pending = MakeupPage::pending( $this->plugin );
-
+	private function bubble( string $label, int $pending ): string {
 		if ( 0 === $pending ) {
 			return $label;
 		}

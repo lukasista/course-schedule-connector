@@ -15,6 +15,8 @@ use CSCS\Api\Mapper;
 use CSCS\Api\RateLimiter;
 use CSCS\Api\WpHttp;
 use CSCS\Admin\Capabilities;
+use CSCS\Admin\CourseEditor;
+use CSCS\Admin\CourseList;
 use CSCS\Admin\Menu;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
@@ -100,6 +102,8 @@ final class Plugin {
 
 		if ( is_admin() ) {
 			( new Menu( $this ) )->register();
+			( new CourseEditor( $this ) )->register();
+			( new CourseList() )->register();
 		}
 		add_action( 'cscs_setting_changed', array( $this, 'on_setting_changed' ) );
 

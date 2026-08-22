@@ -241,6 +241,20 @@ Namespace `cscs/v1`.
 
 Every route declares an explicit `permission_callback`.
 
+## Admin screens
+
+| Screen | Slug | Capability | What it is for |
+| --- | --- | --- | --- |
+| Overview | `cscs` | `cscs_manage_content` | What is stored, how the last runs went, requests this hour. Synchronising and clearing failure state need `cscs_manage_design`. |
+| Courses | `edit.php?post_type=cscs_course` | post capabilities | Editorial content, contact, booking button, field locks; bulk button changes. |
+| Unmatched lessons | `cscs-unmatched` | `cscs_manage_content` | Permanent manual assignments, and a look at what was classified as belonging to nobody. |
+| Make-up lessons | `cscs-makeup` | `cscs_manage_content` | Which course each make-up occurrence stands in for. |
+| Settings | `cscs-settings` | `cscs_manage_design` | Connection, term, intervals, retention, display defaults, classification lists. |
+
+Both make-up and unmatched carry a count in the menu label. Each is one indexed query on every admin page load, and both return zero before the schema exists, which is the state right after activation.
+
+Course meta a person edits — `_cscs_show_button`, `_cscs_contact_name`, `_cscs_contact_email`, `_cscs_contact_phone`, `_cscs_contact_note` — is registered through `register_post_meta()` with a sanitiser and an `auth_callback` of `cscs_manage_content`, so the block and the REST API read it later from one definition rather than two. `_cscs_locked_fields` holds the field names `CourseRepository::save()` refuses to overwrite.
+
 ## Capabilities
 
 | Capability | Granted to | Controls |

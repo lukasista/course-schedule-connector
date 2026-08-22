@@ -76,16 +76,18 @@ Slug sady najdete v seznamu Zobrazovacích sad.
 
 ## Správa kurzů
 
-**iSport → Kurzy** obsahuje všechny kurzy stažené z iSportu. U každého můžete doplnit obsah, který v iSportu není:
+**iSport → Kurzy** obsahuje všechny kurzy stažené z iSportu. Sloupce napovídají, na co se u seznamu nejčastěji ptáte: **Stav** (probíhá / ukončený / iSport už kurz nenabízí), **Tlačítko pro přihlášení** a **Kontakt**.
 
-- vlastní **obrázek** kurzu,
-- **delší popis** pro stránku kurzu,
-- **vlastní název**, pokud je ten z iSportu příliš technický,
-- text pro **SEO**.
+V editaci kurzu můžete doplnit obsah, který v iSportu není:
 
-Údaje, které přicházejí z iSportu – cena, kapacita, termíny, trenér – **nelze přepsat**. Ty se mění v iSport systému.
+- vlastní **obrázek** kurzu (náhledový obrázek),
+- **delší popis** pro stránku kurzu (hlavní editor),
+- **krátký úvod** (výpisek),
+- **kontakt na lektora** – jméno, e-mail, telefon a poznámka. To je určené hlavně pro kurzy, na které se přes iSport nepřihlašuje: návštěvník potřebuje někoho, koho se zeptá. Když jméno necháte prázdné, zobrazí se lektor z iSportu.
 
-> **Zámek pole:** když u kurzu přepíšete název nebo popis, plugin si to zapamatuje a při další synchronizaci vaši verzi nepřepíše. U pole se objeví ikona zámku. Kliknutím na ni se pole odemkne a začne se opět aktualizovat z iSportu.
+Panel **Z iSportu** vedle editoru ukazuje, co o kurzu říká iSport – ID, cena, kapacita, obsazenost, termíny a kdy se to naposledy stahovalo – plus odkaz na kurz přímo v iSportu. Tyhle údaje se mění v iSport systému, ne tady.
+
+> **Zámek pole:** panel *Pole, kterých se synchronizace nesmí dotknout* obsahuje název kurzu, popis z iSportu, lektora, sál a cenu. Co zaškrtnete, si nechá vaši verzi napořád; všechno ostatní se dál obnovuje. Kapacita ani obsazenost mezi zámky nejsou schválně — zamknout číslo, které se mění každou hodinu, znamená udělat ze stránky nepravdu.
 
 Kurzy se nikdy nemažou. Po skončení přejdou do stavu *Ukončený*, zmizí z výpisů, ale jejich stránka zůstane dostupná.
 
@@ -94,18 +96,24 @@ Kurzy se nikdy nemažou. Po skončení přejdou do stavu *Ukončený*, zmizí z 
 Tlačítko vedoucí do iSportu můžete řídit ve třech úrovních:
 
 1. **Globálně** – v Nastavení určíte, zda se tlačítko zobrazuje standardně.
-2. **U jednoho kurzu** – v editaci kurzu přepínač *Dědit / Vždy zobrazit / Vždy skrýt*.
-3. **Hromadně** – v seznamu kurzů zaškrtněte libovolné kurzy a použijte hromadnou akci *Zobrazit tlačítko iSport* nebo *Skrýt tlačítko iSport*. Seznam lze předtím profiltrovat, například podle sálu.
+2. **U jednoho kurzu** – v editaci kurzu přepínač *Podle nastavení / Vždy zobrazit / Nikdy nezobrazovat*.
+3. **Hromadně** – v seznamu kurzů zaškrtněte libovolné kurzy a použijte hromadnou akci *Tlačítko pro přihlášení: vždy zobrazit / nikdy nezobrazovat / podle nastavení*. Seznam lze předtím profiltrovat, například podle sálu nebo lektora.
 
 Tlačítko se navíc **samo skryje**, když je kurz plný nebo když iSport hlásí, že přihlašování není povolené.
 
 ## Nespárované lekce
 
-iSport systém bohužel neposkytuje přímou vazbu mezi kurzem a jeho jednotlivými termíny, takže je plugin spáruje podle názvu a času. Ve většině případů to funguje samo.
+iSport systém bohužel neposkytuje přímou vazbu mezi kurzem a jeho jednotlivými termíny, takže je plugin spáruje podle názvu a času. Ve většině případů to funguje samo — u dat Jojo Gymu vychází párování na 100 %.
 
-Když se lekce spárovat nepodaří, objeví se na obrazovce **iSport → Nespárované lekce**. Tam k ní vyberete správný kurz a potvrdíte. **Takové ruční přiřazení je trvalé** – synchronizace ho už nikdy nepřepíše.
+Obrazovka **iSport → Nespárované lekce** ukazuje, co se nepodařilo zařadit, a vedle toho i lekce, o kterých plugin rozhodl, že nepatří žádnému kurzu:
 
-Nespárovaná lekce se v rozvrhu zobrazuje normálně; jen se u ní neukáže odkaz na kurz a nezapočítá se kurzu do seznamu sálů.
+- **Nespárované** – tady je potřeba rozhodnout. Vyberete kurz a uložíte.
+- **Pronájmy a open lekce** – hala pronajatá někomu jinému nebo lekce bez kurzu. Kurz se u nich nečeká.
+- **Aktivity, na které se nepřihlašuje** – kurzy externích lektorů, individuální tréninky.
+
+Poslední dvě skupiny jsou tu proto, abyste se mohl podívat, co klasifikace zachytila; když by některá lekce ke kurzu přece jen patřila, přiřadíte ji stejným výběrem. **Ruční přiřazení je trvalé** – synchronizace ho už nikdy nepřepíše. Uložením se párování rovnou spustí znovu nad uloženými daty, takže výsledek vidíte hned a bez dotazu do iSportu.
+
+V menu u položky svítí číslo, kolik lekcí čeká na rozhodnutí.
 
 ## Náhradní lekce
 

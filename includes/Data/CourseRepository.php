@@ -40,6 +40,39 @@ final class CourseRepository {
 	public const META_STATUS = '_cscs_status';
 
 	/**
+	 * Meta key deciding whether the booking button shows on this course.
+	 *
+	 * One of `default`, `always` or `never`. The default follows the setting,
+	 * which is what makes a site-wide change possible without touching a
+	 * hundred courses — and the two overrides are what makes an exception
+	 * possible without abandoning the default.
+	 */
+	public const META_BUTTON = '_cscs_show_button';
+
+	/**
+	 * Meta keys holding the lecturer's contact details.
+	 *
+	 * Courses nobody books through iSport still need somebody to ask, and the
+	 * remote system has nowhere to put that, so it is written here.
+	 */
+	public const META_CONTACT_NAME = '_cscs_contact_name';
+
+	/**
+	 * Lecturer's e-mail address.
+	 */
+	public const META_CONTACT_EMAIL = '_cscs_contact_email';
+
+	/**
+	 * Lecturer's telephone number.
+	 */
+	public const META_CONTACT_PHONE = '_cscs_contact_phone';
+
+	/**
+	 * Anything else worth saying about how to reach the lecturer.
+	 */
+	public const META_CONTACT_NOTE = '_cscs_contact_note';
+
+	/**
 	 * Course is currently running or has not started yet.
 	 */
 	public const STATUS_RUNNING = 'running';

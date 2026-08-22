@@ -13,6 +13,12 @@ msgstr ""
 msgid "%1$d courses and %2$d occurrences retrieved."
 msgstr ""
 
+#: includes/Admin/Screen/UnmatchedPage.php:301
+msgid "%d class assigned and the matching re-run."
+msgid_plural "%d classes assigned and the matching re-run."
+msgstr[0] ""
+msgstr[1] ""
+
 #: includes/Admin/Screen/MakeupPage.php:409
 msgid "%d make-up lesson saved."
 msgid_plural "%d make-up lessons saved."
@@ -63,11 +69,15 @@ msgstr ""
 msgid "A suggestion is offered only where the lesson names its course and exactly one course fits. Filling them in records those, and only those: anything already assigned is left alone, and a suggestion you disagree with is changed like any other row. Nothing here is guessed on your behalf at synchronisation time."
 msgstr ""
 
+#: includes/Admin/CourseEditor.php:163
+msgid "A ticked field keeps whatever is written here. Synchronisation refreshes everything else and leaves this alone, for good."
+msgstr ""
+
 #: includes/Admin/Screen/Overview.php:141
 msgid "Actions"
 msgstr ""
 
-#: includes/Data/PostType.php:121
+#: includes/Data/PostType.php:162
 msgid "Activities"
 msgstr ""
 
@@ -77,11 +87,14 @@ msgstr ""
 
 #: includes/Admin/Screen/Overview.php:222
 #: includes/Admin/Screen/SettingsPage.php:128
+#: includes/Admin/Screen/UnmatchedPage.php:109
 msgid "Activities that take no bookings"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:130
-#: includes/Data/PostType.php:122
+#: includes/Admin/Screen/UnmatchedPage.php:128
+#: includes/Admin/CourseEditor.php:190
+#: includes/Data/PostType.php:163
 msgid "Activity"
 msgstr ""
 
@@ -91,6 +104,19 @@ msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:119
 msgid "All"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:142
+msgid "Always show it"
+msgstr ""
+
+#: includes/Admin/CourseList.php:89
+msgid "Always shown"
+msgstr ""
+
+#: includes/Admin/CourseList.php:93
+#: includes/Admin/CourseEditor.php:141
+msgid "As the settings say"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:74
@@ -109,8 +135,39 @@ msgstr ""
 msgid "Assigned"
 msgstr ""
 
+#: includes/Admin/Screen/UnmatchedPage.php:132
+msgid "Belongs to"
+msgstr ""
+
+#: includes/Admin/CourseList.php:55
+#: includes/Admin/CourseEditor.php:138
+msgid "Booking button"
+msgstr ""
+
+#: includes/Admin/CourseList.php:193
+msgid "Booking button changed on %d course."
+msgid_plural "Booking button changed on %d courses."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/CourseList.php:122
+msgid "Booking button: always show"
+msgstr ""
+
+#: includes/Admin/CourseList.php:124
+msgid "Booking button: as the settings say"
+msgstr ""
+
+#: includes/Admin/CourseList.php:123
+msgid "Booking button: never show"
+msgstr ""
+
 #: includes/Admin/Screen/Overview.php:225
 msgid "Cancelled"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:195
+msgid "Capacity"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:219
@@ -130,12 +187,28 @@ msgstr ""
 msgid "Consecutive failures"
 msgstr ""
 
+#: includes/Admin/CourseList.php:56
+msgid "Contact"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:73
+msgid "Contact and booking"
+msgstr ""
+
 #: includes/Data/PostType.php:61
 msgid "Course"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:253
 msgid "Course %d, which is no longer stored"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:189
+msgid "Course id"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:277
+msgid "Course name"
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:102
@@ -146,26 +219,31 @@ msgstr ""
 msgid "Course synchronisation interval"
 msgstr ""
 
-#: includes/Data/PostType.php:126
+#: includes/Data/PostType.php:167
 msgid "Course tag"
 msgstr ""
 
-#: includes/Data/PostType.php:125
+#: includes/Data/PostType.php:166
 msgid "Course tags"
+msgstr ""
+
+#: includes/Admin/Screen/UnmatchedPage.php:185
+msgid "Course this class belongs to"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:244
 msgid "Course this lesson stands in for"
 msgstr ""
 
-#: includes/Admin/Menu.php:89
 #: includes/Admin/Menu.php:90
+#: includes/Admin/Menu.php:91
 #: includes/Data/PostType.php:60
 #: includes/Data/PostType.php:62
 msgid "Courses"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:128
+#: includes/Admin/Screen/UnmatchedPage.php:126
 msgid "Date"
 msgstr ""
 
@@ -185,6 +263,10 @@ msgstr ""
 msgid "Delete all data when the plugin is deleted"
 msgstr ""
 
+#: includes/Admin/CourseEditor.php:278
+msgid "Description from iSport"
+msgstr ""
+
 #: includes/Admin/Screen/Overview.php:251
 msgid "Detail"
 msgstr ""
@@ -193,20 +275,46 @@ msgstr ""
 msgid "Display"
 msgstr ""
 
+#: includes/Admin/CourseEditor.php:123
+msgid "E-mail"
+msgstr ""
+
 #: includes/Data/PostType.php:65
 msgid "Edit course"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:145
+msgid "Even when shown, the button hides itself while the course is full or iSport reports that it takes no registrations."
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:82
+msgid "Fields synchronisation must not touch"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:173
 msgid "Fill in and save the suggestions"
 msgstr ""
 
+#: includes/Admin/CourseList.php:77
+#: includes/Admin/CourseEditor.php:294
+msgid "Finished"
+msgstr ""
+
 #: includes/Admin/Screen/SettingsPage.php:89
 msgid "For example https://example.isportsystem.cz — https only. An address inside a private network is refused."
 msgstr ""
 
+#: includes/Admin/CourseEditor.php:134
+msgid "For example when to ring, or that places are arranged individually."
+msgstr ""
+
 #: includes/Admin/Screen/SettingsPage.php:118
+#: includes/Admin/CourseEditor.php:309
 msgid "Free"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:90
+msgid "From iSport"
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:100
@@ -221,8 +329,16 @@ msgstr ""
 msgid "Job"
 msgstr ""
 
-#: includes/Admin/Menu.php:99
-#: includes/Admin/Menu.php:128
+#: includes/Admin/CourseEditor.php:197
+msgid "Last retrieved"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:119
+msgid "Leave empty to show the trainer iSport names."
+msgstr ""
+
+#: includes/Admin/Menu.php:111
+#: includes/Admin/Menu.php:112
 #: includes/Admin/Screen/MakeupPage.php:100
 #: includes/Admin/Screen/Overview.php:223
 #: includes/Admin/Screen/SettingsPage.php:136
@@ -235,6 +351,14 @@ msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:138
 msgid "Names that mark a class as a replacement for one somebody missed, one per line, matched the same loose way. These are counted and shown separately from activities that take no bookings, because a make-up lesson belongs to a course — which one is recorded under iSport → Make-up lessons."
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:143
+msgid "Never show it"
+msgstr ""
+
+#: includes/Admin/CourseList.php:90
+msgid "Never shown"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:126
@@ -253,11 +377,21 @@ msgstr ""
 msgid "No lesson names a course clearly enough to suggest one."
 msgstr ""
 
+#: includes/Admin/CourseList.php:78
+#: includes/Admin/CourseEditor.php:295
+msgid "No longer offered by iSport"
+msgstr ""
+
 #: includes/Admin/Screen/Overview.php:70
 msgid "No usable address of an iSport System installation is configured, so nothing is being retrieved."
 msgstr ""
 
+#: includes/Admin/CourseEditor.php:131
+msgid "Note"
+msgstr ""
+
 #: includes/Admin/Screen/MakeupPage.php:370
+#: includes/Admin/Screen/UnmatchedPage.php:283
 msgid "Nothing changed."
 msgstr ""
 
@@ -266,6 +400,7 @@ msgid "Nothing has run yet."
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:160
+#: includes/Admin/Screen/UnmatchedPage.php:137
 msgid "Nothing to show here."
 msgstr ""
 
@@ -285,17 +420,26 @@ msgstr ""
 msgid "Open settings"
 msgstr ""
 
+#: includes/Admin/CourseEditor.php:216
+msgid "Open this course in iSport"
+msgstr ""
+
 #: includes/Admin/Screen/Overview.php:250
 msgid "Outcome"
 msgstr ""
 
-#: includes/Admin/Menu.php:80
 #: includes/Admin/Menu.php:81
+#: includes/Admin/Menu.php:82
 msgid "Overview"
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:105
 msgid "Past occurrences older than this are removed. Courses are never deleted."
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:192
+#: includes/Admin/CourseEditor.php:281
+msgid "Price"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:155
@@ -311,6 +455,7 @@ msgid "Removal"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:221
+#: includes/Admin/Screen/UnmatchedPage.php:108
 msgid "Rentals and open sessions"
 msgstr ""
 
@@ -339,24 +484,48 @@ msgid "Retries"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:131
-#: includes/Data/PostType.php:114
+#: includes/Admin/Screen/UnmatchedPage.php:129
+#: includes/Admin/CourseEditor.php:280
+#: includes/Data/PostType.php:155
 msgid "Room"
 msgstr ""
 
-#: includes/Data/PostType.php:113
+#: includes/Data/PostType.php:154
 msgid "Rooms"
 msgstr ""
 
+#: includes/Admin/CourseList.php:76
+#: includes/Admin/CourseEditor.php:293
+msgid "Running"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:193
+msgid "Runs from"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:194
+msgid "Runs to"
+msgstr ""
+
 #: includes/Admin/Screen/MakeupPage.php:170
+#: includes/Admin/Screen/UnmatchedPage.php:148
 msgid "Save assignments"
+msgstr ""
+
+#: includes/Admin/Screen/UnmatchedPage.php:294
+msgid "Saved, but the matching could not be re-run: %s"
+msgstr ""
+
+#: includes/Admin/Screen/UnmatchedPage.php:152
+msgid "Saving re-runs the matching over everything already stored, so an assignment takes effect at once and without a request to iSport."
 msgstr ""
 
 #: includes/Data/PostType.php:63
 msgid "Search courses"
 msgstr ""
 
-#: includes/Admin/Menu.php:110
-#: includes/Admin/Menu.php:111
+#: includes/Admin/Menu.php:122
+#: includes/Admin/Menu.php:123
 msgid "Settings"
 msgstr ""
 
@@ -368,8 +537,17 @@ msgstr ""
 msgid "Show the booking button by default"
 msgstr ""
 
+#: includes/Admin/CourseEditor.php:111
+msgid "Some courses take no bookings through iSport at all, and a visitor who wants one needs a person to ask. Anything filled in here is shown on the course, and nothing here is ever overwritten by a synchronisation."
+msgstr ""
+
 #: includes/Admin/Screen/MakeupPage.php:133
 msgid "Stands in for"
+msgstr ""
+
+#: includes/Admin/CourseList.php:54
+#: includes/Admin/CourseEditor.php:191
+msgid "State"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:270
@@ -382,6 +560,18 @@ msgstr ""
 
 #: includes/Admin/Screen/Overview.php:146
 msgid "Synchronise now"
+msgstr ""
+
+#: includes/Admin/Screen/UnmatchedPage.php:131
+msgid "Tags"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:196
+msgid "Taken"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:127
+msgid "Telephone"
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:97
@@ -409,6 +599,7 @@ msgid "Tied to a course"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:129
+#: includes/Admin/Screen/UnmatchedPage.php:127
 msgid "Time"
 msgstr ""
 
@@ -417,11 +608,13 @@ msgid "Timetable refresh interval (seconds)"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:132
-#: includes/Data/PostType.php:118
+#: includes/Admin/Screen/UnmatchedPage.php:130
+#: includes/Admin/CourseEditor.php:279
+#: includes/Data/PostType.php:159
 msgid "Trainer"
 msgstr ""
 
-#: includes/Data/PostType.php:117
+#: includes/Data/PostType.php:158
 msgid "Trainers"
 msgstr ""
 
@@ -429,7 +622,14 @@ msgstr ""
 msgid "Unassigned"
 msgstr ""
 
+#: includes/Admin/Menu.php:100
+#: includes/Admin/Menu.php:101
+#: includes/Admin/Screen/UnmatchedPage.php:94
+msgid "Unmatched lessons"
+msgstr ""
+
 #: includes/Admin/Screen/Overview.php:224
+#: includes/Admin/Screen/UnmatchedPage.php:107
 msgid "Unresolved"
 msgstr ""
 
@@ -443,6 +643,10 @@ msgstr ""
 
 #: includes/Admin/Screen/Overview.php:247
 msgid "When"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:116
+msgid "Who to contact"
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:124
@@ -468,11 +672,12 @@ msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:75
 #: includes/Admin/Screen/Overview.php:52
+#: includes/Admin/Screen/UnmatchedPage.php:81
 msgid "You are not allowed to view this page."
 msgstr ""
 
-#: includes/Admin/Menu.php:69
 #: includes/Admin/Menu.php:70
+#: includes/Admin/Menu.php:71
 msgid "iSport"
 msgstr ""
 
@@ -484,8 +689,16 @@ msgstr ""
 msgid "iSport overview"
 msgstr ""
 
+#: includes/Admin/Screen/UnmatchedPage.php:97
+msgid "iSport publishes no link between a course and the classes that make it up, so the plugin works it out from the name and the time. Anything it could not place with confidence is here, together with the classes it decided belong to nobody — hall rentals, open sessions, and activities that take no bookings. Choosing a course records the answer for good: no later synchronisation will decide otherwise."
+msgstr ""
+
 #: includes/Admin/Screen/SettingsPage.php:59
 msgid "iSport settings"
+msgstr ""
+
+#: includes/Admin/Screen/UnmatchedPage.php:188
+msgid "— belongs to no course —"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:247

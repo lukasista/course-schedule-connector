@@ -86,6 +86,8 @@ final class PostType {
 			)
 		);
 
+		self::register_meta();
+
 		foreach ( self::taxonomies() as $taxonomy => $labels ) {
 			register_taxonomy(
 				$taxonomy,
@@ -97,6 +99,45 @@ final class PostType {
 					'show_admin_column' => true,
 					'show_in_rest'      => true,
 					'rewrite'           => false,
+				)
+			);
+		}
+	}
+
+	/**
+	 * Registers the fields a person fills in, as opposed to the ones synced.
+	 *
+	 * Registering them rather than writing loose post meta buys three things:
+	 * a sanitiser that runs wherever the value comes from, a capability check
+	 * that is not the post's own, and a place for the block and the REST API to
+	 * read them from later without a second definition of what a course holds.
+	 *
+	 * @return void
+	 */
+	private static function register_meta(): void {
+		$editable = static function (): bool {
+			return current_user_can( 'cscs_manage_content' );
+		};
+
+		$fields = array(
+			CourseRepository::META_BUTTON        => 'sanitize_key',
+			CourseRepository::META_CONTACT_NAME  => 'sanitize_text_field',
+			CourseRepository::META_CONTACT_EMAIL => 'sanitize_email',
+			CourseRepository::META_CONTACT_PHONE => 'sanitize_text_field',
+			CourseRepository::META_CONTACT_NOTE  => 'sanitize_textarea_field',
+		);
+
+		foreach ( $fields as $key => $sanitiser ) {
+			register_post_meta(
+				self::COURSE,
+				$key,
+				array(
+					'type'              => 'string',
+					'single'            => true,
+					'default'           => '',
+					'show_in_rest'      => true,
+					'sanitize_callback' => $sanitiser,
+					'auth_callback'     => $editable,
 				)
 			);
 		}
