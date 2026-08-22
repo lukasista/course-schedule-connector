@@ -10,6 +10,7 @@ declare( strict_types=1 );
 namespace CSCS\Tests\Unit;
 
 use CSCS\Render\Formatter;
+use CSCS\Render\Listing;
 use CSCS\Render\Renderer;
 use PHPUnit\Framework\TestCase;
 
@@ -113,5 +114,88 @@ final class FormatterTest extends TestCase {
 
 		$this->assertStringContainsString( '@media (max-width: 640px)', $css );
 		$this->assertStringContainsString( 'content: attr(data-label)', $css );
+	}
+	/**
+	 * A column that is empty in every row is dropped. The booking button with
+	 * the site-wide switch off, or the cancelled marker in a week when nothing
+	 * was cancelled, is a heading over nothing — which reads as a fault rather
+	 * than as an answer of "none".
+	 *
+	 * @return void
+	 */
+	public function test_a_column_empty_in_every_row_is_dropped(): void {
+		$rows = array(
+			array( 'name' => 'Gymnastika', 'button' => '', 'price' => '1960' ),
+			array( 'name' => 'Parkour', 'button' => '', 'price' => '1200' ),
+		);
+
+		$columns = Listing::used_columns(
+			array(
+				'name'   => 'Kurz',
+				'price'  => 'Cena',
+				'button' => 'Přihlášení',
+			),
+			$rows,
+			static fn( array $row, string $column ): string => (string) ( $row[ $column ] ?? '' )
+		);
+
+		$this->assertSame( array( 'name', 'price' ), array_keys( $columns ) );
+	}
+
+	/**
+	 * One row with something to say keeps the column for all of them.
+	 *
+	 * @return void
+	 */
+	public function test_one_value_anywhere_keeps_the_column(): void {
+		$rows = array(
+			array( 'state' => '' ),
+			array( 'state' => 'Zrušeno' ),
+		);
+
+		$columns = Listing::used_columns(
+			array( 'state' => 'Stav' ),
+			$rows,
+			static fn( array $row, string $column ): string => (string) ( $row[ $column ] ?? '' )
+		);
+
+		$this->assertSame( array( 'state' => 'Stav' ), $columns );
+	}
+
+	/**
+	 * An empty listing keeps every column: nothing can be concluded from a
+	 * table with no rows, and its headings are the only thing saying what it
+	 * would have shown.
+	 *
+	 * @return void
+	 */
+	public function test_an_empty_listing_keeps_its_columns(): void {
+		$columns = array(
+			'name'   => 'Kurz',
+			'button' => 'Přihlášení',
+		);
+
+		$this->assertSame(
+			$columns,
+			Listing::used_columns( $columns, array(), static fn(): string => '' )
+		);
+	}
+
+	/**
+	 * Whitespace is not content. A cell holding a space would otherwise keep a
+	 * column alive and put a heading over a row of nothing.
+	 *
+	 * @return void
+	 */
+	public function test_whitespace_does_not_count_as_a_value(): void {
+		$columns = Listing::used_columns(
+			array( 'trainer' => 'Lektor' ),
+			array( array( 'trainer' => "  \n " ) ),
+			static fn( array $row, string $column ): string => (string) ( $row[ $column ] ?? '' )
+		);
+
+		// Nothing survives, so the columns asked for are shown as they were:
+		// a table of rows with no headings at all would be worse.
+		$this->assertSame( array( 'trainer' => 'Lektor' ), $columns );
 	}
 }

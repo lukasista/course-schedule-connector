@@ -76,6 +76,54 @@ final class Listing {
 		$this->columns  = $columns;
 		$this->settings = $settings;
 		$this->times    = $times;
+
+		$this->columns = self::used_columns(
+			$columns,
+			$rows,
+			fn( array $row, string $column ): string => $this->cell( $row, $column )['html']
+		);
+	}
+
+	/**
+	 * Drops the columns that would be empty from top to bottom.
+	 *
+	 * A column can be asked for and still have nothing to say: the booking
+	 * button when the site has them switched off, the cancelled marker in a
+	 * week when nothing was cancelled. Rendered anyway it is a heading over
+	 * nothing, which reads as something broken rather than as an answer of
+	 * "none". The set is not changed — tick the column back into use and it
+	 * returns the moment there is anything to put in it.
+	 *
+	 * A listing with no rows keeps every column: there is nothing to conclude
+	 * from an empty table, and its headings are the only thing describing what
+	 * it would have shown.
+	 *
+	 * @param array<string, string>            $columns Column key to heading.
+	 * @param array<int, array<string, mixed>> $rows    Rows.
+	 * @param callable                         $value   Reads one cell: (row, column) => string.
+	 * @return array<string, string>
+	 */
+	public static function used_columns( array $columns, array $rows, callable $value ): array {
+		if ( array() === $rows ) {
+			return $columns;
+		}
+
+		$used = array();
+
+		foreach ( $columns as $column => $label ) {
+			foreach ( $rows as $row ) {
+				if ( '' !== trim( (string) $value( $row, (string) $column ) ) ) {
+					$used[ $column ] = $label;
+
+					break;
+				}
+			}
+		}
+
+		// Everything empty is not an answer either: with no headings at all a
+		// table of rows is a grid of unlabelled values. Better to show what was
+		// asked for and let it be visibly empty.
+		return array() === $used ? $columns : $used;
 	}
 
 	/**
