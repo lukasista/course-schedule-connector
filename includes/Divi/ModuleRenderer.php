@@ -98,12 +98,15 @@ final class ModuleRenderer {
 	 * @return string
 	 */
 	public static function set_id( array $attrs ): string {
-		// Divi keeps a setting that is not an element's own content under
-		// `advanced`; `innerContent` is reserved for the content of the element
-		// itself, which a chosen set is not. The older path is still read so
-		// that a page saved before that was understood keeps working.
-		$value = $attrs['set']['advanced']['id']['desktop']['value']
-			?? ( $attrs['set']['innerContent']['desktop']['value'] ?? '' );
+		// The attribute is called `listing` for a reason that cost an evening:
+		// named `set`, it collided with the `set` method of the immutable
+		// objects Divi keeps attributes in, so Divi dropped the attribute
+		// altogether and every choice made in the field was refused with
+		// "getIn(...).setIn is not a function". Both earlier spellings are
+		// still read so that a page saved under one keeps working.
+		$value = $attrs['listing']['advanced']['id']['desktop']['value']
+			?? ( $attrs['set']['advanced']['id']['desktop']['value']
+			?? ( $attrs['set']['innerContent']['desktop']['value'] ?? '' ) );
 
 		if ( is_array( $value ) ) {
 			$value = $value['id'] ?? ( $value['set'] ?? '' );

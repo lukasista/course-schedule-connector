@@ -60,16 +60,18 @@
 	 * @return {string} Set id, or an empty string.
 	 */
 	function chosenSet( attrs ) {
-		var set = attrs && attrs.set ? attrs.set : null;
-
-		if ( ! set ) {
+		if ( ! attrs ) {
 			return '';
 		}
 
-		// Under `advanced`, where Divi keeps a setting that is not an element's
-		// own content; the older place is still read so that a page saved
-		// before that was understood keeps working.
-		var holder = ( set.advanced && set.advanced.id ) || set.innerContent || null;
+		// `listing`, not `set`: an attribute named `set` collides with the set
+		// method of the immutable objects Divi keeps attributes in, and Divi
+		// drops it. Both earlier spellings are still read.
+		var holder = ( attrs.listing && attrs.listing.advanced && attrs.listing.advanced.id )
+			|| ( attrs.set && attrs.set.advanced && attrs.set.advanced.id )
+			|| ( attrs.set && attrs.set.innerContent )
+			|| null;
+
 		var value = holder && holder.desktop ? holder.desktop.value : '';
 
 		if ( value && 'object' === typeof value ) {
@@ -162,6 +164,11 @@
 	var module = {
 		metadata: config,
 		placeholderContent: {},
+
+		// Divi writes a chosen value into the structure the defaults describe.
+		// Without them there is nothing to write into, and the field refuses
+		// every choice without a word.
+		defaultAttrs: config.defaults || {},
 		renderers: {
 			edit: function ( props ) {
 				var set = chosenSet( props.attrs );

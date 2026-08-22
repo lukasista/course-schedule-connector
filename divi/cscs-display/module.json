@@ -39,7 +39,7 @@
 				}
 			}
 		},
-		"set": {
+		"listing": {
 			"type": "object",
 			"selector": "{{selector}}",
 			"settings": {
@@ -48,7 +48,7 @@
 						"groupType": "group-item",
 						"item": {
 							"groupSlug": "content",
-							"attrName": "set.advanced.id",
+							"attrName": "listing.advanced.id",
 							"label": "Display set",
 							"description": "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.",
 							"category": "configuration",

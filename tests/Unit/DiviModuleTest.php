@@ -43,11 +43,11 @@ final class DiviModuleTest extends TestCase {
 	 * @return void
 	 */
 	public function test_the_set_is_declared_as_a_setting_not_as_content(): void {
-		$attribute = $this->metadata()['attributes']['set'] ?? array();
+		$attribute = $this->metadata()['attributes']['listing'] ?? array();
 
 		$this->assertArrayHasKey( 'advanced', $attribute['settings'] ?? array() );
 		$this->assertArrayNotHasKey( 'innerContent', $attribute['settings'] ?? array() );
-		$this->assertSame( 'set.advanced.id', $attribute['settings']['advanced']['id']['item']['attrName'] ?? '' );
+		$this->assertSame( 'listing.advanced.id', $attribute['settings']['advanced']['id']['item']['attrName'] ?? '' );
 		$this->assertSame( 'divi/select', $attribute['settings']['advanced']['id']['item']['component']['name'] ?? '' );
 	}
 
@@ -58,7 +58,7 @@ final class DiviModuleTest extends TestCase {
 	 */
 	public function test_the_renderer_reads_the_chosen_set(): void {
 		$attrs = array(
-			'set' => array( 'advanced' => array( 'id' => array( 'desktop' => array( 'value' => 'kurzy-pro-deti' ) ) ) ),
+			'listing' => array( 'advanced' => array( 'id' => array( 'desktop' => array( 'value' => 'kurzy-pro-deti' ) ) ) ),
 		);
 
 		$this->assertSame( 'kurzy-pro-deti', ModuleRenderer::set_id( $attrs ) );
@@ -69,12 +69,16 @@ final class DiviModuleTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_the_older_place_is_still_read(): void {
-		$attrs = array(
-			'set' => array( 'innerContent' => array( 'desktop' => array( 'value' => 'tydenni-rozvrh' ) ) ),
+	public function test_the_older_places_are_still_read(): void {
+		$this->assertSame(
+			'tydenni-rozvrh',
+			ModuleRenderer::set_id( array( 'set' => array( 'innerContent' => array( 'desktop' => array( 'value' => 'tydenni-rozvrh' ) ) ) ) )
 		);
 
-		$this->assertSame( 'tydenni-rozvrh', ModuleRenderer::set_id( $attrs ) );
+		$this->assertSame(
+			'tydenni-rozvrh',
+			ModuleRenderer::set_id( array( 'set' => array( 'advanced' => array( 'id' => array( 'desktop' => array( 'value' => 'tydenni-rozvrh' ) ) ) ) ) )
+		);
 	}
 
 	/**
@@ -85,8 +89,8 @@ final class DiviModuleTest extends TestCase {
 	 */
 	public function test_a_module_with_no_choice_names_nothing(): void {
 		$this->assertSame( '', ModuleRenderer::set_id( array() ) );
-		$this->assertSame( '', ModuleRenderer::set_id( array( 'set' => array() ) ) );
-		$this->assertSame( '', ModuleRenderer::set_id( array( 'set' => array( 'advanced' => array( 'id' => array( 'desktop' => array( 'value' => '' ) ) ) ) ) ) );
+		$this->assertSame( '', ModuleRenderer::set_id( array( 'listing' => array() ) ) );
+		$this->assertSame( '', ModuleRenderer::set_id( array( 'listing' => array( 'advanced' => array( 'id' => array( 'desktop' => array( 'value' => '' ) ) ) ) ) ) );
 	}
 
 	/**
@@ -99,12 +103,12 @@ final class DiviModuleTest extends TestCase {
 	 */
 	public function test_the_stored_value_is_reduced_to_a_key(): void {
 		$attrs = array(
-			'set' => array( 'advanced' => array( 'id' => array( 'desktop' => array( 'value' => '../../Kurzy Pro Deti' ) ) ) ),
+			'listing' => array( 'advanced' => array( 'id' => array( 'desktop' => array( 'value' => '../../Kurzy Pro Deti' ) ) ) ),
 		);
 
 		$this->assertSame( 'kurzyprodeti', ModuleRenderer::set_id( $attrs ) );
 
-		$attrs['set']['advanced']['id']['desktop']['value'] = 'kurzy-pro-deti';
+		$attrs['listing']['advanced']['id']['desktop']['value'] = 'kurzy-pro-deti';
 
 		$this->assertSame( 'kurzy-pro-deti', ModuleRenderer::set_id( $attrs ) );
 	}
@@ -119,7 +123,7 @@ final class DiviModuleTest extends TestCase {
 	 */
 	public function test_the_group_is_declared_the_way_divi_declares_its_own(): void {
 		$groups = $this->metadata()['settings']['groups'] ?? array();
-		$slug   = $this->metadata()['attributes']['set']['settings']['advanced']['id']['item']['groupSlug'] ?? '';
+		$slug   = $this->metadata()['attributes']['listing']['settings']['advanced']['id']['item']['groupSlug'] ?? '';
 
 		$this->assertArrayHasKey( $slug, $groups );
 		$this->assertSame( 'content', $groups[ $slug ]['panel'] ?? '' );
@@ -135,5 +139,42 @@ final class DiviModuleTest extends TestCase {
 	 */
 	public function test_the_module_and_the_block_are_two_names(): void {
 		$this->assertSame( 'cscs/divi-display', $this->metadata()['name'] ?? '' );
+	}
+	/**
+	 * The attribute is not called `set`, and that is not a matter of taste.
+	 *
+	 * Divi keeps a module's attributes in seamless-immutable objects, whose own
+	 * API includes `set` and `setIn`. An attribute of that name collides with
+	 * it: Divi drops the attribute from the module entirely and every choice
+	 * made in the field is refused with "getIn(...).setIn is not a function" —
+	 * while the field itself renders perfectly, so nothing looks wrong.
+	 *
+	 * @return void
+	 */
+	public function test_the_attribute_avoids_the_names_the_immutable_api_uses(): void {
+		$names = array_keys( $this->metadata()['attributes'] ?? array() );
+
+		$this->assertContains( 'listing', $names );
+
+		foreach ( array( 'set', 'setIn', 'get', 'getIn', 'merge', 'without', 'asMutable' ) as $reserved ) {
+			$this->assertNotContains( $reserved, $names );
+		}
+	}
+
+	/**
+	 * The module ships default attributes, and they cover the field.
+	 *
+	 * Divi writes a chosen value into the structure the defaults describe. With
+	 * no default for the field there is nothing to write into, which is the
+	 * second half of the same silent failure.
+	 *
+	 * @return void
+	 */
+	public function test_the_module_ships_defaults_for_its_field(): void {
+		$decoded = json_decode( (string) file_get_contents( dirname( __DIR__, 2 ) . '/divi/cscs-display/module-default-render-attributes.json' ), true );
+
+		$this->assertIsArray( $decoded );
+		$this->assertArrayHasKey( 'listing', $decoded );
+		$this->assertSame( '', $decoded['listing']['advanced']['id']['desktop']['value'] ?? null );
 	}
 }

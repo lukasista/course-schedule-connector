@@ -34,9 +34,11 @@ final class DesignGuard {
 	 * The attributes a site manager owns.
 	 *
 	 * Everything else on the module is design, including `css`, which is a
-	 * stylesheet by another name.
+	 * stylesheet by another name. `set` is the name the attribute had before it
+	 * turned out to collide with Divi's own, and is kept so that a page saved
+	 * under it is still a page whose content its manager owns.
 	 */
-	private const CONTENT_KEYS = array( 'set' );
+	private const CONTENT_KEYS = array( 'listing', 'set' );
 
 	/**
 	 * Bookkeeping Divi writes for itself, which is nobody's decision.

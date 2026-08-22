@@ -1,0 +1,20 @@
+{
+	"module": {
+		"meta": {
+			"adminLabel": {
+				"desktop": {
+					"value": "iSport listing"
+				}
+			}
+		}
+	},
+	"listing": {
+		"advanced": {
+			"id": {
+				"desktop": {
+					"value": ""
+				}
+			}
+		}
+	}
+}

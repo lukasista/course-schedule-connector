@@ -150,7 +150,7 @@ final class DisplayModule {
 		wp_localize_script( self::PACKAGE, 'cscsDiviModule', $metadata );
 		wp_set_script_translations( self::PACKAGE, 'course-schedule-connector', CSCS_DIR . 'languages' );
 
-		self::note( 'metadata_at', count( $metadata['attributes']['set']['settings']['advanced']['id']['item']['component']['props']['options'] ?? array() ) );
+		self::note( 'metadata_at', count( $metadata['attributes']['listing']['settings']['advanced']['id']['item']['component']['props']['options'] ?? array() ) );
 	}
 
 	/**
@@ -205,19 +205,45 @@ final class DisplayModule {
 			return array();
 		}
 
-		$metadata['attributes']['set']['settings']['advanced']['id']['item']['component']['props']['options'] = $this->options();
+		$metadata['attributes']['listing']['settings']['advanced']['id']['item']['component']['props']['options'] = $this->options();
 		$metadata['title']  = __( 'iSport listing', 'course-schedule-connector' );
 		$metadata['titles'] = __( 'iSport listings', 'course-schedule-connector' );
+
+		// The builder computes nothing from the server's defaults, so they are
+		// handed over with the metadata. Without them Divi has no structure to
+		// write a chosen value into, and the field silently refuses every
+		// choice — which is exactly how this looked for an evening.
+		$metadata['defaults'] = $this->defaults();
 
 		// The builder fetches its preview with a plain request rather than
 		// through wp.apiFetch, which is not reliably present in the app window.
 		$metadata['preview'] = rest_url( RestPreview::NAMESPACE . '/preview?set=' );
 		$metadata['nonce']   = wp_create_nonce( 'wp_rest' );
 
-		$metadata['attributes']['set']['settings']['advanced']['id']['item']['label']       = __( 'Display set', 'course-schedule-connector' );
-		$metadata['attributes']['set']['settings']['advanced']['id']['item']['description'] = __( 'Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.', 'course-schedule-connector' );
+		$metadata['attributes']['listing']['settings']['advanced']['id']['item']['label']       = __( 'Display set', 'course-schedule-connector' );
+		$metadata['attributes']['listing']['settings']['advanced']['id']['item']['description'] = __( 'Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.', 'course-schedule-connector' );
 
 		return $metadata;
+	}
+
+	/**
+	 * Reads the module's default attributes.
+	 *
+	 * The same file Divi reads on the server, handed to the builder so that
+	 * both sides start from one definition.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function defaults(): array {
+		$file = CSCS_DIR . 'divi/cscs-display/module-default-render-attributes.json';
+
+		if ( ! is_readable( $file ) ) {
+			return array();
+		}
+
+		$decoded = json_decode( (string) file_get_contents( $file ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reading the plugin's own file, not a remote one.
+
+		return is_array( $decoded ) ? $decoded : array();
 	}
 
 	/**
