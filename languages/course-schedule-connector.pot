@@ -13,7 +13,7 @@ msgstr ""
 msgid "%1$d courses and %2$d occurrences retrieved."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:366
+#: includes/Admin/Screen/MakeupPage.php:409
 msgid "%d make-up lesson saved."
 msgid_plural "%d make-up lessons saved."
 msgstr[0] ""
@@ -23,11 +23,17 @@ msgstr[1] ""
 msgid "%d occurrences should belong to a course and do not. Everything else is either matched or a recognised rental."
 msgstr ""
 
+#: includes/Admin/Screen/MakeupPage.php:443
+msgid "%d repeat assigned like its series."
+msgid_plural "%d repeats assigned like their series."
+msgstr[0] ""
+msgstr[1] ""
+
 #: includes/Admin/Screen/SettingsPage.php:71
 msgid "%d setting(s) saved."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:404
+#: includes/Admin/Screen/MakeupPage.php:481
 msgid "%d suggestion applied. Check it before relying on it."
 msgid_plural "%d suggestions applied. Check them before relying on them."
 msgstr[0] ""
@@ -45,11 +51,15 @@ msgstr ""
 msgid "A course with no price always shows as free. This is about hall rentals and open sessions, where \"free\" would be misleading."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:101
+#: includes/Admin/Screen/MakeupPage.php:103
 msgid "A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:175
+#: includes/Admin/Screen/MakeupPage.php:182
+msgid "A make-up slot usually repeats: the same name, the same weekday, the same hour, the same room. Where you have already assigned one of a series, the others can be assigned like it in one press, and each row offers the same button on its own. Where two occurrences of one series were assigned to two different courses, nothing is offered — the series is not a series. The trainer is not part of the comparison, because the timetable fills it in some weeks and leaves it blank others; it is on screen for you to weigh."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:185
 msgid "A suggestion is offered only where the lesson names its course and exactly one course fits. Filling them in records those, and only those: anything already assigned is left alone, and a suggestion you disagree with is changed like any other row. Nothing here is guessed on your behalf at synchronisation time."
 msgstr ""
 
@@ -70,7 +80,7 @@ msgstr ""
 msgid "Activities that take no bookings"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:128
+#: includes/Admin/Screen/MakeupPage.php:130
 #: includes/Data/PostType.php:122
 msgid "Activity"
 msgstr ""
@@ -79,7 +89,7 @@ msgstr ""
 msgid "Address of the iSport System"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:117
+#: includes/Admin/Screen/MakeupPage.php:119
 msgid "All"
 msgstr ""
 
@@ -87,7 +97,15 @@ msgstr ""
 msgid "Ask an administrator to set it."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:116
+#: includes/Admin/Screen/MakeupPage.php:282
+msgid "Assign like the rest of this series: %s"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:177
+msgid "Assign the repeats like their series"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:118
 msgid "Assigned"
 msgstr ""
 
@@ -116,7 +134,7 @@ msgstr ""
 msgid "Course"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:241
+#: includes/Admin/Screen/MakeupPage.php:253
 msgid "Course %d, which is no longer stored"
 msgstr ""
 
@@ -136,7 +154,7 @@ msgstr ""
 msgid "Course tags"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:232
+#: includes/Admin/Screen/MakeupPage.php:244
 msgid "Course this lesson stands in for"
 msgstr ""
 
@@ -147,7 +165,7 @@ msgstr ""
 msgid "Courses"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:126
+#: includes/Admin/Screen/MakeupPage.php:128
 msgid "Date"
 msgstr ""
 
@@ -179,7 +197,7 @@ msgstr ""
 msgid "Edit course"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:171
+#: includes/Admin/Screen/MakeupPage.php:173
 msgid "Fill in and save the suggestions"
 msgstr ""
 
@@ -205,7 +223,7 @@ msgstr ""
 
 #: includes/Admin/Menu.php:99
 #: includes/Admin/Menu.php:128
-#: includes/Admin/Screen/MakeupPage.php:98
+#: includes/Admin/Screen/MakeupPage.php:100
 #: includes/Admin/Screen/Overview.php:223
 #: includes/Admin/Screen/SettingsPage.php:136
 msgid "Make-up lessons"
@@ -223,7 +241,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:110
+#: includes/Admin/Screen/MakeupPage.php:112
 msgid "No courses are stored yet, so there is nothing to choose from. Synchronise first."
 msgstr ""
 
@@ -231,7 +249,7 @@ msgstr ""
 msgid "No courses found."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:399
+#: includes/Admin/Screen/MakeupPage.php:476
 msgid "No lesson names a course clearly enough to suggest one."
 msgstr ""
 
@@ -239,7 +257,7 @@ msgstr ""
 msgid "No usable address of an iSport System installation is configured, so nothing is being retrieved."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:361
+#: includes/Admin/Screen/MakeupPage.php:370
 msgid "Nothing changed."
 msgstr ""
 
@@ -247,8 +265,12 @@ msgstr ""
 msgid "Nothing has run yet."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:158
+#: includes/Admin/Screen/MakeupPage.php:160
 msgid "Nothing to show here."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:438
+msgid "Nothing was assigned: the series either disagrees about its course or has no assignment to copy."
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:159
@@ -316,7 +338,7 @@ msgstr ""
 msgid "Retries"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:129
+#: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Data/PostType.php:114
 msgid "Room"
 msgstr ""
@@ -325,7 +347,7 @@ msgstr ""
 msgid "Rooms"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:168
+#: includes/Admin/Screen/MakeupPage.php:170
 msgid "Save assignments"
 msgstr ""
 
@@ -346,11 +368,11 @@ msgstr ""
 msgid "Show the booking button by default"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:131
+#: includes/Admin/Screen/MakeupPage.php:133
 msgid "Stands in for"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:258
+#: includes/Admin/Screen/MakeupPage.php:270
 msgid "Suggested by the name: %s"
 msgstr ""
 
@@ -386,7 +408,7 @@ msgstr ""
 msgid "Tied to a course"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:127
+#: includes/Admin/Screen/MakeupPage.php:129
 msgid "Time"
 msgstr ""
 
@@ -394,7 +416,7 @@ msgstr ""
 msgid "Timetable refresh interval (seconds)"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:130
+#: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Data/PostType.php:118
 msgid "Trainer"
 msgstr ""
@@ -403,7 +425,7 @@ msgstr ""
 msgid "Trainers"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:115
+#: includes/Admin/Screen/MakeupPage.php:117
 msgid "Unassigned"
 msgstr ""
 
@@ -444,7 +466,7 @@ msgstr ""
 msgid "You are not allowed to run that."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:74
+#: includes/Admin/Screen/MakeupPage.php:75
 #: includes/Admin/Screen/Overview.php:52
 msgid "You are not allowed to view this page."
 msgstr ""
@@ -466,6 +488,6 @@ msgstr ""
 msgid "iSport settings"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:235
+#: includes/Admin/Screen/MakeupPage.php:247
 msgid "— not assigned —"
 msgstr ""

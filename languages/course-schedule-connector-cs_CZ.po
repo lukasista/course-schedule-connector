@@ -14,7 +14,7 @@ msgstr ""
 msgid "%1$d courses and %2$d occurrences retrieved."
 msgstr "Staženo %1$d kurzů a %2$d termínů."
 
-#: includes/Admin/Screen/MakeupPage.php:366
+#: includes/Admin/Screen/MakeupPage.php:409
 msgid "%d make-up lesson saved."
 msgid_plural "%d make-up lessons saved."
 msgstr[0] "Uložena %d náhradní lekce."
@@ -25,11 +25,18 @@ msgstr[2] "Uloženo %d náhradních lekcí."
 msgid "%d occurrences should belong to a course and do not. Everything else is either matched or a recognised rental."
 msgstr "%d termínů mělo patřit ke kurzu a nepatří. Všechno ostatní je buď spárované, nebo rozpoznaný pronájem."
 
+#: includes/Admin/Screen/MakeupPage.php:443
+msgid "%d repeat assigned like its series."
+msgid_plural "%d repeats assigned like their series."
+msgstr[0] "Přiřazen %d opakující se termín podle řady."
+msgstr[1] "Přiřazeny %d opakující se termíny podle řady."
+msgstr[2] "Přiřazeno %d opakujících se termínů podle řady."
+
 #: includes/Admin/Screen/SettingsPage.php:71
 msgid "%d setting(s) saved."
 msgstr "Uloženo nastavení: %d."
 
-#: includes/Admin/Screen/MakeupPage.php:404
+#: includes/Admin/Screen/MakeupPage.php:481
 msgid "%d suggestion applied. Check it before relying on it."
 msgid_plural "%d suggestions applied. Check them before relying on them."
 msgstr[0] "Doplněn %d návrh. Než se na něj spolehnete, zkontrolujte ho."
@@ -48,11 +55,15 @@ msgstr "Lekce bez ceny se zobrazí jako"
 msgid "A course with no price always shows as free. This is about hall rentals and open sessions, where \"free\" would be misleading."
 msgstr "Kurz bez ceny se vždy zobrazí jako zdarma. Tohle se týká pronájmů sálů a open lekcí, kde by „zdarma“ bylo zavádějící."
 
-#: includes/Admin/Screen/MakeupPage.php:101
+#: includes/Admin/Screen/MakeupPage.php:103
 msgid "A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course."
 msgstr "Náhradní lekce zastupuje lekci právě v jednom kurzu, ale z rozvrhu se nedá poznat ve kterém: stejný název se používá pro náhradní termín kteréhokoli kurzu, který ho zrovna potřebuje, takže dvě stejně pojmenované lekce mohou patřit dvěma různým kurzům. U každého termínu proto vyberte kurz. Termíny, které necháte nepřiřazené, se dál ukládají i počítají — jen se u žádného kurzu neobjeví."
 
-#: includes/Admin/Screen/MakeupPage.php:175
+#: includes/Admin/Screen/MakeupPage.php:182
+msgid "A make-up slot usually repeats: the same name, the same weekday, the same hour, the same room. Where you have already assigned one of a series, the others can be assigned like it in one press, and each row offers the same button on its own. Where two occurrences of one series were assigned to two different courses, nothing is offered — the series is not a series. The trainer is not part of the comparison, because the timetable fills it in some weeks and leaves it blank others; it is on screen for you to weigh."
+msgstr "Náhradní termín se obvykle opakuje: stejný název, stejný den v týdnu, stejná hodina, stejný sál. Kde už jste jeden termín takové řady přiřadil, jde zbytek přiřadit jedním stiskem — a stejné tlačítko nabízí i každý řádek zvlášť. Pokud byly dva termíny jedné řady přiřazeny ke dvěma různým kurzům, nenabídne se nic: taková řada žádná řada není. Lektor se do porovnání nepočítá, protože rozvrh ho někdy vyplní a jindy nechá prázdný; je vidět na obrazovce, abyste ho mohl zvážit."
+
+#: includes/Admin/Screen/MakeupPage.php:185
 msgid "A suggestion is offered only where the lesson names its course and exactly one course fits. Filling them in records those, and only those: anything already assigned is left alone, and a suggestion you disagree with is changed like any other row. Nothing here is guessed on your behalf at synchronisation time."
 msgstr "Návrh se nabídne jen tam, kde lekce jmenuje svůj kurz a sedí právě jeden. Doplněním se uloží právě tyhle a nic jiného: co je už přiřazené, zůstane beze změny, a návrh, se kterým nesouhlasíte, změníte jako kterýkoli jiný řádek. Při synchronizaci se za vás nedohaduje nic."
 
@@ -73,7 +84,7 @@ msgstr "Aktivity, které zabírají místo v rozvrhu, ale nepřijímají platby 
 msgid "Activities that take no bookings"
 msgstr "Aktivity, na které se nepřihlašuje"
 
-#: includes/Admin/Screen/MakeupPage.php:128
+#: includes/Admin/Screen/MakeupPage.php:130
 #: includes/Data/PostType.php:122
 msgid "Activity"
 msgstr "Aktivita"
@@ -82,7 +93,7 @@ msgstr "Aktivita"
 msgid "Address of the iSport System"
 msgstr "Adresa iSport systému"
 
-#: includes/Admin/Screen/MakeupPage.php:117
+#: includes/Admin/Screen/MakeupPage.php:119
 msgid "All"
 msgstr "Vše"
 
@@ -90,7 +101,15 @@ msgstr "Vše"
 msgid "Ask an administrator to set it."
 msgstr "Požádejte administrátora, ať ji nastaví."
 
-#: includes/Admin/Screen/MakeupPage.php:116
+#: includes/Admin/Screen/MakeupPage.php:282
+msgid "Assign like the rest of this series: %s"
+msgstr "Přiřadit stejně jako zbytek řady: %s"
+
+#: includes/Admin/Screen/MakeupPage.php:177
+msgid "Assign the repeats like their series"
+msgstr "Přiřadit opakující se termíny podle řady"
+
+#: includes/Admin/Screen/MakeupPage.php:118
 msgid "Assigned"
 msgstr "Přiřazené"
 
@@ -119,7 +138,7 @@ msgstr "Chyb po sobě"
 msgid "Course"
 msgstr "Kurz"
 
-#: includes/Admin/Screen/MakeupPage.php:241
+#: includes/Admin/Screen/MakeupPage.php:253
 msgid "Course %d, which is no longer stored"
 msgstr "Kurz %d, který už není uložený"
 
@@ -139,7 +158,7 @@ msgstr "Štítek kurzu"
 msgid "Course tags"
 msgstr "Štítky kurzů"
 
-#: includes/Admin/Screen/MakeupPage.php:232
+#: includes/Admin/Screen/MakeupPage.php:244
 msgid "Course this lesson stands in for"
 msgstr "Kurz, který tato lekce zastupuje"
 
@@ -150,7 +169,7 @@ msgstr "Kurz, který tato lekce zastupuje"
 msgid "Courses"
 msgstr "Kurzy"
 
-#: includes/Admin/Screen/MakeupPage.php:126
+#: includes/Admin/Screen/MakeupPage.php:128
 msgid "Date"
 msgstr "Datum"
 
@@ -182,7 +201,7 @@ msgstr "Zobrazení"
 msgid "Edit course"
 msgstr "Upravit kurz"
 
-#: includes/Admin/Screen/MakeupPage.php:171
+#: includes/Admin/Screen/MakeupPage.php:173
 msgid "Fill in and save the suggestions"
 msgstr "Doplnit a uložit návrhy"
 
@@ -208,7 +227,7 @@ msgstr "Úloha"
 
 #: includes/Admin/Menu.php:99
 #: includes/Admin/Menu.php:128
-#: includes/Admin/Screen/MakeupPage.php:98
+#: includes/Admin/Screen/MakeupPage.php:100
 #: includes/Admin/Screen/Overview.php:223
 #: includes/Admin/Screen/SettingsPage.php:136
 msgid "Make-up lessons"
@@ -226,7 +245,7 @@ msgstr "Názvy, které označují lekci jako náhradu za zmeškanou, jeden na ř
 msgid "No"
 msgstr "Ne"
 
-#: includes/Admin/Screen/MakeupPage.php:110
+#: includes/Admin/Screen/MakeupPage.php:112
 msgid "No courses are stored yet, so there is nothing to choose from. Synchronise first."
 msgstr "Zatím nejsou uložené žádné kurzy, není z čeho vybírat. Nejdřív spusťte synchronizaci."
 
@@ -234,7 +253,7 @@ msgstr "Zatím nejsou uložené žádné kurzy, není z čeho vybírat. Nejdří
 msgid "No courses found."
 msgstr "Žádné kurzy nenalezeny."
 
-#: includes/Admin/Screen/MakeupPage.php:399
+#: includes/Admin/Screen/MakeupPage.php:476
 msgid "No lesson names a course clearly enough to suggest one."
 msgstr "Žádná lekce nejmenuje kurz dost jasně na to, aby šel navrhnout."
 
@@ -242,7 +261,7 @@ msgstr "Žádná lekce nejmenuje kurz dost jasně na to, aby šel navrhnout."
 msgid "No usable address of an iSport System installation is configured, so nothing is being retrieved."
 msgstr "Není nastavená použitelná adresa iSport systému, takže se nic nestahuje."
 
-#: includes/Admin/Screen/MakeupPage.php:361
+#: includes/Admin/Screen/MakeupPage.php:370
 msgid "Nothing changed."
 msgstr "Nic se nezměnilo."
 
@@ -250,9 +269,13 @@ msgstr "Nic se nezměnilo."
 msgid "Nothing has run yet."
 msgstr "Zatím nic neproběhlo."
 
-#: includes/Admin/Screen/MakeupPage.php:158
+#: includes/Admin/Screen/MakeupPage.php:160
 msgid "Nothing to show here."
 msgstr "Tady není co zobrazit."
+
+#: includes/Admin/Screen/MakeupPage.php:438
+msgid "Nothing was assigned: the series either disagrees about its course or has no assignment to copy."
+msgstr "Nic se nepřiřadilo: řada se buď neshoduje na kurzu, nebo v ní není co zkopírovat."
 
 #: includes/Admin/Screen/SettingsPage.php:159
 msgid "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear."
@@ -319,7 +342,7 @@ msgstr "Obnovit pozastavené požadavky"
 msgid "Retries"
 msgstr "Počet opakování"
 
-#: includes/Admin/Screen/MakeupPage.php:129
+#: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Data/PostType.php:114
 msgid "Room"
 msgstr "Sál"
@@ -328,7 +351,7 @@ msgstr "Sál"
 msgid "Rooms"
 msgstr "Sály"
 
-#: includes/Admin/Screen/MakeupPage.php:168
+#: includes/Admin/Screen/MakeupPage.php:170
 msgid "Save assignments"
 msgstr "Uložit přiřazení"
 
@@ -349,11 +372,11 @@ msgstr "Zobrazovat zrušené lekce"
 msgid "Show the booking button by default"
 msgstr "Ve výchozím stavu zobrazovat tlačítko pro přihlášení"
 
-#: includes/Admin/Screen/MakeupPage.php:131
+#: includes/Admin/Screen/MakeupPage.php:133
 msgid "Stands in for"
 msgstr "Zastupuje kurz"
 
-#: includes/Admin/Screen/MakeupPage.php:258
+#: includes/Admin/Screen/MakeupPage.php:270
 msgid "Suggested by the name: %s"
 msgstr "Návrh podle názvu: %s"
 
@@ -389,7 +412,7 @@ msgstr "Zobrazí se přeškrtnuté a označené. Odškrtnutím je skryjete úpln
 msgid "Tied to a course"
 msgstr "Spárováno s kurzem"
 
-#: includes/Admin/Screen/MakeupPage.php:127
+#: includes/Admin/Screen/MakeupPage.php:129
 msgid "Time"
 msgstr "Čas"
 
@@ -397,7 +420,7 @@ msgstr "Čas"
 msgid "Timetable refresh interval (seconds)"
 msgstr "Jak často stahovat rozvrh (sekundy)"
 
-#: includes/Admin/Screen/MakeupPage.php:130
+#: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Data/PostType.php:118
 msgid "Trainer"
 msgstr "Lektor"
@@ -406,7 +429,7 @@ msgstr "Lektor"
 msgid "Trainers"
 msgstr "Lektoři"
 
-#: includes/Admin/Screen/MakeupPage.php:115
+#: includes/Admin/Screen/MakeupPage.php:117
 msgid "Unassigned"
 msgstr "Nepřiřazené"
 
@@ -447,7 +470,7 @@ msgstr "Tohle nastavení nemáte oprávnění měnit."
 msgid "You are not allowed to run that."
 msgstr "Tohle nemáte oprávnění spustit."
 
-#: includes/Admin/Screen/MakeupPage.php:74
+#: includes/Admin/Screen/MakeupPage.php:75
 #: includes/Admin/Screen/Overview.php:52
 msgid "You are not allowed to view this page."
 msgstr "Tuhle stránku nemáte oprávnění zobrazit."
@@ -469,6 +492,6 @@ msgstr "Přehled iSport"
 msgid "iSport settings"
 msgstr "Nastavení iSport"
 
-#: includes/Admin/Screen/MakeupPage.php:235
+#: includes/Admin/Screen/MakeupPage.php:247
 msgid "— not assigned —"
 msgstr "— nepřiřazeno —"

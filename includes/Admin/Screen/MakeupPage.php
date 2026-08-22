@@ -15,6 +15,7 @@ use CSCS\Data\Schema;
 use CSCS\Plugin;
 use CSCS\Support\Normalise;
 use CSCS\Sync\MakeupResolver;
+use CSCS\Sync\MakeupSiblings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -80,6 +81,7 @@ final class MakeupPage {
 		$courses     = $this->plugin->courses()->names();
 		$occurrences = $repository->by_status( LessonRepository::STATUS_MAKEUP, self::LIMIT );
 		$suggestions = $this->suggestions( $occurrences, $courses );
+		$proposals   = ( new MakeupSiblings() )->propose( $occurrences, $links );
 		$filter      = $this->filter();
 		$linked      = 0;
 
@@ -149,7 +151,7 @@ final class MakeupPage {
 
 							++$shown;
 
-							$this->row( $row, $term_id, $course_id, $courses, $suggestions );
+							$this->row( $row, $term_id, $course_id, $courses, $suggestions, $proposals );
 						}
 
 						if ( 0 === $shown ) :
@@ -170,6 +172,14 @@ final class MakeupPage {
 					<button type="submit" name="cscs_action" value="suggest" class="button">
 						<?php esc_html_e( 'Fill in and save the suggestions', 'course-schedule-connector' ); ?>
 					</button>
+					<?php if ( array() !== $proposals ) : ?>
+						<button type="submit" name="cscs_action" value="like-all" class="button">
+							<?php esc_html_e( 'Assign the repeats like their series', 'course-schedule-connector' ); ?>
+						</button>
+					<?php endif; ?>
+				</p>
+				<p class="description" style="max-width:52em">
+					<?php esc_html_e( 'A make-up slot usually repeats: the same name, the same weekday, the same hour, the same room. Where you have already assigned one of a series, the others can be assigned like it in one press, and each row offers the same button on its own. Where two occurrences of one series were assigned to two different courses, nothing is offered — the series is not a series. The trainer is not part of the comparison, because the timetable fills it in some weeks and leaves it blank others; it is on screen for you to weigh.', 'course-schedule-connector' ); ?>
 				</p>
 				<p class="description" style="max-width:52em">
 					<?php esc_html_e( 'A suggestion is offered only where the lesson names its course and exactly one course fits. Filling them in records those, and only those: anything already assigned is left alone, and a suggestion you disagree with is changed like any other row. Nothing here is guessed on your behalf at synchronisation time.', 'course-schedule-connector' ); ?>
@@ -207,12 +217,14 @@ final class MakeupPage {
 	 * @param int                  $course_id   Currently linked course, or 0.
 	 * @param array<int, string>   $courses     Course id to name.
 	 * @param array<string, int>   $suggestions Match key to course id.
+	 * @param array<int, int>      $proposals   Occurrence id to the course its series uses.
 	 * @return void
 	 */
-	private function row( array $row, int $term_id, int $course_id, array $courses, array $suggestions ): void {
+	private function row( array $row, int $term_id, int $course_id, array $courses, array $suggestions, array $proposals ): void {
 		$name       = (string) ( $row['activity_name'] ?? '' );
 		$date       = (string) ( $row['lesson_date'] ?? '' );
 		$suggested  = (int) ( $suggestions[ Normalise::match_key( $name ) ] ?? 0 );
+		$proposed   = (int) ( $proposals[ $term_id ] ?? 0 );
 		$field      = 'cscs_makeup[' . $term_id . ']';
 		$identifier = 'cscs-makeup-' . $term_id;
 
@@ -259,6 +271,19 @@ final class MakeupPage {
 							esc_html( $suggested . ' · ' . ( $courses[ $suggested ] ?? '' ) )
 						);
 						?>
+					</p>
+				<?php endif; ?>
+				<?php if ( 0 === $course_id && 0 !== $proposed ) : ?>
+					<p>
+						<button type="submit" name="cscs_action" value="like-<?php echo esc_attr( (string) $term_id ); ?>" class="button button-small">
+							<?php
+							printf(
+								/* translators: %s: course id and name */
+								esc_html__( 'Assign like the rest of this series: %s', 'course-schedule-connector' ),
+								esc_html( $proposed . ' · ' . ( $courses[ $proposed ] ?? '' ) )
+							);
+							?>
+						</button>
 					</p>
 				<?php endif; ?>
 			</td>
@@ -328,14 +353,32 @@ final class MakeupPage {
 
 		$action = sanitize_key( wp_unslash( $_POST['cscs_action'] ) );
 
+		// Whatever the button, the fields that came with it are saved first.
+		// Pressing "assign like the series" after changing three rows by hand
+		// must not throw those three changes away.
+		$messages = array_filter( array( $this->save_selection() ) );
+
 		if ( 'suggest' === $action ) {
-			return $this->apply_suggestions();
+			$messages[] = $this->apply_suggestions();
 		}
 
-		if ( 'save' !== $action ) {
-			return '';
+		if ( str_starts_with( $action, 'like-' ) ) {
+			$messages[] = $this->apply_series( 'like-all' === $action ? 0 : (int) substr( $action, 5 ) );
 		}
 
+		if ( array() === $messages ) {
+			return __( 'Nothing changed.', 'course-schedule-connector' );
+		}
+
+		return implode( ' ', $messages );
+	}
+
+	/**
+	 * Records whatever the select boxes were submitted with.
+	 *
+	 * @return string Message, empty when nothing changed.
+	 */
+	private function save_selection(): string {
 		$submitted = isset( $_POST['cscs_makeup'] ) && is_array( $_POST['cscs_makeup'] )
 			? wp_unslash( $_POST['cscs_makeup'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Both the key and the value are cast to integers below.
 			: array();
@@ -358,13 +401,47 @@ final class MakeupPage {
 		}
 
 		if ( 0 === $changed ) {
-			return __( 'Nothing changed.', 'course-schedule-connector' );
+			return '';
 		}
 
 		return sprintf(
 			/* translators: %d: number of make-up lessons */
 			_n( '%d make-up lesson saved.', '%d make-up lessons saved.', $changed, 'course-schedule-connector' ),
 			$changed
+		);
+	}
+
+	/**
+	 * Assigns an occurrence, or every one of them, the way its series is.
+	 *
+	 * @param int $term_id Occurrence to assign, or 0 for all that can be.
+	 * @return string Message to show.
+	 */
+	private function apply_series( int $term_id ): string {
+		$repository  = $this->plugin->lessons();
+		$occurrences = $repository->by_status( LessonRepository::STATUS_MAKEUP, self::LIMIT );
+		$proposals   = ( new MakeupSiblings() )->propose( $occurrences, $repository->makeup_links() );
+
+		if ( 0 !== $term_id ) {
+			$proposals = array_intersect_key( $proposals, array( $term_id => 0 ) );
+		}
+
+		$assigned = 0;
+
+		foreach ( $proposals as $occurrence => $course_id ) {
+			if ( $repository->link_makeup( (int) $occurrence, (int) $course_id ) ) {
+				++$assigned;
+			}
+		}
+
+		if ( 0 === $assigned ) {
+			return __( 'Nothing was assigned: the series either disagrees about its course or has no assignment to copy.', 'course-schedule-connector' );
+		}
+
+		return sprintf(
+			/* translators: %d: number of make-up lessons */
+			_n( '%d repeat assigned like its series.', '%d repeats assigned like their series.', $assigned, 'course-schedule-connector' ),
+			$assigned
 		);
 	}
 
