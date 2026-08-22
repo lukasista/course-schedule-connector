@@ -231,6 +231,15 @@ Below a configurable width every table stops being a table: each row becomes a c
 
 ## Block
 
+`cscs/display`, one attribute: `set`. Registered from `blocks/display/block.json` with a `render_callback`, so the editor previews it through the block-renderer endpoint WordPress already has — no route of the plugin's own to secure, and the preview is the page rather than a drawing of it.
+
+The editor script is plain browser JavaScript against the packages WordPress loads (`wp-blocks`, `wp-element`, `wp-components`, `wp-block-editor`, `wp-i18n`, `wp-server-side-render`). There is no build step, which is deliberate for a block that is one select box: a bundler here would mean a compiled file in the repository or a toolchain between a change and a working plugin. Its strings are translated through `wp_set_script_translations()`, which reads `languages/course-schedule-connector-{locale}-{md5}.json` where the hash is of the script's path relative to the plugin — `blocks/display/editor.js`.
+
+`save()` returns null: nothing is written into post content. A listing saved as markup would be a snapshot of a Tuesday, wrong by Wednesday, and invisible to everyone until somebody reopened the page.
+
+`Assets` registers the stylesheet once on `init` and adds the generated media query after it; the shortcode, the block and the builder module then only enqueue the handle. Registering is not enqueueing — the file reaches a page only where something renders a listing.
+
+
 `cscs/display` — a single block with a display-set picker in the sidebar, server-rendered through the same renderer.
 
 ## Divi 5 modules

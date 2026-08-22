@@ -222,6 +222,10 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
+#: includes/Render/Block.php:109
+msgid "Choose a display set in the block settings."
+msgstr ""
+
 #: includes/Admin/Screen/Overview.php:219
 msgid "Class occurrences stored"
 msgstr ""
@@ -1076,12 +1080,20 @@ msgstr ""
 msgid "Zero shows everything on one page."
 msgstr ""
 
+#: includes/Render/Block.php:140
+msgid "classes"
+msgstr ""
+
+#: includes/Render/Block.php:141
+msgid "courses"
+msgstr ""
+
 #: includes/Admin/Menu.php:72
 #: includes/Admin/Menu.php:73
 msgid "iSport"
 msgstr ""
 
-#: includes/Admin/Capabilities.php:52
+#: includes/Admin/Capabilities.php:89
 msgid "iSport manager"
 msgstr ""
 
@@ -1115,10 +1127,48 @@ msgstr ""
 msgid "— belongs to no course —"
 msgstr ""
 
+#: includes/Render/Block.php:129
+msgid "— choose a set —"
+msgstr ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:379
 msgid "— hidden everywhere"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:247
 msgid "— not assigned —"
+msgstr ""
+
+#: blocks/display/block.json
+msgctxt "block title"
+msgid "Courses and schedule"
+msgstr ""
+
+#: blocks/display/block.json
+msgctxt "block description"
+msgid "Shows a listing of courses or classes from iSport, configured by a display set."
+msgstr ""
+
+#: blocks/display/editor.js
+msgid "Display set"
+msgstr ""
+
+#: blocks/display/editor.js
+msgid "Which set to show"
+msgstr ""
+
+#: blocks/display/editor.js
+msgid "What the set shows — the columns, the rooms, how far ahead — is changed under iSport, Display sets. Every page using the set follows."
+msgstr ""
+
+#: blocks/display/editor.js
+msgid "Courses and schedule"
+msgstr ""
+
+#: blocks/display/editor.js
+msgid "Choose which display set this listing shows."
+msgstr ""
+
+#: blocks/display/editor.js
+msgid "No display sets yet. Make one under iSport, Display sets, and it will appear here."
 msgstr ""

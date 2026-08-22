@@ -31,6 +31,8 @@ use CSCS\Data\LessonRepository;
 use CSCS\Data\PostType;
 use CSCS\Data\RoomMap;
 use CSCS\Data\Schema;
+use CSCS\Render\Assets;
+use CSCS\Render\Block;
 use CSCS\Render\Renderer;
 use CSCS\Render\Shortcodes;
 use CSCS\Sync\Logger;
@@ -117,7 +119,9 @@ final class Plugin {
 			( new CourseEditor( $this ) )->register();
 			( new CourseList() )->register();
 		}
+		( new Assets( $this ) )->register();
 		( new Shortcodes( $this ) )->register();
+		( new Block( $this ) )->register();
 
 		add_action( 'cscs_setting_changed', array( $this, 'on_setting_changed' ) );
 

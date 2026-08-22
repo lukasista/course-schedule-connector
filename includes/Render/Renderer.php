@@ -204,14 +204,9 @@ final class Renderer {
 
 		$this->styled = true;
 
-		wp_enqueue_style( 'cscs', CSCS_URL . 'assets/css/cscs.css', array(), CSCS_VERSION );
-
-		$breakpoint = $this->plugin->settings()->get_int( 'table_breakpoint', 320, 1600 );
-
-		// The width at which a table folds is a setting, and a setting cannot
-		// live in a static stylesheet: a media query takes a number, not a
-		// custom property.
-		wp_add_inline_style( 'cscs', self::responsive_css( $breakpoint ) );
+		// Registered once, elsewhere, because three entrances would otherwise
+		// each add the same generated rule after the same file.
+		wp_enqueue_style( Assets::HANDLE );
 	}
 
 	/**

@@ -229,6 +229,10 @@ msgstr "Zrušené lekce"
 msgid "Capacity"
 msgstr "Kapacita"
 
+#: includes/Render/Block.php:109
+msgid "Choose a display set in the block settings."
+msgstr "V nastavení bloku vyberte zobrazovací sadu."
+
 #: includes/Admin/Screen/Overview.php:219
 msgid "Class occurrences stored"
 msgstr "Uložených termínů lekcí"
@@ -1083,12 +1087,20 @@ msgstr "Tuhle stránku nemáte oprávnění zobrazit."
 msgid "Zero shows everything on one page."
 msgstr "Nula zobrazí všechno na jedné stránce."
 
+#: includes/Render/Block.php:140
+msgid "classes"
+msgstr "lekce"
+
+#: includes/Render/Block.php:141
+msgid "courses"
+msgstr "kurzy"
+
 #: includes/Admin/Menu.php:72
 #: includes/Admin/Menu.php:73
 msgid "iSport"
 msgstr "iSport"
 
-#: includes/Admin/Capabilities.php:52
+#: includes/Admin/Capabilities.php:89
 msgid "iSport manager"
 msgstr "Správce iSport"
 
@@ -1123,6 +1135,10 @@ msgstr "— upravováno"
 msgid "— belongs to no course —"
 msgstr "— nepatří k žádnému kurzu —"
 
+#: includes/Render/Block.php:129
+msgid "— choose a set —"
+msgstr "— vyberte sadu —"
+
 #: includes/Admin/Screen/DisplaySetsPage.php:379
 msgid "— hidden everywhere"
 msgstr "— všude skrytý"
@@ -1130,3 +1146,37 @@ msgstr "— všude skrytý"
 #: includes/Admin/Screen/MakeupPage.php:247
 msgid "— not assigned —"
 msgstr "— nepřiřazeno —"
+
+#: blocks/display/block.json
+msgctxt "block title"
+msgid "Courses and schedule"
+msgstr "Kurzy a rozvrh"
+
+#: blocks/display/block.json
+msgctxt "block description"
+msgid "Shows a listing of courses or classes from iSport, configured by a display set."
+msgstr "Zobrazí výpis kurzů nebo lekcí z iSportu podle zvolené zobrazovací sady."
+
+#: blocks/display/editor.js
+msgid "Display set"
+msgstr "Zobrazovací sada"
+
+#: blocks/display/editor.js
+msgid "Which set to show"
+msgstr "Která sada se zobrazí"
+
+#: blocks/display/editor.js
+msgid "What the set shows — the columns, the rooms, how far ahead — is changed under iSport, Display sets. Every page using the set follows."
+msgstr "Co sada ukazuje — sloupce, sály, jak daleko dopředu — se mění v iSport → Zobrazovací sady. Všechny stránky, které sadu používají, se přizpůsobí."
+
+#: blocks/display/editor.js
+msgid "Courses and schedule"
+msgstr "Kurzy a rozvrh"
+
+#: blocks/display/editor.js
+msgid "Choose which display set this listing shows."
+msgstr "Vyberte, kterou zobrazovací sadu má tenhle výpis ukazovat."
+
+#: blocks/display/editor.js
+msgid "No display sets yet. Make one under iSport, Display sets, and it will appear here."
+msgstr "Zatím žádné zobrazovací sady. Vytvořte jednu v iSport → Zobrazovací sady a objeví se tady."
