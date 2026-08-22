@@ -20,6 +20,7 @@ use CSCS\Admin\CourseList;
 use CSCS\Admin\Menu;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
+use CSCS\Cli\CapsCommand;
 use CSCS\Cli\MakeupCommand;
 use CSCS\Cli\SetsCommand;
 use CSCS\Cli\SettingsCommand;
@@ -102,6 +103,12 @@ final class Plugin {
 		// the stored version is current.
 		Schema::install();
 
+		// The same reasoning as the schema: a capability added in a later
+		// version has to reach a site that was activated before it existed.
+		// Without this the admin menu is invisible on exactly those sites, and
+		// nothing anywhere says why.
+		Capabilities::ensure();
+
 		add_action( 'init', array( $this, 'load_translations' ), 5 );
 		add_action( 'init', array( PostType::class, 'register' ) );
 
@@ -122,6 +129,7 @@ final class Plugin {
 			SettingsCommand::register( $this );
 			MakeupCommand::register( $this );
 			SetsCommand::register( $this );
+			CapsCommand::register( $this );
 		}
 
 		/**

@@ -193,6 +193,9 @@ Pokud potřebujete něco z toho změnit, obraťte se na administrátora.
 
 ## Řešení potíží
 
+**Menu „iSport“ v administraci vůbec není.** Přihlášený uživatel nemá oprávnění `cscs_manage_content`. Plugin si ho od verze 0.4 doplňuje sám při prvním načtení stránky; pokud přesto chybí, pomůže `wp cscs caps install`, nebo deaktivace a opětovná aktivace pluginu. Zkontrolovat stav jde příkazem `wp cscs caps list`.
+
+
 **Na stránce se nic nezobrazuje.**
 Zkontrolujte, že modul nebo zkrácený kód má vybranou Zobrazovací sadu a že filtry sady nejsou tak úzké, že jim nic neodpovídá. Zkuste dočasně zrušit filtr sálu.
 
