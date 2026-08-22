@@ -1205,6 +1205,10 @@ msgid "No display sets yet. Make one under iSport, Display sets, and it will app
 msgstr "Zatím žádné zobrazovací sady. Vytvořte jednu v iSport → Zobrazovací sady a objeví se tady."
 
 #: visual-builder/cscs-divi-display.js
+msgid "The listing could not be loaded."
+msgstr "Výpis se nepodařilo načíst."
+
+#: visual-builder/cscs-divi-display.js
 msgid "Loading the listing…"
 msgstr "Načítám výpis…"
 

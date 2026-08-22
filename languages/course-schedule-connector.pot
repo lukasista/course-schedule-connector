@@ -1197,6 +1197,10 @@ msgid "No display sets yet. Make one under iSport, Display sets, and it will app
 msgstr ""
 
 #: visual-builder/cscs-divi-display.js
+msgid "The listing could not be loaded."
+msgstr ""
+
+#: visual-builder/cscs-divi-display.js
 msgid "Loading the listing…"
 msgstr ""
 

@@ -54,9 +54,7 @@
 						"category": "basic_option",
 						"features": {
 							"hover": false,
-							"sticky": false,
-							"responsive": false,
-							"dynamicContent": false
+							"sticky": false
 						},
 						"component": {
 							"name": "divi/select",
@@ -67,7 +65,8 @@
 						}
 					}
 				}
-			}
+			},
+			"selector": "{{selector}}"
 		},
 		"css": {
 			"type": "object"

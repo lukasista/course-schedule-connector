@@ -12,6 +12,7 @@ namespace CSCS\Divi;
 use CSCS\Data\DisplaySet;
 use CSCS\Plugin;
 use CSCS\Render\Assets;
+use CSCS\Render\RestPreview;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -106,7 +107,7 @@ final class DisplayModule {
 				'version' => CSCS_VERSION,
 				'script'  => array(
 					'src'                => CSCS_URL . 'visual-builder/cscs-divi-display.js',
-					'deps'               => array( 'react', 'divi-module', 'divi-module-library', 'wp-hooks', 'wp-api-fetch', 'wp-i18n' ),
+					'deps'               => array( 'react', 'divi-module', 'divi-module-library', 'wp-hooks', 'wp-i18n' ),
 					'enqueue_top_window' => false,
 					'enqueue_app_window' => true,
 				),
@@ -168,6 +169,11 @@ final class DisplayModule {
 		$metadata['title']  = __( 'iSport listing', 'course-schedule-connector' );
 		$metadata['titles'] = __( 'iSport listings', 'course-schedule-connector' );
 
+		// The builder fetches its preview with a plain request rather than
+		// through wp.apiFetch, which is not reliably present in the app window.
+		$metadata['preview'] = rest_url( RestPreview::NAMESPACE . '/preview?set=' );
+		$metadata['nonce']   = wp_create_nonce( 'wp_rest' );
+
 		$metadata['attributes']['set']['settings']['innerContent']['item']['label']       = __( 'Display set', 'course-schedule-connector' );
 		$metadata['attributes']['set']['settings']['innerContent']['item']['description'] = __( 'Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.', 'course-schedule-connector' );
 
@@ -180,9 +186,10 @@ final class DisplayModule {
 	 * @return array<string, array<string, string>>
 	 */
 	private function options(): array {
-		$options = array(
-			'' => array( 'label' => __( '— choose a set —', 'course-schedule-connector' ) ),
-		);
+		// No "choose one" entry: a select whose first option carries an empty
+		// value has nothing to commit when it is picked, and the field then
+		// refuses every choice made after it.
+		$options = array();
 
 		foreach ( $this->plugin->sets()->all() as $set ) {
 			$options[ $set->id ] = array(
