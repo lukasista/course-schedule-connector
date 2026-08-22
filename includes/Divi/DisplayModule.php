@@ -34,6 +34,16 @@ defined( 'ABSPATH' ) || exit;
 final class DisplayModule {
 
 	/**
+	 * Option recording what the builder last asked for.
+	 *
+	 * A module that does not appear, or a field that will not accept a value,
+	 * gives no sign of which link in the chain broke: the registration, the
+	 * script, or the metadata. This records each of them as it happens, and
+	 * `wp cscs divi status` reads it back.
+	 */
+	public const PROBE_OPTION = 'cscs_divi_probe';
+
+	/**
 	 * Module name, and the block type it registers as.
 	 *
 	 * Deliberately not the same as the editor block: two block types cannot
@@ -89,6 +99,8 @@ final class DisplayModule {
 		}
 
 		$tree->add_dependency( new ModuleDependency() );
+
+		self::note( 'registered_at' );
 	}
 
 	/**
@@ -113,6 +125,8 @@ final class DisplayModule {
 				),
 			)
 		);
+
+		self::note( 'package_at' );
 	}
 
 	/**
@@ -126,11 +140,37 @@ final class DisplayModule {
 	 */
 	public function hand_over_metadata(): void {
 		if ( ! wp_script_is( self::PACKAGE, 'registered' ) ) {
+			self::note( 'script_missing_at' );
+
 			return;
 		}
 
-		wp_localize_script( self::PACKAGE, 'cscsDiviModule', $this->metadata() );
+		$metadata = $this->metadata();
+
+		wp_localize_script( self::PACKAGE, 'cscsDiviModule', $metadata );
 		wp_set_script_translations( self::PACKAGE, 'course-schedule-connector', CSCS_DIR . 'languages' );
+
+		self::note( 'metadata_at', count( $metadata['attributes']['set']['settings']['advanced']['id']['item']['component']['props']['options'] ?? array() ) );
+	}
+
+	/**
+	 * Records that a step happened, for the diagnostic to read back.
+	 *
+	 * @param string $step  Which step.
+	 * @param int    $count Optional count worth remembering.
+	 * @return void
+	 */
+	private static function note( string $step, int $count = -1 ): void {
+		$probe = get_option( self::PROBE_OPTION, array() );
+		$probe = is_array( $probe ) ? $probe : array();
+
+		$probe[ $step ] = time();
+
+		if ( -1 !== $count ) {
+			$probe['options'] = $count;
+		}
+
+		update_option( self::PROBE_OPTION, $probe, false );
 	}
 
 	/**

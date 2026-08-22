@@ -21,6 +21,7 @@ use CSCS\Admin\Menu;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
 use CSCS\Cli\CapsCommand;
+use CSCS\Cli\DiviCommand;
 use CSCS\Cli\MakeupCommand;
 use CSCS\Cli\SetsCommand;
 use CSCS\Cli\SettingsCommand;
@@ -140,6 +141,7 @@ final class Plugin {
 			MakeupCommand::register( $this );
 			SetsCommand::register( $this );
 			CapsCommand::register( $this );
+			DiviCommand::register( $this );
 		}
 
 		/**
