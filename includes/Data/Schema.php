@@ -34,8 +34,13 @@ final class Schema {
 	 * Version 2 made id_course NOT NULL with a zero default. $wpdb->prepare()
 	 * turns a null bound to %d into 0, so "no course" was already being stored
 	 * as zero while every query looked for NULL and therefore found nothing.
+	 *
+	 * Version 3 added the status column. A boolean saying "external or not"
+	 * could not tell a hall rental from an activity that takes no bookings, so
+	 * a classifier that silently moved dozens of rows between the two could not
+	 * be checked by anyone.
 	 */
-	public const VERSION = 2;
+	public const VERSION = 3;
 
 	/**
 	 * Returns the lessons table name.
@@ -108,6 +113,7 @@ final class Schema {
 				canceled tinyint(1) NOT NULL DEFAULT 0,
 				booking_allowed tinyint(1) NOT NULL DEFAULT 0,
 				is_external tinyint(1) NOT NULL DEFAULT 0,
+				status varchar(20) NOT NULL DEFAULT '',
 				payload longtext NULL,
 				synced_at bigint(20) unsigned NOT NULL DEFAULT 0,
 				PRIMARY KEY  (id_activity_term),
@@ -116,7 +122,8 @@ final class Schema {
 				KEY id_tab (id_tab),
 				KEY id_course (id_course),
 				KEY match_key (match_key),
-				KEY canceled (canceled)
+				KEY canceled (canceled),
+				KEY status (status)
 			) {$charset};"
 		);
 

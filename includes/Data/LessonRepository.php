@@ -32,6 +32,26 @@ final class LessonRepository {
 	public const MANUAL_OPTION = 'cscs_manual_matches';
 
 	/**
+	 * Row is tied to a course.
+	 */
+	public const STATUS_MATCHED = 'matched';
+
+	/**
+	 * Row is a hall rental or an open public session.
+	 */
+	public const STATUS_EXTERNAL = 'external';
+
+	/**
+	 * Row belongs to an activity that takes no bookings.
+	 */
+	public const STATUS_NOT_BOOKABLE = 'not_bookable';
+
+	/**
+	 * Row should have found a course and did not.
+	 */
+	public const STATUS_UNRESOLVED = 'unresolved';
+
+	/**
 	 * How many rows are written per statement.
 	 */
 	private const CHUNK = 100;
@@ -59,7 +79,7 @@ final class LessonRepository {
 			$placeholders = array();
 
 			foreach ( $chunk as $lesson ) {
-				$placeholders[] = '(%d,%d,%d,%s,%s,%s,%d,%d,%s,%s,%s,%d,%s,%d,%s,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%s,%d)';
+				$placeholders[] = '(%d,%d,%d,%s,%s,%s,%d,%d,%s,%s,%s,%d,%s,%d,%s,%d,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%d)';
 
 				array_push( $rows, ...array_values( self::row_values( $lesson, $outcome, $now ) ) );
 			}
@@ -69,7 +89,7 @@ final class LessonRepository {
 				stamp_from, stamp_to, lesson_date, time_from, time_to, id_tab, tab_name,
 				id_lane, lane_name, id_trainer, trainer_name, price, capacity, capacity_waiting,
 				occupied, available, available_waiting, canceled, booking_allowed, is_external,
-				payload, synced_at
+				status, payload, synced_at
 			) VALUES ' . implode( ',', $placeholders ) . '
 			ON DUPLICATE KEY UPDATE
 				id_activity = VALUES(id_activity),
@@ -97,6 +117,7 @@ final class LessonRepository {
 				canceled = VALUES(canceled),
 				booking_allowed = VALUES(booking_allowed),
 				is_external = VALUES(is_external),
+				status = VALUES(status),
 				payload = VALUES(payload),
 				synced_at = VALUES(synced_at)';
 
@@ -156,9 +177,33 @@ final class LessonRepository {
 			'canceled'          => $lesson->canceled ? 1 : 0,
 			'booking_allowed'   => $lesson->booking_allowed ? 1 : 0,
 			'is_external'       => in_array( $reason, array( 'no_candidate', 'not_bookable' ), true ) ? 1 : 0,
+			'status'            => self::status_for( $assignment, $reason ),
 			'payload'           => LessonPayload::encode( $lesson ),
 			'synced_at'         => $now,
 		);
+	}
+
+	/**
+	 * Translates a matching outcome into the stored status.
+	 *
+	 * @param Assignment|null $assignment Assignment, when one was made.
+	 * @param string          $reason     Reason code when none was.
+	 * @return string
+	 */
+	private static function status_for( ?Assignment $assignment, string $reason ): string {
+		if ( $assignment instanceof Assignment ) {
+			return self::STATUS_MATCHED;
+		}
+
+		if ( 'no_candidate' === $reason ) {
+			return self::STATUS_EXTERNAL;
+		}
+
+		if ( 'not_bookable' === $reason ) {
+			return self::STATUS_NOT_BOOKABLE;
+		}
+
+		return '' === $reason ? '' : self::STATUS_UNRESOLVED;
 	}
 
 	/**
@@ -207,12 +252,23 @@ final class LessonRepository {
 	}
 
 	/**
-	 * Returns occurrences that belong to no course and are not external bookings.
+	 * Returns occurrences that should have found a course and did not.
 	 *
 	 * @param int $limit Maximum rows.
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function unmatched( int $limit = 200 ): array {
+		return $this->by_status( self::STATUS_UNRESOLVED, $limit );
+	}
+
+	/**
+	 * Returns occurrences with a given status.
+	 *
+	 * @param string $status One of the status constants.
+	 * @param int    $limit  Maximum rows.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function by_status( string $status, int $limit = 200 ): array {
 		global $wpdb;
 
 		$table = Schema::lessons_table();
@@ -223,9 +279,10 @@ final class LessonRepository {
 			$wpdb->prepare(
 				"SELECT id_activity_term, activity_name, lesson_date, time_from, tab_name, trainer_name, payload
 				FROM {$table}
-				WHERE id_course = 0 AND is_external = 0
+				WHERE status = %s
 				ORDER BY stamp_from ASC
 				LIMIT %d",
+				$status,
 				max( 1, $limit )
 			),
 			ARRAY_A
@@ -266,9 +323,10 @@ final class LessonRepository {
 		$row = $wpdb->get_row(
 			"SELECT
 				COUNT(*) AS total,
-				SUM(id_course > 0) AS matched,
-				SUM(is_external = 1) AS external,
-				SUM(id_course = 0 AND is_external = 0) AS unmatched,
+				SUM(status = 'matched') AS matched,
+				SUM(status = 'external') AS external,
+				SUM(status = 'not_bookable') AS not_bookable,
+				SUM(status = 'unresolved') AS unresolved,
 				SUM(canceled = 1) AS canceled
 			FROM {$table}",
 			ARRAY_A

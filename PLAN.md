@@ -1,5 +1,5 @@
 # Jojo Gym – iSport System ↔ WordPress / Divi 5
-## Projektový plán v1.7
+## Projektový plán v1.8
 
 **Datum:** 19. 8. 2026
 **Název pluginu:** **Course & Schedule Connector for iSport** (slug `course-schedule-connector`, prefix kódu `cscs`)
@@ -91,7 +91,13 @@ Běh nad oknem 11. 9. – 2. 10. 2026 ukázal, že termíny v rozvrhu spadají d
 | **Pronájmy a veřejné vstupy** | 249 | jiný štítek než „Kurz“ (např. „Pronájem haly“) | ne |
 | **Aktivity bez přihlášek** | 78 | štítek „Kurz“, ale název je na seznamu v Nastavení | ne |
 
-Třetí kategorie je specifikum Jojo Gymu: kurzy **externích lektorů**, na které tělocvična nepřijímá platby ani přihlášky (Zdravé cvičení, Zdravá záda, Barre, Karate, Fyzio cvičení, Capoeira, Tango base, Intenzivní kruhový trénink, Balet, Judo pro děti, Pohyb dětem, Street dance), dále **náhradní lekce** a **individuální tréninky**, které nemají pevné termíny.
+Třetí kategorie má **tři různé důvody**, které se liší tím, co má návštěvník udělat:
+
+| Podtyp | Příklad | Co zobrazit místo tlačítka |
+|---|---|---|
+| Kurz externího lektora | Zdravé cvičení, Barre, Karate, Capoeira, Balet, Judo pro děti, Pohyb dětem, Street dance, Tango base, Fyzio cvičení, Zdravá záda, Intenzivní kruhový trénink | kontakt na lektora |
+| **Individuální trénink** | Individuální trénink | **cena za lekci + „termín i platba po domluvě, mimo iSport“**; nemá pevné termíny, takže u něj nedává smysl vypisovat rozvrh kurzu |
+| Náhradní lekce | Náhradní lekce 4-6 let I. pololetí | náhrada za zameškanou hodinu, řeší se s tělocvičnou |
 
 V API je od běžných kurzů **nic neodlišuje** — nesou stejný štítek „Kurz“, protože to kurzy jsou. Seznam je proto nastavení (`non_bookable_activities`), porovnává se volně jako podřetězec bez diakritiky (rozvrh píše „Zdravé cvičení s overbaly“, ceník „Zdravé cvičení (overbaly)“) a **skutečný kurz má vždy přednost před seznamem**.
 

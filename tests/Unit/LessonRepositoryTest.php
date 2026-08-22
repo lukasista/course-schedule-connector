@@ -108,6 +108,52 @@ final class LessonRepositoryTest extends TestCase {
 	}
 
 	/**
+	 * Every outcome writes a status, so a row always says what it is.
+	 *
+	 * A boolean could not tell a hall rental from an activity that takes no
+	 * bookings, which left a classifier that moved dozens of rows between the
+	 * two impossible for anyone to check.
+	 *
+	 * @return void
+	 */
+	public function test_every_outcome_records_what_the_row_is(): void {
+		$lessons = $this->lessons();
+
+		$matched = new MatchResult(
+			array( 55918 => new Assignment( 55918, 1070, Assignment::STRICT ) ),
+			array(),
+			array()
+		);
+
+		$this->assertSame( 'matched', LessonRepository::row_values( $lessons[55918], $matched, 1 )['status'] );
+
+		foreach ( array(
+			'no_candidate'   => 'external',
+			'not_bookable'   => 'not_bookable',
+			'orphan'         => 'unresolved',
+			'ambiguous'      => 'unresolved',
+			'stamp_mismatch' => 'unresolved',
+		) as $reason => $expected ) {
+			$outcome = new MatchResult(
+				array(),
+				array(
+					55918 => array(
+						'reason' => $reason,
+						'name'   => 'x',
+					),
+				),
+				array()
+			);
+
+			$this->assertSame(
+				$expected,
+				LessonRepository::row_values( $lessons[55918], $outcome, 1 )['status'],
+				'Reason ' . $reason . ' produced the wrong status.'
+			);
+		}
+	}
+
+	/**
 	 * The value list matches the column list the insert statement declares, so a
 	 * column added on one side and forgotten on the other cannot slip through.
 	 *
@@ -117,7 +163,7 @@ final class LessonRepositoryTest extends TestCase {
 		$lessons = $this->lessons();
 		$values  = LessonRepository::row_values( $lessons[55918], null, 1000 );
 
-		$this->assertCount( 28, $values );
+		$this->assertCount( 29, $values );
 		$this->assertSame(
 			array(
 				'id_activity_term',
@@ -146,6 +192,7 @@ final class LessonRepositoryTest extends TestCase {
 				'canceled',
 				'booking_allowed',
 				'is_external',
+				'status',
 				'payload',
 				'synced_at',
 			),

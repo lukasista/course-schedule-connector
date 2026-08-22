@@ -194,6 +194,71 @@ final class SyncCommand {
 	}
 
 	/**
+	 * Lists occurrences of a given kind.
+	 *
+	 * Use this to check what the non-bookable list actually caught. A name
+	 * compared as a substring is a blunt instrument, and an entry that is too
+	 * broad would quietly reclassify things nobody meant it to.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--status=<status>]
+	 * : Which kind to list.
+	 * ---
+	 * default: not_bookable
+	 * options:
+	 *   - matched
+	 *   - external
+	 *   - not_bookable
+	 *   - unresolved
+	 * ---
+	 *
+	 * [--limit=<number>]
+	 * : Maximum rows.
+	 * ---
+	 * default: 100
+	 * ---
+	 *
+	 * [--format=<format>]
+	 * : Output format.
+	 * ---
+	 * default: table
+	 * options:
+	 *   - table
+	 *   - json
+	 *   - csv
+	 *   - count
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp cscs sync list --status=not_bookable
+	 *     wp cscs sync list --status=external --format=count
+	 *
+	 * @param array<int, string>    $args       Positional arguments.
+	 * @param array<string, string> $assoc_args Named arguments.
+	 * @return void
+	 */
+	public function list( array $args, array $assoc_args ): void {
+		$rows = $this->plugin->lessons()->by_status(
+			(string) ( $assoc_args['status'] ?? 'not_bookable' ),
+			(int) ( $assoc_args['limit'] ?? 100 )
+		);
+
+		if ( array() === $rows ) {
+			\WP_CLI::success( 'Nothing of that kind is stored.' );
+
+			return;
+		}
+
+		\WP_CLI\Utils\format_items(
+			(string) ( $assoc_args['format'] ?? 'table' ),
+			$rows,
+			array( 'id_activity_term', 'lesson_date', 'time_from', 'activity_name', 'tags', 'tab_name', 'trainer_name' )
+		);
+	}
+
+	/**
 	 * Ties one occurrence to a course permanently.
 	 *
 	 * A manual assignment survives every later synchronisation.

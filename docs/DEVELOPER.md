@@ -280,6 +280,7 @@ wp cscs sync courses [--force]
 wp cscs sync lessons [--from=<Ymd>] [--to=<Ymd>] [--force]
 wp cscs sync rematch                                  # re-match stored data, no network request
 wp cscs sync unmatched [--limit=<n>] [--format=<format>]
+wp cscs sync list --status=matched|external|not_bookable|unresolved
 wp cscs sync assign <term> <course>                   # permanent manual assignment
 wp cscs sync retention
 
