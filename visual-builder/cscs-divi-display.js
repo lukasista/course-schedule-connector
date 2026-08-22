@@ -60,11 +60,20 @@
 	 * @return {string} Set id, or an empty string.
 	 */
 	function chosenSet( attrs ) {
-		var inner = attrs && attrs.set ? attrs.set.innerContent : null;
-		var value = inner && inner.desktop ? inner.desktop.value : '';
+		var set = attrs && attrs.set ? attrs.set : null;
+
+		if ( ! set ) {
+			return '';
+		}
+
+		// Under `advanced`, where Divi keeps a setting that is not an element's
+		// own content; the older place is still read so that a page saved
+		// before that was understood keeps working.
+		var holder = ( set.advanced && set.advanced.id ) || set.innerContent || null;
+		var value = holder && holder.desktop ? holder.desktop.value : '';
 
 		if ( value && 'object' === typeof value ) {
-			value = value.set || '';
+			value = value.id || value.set || '';
 		}
 
 		return 'string' === typeof value ? value : '';

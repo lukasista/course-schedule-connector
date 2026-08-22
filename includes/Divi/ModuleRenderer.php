@@ -98,10 +98,15 @@ final class ModuleRenderer {
 	 * @return string
 	 */
 	public static function set_id( array $attrs ): string {
-		$value = $attrs['set']['innerContent']['desktop']['value'] ?? '';
+		// Divi keeps a setting that is not an element's own content under
+		// `advanced`; `innerContent` is reserved for the content of the element
+		// itself, which a chosen set is not. The older path is still read so
+		// that a page saved before that was understood keeps working.
+		$value = $attrs['set']['advanced']['id']['desktop']['value']
+			?? ( $attrs['set']['innerContent']['desktop']['value'] ?? '' );
 
 		if ( is_array( $value ) ) {
-			$value = $value['set'] ?? '';
+			$value = $value['id'] ?? ( $value['set'] ?? '' );
 		}
 
 		return sanitize_key( (string) $value );

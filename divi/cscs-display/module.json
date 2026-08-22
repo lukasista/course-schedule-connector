@@ -41,32 +41,36 @@
 		},
 		"set": {
 			"type": "object",
+			"selector": "{{selector}}",
 			"settings": {
-				"innerContent": {
-					"groupType": "group-item",
-					"item": {
-						"groupSlug": "contentSet",
-						"priority": 5,
-						"render": true,
-						"attrName": "set.innerContent",
-						"label": "Display set",
-						"description": "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.",
-						"category": "basic_option",
-						"features": {
-							"hover": false,
-							"sticky": false
-						},
-						"component": {
-							"name": "divi/select",
-							"type": "field",
-							"props": {
-								"options": {}
+				"advanced": {
+					"id": {
+						"groupType": "group-item",
+						"item": {
+							"groupSlug": "contentSet",
+							"priority": 5,
+							"render": true,
+							"attrName": "set.advanced.id",
+							"label": "Display set",
+							"description": "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.",
+							"category": "basic_option",
+							"features": {
+								"sticky": false,
+								"responsive": false,
+								"hover": false,
+								"preset": "content"
+							},
+							"component": {
+								"name": "divi/select",
+								"type": "field",
+								"props": {
+									"options": {}
+								}
 							}
 						}
 					}
 				}
-			},
-			"selector": "{{selector}}"
+			}
 		},
 		"css": {
 			"type": "object"

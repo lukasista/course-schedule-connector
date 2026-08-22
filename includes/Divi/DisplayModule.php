@@ -165,7 +165,7 @@ final class DisplayModule {
 			return array();
 		}
 
-		$metadata['attributes']['set']['settings']['innerContent']['item']['component']['props']['options'] = $this->options();
+		$metadata['attributes']['set']['settings']['advanced']['id']['item']['component']['props']['options'] = $this->options();
 		$metadata['title']  = __( 'iSport listing', 'course-schedule-connector' );
 		$metadata['titles'] = __( 'iSport listings', 'course-schedule-connector' );
 
@@ -174,8 +174,8 @@ final class DisplayModule {
 		$metadata['preview'] = rest_url( RestPreview::NAMESPACE . '/preview?set=' );
 		$metadata['nonce']   = wp_create_nonce( 'wp_rest' );
 
-		$metadata['attributes']['set']['settings']['innerContent']['item']['label']       = __( 'Display set', 'course-schedule-connector' );
-		$metadata['attributes']['set']['settings']['innerContent']['item']['description'] = __( 'Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.', 'course-schedule-connector' );
+		$metadata['attributes']['set']['settings']['advanced']['id']['item']['label']       = __( 'Display set', 'course-schedule-connector' );
+		$metadata['attributes']['set']['settings']['advanced']['id']['item']['description'] = __( 'Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.', 'course-schedule-connector' );
 
 		return $metadata;
 	}
