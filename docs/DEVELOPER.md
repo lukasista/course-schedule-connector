@@ -247,6 +247,7 @@ Every route declares an explicit `permission_callback`.
 | --- | --- | --- | --- |
 | Overview | `cscs` | `cscs_manage_content` | What is stored, how the last runs went, requests this hour. Synchronising and clearing failure state need `cscs_manage_design`. |
 | Courses | `edit.php?post_type=cscs_course` | post capabilities | Editorial content, contact, booking button, field locks; bulk button changes. |
+| Display sets | `cscs-sets` | `cscs_manage_content` | What a listing shows: columns, filters, range, sorting, wording. |
 | Unmatched lessons | `cscs-unmatched` | `cscs_manage_content` | Permanent manual assignments, and a look at what was classified as belonging to nobody. |
 | Make-up lessons | `cscs-makeup` | `cscs_manage_content` | Which course each make-up occurrence stands in for. |
 | Settings | `cscs-settings` | `cscs_manage_design` | Connection, term, intervals, retention, display defaults, classification lists. |
@@ -355,6 +356,14 @@ wp i18n make-mo languages/ languages/
 Czech takes three plural forms, `nplurals=3; plural=(n==1) ? 0 : ((n>=2 && n<=4) ? 1 : 2);`, so every `_n()` call needs three. A string that reads well in English and awkwardly in Czech is a string worth rewording in both: the source text is not sacred.
 
 Once the plugin is listed on WordPress.org, translations come from translate.wordpress.org and land in `WP_LANG_DIR/plugins`, which wins over anything shipped here. The bundled Czech file is what makes the admin readable before that happens.
+
+## Display sets
+
+A set is a `CSCS\Data\DisplaySet` value object: `from_array()` normalises anything shaped roughly like one, `to_array()` gives what is stored, and `catalogue()`/`sorts()` declare what a listing of each type may show and sort by. It never throws — an unrecognised column is dropped, a number out of range is clamped, an empty column list falls back to the full catalogue — because a set that half-loads renders a page that looks broken.
+
+`DisplaySetRepository` keeps every set in one autoloaded option, `cscs_display_sets`, keyed by id. Ids are slugs, made from the name on creation and immutable afterwards: `[cscs_courses set="kurzy-pro-deti"]` is written by hand on a page, and a renamed id would empty it silently.
+
+Adding a column means adding it to `DisplaySet::catalogue()`, to `DisplaySetsPage::column_labels()` and to the renderer. The first is what decides whether a stored value survives, so a column missing from it is dropped no matter what the other two say.
 
 ## Options
 

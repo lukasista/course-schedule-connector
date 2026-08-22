@@ -21,9 +21,11 @@ use CSCS\Admin\Menu;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
 use CSCS\Cli\MakeupCommand;
+use CSCS\Cli\SetsCommand;
 use CSCS\Cli\SettingsCommand;
 use CSCS\Cli\SyncCommand;
 use CSCS\Data\CourseRepository;
+use CSCS\Data\DisplaySetRepository;
 use CSCS\Data\LessonRepository;
 use CSCS\Data\PostType;
 use CSCS\Data\Schema;
@@ -114,6 +116,7 @@ final class Plugin {
 			SyncCommand::register( $this );
 			SettingsCommand::register( $this );
 			MakeupCommand::register( $this );
+			SetsCommand::register( $this );
 		}
 
 		/**
@@ -239,6 +242,15 @@ final class Plugin {
 	 */
 	public function courses(): CourseRepository {
 		return $this->service( 'courses', static fn(): CourseRepository => new CourseRepository() );
+	}
+
+	/**
+	 * Returns the display set storage.
+	 *
+	 * @return DisplaySetRepository
+	 */
+	public function sets(): DisplaySetRepository {
+		return $this->service( 'sets', static fn(): DisplaySetRepository => new DisplaySetRepository() );
 	}
 
 	/**

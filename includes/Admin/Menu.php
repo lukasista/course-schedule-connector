@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin;
 
+use CSCS\Admin\Screen\DisplaySetsPage;
 use CSCS\Admin\Screen\MakeupPage;
 use CSCS\Admin\Screen\Overview;
 use CSCS\Admin\Screen\UnmatchedPage;
@@ -91,6 +92,17 @@ final class Menu {
 			__( 'Courses', 'course-schedule-connector' ),
 			Capabilities::MANAGE_CONTENT,
 			'edit.php?post_type=' . PostType::COURSE
+		);
+
+		$sets = new DisplaySetsPage( $this->plugin );
+
+		add_submenu_page(
+			self::SLUG,
+			__( 'Display sets', 'course-schedule-connector' ),
+			__( 'Display sets', 'course-schedule-connector' ),
+			Capabilities::MANAGE_CONTENT,
+			DisplaySetsPage::SLUG,
+			array( $sets, 'render' )
 		);
 
 		$unmatched = new UnmatchedPage( $this->plugin );

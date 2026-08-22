@@ -37,25 +37,19 @@ Toto obvykle udělá administrátor při instalaci. Pro úplnost:
 
 ## Zobrazovací sady
 
-Zobrazovací sada je **pojmenované nastavení toho, co se má zobrazit**. Vytvoříte ji jednou a použijete kdekoli na webu.
+Zobrazovací sada je **pojmenovaná odpověď na otázku „co má tenhle výpis ukazovat“**. Stránka se na sadu odkazuje jménem, takže když sadu změníte, změní se všechny stránky, které ji používají — bez otevírání Divi a bez zásahu do vzhledu.
 
-Příklad: sada *„Kurzy pro děti – úvodní stránka“* může obsahovat jen kurzy z Gymnastické haly 2, seřazené podle data, omezené na šest položek, se sloupci Název, Trenér, Cena a Volná místa.
+Sady najdete v **iSport → Zobrazovací sady**. U každé nastavíte:
 
-U každé sady nastavíte:
+- **Co ukazuje** – *Kurzy* (to, na co se lidé přihlašují), nebo *Lekce* (jednotlivé termíny v rozvrhu). Každý typ má jinou nabídku sloupců.
+- **Sloupce** – zaškrtnutím vyberete, co se zobrazí, číslem určíte pořadí a volitelně zadáte **vlastní popisek**. Popisek se vyplatí držet krátký: na mobilu se tabulka překlopí tak, že popisky jdou v levém sloupci a hodnoty v pravém.
+- **Co zahrnout** – sály, lektory, aktivity (nic zaškrtnutého = všechno), jak daleko dopředu (celé pololetí / tento týden / nejbližší dny / mezi dvěma daty), zda zahrnout **pronájmy a cizí oddíly**, jak naložit se **zrušenými lekcemi** a zda vynechat kurzy bez volných míst.
+- **Řazení a rozsah** – podle čeho řadit, vzestupně/sestupně, počet položek na stránku (nula = všechno najednou) a od kolika volných míst má výpis hlásit „posledních pár míst“.
+- **Texty** – nadpis, text tlačítka, co napsat, když není co zobrazit, a co místo tlačítka, když je kurz plný.
 
-| Volba | Co dělá |
-|---|---|
-| **Typ zobrazení** | karty, tabulka, seznam po dnech nebo týdenní kalendář |
-| **Sloupce a jejich pořadí** | co se zobrazí a v jakém pořadí |
-| **Vlastní popisky** | například `Volná místa` místo `available` |
-| **Filtry** | sál, trenér, typ aktivity, rozsah dat, jen kurzy s volnými místy |
-| **Pronájmy a cizí oddíly** | zahrnout, nebo skrýt (Veřejnost, Gym Dobřichovice, Sokol Radotín…) |
-| **Zrušené lekce** | zobrazit přeškrtnuté, nebo úplně skrýt |
-| **Řazení a počet** | podle čeho řadit, kolik položek, stránkování |
-| **Texty** | nadpis, text tlačítka, text při prázdném výpisu, text u vyprodaného kurzu |
-| **Prahy volných míst** | od kolika míst hlásit „Poslední místa“ a kdy „Obsazeno“ |
+Ke každé sadě je ve výpisu rovnou napsaný **shortcode**, například `[cscs_courses set="kurzy-pro-deti"]`. Jméno sady v hranatých závorkách vzniká z názvu při vytvoření a **už se nikdy nemění** — kdyby se měnilo s přejmenováním, přestala by fungovat stránka, která ho má v sobě napsaný. Přejmenovat sadu tedy můžete kdykoli.
 
-**Změna sady se okamžitě projeví všude, kde je použitá.** Nemusíte upravovat jednotlivé stránky.
+Smazání sady stránky nerozbije, ale výpis na nich zůstane prázdný — proto to potvrzení.
 
 ## Vložení na stránku
 
