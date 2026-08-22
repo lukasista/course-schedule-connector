@@ -141,6 +141,48 @@ final class SettingsTest extends TestCase {
 	}
 
 	/**
+	 * The non-bookable list ships with real content and reaches a caller that
+	 * asks for it.
+	 *
+	 * A default added to the wrong place is invisible: the matcher was handed an
+	 * empty list for a whole run while its own tests passed, because they built
+	 * the list by hand instead of reading the setting.
+	 *
+	 * @return void
+	 */
+	public function test_the_non_bookable_list_has_a_usable_default(): void {
+		$list = $this->settings->get( 'non_bookable_activities' );
+
+		$this->assertIsArray( $list );
+		$this->assertNotEmpty( $list );
+		$this->assertContains( 'Náhradní lekce', $list );
+		$this->assertContains( 'Judo', $list );
+	}
+
+	/**
+	 * Every default is readable through get(), so a key defined in one place and
+	 * consumed in another cannot silently return null.
+	 *
+	 * @return void
+	 */
+	public function test_every_default_is_readable(): void {
+		foreach ( array_keys( Settings::defaults() ) as $key ) {
+			$this->assertNotNull( $this->settings->get( $key ), $key . ' returned null.' );
+		}
+	}
+
+	/**
+	 * The list accepts a textarea's worth of names, one per line.
+	 *
+	 * @return void
+	 */
+	public function test_the_non_bookable_list_accepts_lines_of_text(): void {
+		$stored = $this->settings->set( 'non_bookable_activities', "Balet\n  Judo  \n\nKarate\n" );
+
+		$this->assertSame( array( 'Balet', 'Judo', 'Karate' ), $stored );
+	}
+
+	/**
 	 * Seeding gives an administrator something to edit, and never overwrites
 	 * what they have already chosen.
 	 *
