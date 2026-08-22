@@ -106,7 +106,7 @@ final class Renderer {
 		 */
 		$rows = apply_filters( 'cscs_listing_rows', $rows, $set );
 
-		$listing = new Listing( $set, $rows, $this->columns( $set ), $this->plugin->settings(), $times );
+		$listing = new Listing( $set, $rows, self::labels_for( $set ), $this->plugin->settings(), $times );
 
 		$this->enqueue();
 
@@ -116,10 +116,14 @@ final class Renderer {
 	/**
 	 * Returns the columns of a set, under the headings it gave them.
 	 *
+	 * Public and static because a listing is not always built from a set a
+	 * person configured: a course's own page makes one on the spot, and it
+	 * should carry the same headings as every other.
+	 *
 	 * @param DisplaySet $set Display set.
 	 * @return array<string, string>
 	 */
-	private function columns( DisplaySet $set ): array {
+	public static function labels_for( DisplaySet $set ): array {
 		$defaults = DisplaySetsPage::column_labels( $set->type );
 		$columns  = array();
 
@@ -161,7 +165,24 @@ final class Renderer {
 	 * @return string Absolute path, or an empty string when there is none.
 	 */
 	public static function locate( string $name ): string {
-		$name = str_replace( array( '..', '/', '\\' ), '', $name ) . '.php';
+		// A name may carry one directory — `partials/table` — and nothing else:
+		// each part is reduced to the characters a template name may hold, so a
+		// name that arrived from anywhere but this plugin cannot climb out of
+		// the template directory.
+		$parts = array_filter(
+			array_map(
+				static function ( string $part ): string {
+					return (string) preg_replace( '/[^a-z0-9\-_]/', '', strtolower( $part ) );
+				},
+				explode( '/', $name )
+			)
+		);
+
+		if ( array() === $parts ) {
+			return '';
+		}
+
+		$name = implode( '/', array_slice( $parts, 0, 2 ) ) . '.php';
 
 		/**
 		 * Filters the theme directories searched for plugin templates.

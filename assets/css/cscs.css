@@ -85,3 +85,40 @@
 		--cscs-muted: #a0a0a0;
 	}
 }
+
+/* A course's own page. The plugin owns the shape; the theme owns the look. */
+
+.cscs-course__facts th {
+	width: 40%;
+	text-align: left;
+	font-weight: 600;
+}
+
+.cscs-course__image img {
+	max-width: 100%;
+	height: auto;
+}
+
+.cscs-course__booking {
+	margin: 1rem 0;
+}
+
+.cscs-course__contact-list {
+	list-style: none;
+	margin: 0.25rem 0;
+	padding: 0;
+}
+
+.cscs-course__contact-note {
+	color: var(--cscs-muted);
+}
+
+.cscs-course__schedule,
+.cscs-course__makeup {
+	margin-top: 2rem;
+}
+
+/* A make-up class is an exception to the timetable, and reads as one. */
+.cscs-course__makeup .cscs-table {
+	border-left: 3px solid var(--cscs-border);
+}

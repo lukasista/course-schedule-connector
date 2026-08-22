@@ -69,6 +69,10 @@ msgstr "Strop, který naplánované úlohy nikdy nepřekročí, ať intervaly ř
 msgid "A class with no price shows"
 msgstr "Lekce bez ceny se zobrazí jako"
 
+#: templates/single-course.php:96
+msgid "A class you can attend instead of one you missed."
+msgstr "Lekce, kterou můžete navštívit místo té, kterou jste zmeškali."
+
 #: includes/Admin/Screen/SettingsPage.php:120
 msgid "A course with no price always shows as free. This is about hall rentals and open sessions, where \"free\" would be misleading."
 msgstr "Kurz bez ceny se vždy zobrazí jako zdarma. Tohle se týká pronájmů sálů a open lekcí, kde by „zdarma“ bylo zavádějící."
@@ -245,6 +249,7 @@ msgstr "Uložených termínů lekcí"
 msgid "Class synchronisation interval"
 msgstr "Interval synchronizace lekcí"
 
+#: includes/Render/CourseDetail.php:97
 #: includes/Admin/Screen/DisplaySetsPage.php:132
 #: includes/Admin/Screen/DisplaySetsPage.php:196
 msgid "Classes"
@@ -401,7 +406,7 @@ msgstr "Detail"
 msgid "Display"
 msgstr "Zobrazení"
 
-#: includes/Divi/DisplayModule.php:171
+#: includes/Divi/DisplayModule.php:223
 msgid "Display set"
 msgstr "Zobrazovací sada"
 
@@ -468,6 +473,7 @@ msgstr "Například https://example.isportsystem.cz — jen https. Adresa uvnit�
 msgid "For example when to ring, or that places are arranged individually."
 msgstr "Například kdy volat nebo že se termíny domlouvají individuálně."
 
+#: includes/Render/CourseDetail.php:90
 #: includes/Render/Listing.php:345
 #: includes/Render/Listing.php:349
 #: includes/Admin/Screen/SettingsPage.php:118
@@ -483,6 +489,7 @@ msgstr "Z iSportu"
 msgid "From:"
 msgstr "Od:"
 
+#: includes/Render/CourseDetail.php:325
 #: includes/Render/Listing.php:177
 msgid "Full"
 msgstr "Obsazeno"
@@ -554,6 +561,10 @@ msgstr "Když necháte prázdné, nadpis se nevypíše."
 #: includes/Admin/Screen/UnmatchedPage.php:270
 msgid "Make this a course of its own"
 msgstr "Založit z toho vlastní kurz"
+
+#: templates/single-course.php:95
+msgid "Make-up classes for this course"
+msgstr "Náhradní lekce k tomuto kurzu"
 
 #: includes/Admin/Menu.php:124
 #: includes/Admin/Menu.php:125
@@ -713,11 +724,13 @@ msgstr "Přehled"
 msgid "Past occurrences older than this are removed. Courses are never deleted."
 msgstr "Termíny starší než tohle se odstraní. Kurzy se nemažou nikdy."
 
+#: includes/Render/CourseDetail.php:100
 #: includes/Admin/Screen/DisplaySetsPage.php:475
 #: includes/Admin/Screen/DisplaySetsPage.php:500
 msgid "Places left"
 msgstr "Volná místa"
 
+#: includes/Render/CourseDetail.php:88
 #: includes/Admin/Screen/DisplaySetsPage.php:474
 #: includes/Admin/Screen/DisplaySetsPage.php:499
 #: includes/Admin/CourseEditor.php:201
@@ -774,6 +787,7 @@ msgstr "Obnovit pozastavené požadavky"
 msgid "Retries"
 msgstr "Počet opakování"
 
+#: includes/Render/CourseDetail.php:98
 #: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Admin/Screen/UnmatchedPage.php:144
 #: includes/Admin/Screen/DisplaySetsPage.php:470
@@ -795,6 +809,10 @@ msgstr "Sály"
 #: includes/Admin/CourseEditor.php:326
 msgid "Running"
 msgstr "Probíhá"
+
+#: includes/Render/CourseDetail.php:93
+msgid "Runs"
+msgstr "Termín"
 
 #: includes/Admin/CourseEditor.php:202
 msgid "Runs from"
@@ -875,6 +893,7 @@ msgstr "Zobrazit přeškrtnuté"
 msgid "Shows"
 msgstr "Ukazuje"
 
+#: includes/Render/CourseDetail.php:159
 #: includes/Render/Listing.php:166
 msgid "Sign up in iSport"
 msgstr "Přihlásit v iSport systému"
@@ -994,6 +1013,7 @@ msgstr "Jak často stahovat rozvrh (sekundy)"
 msgid "To:"
 msgstr "Do:"
 
+#: includes/Render/CourseDetail.php:99
 #: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Admin/Screen/UnmatchedPage.php:145
 #: includes/Admin/Screen/DisplaySetsPage.php:471
@@ -1022,6 +1042,10 @@ msgstr "Nespárované lekce"
 msgid "Unresolved"
 msgstr "Nespárované"
 
+#: templates/single-course.php:85
+msgid "Upcoming classes"
+msgstr "Nejbližší lekce"
+
 #: includes/Admin/Screen/RoomsPage.php:113
 msgid "Use"
 msgstr "Použít"
@@ -1038,6 +1062,7 @@ msgstr "Co je uložené"
 msgid "What to include"
 msgstr "Co zahrnout"
 
+#: includes/Render/CourseDetail.php:92
 #: includes/Admin/Screen/Overview.php:247
 msgid "When"
 msgstr "Kdy"
@@ -1054,9 +1079,13 @@ msgstr "Podle začátku"
 msgid "When there is nothing to show"
 msgstr "Když není co zobrazit"
 
-#: includes/Divi/DisplayModule.php:172
+#: includes/Divi/DisplayModule.php:224
 msgid "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows."
 msgstr "Kterou pojmenovanou konfigurací se výpis řídí. Co ukazuje, se mění v iSport → Zobrazovací sady a přizpůsobí se každá stránka, která sadu používá."
+
+#: templates/single-course.php:62
+msgid "Who to ask"
+msgstr "Na koho se obrátit"
 
 #: includes/Admin/CourseEditor.php:117
 msgid "Who to contact"
@@ -1100,12 +1129,12 @@ msgid "Zero shows everything on one page."
 msgstr "Nula zobrazí všechno na jedné stránce."
 
 #: includes/Render/Block.php:140
-#: includes/Divi/DisplayModule.php:193
+#: includes/Divi/DisplayModule.php:266
 msgid "classes"
 msgstr "lekce"
 
 #: includes/Render/Block.php:141
-#: includes/Divi/DisplayModule.php:194
+#: includes/Divi/DisplayModule.php:267
 msgid "courses"
 msgstr "kurzy"
 
@@ -1114,11 +1143,11 @@ msgstr "kurzy"
 msgid "iSport"
 msgstr "iSport"
 
-#: includes/Divi/DisplayModule.php:168
+#: includes/Divi/DisplayModule.php:209
 msgid "iSport listing"
 msgstr "iSport výpis"
 
-#: includes/Divi/DisplayModule.php:169
+#: includes/Divi/DisplayModule.php:210
 msgid "iSport listings"
 msgstr "iSport výpisy"
 
@@ -1158,7 +1187,6 @@ msgid "— belongs to no course —"
 msgstr "— nepatří k žádnému kurzu —"
 
 #: includes/Render/Block.php:129
-#: includes/Divi/DisplayModule.php:184
 msgid "— choose a set —"
 msgstr "— vyberte sadu —"
 

@@ -63,6 +63,10 @@ msgstr ""
 msgid "A class with no price shows"
 msgstr ""
 
+#: templates/single-course.php:96
+msgid "A class you can attend instead of one you missed."
+msgstr ""
+
 #: includes/Admin/Screen/SettingsPage.php:120
 msgid "A course with no price always shows as free. This is about hall rentals and open sessions, where \"free\" would be misleading."
 msgstr ""
@@ -238,6 +242,7 @@ msgstr ""
 msgid "Class synchronisation interval"
 msgstr ""
 
+#: includes/Render/CourseDetail.php:97
 #: includes/Admin/Screen/DisplaySetsPage.php:132
 #: includes/Admin/Screen/DisplaySetsPage.php:196
 msgid "Classes"
@@ -394,7 +399,7 @@ msgstr ""
 msgid "Display"
 msgstr ""
 
-#: includes/Divi/DisplayModule.php:171
+#: includes/Divi/DisplayModule.php:223
 msgid "Display set"
 msgstr ""
 
@@ -461,6 +466,7 @@ msgstr ""
 msgid "For example when to ring, or that places are arranged individually."
 msgstr ""
 
+#: includes/Render/CourseDetail.php:90
 #: includes/Render/Listing.php:345
 #: includes/Render/Listing.php:349
 #: includes/Admin/Screen/SettingsPage.php:118
@@ -476,6 +482,7 @@ msgstr ""
 msgid "From:"
 msgstr ""
 
+#: includes/Render/CourseDetail.php:325
 #: includes/Render/Listing.php:177
 msgid "Full"
 msgstr ""
@@ -546,6 +553,10 @@ msgstr ""
 
 #: includes/Admin/Screen/UnmatchedPage.php:270
 msgid "Make this a course of its own"
+msgstr ""
+
+#: templates/single-course.php:95
+msgid "Make-up classes for this course"
 msgstr ""
 
 #: includes/Admin/Menu.php:124
@@ -706,11 +717,13 @@ msgstr ""
 msgid "Past occurrences older than this are removed. Courses are never deleted."
 msgstr ""
 
+#: includes/Render/CourseDetail.php:100
 #: includes/Admin/Screen/DisplaySetsPage.php:475
 #: includes/Admin/Screen/DisplaySetsPage.php:500
 msgid "Places left"
 msgstr ""
 
+#: includes/Render/CourseDetail.php:88
 #: includes/Admin/Screen/DisplaySetsPage.php:474
 #: includes/Admin/Screen/DisplaySetsPage.php:499
 #: includes/Admin/CourseEditor.php:201
@@ -767,6 +780,7 @@ msgstr ""
 msgid "Retries"
 msgstr ""
 
+#: includes/Render/CourseDetail.php:98
 #: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Admin/Screen/UnmatchedPage.php:144
 #: includes/Admin/Screen/DisplaySetsPage.php:470
@@ -787,6 +801,10 @@ msgstr ""
 #: includes/Admin/CourseList.php:76
 #: includes/Admin/CourseEditor.php:326
 msgid "Running"
+msgstr ""
+
+#: includes/Render/CourseDetail.php:93
+msgid "Runs"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:202
@@ -868,6 +886,7 @@ msgstr ""
 msgid "Shows"
 msgstr ""
 
+#: includes/Render/CourseDetail.php:159
 #: includes/Render/Listing.php:166
 msgid "Sign up in iSport"
 msgstr ""
@@ -987,6 +1006,7 @@ msgstr ""
 msgid "To:"
 msgstr ""
 
+#: includes/Render/CourseDetail.php:99
 #: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Admin/Screen/UnmatchedPage.php:145
 #: includes/Admin/Screen/DisplaySetsPage.php:471
@@ -1015,6 +1035,10 @@ msgstr ""
 msgid "Unresolved"
 msgstr ""
 
+#: templates/single-course.php:85
+msgid "Upcoming classes"
+msgstr ""
+
 #: includes/Admin/Screen/RoomsPage.php:113
 msgid "Use"
 msgstr ""
@@ -1031,6 +1055,7 @@ msgstr ""
 msgid "What to include"
 msgstr ""
 
+#: includes/Render/CourseDetail.php:92
 #: includes/Admin/Screen/Overview.php:247
 msgid "When"
 msgstr ""
@@ -1047,8 +1072,12 @@ msgstr ""
 msgid "When there is nothing to show"
 msgstr ""
 
-#: includes/Divi/DisplayModule.php:172
+#: includes/Divi/DisplayModule.php:224
 msgid "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows."
+msgstr ""
+
+#: templates/single-course.php:62
+msgid "Who to ask"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:117
@@ -1093,12 +1122,12 @@ msgid "Zero shows everything on one page."
 msgstr ""
 
 #: includes/Render/Block.php:140
-#: includes/Divi/DisplayModule.php:193
+#: includes/Divi/DisplayModule.php:266
 msgid "classes"
 msgstr ""
 
 #: includes/Render/Block.php:141
-#: includes/Divi/DisplayModule.php:194
+#: includes/Divi/DisplayModule.php:267
 msgid "courses"
 msgstr ""
 
@@ -1107,11 +1136,11 @@ msgstr ""
 msgid "iSport"
 msgstr ""
 
-#: includes/Divi/DisplayModule.php:168
+#: includes/Divi/DisplayModule.php:209
 msgid "iSport listing"
 msgstr ""
 
-#: includes/Divi/DisplayModule.php:169
+#: includes/Divi/DisplayModule.php:210
 msgid "iSport listings"
 msgstr ""
 
@@ -1150,7 +1179,6 @@ msgid "— belongs to no course —"
 msgstr ""
 
 #: includes/Render/Block.php:129
-#: includes/Divi/DisplayModule.php:184
 msgid "— choose a set —"
 msgstr ""
 

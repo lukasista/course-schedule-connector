@@ -15,6 +15,7 @@ Příručka je pro **správce webu** – člověka, který spravuje nabídku kur
 - [Nespárované lekce](#nespárované-lekce)
 - [Náhradní lekce](#náhradní-lekce)
 - [Sály](#sály)
+- [Stránka kurzu](#stránka-kurzu)
 - [Kurzy, které v iSportu nejsou](#kurzy-které-v-isportu-nejsou)
 - [Přehled a synchronizace](#přehled-a-synchronizace)
 - [Co plugin dělá na mobilu](#co-plugin-dělá-na-mobilu)
@@ -140,6 +141,17 @@ Přiřazení přežívá synchronizaci. Když termín zestárne a plugin ho podl
 - **skrytí** – sál, který se na webu nemá objevit vůbec.
 
 Ve výpisu jsou sály, které uložený rozvrh skutečně používá. Žádný seznam sálů API nenabízí, a vymýšlet ho ze zastaralých dat by znamenalo nabízet sály, které už neexistují. V iSportu se přejmenováním nic nerozbije: název na webu je navázaný na ID sálu, ne na jeho jméno.
+
+## Stránka kurzu
+
+Každý kurz má vlastní stránku. Kromě textu a obrázku, které k němu doplníte, se na ní zobrazí:
+
+- **fakta** – cena, kdy kurz probíhá (dny a časy odvozené z lekcí), termín od–do, počet lekcí, sál, lektor a volná místa; údaj, který není čím vyplnit, se vynechá,
+- **kontakt na lektora**, pokud jste ho vyplnil — u kurzů, na které se přes iSport nepřihlašuje, je to to hlavní, co návštěvník potřebuje,
+- **tlačítko pro přihlášení** podle stejných tří pravidel jako všude jinde,
+- **nejbližší lekce kurzu** a **náhradní lekce**, které jste k tomuto kurzu přiřadil.
+
+Stránka se vkládá do obsahu, takže hlavičku, patičku i vzhled okolo kreslí dál vaše téma. Do hlavičky stránky se navíc přidává strojově čitelný popis kurzu (JSON-LD) pro vyhledávače — nic v něm netvrdíme, co by stránka neříkala i slovy.
 
 ## Kurzy, které v iSportu nejsou
 

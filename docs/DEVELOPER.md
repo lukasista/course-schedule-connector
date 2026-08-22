@@ -212,7 +212,7 @@ DisplaySet ─▶ Query ─▶ rows ─▶ Listing ─▶ template ─▶ HTML
 - **`Query`** reads what the set asks for: courses through `get_posts()` (they are posts), classes through one prepared statement over the plugin's table (a term of several hundred classes filtered by room and date is what indexes are for). Both are capped at 1000 rows whatever the set says. `Query::course_times()` answers "which weekday and hour does this course meet" for the whole listing in one query, and ignores a slot that occurred once — a substitution is not the day a course runs on.
 - **`Formatter`** holds the decisions a visitor reads and nothing else: the price format, whether a course counts as full, and whether the booking button appears. It touches neither WordPress nor the database, so the rules are tested as rules.
 - **`Listing`** is what a template receives, with every decision already made — including which columns survived: `Listing::used_columns()` drops any column empty in every row (a pure rule, tested as one), and keeps them all when there are no rows to judge by — cell text, cell markup, row classes, the wording for empty and full. A template that only arranges things cannot break a rule by being rewritten.
-- **Templates** live in `templates/` and are looked up in the theme first, under `course-schedule-connector/` or `jojo-isport/` (filter `cscs_template_directories`). `Renderer::locate()` falls back to the plugin's own copy.
+- **Templates** live in `templates/` and are looked up in the theme first, under `course-schedule-connector/` or `jojo-isport/` (filter `cscs_template_directories`). `Renderer::locate()` falls back to the plugin's own copy, and accepts one directory level (`partials/table`) with each part reduced to the characters a template name may hold.
 
 Two filters are worth knowing: `cscs_listing_rows` sees the rows before they are rendered, and `cscs_template_directories` decides where a theme's overrides are looked for.
 
@@ -241,6 +241,14 @@ The editor script is plain browser JavaScript against the packages WordPress loa
 
 
 `cscs/display` — a single block with a display-set picker in the sidebar, server-rendered through the same renderer.
+
+## The course page
+
+`SingleCourse` filters `the_content` on a single `cscs_course` rather than replacing the template. A course is a post, so the theme already draws everything around it; taking the whole template over would mean fighting the theme for a layout it has. A theme that wants the page itself can still drop `course-schedule-connector/single-course.php` in, or a `single-cscs_course.php` of its own.
+
+`CourseDetail` decides everything the page shows — the facts, already worded and with the empty ones dropped, the lecturer's contact, the button, and two listings: the course's own upcoming classes and the make-up classes tied to it. Those two are ordinary `Listing` objects built from sets made on the spot, so the timetable of one course folds on a telephone exactly like the timetable of all of them, because it is the same code and the same `partials/table.php`.
+
+`structured_data()` prints a `Course` JSON-LD in `wp_head`: name, description, provider, the term as a `CourseInstance`, the room as a `Place`, and an `Offer` only when there is a real price. Nothing is claimed there that the page does not also say in words.
 
 ## Divi 5 modules
 

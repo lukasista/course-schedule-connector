@@ -452,6 +452,65 @@ final class LessonRepository {
 	}
 
 	/**
+	 * Returns the occurrences of one course.
+	 *
+	 * @param int      $course_id Course id.
+	 * @param int      $limit     Maximum rows.
+	 * @param int|null $since     Earliest start, or null for everything stored.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function for_course( int $course_id, int $limit = 200, ?int $since = null ): array {
+		global $wpdb;
+
+		$table = Schema::lessons_table();
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- The plugin's own table: the table name comes from $wpdb->prefix and cannot be a placeholder, and every bound value is prepared.
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM {$table} WHERE id_course = %d AND stamp_from >= %d ORDER BY stamp_from ASC LIMIT %d",
+				$course_id,
+				null === $since ? 0 : $since,
+				max( 1, $limit )
+			),
+			ARRAY_A
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
+	 * Returns several occurrences by id, in the order they run.
+	 *
+	 * @param array<int, int> $term_ids Occurrence ids.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function find_many( array $term_ids ): array {
+		global $wpdb;
+
+		$term_ids = array_values( array_unique( array_filter( array_map( 'intval', $term_ids ) ) ) );
+
+		if ( array() === $term_ids ) {
+			return array();
+		}
+
+		$table        = Schema::lessons_table();
+		$placeholders = implode( ', ', array_fill( 0, count( $term_ids ), '%d' ) );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- The plugin's own table: the table name comes from $wpdb->prefix and cannot be a placeholder, and every bound value is prepared.
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM {$table} WHERE id_activity_term IN ( {$placeholders} ) ORDER BY stamp_from ASC",
+				$term_ids
+			),
+			ARRAY_A
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
 	 * Returns every room the stored timetable mentions, keyed by its remote id.
 	 *
 	 * Rooms are not synchronised as a list of their own — the API has no such

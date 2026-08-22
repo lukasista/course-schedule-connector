@@ -411,7 +411,7 @@ final class Query {
 	 * @param \WP_Post $post Course.
 	 * @return array<string, mixed>
 	 */
-	private function course_row( \WP_Post $post ): array {
+	public function course_row( \WP_Post $post ): array {
 		$meta = get_post_meta( $post->ID );
 		$read = static function ( string $key ) use ( $meta ) {
 			return isset( $meta[ $key ][0] ) ? $meta[ $key ][0] : '';
@@ -452,7 +452,7 @@ final class Query {
 	 * @param array<string, mixed> $row Stored row.
 	 * @return array<string, mixed>
 	 */
-	private function lesson_row( array $row ): array {
+	public function lesson_row( array $row ): array {
 		$course_id = (int) ( $row['id_course'] ?? 0 );
 		$post_id   = 0 === $course_id ? 0 : $this->plugin->courses()->find( $course_id );
 
@@ -477,6 +477,39 @@ final class Query {
 			'booking'   => (bool) ( $row['booking_allowed'] ?? false ),
 			'status'    => (string) ( $row['status'] ?? '' ),
 		);
+	}
+
+	/**
+	 * Reads the classes of one course, from now on.
+	 *
+	 * @param int $course_id Course id.
+	 * @param int $limit     Maximum rows.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function course_schedule( int $course_id, int $limit = 200 ): array {
+		$rows = $this->plugin->lessons()->for_course( $course_id, $limit, time() );
+
+		return array_map( array( $this, 'lesson_row' ), $rows );
+	}
+
+	/**
+	 * Reads the make-up lessons somebody tied to one course.
+	 *
+	 * @param int $course_id Course id.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function course_makeup( int $course_id ): array {
+		$repository = $this->plugin->lessons();
+		$rows       = $repository->find_many( $repository->makeup_terms_for_course( $course_id ) );
+
+		$upcoming = array_filter(
+			$rows,
+			static function ( array $row ): bool {
+				return (int) ( $row['stamp_from'] ?? 0 ) >= time();
+			}
+		);
+
+		return array_map( array( $this, 'lesson_row' ), array_values( $upcoming ) );
 	}
 
 	/**

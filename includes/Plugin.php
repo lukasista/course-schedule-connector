@@ -39,6 +39,7 @@ use CSCS\Divi\DisplayModule;
 use CSCS\Render\Renderer;
 use CSCS\Render\RestPreview;
 use CSCS\Render\Shortcodes;
+use CSCS\Render\SingleCourse;
 use CSCS\Sync\Logger;
 use CSCS\Sync\Matcher;
 use CSCS\Sync\Retention;
@@ -126,6 +127,7 @@ final class Plugin {
 		( new Assets( $this ) )->register();
 		( new Shortcodes( $this ) )->register();
 		( new Block( $this ) )->register();
+		( new SingleCourse( $this ) )->register();
 		( new RestPreview( $this ) )->register();
 		( new DisplayModule( $this ) )->register();
 		( new DesignGuard() )->register();
