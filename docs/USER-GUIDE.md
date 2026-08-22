@@ -180,6 +180,14 @@ Další lekce k takovému kurzu přiřadíte na obrazovce *Nespárované lekce* 
 
 Tlačítko **Synchronizovat nyní** vynutí okamžité načtení. Používejte ho, když jste právě v iSportu něco změnili a chcete to hned vidět na webu.
 
+## Procházení výpisu
+
+Nad rozvrhem se zobrazí **přepínač týdnů** (u sady nastavené na „tento týden"), **filtr sálů**, pokud výpis pokrývá víc než jeden, a pod výpisem **stránkování**, pokud má sada nastavený počet položek na stránku.
+
+Všechno jsou to obyčejné odkazy — volba je v adrese stránky, takže se dá poslat e-mailem a funguje i tam, kde se nenačte JavaScript. Když se načte, výpis se překreslí na místě bez načtení celé stránky.
+
+Návštěvník může výpis zúžit jen na sál, který sada obsahuje; rozšířit ho přes to, co jste v sadě nastavil, nemůže.
+
 ## Co plugin dělá na mobilu
 
 Každá tabulka se pod nastavenou šířkou (výchozí 768 px, mění se v Nastavení) **překlopí**: řádek se změní v kartu, popisky sloupců jdou v levém sloupci a hodnoty v pravém.

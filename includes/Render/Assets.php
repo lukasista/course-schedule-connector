@@ -56,6 +56,29 @@ final class Assets {
 	 */
 	public function register(): void {
 		add_action( 'init', array( $this, 'register_style' ) );
+		add_action( 'init', array( $this, 'register_script' ) );
+	}
+
+	/**
+	 * Registers the script that swaps a listing in place.
+	 *
+	 * The script is polish over links that already work, so it is registered
+	 * here with everything else and enqueued only where a listing renders.
+	 *
+	 * @return void
+	 */
+	public function register_script(): void {
+		if ( wp_script_is( self::HANDLE, 'registered' ) ) {
+			return;
+		}
+
+		wp_register_script( self::HANDLE, CSCS_URL . 'assets/js/cscs.js', array(), CSCS_VERSION, true );
+
+		wp_localize_script(
+			self::HANDLE,
+			'cscsListing',
+			array( 'endpoint' => rest_url( 'cscs/v1/listing' ) )
+		);
 	}
 
 	/**

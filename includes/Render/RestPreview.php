@@ -64,6 +64,33 @@ final class RestPreview {
 	 * @return void
 	 */
 	public function register_route(): void {
+		// The listing route is public because a listing is public: it renders
+		// what any visitor sees on the page it sits on, and it exists so that
+		// pressing "next week" need not reload everything around it.
+		register_rest_route(
+			self::NAMESPACE,
+			'/listing',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'listing' ),
+				'permission_callback' => '__return_true',
+				'args'                => array(
+					'set'  => array(
+						'type'              => 'string',
+						'required'          => true,
+						'sanitize_callback' => 'sanitize_key',
+					),
+					'page' => array( 'type' => 'integer' ),
+					'week' => array( 'type' => 'integer' ),
+					'room' => array( 'type' => 'integer' ),
+					'url'  => array(
+						'type'              => 'string',
+						'sanitize_callback' => 'esc_url_raw',
+					),
+				),
+			)
+		);
+
 		register_rest_route(
 			self::NAMESPACE,
 			'/preview',
@@ -80,6 +107,47 @@ final class RestPreview {
 						'sanitize_callback' => 'sanitize_key',
 					),
 				),
+			)
+		);
+	}
+
+	/**
+	 * Renders a listing again, for a visitor who changed week, room or page.
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 * @return \WP_REST_Response
+	 */
+	public function listing( \WP_REST_Request $request ): \WP_REST_Response {
+		$id  = sanitize_key( (string) $request->get_param( 'set' ) );
+		$set = $this->plugin->sets()->find( $id );
+
+		if ( null === $set ) {
+			return new \WP_REST_Response(
+				array(
+					'found' => false,
+					'html'  => '',
+				),
+				404
+			);
+		}
+
+		$args = ListingArgs::from_array(
+			array(
+				'page' => $request->get_param( 'page' ),
+				'week' => $request->get_param( 'week' ),
+				'room' => $request->get_param( 'room' ),
+			)
+		);
+
+		// The address the listing sits on decides where its own links point.
+		// It is taken from the request and only used to build links, so the
+		// worst a made-up one can do is send its author somewhere odd.
+		$base = (string) $request->get_param( 'url' );
+
+		return new \WP_REST_Response(
+			array(
+				'found' => true,
+				'html'  => $this->plugin->renderer()->render( $set, $args, $base ),
 			)
 		);
 	}

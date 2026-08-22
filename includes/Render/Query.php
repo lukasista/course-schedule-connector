@@ -45,6 +45,13 @@ final class Query {
 	private Plugin $plugin;
 
 	/**
+	 * How many rows the last query could have returned, before its page size.
+	 *
+	 * @var int
+	 */
+	private int $total = 0;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Plugin $plugin Plugin instance.
@@ -59,12 +66,15 @@ final class Query {
 	 * @param DisplaySet $set Display set.
 	 * @return array<int, array<string, mixed>>
 	 */
-	public function courses( DisplaySet $set ): array {
-		$args = array(
+	public function courses( DisplaySet $set, ?ListingArgs $args = null ): array {
+		$args = $args ?? ListingArgs::from_array( array() );
+		$size = 0 === $set->per_page ? self::CEILING : min( self::CEILING, $set->per_page );
+		$arguments = array(
 			'post_type'        => PostType::COURSE,
 			'post_status'      => 'publish',
-			'posts_per_page'   => 0 === $set->per_page ? self::CEILING : min( self::CEILING, $set->per_page ),
-			'no_found_rows'    => true,
+			'posts_per_page'   => $size,
+			'offset'           => ( $args->page - 1 ) * $size,
+			'no_found_rows'    => false,
 			'suppress_filters' => false,
 			'meta_query'       => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- A course post type holds hundreds of rows, and the alternative is reading them all and filtering in PHP.
 				array(
@@ -75,7 +85,7 @@ final class Query {
 			),
 		);
 
-		$args = array_merge( $args, $this->ordering( $set ) );
+		$arguments = array_merge( $arguments, $this->ordering( $set ) );
 
 		$taxonomies = array_filter(
 			array(
@@ -85,7 +95,7 @@ final class Query {
 		);
 
 		foreach ( $taxonomies as $taxonomy => $ids ) {
-			$args['tax_query'][] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- The point of the taxonomy is to filter by it.
+			$arguments['tax_query'][] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- The point of the taxonomy is to filter by it.
 				'taxonomy' => $taxonomy,
 				'field'    => 'term_id',
 				'terms'    => $ids,
@@ -96,16 +106,19 @@ final class Query {
 			// Rooms are matched on the remote id the classes carry, which the
 			// synchronisation writes onto the course, rather than on a term
 			// name that a person may since have renamed on the Rooms screen.
-			$args['meta_query'][] = array(
+			$arguments['meta_query'][] = array(
 				'key'     => CourseRepository::META_ROOM_ID,
 				'value'   => $set->rooms,
 				'compare' => 'IN',
 			);
 		}
 
-		$rows = array();
+		$rows  = array();
+		$query = new \WP_Query( $arguments );
 
-		foreach ( get_posts( $args ) as $post ) {
+		$this->total = (int) $query->found_posts;
+
+		foreach ( $query->posts as $post ) {
 			$row = $this->course_row( $post );
 
 			if ( $set->only_available && 'full' === Formatter::availability( (int) $row['available'], $set->few_places ) ) {
@@ -124,12 +137,13 @@ final class Query {
 	 * @param DisplaySet $set Display set.
 	 * @return array<int, array<string, mixed>>
 	 */
-	public function lessons( DisplaySet $set ): array {
+	public function lessons( DisplaySet $set, ?ListingArgs $args = null ): array {
 		global $wpdb;
 
+		$args     = $args ?? ListingArgs::from_array( array() );
 		$table    = Schema::lessons_table();
 		$statuses = $this->statuses( $set );
-		$window   = $this->window( $set );
+		$window   = $this->window( $set, $args );
 
 		$where  = array( 'stamp_from >= %d', 'stamp_from <= %d' );
 		$values = array( $window['from'], $window['to'] );
@@ -142,9 +156,18 @@ final class Query {
 			$where[] = 'canceled = 0';
 		}
 
-		if ( array() !== $set->rooms ) {
-			$where[] = 'id_tab IN ( ' . implode( ', ', array_fill( 0, count( $set->rooms ), '%d' ) ) . ' )';
-			$values  = array_merge( $values, $set->rooms );
+		$rooms = $set->rooms;
+
+		// A visitor may narrow to one room, but only to one the set already
+		// covers: the set decides what a listing is about, and a query string
+		// does not get to widen it.
+		if ( 0 !== $args->room && ( array() === $rooms || in_array( $args->room, $rooms, true ) ) ) {
+			$rooms = array( $args->room );
+		}
+
+		if ( array() !== $rooms ) {
+			$where[] = 'id_tab IN ( ' . implode( ', ', array_fill( 0, count( $rooms ), '%d' ) ) . ' )';
+			$values  = array_merge( $values, $rooms );
 		}
 
 		$hidden = $this->hidden_rooms();
@@ -163,13 +186,18 @@ final class Query {
 
 		$order  = $this->lesson_order( $set );
 		$limit  = 0 === $set->per_page ? self::CEILING : min( self::CEILING, $set->per_page );
+		$offset = ( $args->page - 1 ) * $limit;
 		$clause = implode( ' AND ', $where );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- The plugin's own table: the table name comes from $wpdb->prefix and cannot be a placeholder, the WHERE clause is built from fixed fragments with placeholders, and every value is prepared.
+		$this->total = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE {$clause}", $values ) );
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- The plugin's own table: the table name comes from $wpdb->prefix and cannot be a placeholder, the WHERE clause is built from fixed fragments with placeholders, and every value is prepared.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM {$table} WHERE {$clause} ORDER BY {$order} LIMIT %d",
-				array_merge( $values, array( $limit ) )
+				"SELECT * FROM {$table} WHERE {$clause} ORDER BY {$order} LIMIT %d OFFSET %d",
+				array_merge( $values, array( $limit, $offset ) )
 			),
 			ARRAY_A
 		);
@@ -208,8 +236,17 @@ final class Query {
 	 * @param DisplaySet $set Display set.
 	 * @return array{from: int, to: int}
 	 */
-	private function window( DisplaySet $set ): array {
-		$now = time();
+	private function window( DisplaySet $set, ListingArgs $args ): array {
+		$now = time() + ( $args->week * WEEK_IN_SECONDS );
+
+		// Stepping to another week means the whole of that week, not the rest
+		// of it: "next week" starting on Thursday would be a strange answer.
+		if ( 0 !== $args->week && 'week' === $set->range ) {
+			return array(
+				'from' => $this->start_of_week( $now ),
+				'to'   => $this->end_of_week( $now ),
+			);
+		}
 
 		if ( 'custom' === $set->range ) {
 			$from = $this->stamp( $set->date_from, '00:00:00' );
@@ -268,6 +305,24 @@ final class Query {
 			unset( $e );
 
 			return 0;
+		}
+	}
+
+	/**
+	 * Returns the end of the week a timestamp falls in, locally.
+	 *
+	 * @param int $now Timestamp.
+	 * @return int
+	 */
+	private function start_of_week( int $now ): int {
+		try {
+			$today = ( new \DateTimeImmutable( '@' . $now ) )->setTimezone( wp_timezone() );
+
+			return $today->modify( 'monday this week' )->setTime( 0, 0, 0 )->getTimestamp();
+		} catch ( \Exception $e ) {
+			unset( $e );
+
+			return $now;
 		}
 	}
 
@@ -571,6 +626,15 @@ final class Query {
 		}
 
 		return $times;
+	}
+
+	/**
+	 * Returns how many rows the last listing query matched in total.
+	 *
+	 * @return int
+	 */
+	public function total(): int {
+		return $this->total;
 	}
 
 	/**

@@ -55,6 +55,34 @@ final class Listing {
 	public array $times;
 
 	/**
+	 * Where in the listing the visitor currently is.
+	 *
+	 * @var ListingArgs
+	 */
+	public ListingArgs $args;
+
+	/**
+	 * How many rows there are in total, before the page size.
+	 *
+	 * @var int
+	 */
+	public int $total = 0;
+
+	/**
+	 * Rooms this listing could be narrowed to, id to name.
+	 *
+	 * @var array<int, string>
+	 */
+	public array $rooms = array();
+
+	/**
+	 * The page this listing sits on.
+	 *
+	 * @var string
+	 */
+	public string $base_url = '';
+
+	/**
 	 * Settings.
 	 *
 	 * @var Settings
@@ -76,6 +104,7 @@ final class Listing {
 		$this->columns  = $columns;
 		$this->settings = $settings;
 		$this->times    = $times;
+		$this->args     = ListingArgs::from_array( array() );
 
 		$this->columns = self::used_columns(
 			$columns,
@@ -124,6 +153,78 @@ final class Listing {
 		// table of rows is a grid of unlabelled values. Better to show what was
 		// asked for and let it be visibly empty.
 		return array() === $used ? $columns : $used;
+	}
+
+	/**
+	 * Records where in the listing the visitor is.
+	 *
+	 * @param ListingArgs        $args     Chosen page, week and room.
+	 * @param int                $total    Rows in total, before the page size.
+	 * @param array<int, string> $rooms    Rooms the listing may be narrowed to.
+	 * @param string             $base_url The page the listing sits on.
+	 * @return void
+	 */
+	public function place( ListingArgs $args, int $total, array $rooms, string $base_url ): void {
+		$this->args     = $args;
+		$this->total    = $total;
+		$this->rooms    = $rooms;
+		$this->base_url = $base_url;
+	}
+
+	/**
+	 * Returns how many pages the listing has.
+	 *
+	 * @return int
+	 */
+	public function pages(): int {
+		if ( 0 === $this->set->per_page ) {
+			return 1;
+		}
+
+		return max( 1, (int) ceil( $this->total / $this->set->per_page ) );
+	}
+
+	/**
+	 * Whether a week can be stepped through.
+	 *
+	 * Only a timetable set to show a week has weeks to step through. On a
+	 * listing of courses, or one covering a whole term, the control would be a
+	 * button that changes nothing.
+	 *
+	 * @return bool
+	 */
+	public function has_weeks(): bool {
+		return DisplaySet::TYPE_SCHEDULE === $this->set->type && 'week' === $this->set->range;
+	}
+
+	/**
+	 * Builds the address of this listing with one argument changed.
+	 *
+	 * @param string $key   One of `page`, `week` or `room`.
+	 * @param int    $value New value.
+	 * @return string
+	 */
+	public function url( string $key, int $value ): string {
+		$base = '' === $this->base_url ? '' : $this->base_url;
+		$args = $this->args->with( $key, $value )->to_query();
+
+		return add_query_arg( $args, $base ) . ( '' === $this->set->id ? '' : '#cscs-' . $this->set->id );
+	}
+
+	/**
+	 * Returns the week being shown, as a person would say it.
+	 *
+	 * @return string
+	 */
+	public function week_label(): string {
+		$stamp = time() + ( $this->args->week * WEEK_IN_SECONDS );
+		$start = (int) strtotime( 'monday this week', $stamp );
+		$end   = (int) strtotime( 'sunday this week', $stamp );
+
+		return Formatter::date_range(
+			(string) wp_date( 'j. n.', $start ),
+			(string) wp_date( 'j. n. Y', $end )
+		);
 	}
 
 	/**

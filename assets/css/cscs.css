@@ -122,3 +122,41 @@
 .cscs-course__makeup .cscs-table {
 	border-left: 3px solid var(--cscs-border);
 }
+
+/* Controls above and below a listing. Links first, script second. */
+
+.cscs-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.cscs-weeks,
+.cscs-rooms,
+.cscs-pager {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	align-items: center;
+}
+
+.cscs-weeks__current {
+	font-weight: 600;
+}
+
+.cscs-rooms__room.is-current {
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.cscs-pager {
+	margin-top: 1rem;
+}
+
+/* While a listing is being fetched it is still readable, only quieter. */
+.cscs[aria-busy="true"] {
+	opacity: 0.6;
+	transition: opacity 0.15s ease-in-out;
+}

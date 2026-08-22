@@ -58,7 +58,7 @@ final class Renderer {
 	 * @param string $id Set id.
 	 * @return string
 	 */
-	public function render_id( string $id ): string {
+	public function render_id( string $id, ?ListingArgs $args = null, string $base_url = '' ): string {
 		$set = $this->plugin->sets()->find( $id );
 
 		if ( null === $set ) {
@@ -76,7 +76,7 @@ final class Renderer {
 				: '';
 		}
 
-		return $this->render( $set );
+		return $this->render( $set, $args, $base_url );
 	}
 
 	/**
@@ -85,14 +85,15 @@ final class Renderer {
 	 * @param DisplaySet $set Display set.
 	 * @return string
 	 */
-	public function render( DisplaySet $set ): string {
+	public function render( DisplaySet $set, ?ListingArgs $args = null, string $base_url = '' ): string {
 		$query = new Query( $this->plugin );
+		$args  = $args ?? ListingArgs::from_request( $_GET ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading which page and week a visitor asked for; every value is clamped by ListingArgs and nothing is written.
 
 		if ( DisplaySet::TYPE_SCHEDULE === $set->type ) {
-			$rows  = $query->lessons( $set );
+			$rows  = $query->lessons( $set, $args );
 			$times = array();
 		} else {
-			$rows  = $query->courses( $set );
+			$rows  = $query->courses( $set, $args );
 			$times = $query->course_times( array_column( $rows, 'course_id' ) );
 		}
 
@@ -108,9 +109,58 @@ final class Renderer {
 
 		$listing = new Listing( $set, $rows, self::labels_for( $set ), $this->plugin->settings(), $times );
 
+		$listing->place(
+			$args,
+			$query->total(),
+			$this->rooms( $set ),
+			'' === $base_url ? $this->current_url() : $base_url
+		);
+
 		$this->enqueue();
 
 		return $this->capture( DisplaySet::TYPE_SCHEDULE === $set->type ? 'schedule' : 'courses', $listing );
+	}
+
+	/**
+	 * Returns the rooms a listing may be narrowed to.
+	 *
+	 * Only the rooms the set already covers, and only when there is more than
+	 * one: a filter offering a single choice is furniture.
+	 *
+	 * @param DisplaySet $set Display set.
+	 * @return array<int, string>
+	 */
+	private function rooms( DisplaySet $set ): array {
+		if ( DisplaySet::TYPE_SCHEDULE !== $set->type ) {
+			return array();
+		}
+
+		$rooms = array();
+
+		foreach ( $this->plugin->rooms()->decorate( $this->plugin->lessons()->rooms() ) as $room ) {
+			if ( $room['hidden'] ) {
+				continue;
+			}
+
+			if ( array() !== $set->rooms && ! in_array( $room['id'], $set->rooms, true ) ) {
+				continue;
+			}
+
+			$rooms[ $room['id'] ] = $room['name'];
+		}
+
+		return 2 > count( $rooms ) ? array() : $rooms;
+	}
+
+	/**
+	 * Returns the address of the page being viewed.
+	 *
+	 * @return string
+	 */
+	private function current_url(): string {
+		$permalink = is_singular() ? (string) get_permalink() : '';
+
+		return '' === $permalink ? home_url( add_query_arg( array() ) ) : $permalink;
 	}
 
 	/**
@@ -228,6 +278,7 @@ final class Renderer {
 		// Registered once, elsewhere, because three entrances would otherwise
 		// each add the same generated rule after the same file.
 		wp_enqueue_style( Assets::HANDLE );
+		wp_enqueue_script( Assets::HANDLE );
 	}
 
 	/**

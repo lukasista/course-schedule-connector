@@ -134,6 +134,10 @@ msgstr ""
 msgid "All"
 msgstr ""
 
+#: templates/partials/controls.php:46
+msgid "All rooms"
+msgstr ""
+
 #: includes/Admin/CourseEditor.php:143
 msgid "Always show it"
 msgstr ""
@@ -220,7 +224,7 @@ msgstr ""
 msgid "Button text"
 msgstr ""
 
-#: includes/Render/Listing.php:285
+#: includes/Render/Listing.php:386
 #: includes/Admin/Screen/Overview.php:225
 #: includes/Admin/Screen/DisplaySetsPage.php:476
 msgid "Cancelled"
@@ -479,8 +483,8 @@ msgid "For example when to ring, or that places are arranged individually."
 msgstr ""
 
 #: includes/Render/CourseDetail.php:90
-#: includes/Render/Listing.php:345
-#: includes/Render/Listing.php:349
+#: includes/Render/Listing.php:446
+#: includes/Render/Listing.php:450
 #: includes/Admin/Screen/SettingsPage.php:118
 #: includes/Admin/CourseEditor.php:342
 msgid "Free"
@@ -495,7 +499,7 @@ msgid "From:"
 msgstr ""
 
 #: includes/Render/CourseDetail.php:325
-#: includes/Render/Listing.php:177
+#: includes/Render/Listing.php:278
 msgid "Full"
 msgstr ""
 
@@ -610,6 +614,14 @@ msgstr ""
 msgid "New set"
 msgstr ""
 
+#: templates/partials/controls.php:38
+msgid "Next week →"
+msgstr ""
+
+#: templates/partials/pager.php:42
+msgid "Next →"
+msgstr ""
+
 #: includes/Admin/Screen/Overview.php:126
 msgid "No"
 msgstr ""
@@ -656,7 +668,7 @@ msgstr ""
 msgid "Nothing has run yet."
 msgstr ""
 
-#: includes/Render/Listing.php:155
+#: includes/Render/Listing.php:256
 msgid "Nothing is listed here at the moment."
 msgstr ""
 
@@ -698,7 +710,7 @@ msgstr ""
 msgid "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear."
 msgstr ""
 
-#: includes/Render/Listing.php:350
+#: includes/Render/Listing.php:451
 #: includes/Admin/Screen/SettingsPage.php:117
 msgid "On request"
 msgstr ""
@@ -727,6 +739,14 @@ msgstr ""
 #: includes/Admin/Menu.php:83
 #: includes/Admin/Menu.php:84
 msgid "Overview"
+msgstr ""
+
+#: templates/partials/pager.php:33
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: templates/partials/pager.php:22
+msgid "Pages"
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:105
@@ -903,7 +923,7 @@ msgid "Shows"
 msgstr ""
 
 #: includes/Render/CourseDetail.php:159
-#: includes/Render/Listing.php:166
+#: includes/Render/Listing.php:267
 msgid "Sign up in iSport"
 msgstr ""
 
@@ -996,6 +1016,7 @@ msgstr ""
 msgid "This shortcode needs a display set, for example [cscs_courses set=\"kurzy-pro-deti\"]."
 msgstr ""
 
+#: templates/partials/controls.php:33
 #: includes/Admin/Screen/DisplaySetsPage.php:249
 msgid "This week"
 msgstr ""
@@ -1096,6 +1117,14 @@ msgstr ""
 msgid "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows."
 msgstr ""
 
+#: templates/partials/controls.php:44
+msgid "Which room"
+msgstr ""
+
+#: templates/partials/controls.php:24
+msgid "Which week"
+msgstr ""
+
 #: templates/single-course.php:62
 msgid "Who to ask"
 msgstr ""
@@ -1184,7 +1213,7 @@ msgstr ""
 msgid "iSport settings"
 msgstr ""
 
-#: includes/Render/Listing.php:370
+#: includes/Render/Listing.php:471
 msgid "last %d place"
 msgid_plural "last %d places"
 msgstr[0] ""
@@ -1208,6 +1237,14 @@ msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:247
 msgid "— not assigned —"
+msgstr ""
+
+#: templates/partials/pager.php:25
+msgid "← Back"
+msgstr ""
+
+#: templates/partials/controls.php:26
+msgid "← Previous week"
 msgstr ""
 
 #: blocks/display/block.json
