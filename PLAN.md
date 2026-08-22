@@ -1,5 +1,5 @@
 # Jojo Gym – iSport System ↔ WordPress / Divi 5
-## Projektový plán v1.6
+## Projektový plán v1.7
 
 **Datum:** 19. 8. 2026
 **Název pluginu:** **Course & Schedule Connector for iSport** (slug `course-schedule-connector`, prefix kódu `cscs`)
@@ -78,6 +78,24 @@ Stejně vznikne taxonomie `isport_activity` (typ aktivity) – z názvu kurzu o�
 - **Jeden request vrací kompletní data včetně obsazenosti.** Neexistuje samostatný „capacity“ endpoint. To zásadně zjednodušuje návrh (viz kapitola 4).
 - Kurzy aktuálně běží 11. 9. 2026 – 22. 1. 2027, tedy pololetí ≈ 4,5 měsíce.
 - Ukázka v dokumentaci API používá `CURLOPT_SSL_VERIFYHOST = FALSE`. Plugin použije `wp_remote_get()` **s ověřením certifikátu** – vypínání kontroly je bezpečnostní riziko.
+
+---
+
+## 2b. Kategorie aktivit v rozvrhu (ověřeno na ostrých datech 21. 8. 2026)
+
+Běh nad oknem 11. 9. – 2. 10. 2026 ukázal, že termíny v rozvrhu spadají do **tří** kategorií, ne dvou:
+
+| Kategorie | Počet | Jak se pozná | Počítá se do úspěšnosti? |
+|---|---|---|---|
+| **Lekce kurzů** | 334 | štítek „Kurz“ a spárováno s kurzem přes název + stamp | ano |
+| **Pronájmy a veřejné vstupy** | 249 | jiný štítek než „Kurz“ (např. „Pronájem haly“) | ne |
+| **Aktivity bez přihlášek** | 78 | štítek „Kurz“, ale název je na seznamu v Nastavení | ne |
+
+Třetí kategorie je specifikum Jojo Gymu: kurzy **externích lektorů**, na které tělocvična nepřijímá platby ani přihlášky (Zdravé cvičení, Zdravá záda, Barre, Karate, Fyzio cvičení, Capoeira, Tango base, Intenzivní kruhový trénink, Balet, Judo pro děti, Pohyb dětem, Street dance), dále **náhradní lekce** a **individuální tréninky**, které nemají pevné termíny.
+
+V API je od běžných kurzů **nic neodlišuje** — nesou stejný štítek „Kurz“, protože to kurzy jsou. Seznam je proto nastavení (`non_bookable_activities`), porovnává se volně jako podřetězec bez diakritiky (rozvrh píše „Zdravé cvičení s overbaly“, ceník „Zdravé cvičení (overbaly)“) a **skutečný kurz má vždy přednost před seznamem**.
+
+**Důsledek pro frontend:** u těchto aktivit nesmí být tlačítko na přihlášení do iSportu. Patří k nim kontakt na lektora.
 
 ---
 
@@ -260,7 +278,7 @@ Nastavení jen pro administrátora: typografie, barvy, mezery, rámečky, hover 
 |---|---|---|---|
 | **F0** | Repozitář a standardy | ✅ *hotovo* – licence GPL-2.0+, `README.md`, `readme.txt`, `CHANGELOG`, `CONTRIBUTING`, `SECURITY`, Code of Conduct, PHPCS/PHPStan konfigurace, CI a release workflow, šablony issues, Dependabot, `docs/` | 0,5 dne |
 | **F1** | Jádro + API klient | ✅ *hotovo* – bootstrap, vlastní PSR-4 autoloader, klient s retry/timeout/circuit breakerem a hodinovým stropem, **validace base URL proti SSRF**, mapper, normalizace typů, cache se stale-while-revalidate, WP-CLI `wp cscs api`, 47 unit testů | 2 dny |
-| **F2** | Datový model + synchronizace | ✅ *hotovo* – CPT `cscs_course` a 4 taxonomie, tabulky lekcí a logu, cron se čtyřmi úlohami, **párování name+stamp** s volnějším fallbackem a ručním přiřazením, odvození sálů z lekcí, zámky polí, retence, `uninstall.php`, WP-CLI `wp cscs sync`, 62 unit testů | 2,5 dne |
+| **F2** | Datový model + synchronizace | ✅ *hotovo a ověřeno na ostrých datech* – CPT `cscs_course` a 4 taxonomie, tabulky lekcí a logu, cron se čtyřmi úlohami, **párování name+stamp**, odvození sálů z lekcí, zámky polí, retence, `uninstall.php`, WP-CLI `wp cscs sync` a `wp cscs settings`, 93 unit testů. **Úspěšnost párování 100 %** (113 kurzů, 661 termínů, 334 spárovaných, 0 nevyřešených) | 2,5 dne |
 | **F3** | Administrace + práva | Menu, Zobrazovací sady, Nastavení, mapování sálů, nespárované lekce, hromadné akce, role Správce iSport, serverová validace | 2,5 dne |
 | **F4** | Renderer + styly | Šablonový systém, responzivní tabulky, stavy (vyprodáno, zrušeno, poslední místa), formátování ceny, přístupnost | 1,5 dne |
 | **F5** | Shortcode + Gutenberg blok | Nezávislost na Divi: `[cscs_courses]`, `[cscs_schedule]`, blok `cscs/display`, REST náhled | 1,5 dne |
