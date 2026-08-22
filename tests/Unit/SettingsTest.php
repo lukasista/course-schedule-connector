@@ -155,8 +155,20 @@ final class SettingsTest extends TestCase {
 
 		$this->assertIsArray( $list );
 		$this->assertNotEmpty( $list );
-		$this->assertContains( 'Náhradní lekce', $list );
 		$this->assertContains( 'Judo', $list );
+		$this->assertContains( 'Individuální trénink', $list );
+	}
+
+	/**
+	 * Make-up lessons are a category of their own, so they live on their own
+	 * list. Leaving them on the non-bookable list would have classified them as
+	 * something nobody books, which is true but far less useful.
+	 *
+	 * @return void
+	 */
+	public function test_make_up_lessons_have_their_own_list(): void {
+		$this->assertContains( 'Náhradní lekce', $this->settings->get( 'makeup_activities' ) );
+		$this->assertNotContains( 'Náhradní lekce', $this->settings->get( 'non_bookable_activities' ) );
 	}
 
 	/**

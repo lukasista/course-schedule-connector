@@ -253,7 +253,8 @@ final class Plugin {
 				$this->lessons(),
 				new Matcher(
 					(array) $this->settings()->get( 'non_bookable_activities' ),
-					(array) $this->settings()->get( 'tag_categories' )
+					(array) $this->settings()->get( 'tag_categories' ),
+					(array) $this->settings()->get( 'makeup_activities' )
 				),
 				$this->logger()
 			)

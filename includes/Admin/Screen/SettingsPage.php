@@ -133,6 +133,14 @@ final class SettingsPage {
 					<textarea name="cscs[non_bookable_activities]" rows="10" cols="50" class="large-text code"><?php echo esc_textarea( implode( "\n", (array) $settings->get( 'non_bookable_activities' ) ) ); ?></textarea>
 				</p>
 
+				<h2><?php esc_html_e( 'Make-up lessons', 'course-schedule-connector' ); ?></h2>
+				<p class="description" style="max-width:45em">
+					<?php esc_html_e( 'Names that mark a class as a replacement for one somebody missed, one per line, matched the same loose way. These are counted and shown separately from activities that take no bookings, because a make-up lesson belongs to a course — which one is recorded under iSport → Make-up lessons.', 'course-schedule-connector' ); ?>
+				</p>
+				<p>
+					<textarea name="cscs[makeup_activities]" rows="4" cols="50" class="large-text code"><?php echo esc_textarea( implode( "\n", (array) $settings->get( 'makeup_activities' ) ) ); ?></textarea>
+				</p>
+
 				<h2><?php esc_html_e( 'What each tag means', 'course-schedule-connector' ); ?></h2>
 				<p class="description" style="max-width:45em">
 					<?php esc_html_e( 'The remote system tags every class, and a tag maintained there stays right for everyone, so it is asked before the list above. One rule per line, in the form label = category. Categories are course, external_course, makeup and rental. A label that is not listed here simply falls through to the list above.', 'course-schedule-connector' ); ?>

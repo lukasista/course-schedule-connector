@@ -49,20 +49,39 @@ final class Matcher {
 	private array $tag_categories;
 
 	/**
+	 * Loose keys of activities that are make-up lessons.
+	 *
+	 * @var array<int, string>
+	 */
+	private array $makeup;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array<int, string>    $non_bookable   Names of activities that take no bookings. Compared as
 	 *                                              substrings of the accent-stripped key, so "Zdravé cvičení"
 	 *                                              also covers "Zdravé cvičení s overbaly".
 	 * @param array<string, string> $tag_categories Tag label to category: course, external_course, makeup or rental.
+	 * @param array<int, string>    $makeup         Names that mark a make-up lesson, compared the same loose way.
 	 */
-	public function __construct( array $non_bookable = array(), array $tag_categories = array() ) {
+	public function __construct( array $non_bookable = array(), array $tag_categories = array(), array $makeup = array() ) {
 		$this->tag_categories = $tag_categories;
-		$this->non_bookable   = array_values(
+		$this->makeup         = $this->to_keys( $makeup );
+		$this->non_bookable   = $this->to_keys( $non_bookable );
+	}
+
+	/**
+	 * Reduces a list of names to comparable keys.
+	 *
+	 * @param array<int, string> $names Names.
+	 * @return array<int, string>
+	 */
+	private function to_keys( array $names ): array {
+		return array_values(
 			array_filter(
 				array_map(
 					static fn( $name ): string => Normalise::match_key_loose( (string) $name ),
-					$non_bookable
+					$names
 				),
 				static fn( string $key ): bool => '' !== $key
 			)
@@ -198,7 +217,13 @@ final class Matcher {
 	 * @return string Reason code.
 	 */
 	private function classify_unmatched( Lesson $lesson ): string {
-		if ( $this->is_non_bookable( $lesson ) ) {
+		// Asked before the non-bookable list, because a make-up lesson is also
+		// something nobody books, and the more specific answer is the useful one.
+		if ( $this->matches_any( $lesson, $this->makeup ) ) {
+			return 'makeup';
+		}
+
+		if ( $this->matches_any( $lesson, $this->non_bookable ) ) {
 			return 'not_bookable';
 		}
 
@@ -246,17 +271,18 @@ final class Matcher {
 	 * because the timetable spells them loosely: the schedule says "Zdravé
 	 * cvičení s overbaly" where the price list says "Zdravé cvičení (overbaly)".
 	 *
-	 * @param Lesson $lesson Occurrence.
+	 * @param Lesson             $lesson  Occurrence.
+	 * @param array<int, string> $needles Loose keys to look for.
 	 * @return bool
 	 */
-	private function is_non_bookable( Lesson $lesson ): bool {
-		if ( array() === $this->non_bookable ) {
+	private function matches_any( Lesson $lesson, array $needles ): bool {
+		if ( array() === $needles ) {
 			return false;
 		}
 
 		$key = Normalise::match_key_loose( $lesson->activity_name );
 
-		foreach ( $this->non_bookable as $needle ) {
+		foreach ( $needles as $needle ) {
 			if ( str_contains( $key, $needle ) ) {
 				return true;
 			}

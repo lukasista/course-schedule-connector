@@ -64,6 +64,9 @@ final class Settings {
 				'pronájem haly'  => 'rental',
 				'open lekce'     => 'rental',
 			),
+			'makeup_activities'        => array(
+				'Náhradní lekce',
+			),
 			'non_bookable_activities'  => array(
 				'Zdravé cvičení',
 				'Zdravá záda',
@@ -78,7 +81,6 @@ final class Settings {
 				'Pohyb dětem',
 				'Street dance',
 				'Individuální trénink',
-				'Náhradní lekce',
 			),
 			'lesson_retention_days'    => 30,
 			'show_isport_button'       => true,
@@ -266,7 +268,7 @@ final class Settings {
 			return $map;
 		}
 
-		if ( 'non_bookable_activities' === $key ) {
+		if ( in_array( $key, array( 'non_bookable_activities', 'makeup_activities' ), true ) ) {
 			$names = is_array( $value ) ? $value : explode( "\n", (string) $value );
 
 			return array_values(

@@ -11,6 +11,7 @@ namespace CSCS\Cli;
 
 use CSCS\Data\LessonRepository;
 use CSCS\Plugin;
+use CSCS\Sync\MakeupResolver;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -79,16 +80,26 @@ final class MakeupCommand {
 		$repository = $this->plugin->lessons();
 		$links      = $repository->makeup_links();
 		$rows       = array();
+		$names      = array();
 
 		foreach ( $repository->by_status( LessonRepository::STATUS_MAKEUP, 500 ) as $row ) {
 			$name = (string) $row['activity_name'];
 			$key  = \CSCS\Support\Normalise::match_key( $name );
 
+			$names[ $key ] = $name;
+
 			$rows[ $key ] = array(
 				'activity_name' => $name,
 				'occurrences'   => ( $rows[ $key ]['occurrences'] ?? 0 ) + 1,
 				'course'        => (string) ( $links[ $key ] ?? '' ),
+				'suggested'     => '',
 			);
+		}
+
+		foreach ( $this->suggestions( $names ) as $key => $course_id ) {
+			if ( isset( $rows[ $key ] ) && '' === $rows[ $key ]['course'] ) {
+				$rows[ $key ]['suggested'] = (string) $course_id;
+			}
 		}
 
 		if ( array() === $rows ) {
@@ -100,8 +111,34 @@ final class MakeupCommand {
 		\WP_CLI\Utils\format_items(
 			(string) ( $assoc_args['format'] ?? 'table' ),
 			array_values( $rows ),
-			array( 'activity_name', 'occurrences', 'course' )
+			array( 'activity_name', 'occurrences', 'course', 'suggested' )
 		);
+	}
+
+	/**
+	 * Asks the resolver which course each make-up lesson names, if any.
+	 *
+	 * Reading the course list costs nothing extra: it is already cached from the
+	 * last synchronisation. A failure here is not worth an error, because a
+	 * suggestion is a convenience and the listing is the point.
+	 *
+	 * @param array<string, string> $names Match key to activity name.
+	 * @return array<string, int>
+	 */
+	private function suggestions( array $names ): array {
+		if ( array() === $names ) {
+			return array();
+		}
+
+		try {
+			$courses = $this->plugin->client()->get_courses();
+		} catch ( \CSCS\Api\ApiException $e ) {
+			unset( $e );
+
+			return array();
+		}
+
+		return ( new MakeupResolver() )->suggest( array_values( $names ), $courses );
 	}
 
 	/**
