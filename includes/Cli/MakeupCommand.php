@@ -112,7 +112,7 @@ final class MakeupCommand {
 				'trainer'       => (string) ( $row['trainer_name'] ?? '' ),
 				'course'        => $this->label( $course_id, $courses ),
 				'suggested'     => 0 === $course_id
-					? $this->label( $suggestions[ Normalise::match_key_loose( $name ) ] ?? 0, $courses )
+					? $this->label( $suggestions[ Normalise::match_key( $name ) ] ?? 0, $courses )
 					: '',
 			);
 		}
@@ -193,7 +193,7 @@ final class MakeupCommand {
 	 * person confirms it once per occurrence.
 	 *
 	 * @param array<int, array<string, mixed>> $occurrences Make-up occurrences.
-	 * @return array<string, int> Loose match key to course id.
+	 * @return array<string, int> Match key to course id.
 	 */
 	private function suggestions( array $occurrences ): array {
 		$names = array();
@@ -202,7 +202,7 @@ final class MakeupCommand {
 			$name = (string) ( $row['activity_name'] ?? '' );
 
 			if ( '' !== $name ) {
-				$names[ Normalise::match_key_loose( $name ) ] = $name;
+				$names[ Normalise::match_key( $name ) ] = $name;
 			}
 		}
 

@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin;
 
+use CSCS\Admin\Screen\MakeupPage;
 use CSCS\Admin\Screen\Overview;
 use CSCS\Admin\Screen\SettingsPage;
 use CSCS\Data\PostType;
@@ -91,6 +92,17 @@ final class Menu {
 			'edit.php?post_type=' . PostType::COURSE
 		);
 
+		$makeup = new MakeupPage( $this->plugin );
+
+		add_submenu_page(
+			self::SLUG,
+			__( 'Make-up lessons', 'course-schedule-connector' ),
+			$this->makeup_title(),
+			Capabilities::MANAGE_CONTENT,
+			MakeupPage::SLUG,
+			array( $makeup, 'render' )
+		);
+
 		// Settings decide where the plugin sends requests, so they are an
 		// administrator's business rather than a site manager's.
 		add_submenu_page(
@@ -100,6 +112,31 @@ final class Menu {
 			Capabilities::MANAGE_DESIGN,
 			self::SLUG . '-settings',
 			array( $settings, 'render' )
+		);
+	}
+
+	/**
+	 * Builds the make-up menu label, with a count of the ones still unassigned.
+	 *
+	 * Make-up lessons turn up a few at a time, and nobody opens a screen on the
+	 * off chance that something new is waiting on it. The bubble is the only
+	 * thing that tells them.
+	 *
+	 * @return string
+	 */
+	private function makeup_title(): string {
+		$label   = __( 'Make-up lessons', 'course-schedule-connector' );
+		$pending = MakeupPage::pending( $this->plugin );
+
+		if ( 0 === $pending ) {
+			return $label;
+		}
+
+		return sprintf(
+			'%s <span class="update-plugins count-%d"><span class="update-count">%s</span></span>',
+			$label,
+			$pending,
+			number_format_i18n( $pending )
 		);
 	}
 }

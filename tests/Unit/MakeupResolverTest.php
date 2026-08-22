@@ -130,4 +130,53 @@ final class MakeupResolverTest extends TestCase {
 			$suggestions
 		);
 	}
+	/**
+	 * The admin screen holds course names and ids, not course records, and asks
+	 * the same question through the same code.
+	 *
+	 * @return void
+	 */
+	public function test_a_suggestion_can_be_made_from_names_alone(): void {
+		$resolver = new MakeupResolver();
+
+		$suggestions = $resolver->suggest_by_names(
+			array( 'Náhradní lekce 37-Gymnastika 9-11 let dívky I. pololetí' ),
+			array(
+				1085 => '37-Gymnastika 9-11 let dívky I. pololetí',
+				1070 => '113-Deskové hry 9-13 let I. pololetí',
+			)
+		);
+
+		$this->assertSame( array( 1085 ), array_values( $suggestions ) );
+
+		$this->assertSame(
+			array(),
+			$resolver->suggest_by_names(
+				array( 'Náhradní lekce 4-6 let I.pololetí' ),
+				array(
+					1085 => '25-Gymnastika 4-6 let dívky pokročilé I. pololetí',
+					1070 => '26-Jojo přípravka 4-6 let dívky I. pololetí',
+				)
+			)
+		);
+	}
+
+	/**
+	 * The key a suggestion is filed under is the strict one, because that is
+	 * what every caller looks it up by. A screen that computed the key one way
+	 * while the resolver filed it another would quietly never show a suggestion.
+	 *
+	 * @return void
+	 */
+	public function test_a_suggestion_is_filed_under_the_strict_match_key(): void {
+		$suggestions = ( new MakeupResolver() )->suggest_by_names(
+			array( 'Náhradní lekce 37-Gymnastika 9-11 let dívky I. pololetí' ),
+			array( 1085 => '37-Gymnastika 9-11 let dívky I. pololetí' )
+		);
+
+		$this->assertSame(
+			array( \CSCS\Support\Normalise::match_key( 'Náhradní lekce 37-Gymnastika 9-11 let dívky I. pololetí' ) ),
+			array_keys( $suggestions )
+		);
+	}
 }

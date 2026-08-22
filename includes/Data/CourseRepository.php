@@ -176,6 +176,40 @@ final class CourseRepository {
 	}
 
 	/**
+	 * Returns course names keyed by remote course id, ordered by name.
+	 *
+	 * Read from what is stored rather than from the remote system, because the
+	 * screens that need a list of courses — tying a make-up lesson to one, for
+	 * instance — must work when the network does not.
+	 *
+	 * @return array<int, string>
+	 */
+	public function names(): array {
+		$posts = get_posts(
+			array(
+				'post_type'        => PostType::COURSE,
+				'post_status'      => 'any',
+				'numberposts'      => -1,
+				'orderby'          => 'title',
+				'order'            => 'ASC',
+				'suppress_filters' => false,
+			)
+		);
+
+		$names = array();
+
+		foreach ( $posts as $post ) {
+			$remote_id = (int) get_post_meta( $post->ID, self::META_ID, true );
+
+			if ( 0 !== $remote_id ) {
+				$names[ $remote_id ] = $post->post_title;
+			}
+		}
+
+		return $names;
+	}
+
+	/**
 	 * Marks courses the remote system no longer lists.
 	 *
 	 * They are kept: the page may be linked from elsewhere and may hold text a

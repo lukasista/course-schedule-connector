@@ -396,6 +396,36 @@ final class LessonRepository {
 	}
 
 	/**
+	 * Returns the ids of the make-up occurrences nobody has tied to a course.
+	 *
+	 * Kept separate from the listing because the admin menu asks for this on
+	 * every page load to show a count, and the listing decodes payloads and
+	 * reads names to do work this does not need.
+	 *
+	 * @return array<int, int> Occurrence ids.
+	 */
+	public function unlinked_makeup_terms(): array {
+		global $wpdb;
+
+		$table = Schema::lessons_table();
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- The plugin's own table: the table name comes from $wpdb->prefix and cannot be a placeholder, and the bound value is prepared.
+		$ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT id_activity_term FROM {$table} WHERE status = %s ORDER BY stamp_from ASC",
+				self::STATUS_MAKEUP
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+
+		if ( ! is_array( $ids ) ) {
+			return array();
+		}
+
+		return array_values( array_diff( array_map( 'intval', $ids ), array_keys( $this->makeup_links() ) ) );
+	}
+
+	/**
 	 * Returns counts used by the overview screen.
 	 *
 	 * @return array<string, int>

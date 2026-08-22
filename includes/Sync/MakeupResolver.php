@@ -46,6 +46,27 @@ final class MakeupResolver {
 	 * @return array<string, int> Match key to the single course that fits.
 	 */
 	public function suggest( array $activity_names, array $courses ): array {
+		$names = array();
+
+		foreach ( $courses as $course ) {
+			$names[ $course->id ] = array( $course->activity_name, $course->name );
+		}
+
+		return $this->suggest_by_names( $activity_names, $names );
+	}
+
+	/**
+	 * Suggests a course for each make-up lesson name, from names alone.
+	 *
+	 * The admin screens read the course list out of what is stored rather than
+	 * from the remote system, so they hold names and ids and no records. That is
+	 * all this needs.
+	 *
+	 * @param array<int, string>                          $activity_names Activity names of make-up lessons.
+	 * @param array<int, string|array<int, string>>       $course_names   Course id to its name, or to its names.
+	 * @return array<string, int> Match key of the lesson to the single course that fits.
+	 */
+	public function suggest_by_names( array $activity_names, array $course_names ): array {
 		$suggestions = array();
 
 		foreach ( $activity_names as $name ) {
@@ -56,9 +77,9 @@ final class MakeupResolver {
 				continue;
 			}
 
-			foreach ( $courses as $course ) {
-				if ( $this->names_fit( $key, $course ) ) {
-					$candidates[] = $course->id;
+			foreach ( $course_names as $course_id => $candidate_names ) {
+				if ( $this->names_fit( $key, (array) $candidate_names ) ) {
+					$candidates[] = (int) $course_id;
 				}
 			}
 
@@ -73,15 +94,15 @@ final class MakeupResolver {
 	}
 
 	/**
-	 * Whether either of a course's names appears inside a make-up lesson's name.
+	 * Whether any of a course's names appears inside a make-up lesson's name.
 	 *
-	 * @param string $makeup_key Loose key of the make-up lesson.
-	 * @param Course $course     Course.
+	 * @param string             $makeup_key   Loose key of the make-up lesson.
+	 * @param array<int, string> $course_names Names the course goes by.
 	 * @return bool
 	 */
-	private function names_fit( string $makeup_key, Course $course ): bool {
-		foreach ( array( $course->activity_name, $course->name ) as $name ) {
-			$course_key = Normalise::match_key_loose( $name );
+	private function names_fit( string $makeup_key, array $course_names ): bool {
+		foreach ( $course_names as $name ) {
+			$course_key = Normalise::match_key_loose( (string) $name );
 
 			if ( strlen( $course_key ) >= self::MIN_KEY_LENGTH && str_contains( $makeup_key, $course_key ) ) {
 				return true;

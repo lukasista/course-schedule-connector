@@ -292,6 +292,7 @@ wp cscs sync list --status=matched|external|not_bookable|makeup|unresolved
 
 wp cscs makeup list [--unlinked]                       # one row per make-up occurrence
 wp cscs makeup link <term-id> <course-id>             # 0 or omitted clears it
+                                                      # same job as iSport → Make-up lessons
 wp cscs sync assign <term> <course>                   # permanent manual assignment
 wp cscs sync retention
 

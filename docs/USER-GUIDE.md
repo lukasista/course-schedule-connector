@@ -13,6 +13,7 @@ Příručka je pro **správce webu** – člověka, který spravuje nabídku kur
 - [Správa kurzů](#správa-kurzů)
 - [Tlačítko „Přihlásit v iSport systému“](#tlačítko-přihlásit-v-isport-systému)
 - [Nespárované lekce](#nespárované-lekce)
+- [Náhradní lekce](#náhradní-lekce)
 - [Sály a aktivity](#sály-a-aktivity)
 - [Přehled a synchronizace](#přehled-a-synchronizace)
 - [Co plugin dělá na mobilu](#co-plugin-dělá-na-mobilu)
@@ -105,6 +106,19 @@ iSport systém bohužel neposkytuje přímou vazbu mezi kurzem a jeho jednotliv�
 Když se lekce spárovat nepodaří, objeví se na obrazovce **iSport → Nespárované lekce**. Tam k ní vyberete správný kurz a potvrdíte. **Takové ruční přiřazení je trvalé** – synchronizace ho už nikdy nepřepíše.
 
 Nespárovaná lekce se v rozvrhu zobrazuje normálně; jen se u ní neukáže odkaz na kurz a nezapočítá se kurzu do seznamu sálů.
+
+## Náhradní lekce
+
+Náhradní lekce patří vždy k jednomu konkrétnímu kurzu, ale z dat iSportu se nedá poznat ke kterému: rozvrh je pojmenuje třeba `Náhradní lekce 4-6 let I. pololetí` a v té věkové kategorii běží tucet kurzů. Stejný název se navíc používá pro náhradní termín kteréhokoli z nich, takže **dva termíny se shodným názvem mohou patřit dvěma různým kurzům**. Proto se přiřazuje po jednotlivých termínech, ne podle názvu.
+
+Slouží k tomu obrazovka **iSport → Náhradní lekce**. U každého termínu vidíte datum, čas, sál a lektora a vyberete kurz, který zastupuje. Nic nemusíte přiřadit hned – termíny bez kurzu se normálně ukládají i počítají, jen se nikde u kurzu neobjeví.
+
+- V menu u položky **Náhradní lekce** svítí číslo, kolik termínů ještě nikdo nepřiřadil. Nové termíny přibývají průběžně, takže je to jediné, co vás na ně upozorní.
+- Filtry nahoře přepínají mezi **nepřiřazenými**, **přiřazenými** a **všemi**.
+- Tlačítko **Doplnit a uložit návrhy** přiřadí kurz tam, kde ho název lekce sám jmenuje a sedí právě jeden (například `Náhradní lekce 37-Gymnastika 9-11 let dívky I. pololetí`). Už přiřazené termíny nechá být. Návrh je jen návrh – po doplnění ho projděte a případně změňte jako kterýkoli jiný řádek.
+- Přiřazení se ukládá až tlačítkem **Uložit přiřazení**. Výběrem `— nepřiřazeno —` vazbu zase zrušíte.
+
+Přiřazení přežívá synchronizaci. Když termín zestárne a plugin ho podle nastavené doby uchovávání smaže, zmizí s ním i jeho vazba – budoucích termínů se to nedotkne.
 
 ## Sály a aktivity
 
