@@ -13,15 +13,15 @@ msgstr ""
 msgid "%1$d courses and %2$d occurrences retrieved."
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:388
-msgid "%d class assigned and the matching re-run."
-msgid_plural "%d classes assigned and the matching re-run."
+#: includes/Admin/Screen/UnmatchedPage.php:411
+msgid "%d class assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone."
+msgid_plural "%d classes assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Admin/Screen/MakeupPage.php:409
-msgid "%d make-up lesson saved."
-msgid_plural "%d make-up lessons saved."
+#: includes/Admin/Screen/MakeupPage.php:420
+msgid "%d make-up lesson saved. Assigned ones are in the Assigned list, where any of them can be undone."
+msgid_plural "%d make-up lessons saved. Assigned ones are in the Assigned list, where any of them can be undone."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -29,7 +29,7 @@ msgstr[1] ""
 msgid "%d occurrences should belong to a course and do not. Everything else is either matched or a recognised rental."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:443
+#: includes/Admin/Screen/MakeupPage.php:473
 msgid "%d repeat assigned like its series."
 msgid_plural "%d repeats assigned like their series."
 msgstr[0] ""
@@ -45,7 +45,7 @@ msgstr[1] ""
 msgid "%d setting(s) saved."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:481
+#: includes/Admin/Screen/MakeupPage.php:511
 msgid "%d suggestion applied. Check it before relying on it."
 msgid_plural "%d suggestions applied. Check them before relying on them."
 msgstr[0] ""
@@ -80,7 +80,7 @@ msgid "A hall rented to somebody else occupies the room but is not a course of y
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:103
-msgid "A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course."
+msgid "A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course. Nothing here is final: an assignment can be undone in the Assigned list."
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:182
@@ -114,12 +114,12 @@ msgstr ""
 
 #: includes/Admin/Screen/Overview.php:222
 #: includes/Admin/Screen/SettingsPage.php:128
-#: includes/Admin/Screen/UnmatchedPage.php:124
+#: includes/Admin/Screen/UnmatchedPage.php:136
 msgid "Activities that take no bookings"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:130
-#: includes/Admin/Screen/UnmatchedPage.php:143
+#: includes/Admin/Screen/UnmatchedPage.php:165
 #: includes/Admin/Screen/DisplaySetsPage.php:466
 #: includes/Admin/CourseEditor.php:199
 #: includes/Data/PostType.php:163
@@ -160,7 +160,7 @@ msgstr ""
 msgid "Ask an administrator to set it."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:282
+#: includes/Admin/Screen/MakeupPage.php:289
 msgid "Assign like the rest of this series: %s"
 msgstr ""
 
@@ -172,11 +172,19 @@ msgstr ""
 msgid "Assigned"
 msgstr ""
 
+#: includes/Admin/Screen/UnmatchedPage.php:139
+msgid "Assigned by hand"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:441
+msgid "Assignment undone. The occurrence is unassigned again."
+msgstr ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:325
 msgid "At or below this many free places the listing says so. Zero switches the warning off."
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:147
+#: includes/Admin/Screen/UnmatchedPage.php:169
 msgid "Belongs to"
 msgstr ""
 
@@ -284,7 +292,7 @@ msgstr ""
 msgid "Course"
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:228
+#: includes/Admin/Screen/UnmatchedPage.php:250
 msgid "Course \"%s\" created and this class tied to it."
 msgstr ""
 
@@ -292,7 +300,7 @@ msgstr ""
 msgid "Course %d, which is no longer stored"
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:221
+#: includes/Admin/Screen/UnmatchedPage.php:243
 msgid "Course created, but the matching could not be re-run: %s"
 msgstr ""
 
@@ -320,7 +328,7 @@ msgstr ""
 msgid "Course tags"
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:259
+#: includes/Admin/Screen/UnmatchedPage.php:281
 msgid "Course this class belongs to"
 msgstr ""
 
@@ -350,7 +358,7 @@ msgid "Create set"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:128
-#: includes/Admin/Screen/UnmatchedPage.php:141
+#: includes/Admin/Screen/UnmatchedPage.php:163
 #: includes/Admin/Screen/DisplaySetsPage.php:468
 msgid "Date"
 msgstr ""
@@ -425,12 +433,16 @@ msgstr ""
 msgid "Edit set"
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:113
+#: includes/Admin/Screen/UnmatchedPage.php:125
 msgid "Edit the new course"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:146
 msgid "Even when shown, the button hides itself while the course is full or iSport reports that it takes no registrations."
+msgstr ""
+
+#: includes/Admin/Screen/UnmatchedPage.php:153
+msgid "Everything somebody tied to a course by hand, whatever the matching would have decided. Choosing \"belongs to no course\" here gives the class back to the matching, which is how an assignment made by mistake is undone."
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:322
@@ -551,7 +563,7 @@ msgstr ""
 msgid "Left empty, no heading is printed."
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:270
+#: includes/Admin/Screen/UnmatchedPage.php:292
 msgid "Make this a course of its own"
 msgstr ""
 
@@ -610,7 +622,7 @@ msgstr ""
 msgid "No courses found."
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:476
+#: includes/Admin/Screen/MakeupPage.php:506
 msgid "No lesson names a course clearly enough to suggest one."
 msgstr ""
 
@@ -635,8 +647,8 @@ msgstr ""
 msgid "Note"
 msgstr ""
 
-#: includes/Admin/Screen/MakeupPage.php:370
-#: includes/Admin/Screen/UnmatchedPage.php:370
+#: includes/Admin/Screen/MakeupPage.php:381
+#: includes/Admin/Screen/UnmatchedPage.php:393
 msgid "Nothing changed."
 msgstr ""
 
@@ -666,11 +678,15 @@ msgid "Nothing to choose from yet. Synchronise first."
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:160
-#: includes/Admin/Screen/UnmatchedPage.php:152
+#: includes/Admin/Screen/UnmatchedPage.php:174
 msgid "Nothing to show here."
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:438
+msgid "Nothing to undo."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:468
 msgid "Nothing was assigned: the series either disagrees about its course or has no assignment to copy."
 msgstr ""
 
@@ -748,7 +764,7 @@ msgid "Removal"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:221
-#: includes/Admin/Screen/UnmatchedPage.php:123
+#: includes/Admin/Screen/UnmatchedPage.php:135
 msgid "Rentals and open sessions"
 msgstr ""
 
@@ -782,7 +798,7 @@ msgstr ""
 
 #: includes/Render/CourseDetail.php:98
 #: includes/Admin/Screen/MakeupPage.php:131
-#: includes/Admin/Screen/UnmatchedPage.php:144
+#: includes/Admin/Screen/UnmatchedPage.php:166
 #: includes/Admin/Screen/DisplaySetsPage.php:470
 #: includes/Admin/Screen/DisplaySetsPage.php:501
 #: includes/Admin/CourseEditor.php:313
@@ -820,7 +836,7 @@ msgid "Runs to"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:170
-#: includes/Admin/Screen/UnmatchedPage.php:163
+#: includes/Admin/Screen/UnmatchedPage.php:185
 msgid "Save assignments"
 msgstr ""
 
@@ -832,11 +848,11 @@ msgstr ""
 msgid "Save set"
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:381
+#: includes/Admin/Screen/UnmatchedPage.php:404
 msgid "Saved, but the matching could not be re-run: %s"
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:167
+#: includes/Admin/Screen/UnmatchedPage.php:189
 msgid "Saving re-runs the matching over everything already stored, so an assignment takes effect at once and without a request to iSport."
 msgstr ""
 
@@ -924,7 +940,7 @@ msgstr ""
 msgid "Synchronise now"
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:146
+#: includes/Admin/Screen/UnmatchedPage.php:168
 msgid "Tags"
 msgstr ""
 
@@ -948,11 +964,11 @@ msgstr ""
 msgid "Term starts"
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:191
+#: includes/Admin/Screen/UnmatchedPage.php:213
 msgid "That class is no longer stored."
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:207
+#: includes/Admin/Screen/UnmatchedPage.php:229
 msgid "The course could not be created."
 msgstr ""
 
@@ -993,7 +1009,7 @@ msgid "Tied to a course"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:129
-#: includes/Admin/Screen/UnmatchedPage.php:142
+#: includes/Admin/Screen/UnmatchedPage.php:164
 #: includes/Admin/Screen/DisplaySetsPage.php:469
 msgid "Time"
 msgstr ""
@@ -1008,7 +1024,7 @@ msgstr ""
 
 #: includes/Render/CourseDetail.php:99
 #: includes/Admin/Screen/MakeupPage.php:132
-#: includes/Admin/Screen/UnmatchedPage.php:145
+#: includes/Admin/Screen/UnmatchedPage.php:167
 #: includes/Admin/Screen/DisplaySetsPage.php:471
 #: includes/Admin/CourseEditor.php:312
 #: includes/Data/PostType.php:159
@@ -1024,14 +1040,18 @@ msgstr ""
 msgid "Unassigned"
 msgstr ""
 
+#: includes/Admin/Screen/MakeupPage.php:279
+msgid "Undo this assignment"
+msgstr ""
+
 #: includes/Admin/Menu.php:113
 #: includes/Admin/Menu.php:114
-#: includes/Admin/Screen/UnmatchedPage.php:102
+#: includes/Admin/Screen/UnmatchedPage.php:114
 msgid "Unmatched lessons"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:224
-#: includes/Admin/Screen/UnmatchedPage.php:122
+#: includes/Admin/Screen/UnmatchedPage.php:134
 msgid "Unresolved"
 msgstr ""
 
@@ -1112,7 +1132,7 @@ msgstr ""
 #: includes/Admin/Screen/MakeupPage.php:75
 #: includes/Admin/Screen/Overview.php:52
 #: includes/Admin/Screen/RoomsPage.php:60
-#: includes/Admin/Screen/UnmatchedPage.php:89
+#: includes/Admin/Screen/UnmatchedPage.php:99
 #: includes/Admin/Screen/DisplaySetsPage.php:62
 msgid "You are not allowed to view this page."
 msgstr ""
@@ -1156,7 +1176,7 @@ msgstr ""
 msgid "iSport overview"
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:105
+#: includes/Admin/Screen/UnmatchedPage.php:117
 msgid "iSport publishes no link between a course and the classes that make it up, so the plugin works it out from the name and the time. Anything it could not place with confidence is here, together with the classes it decided belong to nobody — hall rentals, open sessions, and activities that take no bookings. Choosing a course records the answer for good: no later synchronisation will decide otherwise."
 msgstr ""
 
@@ -1174,7 +1194,7 @@ msgstr[1] ""
 msgid "— being edited"
 msgstr ""
 
-#: includes/Admin/Screen/UnmatchedPage.php:262
+#: includes/Admin/Screen/UnmatchedPage.php:284
 msgid "— belongs to no course —"
 msgstr ""
 

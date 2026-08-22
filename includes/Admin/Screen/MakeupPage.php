@@ -100,7 +100,7 @@ final class MakeupPage {
 			<h1><?php esc_html_e( 'Make-up lessons', 'course-schedule-connector' ); ?></h1>
 
 			<p class="description" style="max-width:52em">
-				<?php esc_html_e( 'A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course.', 'course-schedule-connector' ); ?>
+				<?php esc_html_e( 'A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course. Nothing here is final: an assignment can be undone in the Assigned list.', 'course-schedule-connector' ); ?>
 			</p>
 
 			<?php if ( '' !== $notice ) : ?>
@@ -273,6 +273,13 @@ final class MakeupPage {
 						?>
 					</p>
 				<?php endif; ?>
+				<?php if ( 0 !== $course_id ) : ?>
+					<p>
+						<button type="submit" name="cscs_action" value="clear-<?php echo esc_attr( (string) $term_id ); ?>" class="button button-small">
+							<?php esc_html_e( 'Undo this assignment', 'course-schedule-connector' ); ?>
+						</button>
+					</p>
+				<?php endif; ?>
 				<?php if ( 0 === $course_id && 0 !== $proposed ) : ?>
 					<p>
 						<button type="submit" name="cscs_action" value="like-<?php echo esc_attr( (string) $term_id ); ?>" class="button button-small">
@@ -362,6 +369,10 @@ final class MakeupPage {
 			$messages[] = $this->apply_suggestions();
 		}
 
+		if ( str_starts_with( $action, 'clear-' ) ) {
+			$messages[] = $this->clear( (int) substr( $action, 6 ) );
+		}
+
 		if ( str_starts_with( $action, 'like-' ) ) {
 			$messages[] = $this->apply_series( 'like-all' === $action ? 0 : (int) substr( $action, 5 ) );
 		}
@@ -406,9 +417,28 @@ final class MakeupPage {
 
 		return sprintf(
 			/* translators: %d: number of make-up lessons */
-			_n( '%d make-up lesson saved.', '%d make-up lessons saved.', $changed, 'course-schedule-connector' ),
+			_n( '%d make-up lesson saved. Assigned ones are in the Assigned list, where any of them can be undone.', '%d make-up lessons saved. Assigned ones are in the Assigned list, where any of them can be undone.', $changed, 'course-schedule-connector' ),
 			$changed
 		);
+	}
+
+	/**
+	 * Takes one assignment back.
+	 *
+	 * Every assignment here is a judgement somebody made, and a judgement that
+	 * cannot be taken back is one people hesitate to make. Clearing the choice
+	 * in the list beside the row does the same thing, but only for somebody who
+	 * already knows where the row went after it was saved.
+	 *
+	 * @param int $term_id Occurrence id.
+	 * @return string Message to show.
+	 */
+	private function clear( int $term_id ): string {
+		if ( 0 === $term_id || ! $this->plugin->lessons()->link_makeup( $term_id, 0 ) ) {
+			return __( 'Nothing to undo.', 'course-schedule-connector' );
+		}
+
+		return __( 'Assignment undone. The occurrence is unassigned again.', 'course-schedule-connector' );
 	}
 
 	/**

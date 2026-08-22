@@ -43,6 +43,16 @@ final class UnmatchedPage {
 	private const LIMIT = 300;
 
 	/**
+	 * The listing of what somebody assigned by hand.
+	 *
+	 * Not a status: an assigned class is matched like any other, and would
+	 * otherwise be unreachable from this screen the moment it was saved. An
+	 * assignment is a judgement, and a judgement nobody can find again is one
+	 * nobody can correct.
+	 */
+	private const ASSIGNED = 'assigned';
+
+	/**
 	 * Plugin instance.
 	 *
 	 * @var Plugin
@@ -92,7 +102,9 @@ final class UnmatchedPage {
 		$notice     = $this->handle_actions();
 		$repository = $this->plugin->lessons();
 		$status     = $this->status();
-		$rows       = $repository->by_status( $status, self::LIMIT );
+		$rows       = self::ASSIGNED === $status
+			? $repository->find_many( array_keys( $repository->manual_assignments() ) )
+			: $repository->by_status( $status, self::LIMIT );
 		$courses    = $this->plugin->courses()->names();
 		$manual     = $repository->manual_assignments();
 		$stats      = $repository->stats();
@@ -124,6 +136,10 @@ final class UnmatchedPage {
 					LessonRepository::STATUS_NOT_BOOKABLE => __( 'Activities that take no bookings', 'course-schedule-connector' ),
 				);
 
+				$filters[ self::ASSIGNED ] = __( 'Assigned by hand', 'course-schedule-connector' );
+
+				$stats[ self::ASSIGNED ] = count( $manual );
+
 				$last = array_key_last( $filters );
 
 				foreach ( $filters as $value => $label ) {
@@ -131,6 +147,12 @@ final class UnmatchedPage {
 				}
 				?>
 			</ul>
+
+			<?php if ( self::ASSIGNED === $status ) : ?>
+				<p class="description" style="max-width:52em">
+					<?php esc_html_e( 'Everything somebody tied to a course by hand, whatever the matching would have decided. Choosing "belongs to no course" here gives the class back to the matching, which is how an assignment made by mistake is undone.', 'course-schedule-connector' ); ?>
+				</p>
+			<?php endif; ?>
 
 			<form method="post">
 				<?php wp_nonce_field( 'cscs_unmatched' ); ?>
@@ -316,6 +338,7 @@ final class UnmatchedPage {
 			LessonRepository::STATUS_UNRESOLVED,
 			LessonRepository::STATUS_EXTERNAL,
 			LessonRepository::STATUS_NOT_BOOKABLE,
+			self::ASSIGNED,
 		);
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Choosing which rows to look at changes nothing.
@@ -385,7 +408,7 @@ final class UnmatchedPage {
 
 		return sprintf(
 			/* translators: %d: number of classes */
-			_n( '%d class assigned and the matching re-run.', '%d classes assigned and the matching re-run.', $changed, 'course-schedule-connector' ),
+			_n( '%d class assigned and the matching re-run. Assignments are in the "Assigned by hand" list, where they can be undone.', '%d classes assigned and the matching re-run. Assignments are in the "Assigned by hand" list, where they can be undone.', $changed, 'course-schedule-connector' ),
 			$changed
 		);
 	}

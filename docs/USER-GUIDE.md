@@ -113,6 +113,8 @@ Obrazovka **iSport → Nespárované lekce** ukazuje, co se nepodařilo zařadit
 - **Pronájmy a open lekce** – hala pronajatá někomu jinému nebo lekce bez kurzu. Kurz se u nich nečeká.
 - **Aktivity, na které se nepřihlašuje** – kurzy externích lektorů, individuální tréninky.
 
+Čtvrtý filtr **Přiřazené ručně** ukazuje všechno, co jste kdy přiřadil ručně — a je tam právě proto, aby šlo omyl najít a opravit. Volbou „nepatří k žádnému kurzu“ lekci vrátíte zpět párování.
+
 Poslední dvě skupiny jsou tu proto, abyste se mohl podívat, co klasifikace zachytila; když by některá lekce ke kurzu přece jen patřila, přiřadíte ji stejným výběrem. **Ruční přiřazení je trvalé** – synchronizace ho už nikdy nepřepíše. Uložením se párování rovnou spustí znovu nad uloženými daty, takže výsledek vidíte hned a bez dotazu do iSportu.
 
 V menu u položky svítí číslo, kolik lekcí čeká na rozhodnutí.
@@ -127,6 +129,7 @@ Slouží k tomu obrazovka **iSport → Náhradní lekce**. U každého termínu 
 - Filtry nahoře přepínají mezi **nepřiřazenými**, **přiřazenými** a **všemi**.
 - Tlačítko **Doplnit a uložit návrhy** přiřadí kurz tam, kde ho název lekce sám jmenuje a sedí právě jeden (například `Náhradní lekce 37-Gymnastika 9-11 let dívky I. pololetí`). Už přiřazené termíny nechá být. Návrh je jen návrh – po doplnění ho projděte a případně změňte jako kterýkoli jiný řádek.
 - Tlačítko **Přiřadit stejně jako zbytek řady** u řádku (a **Přiřadit opakující se termíny podle řady** dole pro všechny najednou) zkopíruje kurz z termínů, které se opakují se stejným názvem, ve stejný den v týdnu, ve stejnou hodinu a ve stejném sále. Stačí tedy přiřadit první termín řady a zbytek doplnit jedním stiskem. Když byly dva termíny jedné řady přiřazeny ke dvěma různým kurzům, nenabídne se nic — taková řada žádná řada není. Lektor se do porovnání nepočítá, protože rozvrh ho někdy uvádí a jindy ne; vidíte ho ve sloupci vedle.
+- **Přiřazení jde vzít zpět.** Uložený termín se přesune do filtru **Přiřazené**, kde má u sebe tlačítko *Zrušit přiřazení*. Nic z toho tedy není nevratné.
 - Přiřazení se ukládá až tlačítkem **Uložit přiřazení**. Výběrem `— nepřiřazeno —` vazbu zase zrušíte. Tlačítka výše ukládají rovnou, ale nejdřív uloží i to, co jste zatím vybral ručně, takže se nic neztratí.
 
 Přiřazení přežívá synchronizaci. Když termín zestárne a plugin ho podle nastavené doby uchovávání smaže, zmizí s ním i jeho vazba – budoucích termínů se to nedotkne.

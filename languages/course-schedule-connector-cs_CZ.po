@@ -14,25 +14,25 @@ msgstr ""
 msgid "%1$d courses and %2$d occurrences retrieved."
 msgstr "Staženo %1$d kurzů a %2$d termínů."
 
-#: includes/Admin/Screen/UnmatchedPage.php:388
-msgid "%d class assigned and the matching re-run."
-msgid_plural "%d classes assigned and the matching re-run."
-msgstr[0] "Přiřazena %d lekce a párování spuštěno znovu."
-msgstr[1] "Přiřazeny %d lekce a párování spuštěno znovu."
-msgstr[2] "Přiřazeno %d lekcí a párování spuštěno znovu."
+#: includes/Admin/Screen/UnmatchedPage.php:411
+msgid "%d class assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone."
+msgid_plural "%d classes assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone."
+msgstr[0] "Přiřazena %d lekce a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit."
+msgstr[1] "Přiřazeny %d lekce a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit."
+msgstr[2] "Přiřazeno %d lekcí a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit."
 
-#: includes/Admin/Screen/MakeupPage.php:409
-msgid "%d make-up lesson saved."
-msgid_plural "%d make-up lessons saved."
-msgstr[0] "Uložena %d náhradní lekce."
-msgstr[1] "Uloženy %d náhradní lekce."
-msgstr[2] "Uloženo %d náhradních lekcí."
+#: includes/Admin/Screen/MakeupPage.php:420
+msgid "%d make-up lesson saved. Assigned ones are in the Assigned list, where any of them can be undone."
+msgid_plural "%d make-up lessons saved. Assigned ones are in the Assigned list, where any of them can be undone."
+msgstr[0] "Uložena %d náhradní lekce. Přiřazené najdete ve výpisu Přiřazené, kde jde přiřazení zrušit."
+msgstr[1] "Uloženy %d náhradní lekce. Přiřazené najdete ve výpisu Přiřazené, kde jde přiřazení zrušit."
+msgstr[2] "Uloženo %d náhradních lekcí. Přiřazené najdete ve výpisu Přiřazené, kde jde přiřazení zrušit."
 
 #: includes/Admin/Screen/Overview.php:102
 msgid "%d occurrences should belong to a course and do not. Everything else is either matched or a recognised rental."
 msgstr "%d termínů mělo patřit ke kurzu a nepatří. Všechno ostatní je buď spárované, nebo rozpoznaný pronájem."
 
-#: includes/Admin/Screen/MakeupPage.php:443
+#: includes/Admin/Screen/MakeupPage.php:473
 msgid "%d repeat assigned like its series."
 msgid_plural "%d repeats assigned like their series."
 msgstr[0] "Přiřazen %d opakující se termín podle řady."
@@ -50,7 +50,7 @@ msgstr[2] "Nastaveno %d sálů."
 msgid "%d setting(s) saved."
 msgstr "Uloženo nastavení: %d."
 
-#: includes/Admin/Screen/MakeupPage.php:481
+#: includes/Admin/Screen/MakeupPage.php:511
 msgid "%d suggestion applied. Check it before relying on it."
 msgid_plural "%d suggestions applied. Check them before relying on them."
 msgstr[0] "Doplněn %d návrh. Než se na něj spolehnete, zkontrolujte ho."
@@ -86,8 +86,8 @@ msgid "A hall rented to somebody else occupies the room but is not a course of y
 msgstr "Pronajatá hala sál obsazuje, ale není to váš kurz. V úplném rozvrhu obsazenosti hal to hraje roli, na domovské stránce většinou ne."
 
 #: includes/Admin/Screen/MakeupPage.php:103
-msgid "A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course."
-msgstr "Náhradní lekce zastupuje lekci právě v jednom kurzu, ale z rozvrhu se nedá poznat ve kterém: stejný název se používá pro náhradní termín kteréhokoli kurzu, který ho zrovna potřebuje, takže dvě stejně pojmenované lekce mohou patřit dvěma různým kurzům. U každého termínu proto vyberte kurz. Termíny, které necháte nepřiřazené, se dál ukládají i počítají — jen se u žádného kurzu neobjeví."
+msgid "A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course. Nothing here is final: an assignment can be undone in the Assigned list."
+msgstr "Náhradní lekce zastupuje lekci právě v jednom kurzu, ale z rozvrhu se nedá poznat ve kterém: stejný název se používá pro náhradní termín kteréhokoli kurzu, který ho zrovna potřebuje, takže dvě stejně pojmenované lekce mohou patřit dvěma různým kurzům. U každého termínu proto vyberte kurz. Termíny, které necháte nepřiřazené, se dál ukládají i počítají — jen se u žádného kurzu neobjeví. Nic z toho není nevratné: přiřazení se dá zrušit ve výpisu Přiřazené."
 
 #: includes/Admin/Screen/MakeupPage.php:182
 msgid "A make-up slot usually repeats: the same name, the same weekday, the same hour, the same room. Where you have already assigned one of a series, the others can be assigned like it in one press, and each row offers the same button on its own. Where two occurrences of one series were assigned to two different courses, nothing is offered — the series is not a series. The trainer is not part of the comparison, because the timetable fills it in some weeks and leaves it blank others; it is on screen for you to weigh."
@@ -120,12 +120,12 @@ msgstr "Aktivity, které zabírají místo v rozvrhu, ale nepřijímají platby 
 
 #: includes/Admin/Screen/Overview.php:222
 #: includes/Admin/Screen/SettingsPage.php:128
-#: includes/Admin/Screen/UnmatchedPage.php:124
+#: includes/Admin/Screen/UnmatchedPage.php:136
 msgid "Activities that take no bookings"
 msgstr "Aktivity, na které se nepřihlašuje"
 
 #: includes/Admin/Screen/MakeupPage.php:130
-#: includes/Admin/Screen/UnmatchedPage.php:143
+#: includes/Admin/Screen/UnmatchedPage.php:165
 #: includes/Admin/Screen/DisplaySetsPage.php:466
 #: includes/Admin/CourseEditor.php:199
 #: includes/Data/PostType.php:163
@@ -166,7 +166,7 @@ msgstr "Vzestupně"
 msgid "Ask an administrator to set it."
 msgstr "Požádejte administrátora, ať ji nastaví."
 
-#: includes/Admin/Screen/MakeupPage.php:282
+#: includes/Admin/Screen/MakeupPage.php:289
 msgid "Assign like the rest of this series: %s"
 msgstr "Přiřadit stejně jako zbytek řady: %s"
 
@@ -178,11 +178,19 @@ msgstr "Přiřadit opakující se termíny podle řady"
 msgid "Assigned"
 msgstr "Přiřazené"
 
+#: includes/Admin/Screen/UnmatchedPage.php:139
+msgid "Assigned by hand"
+msgstr "Přiřazené ručně"
+
+#: includes/Admin/Screen/MakeupPage.php:441
+msgid "Assignment undone. The occurrence is unassigned again."
+msgstr "Přiřazení zrušeno. Termín je zase nepřiřazený."
+
 #: includes/Admin/Screen/DisplaySetsPage.php:325
 msgid "At or below this many free places the listing says so. Zero switches the warning off."
 msgstr "Při tomto počtu volných míst a méně na to výpis upozorní. Nula upozornění vypne."
 
-#: includes/Admin/Screen/UnmatchedPage.php:147
+#: includes/Admin/Screen/UnmatchedPage.php:169
 msgid "Belongs to"
 msgstr "Patří ke kurzu"
 
@@ -291,7 +299,7 @@ msgstr "Kontakt a přihlašování"
 msgid "Course"
 msgstr "Kurz"
 
-#: includes/Admin/Screen/UnmatchedPage.php:228
+#: includes/Admin/Screen/UnmatchedPage.php:250
 msgid "Course \"%s\" created and this class tied to it."
 msgstr "Kurz „%s“ založen a tato lekce k němu přiřazena."
 
@@ -299,7 +307,7 @@ msgstr "Kurz „%s“ založen a tato lekce k němu přiřazena."
 msgid "Course %d, which is no longer stored"
 msgstr "Kurz %d, který už není uložený"
 
-#: includes/Admin/Screen/UnmatchedPage.php:221
+#: includes/Admin/Screen/UnmatchedPage.php:243
 msgid "Course created, but the matching could not be re-run: %s"
 msgstr "Kurz založen, ale párování se nepodařilo spustit znovu: %s"
 
@@ -327,7 +335,7 @@ msgstr "Štítek kurzu"
 msgid "Course tags"
 msgstr "Štítky kurzů"
 
-#: includes/Admin/Screen/UnmatchedPage.php:259
+#: includes/Admin/Screen/UnmatchedPage.php:281
 msgid "Course this class belongs to"
 msgstr "Kurz, ke kterému lekce patří"
 
@@ -357,7 +365,7 @@ msgid "Create set"
 msgstr "Vytvořit sadu"
 
 #: includes/Admin/Screen/MakeupPage.php:128
-#: includes/Admin/Screen/UnmatchedPage.php:141
+#: includes/Admin/Screen/UnmatchedPage.php:163
 #: includes/Admin/Screen/DisplaySetsPage.php:468
 msgid "Date"
 msgstr "Datum"
@@ -432,13 +440,17 @@ msgstr "Upravit kurz"
 msgid "Edit set"
 msgstr "Úprava sady"
 
-#: includes/Admin/Screen/UnmatchedPage.php:113
+#: includes/Admin/Screen/UnmatchedPage.php:125
 msgid "Edit the new course"
 msgstr "Upravit nový kurz"
 
 #: includes/Admin/CourseEditor.php:146
 msgid "Even when shown, the button hides itself while the course is full or iSport reports that it takes no registrations."
 msgstr "I když je zapnuté, tlačítko se samo skryje, když je kurz plný nebo když iSport hlásí, že se na kurz nepřihlašuje."
+
+#: includes/Admin/Screen/UnmatchedPage.php:153
+msgid "Everything somebody tied to a course by hand, whatever the matching would have decided. Choosing \"belongs to no course\" here gives the class back to the matching, which is how an assignment made by mistake is undone."
+msgstr "Všechno, co někdo ručně přiřadil ke kurzu, bez ohledu na to, jak by rozhodlo párování. Volbou „nepatří k žádnému kurzu“ lekci vrátíte zpět párování — tak se ruší omylem udělané přiřazení."
 
 #: includes/Admin/Screen/DisplaySetsPage.php:322
 msgid "Few places left at"
@@ -558,7 +570,7 @@ msgstr "Vynechat"
 msgid "Left empty, no heading is printed."
 msgstr "Když necháte prázdné, nadpis se nevypíše."
 
-#: includes/Admin/Screen/UnmatchedPage.php:270
+#: includes/Admin/Screen/UnmatchedPage.php:292
 msgid "Make this a course of its own"
 msgstr "Založit z toho vlastní kurz"
 
@@ -617,7 +629,7 @@ msgstr "Zatím nejsou uložené žádné kurzy, není z čeho vybírat. Nejdří
 msgid "No courses found."
 msgstr "Žádné kurzy nenalezeny."
 
-#: includes/Admin/Screen/MakeupPage.php:476
+#: includes/Admin/Screen/MakeupPage.php:506
 msgid "No lesson names a course clearly enough to suggest one."
 msgstr "Žádná lekce nejmenuje kurz dost jasně na to, aby šel navrhnout."
 
@@ -642,8 +654,8 @@ msgstr "Není nastavená použitelná adresa iSport systému, takže se nic nest
 msgid "Note"
 msgstr "Poznámka"
 
-#: includes/Admin/Screen/MakeupPage.php:370
-#: includes/Admin/Screen/UnmatchedPage.php:370
+#: includes/Admin/Screen/MakeupPage.php:381
+#: includes/Admin/Screen/UnmatchedPage.php:393
 msgid "Nothing changed."
 msgstr "Nic se nezměnilo."
 
@@ -673,11 +685,15 @@ msgid "Nothing to choose from yet. Synchronise first."
 msgstr "Zatím není z čeho vybírat. Nejdřív spusťte synchronizaci."
 
 #: includes/Admin/Screen/MakeupPage.php:160
-#: includes/Admin/Screen/UnmatchedPage.php:152
+#: includes/Admin/Screen/UnmatchedPage.php:174
 msgid "Nothing to show here."
 msgstr "Tady není co zobrazit."
 
 #: includes/Admin/Screen/MakeupPage.php:438
+msgid "Nothing to undo."
+msgstr "Není co vracet."
+
+#: includes/Admin/Screen/MakeupPage.php:468
 msgid "Nothing was assigned: the series either disagrees about its course or has no assignment to copy."
 msgstr "Nic se nepřiřadilo: řada se buď neshoduje na kurzu, nebo v ní není co zkopírovat."
 
@@ -755,7 +771,7 @@ msgid "Removal"
 msgstr "Odstranění"
 
 #: includes/Admin/Screen/Overview.php:221
-#: includes/Admin/Screen/UnmatchedPage.php:123
+#: includes/Admin/Screen/UnmatchedPage.php:135
 msgid "Rentals and open sessions"
 msgstr "Pronájmy a open lekce"
 
@@ -789,7 +805,7 @@ msgstr "Počet opakování"
 
 #: includes/Render/CourseDetail.php:98
 #: includes/Admin/Screen/MakeupPage.php:131
-#: includes/Admin/Screen/UnmatchedPage.php:144
+#: includes/Admin/Screen/UnmatchedPage.php:166
 #: includes/Admin/Screen/DisplaySetsPage.php:470
 #: includes/Admin/Screen/DisplaySetsPage.php:501
 #: includes/Admin/CourseEditor.php:313
@@ -827,7 +843,7 @@ msgid "Runs to"
 msgstr "Do"
 
 #: includes/Admin/Screen/MakeupPage.php:170
-#: includes/Admin/Screen/UnmatchedPage.php:163
+#: includes/Admin/Screen/UnmatchedPage.php:185
 msgid "Save assignments"
 msgstr "Uložit přiřazení"
 
@@ -839,11 +855,11 @@ msgstr "Uložit sály"
 msgid "Save set"
 msgstr "Uložit sadu"
 
-#: includes/Admin/Screen/UnmatchedPage.php:381
+#: includes/Admin/Screen/UnmatchedPage.php:404
 msgid "Saved, but the matching could not be re-run: %s"
 msgstr "Uloženo, ale párování se nepodařilo spustit znovu: %s"
 
-#: includes/Admin/Screen/UnmatchedPage.php:167
+#: includes/Admin/Screen/UnmatchedPage.php:189
 msgid "Saving re-runs the matching over everything already stored, so an assignment takes effect at once and without a request to iSport."
 msgstr "Uložením se párování spustí znovu nad už uloženými daty, takže se přiřazení projeví hned a bez dotazu do iSportu."
 
@@ -931,7 +947,7 @@ msgstr "Synchronizace selhala: %s"
 msgid "Synchronise now"
 msgstr "Synchronizovat hned"
 
-#: includes/Admin/Screen/UnmatchedPage.php:146
+#: includes/Admin/Screen/UnmatchedPage.php:168
 msgid "Tags"
 msgstr "Štítky"
 
@@ -955,11 +971,11 @@ msgstr "Konec pololetí"
 msgid "Term starts"
 msgstr "Začátek pololetí"
 
-#: includes/Admin/Screen/UnmatchedPage.php:191
+#: includes/Admin/Screen/UnmatchedPage.php:213
 msgid "That class is no longer stored."
 msgstr "Tahle lekce už uložená není."
 
-#: includes/Admin/Screen/UnmatchedPage.php:207
+#: includes/Admin/Screen/UnmatchedPage.php:229
 msgid "The course could not be created."
 msgstr "Kurz se nepodařilo založit."
 
@@ -1000,7 +1016,7 @@ msgid "Tied to a course"
 msgstr "Spárováno s kurzem"
 
 #: includes/Admin/Screen/MakeupPage.php:129
-#: includes/Admin/Screen/UnmatchedPage.php:142
+#: includes/Admin/Screen/UnmatchedPage.php:164
 #: includes/Admin/Screen/DisplaySetsPage.php:469
 msgid "Time"
 msgstr "Čas"
@@ -1015,7 +1031,7 @@ msgstr "Do:"
 
 #: includes/Render/CourseDetail.php:99
 #: includes/Admin/Screen/MakeupPage.php:132
-#: includes/Admin/Screen/UnmatchedPage.php:145
+#: includes/Admin/Screen/UnmatchedPage.php:167
 #: includes/Admin/Screen/DisplaySetsPage.php:471
 #: includes/Admin/CourseEditor.php:312
 #: includes/Data/PostType.php:159
@@ -1031,14 +1047,18 @@ msgstr "Lektoři"
 msgid "Unassigned"
 msgstr "Nepřiřazené"
 
+#: includes/Admin/Screen/MakeupPage.php:279
+msgid "Undo this assignment"
+msgstr "Zrušit přiřazení"
+
 #: includes/Admin/Menu.php:113
 #: includes/Admin/Menu.php:114
-#: includes/Admin/Screen/UnmatchedPage.php:102
+#: includes/Admin/Screen/UnmatchedPage.php:114
 msgid "Unmatched lessons"
 msgstr "Nespárované lekce"
 
 #: includes/Admin/Screen/Overview.php:224
-#: includes/Admin/Screen/UnmatchedPage.php:122
+#: includes/Admin/Screen/UnmatchedPage.php:134
 msgid "Unresolved"
 msgstr "Nespárované"
 
@@ -1119,7 +1139,7 @@ msgstr "Tohle nemáte oprávnění spustit."
 #: includes/Admin/Screen/MakeupPage.php:75
 #: includes/Admin/Screen/Overview.php:52
 #: includes/Admin/Screen/RoomsPage.php:60
-#: includes/Admin/Screen/UnmatchedPage.php:89
+#: includes/Admin/Screen/UnmatchedPage.php:99
 #: includes/Admin/Screen/DisplaySetsPage.php:62
 msgid "You are not allowed to view this page."
 msgstr "Tuhle stránku nemáte oprávnění zobrazit."
@@ -1163,7 +1183,7 @@ msgstr "iSport pojmenovává sály pro lidi, kteří rozvrh spravují. Web jim m
 msgid "iSport overview"
 msgstr "Přehled iSport"
 
-#: includes/Admin/Screen/UnmatchedPage.php:105
+#: includes/Admin/Screen/UnmatchedPage.php:117
 msgid "iSport publishes no link between a course and the classes that make it up, so the plugin works it out from the name and the time. Anything it could not place with confidence is here, together with the classes it decided belong to nobody — hall rentals, open sessions, and activities that take no bookings. Choosing a course records the answer for good: no later synchronisation will decide otherwise."
 msgstr "iSport nezveřejňuje vazbu mezi kurzem a jeho jednotlivými lekcemi, plugin ji proto odvozuje z názvu a času. Co nedokázal s jistotou zařadit, je tady — spolu s lekcemi, o kterých rozhodl, že nepatří nikomu: pronájmy sálů, open lekce a aktivity, na které se nepřihlašuje. Výběrem kurzu odpověď zaznamenáte natrvalo: žádná další synchronizace ji nepřepíše."
 
@@ -1182,7 +1202,7 @@ msgstr[2] "posledních %d míst"
 msgid "— being edited"
 msgstr "— upravováno"
 
-#: includes/Admin/Screen/UnmatchedPage.php:262
+#: includes/Admin/Screen/UnmatchedPage.php:284
 msgid "— belongs to no course —"
 msgstr "— nepatří k žádnému kurzu —"
 
