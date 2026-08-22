@@ -214,6 +214,20 @@ final class Settings {
 			return $raw;
 		}
 
+		if ( 'non_bookable_activities' === $key ) {
+			$names = is_array( $value ) ? $value : explode( "\n", (string) $value );
+
+			return array_values(
+				array_filter(
+					array_map(
+						static fn( $name ): string => sanitize_text_field( trim( (string) $name ) ),
+						$names
+					),
+					static fn( string $name ): bool => '' !== $name
+				)
+			);
+		}
+
 		if ( 'lesson_price_when_empty' === $key ) {
 			$raw = strtolower( trim( (string) $value ) );
 

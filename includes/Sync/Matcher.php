@@ -35,6 +35,32 @@ use CSCS\Support\Normalise;
 final class Matcher {
 
 	/**
+	 * Loose keys of activities that never have a course to belong to.
+	 *
+	 * @var array<int, string>
+	 */
+	private array $non_bookable;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param array<int, string> $non_bookable Names of activities that take no bookings. Compared as
+	 *                                         substrings of the accent-stripped key, so "Zdravé cvičení"
+	 *                                         also covers "Zdravé cvičení s overbaly".
+	 */
+	public function __construct( array $non_bookable = array() ) {
+		$this->non_bookable = array_values(
+			array_filter(
+				array_map(
+					static fn( $name ): string => Normalise::match_key_loose( (string) $name ),
+					$non_bookable
+				),
+				static fn( string $key ): bool => '' !== $key
+			)
+		);
+	}
+
+	/**
 	 * Matches occurrences to courses.
 	 *
 	 * @param array<int, Course> $courses Courses keyed by course id.
@@ -106,6 +132,10 @@ final class Matcher {
 		}
 
 		if ( array() === $candidates ) {
+			if ( $this->is_non_bookable( $lesson ) ) {
+				return 'not_bookable';
+			}
+
 			return $this->expects_course( $lesson ) ? 'orphan' : 'no_candidate';
 		}
 
@@ -143,6 +173,39 @@ final class Matcher {
 		}
 
 		return count( $in_range ) > 1 ? 'ambiguous' : 'stamp_mismatch';
+	}
+
+	/**
+	 * Whether an activity is one that takes no bookings.
+	 *
+	 * Some activities occupy a slot in the timetable without accepting payments
+	 * or registrations: courses run by outside lecturers, make-up lessons, and
+	 * individual training arranged directly. They are tagged as courses, because
+	 * that is what they are, but no course record will ever exist for them, so
+	 * counting them as failures buries the ones that matter.
+	 *
+	 * They cannot be told apart from the data alone, so the list is maintained
+	 * by the site owner. Comparison is by substring of the accent-stripped key,
+	 * because the timetable spells them loosely: the schedule says "Zdravé
+	 * cvičení s overbaly" where the price list says "Zdravé cvičení (overbaly)".
+	 *
+	 * @param Lesson $lesson Occurrence.
+	 * @return bool
+	 */
+	private function is_non_bookable( Lesson $lesson ): bool {
+		if ( array() === $this->non_bookable ) {
+			return false;
+		}
+
+		$key = Normalise::match_key_loose( $lesson->activity_name );
+
+		foreach ( $this->non_bookable as $needle ) {
+			if ( str_contains( $key, $needle ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

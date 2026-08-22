@@ -492,6 +492,70 @@ final class MatcherTest extends TestCase {
 	}
 
 	/**
+	 * Make-up lessons and outside lecturers' courses are tagged as courses,
+	 * because that is what they are, but no course record will ever exist for
+	 * them. They belong in the timetable and in neither the success nor the
+	 * failure column.
+	 *
+	 * @return void
+	 */
+	public function test_an_activity_that_takes_no_bookings_is_neither_matched_nor_a_failure(): void {
+		$matcher = new Matcher( array( 'Náhradní lekce', 'Judo' ) );
+
+		$result = $matcher->match(
+			array(),
+			$this->mapper->map_lessons(
+				array(
+					$this->lesson_data( 1, 'Náhradní lekce 4-6 let I.pololetí', 1000, array( 'tags' => array( '4' => 'Kurz' ) ) ),
+					$this->lesson_data( 2, 'Judo pro děti 3-5 let', 2000, array( 'tags' => array( '4' => 'Kurz' ) ) ),
+				)
+			)
+		);
+
+		$this->assertSame( 'not_bookable', $result->unmatched[1]['reason'] );
+		$this->assertSame( 'not_bookable', $result->unmatched[2]['reason'] );
+		$this->assertSame( 2, $result->not_bookable() );
+		$this->assertSame( 0, $result->problematic() );
+		$this->assertSame( 0, $result->external() );
+		$this->assertSame( 100.0, $result->rate() );
+	}
+
+	/**
+	 * The list is compared loosely, because the timetable and the price list do
+	 * not spell these the same way.
+	 *
+	 * @return void
+	 */
+	public function test_the_non_bookable_list_matches_loosely(): void {
+		$matcher = new Matcher( array( 'Zdravé cvičení' ) );
+
+		$result = $matcher->match(
+			array(),
+			$this->mapper->map_lessons(
+				array( $this->lesson_data( 1, 'Zdrave cviceni s overbaly', 1000, array( 'tags' => array( '4' => 'Kurz' ) ) ) )
+			)
+		);
+
+		$this->assertSame( 'not_bookable', $result->unmatched[1]['reason'] );
+	}
+
+	/**
+	 * A real course must not be swallowed by an over-broad entry in the list.
+	 *
+	 * @return void
+	 */
+	public function test_a_matching_course_still_wins_over_the_list(): void {
+		$matcher = new Matcher( array( 'Judo' ) );
+
+		$result = $matcher->match(
+			$this->mapper->map_courses( array( $this->course_data( 10, 'Judo pro děti 3-5 let', array( 1000 ) ) ) ),
+			$this->mapper->map_lessons( array( $this->lesson_data( 1, 'Judo pro děti 3-5 let', 1000 ) ) )
+		);
+
+		$this->assertSame( 10, $result->assignments[1]->course_id );
+	}
+
+	/**
 	 * With nothing to match, the rate is a hundred rather than a division by zero.
 	 *
 	 * @return void

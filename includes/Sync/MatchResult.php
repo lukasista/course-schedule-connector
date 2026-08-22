@@ -51,6 +51,19 @@ final class MatchResult {
 	}
 
 	/**
+	 * Occurrences from activities that never take a booking.
+	 *
+	 * Outside lecturers' courses, make-up lessons and individual training. They
+	 * belong in the timetable and nowhere else, so they are reported separately
+	 * rather than counted as either a success or a failure.
+	 *
+	 * @return int
+	 */
+	public function not_bookable(): int {
+		return count( $this->by_reason( 'not_bookable' ) );
+	}
+
+	/**
 	 * Occurrences that look like they should have matched but did not.
 	 *
 	 * These are the ones worth a human's attention.
@@ -58,7 +71,7 @@ final class MatchResult {
 	 * @return int
 	 */
 	public function problematic(): int {
-		return count( $this->unmatched ) - $this->external();
+		return count( $this->unmatched ) - $this->external() - $this->not_bookable();
 	}
 
 	/**
@@ -103,7 +116,7 @@ final class MatchResult {
 		$names = array();
 
 		foreach ( $this->unmatched as $entry ) {
-			if ( 'no_candidate' === $entry['reason'] ) {
+			if ( in_array( $entry['reason'], array( 'no_candidate', 'not_bookable' ), true ) ) {
 				continue;
 			}
 

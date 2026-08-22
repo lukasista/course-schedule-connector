@@ -243,7 +243,7 @@ final class Plugin {
 				$this->client(),
 				$this->courses(),
 				$this->lessons(),
-				new Matcher(),
+				new Matcher( (array) $this->settings()->get( 'non_bookable_activities' ) ),
 				$this->logger()
 			)
 		);

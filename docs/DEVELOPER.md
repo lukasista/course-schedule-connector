@@ -173,7 +173,9 @@ match:  lesson.match_key ∈ index AND lesson.stamp_from ∈ course.terms[].stam
 
 Names are not byte-identical between the two endpoints — course 1070 has `"113- Deskové hry…"` while its lessons have `"113-Deskové hry…"` — hence the normalisation. The timestamp equality makes a false positive essentially impossible.
 
-Unmatched lessons surface on an admin screen for manual assignment; a manual assignment is permanent and is never overwritten by a later synchronisation. The match rate is reported on the Overview screen.
+Unmatched occurrences fall into four buckets: `no_candidate` (a rental or open session, recognised by its tag), `not_bookable` (an activity on the non-bookable list — an outside lecturer's course, a make-up lesson, individual training), `ambiguous` or `stamp_mismatch` (a real problem), and `orphan` (tagged as a course, bookable, but nothing matched — also a real problem). Only the last two count against the success rate.
+
+Unmatched occurrences surface on an admin screen for manual assignment; a manual assignment is permanent and is never overwritten by a later synchronisation. The match rate is reported on the Overview screen.
 
 **A course's rooms are derived from its matched lessons**, not from the API's `room_name`, because a course can run in several rooms at once. `room_name` is the fallback when a course has no matched lessons.
 

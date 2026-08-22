@@ -155,7 +155,7 @@ final class LessonRepository {
 			'available_waiting' => $lesson->available_waiting,
 			'canceled'          => $lesson->canceled ? 1 : 0,
 			'booking_allowed'   => $lesson->booking_allowed ? 1 : 0,
-			'is_external'       => 'no_candidate' === $reason ? 1 : 0,
+			'is_external'       => in_array( $reason, array( 'no_candidate', 'not_bookable' ), true ) ? 1 : 0,
 			'payload'           => LessonPayload::encode( $lesson ),
 			'synced_at'         => $now,
 		);
