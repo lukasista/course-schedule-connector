@@ -33,7 +33,10 @@ use CSCS\Data\RoomMap;
 use CSCS\Data\Schema;
 use CSCS\Render\Assets;
 use CSCS\Render\Block;
+use CSCS\Divi\DesignGuard;
+use CSCS\Divi\DisplayModule;
 use CSCS\Render\Renderer;
+use CSCS\Render\RestPreview;
 use CSCS\Render\Shortcodes;
 use CSCS\Sync\Logger;
 use CSCS\Sync\Matcher;
@@ -122,6 +125,9 @@ final class Plugin {
 		( new Assets( $this ) )->register();
 		( new Shortcodes( $this ) )->register();
 		( new Block( $this ) )->register();
+		( new RestPreview( $this ) )->register();
+		( new DisplayModule( $this ) )->register();
+		( new DesignGuard() )->register();
 
 		add_action( 'cscs_setting_changed', array( $this, 'on_setting_changed' ) );
 

@@ -244,6 +244,24 @@ The editor script is plain browser JavaScript against the packages WordPress loa
 
 ## Divi 5 modules
 
+One module, `cscs/divi-display`, with one content field: the display set. Registered the way Divi registers its own — `divi_module_library_modules_dependency_tree` hands over a `DependencyInterface` object whose `load()` calls `ModuleRegistration::register_module()` with `divi/cscs-display/module.json` and a render callback. The callback wraps the plugin's own renderer in `Module::render()`, so Divi contributes the classnames, the design styles and the custom CSS while nothing about the listing's content is decided there.
+
+Every hook used fires only under Divi 5, and the two classes that name Divi's own (`ModuleDependency`, `ModuleRenderer`) are autoloaded only from inside those hooks. Without Divi the plugin is untouched — which is both a WordPress.org requirement and the reason the shortcode and the block exist.
+
+The Visual Builder component is plain browser JavaScript against the globals Divi exposes (`window.divi.module`, `window.divi.moduleLibrary`, `window.React`), registered on the `divi.moduleLibrary.registerModuleLibraryStore.after` action. Divi's own tutorial reads the same globals; the only thing its example needs a build for is JSX. The metadata is read from `module.json` in PHP, has this site's display sets put into the select options, and is handed over with `wp_localize_script()` after Divi has enqueued the package — the handle is the package name and does not exist before that.
+
+The preview inside the builder is fetched from `GET /cscs/v1/preview?set=…` (`edit_posts`) and inserted as HTML. A module that draws itself in React holds its markup twice, once in PHP for the page and once in JavaScript for the builder, and the two drift; a listing has one definition.
+
+### The design guard
+
+`DesignGuard` filters `wp_insert_post_data`. When the person saving lacks `cscs_manage_design`, every `cscs/divi-display` block in the content keeps the attributes it was stored with, except the ones a site manager owns — today just `set`. `css` counts as design, being a stylesheet by another name.
+
+A module with no stored counterpart is saved with no design at all rather than with whatever the builder put in it. Modules are matched between the old and new content by document order, since Divi writes no identifier into the saved markup: reordering therefore moves design with the position rather than with the module, which is the safe way round — a site manager can shuffle design an administrator approved, and cannot invent any.
+
+Hiding the design panels would be a courtesy. A builder is a browser application, and anything a browser decides can be undone in the browser, so the rule is applied where it cannot be got around.
+
+## Divi 5 modules
+
 | Module | Slug |
 |---|---|
 | Courses – cards | `cscs/courses-grid` |

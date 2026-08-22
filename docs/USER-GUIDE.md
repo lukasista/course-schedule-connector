@@ -56,7 +56,9 @@ Smazání sady stránky nerozbije, ale výpis na nich zůstane prázdný — pro
 
 Podle toho, jak je stránka postavená:
 
-**V Divi 5** – přidejte modul *Kurzy – karty*, *Kurzy – tabulka*, *Rozvrh – seznam* nebo *Rozvrh – kalendář* a v jeho nastavení vyberte Zobrazovací sadu. Nic dalšího nastavovat nemusíte; vzhled je nastavený administrátorem.
+**V Divi 5** – přidejte modul **iSport výpis** a v jeho nastavení vyberte Zobrazovací sadu. To je jediné pole, které v obsahu je; co se vypisuje, se mění v *iSport → Zobrazovací sady*.
+
+> Designové záložky modulu (typografie, barvy, mezery, rámečky) patří administrátorovi. Když je změní někdo bez oprávnění `cscs_manage_design`, uloží se **původní design** — obsahová změna se zachová, designová ne. Není to schované, je to vyhodnocené při ukládání na serveru: co rozhodne prohlížeč, jde v prohlížeči zase zrušit.
 
 **V editoru bloků** – přidejte blok *Kurzy a rozvrh* a vyberte sadu.
 

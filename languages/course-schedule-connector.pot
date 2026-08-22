@@ -208,7 +208,7 @@ msgstr ""
 msgid "Button text"
 msgstr ""
 
-#: includes/Render/Listing.php:237
+#: includes/Render/Listing.php:285
 #: includes/Admin/Screen/Overview.php:225
 #: includes/Admin/Screen/DisplaySetsPage.php:476
 msgid "Cancelled"
@@ -224,6 +224,10 @@ msgstr ""
 
 #: includes/Render/Block.php:109
 msgid "Choose a display set in the block settings."
+msgstr ""
+
+#: includes/Divi/ModuleRenderer.php:81
+msgid "Choose a display set in the module settings."
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:219
@@ -390,6 +394,10 @@ msgstr ""
 msgid "Display"
 msgstr ""
 
+#: includes/Divi/DisplayModule.php:171
+msgid "Display set"
+msgstr ""
+
 #: includes/Admin/Menu.php:102
 #: includes/Admin/Menu.php:103
 #: includes/Admin/Screen/DisplaySetsPage.php:73
@@ -453,8 +461,8 @@ msgstr ""
 msgid "For example when to ring, or that places are arranged individually."
 msgstr ""
 
-#: includes/Render/Listing.php:297
-#: includes/Render/Listing.php:301
+#: includes/Render/Listing.php:345
+#: includes/Render/Listing.php:349
 #: includes/Admin/Screen/SettingsPage.php:118
 #: includes/Admin/CourseEditor.php:342
 msgid "Free"
@@ -468,7 +476,7 @@ msgstr ""
 msgid "From:"
 msgstr ""
 
-#: includes/Render/Listing.php:129
+#: includes/Render/Listing.php:177
 msgid "Full"
 msgstr ""
 
@@ -625,7 +633,7 @@ msgstr ""
 msgid "Nothing has run yet."
 msgstr ""
 
-#: includes/Render/Listing.php:107
+#: includes/Render/Listing.php:155
 msgid "Nothing is listed here at the moment."
 msgstr ""
 
@@ -663,7 +671,7 @@ msgstr ""
 msgid "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear."
 msgstr ""
 
-#: includes/Render/Listing.php:302
+#: includes/Render/Listing.php:350
 #: includes/Admin/Screen/SettingsPage.php:117
 msgid "On request"
 msgstr ""
@@ -860,7 +868,7 @@ msgstr ""
 msgid "Shows"
 msgstr ""
 
-#: includes/Render/Listing.php:118
+#: includes/Render/Listing.php:166
 msgid "Sign up in iSport"
 msgstr ""
 
@@ -1039,6 +1047,10 @@ msgstr ""
 msgid "When there is nothing to show"
 msgstr ""
 
+#: includes/Divi/DisplayModule.php:172
+msgid "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows."
+msgstr ""
+
 #: includes/Admin/CourseEditor.php:117
 msgid "Who to contact"
 msgstr ""
@@ -1081,16 +1093,26 @@ msgid "Zero shows everything on one page."
 msgstr ""
 
 #: includes/Render/Block.php:140
+#: includes/Divi/DisplayModule.php:193
 msgid "classes"
 msgstr ""
 
 #: includes/Render/Block.php:141
+#: includes/Divi/DisplayModule.php:194
 msgid "courses"
 msgstr ""
 
 #: includes/Admin/Menu.php:72
 #: includes/Admin/Menu.php:73
 msgid "iSport"
+msgstr ""
+
+#: includes/Divi/DisplayModule.php:168
+msgid "iSport listing"
+msgstr ""
+
+#: includes/Divi/DisplayModule.php:169
+msgid "iSport listings"
 msgstr ""
 
 #: includes/Admin/Capabilities.php:89
@@ -1113,7 +1135,7 @@ msgstr ""
 msgid "iSport settings"
 msgstr ""
 
-#: includes/Render/Listing.php:322
+#: includes/Render/Listing.php:370
 msgid "last %d place"
 msgid_plural "last %d places"
 msgstr[0] ""
@@ -1128,6 +1150,7 @@ msgid "— belongs to no course —"
 msgstr ""
 
 #: includes/Render/Block.php:129
+#: includes/Divi/DisplayModule.php:184
 msgid "— choose a set —"
 msgstr ""
 
@@ -1171,4 +1194,12 @@ msgstr ""
 
 #: blocks/display/editor.js
 msgid "No display sets yet. Make one under iSport, Display sets, and it will appear here."
+msgstr ""
+
+#: visual-builder/cscs-divi-display.js
+msgid "Loading the listing…"
+msgstr ""
+
+#: visual-builder/cscs-divi-display.js
+msgid "This display set no longer exists."
 msgstr ""
