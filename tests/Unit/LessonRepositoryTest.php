@@ -154,6 +154,58 @@ final class LessonRepositoryTest extends TestCase {
 	}
 
 	/**
+	 * A make-up lesson is tied to exactly one course, recorded against its name
+	 * so that next month's occurrences are covered without touching anything.
+	 *
+	 * @return void
+	 */
+	public function test_a_make_up_lesson_is_tied_to_one_course_by_name(): void {
+		cscs_reset_test_state();
+
+		$repository = new LessonRepository();
+
+		$key = $repository->link_makeup( 'Náhradní lekce 4-6 let I.pololetí', 1070 );
+
+		$this->assertSame( 'náhradnílekce4-6leti.pololetí', $key );
+		$this->assertSame( array( $key => 1070 ), $repository->makeup_links() );
+		$this->assertSame( array( $key ), $repository->makeup_keys_for_course( 1070 ) );
+		$this->assertSame( array(), $repository->makeup_keys_for_course( 9999 ) );
+	}
+
+	/**
+	 * The same name spelled differently by the timetable still finds the link,
+	 * for the same reason course matching normalises names at all.
+	 *
+	 * @return void
+	 */
+	public function test_a_make_up_link_survives_loose_spelling(): void {
+		cscs_reset_test_state();
+
+		$repository = new LessonRepository();
+
+		$this->assertSame(
+			$repository->link_makeup( 'Náhradní lekce 4-6 let I.pololetí', 1070 ),
+			$repository->link_makeup( 'Náhradní  lekce 4-6 let I.pololetí', 1070 )
+		);
+	}
+
+	/**
+	 * Passing no course clears the link rather than storing a nonsense zero.
+	 *
+	 * @return void
+	 */
+	public function test_a_make_up_link_can_be_cleared(): void {
+		cscs_reset_test_state();
+
+		$repository = new LessonRepository();
+
+		$repository->link_makeup( 'Náhradní lekce 4-6 let I.pololetí', 1070 );
+		$repository->link_makeup( 'Náhradní lekce 4-6 let I.pololetí', 0 );
+
+		$this->assertSame( array(), $repository->makeup_links() );
+	}
+
+	/**
 	 * The value list matches the column list the insert statement declares, so a
 	 * column added on one side and forgotten on the other cannot slip through.
 	 *

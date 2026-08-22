@@ -24,7 +24,7 @@
 | Schema | `CSCS\Data\Schema` | Versioned tables through `dbDelta()`, upgraded on the next request after a version bump. `id_course = 0` means no course: `$wpdb->prepare()` cannot bind a real NULL to `%d`. |
 | Post type | `CSCS\Data\PostType` | `cscs_course` plus four taxonomies. |
 | Course storage | `CSCS\Data\CourseRepository` | Never deletes, never overwrites a locked field. |
-| Occurrence storage | `CSCS\Data\LessonRepository` | Idempotent bulk upsert keyed on the remote occurrence id. |
+| Occurrence storage | `CSCS\Data\LessonRepository` | Idempotent bulk upsert keyed on the remote occurrence id; also holds the manual course assignments and the make-up links. |
 | Serialisation | `CSCS\Data\LessonPayload` | Store and restore, unit-tested round trip. |
 | Matching | `CSCS\Sync\Matcher`, `MatchResult`, `Assignment` | WordPress-free, unit-tested. |
 | Synchronisation | `CSCS\Sync\Synchroniser` | Course list, occurrence windows, re-matching. |
@@ -288,7 +288,10 @@ wp cscs sync courses [--force]
 wp cscs sync lessons [--from=<Ymd>] [--to=<Ymd>] [--force]
 wp cscs sync rematch                                  # re-match stored data, no network request
 wp cscs sync unmatched [--limit=<n>] [--format=<format>]
-wp cscs sync list --status=matched|external|not_bookable|unresolved
+wp cscs sync list --status=matched|external|not_bookable|makeup|unresolved
+
+wp cscs makeup list
+wp cscs makeup link "<activity name>" <course-id>   # 0 or omitted clears it
 wp cscs sync assign <term> <course>                   # permanent manual assignment
 wp cscs sync retention
 

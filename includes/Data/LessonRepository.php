@@ -11,6 +11,7 @@ namespace CSCS\Data;
 
 use CSCS\Api\Dto\Lesson;
 use CSCS\Api\Mapper;
+use CSCS\Support\Normalise;
 use CSCS\Sync\Assignment;
 use CSCS\Sync\MatchResult;
 
@@ -30,6 +31,11 @@ final class LessonRepository {
 	 * Option holding permanent manual assignments, occurrence id to course id.
 	 */
 	public const MANUAL_OPTION = 'cscs_manual_matches';
+
+	/**
+	 * Option tying make-up lessons to the courses they replace a class for.
+	 */
+	public const MAKEUP_OPTION = 'cscs_makeup_links';
 
 	/**
 	 * Row is tied to a course.
@@ -385,5 +391,85 @@ final class LessonRepository {
 		}
 
 		update_option( self::MANUAL_OPTION, $manual, false );
+	}
+
+	/**
+	 * Returns the course each make-up lesson stands in for.
+	 *
+	 * A make-up lesson replaces a class in exactly one course. Which one cannot
+	 * be worked out from the data — the timetable calls it "Náhradní lekce 4-6
+	 * let" and several courses run for that age group — so a person records it.
+	 *
+	 * Keyed by the normalised activity name rather than by occurrence, because
+	 * the same make-up lesson repeats week after week under the same name.
+	 * Recording it once covers the occurrences already stored and the ones that
+	 * arrive next month.
+	 *
+	 * @return array<string, int> Match key to course id.
+	 */
+	public function makeup_links(): array {
+		$stored = get_option( self::MAKEUP_OPTION, array() );
+
+		if ( ! is_array( $stored ) ) {
+			return array();
+		}
+
+		$links = array();
+
+		foreach ( $stored as $key => $course_id ) {
+			$key       = (string) $key;
+			$course_id = (int) $course_id;
+
+			if ( '' !== $key && 0 !== $course_id ) {
+				$links[ $key ] = $course_id;
+			}
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Records or clears the course a make-up lesson stands in for.
+	 *
+	 * @param string $activity_name Activity name as the timetable spells it.
+	 * @param int    $course_id     Course id, or 0 to clear the link.
+	 * @return string The key the link was stored under, empty when the name is unusable.
+	 */
+	public function link_makeup( string $activity_name, int $course_id ): string {
+		$key = Normalise::match_key( $activity_name );
+
+		if ( '' === $key ) {
+			return '';
+		}
+
+		$links = $this->makeup_links();
+
+		if ( 0 === $course_id ) {
+			unset( $links[ $key ] );
+		} else {
+			$links[ $key ] = $course_id;
+		}
+
+		update_option( self::MAKEUP_OPTION, $links, false );
+
+		return $key;
+	}
+
+	/**
+	 * Returns the make-up lessons that stand in for a course.
+	 *
+	 * One course can have several: a different make-up slot for each age group
+	 * or day it runs.
+	 *
+	 * @param int $course_id Course id.
+	 * @return array<int, string> Match keys.
+	 */
+	public function makeup_keys_for_course( int $course_id ): array {
+		return array_keys(
+			array_filter(
+				$this->makeup_links(),
+				static fn( int $id ): bool => $id === $course_id
+			)
+		);
 	}
 }

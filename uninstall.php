@@ -42,7 +42,7 @@ foreach ( $cscs_courses as $cscs_course_id ) {
 \CSCS\Data\Schema::drop();
 \CSCS\Admin\Capabilities::remove();
 
-foreach ( array( \CSCS\Settings::OPTION, \CSCS\Data\LessonRepository::MANUAL_OPTION ) as $cscs_option ) {
+foreach ( array( \CSCS\Settings::OPTION, \CSCS\Data\LessonRepository::MANUAL_OPTION, \CSCS\Data\LessonRepository::MAKEUP_OPTION ) as $cscs_option ) {
 	delete_option( $cscs_option );
 }
 

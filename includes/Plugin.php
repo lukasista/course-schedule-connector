@@ -18,6 +18,7 @@ use CSCS\Admin\Capabilities;
 use CSCS\Admin\Menu;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
+use CSCS\Cli\MakeupCommand;
 use CSCS\Cli\SettingsCommand;
 use CSCS\Cli\SyncCommand;
 use CSCS\Data\CourseRepository;
@@ -107,6 +108,7 @@ final class Plugin {
 			ApiCommand::register( $this );
 			SyncCommand::register( $this );
 			SettingsCommand::register( $this );
+			MakeupCommand::register( $this );
 		}
 
 		/**
