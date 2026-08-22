@@ -187,6 +187,18 @@ if ( ! function_exists( 'add_option' ) ) {
 	}
 }
 
+if ( ! function_exists( 'sanitize_key' ) ) {
+	/**
+	 * Sanitising stub.
+	 *
+	 * @param string $key Key.
+	 * @return string
+	 */
+	function sanitize_key( string $key ): string {
+		return (string) preg_replace( '/[^a-z0-9_\-]/', '', strtolower( $key ) );
+	}
+}
+
 if ( ! function_exists( 'sanitize_text_field' ) ) {
 	/**
 	 * Sanitising stub.

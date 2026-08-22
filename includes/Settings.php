@@ -56,6 +56,14 @@ final class Settings {
 			'breaker_threshold'        => 3,
 			'breaker_cooldown'         => 1800,
 			'lesson_price_when_empty'  => 'on_request',
+			'tag_categories'           => array(
+				'kurz'           => 'course',
+				'course'         => 'course',
+				'externí kurz'   => 'external_course',
+				'náhradní lekce' => 'makeup',
+				'pronájem haly'  => 'rental',
+				'open lekce'     => 'rental',
+			),
 			'non_bookable_activities'  => array(
 				'Zdravé cvičení',
 				'Zdravá záda',
@@ -230,6 +238,34 @@ final class Settings {
 			return $raw;
 		}
 
+		if ( 'tag_categories' === $key ) {
+			$map   = array();
+			$pairs = is_array( $value ) ? $value : array();
+
+			if ( ! is_array( $value ) ) {
+				foreach ( explode( "\n", (string) $value ) as $line ) {
+					$parts = explode( '=', (string) $line, 2 );
+
+					if ( 2 === count( $parts ) ) {
+						$pairs[ trim( $parts[0] ) ] = trim( $parts[1] );
+					}
+				}
+			}
+
+			foreach ( $pairs as $label => $category ) {
+				$label    = $this->fold( (string) $label );
+				$category = sanitize_key( (string) $category );
+
+				if ( '' === $label || ! in_array( $category, array( 'course', 'external_course', 'makeup', 'rental' ), true ) ) {
+					continue;
+				}
+
+				$map[ $label ] = $category;
+			}
+
+			return $map;
+		}
+
 		if ( 'non_bookable_activities' === $key ) {
 			$names = is_array( $value ) ? $value : explode( "\n", (string) $value );
 
@@ -267,6 +303,18 @@ final class Settings {
 		}
 
 		return sanitize_text_field( (string) $value );
+	}
+
+	/**
+	 * Lowercases a label the way tag comparison expects.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private function fold( string $value ): string {
+		$value = trim( $value );
+
+		return function_exists( 'mb_strtolower' ) ? mb_strtolower( $value, 'UTF-8' ) : strtolower( $value );
 	}
 
 	/**

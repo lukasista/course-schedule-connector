@@ -133,6 +133,14 @@ final class SettingsPage {
 					<textarea name="cscs[non_bookable_activities]" rows="10" cols="50" class="large-text code"><?php echo esc_textarea( implode( "\n", (array) $settings->get( 'non_bookable_activities' ) ) ); ?></textarea>
 				</p>
 
+				<h2><?php esc_html_e( 'What each tag means', 'course-schedule-connector' ); ?></h2>
+				<p class="description" style="max-width:45em">
+					<?php esc_html_e( 'The remote system tags every class, and a tag maintained there stays right for everyone, so it is asked before the list above. One rule per line, in the form label = category. Categories are course, external_course, makeup and rental. A label that is not listed here simply falls through to the list above.', 'course-schedule-connector' ); ?>
+				</p>
+				<p>
+					<textarea name="cscs[tag_categories]" rows="7" cols="50" class="large-text code"><?php echo esc_textarea( $this->tag_lines( (array) $settings->get( 'tag_categories' ) ) ); ?></textarea>
+				</p>
+
 				<h2><?php esc_html_e( 'Removal', 'course-schedule-connector' ); ?></h2>
 				<table class="form-table" role="presentation">
 					<?php
@@ -199,6 +207,22 @@ final class SettingsPage {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Renders the tag map as editable lines.
+	 *
+	 * @param array<string, string> $map Label to category.
+	 * @return string
+	 */
+	private function tag_lines( array $map ): string {
+		$lines = array();
+
+		foreach ( $map as $label => $category ) {
+			$lines[] = $label . ' = ' . $category;
+		}
+
+		return implode( "\n", $lines );
 	}
 
 	/**

@@ -183,6 +183,39 @@ final class SettingsTest extends TestCase {
 	}
 
 	/**
+	 * The tag map is written as lines and stored folded, so a label typed with
+	 * different capitalisation still matches what the remote system sends.
+	 *
+	 * @return void
+	 */
+	public function test_the_tag_map_is_parsed_from_lines_and_folded(): void {
+		$stored = $this->settings->set(
+			'tag_categories',
+			"Externí kurz = external_course\nNáhradní lekce = makeup\n"
+		);
+
+		$this->assertSame(
+			array(
+				'externí kurz'   => 'external_course',
+				'náhradní lekce' => 'makeup',
+			),
+			$stored
+		);
+	}
+
+	/**
+	 * A category nobody implements is dropped rather than stored and ignored
+	 * later, when the reason would be much harder to see.
+	 *
+	 * @return void
+	 */
+	public function test_an_unknown_tag_category_is_refused(): void {
+		$stored = $this->settings->set( 'tag_categories', "Něco = vymyslena_kategorie\nKurz = course\n" );
+
+		$this->assertSame( array( 'kurz' => 'course' ), $stored );
+	}
+
+	/**
 	 * Seeding gives an administrator something to edit, and never overwrites
 	 * what they have already chosen.
 	 *

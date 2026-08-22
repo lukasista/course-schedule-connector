@@ -177,7 +177,11 @@ match:  lesson.match_key ∈ index AND lesson.stamp_from ∈ course.terms[].stam
 
 Names are not byte-identical between the two endpoints — course 1070 has `"113- Deskové hry…"` while its lessons have `"113-Deskové hry…"` — hence the normalisation. The timestamp equality makes a false positive essentially impossible.
 
-Unmatched occurrences fall into four buckets: `no_candidate` (a rental or open session, recognised by its tag), `not_bookable` (an activity on the non-bookable list — an outside lecturer's course, a make-up lesson, individual training), `ambiguous` or `stamp_mismatch` (a real problem), and `orphan` (tagged as a course, bookable, but nothing matched — also a real problem). Only the last two count against the success rate.
+Classification of an unmatched occurrence asks three sources in order: the curated list of activity names that take no bookings (`non_bookable_activities`), then the tag map (`tag_categories`), then a last-resort guess from whether the record carries a trainer and a price.
+
+The list comes first deliberately. A tag maintained in the remote system would be the better authority in principle, but in this installation the tags do not separate the cases: an outside lecturer's course is labelled "Pronájem haly" in one place and "Open lekce" in another, and the gym also rents halls to the public under the same label. A tag that means two things cannot overrule a list that means one. If the remote system is ever tagged consistently, moving the tag map ahead of the list is a one-line change.
+
+Unmatched occurrences fall into five buckets: `no_candidate` (a rental or open session, recognised by its tag), `not_bookable` (an activity on the non-bookable list — an outside lecturer's course, a make-up lesson, individual training), `ambiguous` or `stamp_mismatch` (a real problem), `makeup` (a replacement for a missed class), and `orphan` (tagged as a course but nothing matched — a real problem). Only `ambiguous`, `stamp_mismatch` and `orphan` count against the success rate.
 
 Unmatched occurrences surface on an admin screen for manual assignment; a manual assignment is permanent and is never overwritten by a later synchronisation. The match rate is reported on the Overview screen.
 

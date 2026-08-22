@@ -64,6 +64,18 @@ final class MatchResult {
 	}
 
 	/**
+	 * Make-up lessons.
+	 *
+	 * A replacement for a class somebody missed. They belong to a course in
+	 * spirit but never carry its name, so no course record will match them.
+	 *
+	 * @return int
+	 */
+	public function makeup(): int {
+		return count( $this->by_reason( 'makeup' ) );
+	}
+
+	/**
 	 * Occurrences that look like they should have matched but did not.
 	 *
 	 * These are the ones worth a human's attention.
@@ -71,7 +83,7 @@ final class MatchResult {
 	 * @return int
 	 */
 	public function problematic(): int {
-		return count( $this->unmatched ) - $this->external() - $this->not_bookable();
+		return count( $this->unmatched ) - $this->external() - $this->not_bookable() - $this->makeup();
 	}
 
 	/**
@@ -116,7 +128,7 @@ final class MatchResult {
 		$names = array();
 
 		foreach ( $this->unmatched as $entry ) {
-			if ( in_array( $entry['reason'], array( 'no_candidate', 'not_bookable' ), true ) ) {
+			if ( in_array( $entry['reason'], array( 'no_candidate', 'not_bookable', 'makeup' ), true ) ) {
 				continue;
 			}
 

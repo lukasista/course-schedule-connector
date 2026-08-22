@@ -42,14 +42,23 @@ final class Matcher {
 	private array $non_bookable;
 
 	/**
+	 * Tag label to category, lowercased.
+	 *
+	 * @var array<string, string>
+	 */
+	private array $tag_categories;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param array<int, string> $non_bookable Names of activities that take no bookings. Compared as
-	 *                                         substrings of the accent-stripped key, so "Zdravé cvičení"
-	 *                                         also covers "Zdravé cvičení s overbaly".
+	 * @param array<int, string>    $non_bookable   Names of activities that take no bookings. Compared as
+	 *                                              substrings of the accent-stripped key, so "Zdravé cvičení"
+	 *                                              also covers "Zdravé cvičení s overbaly".
+	 * @param array<string, string> $tag_categories Tag label to category: course, external_course, makeup or rental.
 	 */
-	public function __construct( array $non_bookable = array() ) {
-		$this->non_bookable = array_values(
+	public function __construct( array $non_bookable = array(), array $tag_categories = array() ) {
+		$this->tag_categories = $tag_categories;
+		$this->non_bookable   = array_values(
 			array_filter(
 				array_map(
 					static fn( $name ): string => Normalise::match_key_loose( (string) $name ),
@@ -132,11 +141,7 @@ final class Matcher {
 		}
 
 		if ( array() === $candidates ) {
-			if ( $this->is_non_bookable( $lesson ) ) {
-				return 'not_bookable';
-			}
-
-			return $this->expects_course( $lesson ) ? 'orphan' : 'no_candidate';
+			return $this->classify_unmatched( $lesson );
 		}
 
 		$on_stamp = array_values(
@@ -173,6 +178,58 @@ final class Matcher {
 		}
 
 		return count( $in_range ) > 1 ? 'ambiguous' : 'stamp_mismatch';
+	}
+
+	/**
+	 * Decides what an occurrence with no matching course actually is.
+	 *
+	 * The curated list of names is asked first, and deliberately so. In this
+	 * installation the tags do not separate these cases: an outside lecturer's
+	 * course carries "Pronájem haly" in one place and "Open lekce" in another,
+	 * and the gym also rents halls to the public under the same label. A tag
+	 * that means two things cannot overrule a list that means one.
+	 *
+	 * The tag map then handles everything the list does not name, and would
+	 * take over entirely if the remote system were ever tagged consistently.
+	 * Only when both are silent does the last-resort guess from a trainer and a
+	 * price decide.
+	 *
+	 * @param Lesson $lesson Occurrence.
+	 * @return string Reason code.
+	 */
+	private function classify_unmatched( Lesson $lesson ): string {
+		if ( $this->is_non_bookable( $lesson ) ) {
+			return 'not_bookable';
+		}
+
+		switch ( $this->category_from_tags( $lesson ) ) {
+			case 'rental':
+				return 'no_candidate';
+			case 'external_course':
+				return 'not_bookable';
+			case 'makeup':
+				return 'makeup';
+		}
+
+		return $this->expects_course( $lesson ) ? 'orphan' : 'no_candidate';
+	}
+
+	/**
+	 * Returns the configured category of an occurrence's tags.
+	 *
+	 * @param Lesson $lesson Occurrence.
+	 * @return string Category, or an empty string when no tag is configured.
+	 */
+	private function category_from_tags( Lesson $lesson ): string {
+		foreach ( $lesson->tags as $tag ) {
+			$label = $this->lower( trim( $tag ) );
+
+			if ( isset( $this->tag_categories[ $label ] ) ) {
+				return $this->tag_categories[ $label ];
+			}
+		}
+
+		return '';
 	}
 
 	/**

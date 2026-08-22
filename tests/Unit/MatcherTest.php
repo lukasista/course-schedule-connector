@@ -556,6 +556,93 @@ final class MatcherTest extends TestCase {
 	}
 
 	/**
+	 * The tag map handles everything the curated list does not name.
+	 *
+	 * @return void
+	 */
+	public function test_tags_classify_what_the_list_does_not_name(): void {
+		$matcher = new Matcher(
+			array(),
+			array(
+				'externí kurz'   => 'external_course',
+				'náhradní lekce' => 'makeup',
+				'pronájem haly'  => 'rental',
+			)
+		);
+
+		$result = $matcher->match(
+			array(),
+			$this->mapper->map_lessons(
+				array(
+					$this->lesson_data( 1, 'Barre', 1000, array( 'tags' => array( '7' => 'Externí kurz' ) ) ),
+					$this->lesson_data( 2, 'Náhradní lekce 4-6 let', 1000, array( 'tags' => array( '8' => 'Náhradní lekce' ) ) ),
+					$this->lesson_data( 3, 'Veřejnost', 1000, array( 'tags' => array( '9' => 'Pronájem haly' ) ) ),
+				)
+			)
+		);
+
+		$this->assertSame( 'not_bookable', $result->unmatched[1]['reason'] );
+		$this->assertSame( 'makeup', $result->unmatched[2]['reason'] );
+		$this->assertSame( 'no_candidate', $result->unmatched[3]['reason'] );
+		$this->assertSame( 1, $result->makeup() );
+		$this->assertSame( 0, $result->problematic() );
+		$this->assertSame( 100.0, $result->rate() );
+	}
+
+	/**
+	 * The curated list wins over the tag, because in this installation the tags
+	 * do not separate the cases: an outside lecturer's course is labelled
+	 * "Pronájem haly" in one place and "Open lekce" in another, and the gym
+	 * rents halls to the public under the same label.
+	 *
+	 * @return void
+	 */
+	public function test_the_curated_list_wins_over_an_ambiguous_tag(): void {
+		$matcher = new Matcher(
+			array( 'Zdravé cvičení', 'Zdravá záda' ),
+			array(
+				'pronájem haly' => 'rental',
+				'open lekce'    => 'rental',
+			)
+		);
+
+		$result = $matcher->match(
+			array(),
+			$this->mapper->map_lessons(
+				array(
+					$this->lesson_data( 1, 'Zdravé cvičení s overbaly', 1000, array( 'tags' => array( '9' => 'Open lekce' ) ) ),
+					$this->lesson_data( 2, 'Zdravá záda, pružné tělo', 1000, array( 'tags' => array( '9' => 'Pronájem haly' ) ) ),
+					$this->lesson_data( 3, 'Veřejnost', 1000, array( 'tags' => array( '9' => 'Pronájem haly' ) ) ),
+				)
+			)
+		);
+
+		$this->assertSame( 'not_bookable', $result->unmatched[1]['reason'] );
+		$this->assertSame( 'not_bookable', $result->unmatched[2]['reason'] );
+		$this->assertSame( 'no_candidate', $result->unmatched[3]['reason'] );
+	}
+
+	/**
+	 * A tag mapped to "course" does not by itself excuse an occurrence from
+	 * needing one.
+	 *
+	 * @return void
+	 */
+	public function test_a_course_tag_still_demands_a_course(): void {
+		$matcher = new Matcher( array(), array( 'kurz' => 'course' ) );
+
+		$result = $matcher->match(
+			array(),
+			$this->mapper->map_lessons(
+				array( $this->lesson_data( 1, 'Parkour 8-10 let', 1000, array( 'tags' => array( '4' => 'Kurz' ) ) ) )
+			)
+		);
+
+		$this->assertSame( 'orphan', $result->unmatched[1]['reason'] );
+		$this->assertSame( 1, $result->problematic() );
+	}
+
+	/**
 	 * With nothing to match, the rate is a hundred rather than a division by zero.
 	 *
 	 * @return void

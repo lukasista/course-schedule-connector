@@ -47,6 +47,11 @@ final class LessonRepository {
 	public const STATUS_NOT_BOOKABLE = 'not_bookable';
 
 	/**
+	 * Row is a make-up lesson for a class somebody missed.
+	 */
+	public const STATUS_MAKEUP = 'makeup';
+
+	/**
 	 * Row should have found a course and did not.
 	 */
 	public const STATUS_UNRESOLVED = 'unresolved';
@@ -176,7 +181,7 @@ final class LessonRepository {
 			'available_waiting' => $lesson->available_waiting,
 			'canceled'          => $lesson->canceled ? 1 : 0,
 			'booking_allowed'   => $lesson->booking_allowed ? 1 : 0,
-			'is_external'       => in_array( $reason, array( 'no_candidate', 'not_bookable' ), true ) ? 1 : 0,
+			'is_external'       => in_array( $reason, array( 'no_candidate', 'not_bookable', 'makeup' ), true ) ? 1 : 0,
 			'status'            => self::status_for( $assignment, $reason ),
 			'payload'           => LessonPayload::encode( $lesson ),
 			'synced_at'         => $now,
@@ -201,6 +206,10 @@ final class LessonRepository {
 
 		if ( 'not_bookable' === $reason ) {
 			return self::STATUS_NOT_BOOKABLE;
+		}
+
+		if ( 'makeup' === $reason ) {
+			return self::STATUS_MAKEUP;
 		}
 
 		return '' === $reason ? '' : self::STATUS_UNRESOLVED;
@@ -326,6 +335,7 @@ final class LessonRepository {
 				SUM(status = 'matched') AS matched,
 				SUM(status = 'external') AS external,
 				SUM(status = 'not_bookable') AS not_bookable,
+				SUM(status = 'makeup') AS makeup,
 				SUM(status = 'unresolved') AS unresolved,
 				SUM(canceled = 1) AS canceled
 			FROM {$table}",

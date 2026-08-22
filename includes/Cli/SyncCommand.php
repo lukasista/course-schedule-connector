@@ -210,6 +210,7 @@ final class SyncCommand {
 	 *   - matched
 	 *   - external
 	 *   - not_bookable
+	 *   - makeup
 	 *   - unresolved
 	 * ---
 	 *
@@ -331,7 +332,8 @@ final class SyncCommand {
 		\WP_CLI::log( '' );
 		\WP_CLI::log( sprintf( 'Matched:        %d', $outcome->matched() ) );
 		\WP_CLI::log( sprintf( 'External:       %d (rentals and open sessions, no course expected)', $outcome->external() ) );
-		\WP_CLI::log( sprintf( 'Not bookable:   %d (outside lecturers, make-up lessons, individual training)', $outcome->not_bookable() ) );
+		\WP_CLI::log( sprintf( 'Not bookable:   %d (outside lecturers, individual training)', $outcome->not_bookable() ) );
+		\WP_CLI::log( sprintf( 'Make-up:        %d (replacements for a missed class)', $outcome->makeup() ) );
 		\WP_CLI::log( sprintf( 'Unresolved:     %d', $outcome->problematic() ) );
 		\WP_CLI::log( sprintf( 'Match rate:     %.1f%%', $outcome->rate() ) );
 
@@ -345,7 +347,7 @@ final class SyncCommand {
 			$reasons[ $entry['reason'] ] = ( $reasons[ $entry['reason'] ] ?? 0 ) + 1;
 		}
 
-		unset( $reasons['no_candidate'], $reasons['not_bookable'] );
+		unset( $reasons['no_candidate'], $reasons['not_bookable'], $reasons['makeup'] );
 
 		foreach ( $reasons as $reason => $count ) {
 			\WP_CLI::warning( sprintf( '%d occurrence(s) unresolved: %s', $count, $reason ) );

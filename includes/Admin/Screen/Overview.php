@@ -220,6 +220,7 @@ final class Overview {
 			__( 'Tied to a course', 'course-schedule-connector' ) => $stats['matched'] ?? 0,
 			__( 'Rentals and open sessions', 'course-schedule-connector' ) => $stats['external'] ?? 0,
 			__( 'Activities that take no bookings', 'course-schedule-connector' ) => $stats['not_bookable'] ?? 0,
+			__( 'Make-up lessons', 'course-schedule-connector' ) => $stats['makeup'] ?? 0,
 			__( 'Unresolved', 'course-schedule-connector' ) => $stats['unresolved'] ?? 0,
 			__( 'Cancelled', 'course-schedule-connector' ) => $stats['canceled'] ?? 0,
 		);
