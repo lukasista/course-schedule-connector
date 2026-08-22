@@ -1,0 +1,471 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Course & Schedule Connector for iSport 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/lukasista/course-schedule-connector/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: course-schedule-connector\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+
+#: includes/Admin/Screen/Overview.php:205
+msgid "%1$d courses and %2$d occurrences retrieved."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:366
+msgid "%d make-up lesson saved."
+msgid_plural "%d make-up lessons saved."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/Screen/Overview.php:102
+msgid "%d occurrences should belong to a course and do not. Everything else is either matched or a recognised rental."
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:71
+msgid "%d setting(s) saved."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:404
+msgid "%d suggestion applied. Check it before relying on it."
+msgid_plural "%d suggestions applied. Check them before relying on them."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/Screen/SettingsPage.php:91
+msgid "A ceiling the scheduled jobs can never exceed, whatever the intervals say."
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:114
+msgid "A class with no price shows"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:120
+msgid "A course with no price always shows as free. This is about hall rentals and open sessions, where \"free\" would be misleading."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:101
+msgid "A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:175
+msgid "A suggestion is offered only where the lesson names its course and exactly one course fits. Filling them in records those, and only those: anything already assigned is left alone, and a suggestion you disagree with is changed like any other row. Nothing here is guessed on your behalf at synchronisation time."
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:141
+msgid "Actions"
+msgstr ""
+
+#: includes/Data/PostType.php:121
+msgid "Activities"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:130
+msgid "Activities that occupy a slot in the timetable but accept no payments or registrations: courses run by outside lecturers, make-up lessons, individual training. Nothing in the remote data marks them, so they are listed here, one per line. A name is matched loosely, so \"Zdravé cvičení\" also covers \"Zdravé cvičení s overbaly\". A course that genuinely matches always wins over this list."
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:222
+#: includes/Admin/Screen/SettingsPage.php:128
+msgid "Activities that take no bookings"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:128
+#: includes/Data/PostType.php:122
+msgid "Activity"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:87
+msgid "Address of the iSport System"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:117
+msgid "All"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:74
+msgid "Ask an administrator to set it."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:116
+msgid "Assigned"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:225
+msgid "Cancelled"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:219
+msgid "Class occurrences stored"
+msgstr ""
+
+#: includes/Sync/Scheduler.php:106
+msgid "Class synchronisation interval"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:110
+#: includes/Admin/Screen/SettingsPage.php:82
+msgid "Connection"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:118
+msgid "Consecutive failures"
+msgstr ""
+
+#: includes/Data/PostType.php:61
+msgid "Course"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:241
+msgid "Course %d, which is no longer stored"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:102
+msgid "Course refresh interval (seconds)"
+msgstr ""
+
+#: includes/Sync/Scheduler.php:101
+msgid "Course synchronisation interval"
+msgstr ""
+
+#: includes/Data/PostType.php:126
+msgid "Course tag"
+msgstr ""
+
+#: includes/Data/PostType.php:125
+msgid "Course tags"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:232
+msgid "Course this lesson stands in for"
+msgstr ""
+
+#: includes/Admin/Menu.php:89
+#: includes/Admin/Menu.php:90
+#: includes/Data/PostType.php:60
+#: includes/Data/PostType.php:62
+msgid "Courses"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:126
+msgid "Date"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:104
+msgid "Days kept closely up to date"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:105
+msgid "Days of past timetable to keep"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:101
+msgid "Decides how far ahead the timetable is retrieved."
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:157
+msgid "Delete all data when the plugin is deleted"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:251
+msgid "Detail"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:109
+msgid "Display"
+msgstr ""
+
+#: includes/Data/PostType.php:65
+msgid "Edit course"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:171
+msgid "Fill in and save the suggestions"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:89
+msgid "For example https://example.isportsystem.cz — https only. An address inside a private network is refused."
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:118
+msgid "Free"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:100
+msgid "In the form 2026-09-11. Applies to every course at once."
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:123
+msgid "Individual courses can override this."
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:248
+msgid "Job"
+msgstr ""
+
+#: includes/Admin/Menu.php:99
+#: includes/Admin/Menu.php:128
+#: includes/Admin/Screen/MakeupPage.php:98
+#: includes/Admin/Screen/Overview.php:223
+#: includes/Admin/Screen/SettingsPage.php:136
+msgid "Make-up lessons"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:91
+msgid "Maximum requests per hour"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:138
+msgid "Names that mark a class as a replacement for one somebody missed, one per line, matched the same loose way. These are counted and shown separately from activities that take no bookings, because a make-up lesson belongs to a course — which one is recorded under iSport → Make-up lessons."
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:126
+msgid "No"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:110
+msgid "No courses are stored yet, so there is nothing to choose from. Synchronise first."
+msgstr ""
+
+#: includes/Data/PostType.php:64
+msgid "No courses found."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:399
+msgid "No lesson names a course clearly enough to suggest one."
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:70
+msgid "No usable address of an iSport System installation is configured, so nothing is being retrieved."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:361
+msgid "Nothing changed."
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:238
+msgid "Nothing has run yet."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:158
+msgid "Nothing to show here."
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:159
+msgid "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear."
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:117
+msgid "On request"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:72
+msgid "Open settings"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:250
+msgid "Outcome"
+msgstr ""
+
+#: includes/Admin/Menu.php:80
+#: includes/Admin/Menu.php:81
+msgid "Overview"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:105
+msgid "Past occurrences older than this are removed. Courses are never deleted."
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:155
+msgid "Recent runs"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:249
+msgid "Records"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:152
+msgid "Removal"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:221
+msgid "Rentals and open sessions"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:92
+msgid "Request timeout (seconds)"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:122
+msgid "Requests paused"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:185
+msgid "Requests resumed and cached responses dropped."
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:114
+msgid "Requests this hour"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:149
+msgid "Resume paused requests"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:93
+msgid "Retries"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:129
+#: includes/Data/PostType.php:114
+msgid "Room"
+msgstr ""
+
+#: includes/Data/PostType.php:113
+msgid "Rooms"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:168
+msgid "Save assignments"
+msgstr ""
+
+#: includes/Data/PostType.php:63
+msgid "Search courses"
+msgstr ""
+
+#: includes/Admin/Menu.php:110
+#: includes/Admin/Menu.php:111
+msgid "Settings"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:122
+msgid "Show cancelled classes"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:123
+msgid "Show the booking button by default"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:131
+msgid "Stands in for"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:258
+msgid "Suggested by the name: %s"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:198
+msgid "Synchronisation failed: %s"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:146
+msgid "Synchronise now"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:97
+msgid "Term and synchronisation"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:101
+msgid "Term ends"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:100
+msgid "Term starts"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:146
+msgid "The remote system tags every class, and a tag maintained there stays right for everyone, so it is asked before the list above. One rule per line, in the form label = category. Categories are course, external_course, makeup and rental. A label that is not listed here simply falls through to the list above."
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:122
+msgid "They appear struck through and labelled. Unticking hides them entirely."
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:220
+msgid "Tied to a course"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:127
+msgid "Time"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:103
+msgid "Timetable refresh interval (seconds)"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:130
+#: includes/Data/PostType.php:118
+msgid "Trainer"
+msgstr ""
+
+#: includes/Data/PostType.php:117
+msgid "Trainers"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:115
+msgid "Unassigned"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:224
+msgid "Unresolved"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:144
+msgid "What each tag means"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:80
+msgid "What is stored"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:247
+msgid "When"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:124
+msgid "Width at which tables fold (pixels)"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:294
+msgid "Yes"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:130
+msgid "Yes, until %s"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:51
+#: includes/Admin/Screen/SettingsPage.php:190
+msgid "You are not allowed to change these settings."
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:175
+msgid "You are not allowed to run that."
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:74
+#: includes/Admin/Screen/Overview.php:52
+msgid "You are not allowed to view this page."
+msgstr ""
+
+#: includes/Admin/Menu.php:69
+#: includes/Admin/Menu.php:70
+msgid "iSport"
+msgstr ""
+
+#: includes/Admin/Capabilities.php:52
+msgid "iSport manager"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:61
+msgid "iSport overview"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:59
+msgid "iSport settings"
+msgstr ""
+
+#: includes/Admin/Screen/MakeupPage.php:235
+msgid "— not assigned —"
+msgstr ""

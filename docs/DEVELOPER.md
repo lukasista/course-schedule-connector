@@ -326,6 +326,22 @@ php -d memory_limit=512M "$(command -v wp)" --path="$WP" eval 'echo size_format(
 
 The difference is the plugin's cost. On a request that renders nothing, the plugin loads one file and registers one autoloader, so the difference should be negligible; anything else is a bug worth chasing.
 
+## Translations
+
+Every user-facing string goes through the `course-schedule-connector` text domain, and the plugin ships `languages/course-schedule-connector.pot` alongside a Czech translation (`-cs_CZ.po` and the compiled `.mo`). The domain is loaded on `init` at priority 5 — before the post type registers its labels at priority 10, and not earlier than `init`, which is what WordPress 6.7 onwards complains about.
+
+Regenerating after changing or adding a string:
+
+```bash
+wp i18n make-pot . languages/course-schedule-connector.pot
+wp i18n update-po languages/course-schedule-connector.pot languages/
+wp i18n make-mo languages/ languages/
+```
+
+Czech takes three plural forms, `nplurals=3; plural=(n==1) ? 0 : ((n>=2 && n<=4) ? 1 : 2);`, so every `_n()` call needs three. A string that reads well in English and awkwardly in Czech is a string worth rewording in both: the source text is not sacred.
+
+Once the plugin is listed on WordPress.org, translations come from translate.wordpress.org and land in `WP_LANG_DIR/plugins`, which wins over anything shipped here. The bundled Czech file is what makes the admin readable before that happens.
+
 ## Options
 
 All options are prefixed `cscs_`. Settings are stored as a single serialised array under `cscs_settings`; display sets under `cscs_display_sets`; schema version under `cscs_schema_version`.
