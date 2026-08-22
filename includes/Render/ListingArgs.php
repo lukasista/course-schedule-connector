@@ -124,6 +124,36 @@ final class ListingArgs {
 	}
 
 	/**
+	 * Returns what a form choosing a room must carry across.
+	 *
+	 * A form submitted by a browser replaces the whole query string with its
+	 * own fields, so anything the address already said has to be sent again as
+	 * a hidden field or it is lost. Two things are dropped on purpose: the room
+	 * itself, because the form is what chooses it, and the page, because
+	 * choosing a room starts again at the first one. Parameters that are not
+	 * this plugin's are kept — a listing has no business dropping whatever else
+	 * a site puts in its addresses.
+	 *
+	 * @param array<string, mixed> $query What the page's address already says.
+	 * @return array<string, string>
+	 */
+	public function carried( array $query ): array {
+		$fields = array();
+
+		foreach ( $query as $key => $value ) {
+			if ( is_scalar( $value ) && 0 !== strpos( (string) $key, 'cscs_' ) ) {
+				$fields[ (string) $key ] = (string) $value;
+			}
+		}
+
+		foreach ( $this->with( 'room', 0 )->to_query() as $key => $value ) {
+			$fields[ (string) $key ] = (string) $value;
+		}
+
+		return $fields;
+	}
+
+	/**
 	 * Reads the arguments a request carries.
 	 *
 	 * @param array<string, mixed> $request Raw request parameters.

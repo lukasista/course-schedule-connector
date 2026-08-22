@@ -2,9 +2,11 @@
 /**
  * The controls above a listing: which week, which room.
  *
- * Real links, with the choice in the address. A visitor without JavaScript gets
- * a page that works; one with it gets the same thing without the reload. The
- * order matters — the links are the feature, the script is the polish.
+ * A form and real links, with the choice in the address. A visitor without
+ * JavaScript gets a page that works; one with it gets the same thing without
+ * the reload. The order matters — the form is the feature, the script is the
+ * polish, and the "Show" button is hidden only once the script has said it will
+ * do the work itself.
  *
  * @package CourseScheduleConnector
  * @var \CSCS\Render\Listing $listing
@@ -17,6 +19,8 @@ defined( 'ABSPATH' ) || exit;
 if ( ! $listing->has_weeks() && array() === $listing->rooms ) {
 	return;
 }
+
+$cscs_rooms_id = 'cscs-rooms-' . $listing->set->id;
 
 ?>
 <div class="cscs-controls">
@@ -41,16 +45,26 @@ if ( ! $listing->has_weeks() && array() === $listing->rooms ) {
 	<?php endif; ?>
 
 	<?php if ( array() !== $listing->rooms ) : ?>
-		<nav class="cscs-rooms" aria-label="<?php esc_attr_e( 'Which room', 'course-schedule-connector' ); ?>">
-			<a class="cscs-rooms__room<?php echo 0 === $listing->args->room ? ' is-current' : ''; ?>" data-cscs-nav="room" data-cscs-value="0" href="<?php echo esc_url( $listing->url( 'room', 0 ) ); ?>">
-				<?php esc_html_e( 'All rooms', 'course-schedule-connector' ); ?>
-			</a>
-
-			<?php foreach ( $listing->rooms as $cscs_room_id => $cscs_room_name ) : ?>
-				<a class="cscs-rooms__room<?php echo $listing->args->room === $cscs_room_id ? ' is-current' : ''; ?>" data-cscs-nav="room" data-cscs-value="<?php echo esc_attr( (string) $cscs_room_id ); ?>" href="<?php echo esc_url( $listing->url( 'room', (int) $cscs_room_id ) ); ?>">
-					<?php echo esc_html( $cscs_room_name ); ?>
-				</a>
+		<form class="cscs-rooms" method="get" action="<?php echo esc_url( $listing->form_action() ); ?>">
+			<?php foreach ( $listing->hidden_fields() as $cscs_field => $cscs_value ) : ?>
+				<input type="hidden" name="<?php echo esc_attr( (string) $cscs_field ); ?>" value="<?php echo esc_attr( (string) $cscs_value ); ?>" />
 			<?php endforeach; ?>
-		</nav>
+
+			<label class="cscs-rooms__label" for="<?php echo esc_attr( $cscs_rooms_id ); ?>">
+				<?php esc_html_e( 'Room', 'course-schedule-connector' ); ?>
+			</label>
+
+			<select class="cscs-rooms__select" id="<?php echo esc_attr( $cscs_rooms_id ); ?>" name="cscs_room" data-cscs-nav="room">
+				<option value="0"><?php esc_html_e( 'All rooms', 'course-schedule-connector' ); ?></option>
+
+				<?php foreach ( $listing->rooms as $cscs_room_id => $cscs_room_name ) : ?>
+					<option value="<?php echo esc_attr( (string) $cscs_room_id ); ?>" <?php selected( $listing->args->room, (int) $cscs_room_id ); ?>>
+						<?php echo esc_html( $cscs_room_name ); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+
+			<button class="cscs-rooms__go" type="submit"><?php esc_html_e( 'Show', 'course-schedule-connector' ); ?></button>
+		</form>
 	<?php endif; ?>
 </div>

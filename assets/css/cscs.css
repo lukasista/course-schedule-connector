@@ -146,9 +146,21 @@
 	font-weight: 600;
 }
 
-.cscs-rooms__room.is-current {
+.cscs-rooms__label {
 	font-weight: 600;
-	text-decoration: none;
+}
+
+.cscs-rooms__select {
+	max-width: 100%;
+}
+
+/*
+ * The button beside the room list is there for a visitor whose browser never
+ * ran the script. Once the script has run, choosing a room is enough, and a
+ * button that does what already happened is only a thing to wonder about.
+ */
+.cscs-js .cscs-rooms__go {
+	display: none;
 }
 
 .cscs-pager {

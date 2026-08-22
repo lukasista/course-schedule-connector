@@ -212,6 +212,42 @@ final class Listing {
 	}
 
 	/**
+	 * Returns the address the room filter submits to.
+	 *
+	 * A form submitted by a browser replaces the whole query string with its
+	 * own fields, so the address it points at must carry none: whatever the
+	 * page already had is put back as hidden fields instead.
+	 *
+	 * @return string
+	 */
+	public function form_action(): string {
+		$base = explode( '#', $this->base_url )[0];
+
+		return explode( '?', $base )[0];
+	}
+
+	/**
+	 * Returns what the room filter must carry across as hidden fields.
+	 *
+	 * Everything the page was already asked for, minus the room being chosen
+	 * and minus the page, because choosing a room starts again at the first
+	 * one. Query parameters that are not this plugin's are kept: a listing has
+	 * no business dropping whatever else a site puts in its addresses.
+	 *
+	 * @return array<string, string>
+	 */
+	public function hidden_fields(): array {
+		$query  = (string) wp_parse_url( $this->base_url, PHP_URL_QUERY );
+		$parsed = array();
+
+		if ( '' !== $query ) {
+			wp_parse_str( $query, $parsed );
+		}
+
+		return $this->args->carried( $parsed );
+	}
+
+	/**
 	 * Returns the week being shown, as a person would say it.
 	 *
 	 * @return string

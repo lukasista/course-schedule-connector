@@ -140,7 +140,7 @@ msgstr "Adresa iSport systému"
 msgid "All"
 msgstr "Vše"
 
-#: templates/partials/controls.php:46
+#: templates/partials/controls.php:58
 msgid "All rooms"
 msgstr "Všechny sály"
 
@@ -231,7 +231,7 @@ msgstr "Tlačítko pro přihlášení: nikdy nezobrazovat"
 msgid "Button text"
 msgstr "Text tlačítka"
 
-#: includes/Render/Listing.php:386
+#: includes/Render/Listing.php:435
 #: includes/Admin/Screen/Overview.php:225
 #: includes/Admin/Screen/DisplaySetsPage.php:476
 msgid "Cancelled"
@@ -490,8 +490,8 @@ msgid "For example when to ring, or that places are arranged individually."
 msgstr "Například kdy volat nebo že se termíny domlouvají individuálně."
 
 #: includes/Render/CourseDetail.php:90
-#: includes/Render/Listing.php:446
-#: includes/Render/Listing.php:450
+#: includes/Render/Listing.php:495
+#: includes/Render/Listing.php:499
 #: includes/Admin/Screen/SettingsPage.php:118
 #: includes/Admin/CourseEditor.php:342
 msgid "Free"
@@ -506,7 +506,7 @@ msgid "From:"
 msgstr "Od:"
 
 #: includes/Render/CourseDetail.php:325
-#: includes/Render/Listing.php:278
+#: includes/Render/Listing.php:327
 msgid "Full"
 msgstr "Obsazeno"
 
@@ -621,7 +621,7 @@ msgstr "Nikdy nezobrazeno"
 msgid "New set"
 msgstr "Nová sada"
 
-#: templates/partials/controls.php:38
+#: templates/partials/controls.php:42
 msgid "Next week →"
 msgstr "Další týden →"
 
@@ -675,7 +675,7 @@ msgstr "Nic se nezměnilo."
 msgid "Nothing has run yet."
 msgstr "Zatím nic neproběhlo."
 
-#: includes/Render/Listing.php:256
+#: includes/Render/Listing.php:305
 msgid "Nothing is listed here at the moment."
 msgstr "Momentálně tu není co zobrazit."
 
@@ -717,7 +717,7 @@ msgstr "Počet lekcí"
 msgid "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear."
 msgstr "Ve výchozím stavu vypnuto. Smazat plugin není totéž jako chtít přijít o stránky kurzů a o všechno, co je na nich napsané."
 
-#: includes/Render/Listing.php:451
+#: includes/Render/Listing.php:500
 #: includes/Admin/Screen/SettingsPage.php:117
 msgid "On request"
 msgstr "Na dotaz"
@@ -823,6 +823,7 @@ msgstr "Obnovit pozastavené požadavky"
 msgid "Retries"
 msgstr "Počet opakování"
 
+#: templates/partials/controls.php:54
 #: includes/Render/CourseDetail.php:98
 #: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Admin/Screen/UnmatchedPage.php:166
@@ -912,6 +913,10 @@ msgstr "Nastavení"
 msgid "Shortcode"
 msgstr "Shortcode"
 
+#: templates/partials/controls.php:67
+msgid "Show"
+msgstr "Zobrazit"
+
 #: includes/Admin/Screen/SettingsPage.php:122
 msgid "Show cancelled classes"
 msgstr "Zobrazovat zrušené lekce"
@@ -930,7 +935,7 @@ msgid "Shows"
 msgstr "Ukazuje"
 
 #: includes/Render/CourseDetail.php:159
-#: includes/Render/Listing.php:267
+#: includes/Render/Listing.php:316
 msgid "Sign up in iSport"
 msgstr "Přihlásit v iSport systému"
 
@@ -1023,7 +1028,7 @@ msgstr "Zobrazí se přeškrtnuté a označené. Odškrtnutím je skryjete úpln
 msgid "This shortcode needs a display set, for example [cscs_courses set=\"kurzy-pro-deti\"]."
 msgstr "Tenhle shortcode potřebuje zobrazovací sadu, například [cscs_courses set=\"kurzy-pro-deti\"]."
 
-#: templates/partials/controls.php:33
+#: templates/partials/controls.php:37
 #: includes/Admin/Screen/DisplaySetsPage.php:249
 msgid "This week"
 msgstr "Tento týden"
@@ -1124,11 +1129,7 @@ msgstr "Když není co zobrazit"
 msgid "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows."
 msgstr "Kterou pojmenovanou konfigurací se výpis řídí. Co ukazuje, se mění v iSport → Zobrazovací sady a přizpůsobí se každá stránka, která sadu používá."
 
-#: templates/partials/controls.php:44
-msgid "Which room"
-msgstr "Který sál"
-
-#: templates/partials/controls.php:24
+#: templates/partials/controls.php:28
 msgid "Which week"
 msgstr "Který týden"
 
@@ -1220,7 +1221,7 @@ msgstr "iSport nezveřejňuje vazbu mezi kurzem a jeho jednotlivými lekcemi, pl
 msgid "iSport settings"
 msgstr "Nastavení iSport"
 
-#: includes/Render/Listing.php:471
+#: includes/Render/Listing.php:520
 msgid "last %d place"
 msgid_plural "last %d places"
 msgstr[0] "poslední %d místo"
@@ -1251,7 +1252,7 @@ msgstr "— nepřiřazeno —"
 msgid "← Back"
 msgstr "← Zpět"
 
-#: templates/partials/controls.php:26
+#: templates/partials/controls.php:30
 msgid "← Previous week"
 msgstr "← Předchozí týden"
 
