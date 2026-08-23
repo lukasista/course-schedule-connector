@@ -47,6 +47,13 @@ final class ModuleRenderer {
 		$parent  = BlockParserStore::get_parent( $block->parsed_block['id'], $block->parsed_block['storeInstance'] );
 		$listing = self::listing( $attrs );
 
+		// Nothing to show means nothing on the page, wrapper included. A Divi
+		// column puts a gap between its children, so an empty module still
+		// costs one — see FieldModuleRenderer for the same reasoning.
+		if ( '' === trim( $listing ) ) {
+			return '';
+		}
+
 		return Module::render(
 			array(
 				'orderIndex'          => $block->parsed_block['orderIndex'],

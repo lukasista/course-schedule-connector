@@ -52,6 +52,16 @@ final class FieldModuleRenderer {
 		$parent = BlockParserStore::get_parent( $block->parsed_block['id'], $block->parsed_block['storeInstance'] );
 		$field  = self::field( $name, $attrs );
 
+		// A field with nothing to say leaves the page entirely, wrapper and
+		// all. Returning an empty module instead is not the same thing: a Divi
+		// column is a flex container with a gap between its children, so a
+		// module of no height still costs one gap — the reader sees a hole
+		// where a trainer happens not to have filled something in, and there is
+		// nothing on the page to explain it.
+		if ( '' === trim( $field ) ) {
+			return '';
+		}
+
 		return Module::render(
 			array(
 				'orderIndex'          => $block->parsed_block['orderIndex'],
