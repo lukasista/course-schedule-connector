@@ -54,6 +54,31 @@
                 "desktop": {
                     "value": ""
                 }
+            },
+            "imageSize": {
+                "desktop": {
+                    "value": "large"
+                }
+            },
+            "imageAlt": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "imageLink": {
+                "desktop": {
+                    "value": "none"
+                }
+            },
+            "imageLinkUrl": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "imageLinkTarget": {
+                "desktop": {
+                    "value": "off"
+                }
             }
         }
     }

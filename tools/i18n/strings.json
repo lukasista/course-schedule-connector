@@ -84,6 +84,13 @@
         ]
     },
     {
+        "singular": "A colon, a dash — printed right after the heading.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:255"
+        ]
+    },
+    {
         "singular": "A course with no price always shows as free. This is about hall rentals and open sessions, where \"free\" would be misleading.",
         "plural": null,
         "refs": [
@@ -116,6 +123,13 @@
         "plural": null,
         "refs": [
             "includes/Admin/Screen/MakeupPage.php:182"
+        ]
+    },
+    {
+        "singular": "A new window is a surprise, so it is off unless somebody asks for it.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:301"
         ]
     },
     {
@@ -165,7 +179,7 @@
         "plural": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:242",
-            "includes/Data/PostType.php:162"
+            "includes/Data/PostType.php:168"
         ]
     },
     {
@@ -192,7 +206,7 @@
             "includes/Admin/Screen/UnmatchedPage.php:165",
             "includes/Admin/Screen/DisplaySetsPage.php:466",
             "includes/Admin/CourseEditor.php:199",
-            "includes/Data/PostType.php:163"
+            "includes/Data/PostType.php:169"
         ]
     },
     {
@@ -210,10 +224,24 @@
         ]
     },
     {
+        "singular": "Address",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:296"
+        ]
+    },
+    {
         "singular": "Address of the iSport System",
         "plural": null,
         "refs": [
             "includes/Admin/Screen/SettingsPage.php:87"
+        ]
+    },
+    {
+        "singular": "After the heading",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:254"
         ]
     },
     {
@@ -231,6 +259,13 @@
         ]
     },
     {
+        "singular": "Alternative text",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:282"
+        ]
+    },
+    {
         "singular": "Always show it",
         "plural": null,
         "refs": [
@@ -245,10 +280,24 @@
         ]
     },
     {
+        "singular": "An address of your own",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:292"
+        ]
+    },
+    {
         "singular": "An empty name uses the one from iSport. Rooms with the same order are listed alphabetically, so leaving every order at nought is a perfectly good answer. A colour is used only when \"Use\" is ticked; a hidden room is left out of every listing but keeps its classes counted.",
         "plural": null,
         "refs": [
             "includes/Admin/Screen/RoomsPage.php:133"
+        ]
+    },
+    {
+        "singular": "Arrangement",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:246"
         ]
     },
     {
@@ -324,6 +373,13 @@
         ]
     },
     {
+        "singular": "Between the heading and the value.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:259"
+        ]
+    },
+    {
         "singular": "Between two dates",
         "plural": null,
         "refs": [
@@ -375,6 +431,13 @@
         ]
     },
     {
+        "singular": "Bullets",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:262"
+        ]
+    },
+    {
         "singular": "Button text",
         "plural": null,
         "refs": [
@@ -415,7 +478,7 @@
         "singular": "Choose a display set in the module settings.",
         "plural": null,
         "refs": [
-            "includes/Divi/ModuleRenderer.php:81"
+            "includes/Divi/ModuleRenderer.php:88"
         ]
     },
     {
@@ -447,7 +510,7 @@
         "singular": "Classes that stand in for one somebody missed.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:184"
+            "includes/Render/Fields.php:185"
         ]
     },
     {
@@ -535,7 +598,7 @@
         "singular": "Course description",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:157"
+            "includes/Render/Fields.php:158"
         ]
     },
     {
@@ -578,14 +641,14 @@
         "singular": "Course tag",
         "plural": null,
         "refs": [
-            "includes/Data/PostType.php:167"
+            "includes/Data/PostType.php:173"
         ]
     },
     {
         "singular": "Course tags",
         "plural": null,
         "refs": [
-            "includes/Data/PostType.php:166"
+            "includes/Data/PostType.php:172"
         ]
     },
     {
@@ -626,8 +689,8 @@
         "plural": null,
         "refs": [
             "templates/single-trainer.php:79",
-            "includes/Render/Fields.php:248",
-            "includes/Render/Fields.php:249",
+            "includes/Render/Fields.php:250",
+            "includes/Render/Fields.php:251",
             "includes/Admin/TrainerEditor.php:82"
         ]
     },
@@ -809,14 +872,14 @@
         "singular": "Every course paired with this trainer, as a table.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:251"
+            "includes/Render/Fields.php:253"
         ]
     },
     {
         "singular": "Every qualification, in the order they were entered.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:211"
+            "includes/Render/Fields.php:213"
         ]
     },
     {
@@ -917,17 +980,46 @@
         ]
     },
     {
+        "singular": "Gap",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:258"
+        ]
+    },
+    {
         "singular": "Heading",
         "plural": null,
         "refs": [
-            "includes/Admin/Screen/DisplaySetsPage.php:333"
+            "includes/Admin/Screen/DisplaySetsPage.php:333",
+            "includes/Divi/FieldModules.php:234"
+        ]
+    },
+    {
+        "singular": "Heading above",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:249"
+        ]
+    },
+    {
+        "singular": "Heading above the value, or beside it.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:247"
+        ]
+    },
+    {
+        "singular": "Heading element",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:238"
         ]
     },
     {
         "singular": "Heading text",
         "plural": null,
         "refs": [
-            "includes/Divi/FieldModules.php:150"
+            "includes/Divi/FieldModules.php:315"
         ]
     },
     {
@@ -949,6 +1041,13 @@
         "plural": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:283"
+        ]
+    },
+    {
+        "singular": "Hollow",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:266"
         ]
     },
     {
@@ -1005,8 +1104,8 @@
         "plural": null,
         "refs": [
             "templates/single-trainer.php:68",
-            "includes/Render/Fields.php:216",
-            "includes/Render/Fields.php:217",
+            "includes/Render/Fields.php:218",
+            "includes/Render/Fields.php:219",
             "includes/Admin/TrainerEditor.php:150"
         ]
     },
@@ -1015,6 +1114,13 @@
         "plural": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:315"
+        ]
+    },
+    {
+        "singular": "Its own page",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:290"
         ]
     },
     {
@@ -1060,6 +1166,27 @@
         ]
     },
     {
+        "singular": "Left empty, the module disappears rather than printing a heading over a blank space.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:274"
+        ]
+    },
+    {
+        "singular": "Link",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:318"
+        ]
+    },
+    {
+        "singular": "Links to",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:286"
+        ]
+    },
+    {
         "singular": "Make this a course of its own",
         "plural": null,
         "refs": [
@@ -1070,7 +1197,7 @@
         "singular": "Make-up classes",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:181"
+            "includes/Render/Fields.php:182"
         ]
     },
     {
@@ -1078,7 +1205,7 @@
         "plural": null,
         "refs": [
             "templates/single-course.php:95",
-            "includes/Render/Fields.php:182"
+            "includes/Render/Fields.php:183"
         ]
     },
     {
@@ -1103,7 +1230,7 @@
         "singular": "Motto",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:232",
+            "includes/Render/Fields.php:234",
             "includes/Admin/TrainerEditor.php:168"
         ]
     },
@@ -1259,6 +1386,13 @@
         ]
     },
     {
+        "singular": "None",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:269"
+        ]
+    },
+    {
         "singular": "Note",
         "plural": null,
         "refs": [
@@ -1339,10 +1473,24 @@
         ]
     },
     {
+        "singular": "Nowhere",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:289"
+        ]
+    },
+    {
         "singular": "Number of classes",
         "plural": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:473"
+        ]
+    },
+    {
+        "singular": "Numbered",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:268"
         ]
     },
     {
@@ -1365,6 +1513,13 @@
         "plural": null,
         "refs": [
             "includes/Admin/TrainerEditor.php:144"
+        ]
+    },
+    {
+        "singular": "Open in a new window",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:300"
         ]
     },
     {
@@ -1443,8 +1598,15 @@
         "singular": "Photograph",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:200",
+            "includes/Render/Fields.php:201",
             "includes/Admin/TrainerEditor.php:90"
+        ]
+    },
+    {
+        "singular": "Picture",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:317"
         ]
     },
     {
@@ -1476,8 +1638,8 @@
         "plural": null,
         "refs": [
             "templates/single-trainer.php:57",
-            "includes/Render/Fields.php:208",
-            "includes/Render/Fields.php:209",
+            "includes/Render/Fields.php:210",
+            "includes/Render/Fields.php:211",
             "includes/Admin/TrainerEditor.php:143"
         ]
     },
@@ -1586,7 +1748,7 @@
             "includes/Admin/Screen/DisplaySetsPage.php:470",
             "includes/Admin/Screen/DisplaySetsPage.php:501",
             "includes/Admin/CourseEditor.php:313",
-            "includes/Data/PostType.php:155"
+            "includes/Data/PostType.php:161"
         ]
     },
     {
@@ -1597,7 +1759,14 @@
             "includes/Admin/Menu.php:145",
             "includes/Admin/Screen/RoomsPage.php:68",
             "includes/Admin/Screen/DisplaySetsPage.php:368",
-            "includes/Data/PostType.php:154"
+            "includes/Data/PostType.php:160"
+        ]
+    },
+    {
+        "singular": "Round",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:265"
         ]
     },
     {
@@ -1739,6 +1908,13 @@
         ]
     },
     {
+        "singular": "Show a heading",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:230"
+        ]
+    },
+    {
         "singular": "Show cancelled classes",
         "plural": null,
         "refs": [
@@ -1768,6 +1944,13 @@
         ]
     },
     {
+        "singular": "Side by side",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:250"
+        ]
+    },
+    {
         "singular": "Sign up in iSport",
         "plural": null,
         "refs": [
@@ -1783,6 +1966,13 @@
         ]
     },
     {
+        "singular": "Size",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:277"
+        ]
+    },
+    {
         "singular": "Some courses take no bookings through iSport at all, and a visitor who wants one needs a person to ask. Anything filled in here is shown on the course, and nothing here is ever overwritten by a synchronisation.",
         "plural": null,
         "refs": [
@@ -1794,8 +1984,8 @@
         "plural": null,
         "refs": [
             "templates/single-trainer.php:50",
-            "includes/Render/Fields.php:224",
-            "includes/Render/Fields.php:225",
+            "includes/Render/Fields.php:226",
+            "includes/Render/Fields.php:227",
             "includes/Admin/TrainerEditor.php:161"
         ]
     },
@@ -1804,6 +1994,20 @@
         "plural": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:301"
+        ]
+    },
+    {
+        "singular": "Source",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:226"
+        ]
+    },
+    {
+        "singular": "Square",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:267"
         ]
     },
     {
@@ -1916,7 +2120,7 @@
         "singular": "The field could not be loaded.",
         "plural": null,
         "refs": [
-            "includes/Divi/FieldModules.php:195"
+            "includes/Divi/FieldModules.php:213"
         ]
     },
     {
@@ -1965,14 +2169,21 @@
         "singular": "The one this page is about",
         "plural": null,
         "refs": [
-            "includes/Divi/FieldModules.php:212"
+            "includes/Divi/FieldModules.php:353"
         ]
     },
     {
         "singular": "The person to contact about a course nobody books through iSport.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:168"
+            "includes/Render/Fields.php:169"
+        ]
+    },
+    {
+        "singular": "The picture at full size",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:291"
         ]
     },
     {
@@ -1986,28 +2197,28 @@
         "singular": "The sentence or two that makes this a person.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:227"
+            "includes/Render/Fields.php:229"
         ]
     },
     {
         "singular": "The trainer’s motto.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:235"
+            "includes/Render/Fields.php:237"
         ]
     },
     {
         "singular": "The trainer’s name, as a heading you can style.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:195"
+            "includes/Render/Fields.php:196"
         ]
     },
     {
         "singular": "The trainer’s picture: your own where you set one, otherwise the one from iSport.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:203"
+            "includes/Render/Fields.php:204"
         ]
     },
     {
@@ -2028,14 +2239,14 @@
         "singular": "The words written on the course in WordPress.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:160"
+            "includes/Render/Fields.php:161"
         ]
     },
     {
         "singular": "The words written on the trainer in WordPress.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:243"
+            "includes/Render/Fields.php:245"
         ]
     },
     {
@@ -2056,21 +2267,21 @@
         "singular": "This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings.",
         "plural": null,
         "refs": [
-            "includes/Render/FieldRenderer.php:148"
+            "includes/Render/FieldRenderer.php:174"
         ]
     },
     {
         "singular": "This course’s own timetable, as a table.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:176"
+            "includes/Render/Fields.php:177"
         ]
     },
     {
         "singular": "This field is empty for this record, so it will not appear on the page.",
         "plural": null,
         "refs": [
-            "includes/Divi/FieldModules.php:194"
+            "includes/Divi/FieldModules.php:212"
         ]
     },
     {
@@ -2148,7 +2359,7 @@
             "includes/Admin/Screen/UnmatchedPage.php:167",
             "includes/Admin/Screen/DisplaySetsPage.php:471",
             "includes/Admin/CourseEditor.php:312",
-            "includes/Data/PostType.php:159",
+            "includes/Data/PostType.php:165",
             "includes/Data/TrainerType.php:93"
         ]
     },
@@ -2156,14 +2367,14 @@
         "singular": "Trainer description",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:240"
+            "includes/Render/Fields.php:242"
         ]
     },
     {
         "singular": "Trainer name",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:192"
+            "includes/Render/Fields.php:193"
         ]
     },
     {
@@ -2173,7 +2384,7 @@
             "includes/Admin/Menu.php:101",
             "includes/Admin/Menu.php:102",
             "includes/Admin/Screen/DisplaySetsPage.php:241",
-            "includes/Data/PostType.php:158",
+            "includes/Data/PostType.php:164",
             "includes/Data/TrainerType.php:92",
             "includes/Data/TrainerType.php:94"
         ]
@@ -2214,8 +2425,8 @@
         "plural": null,
         "refs": [
             "templates/single-course.php:85",
-            "includes/Render/Fields.php:173",
-            "includes/Render/Fields.php:174"
+            "includes/Render/Fields.php:174",
+            "includes/Render/Fields.php:175"
         ]
     },
     {
@@ -2226,10 +2437,24 @@
         ]
     },
     {
+        "singular": "Used when the picture links to an address of your own.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:297"
+        ]
+    },
+    {
+        "singular": "Value element",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:242"
+        ]
+    },
+    {
         "singular": "Value text",
         "plural": null,
         "refs": [
-            "includes/Divi/FieldModules.php:152"
+            "includes/Divi/FieldModules.php:316"
         ]
     },
     {
@@ -2261,10 +2486,24 @@
         ]
     },
     {
+        "singular": "What the list is marked with.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:263"
+        ]
+    },
+    {
+        "singular": "What the picture says to somebody who cannot see it. Empty means the name of the course or trainer, which is usually right.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:283"
+        ]
+    },
+    {
         "singular": "What the trainer does when they are not in the hall.",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:219"
+            "includes/Render/Fields.php:221"
         ]
     },
     {
@@ -2272,6 +2511,13 @@
         "plural": null,
         "refs": [
             "includes/Admin/TrainerEditor.php:151"
+        ]
+    },
+    {
+        "singular": "What to call this field. Empty means the name it comes with.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:235"
         ]
     },
     {
@@ -2306,7 +2552,43 @@
         "singular": "When there is nothing to show",
         "plural": null,
         "refs": [
-            "includes/Admin/Screen/DisplaySetsPage.php:335"
+            "includes/Admin/Screen/DisplaySetsPage.php:335",
+            "includes/Divi/FieldModules.php:273"
+        ]
+    },
+    {
+        "singular": "Where the picture takes a visitor who clicks it.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:287"
+        ]
+    },
+    {
+        "singular": "Whether the field prints its name above or beside the value.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:231"
+        ]
+    },
+    {
+        "singular": "Which HTML element the heading is.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:239"
+        ]
+    },
+    {
+        "singular": "Which HTML element the value is.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:243"
+        ]
+    },
+    {
+        "singular": "Which course or trainer this shows. Left as it is, it follows the page — which is what a theme builder template wants.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:227"
         ]
     },
     {
@@ -2314,6 +2596,13 @@
         "plural": null,
         "refs": [
             "includes/Divi/DisplayModule.php:224"
+        ]
+    },
+    {
+        "singular": "Which of the sizes WordPress made of this picture to serve. Larger is not better: a portrait shown at 300 pixels costs the visitor nothing extra if 300 pixels is what is sent.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:278"
         ]
     },
     {
@@ -2335,8 +2624,8 @@
         "plural": null,
         "refs": [
             "templates/single-course.php:62",
-            "includes/Render/Fields.php:165",
-            "includes/Render/Fields.php:166"
+            "includes/Render/Fields.php:166",
+            "includes/Render/Fields.php:167"
         ]
     },
     {
@@ -2491,14 +2780,14 @@
         "singular": "of the heading",
         "plural": null,
         "refs": [
-            "includes/Divi/FieldModules.php:160"
+            "includes/Divi/FieldModules.php:155"
         ]
     },
     {
         "singular": "of the value",
         "plural": null,
         "refs": [
-            "includes/Divi/FieldModules.php:161"
+            "includes/Divi/FieldModules.php:156"
         ]
     },
     {

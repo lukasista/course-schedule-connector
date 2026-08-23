@@ -151,6 +151,7 @@ final class Fields {
 				'icon'        => 'format-image',
 				'description' => __( 'The featured image of the course.', 'course-schedule-connector' ),
 				'heading'     => false,
+				'image'       => true,
 			),
 			'text'    => array(
 				'kind'        => self::HTML,
@@ -202,6 +203,7 @@ final class Fields {
 				'icon'        => 'format-image',
 				'description' => __( 'The trainer’s picture: your own where you set one, otherwise the one from iSport.', 'course-schedule-connector' ),
 				'heading'     => false,
+				'image'       => true,
 			),
 			'qualifications' => array(
 				'kind'        => self::LIST,
@@ -256,11 +258,19 @@ final class Fields {
 		$fields = array();
 
 		foreach ( $course as $key => $field ) {
-			$fields[ self::COURSE . '-' . $key ] = array_merge( $field, array( 'context' => self::COURSE ) );
+			$fields[ self::COURSE . '-' . $key ] = array_merge(
+				array( 'image' => false ),
+				$field,
+				array( 'context' => self::COURSE )
+			);
 		}
 
 		foreach ( $trainer as $key => $field ) {
-			$fields[ self::TRAINER . '-' . $key ] = array_merge( $field, array( 'context' => self::TRAINER ) );
+			$fields[ self::TRAINER . '-' . $key ] = array_merge(
+				array( 'image' => false ),
+				$field,
+				array( 'context' => self::TRAINER )
+			);
 		}
 
 		/**
@@ -295,7 +305,7 @@ final class Fields {
 	 * @param \WP_Post $post   The course or trainer.
 	 * @return array{kind: string, text: string, list: array<int, string>, html: string}
 	 */
-	public static function value( Plugin $plugin, string $name, \WP_Post $post ): array {
+	public static function value( Plugin $plugin, string $name, \WP_Post $post, array $settings = array() ): array {
 		$field = self::get( $name );
 		$empty = array(
 			'kind' => self::TEXT,
@@ -312,10 +322,10 @@ final class Fields {
 		$key           = substr( $name, strlen( (string) $field['context'] ) + 1 );
 
 		if ( self::COURSE === $field['context'] ) {
-			return array_merge( $empty, self::course_value( $plugin, $key, $post ) );
+			return array_merge( $empty, self::course_value( $plugin, $key, $post, $settings ) );
 		}
 
-		return array_merge( $empty, self::trainer_value( $plugin, $key, $post ) );
+		return array_merge( $empty, self::trainer_value( $plugin, $key, $post, $settings ) );
 	}
 
 	/**
@@ -326,7 +336,7 @@ final class Fields {
 	 * @param \WP_Post $post   Course.
 	 * @return array<string, mixed>
 	 */
-	private static function course_value( Plugin $plugin, string $key, \WP_Post $post ): array {
+	private static function course_value( Plugin $plugin, string $key, \WP_Post $post, array $settings = array() ): array {
 		$detail = new CourseDetail( $plugin, $post );
 
 		switch ( $key ) {
@@ -376,7 +386,7 @@ final class Fields {
 				return array( 'html' => $detail->button() );
 
 			case 'image':
-				return array( 'html' => (string) get_the_post_thumbnail( $post, 'large' ) );
+				return array( 'html' => self::picture( (int) get_post_thumbnail_id( $post ), $post, $settings ) );
 
 			case 'text':
 				return array( 'html' => self::written_text( $post ) );
@@ -402,7 +412,7 @@ final class Fields {
 	 * @param \WP_Post $post   Trainer.
 	 * @return array<string, mixed>
 	 */
-	private static function trainer_value( Plugin $plugin, string $key, \WP_Post $post ): array {
+	private static function trainer_value( Plugin $plugin, string $key, \WP_Post $post, array $settings = array() ): array {
 		$detail = new TrainerDetail( $plugin, $post );
 
 		switch ( $key ) {
@@ -422,7 +432,7 @@ final class Fields {
 				return array( 'list' => $detail->hobbies() );
 
 			case 'photo':
-				return array( 'html' => $detail->photograph_html( 'large' ) );
+				return array( 'html' => self::picture( $detail->photograph(), $post, $settings ) );
 
 			case 'text':
 				return array( 'html' => self::written_text( $post ) );
@@ -432,6 +442,102 @@ final class Fields {
 		}
 
 		return array();
+	}
+
+	/**
+	 * Renders a picture the way a picture wants to be rendered.
+	 *
+	 * A field showing an image is not the same shape as a field showing a
+	 * price, and pretending otherwise is what left this module without the
+	 * settings anybody would look for on it: which size to serve, what the alt
+	 * text says, and whether the picture is a link. Those are decisions about
+	 * an image, so they are made here rather than by whoever is arranging the
+	 * page in CSS afterwards.
+	 *
+	 * @param int                  $attachment Attachment id.
+	 * @param \WP_Post             $post       The course or trainer it belongs to.
+	 * @param array<string, mixed> $settings   Field settings.
+	 * @return string
+	 */
+	private static function picture( int $attachment, \WP_Post $post, array $settings ): string {
+		if ( 0 === $attachment ) {
+			return '';
+		}
+
+		$size = (string) ( $settings['imageSize'] ?? 'large' );
+		$size = in_array( $size, self::sizes(), true ) ? $size : 'large';
+
+		$alt = trim( (string) ( $settings['imageAlt'] ?? '' ) );
+		$alt = '' === $alt ? (string) get_the_title( $post ) : $alt;
+
+		$image = (string) wp_get_attachment_image(
+			$attachment,
+			$size,
+			false,
+			array(
+				'class' => 'cscs-field__image',
+				'alt'   => $alt,
+			)
+		);
+
+		if ( '' === $image ) {
+			return '';
+		}
+
+		$href = self::picture_link( $attachment, $post, $settings );
+
+		if ( '' === $href ) {
+			return $image;
+		}
+
+		$blank = ! empty( $settings['imageLinkTarget'] );
+
+		return sprintf(
+			'<a class="cscs-field__image-link" href="%s"%s>%s</a>',
+			esc_url( $href ),
+			// `noopener` on a new window is not optional: without it the page
+			// that opens can reach back through `window.opener`.
+			$blank ? ' target="_blank" rel="noopener noreferrer"' : '',
+			$image
+		);
+	}
+
+	/**
+	 * Returns where a picture links to, if anywhere.
+	 *
+	 * @param int                  $attachment Attachment id.
+	 * @param \WP_Post             $post       The course or trainer.
+	 * @param array<string, mixed> $settings   Field settings.
+	 * @return string
+	 */
+	private static function picture_link( int $attachment, \WP_Post $post, array $settings ): string {
+		switch ( (string) ( $settings['imageLink'] ?? 'none' ) ) {
+			case 'post':
+				return (string) get_permalink( $post );
+
+			case 'file':
+				return (string) wp_get_attachment_image_url( $attachment, 'full' );
+
+			case 'custom':
+				return esc_url_raw( (string) ( $settings['imageLinkUrl'] ?? '' ) );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Returns the image sizes a field may be asked for.
+	 *
+	 * Read from the site rather than listed here: a theme adds sizes, and a
+	 * hard-coded list would quietly refuse the one somebody registered for
+	 * exactly this purpose.
+	 *
+	 * @return array<int, string>
+	 */
+	public static function sizes(): array {
+		$sizes = function_exists( 'get_intermediate_image_sizes' ) ? get_intermediate_image_sizes() : array();
+
+		return array_values( array_unique( array_merge( array_map( 'strval', $sizes ), array( 'full' ) ) ) );
 	}
 
 	/**

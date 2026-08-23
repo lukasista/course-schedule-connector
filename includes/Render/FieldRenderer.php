@@ -113,6 +113,32 @@ final class FieldRenderer {
 			),
 		);
 
+		if ( ! empty( $field['image'] ) ) {
+			// A field showing a picture is a different shape from one showing a
+			// price, and giving both the same settings is what left the
+			// photograph module without the ones anybody would look for on it.
+			$attributes['imageSize']       = array(
+				'type'    => 'string',
+				'default' => 'large',
+			);
+			$attributes['imageAlt']        = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['imageLink']       = array(
+				'type'    => 'string',
+				'default' => 'none',
+			);
+			$attributes['imageLinkUrl']    = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['imageLinkTarget'] = array(
+				'type'    => 'boolean',
+				'default' => false,
+			);
+		}
+
 		foreach ( array( 'label', 'value' ) as $element ) {
 			foreach ( self::element_settings() as $setting ) {
 				$attributes[ $element . $setting ] = array(
@@ -149,7 +175,7 @@ final class FieldRenderer {
 			);
 		}
 
-		$value = Fields::value( $plugin, $name, $post );
+		$value = Fields::value( $plugin, $name, $post, $attributes );
 		$body  = self::body( $value, $attributes );
 
 		if ( '' === $body ) {

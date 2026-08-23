@@ -191,7 +191,16 @@ ne modulu.
    Divi si balíček registruje vlastním správcem a WordPress ten handle nezná.
    Řetězce se předávají v `wp_localize_script` spolu s metadaty modulu, což
    prokazatelně funguje (tak chodí i názvy modulů).
-7. Odkazy s kotvou na téže stránce Divi polyká kvůli plynulému rolování;
+7. **Deklarovat nastavení nestačí — bez `styleProps` Divi nemá kam zapsat
+   jeho CSS.** Pole hodnotu přijme a nic se nestane. K tomu musí render
+   callback modulu vypsat `$elements->style( array( 'attrName' => … ) )` pro
+   každý podřízený prvek, jinak se styly nedostanou ani na frontend.
+8. **V Theme Builderu Divi negeneruje CSS našich modulů vůbec, dokud se
+   rozvržení neuloží** — na běžné stránce ano. Nastavení se ukládá i vykresluje
+   správně, jen živý náhled v tomhle jednom editoru zaostává. Zkoušel jsem
+   vypisovat `styleComponents` i pro podřízené prvky; nepomohlo to a je to
+   vráceno zpět. Dál se v tom hrabat naslepo se nevyplácí.
+9. Odkazy s kotvou na téže stránce Divi polyká kvůli plynulému rolování;
    posluchače je třeba věšet v **capture** fázi.
 
 ---

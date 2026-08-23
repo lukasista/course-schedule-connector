@@ -25,6 +25,7 @@
 	var catalogue = window.cscsFields || {};
 	var fields = catalogue.fields || [];
 	var postTypes = catalogue.postTypes || {};
+	var sizes = catalogue.sizes || [];
 
 	if ( ! fields.length ) {
 		return;
@@ -297,6 +298,74 @@
 	}
 
 	/**
+	 * The settings a picture has and a price does not.
+	 *
+	 * A field showing an image is a different shape from one showing a number,
+	 * and giving both the same panel is what left the photograph without the
+	 * settings anybody would look for on it: which size to serve, what it says
+	 * to a reader who cannot see it, and whether it is a link.
+	 *
+	 * @param {Object} props Block props.
+	 * @return {Object} The panel.
+	 */
+	function picturePanel( props ) {
+		var links = props.attributes.imageLink || 'none';
+
+		return el(
+			components.PanelBody,
+			{ title: __( 'Picture', 'course-schedule-connector' ), initialOpen: false },
+			select(
+				props,
+				'imageSize',
+				__( 'Size', 'course-schedule-connector' ),
+				sizes.map( function ( size ) {
+					return { label: size, value: size };
+				} )
+			),
+			el(
+				'p',
+				{ className: 'components-base-control__help' },
+				__(
+					'Larger is not better: a portrait shown at 300 pixels costs the visitor nothing extra if 300 pixels is what is sent.',
+					'course-schedule-connector'
+				)
+			),
+			text(
+				props,
+				'imageAlt',
+				__( 'Alternative text', 'course-schedule-connector' ),
+				__(
+					'What the picture says to somebody who cannot see it. Empty means the name of the course or trainer, which is usually right.',
+					'course-schedule-connector'
+				)
+			),
+			select( props, 'imageLink', __( 'Links to', 'course-schedule-connector' ), [
+				{ label: __( 'Nowhere', 'course-schedule-connector' ), value: 'none' },
+				{ label: __( 'Its own page', 'course-schedule-connector' ), value: 'post' },
+				{ label: __( 'The picture at full size', 'course-schedule-connector' ), value: 'file' },
+				{ label: __( 'An address of your own', 'course-schedule-connector' ), value: 'custom' },
+			] ),
+			'custom' === links
+				? text( props, 'imageLinkUrl', __( 'Address', 'course-schedule-connector' ) )
+				: null,
+			'none' === links
+				? null
+				: el( components.ToggleControl, {
+						label: __( 'Open in a new window', 'course-schedule-connector' ),
+						help: __(
+							'A new window is a surprise, so it is off unless somebody asks for it.',
+							'course-schedule-connector'
+						),
+						checked: !! props.attributes.imageLinkTarget,
+						__nextHasNoMarginBottom: true,
+						onChange: function ( value ) {
+							props.setAttributes( { imageLinkTarget: value } );
+						},
+				  } )
+		);
+	}
+
+	/**
 	 * Registers one field block.
 	 *
 	 * @param {Object} field Field description from the server.
@@ -315,6 +384,7 @@
 					blockEditor.InspectorControls,
 					{},
 					sourcePanel( props, postType ),
+					field.image ? picturePanel( props ) : null,
 					el(
 						components.PanelBody,
 						{ title: __( 'Heading and layout', 'course-schedule-connector' ), initialOpen: false },

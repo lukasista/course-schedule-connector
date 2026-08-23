@@ -114,18 +114,22 @@ function module_metadata( string $name, array $field ): array {
 		'moduleOrderClassName' => 'cscs_divi_field_' . $slug,
 		'moduleIcon'           => 'divi/module-text',
 		'category'             => 'module',
-		'attributes'           => array(
-			'module' => module_attribute(),
-			'title'  => element_attribute( '{{selector}} .cscs-field__label', 'title', 'designHeadingText', 'Heading' ),
-			'value'  => element_attribute( '{{selector}} .cscs-field__value', 'value', 'designValueText', 'Value' ),
-			'field'  => field_attribute( $field ),
-			'css'    => array( 'type' => 'object' ),
+		'attributes'           => array_filter(
+			array(
+				'module' => module_attribute( ! empty( $field['image'] ) ),
+				'title'  => element_attribute( '{{selector}} .cscs-field__label', 'title', 'designHeadingText', 'Heading' ),
+				'value'  => element_attribute( '{{selector}} .cscs-field__value', 'value', 'designValueText', 'Value' ),
+				'image'  => empty( $field['image'] ) ? array() : image_attribute(),
+				'field'  => field_attribute( $field ),
+				'css'    => array( 'type' => 'object' ),
+			)
 		),
 		'settings'             => array(
 			'content'  => 'auto',
 			'design'   => 'auto',
 			'advanced' => 'auto',
-			'groups'   => array(
+			'groups'   => array_filter(
+				array(
 				'content'           => array(
 					'panel'     => 'content',
 					'priority'  => 10,
@@ -133,6 +137,27 @@ function module_metadata( string $name, array $field ): array {
 					'component' => array(
 						'name'  => 'divi/composite',
 						'props' => array( 'groupLabel' => 'iSport' ),
+					),
+				),
+				// A picture gets the two content groups Divi's own Image module
+				// has, in the same order, so that somebody who knows that module
+				// finds what they are looking for where they expect it.
+				'contentPicture'    => empty( $field['image'] ) ? null : array(
+					'panel'     => 'content',
+					'priority'  => 20,
+					'groupName' => 'picture',
+					'component' => array(
+						'name'  => 'divi/composite',
+						'props' => array( 'groupLabel' => 'Picture' ),
+					),
+				),
+				'contentPictureLink' => empty( $field['image'] ) ? null : array(
+					'panel'     => 'content',
+					'priority'  => 30,
+					'groupName' => 'pictureLink',
+					'component' => array(
+						'name'  => 'divi/composite',
+						'props' => array( 'groupLabel' => 'Link' ),
 					),
 				),
 				// Two design groups, named apart. Left to Divi's own naming
@@ -165,6 +190,7 @@ function module_metadata( string $name, array $field ): array {
 						),
 					),
 				),
+				)
 			),
 		),
 	);
@@ -175,34 +201,94 @@ function module_metadata( string $name, array $field ): array {
  *
  * @return array<string, mixed>
  */
-function module_attribute(): array {
+function module_attribute( bool $picture = false ): array {
+	$decoration = array(
+		'background' => array(),
+		'border'     => array(),
+		'boxShadow'  => array(),
+		'filters'    => array(),
+		'spacing'    => array(),
+		'sizing'     => array(),
+		'transform'  => array(),
+		'animation'  => array(),
+		'disabledOn' => array(),
+		'overflow'   => array(),
+		'position'   => array(),
+		'scroll'     => array(),
+		'sticky'     => array(),
+		'transition' => array(),
+		'zIndex'     => array(),
+	);
+
+	// A border and a shadow belong to the picture, not to the invisible box
+	// around it — which is how Divi's own Image module declares them, and why
+	// rounding the corners of a photograph on the module did nothing to the
+	// photograph. For a picture field they move to the `image` element, and
+	// leaving them here as well would put two identically named groups in the
+	// panel, which is the trap the heading and the value already fell into.
+	if ( $picture ) {
+		unset( $decoration['border'], $decoration['boxShadow'] );
+	}
+
+	$advanced = array(
+		'text' => array(),
+		'link' => array(),
+		'html' => array(),
+	);
+
+	// A picture carries its own link, so the module's would be a second group
+	// called "Link" in the same panel — two identically named groups, and no
+	// way to tell from the panel which one the picture obeys. Divi's own Image
+	// module declares no module link for the same reason.
+	if ( $picture ) {
+		unset( $advanced['link'] );
+	}
+
 	return array(
 		'type'     => 'object',
 		'selector' => '{{selector}}',
 		'settings' => array(
 			'meta'       => array( 'meta' => array() ),
-			'advanced'   => array(
-				'text' => array(),
-				'link' => array(),
-				'html' => array(),
-			),
+			'advanced'   => $advanced,
+			'decoration' => $decoration,
+		),
+	);
+}
+
+/**
+ * The picture itself, as a thing a designer can style.
+ *
+ * Copied in shape from Divi's own Image module: `fit`, `border` and `boxShadow`
+ * on a selector that reaches the `img`, declared as empty objects so that Divi
+ * generates the groups exactly as it does for its own. None of these names
+ * collide with anything left on the module, so they need no naming of their own.
+ *
+ * @return array<string, mixed>
+ */
+function image_attribute(): array {
+	$image = '{{selector}} .cscs-field__image';
+
+	return array(
+		'type'      => 'object',
+		'selector'  => $image,
+		'settings'  => array(
 			'decoration' => array(
-				'background' => array(),
-				'border'     => array(),
-				'boxShadow'  => array(),
-				'filters'    => array(),
-				'spacing'    => array(),
-				'sizing'     => array(),
-				'transform'  => array(),
-				'animation'  => array(),
-				'disabledOn' => array(),
-				'overflow'   => array(),
-				'position'   => array(),
-				'scroll'     => array(),
-				'sticky'     => array(),
-				'transition' => array(),
-				'zIndex'     => array(),
+				'fit'       => array(),
+				'border'    => array(),
+				'boxShadow' => array(),
 			),
+		),
+		// Declaring the settings is only half of it: without `styleProps` Divi
+		// knows the fields belong to the picture and still has nowhere to write
+		// their CSS, so every one of them accepts a value and does nothing. The
+		// selectors are named rather than left to the default for the same
+		// reason Divi names its own — a border on a picture belongs on the
+		// picture, not on whatever happens to wrap it.
+		'styleProps' => array(
+			'selector'  => $image,
+			'fit'       => array( 'selector' => $image ),
+			'border'    => array( 'selector' => $image ),
+			'boxShadow' => array( 'selector' => $image ),
 		),
 	);
 }
@@ -261,12 +347,12 @@ function field_attribute( array $field ): array {
 	$items    = array();
 	$priority = 10;
 
-	$add = static function ( string $key, array $item ) use ( &$items, &$priority ): void {
+	$add = static function ( string $key, array $item, string $group = 'content' ) use ( &$items, &$priority ): void {
 		$items[ $key ] = array(
 			'groupType' => 'group-item',
 			'item'      => array_merge(
 				array(
-					'groupSlug' => 'content',
+					'groupSlug' => $group,
 					'attrName'  => 'field.advanced.' . $key,
 					'category'  => 'configuration',
 					'priority'  => $priority,
@@ -436,6 +522,82 @@ function field_attribute( array $field ): array {
 		);
 	}
 
+	if ( ! empty( $field['image'] ) ) {
+		$add(
+			'imageSize',
+			array(
+				'label'       => 'Size',
+				'description' => 'Which of the sizes WordPress made of this picture to serve. Larger is not better: a portrait shown at 300 pixels costs the visitor nothing extra if 300 pixels is what is sent.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array( 'options' => new stdClass() ),
+				),
+			),
+			'contentPicture'
+		);
+
+		$add(
+			'imageAlt',
+			array(
+				'label'       => 'Alternative text',
+				'description' => 'What the picture says to somebody who cannot see it. Empty means the name of the course or trainer, which is usually right.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentPicture'
+		);
+
+		$add(
+			'imageLink',
+			array(
+				'label'       => 'Links to',
+				'description' => 'Where the picture takes a visitor who clicks it.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array(
+						'options' => array(
+							'none'   => array( 'label' => 'Nowhere' ),
+							'post'   => array( 'label' => 'Its own page' ),
+							'file'   => array( 'label' => 'The picture at full size' ),
+							'custom' => array( 'label' => 'An address of your own' ),
+						),
+					),
+				),
+			),
+			'contentPictureLink'
+		);
+
+		$add(
+			'imageLinkUrl',
+			array(
+				'label'       => 'Address',
+				'description' => 'Used when the picture links to an address of your own.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentPictureLink'
+		);
+
+		$add(
+			'imageLinkTarget',
+			array(
+				'label'       => 'Open in a new window',
+				'description' => 'A new window is a surprise, so it is off unless somebody asks for it.',
+				'component'   => array(
+					'name' => 'divi/toggle',
+					'type' => 'field',
+				),
+			),
+			'contentPictureLink'
+		);
+	}
+
 	$add(
 		'emptyText',
 		array(
@@ -480,6 +642,14 @@ function module_defaults( array $field ): array {
 
 	if ( 'list' === $field['kind'] ) {
 		$advanced['listStyle'] = 'disc';
+	}
+
+	if ( ! empty( $field['image'] ) ) {
+		$advanced['imageSize']       = 'large';
+		$advanced['imageAlt']        = '';
+		$advanced['imageLink']       = 'none';
+		$advanced['imageLinkUrl']    = '';
+		$advanced['imageLinkTarget'] = 'off';
 	}
 
 	$defaults = array(

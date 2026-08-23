@@ -220,6 +220,10 @@ final class FieldBlocks {
 				Fields::TRAINER => TrainerType::TRAINER,
 			),
 			'settings'  => FieldRenderer::element_settings(),
+			// The sizes are this site's, not the plugin's: a theme registers
+			// them, and a list written here would refuse the one somebody added
+			// for exactly this picture.
+			'sizes'     => Fields::sizes(),
 		);
 	}
 }

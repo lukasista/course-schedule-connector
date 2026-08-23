@@ -130,16 +130,21 @@ final class FieldModuleRenderer {
 		};
 
 		return array(
-			'postId'    => (int) $read( 'source', '0' ),
-			'showLabel' => 'on' === $read( 'showLabel', 'off' ),
-			'label'     => $read( 'label' ),
-			'labelTag'  => $read( 'labelTag', 'h3' ),
-			'valueTag'  => $read( 'valueTag', 'div' ),
-			'layout'    => $read( 'layout', 'stack' ),
-			'separator' => $read( 'separator' ),
-			'gap'       => $read( 'gap' ),
-			'listStyle' => $read( 'listStyle', 'disc' ),
-			'emptyText' => $read( 'emptyText' ),
+			'postId'          => (int) $read( 'source', '0' ),
+			'showLabel'       => 'on' === $read( 'showLabel', 'off' ),
+			'label'           => $read( 'label' ),
+			'labelTag'        => $read( 'labelTag', 'h3' ),
+			'valueTag'        => $read( 'valueTag', 'div' ),
+			'layout'          => $read( 'layout', 'stack' ),
+			'separator'       => $read( 'separator' ),
+			'gap'             => $read( 'gap' ),
+			'listStyle'       => $read( 'listStyle', 'disc' ),
+			'emptyText'       => $read( 'emptyText' ),
+			'imageSize'       => $read( 'imageSize', 'large' ),
+			'imageAlt'        => $read( 'imageAlt' ),
+			'imageLink'       => $read( 'imageLink', 'none' ),
+			'imageLinkUrl'    => $read( 'imageLinkUrl' ),
+			'imageLinkTarget' => 'on' === $read( 'imageLinkTarget', 'off' ),
 		);
 	}
 
@@ -187,10 +192,15 @@ final class FieldModuleRenderer {
 							),
 						)
 					),
-					// The two sets that make these modules worth having: the
-					// heading and the value styled apart from each other.
+					// The sets that make these modules worth having: the heading
+					// and the value styled apart from each other, and — where
+					// the field is a picture — the picture itself. A module that
+					// declares a setting and never emits its CSS is worse than
+					// one that does not offer it at all: the field accepts a
+					// value and nothing happens.
 					$elements->style( array( 'attrName' => 'title' ) ),
 					$elements->style( array( 'attrName' => 'value' ) ),
+					$elements->style( array( 'attrName' => 'image' ) ),
 					CssStyle::style(
 						array(
 							'selector' => $args['orderClass'],

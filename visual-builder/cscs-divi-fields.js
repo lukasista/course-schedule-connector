@@ -227,9 +227,18 @@
 
 					var children = [];
 
-					// styleComponents is what puts an administrator's design
-					// into the preview. If a version of Divi does not offer it,
-					// the field is still worth showing.
+					// styleComponents is what puts an administrator's design into
+					// the preview. If a version of Divi does not offer it, the
+					// field is still worth showing.
+					//
+					// Asking for the sub-elements here as well — title, value,
+					// image — was tried and changed nothing: inside the Theme
+					// Builder, Divi generates no CSS for these modules at all
+					// until the layout is saved, while on an ordinary page it
+					// does. The settings are stored and rendered correctly
+					// either way; it is the live preview in that one editor
+					// that lags, and guessing further at Divi's internals to
+					// chase it would cost more than it is worth.
 					if ( props.elements && 'function' === typeof props.elements.styleComponents ) {
 						children.push( props.elements.styleComponents( { attrName: 'module' } ) );
 					}

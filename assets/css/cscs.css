@@ -327,3 +327,22 @@
 		transition: none;
 	}
 }
+
+/*
+ * A picture field.
+ *
+ * The image fills the box it is given and no more. Everything else about it —
+ * its width, its border, its corners, its shadow — is set in the editor, on the
+ * picture rather than on the box around it, which is where a designer looks
+ * for it and where Divi's own image module puts it.
+ */
+.cscs-field__image {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+.cscs-field__image-link {
+	display: inline-block;
+	max-width: 100%;
+}

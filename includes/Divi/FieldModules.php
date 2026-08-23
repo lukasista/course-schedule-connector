@@ -146,11 +146,6 @@ final class FieldModules {
 			$metadata['title']  = (string) $field['title'];
 			$metadata['titles'] = (string) $field['title'];
 
-			$metadata['settings']['groups']['designHeadingText']['component']['props']['groupLabel'] =
-				__( 'Heading text', 'course-schedule-connector' );
-			$metadata['settings']['groups']['designValueText']['component']['props']['groupLabel'] =
-				__( 'Value text', 'course-schedule-connector' );
-
 			// Divi prints this beside every control in the group — "Text Size
 			// of the heading" — so it is a phrase rather than a noun, and has
 			// to be translated with the sentence it lands in mind. Written out
@@ -169,6 +164,29 @@ final class FieldModules {
 
 			$metadata['attributes']['field']['settings']['advanced']['source']['item']['component']['props']['options'] =
 				$sources[ $field['context'] ];
+
+			// The content fields were written in English in the generated file
+			// and handed over that way, so the one panel a person opens first
+			// was the one panel still in English. Their wording is this site's
+			// business, not the file's.
+			foreach ( self::field_labels() as $key => $wording ) {
+				if ( ! isset( $metadata['attributes']['field']['settings']['advanced'][ $key ] ) ) {
+					continue;
+				}
+
+				$metadata['attributes']['field']['settings']['advanced'][ $key ]['item']['label']       = $wording['label'];
+				$metadata['attributes']['field']['settings']['advanced'][ $key ]['item']['description'] = $wording['description'];
+
+				if ( isset( $wording['options'] ) ) {
+					$metadata['attributes']['field']['settings']['advanced'][ $key ]['item']['component']['props']['options'] = $wording['options'];
+				}
+			}
+
+			foreach ( self::group_labels() as $group => $label ) {
+				if ( isset( $metadata['settings']['groups'][ $group ] ) ) {
+					$metadata['settings']['groups'][ $group ]['component']['props']['groupLabel'] = $label;
+				}
+			}
 
 			// Divi computes nothing from the server's defaults, so they are
 			// handed over with the metadata. Without them there is no structure
@@ -198,6 +216,129 @@ final class FieldModules {
 	}
 
 	/**
+	 * Returns the wording of every content setting, in the site's language.
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	private static function field_labels(): array {
+		$labels = array(
+			'source'          => array(
+				'label'       => __( 'Source', 'course-schedule-connector' ),
+				'description' => __( 'Which course or trainer this shows. Left as it is, it follows the page — which is what a theme builder template wants.', 'course-schedule-connector' ),
+			),
+			'showLabel'       => array(
+				'label'       => __( 'Show a heading', 'course-schedule-connector' ),
+				'description' => __( 'Whether the field prints its name above or beside the value.', 'course-schedule-connector' ),
+			),
+			'label'           => array(
+				'label'       => __( 'Heading', 'course-schedule-connector' ),
+				'description' => __( 'What to call this field. Empty means the name it comes with.', 'course-schedule-connector' ),
+			),
+			'labelTag'        => array(
+				'label'       => __( 'Heading element', 'course-schedule-connector' ),
+				'description' => __( 'Which HTML element the heading is.', 'course-schedule-connector' ),
+			),
+			'valueTag'        => array(
+				'label'       => __( 'Value element', 'course-schedule-connector' ),
+				'description' => __( 'Which HTML element the value is.', 'course-schedule-connector' ),
+			),
+			'layout'          => array(
+				'label'       => __( 'Arrangement', 'course-schedule-connector' ),
+				'description' => __( 'Heading above the value, or beside it.', 'course-schedule-connector' ),
+				'options'     => array(
+					'stack'  => array( 'label' => __( 'Heading above', 'course-schedule-connector' ) ),
+					'inline' => array( 'label' => __( 'Side by side', 'course-schedule-connector' ) ),
+				),
+			),
+			'separator'       => array(
+				'label'       => __( 'After the heading', 'course-schedule-connector' ),
+				'description' => __( 'A colon, a dash — printed right after the heading.', 'course-schedule-connector' ),
+			),
+			'gap'             => array(
+				'label'       => __( 'Gap', 'course-schedule-connector' ),
+				'description' => __( 'Between the heading and the value.', 'course-schedule-connector' ),
+			),
+			'listStyle'       => array(
+				'label'       => __( 'Bullets', 'course-schedule-connector' ),
+				'description' => __( 'What the list is marked with.', 'course-schedule-connector' ),
+				'options'     => array(
+					'disc'    => array( 'label' => __( 'Round', 'course-schedule-connector' ) ),
+					'circle'  => array( 'label' => __( 'Hollow', 'course-schedule-connector' ) ),
+					'square'  => array( 'label' => __( 'Square', 'course-schedule-connector' ) ),
+					'ordered' => array( 'label' => __( 'Numbered', 'course-schedule-connector' ) ),
+					'none'    => array( 'label' => __( 'None', 'course-schedule-connector' ) ),
+				),
+			),
+			'emptyText'       => array(
+				'label'       => __( 'When there is nothing to show', 'course-schedule-connector' ),
+				'description' => __( 'Left empty, the module disappears rather than printing a heading over a blank space.', 'course-schedule-connector' ),
+			),
+			'imageSize'       => array(
+				'label'       => __( 'Size', 'course-schedule-connector' ),
+				'description' => __( 'Which of the sizes WordPress made of this picture to serve. Larger is not better: a portrait shown at 300 pixels costs the visitor nothing extra if 300 pixels is what is sent.', 'course-schedule-connector' ),
+				'options'     => self::image_sizes(),
+			),
+			'imageAlt'        => array(
+				'label'       => __( 'Alternative text', 'course-schedule-connector' ),
+				'description' => __( 'What the picture says to somebody who cannot see it. Empty means the name of the course or trainer, which is usually right.', 'course-schedule-connector' ),
+			),
+			'imageLink'       => array(
+				'label'       => __( 'Links to', 'course-schedule-connector' ),
+				'description' => __( 'Where the picture takes a visitor who clicks it.', 'course-schedule-connector' ),
+				'options'     => array(
+					'none'   => array( 'label' => __( 'Nowhere', 'course-schedule-connector' ) ),
+					'post'   => array( 'label' => __( 'Its own page', 'course-schedule-connector' ) ),
+					'file'   => array( 'label' => __( 'The picture at full size', 'course-schedule-connector' ) ),
+					'custom' => array( 'label' => __( 'An address of your own', 'course-schedule-connector' ) ),
+				),
+			),
+			'imageLinkUrl'    => array(
+				'label'       => __( 'Address', 'course-schedule-connector' ),
+				'description' => __( 'Used when the picture links to an address of your own.', 'course-schedule-connector' ),
+			),
+			'imageLinkTarget' => array(
+				'label'       => __( 'Open in a new window', 'course-schedule-connector' ),
+				'description' => __( 'A new window is a surprise, so it is off unless somebody asks for it.', 'course-schedule-connector' ),
+			),
+		);
+
+		return $labels;
+	}
+
+	/**
+	 * Returns the design and content group names, in the site's language.
+	 *
+	 * @return array<string, string>
+	 */
+	private static function group_labels(): array {
+		return array(
+			'designHeadingText'  => __( 'Heading text', 'course-schedule-connector' ),
+			'designValueText'    => __( 'Value text', 'course-schedule-connector' ),
+			'contentPicture'     => __( 'Picture', 'course-schedule-connector' ),
+			'contentPictureLink' => __( 'Link', 'course-schedule-connector' ),
+		);
+	}
+
+	/**
+	 * Returns the image sizes this site has, as a Divi select expects them.
+	 *
+	 * Read from the site rather than listed: a theme registers sizes, and a
+	 * fixed list would refuse the one somebody added for exactly this.
+	 *
+	 * @return array<string, array<string, string>>
+	 */
+	private static function image_sizes(): array {
+		$options = array();
+
+		foreach ( Fields::sizes() as $size ) {
+			$options[ $size ] = array( 'label' => $size );
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns the courses or trainers a module may be pointed at.	/**
 	 * Returns the courses or trainers a module may be pointed at.
 	 *
 	 * @param string $post_type Post type.
