@@ -155,6 +155,12 @@ final class CourseRepository {
 		update_post_meta( $post_id, '_cscs_synced_at', time() );
 
 		wp_set_object_terms( $post_id, $this->term_names( $course->trainer_name ), PostType::TRAINER );
+
+		// The normalised name is written after the meta loop rather than in it,
+		// so that a site which has locked the trainer name keeps the key of the
+		// name it actually shows. A key that disagreed with the name beside it
+		// would point the course at somebody else's page.
+		$this->pair_with_trainer( $post_id, $course );
 		wp_set_object_terms( $post_id, $this->term_names( array_values( $course->tags ) ), PostType::TAG );
 
 		/**
@@ -168,6 +174,45 @@ final class CourseRepository {
 		do_action( 'cscs_course_saved', $post_id, $course );
 
 		return $post_id;
+	}
+
+	/**
+	 * Ties the course to a trainer's page, making the page if there is none.
+	 *
+	 * @param int    $post_id Course post id.
+	 * @param Course $course  Course record.
+	 * @return void
+	 */
+	private function pair_with_trainer( int $post_id, Course $course ): void {
+		$name = (string) get_post_meta( $post_id, '_cscs_trainer_name', true );
+		$name = '' === $name ? $course->trainer_name : $name;
+		$key  = TrainerRepository::key( $name );
+
+		if ( '' === $key ) {
+			delete_post_meta( $post_id, TrainerType::META_KEY_NAME );
+
+			return;
+		}
+
+		update_post_meta( $post_id, TrainerType::META_KEY_NAME, $key );
+
+		/**
+		 * Filters whether a synchronisation may create a trainer's page.
+		 *
+		 * A site that would rather write its trainers by hand switches this off
+		 * and keeps the pairing: the courses still find a page, they just do not
+		 * bring one into being.
+		 *
+		 * @since 0.5.0
+		 *
+		 * @param bool   $create Whether to create missing trainer pages.
+		 * @param string $name   Trainer name.
+		 */
+		if ( ! apply_filters( 'cscs_create_trainer_pages', true, $name ) ) {
+			return;
+		}
+
+		( new TrainerRepository() )->ensure( $name, $course->trainer_image );
 	}
 
 	/**

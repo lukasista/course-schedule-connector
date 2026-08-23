@@ -18,6 +18,7 @@ use CSCS\Admin\Capabilities;
 use CSCS\Admin\CourseEditor;
 use CSCS\Admin\CourseList;
 use CSCS\Admin\Menu;
+use CSCS\Admin\TrainerEditor;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
 use CSCS\Cli\CapsCommand;
@@ -26,12 +27,15 @@ use CSCS\Cli\MakeupCommand;
 use CSCS\Cli\SetsCommand;
 use CSCS\Cli\SettingsCommand;
 use CSCS\Cli\SyncCommand;
+use CSCS\Cli\TrainerCommand;
 use CSCS\Data\CourseRepository;
 use CSCS\Data\DisplaySetRepository;
 use CSCS\Data\LessonRepository;
 use CSCS\Data\PostType;
 use CSCS\Data\RoomMap;
 use CSCS\Data\Schema;
+use CSCS\Data\TrainerRepository;
+use CSCS\Data\TrainerType;
 use CSCS\Render\Assets;
 use CSCS\Render\Block;
 use CSCS\Divi\DesignGuard;
@@ -40,6 +44,7 @@ use CSCS\Render\Renderer;
 use CSCS\Render\RestPreview;
 use CSCS\Render\Shortcodes;
 use CSCS\Render\SingleCourse;
+use CSCS\Render\SingleTrainer;
 use CSCS\Sync\Logger;
 use CSCS\Sync\Matcher;
 use CSCS\Sync\Retention;
@@ -56,6 +61,16 @@ defined( 'ABSPATH' ) || exit;
  * on a remote system.
  */
 final class Plugin {
+
+	/**
+	 * Option recording which set of URLs the rewrite rules were built for.
+	 */
+	public const REWRITE_OPTION = 'cscs_rewrite_version';
+
+	/**
+	 * Raise this whenever the plugin adds or renames a URL.
+	 */
+	public const REWRITE_VERSION = 2;
 
 	/**
 	 * Singleton instance.
@@ -116,18 +131,28 @@ final class Plugin {
 		// nothing anywhere says why.
 		Capabilities::ensure();
 
+		// A post type added in a later version brings URLs with it, and those
+		// only work once the rewrite rules have been rebuilt. Activation is the
+		// obvious moment and the wrong one: an update is not an activation, and
+		// every trainer page on an already-running site would answer 404 with
+		// nothing to say why. Same reasoning as the schema and the capabilities.
+		$this->ensure_permalinks();
+
 		add_action( 'init', array( $this, 'load_translations' ), 5 );
 		add_action( 'init', array( PostType::class, 'register' ) );
+		add_action( 'init', array( TrainerType::class, 'register' ) );
 
 		if ( is_admin() ) {
 			( new Menu( $this ) )->register();
 			( new CourseEditor( $this ) )->register();
+			( new TrainerEditor( $this ) )->register();
 			( new CourseList() )->register();
 		}
 		( new Assets( $this ) )->register();
 		( new Shortcodes( $this ) )->register();
 		( new Block( $this ) )->register();
 		( new SingleCourse( $this ) )->register();
+		( new SingleTrainer( $this ) )->register();
 		( new RestPreview( $this ) )->register();
 		( new DisplayModule( $this ) )->register();
 		( new DesignGuard() )->register();
@@ -143,6 +168,7 @@ final class Plugin {
 			MakeupCommand::register( $this );
 			SetsCommand::register( $this );
 			CapsCommand::register( $this );
+			TrainerCommand::register( $this );
 			DiviCommand::register( $this );
 		}
 
@@ -272,6 +298,15 @@ final class Plugin {
 	}
 
 	/**
+	 * Returns the trainer repository.
+	 *
+	 * @return TrainerRepository
+	 */
+	public function trainers(): TrainerRepository {
+		return $this->service( 'trainers', static fn(): TrainerRepository => new TrainerRepository() );
+	}
+
+	/**
 	 * Returns the renderer.
 	 *
 	 * @return Renderer
@@ -360,6 +395,28 @@ final class Plugin {
 	}
 
 	/**
+	 * Rebuilds the rewrite rules once, when this version adds URLs.
+	 *
+	 * @return void
+	 */
+	private function ensure_permalinks(): void {
+		if ( self::REWRITE_VERSION === (int) get_option( self::REWRITE_OPTION, 0 ) ) {
+			return;
+		}
+
+		// Late on init, after every post type this plugin and any other has
+		// registered: flushing before they exist writes rules without them.
+		add_action(
+			'init',
+			static function (): void {
+				flush_rewrite_rules( false );
+				update_option( self::REWRITE_OPTION, self::REWRITE_VERSION, true );
+			},
+			99
+		);
+	}
+
+	/**
 	 * Prepares the site on activation.
 	 *
 	 * @return void
@@ -369,6 +426,7 @@ final class Plugin {
 		Schema::install();
 		Capabilities::install();
 		PostType::register();
+		TrainerType::register();
 		self::instance()->scheduler()->schedule();
 		flush_rewrite_rules();
 	}

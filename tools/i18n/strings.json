@@ -1,0 +1,2262 @@
+[
+    {
+        "singular": "%1$d courses and %2$d occurrences retrieved.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:205"
+        ]
+    },
+    {
+        "singular": "%d class assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone.",
+        "plural": "%d classes assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone.",
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:411"
+        ]
+    },
+    {
+        "singular": "%d make-up lesson saved. Assigned ones are in the Assigned list, where any of them can be undone.",
+        "plural": "%d make-up lessons saved. Assigned ones are in the Assigned list, where any of them can be undone.",
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:420"
+        ]
+    },
+    {
+        "singular": "%d occurrences should belong to a course and do not. Everything else is either matched or a recognised rental.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:102"
+        ]
+    },
+    {
+        "singular": "%d repeat assigned like its series.",
+        "plural": "%d repeats assigned like their series.",
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:473"
+        ]
+    },
+    {
+        "singular": "%d room configured.",
+        "plural": "%d rooms configured.",
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:199"
+        ]
+    },
+    {
+        "singular": "%d setting(s) saved.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:71"
+        ]
+    },
+    {
+        "singular": "%d suggestion applied. Check it before relying on it.",
+        "plural": "%d suggestions applied. Check them before relying on them.",
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:511"
+        ]
+    },
+    {
+        "singular": "%d — created here, not in iSport",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:195"
+        ]
+    },
+    {
+        "singular": "A ceiling the scheduled jobs can never exceed, whatever the intervals say.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:91"
+        ]
+    },
+    {
+        "singular": "A class with no price shows",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:114"
+        ]
+    },
+    {
+        "singular": "A class you can attend instead of one you missed.",
+        "plural": null,
+        "refs": [
+            "templates/single-course.php:96"
+        ]
+    },
+    {
+        "singular": "A course with no price always shows as free. This is about hall rentals and open sessions, where \"free\" would be misleading.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:120"
+        ]
+    },
+    {
+        "singular": "A display set is a named answer to \"what should this listing show\": which columns, in what order, which rooms and trainers, how far ahead, what to say when there is nothing. Pages refer to the set by name, so changing the set changes every page that uses it — without opening the page builder, and without touching the design.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:76"
+        ]
+    },
+    {
+        "singular": "A hall rented to somebody else occupies the room but is not a course of yours. On a full timetable of hall occupancy that matters; on the home page it usually does not.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:274"
+        ]
+    },
+    {
+        "singular": "A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course. Nothing here is final: an assignment can be undone in the Assigned list.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:103"
+        ]
+    },
+    {
+        "singular": "A make-up slot usually repeats: the same name, the same weekday, the same hour, the same room. Where you have already assigned one of a series, the others can be assigned like it in one press, and each row offers the same button on its own. Where two occurrences of one series were assigned to two different courses, nothing is offered — the series is not a series. The trainer is not part of the comparison, because the timetable fills it in some weeks and leaves it blank others; it is on screen for you to weigh.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:182"
+        ]
+    },
+    {
+        "singular": "A sentence or two that makes this a person rather than a name on a timetable.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:164"
+        ]
+    },
+    {
+        "singular": "A set needs a name.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:561"
+        ]
+    },
+    {
+        "singular": "A suggestion is offered only where the lesson names its course and exactly one course fits. Filling them in records those, and only those: anything already assigned is left alone, and a suggestion you disagree with is changed like any other row. Nothing here is guessed on your behalf at synchronisation time.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:185"
+        ]
+    },
+    {
+        "singular": "A ticked field keeps whatever is written here. Synchronisation refreshes everything else and leaves this alone, for good.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:164"
+        ]
+    },
+    {
+        "singular": "About the trainer",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:73"
+        ]
+    },
+    {
+        "singular": "Actions",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:141"
+        ]
+    },
+    {
+        "singular": "Activities",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:242",
+            "includes/Data/PostType.php:162"
+        ]
+    },
+    {
+        "singular": "Activities that occupy a slot in the timetable but accept no payments or registrations: courses run by outside lecturers, make-up lessons, individual training. Nothing in the remote data marks them, so they are listed here, one per line. A name is matched loosely, so \"Zdravé cvičení\" also covers \"Zdravé cvičení s overbaly\". A course that genuinely matches always wins over this list.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:130"
+        ]
+    },
+    {
+        "singular": "Activities that take no bookings",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:222",
+            "includes/Admin/Screen/SettingsPage.php:128",
+            "includes/Admin/Screen/UnmatchedPage.php:136"
+        ]
+    },
+    {
+        "singular": "Activity",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:130",
+            "includes/Admin/Screen/UnmatchedPage.php:165",
+            "includes/Admin/Screen/DisplaySetsPage.php:466",
+            "includes/Admin/CourseEditor.php:199",
+            "includes/Data/PostType.php:163"
+        ]
+    },
+    {
+        "singular": "Add a line",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:220"
+        ]
+    },
+    {
+        "singular": "Add trainer",
+        "plural": null,
+        "refs": [
+            "includes/Data/TrainerType.php:95"
+        ]
+    },
+    {
+        "singular": "Address of the iSport System",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:87"
+        ]
+    },
+    {
+        "singular": "All",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:119"
+        ]
+    },
+    {
+        "singular": "All rooms",
+        "plural": null,
+        "refs": [
+            "templates/partials/controls.php:58"
+        ]
+    },
+    {
+        "singular": "Always show it",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:143"
+        ]
+    },
+    {
+        "singular": "Always shown",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:89"
+        ]
+    },
+    {
+        "singular": "An empty name uses the one from iSport. Rooms with the same order are listed alphabetically, so leaving every order at nought is a perfectly good answer. A colour is used only when \"Use\" is ticked; a hidden room is left out of every listing but keeps its classes counted.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:133"
+        ]
+    },
+    {
+        "singular": "As the settings say",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:93",
+            "includes/Admin/Screen/DisplaySetsPage.php:281",
+            "includes/Admin/CourseEditor.php:142"
+        ]
+    },
+    {
+        "singular": "Ascending",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:309"
+        ]
+    },
+    {
+        "singular": "Ask an administrator to set it.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:74"
+        ]
+    },
+    {
+        "singular": "Assign like the rest of this series: %s",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:289"
+        ]
+    },
+    {
+        "singular": "Assign the repeats like their series",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:177"
+        ]
+    },
+    {
+        "singular": "Assigned",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:118"
+        ]
+    },
+    {
+        "singular": "Assigned by hand",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:139"
+        ]
+    },
+    {
+        "singular": "Assignment undone. The occurrence is unassigned again.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:441"
+        ]
+    },
+    {
+        "singular": "At or below this many free places the listing says so. Zero switches the warning off.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:325"
+        ]
+    },
+    {
+        "singular": "Belongs to",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:169"
+        ]
+    },
+    {
+        "singular": "Between two dates",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:251"
+        ]
+    },
+    {
+        "singular": "Booking button",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:55",
+            "includes/Admin/Screen/DisplaySetsPage.php:477",
+            "includes/Admin/CourseEditor.php:139"
+        ]
+    },
+    {
+        "singular": "Booking button changed on %d course.",
+        "plural": "Booking button changed on %d courses.",
+        "refs": [
+            "includes/Admin/CourseList.php:193"
+        ]
+    },
+    {
+        "singular": "Booking button: always show",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:122"
+        ]
+    },
+    {
+        "singular": "Booking button: as the settings say",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:124"
+        ]
+    },
+    {
+        "singular": "Booking button: never show",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:123"
+        ]
+    },
+    {
+        "singular": "Brought in from iSport and stored in the media library. To use another, set a featured image — it wins, and this one stays where it is.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:290"
+        ]
+    },
+    {
+        "singular": "Button text",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:334"
+        ]
+    },
+    {
+        "singular": "Cancelled",
+        "plural": null,
+        "refs": [
+            "includes/Render/Listing.php:422",
+            "includes/Admin/Screen/Overview.php:225",
+            "includes/Admin/Screen/DisplaySetsPage.php:476"
+        ]
+    },
+    {
+        "singular": "Cancelled classes",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:278"
+        ]
+    },
+    {
+        "singular": "Capacity",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:204"
+        ]
+    },
+    {
+        "singular": "Choose a display set in the block settings.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Block.php:109"
+        ]
+    },
+    {
+        "singular": "Choose a display set in the module settings.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/ModuleRenderer.php:81"
+        ]
+    },
+    {
+        "singular": "Class occurrences stored",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:219"
+        ]
+    },
+    {
+        "singular": "Class synchronisation interval",
+        "plural": null,
+        "refs": [
+            "includes/Sync/Scheduler.php:106"
+        ]
+    },
+    {
+        "singular": "Classes",
+        "plural": null,
+        "refs": [
+            "includes/Render/CourseDetail.php:106",
+            "includes/Admin/Screen/DisplaySetsPage.php:132",
+            "includes/Admin/Screen/DisplaySetsPage.php:196"
+        ]
+    },
+    {
+        "singular": "Colour",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:87"
+        ]
+    },
+    {
+        "singular": "Column",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:211"
+        ]
+    },
+    {
+        "singular": "Columns",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:111",
+            "includes/Admin/Screen/DisplaySetsPage.php:203"
+        ]
+    },
+    {
+        "singular": "Connection",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:110",
+            "includes/Admin/Screen/SettingsPage.php:82"
+        ]
+    },
+    {
+        "singular": "Consecutive failures",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:118"
+        ]
+    },
+    {
+        "singular": "Contact",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:56"
+        ]
+    },
+    {
+        "singular": "Contact and booking",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:74"
+        ]
+    },
+    {
+        "singular": "Course",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:464",
+            "includes/Admin/Screen/DisplaySetsPage.php:465",
+            "includes/Data/PostType.php:61"
+        ]
+    },
+    {
+        "singular": "Course \"%s\" created and this class tied to it.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:250"
+        ]
+    },
+    {
+        "singular": "Course %d, which is no longer stored",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:253"
+        ]
+    },
+    {
+        "singular": "Course created, but the matching could not be re-run: %s",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:243"
+        ]
+    },
+    {
+        "singular": "Course id",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:192"
+        ]
+    },
+    {
+        "singular": "Course name",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:310"
+        ]
+    },
+    {
+        "singular": "Course refresh interval (seconds)",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:102"
+        ]
+    },
+    {
+        "singular": "Course synchronisation interval",
+        "plural": null,
+        "refs": [
+            "includes/Sync/Scheduler.php:101"
+        ]
+    },
+    {
+        "singular": "Course tag",
+        "plural": null,
+        "refs": [
+            "includes/Data/PostType.php:167"
+        ]
+    },
+    {
+        "singular": "Course tags",
+        "plural": null,
+        "refs": [
+            "includes/Data/PostType.php:166"
+        ]
+    },
+    {
+        "singular": "Course this class belongs to",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:281"
+        ]
+    },
+    {
+        "singular": "Course this lesson stands in for",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:244"
+        ]
+    },
+    {
+        "singular": "Courses",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Menu.php:93",
+            "includes/Admin/Menu.php:94",
+            "includes/Admin/Screen/DisplaySetsPage.php:133",
+            "includes/Admin/Screen/DisplaySetsPage.php:195",
+            "includes/Data/PostType.php:60",
+            "includes/Data/PostType.php:62"
+        ]
+    },
+    {
+        "singular": "Courses are what people sign up to; classes are the individual times in the timetable. Changing this resets the columns, since the two have different ones.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:198"
+        ]
+    },
+    {
+        "singular": "Courses this trainer runs",
+        "plural": null,
+        "refs": [
+            "templates/single-trainer.php:79",
+            "includes/Admin/TrainerEditor.php:82"
+        ]
+    },
+    {
+        "singular": "Courses with no places left",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:288"
+        ]
+    },
+    {
+        "singular": "Create set",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:342"
+        ]
+    },
+    {
+        "singular": "Date",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:128",
+            "includes/Admin/Screen/UnmatchedPage.php:163",
+            "includes/Admin/Screen/DisplaySetsPage.php:468"
+        ]
+    },
+    {
+        "singular": "Day",
+        "plural": null,
+        "refs": [
+            "includes/Render/CourseDetail.php:100"
+        ]
+    },
+    {
+        "singular": "Days and times",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:467"
+        ]
+    },
+    {
+        "singular": "Days kept closely up to date",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:104"
+        ]
+    },
+    {
+        "singular": "Days of past timetable to keep",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:105"
+        ]
+    },
+    {
+        "singular": "Days:",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:254"
+        ]
+    },
+    {
+        "singular": "Decides how far ahead the timetable is retrieved.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:101"
+        ]
+    },
+    {
+        "singular": "Delete",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:144"
+        ]
+    },
+    {
+        "singular": "Delete all data when the plugin is deleted",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:157"
+        ]
+    },
+    {
+        "singular": "Descending",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:310"
+        ]
+    },
+    {
+        "singular": "Description from iSport",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:311"
+        ]
+    },
+    {
+        "singular": "Detail",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:251"
+        ]
+    },
+    {
+        "singular": "Display",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:109"
+        ]
+    },
+    {
+        "singular": "Display set",
+        "plural": null,
+        "refs": [
+            "includes/Divi/DisplayModule.php:223"
+        ]
+    },
+    {
+        "singular": "Display sets",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Menu.php:111",
+            "includes/Admin/Menu.php:112",
+            "includes/Admin/Screen/DisplaySetsPage.php:73"
+        ]
+    },
+    {
+        "singular": "E-mail",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:124"
+        ]
+    },
+    {
+        "singular": "Edit",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:142"
+        ]
+    },
+    {
+        "singular": "Edit course",
+        "plural": null,
+        "refs": [
+            "includes/Data/PostType.php:65"
+        ]
+    },
+    {
+        "singular": "Edit set",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:165"
+        ]
+    },
+    {
+        "singular": "Edit the new course",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:125"
+        ]
+    },
+    {
+        "singular": "Edit trainer",
+        "plural": null,
+        "refs": [
+            "includes/Data/TrainerType.php:96"
+        ]
+    },
+    {
+        "singular": "Even when shown, the button hides itself while the course is full or iSport reports that it takes no registrations.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:146"
+        ]
+    },
+    {
+        "singular": "Everything somebody tied to a course by hand, whatever the matching would have decided. Choosing \"belongs to no course\" here gives the class back to the matching, which is how an assignment made by mistake is undone.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:153"
+        ]
+    },
+    {
+        "singular": "Few places left at",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:322"
+        ]
+    },
+    {
+        "singular": "Fields synchronisation must not touch",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:83"
+        ]
+    },
+    {
+        "singular": "Fill in and save the suggestions",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:173"
+        ]
+    },
+    {
+        "singular": "Finished",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:77",
+            "includes/Admin/CourseEditor.php:327"
+        ]
+    },
+    {
+        "singular": "For example \"Children's courses — home page\". The shortcode name is made from this and never changes afterwards.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:180"
+        ]
+    },
+    {
+        "singular": "For example \"Sign up in iSport\".",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:334"
+        ]
+    },
+    {
+        "singular": "For example https://example.isportsystem.cz — https only. An address inside a private network is refused.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:89"
+        ]
+    },
+    {
+        "singular": "For example when to ring, or that places are arranged individually.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:135"
+        ]
+    },
+    {
+        "singular": "Free",
+        "plural": null,
+        "refs": [
+            "includes/Render/CourseDetail.php:98",
+            "includes/Render/Listing.php:482",
+            "includes/Render/Listing.php:486",
+            "includes/Admin/Screen/SettingsPage.php:118",
+            "includes/Admin/CourseEditor.php:342"
+        ]
+    },
+    {
+        "singular": "From iSport",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:91"
+        ]
+    },
+    {
+        "singular": "From:",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:258"
+        ]
+    },
+    {
+        "singular": "Full",
+        "plural": null,
+        "refs": [
+            "includes/Render/CourseDetail.php:438",
+            "includes/Render/Listing.php:314"
+        ]
+    },
+    {
+        "singular": "Heading",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:333"
+        ]
+    },
+    {
+        "singular": "Hidden",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:88"
+        ]
+    },
+    {
+        "singular": "Hide",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:119"
+        ]
+    },
+    {
+        "singular": "Hide them",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:283"
+        ]
+    },
+    {
+        "singular": "How far ahead",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:245"
+        ]
+    },
+    {
+        "singular": "In iSport",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:84"
+        ]
+    },
+    {
+        "singular": "In the form 2026-09-11. Applies to every course at once.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:100"
+        ]
+    },
+    {
+        "singular": "Include them",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:272"
+        ]
+    },
+    {
+        "singular": "Individual courses can override this.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:123"
+        ]
+    },
+    {
+        "singular": "Interests",
+        "plural": null,
+        "refs": [
+            "templates/single-trainer.php:68",
+            "includes/Admin/TrainerEditor.php:150"
+        ]
+    },
+    {
+        "singular": "Items per page",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:315"
+        ]
+    },
+    {
+        "singular": "Job",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:248"
+        ]
+    },
+    {
+        "singular": "Label",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:213"
+        ]
+    },
+    {
+        "singular": "Last retrieved",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:206"
+        ]
+    },
+    {
+        "singular": "Leave empty to show the trainer iSport names.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:120"
+        ]
+    },
+    {
+        "singular": "Leave them out",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:292"
+        ]
+    },
+    {
+        "singular": "Left empty, no heading is printed.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:333"
+        ]
+    },
+    {
+        "singular": "Make this a course of its own",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:292"
+        ]
+    },
+    {
+        "singular": "Make-up classes for this course",
+        "plural": null,
+        "refs": [
+            "templates/single-course.php:95"
+        ]
+    },
+    {
+        "singular": "Make-up lessons",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Menu.php:133",
+            "includes/Admin/Menu.php:134",
+            "includes/Admin/Screen/MakeupPage.php:100",
+            "includes/Admin/Screen/Overview.php:223",
+            "includes/Admin/Screen/SettingsPage.php:136"
+        ]
+    },
+    {
+        "singular": "Maximum requests per hour",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:91"
+        ]
+    },
+    {
+        "singular": "Motto",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:168"
+        ]
+    },
+    {
+        "singular": "Name",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:108",
+            "includes/Admin/Screen/DisplaySetsPage.php:173",
+            "includes/Admin/Screen/DisplaySetsPage.php:497"
+        ]
+    },
+    {
+        "singular": "Name on the website",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:85",
+            "includes/Admin/Screen/RoomsPage.php:103"
+        ]
+    },
+    {
+        "singular": "Names that mark a class as a replacement for one somebody missed, one per line, matched the same loose way. These are counted and shown separately from activities that take no bookings, because a make-up lesson belongs to a course — which one is recorded under iSport → Make-up lessons.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:138"
+        ]
+    },
+    {
+        "singular": "Never show it",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:144"
+        ]
+    },
+    {
+        "singular": "Never shown",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:90"
+        ]
+    },
+    {
+        "singular": "New set",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:165"
+        ]
+    },
+    {
+        "singular": "New trainer",
+        "plural": null,
+        "refs": [
+            "includes/Data/TrainerType.php:97"
+        ]
+    },
+    {
+        "singular": "Next week →",
+        "plural": null,
+        "refs": [
+            "templates/partials/controls.php:42"
+        ]
+    },
+    {
+        "singular": "Next →",
+        "plural": null,
+        "refs": [
+            "templates/partials/pager.php:42"
+        ]
+    },
+    {
+        "singular": "No",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:126"
+        ]
+    },
+    {
+        "singular": "No courses are stored yet, so there is nothing to choose from. Synchronise first.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:112"
+        ]
+    },
+    {
+        "singular": "No courses found.",
+        "plural": null,
+        "refs": [
+            "includes/Data/PostType.php:64"
+        ]
+    },
+    {
+        "singular": "No courses name this trainer yet. Pairing is by name: a course is tied to this page when the trainer iSport names on it matches the title above, ignoring spacing and capitals.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:237"
+        ]
+    },
+    {
+        "singular": "No lesson names a course clearly enough to suggest one.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:506"
+        ]
+    },
+    {
+        "singular": "No longer offered by iSport",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:78",
+            "includes/Admin/CourseEditor.php:328"
+        ]
+    },
+    {
+        "singular": "No photograph yet. iSport has none for this trainer, or none has been retrieved. Set a featured image to use your own.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:298"
+        ]
+    },
+    {
+        "singular": "No rooms yet, because no timetable is stored. Synchronise first.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:93"
+        ]
+    },
+    {
+        "singular": "No sets yet. The form below makes the first one.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:117"
+        ]
+    },
+    {
+        "singular": "No trainers found.",
+        "plural": null,
+        "refs": [
+            "includes/Data/TrainerType.php:100"
+        ]
+    },
+    {
+        "singular": "No trainers in the bin.",
+        "plural": null,
+        "refs": [
+            "includes/Data/TrainerType.php:101"
+        ]
+    },
+    {
+        "singular": "No usable address of an iSport System installation is configured, so nothing is being retrieved.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:70"
+        ]
+    },
+    {
+        "singular": "Note",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:132"
+        ]
+    },
+    {
+        "singular": "Nothing changed.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:381",
+            "includes/Admin/Screen/UnmatchedPage.php:393"
+        ]
+    },
+    {
+        "singular": "Nothing has run yet.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:238"
+        ]
+    },
+    {
+        "singular": "Nothing is listed here at the moment.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Listing.php:292"
+        ]
+    },
+    {
+        "singular": "Nothing ticked means every activity.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:242"
+        ]
+    },
+    {
+        "singular": "Nothing ticked means every room.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:384"
+        ]
+    },
+    {
+        "singular": "Nothing ticked means every trainer.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:241"
+        ]
+    },
+    {
+        "singular": "Nothing to choose from yet. Synchronise first.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:371",
+            "includes/Admin/Screen/DisplaySetsPage.php:414"
+        ]
+    },
+    {
+        "singular": "Nothing to show here.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:160",
+            "includes/Admin/Screen/UnmatchedPage.php:174"
+        ]
+    },
+    {
+        "singular": "Nothing to undo.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:438"
+        ]
+    },
+    {
+        "singular": "Nothing was assigned: the series either disagrees about its course or has no assignment to copy.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:468"
+        ]
+    },
+    {
+        "singular": "Number of classes",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:473"
+        ]
+    },
+    {
+        "singular": "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:159"
+        ]
+    },
+    {
+        "singular": "On request",
+        "plural": null,
+        "refs": [
+            "includes/Render/Listing.php:487",
+            "includes/Admin/Screen/SettingsPage.php:117"
+        ]
+    },
+    {
+        "singular": "One qualification to a line — a coaching licence, a course completed, a degree. They are printed in the order they are in here.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:144"
+        ]
+    },
+    {
+        "singular": "Open settings",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:72"
+        ]
+    },
+    {
+        "singular": "Open this course in iSport",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:225"
+        ]
+    },
+    {
+        "singular": "Order",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:86",
+            "includes/Admin/Screen/DisplaySetsPage.php:212"
+        ]
+    },
+    {
+        "singular": "Order and size",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:298"
+        ]
+    },
+    {
+        "singular": "Outcome",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:250"
+        ]
+    },
+    {
+        "singular": "Overview",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Menu.php:84",
+            "includes/Admin/Menu.php:85"
+        ]
+    },
+    {
+        "singular": "Page %1$d of %2$d",
+        "plural": null,
+        "refs": [
+            "templates/partials/pager.php:33"
+        ]
+    },
+    {
+        "singular": "Pages",
+        "plural": null,
+        "refs": [
+            "templates/partials/pager.php:22"
+        ]
+    },
+    {
+        "singular": "Paired automatically. The trainer’s page shows the same list to visitors.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:258"
+        ]
+    },
+    {
+        "singular": "Past occurrences older than this are removed. Courses are never deleted.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:105"
+        ]
+    },
+    {
+        "singular": "Photograph",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:90"
+        ]
+    },
+    {
+        "singular": "Places left",
+        "plural": null,
+        "refs": [
+            "includes/Render/CourseDetail.php:109",
+            "includes/Admin/Screen/DisplaySetsPage.php:475",
+            "includes/Admin/Screen/DisplaySetsPage.php:500"
+        ]
+    },
+    {
+        "singular": "Price",
+        "plural": null,
+        "refs": [
+            "includes/Render/CourseDetail.php:96",
+            "includes/Admin/Screen/DisplaySetsPage.php:474",
+            "includes/Admin/Screen/DisplaySetsPage.php:499",
+            "includes/Admin/CourseEditor.php:201",
+            "includes/Admin/CourseEditor.php:314"
+        ]
+    },
+    {
+        "singular": "Qualifications",
+        "plural": null,
+        "refs": [
+            "templates/single-trainer.php:57",
+            "includes/Admin/TrainerEditor.php:143"
+        ]
+    },
+    {
+        "singular": "Recent runs",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:155"
+        ]
+    },
+    {
+        "singular": "Records",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:249"
+        ]
+    },
+    {
+        "singular": "Referred to as \"%s\", which stays as it is so that pages using it keep working.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:183"
+        ]
+    },
+    {
+        "singular": "Removal",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:152"
+        ]
+    },
+    {
+        "singular": "Remove",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:215"
+        ]
+    },
+    {
+        "singular": "Rentals and open sessions",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:221",
+            "includes/Admin/Screen/UnmatchedPage.php:135"
+        ]
+    },
+    {
+        "singular": "Rentals and outside clubs",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:268"
+        ]
+    },
+    {
+        "singular": "Request timeout (seconds)",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:92"
+        ]
+    },
+    {
+        "singular": "Requests paused",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:122"
+        ]
+    },
+    {
+        "singular": "Requests resumed and cached responses dropped.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:185"
+        ]
+    },
+    {
+        "singular": "Requests this hour",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:114"
+        ]
+    },
+    {
+        "singular": "Resume paused requests",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:149"
+        ]
+    },
+    {
+        "singular": "Retries",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:93"
+        ]
+    },
+    {
+        "singular": "Room",
+        "plural": null,
+        "refs": [
+            "templates/partials/controls.php:54",
+            "includes/Render/CourseDetail.php:107",
+            "includes/Admin/Screen/MakeupPage.php:131",
+            "includes/Admin/Screen/UnmatchedPage.php:166",
+            "includes/Admin/Screen/DisplaySetsPage.php:470",
+            "includes/Admin/Screen/DisplaySetsPage.php:501",
+            "includes/Admin/CourseEditor.php:313",
+            "includes/Data/PostType.php:155"
+        ]
+    },
+    {
+        "singular": "Rooms",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Menu.php:144",
+            "includes/Admin/Menu.php:145",
+            "includes/Admin/Screen/RoomsPage.php:68",
+            "includes/Admin/Screen/DisplaySetsPage.php:368",
+            "includes/Data/PostType.php:154"
+        ]
+    },
+    {
+        "singular": "Running",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:76",
+            "includes/Admin/CourseEditor.php:326"
+        ]
+    },
+    {
+        "singular": "Runs",
+        "plural": null,
+        "refs": [
+            "includes/Render/CourseDetail.php:102"
+        ]
+    },
+    {
+        "singular": "Runs from",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:202"
+        ]
+    },
+    {
+        "singular": "Runs from and to",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:472"
+        ]
+    },
+    {
+        "singular": "Runs to",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:203"
+        ]
+    },
+    {
+        "singular": "Save assignments",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:170",
+            "includes/Admin/Screen/UnmatchedPage.php:185"
+        ]
+    },
+    {
+        "singular": "Save rooms",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:129"
+        ]
+    },
+    {
+        "singular": "Save set",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:342"
+        ]
+    },
+    {
+        "singular": "Saved, but the matching could not be re-run: %s",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:404"
+        ]
+    },
+    {
+        "singular": "Saving re-runs the matching over everything already stored, so an assignment takes effect at once and without a request to iSport.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:189"
+        ]
+    },
+    {
+        "singular": "Search courses",
+        "plural": null,
+        "refs": [
+            "includes/Data/PostType.php:63"
+        ]
+    },
+    {
+        "singular": "Search trainers",
+        "plural": null,
+        "refs": [
+            "includes/Data/TrainerType.php:99"
+        ]
+    },
+    {
+        "singular": "Set created. Refer to it as \"%s\".",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:567"
+        ]
+    },
+    {
+        "singular": "Set deleted. Any page still referring to it now shows nothing.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:592"
+        ]
+    },
+    {
+        "singular": "Set saved.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:570"
+        ]
+    },
+    {
+        "singular": "Sets",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:103"
+        ]
+    },
+    {
+        "singular": "Settings",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Menu.php:155",
+            "includes/Admin/Menu.php:156"
+        ]
+    },
+    {
+        "singular": "Shortcode",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:110"
+        ]
+    },
+    {
+        "singular": "Show",
+        "plural": null,
+        "refs": [
+            "templates/partials/controls.php:67"
+        ]
+    },
+    {
+        "singular": "Show cancelled classes",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:122"
+        ]
+    },
+    {
+        "singular": "Show the booking button by default",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:123"
+        ]
+    },
+    {
+        "singular": "Show them, struck through",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:282"
+        ]
+    },
+    {
+        "singular": "Shows",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:109",
+            "includes/Admin/Screen/DisplaySetsPage.php:192"
+        ]
+    },
+    {
+        "singular": "Sign up in iSport",
+        "plural": null,
+        "refs": [
+            "includes/Render/CourseDetail.php:215",
+            "includes/Render/Listing.php:303"
+        ]
+    },
+    {
+        "singular": "Some courses take no bookings through iSport at all, and a visitor who wants one needs a person to ask. Anything filled in here is shown on the course, and nothing here is ever overwritten by a synchronisation.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:112"
+        ]
+    },
+    {
+        "singular": "Something worth knowing",
+        "plural": null,
+        "refs": [
+            "templates/single-trainer.php:50",
+            "includes/Admin/TrainerEditor.php:161"
+        ]
+    },
+    {
+        "singular": "Sort by",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:301"
+        ]
+    },
+    {
+        "singular": "Stands in for",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:133"
+        ]
+    },
+    {
+        "singular": "Start a new one",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:345"
+        ]
+    },
+    {
+        "singular": "State",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseList.php:54",
+            "includes/Admin/CourseEditor.php:200"
+        ]
+    },
+    {
+        "singular": "Suggested by the name: %s",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:270"
+        ]
+    },
+    {
+        "singular": "Synchronisation failed: %s",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:198"
+        ]
+    },
+    {
+        "singular": "Synchronise now",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:146"
+        ]
+    },
+    {
+        "singular": "Tags",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:168"
+        ]
+    },
+    {
+        "singular": "Taken",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:205"
+        ]
+    },
+    {
+        "singular": "Telephone",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:128"
+        ]
+    },
+    {
+        "singular": "Term and synchronisation",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:97"
+        ]
+    },
+    {
+        "singular": "Term ends",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:101"
+        ]
+    },
+    {
+        "singular": "Term starts",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:100"
+        ]
+    },
+    {
+        "singular": "That class is no longer stored.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:213"
+        ]
+    },
+    {
+        "singular": "The course could not be created.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:229"
+        ]
+    },
+    {
+        "singular": "The next few days",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:250"
+        ]
+    },
+    {
+        "singular": "The remote system tags every class, and a tag maintained there stays right for everyone, so it is asked before the list above. One rule per line, in the form label = category. Categories are course, external_course, makeup and rental. A label that is not listed here simply falls through to the list above.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:146"
+        ]
+    },
+    {
+        "singular": "The whole term",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:248"
+        ]
+    },
+    {
+        "singular": "There is no display set called \"%s\".",
+        "plural": null,
+        "refs": [
+            "includes/Render/Renderer.php:72"
+        ]
+    },
+    {
+        "singular": "They appear struck through and labelled. Unticking hides them entirely.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:122"
+        ]
+    },
+    {
+        "singular": "This is the featured image set here. It is used instead of the photograph from iSport, and a synchronisation never replaces it.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:281"
+        ]
+    },
+    {
+        "singular": "This shortcode needs a display set, for example [cscs_courses set=\"kurzy-pro-deti\"].",
+        "plural": null,
+        "refs": [
+            "includes/Render/Shortcodes.php:124"
+        ]
+    },
+    {
+        "singular": "This week",
+        "plural": null,
+        "refs": [
+            "templates/partials/controls.php:37",
+            "includes/Admin/Screen/DisplaySetsPage.php:249"
+        ]
+    },
+    {
+        "singular": "Tick what to show and number the order. A column left unticked is not rendered at all; a label left empty uses the built-in one. On a narrow screen every table folds so that these headings run down the left and the values down the right, which is why a short label is worth the trouble.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:205"
+        ]
+    },
+    {
+        "singular": "Tied to a course",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:220"
+        ]
+    },
+    {
+        "singular": "Time",
+        "plural": null,
+        "refs": [
+            "includes/Render/CourseDetail.php:101",
+            "includes/Admin/Screen/MakeupPage.php:129",
+            "includes/Admin/Screen/UnmatchedPage.php:164",
+            "includes/Admin/Screen/DisplaySetsPage.php:469"
+        ]
+    },
+    {
+        "singular": "Timetable refresh interval (seconds)",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:103"
+        ]
+    },
+    {
+        "singular": "To:",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:262"
+        ]
+    },
+    {
+        "singular": "Trainer",
+        "plural": null,
+        "refs": [
+            "includes/Render/CourseDetail.php:108",
+            "includes/Render/CourseDetail.php:131",
+            "includes/Render/TrainerDetail.php:239",
+            "includes/Admin/Screen/MakeupPage.php:132",
+            "includes/Admin/Screen/UnmatchedPage.php:167",
+            "includes/Admin/Screen/DisplaySetsPage.php:471",
+            "includes/Admin/CourseEditor.php:312",
+            "includes/Data/PostType.php:159",
+            "includes/Data/TrainerType.php:93"
+        ]
+    },
+    {
+        "singular": "Trainers",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Menu.php:101",
+            "includes/Admin/Menu.php:102",
+            "includes/Admin/Screen/DisplaySetsPage.php:241",
+            "includes/Data/PostType.php:158",
+            "includes/Data/TrainerType.php:92",
+            "includes/Data/TrainerType.php:94"
+        ]
+    },
+    {
+        "singular": "Unassigned",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:117"
+        ]
+    },
+    {
+        "singular": "Undo this assignment",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:279"
+        ]
+    },
+    {
+        "singular": "Unmatched lessons",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Menu.php:122",
+            "includes/Admin/Menu.php:123",
+            "includes/Admin/Screen/UnmatchedPage.php:114"
+        ]
+    },
+    {
+        "singular": "Unresolved",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:224",
+            "includes/Admin/Screen/UnmatchedPage.php:134"
+        ]
+    },
+    {
+        "singular": "Upcoming classes",
+        "plural": null,
+        "refs": [
+            "templates/single-course.php:85"
+        ]
+    },
+    {
+        "singular": "Use",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:113"
+        ]
+    },
+    {
+        "singular": "View trainer",
+        "plural": null,
+        "refs": [
+            "includes/Data/TrainerType.php:98"
+        ]
+    },
+    {
+        "singular": "What each tag means",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:144"
+        ]
+    },
+    {
+        "singular": "What is stored",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:80"
+        ]
+    },
+    {
+        "singular": "What this trainer does when they are not in the hall.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/TrainerEditor.php:151"
+        ]
+    },
+    {
+        "singular": "What to include",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:237"
+        ]
+    },
+    {
+        "singular": "When",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:247"
+        ]
+    },
+    {
+        "singular": "When a course is full",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:336"
+        ]
+    },
+    {
+        "singular": "When it starts",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:498"
+        ]
+    },
+    {
+        "singular": "When there is nothing to show",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:335"
+        ]
+    },
+    {
+        "singular": "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.",
+        "plural": null,
+        "refs": [
+            "includes/Divi/DisplayModule.php:224"
+        ]
+    },
+    {
+        "singular": "Which week",
+        "plural": null,
+        "refs": [
+            "templates/partials/controls.php:28"
+        ]
+    },
+    {
+        "singular": "Who to ask",
+        "plural": null,
+        "refs": [
+            "templates/single-course.php:62"
+        ]
+    },
+    {
+        "singular": "Who to contact",
+        "plural": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:117"
+        ]
+    },
+    {
+        "singular": "Width at which tables fold (pixels)",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:124"
+        ]
+    },
+    {
+        "singular": "Wording",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:330"
+        ]
+    },
+    {
+        "singular": "Yes",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:294"
+        ]
+    },
+    {
+        "singular": "Yes, until %s",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:130"
+        ]
+    },
+    {
+        "singular": "You are not allowed to change these settings.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:51",
+            "includes/Admin/Screen/SettingsPage.php:190"
+        ]
+    },
+    {
+        "singular": "You are not allowed to run that.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:175"
+        ]
+    },
+    {
+        "singular": "You are not allowed to view this page.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:75",
+            "includes/Admin/Screen/Overview.php:52",
+            "includes/Admin/Screen/RoomsPage.php:60",
+            "includes/Admin/Screen/UnmatchedPage.php:99",
+            "includes/Admin/Screen/DisplaySetsPage.php:62"
+        ]
+    },
+    {
+        "singular": "Zero shows everything on one page.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:318"
+        ]
+    },
+    {
+        "singular": "classes",
+        "plural": null,
+        "refs": [
+            "includes/Render/Block.php:140",
+            "includes/Divi/DisplayModule.php:266"
+        ]
+    },
+    {
+        "singular": "courses",
+        "plural": null,
+        "refs": [
+            "includes/Render/Block.php:141",
+            "includes/Divi/DisplayModule.php:267"
+        ]
+    },
+    {
+        "singular": "iSport",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Menu.php:73",
+            "includes/Admin/Menu.php:74"
+        ]
+    },
+    {
+        "singular": "iSport listing",
+        "plural": null,
+        "refs": [
+            "includes/Divi/DisplayModule.php:209"
+        ]
+    },
+    {
+        "singular": "iSport listings",
+        "plural": null,
+        "refs": [
+            "includes/Divi/DisplayModule.php:210"
+        ]
+    },
+    {
+        "singular": "iSport manager",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Capabilities.php:89"
+        ]
+    },
+    {
+        "singular": "iSport names a room for the people who run the timetable. The website can call it something shorter without anything changing in iSport. The rooms listed are the ones the stored timetable actually uses, so a room appears here once something has been booked in it.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/RoomsPage.php:71"
+        ]
+    },
+    {
+        "singular": "iSport overview",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:61"
+        ]
+    },
+    {
+        "singular": "iSport publishes no link between a course and the classes that make it up, so the plugin works it out from the name and the time. Anything it could not place with confidence is here, together with the classes it decided belong to nobody — hall rentals, open sessions, and activities that take no bookings. Choosing a course records the answer for good: no later synchronisation will decide otherwise.",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:117"
+        ]
+    },
+    {
+        "singular": "iSport settings",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:59"
+        ]
+    },
+    {
+        "singular": "last %d place",
+        "plural": "last %d places",
+        "refs": [
+            "includes/Render/Listing.php:507"
+        ]
+    },
+    {
+        "singular": "— being edited",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:125"
+        ]
+    },
+    {
+        "singular": "— belongs to no course —",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/UnmatchedPage.php:284"
+        ]
+    },
+    {
+        "singular": "— choose a set —",
+        "plural": null,
+        "refs": [
+            "includes/Render/Block.php:129"
+        ]
+    },
+    {
+        "singular": "— hidden everywhere",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/DisplaySetsPage.php:379"
+        ]
+    },
+    {
+        "singular": "— not assigned —",
+        "plural": null,
+        "refs": [
+            "includes/Admin/Screen/MakeupPage.php:247"
+        ]
+    },
+    {
+        "singular": "← Back",
+        "plural": null,
+        "refs": [
+            "templates/partials/pager.php:25"
+        ]
+    },
+    {
+        "singular": "← Previous week",
+        "plural": null,
+        "refs": [
+            "templates/partials/controls.php:30"
+        ]
+    }
+]

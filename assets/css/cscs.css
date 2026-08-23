@@ -172,3 +172,48 @@
 	opacity: 0.6;
 	transition: opacity 0.15s ease-in-out;
 }
+
+/*
+ * A trainer's page.
+ *
+ * Deliberately thin. The page is built from the theme's own typography, and
+ * everything here is either a thing no theme has an opinion about — the shape
+ * of a photograph, the spacing between two lists — or a thing the blocks below
+ * will override anyway. A plugin that styled a person's page in full would be
+ * making a design decision that belongs to whoever owns the design.
+ */
+.cscs-trainer__photo {
+	margin: 0 0 1rem;
+}
+
+.cscs-trainer__photo-image {
+	max-width: 100%;
+	height: auto;
+}
+
+.cscs-trainer__motto {
+	font-style: italic;
+	margin: 0 0 1rem;
+}
+
+.cscs-trainer > section {
+	margin-top: 1.5rem;
+}
+
+.cscs-list {
+	margin: 0;
+	padding-left: 1.25rem;
+}
+
+.cscs-list > li + li {
+	margin-top: 0.25rem;
+}
+
+/*
+ * Day and time are printed one term to a line so that the two columns can be
+ * read across. Without this the browser would join them back into a sentence
+ * and undo the whole point of separating them.
+ */
+.cscs-course__facts td {
+	white-space: normal;
+}

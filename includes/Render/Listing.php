@@ -50,7 +50,7 @@ final class Listing {
 	/**
 	 * Weekday and time each course meets, keyed by course id.
 	 *
-	 * @var array<int, array<int, array{day: int, time: string}>>
+	 * @var array<int, array<int, array{day: int, time: string, from?: string, to?: string}>>
 	 */
 	public array $times;
 
@@ -96,7 +96,7 @@ final class Listing {
 	 * @param array<int, array<string, mixed>> $rows     Rows.
 	 * @param array<string, string>            $columns  Column key to heading.
 	 * @param Settings                         $settings Settings.
-	 * @param array<int, array<int, array{day: int, time: string}>> $times Course meeting times.
+	 * @param array<int, array<int, array{day: int, time: string, from?: string, to?: string}>> $times Course meeting times.
 	 */
 	public function __construct( DisplaySet $set, array $rows, array $columns, Settings $settings, array $times = array() ) {
 		$this->set      = $set;

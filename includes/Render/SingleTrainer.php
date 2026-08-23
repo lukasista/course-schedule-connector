@@ -1,6 +1,6 @@
 <?php
 /**
- * The course page.
+ * The trainer page.
  *
  * @package CourseScheduleConnector
  */
@@ -9,25 +9,24 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
-use CSCS\Data\PostType;
+use CSCS\Data\TrainerType;
 use CSCS\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Gives a course a page of its own without taking the theme's over.
+ * Gives a trainer a page of its own without taking the theme's over.
  *
- * A course is a post, so the theme already draws the header, the footer and
- * whatever it puts around a page. Replacing the whole template would mean
- * fighting the theme for a layout it already has; instead the course's own
- * content is rendered into the place the theme prints post content, and
- * everything around it stays the theme's business.
+ * The same arrangement as a course page, and for the same reason: the theme
+ * already draws everything around the content, and a plugin that replaced the
+ * whole template would spend the rest of its life fighting for a layout the
+ * theme has already worked out.
  *
- * A theme that would rather do it properly can still put
- * `course-schedule-connector/single-course.php` in its own directory, or drop
- * a `single-cscs_course.php` beside its other templates and take over entirely.
+ * A theme that would rather do it properly puts
+ * `course-schedule-connector/single-trainer.php` in its own directory, or a
+ * `single-cscs_trainer_profile.php` beside its other templates.
  */
-final class SingleCourse {
+final class SingleTrainer {
 
 	/**
 	 * Plugin instance.
@@ -63,13 +62,13 @@ final class SingleCourse {
 	}
 
 	/**
-	 * Replaces a course's content with the course's page.
+	 * Replaces a trainer's content with the trainer's page.
 	 *
 	 * @param string $content Post content.
 	 * @return string
 	 */
 	public function content( string $content ): string {
-		if ( ! $this->is_course_page() || $this->rendered ) {
+		if ( ! $this->is_trainer_page() || $this->rendered ) {
 			return $content;
 		}
 
@@ -84,7 +83,7 @@ final class SingleCourse {
 			return $content;
 		}
 
-		$file = Renderer::locate( 'single-course' );
+		$file = Renderer::locate( 'single-trainer' );
 
 		if ( '' === $file ) {
 			return $content;
@@ -92,7 +91,7 @@ final class SingleCourse {
 
 		wp_enqueue_style( Assets::HANDLE );
 
-		$detail = new CourseDetail( $this->plugin, $post );
+		$detail = new TrainerDetail( $this->plugin, $post );
 
 		ob_start();
 
@@ -102,12 +101,12 @@ final class SingleCourse {
 	}
 
 	/**
-	 * Prints the machine-readable description of a course.
+	 * Prints the machine-readable description of a trainer.
 	 *
 	 * @return void
 	 */
 	public function structured_data(): void {
-		if ( ! $this->is_course() ) {
+		if ( ! $this->is_trainer() ) {
 			return;
 		}
 
@@ -117,7 +116,7 @@ final class SingleCourse {
 			return;
 		}
 
-		$json = ( new CourseDetail( $this->plugin, $post ) )->structured_data();
+		$json = ( new TrainerDetail( $this->plugin, $post ) )->structured_data();
 
 		if ( '' === $json ) {
 			return;
@@ -130,25 +129,23 @@ final class SingleCourse {
 	}
 
 	/**
-	 * Whether this request is a single course being shown to a visitor.
+	 * Whether this request is a single trainer being shown to a visitor.
 	 *
 	 * @return bool
 	 */
-	private function is_course_page(): bool {
-		return $this->is_course() && in_the_loop();
+	private function is_trainer_page(): bool {
+		return $this->is_trainer() && in_the_loop();
 	}
 
 	/**
-	 * Whether this request is a course being shown to a visitor.
+	 * Whether this request is a trainer being shown to a visitor.
 	 *
-	 * Kept apart from {@see self::is_course_page()} because `wp_head` runs
-	 * before the loop starts. Asking `in_the_loop()` there is always answered
-	 * no, and the structured data was therefore never printed at all — the one
-	 * kind of bug that leaves no trace on the page it is missing from.
+	 * Separate from {@see self::is_trainer_page()} because `wp_head` runs
+	 * before the loop, where `in_the_loop()` is always false.
 	 *
 	 * @return bool
 	 */
-	private function is_course(): bool {
-		return is_singular( PostType::COURSE ) && is_main_query();
+	private function is_trainer(): bool {
+		return is_singular( TrainerType::TRAINER ) && is_main_query();
 	}
 }

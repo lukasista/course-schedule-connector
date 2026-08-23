@@ -1,0 +1,38 @@
+
+/*
+ * The repeating lists on a trainer's screen.
+ *
+ * A row is a text box and a way to be rid of it, side by side, because a
+ * remove button underneath the box it removes is a button people click by
+ * accident.
+ */
+.cscs-repeat {
+	margin-bottom: 1.5em;
+}
+
+.cscs-repeat h3 {
+	margin-bottom: 0.25em;
+}
+
+.cscs-repeat__list {
+	margin: 0.5em 0;
+	padding: 0;
+	list-style: none;
+}
+
+.cscs-repeat__row {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	margin: 0 0 0.4em;
+}
+
+.cscs-repeat__row input {
+	flex: 1 1 auto;
+}
+
+.cscs-repeat__remove {
+	flex: 0 0 auto;
+	color: #b32d2e;
+	text-decoration: none;
+}

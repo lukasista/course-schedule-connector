@@ -24,10 +24,11 @@ if ( ! is_array( $cscs_settings ) || empty( $cscs_settings['delete_data_on_unins
 	return;
 }
 
-// Courses are posts with pages and text somebody wrote; they go only on request.
-$cscs_courses = get_posts(
+// Courses and trainers are posts with pages and text somebody wrote; they go
+// only on request.
+$cscs_posts = get_posts(
 	array(
-		'post_type'        => \CSCS\Data\PostType::COURSE,
+		'post_type'        => array( \CSCS\Data\PostType::COURSE, \CSCS\Data\TrainerType::TRAINER ),
 		'post_status'      => 'any',
 		'numberposts'      => -1,
 		'fields'           => 'ids',
@@ -35,8 +36,8 @@ $cscs_courses = get_posts(
 	)
 );
 
-foreach ( $cscs_courses as $cscs_course_id ) {
-	wp_delete_post( (int) $cscs_course_id, true );
+foreach ( $cscs_posts as $cscs_post_id ) {
+	wp_delete_post( (int) $cscs_post_id, true );
 }
 
 \CSCS\Data\Schema::drop();

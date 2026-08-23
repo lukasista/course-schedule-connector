@@ -39,14 +39,14 @@ $cscs_button   = $detail->button();
 		</div>
 	<?php endif; ?>
 
-	<?php $cscs_facts = $detail->facts(); ?>
+	<?php $cscs_facts = $detail->facts_html(); ?>
 	<?php if ( array() !== $cscs_facts ) : ?>
 		<table class="cscs-table cscs-course__facts">
 			<tbody>
 				<?php foreach ( $cscs_facts as $cscs_label => $cscs_value ) : ?>
 					<tr>
 						<th scope="row"><?php echo esc_html( (string) $cscs_label ); ?></th>
-						<td data-label="<?php echo esc_attr( (string) $cscs_label ); ?>"><?php echo esc_html( $cscs_value ); ?></td>
+						<td data-label="<?php echo esc_attr( (string) $cscs_label ); ?>"><?php echo wp_kses( $cscs_value, array( 'a' => array( 'href' => array(), 'class' => array() ), 'br' => array() ) ); ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

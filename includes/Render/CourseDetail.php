@@ -11,6 +11,7 @@ namespace CSCS\Render;
 
 use CSCS\Data\CourseRepository;
 use CSCS\Data\DisplaySet;
+use CSCS\Data\TrainerRepository;
 use CSCS\Plugin;
 
 defined( 'ABSPATH' ) || exit;
@@ -53,6 +54,13 @@ final class CourseDetail {
 	private array $course;
 
 	/**
+	 * The slots this course meets in, read once.
+	 *
+	 * @var array<int, array{day: int, time: string, from?: string, to?: string}>|null
+	 */
+	private ?array $slots = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Plugin   $plugin Plugin instance.
@@ -89,7 +97,8 @@ final class CourseDetail {
 				$course['price'] ?? null,
 				__( 'Free', 'course-schedule-connector' )
 			),
-			__( 'When', 'course-schedule-connector' )    => $this->meeting_times(),
+			__( 'Day', 'course-schedule-connector' )     => $this->meeting_days(),
+			__( 'Time', 'course-schedule-connector' )    => $this->meeting_hours(),
 			__( 'Runs', 'course-schedule-connector' )    => Formatter::date_range(
 				$this->short_date( (string) ( $course['date_from'] ?? '' ) ),
 				$this->short_date( (string) ( $course['date_to'] ?? '' ) )
@@ -106,6 +115,53 @@ final class CourseDetail {
 				return '' !== trim( $value );
 			}
 		);
+	}
+
+	/**
+	 * Returns the same facts with the one link a course page has in them.
+	 *
+	 * `facts()` stays plain text, because that is what a block, a module or a
+	 * feed wants and because a value that might be markup is a value every
+	 * consumer has to remember to be careful with. This is the one place that
+	 * knows a trainer's name is also a way to reach their page.
+	 *
+	 * @return array<string, string> Label to HTML.
+	 */
+	public function facts_html(): array {
+		$trainer = __( 'Trainer', 'course-schedule-connector' );
+		$url     = $this->trainer_url();
+		$html    = array();
+
+		foreach ( $this->facts() as $label => $value ) {
+			if ( $label === $trainer && '' !== $url ) {
+				$html[ $label ] = sprintf(
+					'<a class="cscs-course__trainer-link" href="%s">%s</a>',
+					esc_url( $url ),
+					esc_html( $value )
+				);
+
+				continue;
+			}
+
+			$html[ $label ] = nl2br( esc_html( $value ) );
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Returns the address of this course's trainer page, where there is one.
+	 *
+	 * @return string
+	 */
+	public function trainer_url(): string {
+		$trainer_id = ( new TrainerRepository() )->for_course( (int) ( $this->course['post_id'] ?? 0 ) );
+
+		if ( 0 === $trainer_id ) {
+			return '';
+		}
+
+		return (string) get_permalink( $trainer_id );
 	}
 
 	/**
@@ -294,18 +350,75 @@ final class CourseDetail {
 	}
 
 	/**
-	 * Returns when the course meets, in words.
+	 * Returns the days the course meets on, one to a line.
 	 *
-	 * @return string
+	 * Day and time are two facts, not one: "Monday, Wednesday 16:00, 17:00" is
+	 * a sentence nobody can read a timetable out of. They are printed as two
+	 * fields whose lines run in step, so that the first day belongs to the
+	 * first time and the reader never has to guess which goes with which.
+	 *
+	 * @return string One weekday per line.
 	 */
-	private function meeting_times(): string {
-		$query = new Query( $this->plugin );
-		$times = $query->course_times( array( (int) ( $this->course['course_id'] ?? 0 ) ) );
-		$set   = DisplaySet::from_array( array( 'type' => DisplaySet::TYPE_COURSES ) );
+	public function meeting_days(): string {
+		global $wp_locale;
 
-		$listing = new Listing( $set, array( $this->course ), array( 'days' => '' ), $this->plugin->settings(), $times );
+		$days = array();
 
-		return $listing->cell( $this->course, 'days' )['text'];
+		foreach ( $this->slots() as $slot ) {
+			// WEEKDAY() counts from Monday; WordPress's own list starts on
+			// Sunday, which is a difference of one place and a whole day if it
+			// goes unnoticed.
+			$index = ( (int) $slot['day'] + 1 ) % 7;
+
+			$days[] = $wp_locale instanceof \WP_Locale ? $wp_locale->get_weekday( $index ) : '';
+		}
+
+		return implode( "\n", $days );
+	}
+
+	/**
+	 * Returns the hours the course meets at, one to a line.
+	 *
+	 * The lines match {@see self::meeting_days()} one for one.
+	 *
+	 * @return string One time range per line.
+	 */
+	public function meeting_hours(): string {
+		$hours = array();
+
+		foreach ( $this->slots() as $slot ) {
+			$hours[] = Formatter::time_range(
+				(string) ( $slot['from'] ?? $slot['time'] ?? '' ),
+				(string) ( $slot['to'] ?? '' )
+			);
+		}
+
+		return implode( "\n", $hours );
+	}
+
+	/**
+	 * Returns the slots this course meets in, read once.
+	 *
+	 * @return array<int, array{day: int, time: string, from?: string, to?: string}>
+	 */
+	private function slots(): array {
+		if ( null !== $this->slots ) {
+			return $this->slots;
+		}
+
+		$id    = (int) ( $this->course['course_id'] ?? 0 );
+		$times = ( new Query( $this->plugin ) )->course_times( array( $id ) );
+
+		$this->slots = array_values(
+			array_filter(
+				$times[ $id ] ?? array(),
+				static function ( array $slot ): bool {
+					return '' !== (string) ( $slot['from'] ?? $slot['time'] ?? '' );
+				}
+			)
+		);
+
+		return $this->slots;
 	}
 
 	/**

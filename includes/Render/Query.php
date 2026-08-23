@@ -577,7 +577,7 @@ final class Query {
 	 * and not forty.
 	 *
 	 * @param array<int, int> $course_ids Course ids.
-	 * @return array<int, array<int, array{day: int, time: string}>>
+	 * @return array<int, array<int, array{day: int, time: string, from: string, to: string}>>
 	 */
 	public function course_times( array $course_ids ): array {
 		global $wpdb;
@@ -594,10 +594,10 @@ final class Query {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- The plugin's own table: the table name comes from $wpdb->prefix and cannot be a placeholder, and every bound value is prepared.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT id_course, WEEKDAY(lesson_date) AS weekday, time_from, COUNT(*) AS lessons
+				"SELECT id_course, WEEKDAY(lesson_date) AS weekday, time_from, time_to, COUNT(*) AS lessons
 				FROM {$table}
 				WHERE id_course IN ( {$placeholders} ) AND lesson_date IS NOT NULL AND canceled = 0
-				GROUP BY id_course, weekday, time_from
+				GROUP BY id_course, weekday, time_from, time_to
 				ORDER BY weekday ASC, time_from ASC",
 				$course_ids
 			),
@@ -621,7 +621,12 @@ final class Query {
 
 			$times[ (int) $row['id_course'] ][] = array(
 				'day'  => (int) $row['weekday'],
+				// `time` is the start alone, which is what a narrow listing
+				// column has room for; `from` and `to` are the whole slot, for
+				// the course's own page, where there is room to say it fully.
 				'time' => substr( (string) $row['time_from'], 0, 5 ),
+				'from' => substr( (string) $row['time_from'], 0, 5 ),
+				'to'   => substr( (string) ( $row['time_to'] ?? '' ), 0, 5 ),
 			);
 		}
 

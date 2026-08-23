@@ -87,6 +87,10 @@ msgstr ""
 msgid "A make-up slot usually repeats: the same name, the same weekday, the same hour, the same room. Where you have already assigned one of a series, the others can be assigned like it in one press, and each row offers the same button on its own. Where two occurrences of one series were assigned to two different courses, nothing is offered — the series is not a series. The trainer is not part of the comparison, because the timetable fills it in some weeks and leaves it blank others; it is on screen for you to weigh."
 msgstr ""
 
+#: includes/Admin/TrainerEditor.php:164
+msgid "A sentence or two that makes this a person rather than a name on a timetable."
+msgstr ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:561
 msgid "A set needs a name."
 msgstr ""
@@ -97,6 +101,10 @@ msgstr ""
 
 #: includes/Admin/CourseEditor.php:164
 msgid "A ticked field keeps whatever is written here. Synchronisation refreshes everything else and leaves this alone, for good."
+msgstr ""
+
+#: includes/Admin/TrainerEditor.php:73
+msgid "About the trainer"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:141
@@ -124,6 +132,14 @@ msgstr ""
 #: includes/Admin/CourseEditor.php:199
 #: includes/Data/PostType.php:163
 msgid "Activity"
+msgstr ""
+
+#: includes/Admin/TrainerEditor.php:220
+msgid "Add a line"
+msgstr ""
+
+#: includes/Data/TrainerType.php:95
+msgid "Add trainer"
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:87
@@ -220,11 +236,15 @@ msgstr ""
 msgid "Booking button: never show"
 msgstr ""
 
+#: includes/Admin/TrainerEditor.php:290
+msgid "Brought in from iSport and stored in the media library. To use another, set a featured image — it wins, and this one stays where it is."
+msgstr ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:334
 msgid "Button text"
 msgstr ""
 
-#: includes/Render/Listing.php:435
+#: includes/Render/Listing.php:422
 #: includes/Admin/Screen/Overview.php:225
 #: includes/Admin/Screen/DisplaySetsPage.php:476
 msgid "Cancelled"
@@ -254,7 +274,7 @@ msgstr ""
 msgid "Class synchronisation interval"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:97
+#: includes/Render/CourseDetail.php:106
 #: includes/Admin/Screen/DisplaySetsPage.php:132
 #: includes/Admin/Screen/DisplaySetsPage.php:196
 msgid "Classes"
@@ -340,8 +360,8 @@ msgstr ""
 msgid "Course this lesson stands in for"
 msgstr ""
 
-#: includes/Admin/Menu.php:92
 #: includes/Admin/Menu.php:93
+#: includes/Admin/Menu.php:94
 #: includes/Admin/Screen/DisplaySetsPage.php:133
 #: includes/Admin/Screen/DisplaySetsPage.php:195
 #: includes/Data/PostType.php:60
@@ -351,6 +371,11 @@ msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:198
 msgid "Courses are what people sign up to; classes are the individual times in the timetable. Changing this resets the columns, since the two have different ones."
+msgstr ""
+
+#: templates/single-trainer.php:79
+#: includes/Admin/TrainerEditor.php:82
+msgid "Courses this trainer runs"
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:288
@@ -365,6 +390,10 @@ msgstr ""
 #: includes/Admin/Screen/UnmatchedPage.php:163
 #: includes/Admin/Screen/DisplaySetsPage.php:468
 msgid "Date"
+msgstr ""
+
+#: includes/Render/CourseDetail.php:100
+msgid "Day"
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:467
@@ -415,8 +444,8 @@ msgstr ""
 msgid "Display set"
 msgstr ""
 
-#: includes/Admin/Menu.php:102
-#: includes/Admin/Menu.php:103
+#: includes/Admin/Menu.php:111
+#: includes/Admin/Menu.php:112
 #: includes/Admin/Screen/DisplaySetsPage.php:73
 msgid "Display sets"
 msgstr ""
@@ -439,6 +468,10 @@ msgstr ""
 
 #: includes/Admin/Screen/UnmatchedPage.php:125
 msgid "Edit the new course"
+msgstr ""
+
+#: includes/Data/TrainerType.php:96
+msgid "Edit trainer"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:146
@@ -482,9 +515,9 @@ msgstr ""
 msgid "For example when to ring, or that places are arranged individually."
 msgstr ""
 
-#: includes/Render/CourseDetail.php:90
-#: includes/Render/Listing.php:495
-#: includes/Render/Listing.php:499
+#: includes/Render/CourseDetail.php:98
+#: includes/Render/Listing.php:482
+#: includes/Render/Listing.php:486
 #: includes/Admin/Screen/SettingsPage.php:118
 #: includes/Admin/CourseEditor.php:342
 msgid "Free"
@@ -498,8 +531,8 @@ msgstr ""
 msgid "From:"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:325
-#: includes/Render/Listing.php:327
+#: includes/Render/CourseDetail.php:438
+#: includes/Render/Listing.php:314
 msgid "Full"
 msgstr ""
 
@@ -539,6 +572,11 @@ msgstr ""
 msgid "Individual courses can override this."
 msgstr ""
 
+#: templates/single-trainer.php:68
+#: includes/Admin/TrainerEditor.php:150
+msgid "Interests"
+msgstr ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:315
 msgid "Items per page"
 msgstr ""
@@ -575,8 +613,8 @@ msgstr ""
 msgid "Make-up classes for this course"
 msgstr ""
 
-#: includes/Admin/Menu.php:124
-#: includes/Admin/Menu.php:125
+#: includes/Admin/Menu.php:133
+#: includes/Admin/Menu.php:134
 #: includes/Admin/Screen/MakeupPage.php:100
 #: includes/Admin/Screen/Overview.php:223
 #: includes/Admin/Screen/SettingsPage.php:136
@@ -585,6 +623,10 @@ msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:91
 msgid "Maximum requests per hour"
+msgstr ""
+
+#: includes/Admin/TrainerEditor.php:168
+msgid "Motto"
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:108
@@ -614,6 +656,10 @@ msgstr ""
 msgid "New set"
 msgstr ""
 
+#: includes/Data/TrainerType.php:97
+msgid "New trainer"
+msgstr ""
+
 #: templates/partials/controls.php:42
 msgid "Next week →"
 msgstr ""
@@ -634,6 +680,10 @@ msgstr ""
 msgid "No courses found."
 msgstr ""
 
+#: includes/Admin/TrainerEditor.php:237
+msgid "No courses name this trainer yet. Pairing is by name: a course is tied to this page when the trainer iSport names on it matches the title above, ignoring spacing and capitals."
+msgstr ""
+
 #: includes/Admin/Screen/MakeupPage.php:506
 msgid "No lesson names a course clearly enough to suggest one."
 msgstr ""
@@ -643,12 +693,24 @@ msgstr ""
 msgid "No longer offered by iSport"
 msgstr ""
 
+#: includes/Admin/TrainerEditor.php:298
+msgid "No photograph yet. iSport has none for this trainer, or none has been retrieved. Set a featured image to use your own."
+msgstr ""
+
 #: includes/Admin/Screen/RoomsPage.php:93
 msgid "No rooms yet, because no timetable is stored. Synchronise first."
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:117
 msgid "No sets yet. The form below makes the first one."
+msgstr ""
+
+#: includes/Data/TrainerType.php:100
+msgid "No trainers found."
+msgstr ""
+
+#: includes/Data/TrainerType.php:101
+msgid "No trainers in the bin."
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:70
@@ -668,7 +730,7 @@ msgstr ""
 msgid "Nothing has run yet."
 msgstr ""
 
-#: includes/Render/Listing.php:305
+#: includes/Render/Listing.php:292
 msgid "Nothing is listed here at the moment."
 msgstr ""
 
@@ -710,9 +772,13 @@ msgstr ""
 msgid "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear."
 msgstr ""
 
-#: includes/Render/Listing.php:500
+#: includes/Render/Listing.php:487
 #: includes/Admin/Screen/SettingsPage.php:117
 msgid "On request"
+msgstr ""
+
+#: includes/Admin/TrainerEditor.php:144
+msgid "One qualification to a line — a coaching licence, a course completed, a degree. They are printed in the order they are in here."
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:72
@@ -736,8 +802,8 @@ msgstr ""
 msgid "Outcome"
 msgstr ""
 
-#: includes/Admin/Menu.php:83
 #: includes/Admin/Menu.php:84
+#: includes/Admin/Menu.php:85
 msgid "Overview"
 msgstr ""
 
@@ -749,22 +815,35 @@ msgstr ""
 msgid "Pages"
 msgstr ""
 
+#: includes/Admin/TrainerEditor.php:258
+msgid "Paired automatically. The trainer’s page shows the same list to visitors."
+msgstr ""
+
 #: includes/Admin/Screen/SettingsPage.php:105
 msgid "Past occurrences older than this are removed. Courses are never deleted."
 msgstr ""
 
-#: includes/Render/CourseDetail.php:100
+#: includes/Admin/TrainerEditor.php:90
+msgid "Photograph"
+msgstr ""
+
+#: includes/Render/CourseDetail.php:109
 #: includes/Admin/Screen/DisplaySetsPage.php:475
 #: includes/Admin/Screen/DisplaySetsPage.php:500
 msgid "Places left"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:88
+#: includes/Render/CourseDetail.php:96
 #: includes/Admin/Screen/DisplaySetsPage.php:474
 #: includes/Admin/Screen/DisplaySetsPage.php:499
 #: includes/Admin/CourseEditor.php:201
 #: includes/Admin/CourseEditor.php:314
 msgid "Price"
+msgstr ""
+
+#: templates/single-trainer.php:57
+#: includes/Admin/TrainerEditor.php:143
+msgid "Qualifications"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:155
@@ -781,6 +860,10 @@ msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:152
 msgid "Removal"
+msgstr ""
+
+#: includes/Admin/TrainerEditor.php:215
+msgid "Remove"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:221
@@ -817,7 +900,7 @@ msgid "Retries"
 msgstr ""
 
 #: templates/partials/controls.php:54
-#: includes/Render/CourseDetail.php:98
+#: includes/Render/CourseDetail.php:107
 #: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Admin/Screen/UnmatchedPage.php:166
 #: includes/Admin/Screen/DisplaySetsPage.php:470
@@ -827,8 +910,8 @@ msgstr ""
 msgid "Room"
 msgstr ""
 
-#: includes/Admin/Menu.php:135
-#: includes/Admin/Menu.php:136
+#: includes/Admin/Menu.php:144
+#: includes/Admin/Menu.php:145
 #: includes/Admin/Screen/RoomsPage.php:68
 #: includes/Admin/Screen/DisplaySetsPage.php:368
 #: includes/Data/PostType.php:154
@@ -840,7 +923,7 @@ msgstr ""
 msgid "Running"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:93
+#: includes/Render/CourseDetail.php:102
 msgid "Runs"
 msgstr ""
 
@@ -881,6 +964,10 @@ msgstr ""
 msgid "Search courses"
 msgstr ""
 
+#: includes/Data/TrainerType.php:99
+msgid "Search trainers"
+msgstr ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:567
 msgid "Set created. Refer to it as \"%s\"."
 msgstr ""
@@ -897,8 +984,8 @@ msgstr ""
 msgid "Sets"
 msgstr ""
 
-#: includes/Admin/Menu.php:146
-#: includes/Admin/Menu.php:147
+#: includes/Admin/Menu.php:155
+#: includes/Admin/Menu.php:156
 msgid "Settings"
 msgstr ""
 
@@ -927,13 +1014,18 @@ msgstr ""
 msgid "Shows"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:159
-#: includes/Render/Listing.php:316
+#: includes/Render/CourseDetail.php:215
+#: includes/Render/Listing.php:303
 msgid "Sign up in iSport"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:112
 msgid "Some courses take no bookings through iSport at all, and a visitor who wants one needs a person to ask. Anything filled in here is shown on the course, and nothing here is ever overwritten by a synchronisation."
+msgstr ""
+
+#: templates/single-trainer.php:50
+#: includes/Admin/TrainerEditor.php:161
+msgid "Something worth knowing"
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:301
@@ -1017,6 +1109,10 @@ msgstr ""
 msgid "They appear struck through and labelled. Unticking hides them entirely."
 msgstr ""
 
+#: includes/Admin/TrainerEditor.php:281
+msgid "This is the featured image set here. It is used instead of the photograph from iSport, and a synchronisation never replaces it."
+msgstr ""
+
 #: includes/Render/Shortcodes.php:124
 msgid "This shortcode needs a display set, for example [cscs_courses set=\"kurzy-pro-deti\"]."
 msgstr ""
@@ -1034,6 +1130,7 @@ msgstr ""
 msgid "Tied to a course"
 msgstr ""
 
+#: includes/Render/CourseDetail.php:101
 #: includes/Admin/Screen/MakeupPage.php:129
 #: includes/Admin/Screen/UnmatchedPage.php:164
 #: includes/Admin/Screen/DisplaySetsPage.php:469
@@ -1048,17 +1145,24 @@ msgstr ""
 msgid "To:"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:99
+#: includes/Render/CourseDetail.php:108
+#: includes/Render/CourseDetail.php:131
+#: includes/Render/TrainerDetail.php:239
 #: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Admin/Screen/UnmatchedPage.php:167
 #: includes/Admin/Screen/DisplaySetsPage.php:471
 #: includes/Admin/CourseEditor.php:312
 #: includes/Data/PostType.php:159
+#: includes/Data/TrainerType.php:93
 msgid "Trainer"
 msgstr ""
 
+#: includes/Admin/Menu.php:101
+#: includes/Admin/Menu.php:102
 #: includes/Admin/Screen/DisplaySetsPage.php:241
 #: includes/Data/PostType.php:158
+#: includes/Data/TrainerType.php:92
+#: includes/Data/TrainerType.php:94
 msgid "Trainers"
 msgstr ""
 
@@ -1070,8 +1174,8 @@ msgstr ""
 msgid "Undo this assignment"
 msgstr ""
 
-#: includes/Admin/Menu.php:113
-#: includes/Admin/Menu.php:114
+#: includes/Admin/Menu.php:122
+#: includes/Admin/Menu.php:123
 #: includes/Admin/Screen/UnmatchedPage.php:114
 msgid "Unmatched lessons"
 msgstr ""
@@ -1089,6 +1193,10 @@ msgstr ""
 msgid "Use"
 msgstr ""
 
+#: includes/Data/TrainerType.php:98
+msgid "View trainer"
+msgstr ""
+
 #: includes/Admin/Screen/SettingsPage.php:144
 msgid "What each tag means"
 msgstr ""
@@ -1097,11 +1205,14 @@ msgstr ""
 msgid "What is stored"
 msgstr ""
 
+#: includes/Admin/TrainerEditor.php:151
+msgid "What this trainer does when they are not in the hall."
+msgstr ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:237
 msgid "What to include"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:92
 #: includes/Admin/Screen/Overview.php:247
 msgid "When"
 msgstr ""
@@ -1181,8 +1292,8 @@ msgstr ""
 msgid "courses"
 msgstr ""
 
-#: includes/Admin/Menu.php:72
 #: includes/Admin/Menu.php:73
+#: includes/Admin/Menu.php:74
 msgid "iSport"
 msgstr ""
 
@@ -1214,7 +1325,7 @@ msgstr ""
 msgid "iSport settings"
 msgstr ""
 
-#: includes/Render/Listing.php:520
+#: includes/Render/Listing.php:507
 msgid "last %d place"
 msgid_plural "last %d places"
 msgstr[0] ""

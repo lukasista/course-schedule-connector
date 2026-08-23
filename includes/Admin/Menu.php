@@ -16,6 +16,7 @@ use CSCS\Admin\Screen\RoomsPage;
 use CSCS\Admin\Screen\UnmatchedPage;
 use CSCS\Admin\Screen\SettingsPage;
 use CSCS\Data\PostType;
+use CSCS\Data\TrainerType;
 use CSCS\Plugin;
 
 defined( 'ABSPATH' ) || exit;
@@ -93,6 +94,14 @@ final class Menu {
 			__( 'Courses', 'course-schedule-connector' ),
 			Capabilities::MANAGE_CONTENT,
 			'edit.php?post_type=' . PostType::COURSE
+		);
+
+		add_submenu_page(
+			self::SLUG,
+			__( 'Trainers', 'course-schedule-connector' ),
+			__( 'Trainers', 'course-schedule-connector' ),
+			Capabilities::MANAGE_CONTENT,
+			'edit.php?post_type=' . TrainerType::TRAINER
 		);
 
 		$sets = new DisplaySetsPage( $this->plugin );
