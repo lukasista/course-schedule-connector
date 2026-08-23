@@ -19,12 +19,16 @@ Poslední commity:
 
 | commit | co přinesl |
 |---|---|
+| `1b74a31` | builder ukazuje design už při návrhu (`elementType` + order class) |
+| `e1a9df2` | modul Fotografie se chová jako obrázek |
+| `838aeca` | prázdné pole mizí ze stránky i s obalem |
+| `bd8ced9` | české slugy `/kurz/` a `/trener/` |
 | `1c44582` | Divi 5 modul pro každé pole, nadpis stylovaný zvlášť od hodnoty |
 | `7672436` | pojmenovaný Gutenberg blok pro každé pole |
 | `ba734c1` | Den a Čas místo „Kdy“; trenéři jako typ příspěvku |
 | `49cde06` | předchozí předání práce |
 
-Testy: **193 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
+Testy: **194 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
 repozitáře.
 
 **Nepushnuté commity** na Macu — viz problém s portem 443 níže.
