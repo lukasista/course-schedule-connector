@@ -183,7 +183,15 @@ ne modulu.
    je čitelný přes prohlížeč na
    `/wp-content/themes/Divi/includes/builder-5/visual-builder/packages/module-library/src/components/<modul>/module.json`
    a je to nejrychlejší způsob, jak se dozvědět, co Divi opravdu čeká.
-5. Odkazy s kotvou na téže stránce Divi polyká kvůli plynulému rolování;
+5. **V šabloně Theme Builderu je globální `$post` ta šablona**, ne příspěvek,
+   který návštěvník otevřel. `get_post()` tam vrátí layout; ptát se je potřeba
+   přes `get_queried_object()`. Projevilo se to tak, že každé pole na stránce
+   trenéra hlásilo „tahle stránka není ani kurz, ani trenér“.
+6. **Překlady skriptu ve Visual Builderu nefungují přes `wp_set_script_translations`** —
+   Divi si balíček registruje vlastním správcem a WordPress ten handle nezná.
+   Řetězce se předávají v `wp_localize_script` spolu s metadaty modulu, což
+   prokazatelně funguje (tak chodí i názvy modulů).
+7. Odkazy s kotvou na téže stránce Divi polyká kvůli plynulému rolování;
    posluchače je třeba věšet v **capture** fázi.
 
 ---
@@ -200,9 +208,11 @@ ne modulu.
 - **Taxonomie „Lektoři“ se v češtině přejmenovala na „Trenéři“**, aby
   v administraci nestála dvě jména pro tutéž věc. Kdyby to vadilo, mění se to
   v `tools/i18n/cs.py`.
-- **Šablona stránky trenéra v Theme Builderu ještě neexistuje.** Bloky a moduly
-  jsou hotové, ale design stránky kurzu i trenéra si Lukáš postaví sám — to byl
-  smysl celé té práce.
+- **Šablona stránky trenéra v Theme Builderu už existuje** („Všechny Trenéři“)
+  a funguje. Šablona stránky kurzu zatím ne.
+- **Adresa trenéra je `/trener/…`.** Kdyby měl být český i slug kurzu
+  (`/kurz/` místo `/course/`), mění se to filtrem `cscs_course_rewrite_slug`
+  a zvednutím `Plugin::REWRITE_VERSION`.
 
 ## 6. Trvalá omezení, která platí bez ohledu na fázi
 

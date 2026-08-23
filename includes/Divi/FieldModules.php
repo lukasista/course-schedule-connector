@@ -183,6 +183,17 @@ final class FieldModules {
 			'modules' => $modules,
 			'preview' => rest_url( RestPreview::NAMESPACE . '/field' ),
 			'nonce'   => wp_create_nonce( 'wp_rest' ),
+			// Handed over here rather than fetched by the script through
+			// wp.i18n. The builder loads its packages through Divi's own
+			// manager, and a handle WordPress did not register is a handle
+			// `wp_set_script_translations` cannot reach — the strings then
+			// silently stay English while everything else on the panel is
+			// translated. These arrive with the metadata, which demonstrably
+			// works, because the module titles come the same way.
+			'strings' => array(
+				'empty' => __( 'This field is empty for this record, so it will not appear on the page.', 'course-schedule-connector' ),
+				'error' => __( 'The field could not be loaded.', 'course-schedule-connector' ),
+			),
 		);
 	}
 

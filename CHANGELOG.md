@@ -88,6 +88,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Fixed
+- A field in a Divi theme builder template said the page was neither a course nor a trainer, on a page that plainly was one. The module asked `get_post()`, and while a theme builder layout renders, the global post **is the layout** — so every field on the one kind of page the option exists for reported the one thing that could not be true. It now asks `get_queried_object()`, which is what the visitor asked for and does not move.
+- While a theme builder template is being designed there is no particular course to show, so every field previewed as "this page is neither" — true, and useless, since a page whose every element refuses to appear cannot be laid out. The builder is now shown a real record, the way Divi shows sample text in its own dynamic modules. Only ever in the editor: the fallback is reached in a REST request from somebody who may edit posts, and a visitor's page is not a REST request.
+- The builder said "choose one in the module settings" where a field simply had nothing to print, which sent people looking for a setting to change. It now says the field is empty for this record and will not appear on the page — which is what is happening. The two builder strings are handed over with the module metadata rather than fetched through `wp.i18n`: the Visual Builder loads its packages through Divi's own manager, and a handle WordPress never registered is one `wp_set_script_translations` cannot reach, so they stayed English while everything around them was translated.
 - Structured data was never printed on a course page. `wp_head` runs before the loop, and the guard asked `in_the_loop()`, which is always false there — the one kind of bug that leaves no trace on the page it is missing from.
 - A post type added in an update brings URLs with it, and those only work once the rewrite rules have been rebuilt. Activation was the obvious moment and the wrong one — an update is not an activation, and every trainer page on an already-running site would have answered 404 with nothing to say why. The rules are now rebuilt once per version that adds a URL, the same way the schema and the capabilities are.
 - Continuous integration: the first run failed every job. `npm ci` had no lock file to install from and there was no JavaScript to build, `phpunit/phpunit` and `phpstan/phpstan` were missing from the development requirements, and PHPStan was pointed at a `templates` directory that does not exist yet.
@@ -101,6 +104,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The redundant PHP version guard is gone. WordPress enforces `Requires PHP` itself and refuses to activate a plugin the server cannot run, so the check was an unreachable branch that static analysis rightly flagged.
 
 ### Changed
+- A trainer's page lives at `/trener/…`, not `/trainer/…`. The plugin's own vocabulary stays English — that is for whoever maintains it — but an address is something a reader sees, and nothing a reader sees should be in a language the site is not written in. `cscs_trainer_rewrite_slug` filters it, and the rewrite rules rebuild themselves on the next request.
+
 - The repository is renamed to match the plugin slug, so a checkout directory is never mistaken for the plugin name.
 - Every quality gate now runs even when an earlier one fails, and each writes its output to the run summary. One push therefore reports every problem at once, and the results are readable from the run page without downloading an artifact.
 

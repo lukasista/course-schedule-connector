@@ -72,7 +72,7 @@ final class Plugin {
 	/**
 	 * Raise this whenever the plugin adds or renames a URL.
 	 */
-	public const REWRITE_VERSION = 2;
+	public const REWRITE_VERSION = 3;
 
 	/**
 	 * Singleton instance.

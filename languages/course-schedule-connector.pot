@@ -1157,6 +1157,10 @@ msgstr ""
 msgid "The featured image of the course."
 msgstr ""
 
+#: includes/Divi/FieldModules.php:195
+msgid "The field could not be loaded."
+msgstr ""
+
 #: includes/Render/Fields.php:104
 msgid "The first and last day of the course."
 msgstr ""
@@ -1181,7 +1185,7 @@ msgstr ""
 msgid "The next few days"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:201
+#: includes/Divi/FieldModules.php:212
 msgid "The one this page is about"
 msgstr ""
 
@@ -1239,6 +1243,10 @@ msgstr ""
 
 #: includes/Render/Fields.php:176
 msgid "This course’s own timetable, as a table."
+msgstr ""
+
+#: includes/Divi/FieldModules.php:194
+msgid "This field is empty for this record, so it will not appear on the page."
 msgstr ""
 
 #: includes/Admin/TrainerEditor.php:281
@@ -1845,14 +1853,6 @@ msgstr ""
 msgid "Animations run when the block first comes into view, and never for a visitor who has asked their computer to keep still."
 msgstr ""
 
-#: blocks/fields/editor.js
-msgid "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the block settings."
-msgstr ""
-
 #: visual-builder/cscs-divi-fields.js
 msgid "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the module settings."
-msgstr ""
-
-#: visual-builder/cscs-divi-fields.js
-msgid "The field could not be loaded."
 msgstr ""

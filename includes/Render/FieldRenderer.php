@@ -196,16 +196,84 @@ final class FieldRenderer {
 		$wanted = (int) ( $attributes['postId'] ?? 0 );
 		$type   = Fields::post_type( (string) $field['context'] );
 
-		// Nothing chosen means "whichever course this page is about", which is
-		// what a template in a theme builder needs and what makes one design
-		// serve every course.
-		$post = 0 === $wanted ? get_post() : get_post( $wanted );
+		if ( 0 !== $wanted ) {
+			$chosen = get_post( $wanted );
 
-		if ( ! $post instanceof \WP_Post || $type !== $post->post_type ) {
+			return $chosen instanceof \WP_Post && $type === $chosen->post_type ? $chosen : null;
+		}
+
+		// Nothing chosen means "whichever course or trainer this page is
+		// about", which is what a theme builder template needs and what makes
+		// one design serve them all.
+		//
+		// The question is answered by the request, not by the global post. In a
+		// Divi theme builder template — the whole reason this option exists —
+		// the global post while the layout renders is the layout itself, so
+		// asking `get_post()` there returns a template and the module reports
+		// that the page is neither a course nor a trainer, on a page that
+		// plainly is one. `get_queried_object()` is what the visitor asked for
+		// and it does not move.
+		foreach ( self::candidates() as $candidate ) {
+			if ( $candidate instanceof \WP_Post && $type === $candidate->post_type ) {
+				return $candidate;
+			}
+		}
+
+		return self::sample( $type );
+	}
+
+	/**
+	 * Returns the posts this request could reasonably be about, best first.
+	 *
+	 * @return array<int, mixed>
+	 */
+	private static function candidates(): array {
+		$candidates = array();
+
+		if ( function_exists( 'is_singular' ) && is_singular() ) {
+			$candidates[] = get_queried_object();
+		}
+
+		// The block renderer sets the global post from the `post_id` the editor
+		// sends, which is how a block previewing inside a course finds it.
+		$candidates[] = get_post();
+
+		return $candidates;
+	}
+
+	/**
+	 * Returns something to draw, while a template is being designed.
+	 *
+	 * A theme builder template is about no particular course: it is about all
+	 * of them. Every field on it would therefore preview as "this page is
+	 * neither", which is true and useless — you cannot lay out a page whose
+	 * every element refuses to appear. So the builder is shown a real record,
+	 * the way Divi shows sample text in its own dynamic modules.
+	 *
+	 * Only ever in the editor. This is reached in a REST request from somebody
+	 * who may edit posts, and a visitor's page is not a REST request, so no
+	 * front end can ever borrow a course it was not pointed at.
+	 *
+	 * @param string $type Post type.
+	 * @return \WP_Post|null
+	 */
+	private static function sample( string $type ): ?\WP_Post {
+		if ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST || ! current_user_can( 'edit_posts' ) ) {
 			return null;
 		}
 
-		return $post;
+		$posts = get_posts(
+			array(
+				'post_type'        => $type,
+				'post_status'      => 'publish',
+				'numberposts'      => 1,
+				'orderby'          => 'date',
+				'order'            => 'DESC',
+				'suppress_filters' => false,
+			)
+		);
+
+		return array() === $posts ? null : $posts[0];
 	}
 
 	/**

@@ -453,6 +453,11 @@
 						el( serverSideRender, {
 							block: field.name,
 							attributes: props.attributes,
+							// An empty answer is not a failure: it is the field
+							// saying it has nothing to print, and on the page it
+							// will simply not be there. The editor still has to
+							// show something, or the block could not be selected
+							// again.
 							EmptyResponsePlaceholder: function () {
 								return el(
 									components.Placeholder,
@@ -460,7 +465,7 @@
 										icon: field.icon,
 										label: field.title,
 										instructions: __(
-											'Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the block settings.',
+											'This field is empty for this record, so it will not appear on the page.',
 											'course-schedule-connector'
 										),
 									}

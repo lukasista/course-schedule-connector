@@ -114,11 +114,16 @@ final class TrainerType {
 				/**
 				 * Filters the URL slug of a trainer.
 				 *
+				 * Czech, because the site is Czech and a visitor reads the
+				 * address. The plugin's own vocabulary stays English — that is
+				 * for whoever maintains it — but nothing a reader sees should be
+				 * in a language the site is not written in.
+				 *
 				 * @since 0.5.0
 				 *
 				 * @param string $slug Rewrite slug.
 				 */
-				'rewrite'            => array( 'slug' => apply_filters( 'cscs_trainer_rewrite_slug', 'trainer' ) ),
+				'rewrite'            => array( 'slug' => apply_filters( 'cscs_trainer_rewrite_slug', 'trener' ) ),
 			)
 		);
 

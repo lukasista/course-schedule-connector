@@ -254,6 +254,7 @@ CS = {
 "That class is no longer stored.": "Tahle lekce už uložená není.",
 "The course could not be created.": "Kurz se nepodařilo založit.",
 "The featured image of the course.": "Náhledový obrázek kurzu.",
+"The field could not be loaded.": "Pole se nepodařilo načíst.",
 "The first and last day of the course.": "První a poslední den kurzu.",
 "The hall or halls the course runs in.": "Sál nebo sály, ve kterých kurz probíhá.",
 "The hours the course meets at, in step with the days.": "Hodiny, ve kterých kurz probíhá, v jednom kroku se dny.",
@@ -275,6 +276,7 @@ CS = {
 "They appear struck through and labelled. Unticking hides them entirely.": "Zobrazí se přeškrtnuté a označené. Odškrtnutím je skryjete úplně.",
 "This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings.": "Tenhle blok zobrazuje pole kurzu nebo trenéra a tahle stránka není ani jedno. Vyberte je v nastavení bloku.",
 "This course’s own timetable, as a table.": "Vlastní rozvrh tohoto kurzu, jako tabulka.",
+"This field is empty for this record, so it will not appear on the page.": "Tohle pole je u tohoto záznamu prázdné, na stránce se tedy neobjeví.",
 "This is the featured image set here. It is used instead of the photograph from iSport, and a synchronisation never replaces it.": "Tohle je náhledový obrázek nastavený tady. Používá se místo fotografie z iSportu a synchronizace ho nikdy nepřepíše.",
 "This shortcode needs a display set, for example [cscs_courses set=\"kurzy-pro-deti\"].": "Tenhle shortcode potřebuje zobrazovací sadu, například [cscs_courses set=\"kurzy-pro-deti\"].",
 "This week": "Tento týden",
@@ -448,7 +450,7 @@ JS_FIELDS = {
 "Duration (ms)": "Trvání (ms)",
 "Delay (ms)": "Zpoždění (ms)",
 "Animations run when the block first comes into view, and never for a visitor who has asked their computer to keep still.": "Animace se spustí, když se blok poprvé objeví na obrazovce — a nikdy návštěvníkovi, který si vyžádal omezení pohybu.",
-"Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the block settings.": "Zatím není co zobrazit. Na stránce kurzu nebo trenéra se to doplní samo; jinde je vyberte v nastavení bloku.",
+"This field is empty for this record, so it will not appear on the page.": "Tohle pole je u tohoto záznamu prázdné, na stránce se tedy neobjeví.",
 }
 
 JS_DIVI_FIELDS = {

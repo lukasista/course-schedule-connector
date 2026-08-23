@@ -30,7 +30,6 @@
 	var vendor = window.vendor || {};
 	var React = vendor.React || window.React;
 	var hooks = ( vendor.wp && vendor.wp.hooks ) || ( window.wp && window.wp.hooks );
-	var i18n = ( vendor.wp && vendor.wp.i18n ) || ( window.wp && window.wp.i18n );
 	var divi = window.divi || {};
 
 	var ModuleContainer = divi.module ? divi.module.ModuleContainer : null;
@@ -45,11 +44,18 @@
 		return;
 	}
 
-	var __ = i18n
-		? i18n.__
-		: function ( t ) {
-				return t;
-		  };
+	var strings = config.strings || {};
+
+	/**
+	 * Returns one of the strings the server handed over.
+	 *
+	 * @param {string} key      Which string.
+	 * @param {string} fallback What to say if the server sent none.
+	 * @return {string} The text.
+	 */
+	function say( key, fallback ) {
+		return strings[ key ] || fallback;
+	}
 
 	/**
 	 * Reads one stored setting, the way the server does.
@@ -154,16 +160,20 @@
 					return;
 				}
 
+				// The server answering with nothing is not a failure: it is the
+				// field saying it has nothing to print, and on the page it will
+				// simply not be there. The builder still has to show something,
+				// or the module could not be selected again.
 				node.className = 'cscs-notice';
-				node.textContent = __(
-					'Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the module settings.',
-					'course-schedule-connector'
+				node.textContent = say(
+					'empty',
+					'This field is empty for this record, so it will not appear on the page.'
 				);
 			} )
 			.catch( function () {
 				if ( node.getAttribute( 'data-cscs-field' ) === asked ) {
 					node.className = 'cscs-notice';
-					node.textContent = __( 'The field could not be loaded.', 'course-schedule-connector' );
+					node.textContent = say( 'error', 'The field could not be loaded.' );
 				}
 			} );
 	}

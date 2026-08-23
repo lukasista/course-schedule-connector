@@ -1164,6 +1164,10 @@ msgstr "Kurz se nepodařilo založit."
 msgid "The featured image of the course."
 msgstr "Náhledový obrázek kurzu."
 
+#: includes/Divi/FieldModules.php:195
+msgid "The field could not be loaded."
+msgstr "Pole se nepodařilo načíst."
+
 #: includes/Render/Fields.php:104
 msgid "The first and last day of the course."
 msgstr "První a poslední den kurzu."
@@ -1188,7 +1192,7 @@ msgstr "Název kurzu jako nadpis, kterému můžete dát vlastní vzhled."
 msgid "The next few days"
 msgstr "Nejbližší dny"
 
-#: includes/Divi/FieldModules.php:201
+#: includes/Divi/FieldModules.php:212
 msgid "The one this page is about"
 msgstr "Ten, o kterém tahle stránka je"
 
@@ -1247,6 +1251,10 @@ msgstr "Tenhle blok zobrazuje pole kurzu nebo trenéra a tahle stránka není an
 #: includes/Render/Fields.php:176
 msgid "This course’s own timetable, as a table."
 msgstr "Vlastní rozvrh tohoto kurzu, jako tabulka."
+
+#: includes/Divi/FieldModules.php:194
+msgid "This field is empty for this record, so it will not appear on the page."
+msgstr "Tohle pole je u tohoto záznamu prázdné, na stránce se tedy neobjeví."
 
 #: includes/Admin/TrainerEditor.php:281
 msgid "This is the featured image set here. It is used instead of the photograph from iSport, and a synchronisation never replaces it."
@@ -1853,14 +1861,6 @@ msgstr "Zpoždění (ms)"
 msgid "Animations run when the block first comes into view, and never for a visitor who has asked their computer to keep still."
 msgstr "Animace se spustí, když se blok poprvé objeví na obrazovce — a nikdy návštěvníkovi, který si vyžádal omezení pohybu."
 
-#: blocks/fields/editor.js
-msgid "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the block settings."
-msgstr "Zatím není co zobrazit. Na stránce kurzu nebo trenéra se to doplní samo; jinde je vyberte v nastavení bloku."
-
 #: visual-builder/cscs-divi-fields.js
 msgid "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the module settings."
 msgstr "Zatím není co zobrazit. Na stránce kurzu nebo trenéra se to doplní samo; jinde je vyberte v nastavení modulu."
-
-#: visual-builder/cscs-divi-fields.js
-msgid "The field could not be loaded."
-msgstr "Pole se nepodařilo načíst."
