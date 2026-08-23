@@ -436,9 +436,18 @@
         "singular": "Classes",
         "plural": null,
         "refs": [
-            "includes/Render/CourseDetail.php:106",
+            "includes/Render/Fields.php:109",
+            "includes/Render/Fields.php:110",
+            "includes/Render/CourseDetail.php:102",
             "includes/Admin/Screen/DisplaySetsPage.php:132",
             "includes/Admin/Screen/DisplaySetsPage.php:196"
+        ]
+    },
+    {
+        "singular": "Classes that stand in for one somebody missed.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:184"
         ]
     },
     {
@@ -523,6 +532,13 @@
         ]
     },
     {
+        "singular": "Course description",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:157"
+        ]
+    },
+    {
         "singular": "Course id",
         "plural": null,
         "refs": [
@@ -533,7 +549,15 @@
         "singular": "Course name",
         "plural": null,
         "refs": [
+            "includes/Render/Fields.php:69",
             "includes/Admin/CourseEditor.php:310"
+        ]
+    },
+    {
+        "singular": "Course picture",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:149"
         ]
     },
     {
@@ -602,6 +626,8 @@
         "plural": null,
         "refs": [
             "templates/single-trainer.php:79",
+            "includes/Render/Fields.php:248",
+            "includes/Render/Fields.php:249",
             "includes/Admin/TrainerEditor.php:82"
         ]
     },
@@ -632,7 +658,9 @@
         "singular": "Day",
         "plural": null,
         "refs": [
-            "includes/Render/CourseDetail.php:100"
+            "includes/Render/Fields.php:85",
+            "includes/Render/Fields.php:86",
+            "includes/Render/CourseDetail.php:99"
         ]
     },
     {
@@ -778,6 +806,20 @@
         ]
     },
     {
+        "singular": "Every course paired with this trainer, as a table.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:251"
+        ]
+    },
+    {
+        "singular": "Every qualification, in the order they were entered.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:211"
+        ]
+    },
+    {
         "singular": "Everything somebody tied to a course by hand, whatever the matching would have decided. Choosing \"belongs to no course\" here gives the class back to the matching, which is how an assignment made by mistake is undone.",
         "plural": null,
         "refs": [
@@ -845,7 +887,7 @@
         "singular": "Free",
         "plural": null,
         "refs": [
-            "includes/Render/CourseDetail.php:98",
+            "includes/Render/CourseDetail.php:428",
             "includes/Render/Listing.php:482",
             "includes/Render/Listing.php:486",
             "includes/Admin/Screen/SettingsPage.php:118",
@@ -870,7 +912,7 @@
         "singular": "Full",
         "plural": null,
         "refs": [
-            "includes/Render/CourseDetail.php:438",
+            "includes/Render/CourseDetail.php:496",
             "includes/Render/Listing.php:314"
         ]
     },
@@ -910,6 +952,20 @@
         ]
     },
     {
+        "singular": "How many classes the course has.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:112"
+        ]
+    },
+    {
+        "singular": "How many places are still free.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:136"
+        ]
+    },
+    {
         "singular": "In iSport",
         "plural": null,
         "refs": [
@@ -942,6 +998,8 @@
         "plural": null,
         "refs": [
             "templates/single-trainer.php:68",
+            "includes/Render/Fields.php:216",
+            "includes/Render/Fields.php:217",
             "includes/Admin/TrainerEditor.php:150"
         ]
     },
@@ -1002,10 +1060,18 @@
         ]
     },
     {
+        "singular": "Make-up classes",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:181"
+        ]
+    },
+    {
         "singular": "Make-up classes for this course",
         "plural": null,
         "refs": [
-            "templates/single-course.php:95"
+            "templates/single-course.php:95",
+            "includes/Render/Fields.php:182"
         ]
     },
     {
@@ -1030,6 +1096,7 @@
         "singular": "Motto",
         "plural": null,
         "refs": [
+            "includes/Render/Fields.php:232",
             "includes/Admin/TrainerEditor.php:168"
         ]
     },
@@ -1369,6 +1436,7 @@
         "singular": "Photograph",
         "plural": null,
         "refs": [
+            "includes/Render/Fields.php:200",
             "includes/Admin/TrainerEditor.php:90"
         ]
     },
@@ -1376,7 +1444,9 @@
         "singular": "Places left",
         "plural": null,
         "refs": [
-            "includes/Render/CourseDetail.php:109",
+            "includes/Render/Fields.php:133",
+            "includes/Render/Fields.php:134",
+            "includes/Render/CourseDetail.php:105",
             "includes/Admin/Screen/DisplaySetsPage.php:475",
             "includes/Admin/Screen/DisplaySetsPage.php:500"
         ]
@@ -1385,7 +1455,9 @@
         "singular": "Price",
         "plural": null,
         "refs": [
-            "includes/Render/CourseDetail.php:96",
+            "includes/Render/Fields.php:77",
+            "includes/Render/Fields.php:78",
+            "includes/Render/CourseDetail.php:98",
             "includes/Admin/Screen/DisplaySetsPage.php:474",
             "includes/Admin/Screen/DisplaySetsPage.php:499",
             "includes/Admin/CourseEditor.php:201",
@@ -1397,6 +1469,8 @@
         "plural": null,
         "refs": [
             "templates/single-trainer.php:57",
+            "includes/Render/Fields.php:208",
+            "includes/Render/Fields.php:209",
             "includes/Admin/TrainerEditor.php:143"
         ]
     },
@@ -1497,7 +1571,9 @@
         "plural": null,
         "refs": [
             "templates/partials/controls.php:54",
-            "includes/Render/CourseDetail.php:107",
+            "includes/Render/Fields.php:117",
+            "includes/Render/Fields.php:118",
+            "includes/Render/CourseDetail.php:103",
             "includes/Admin/Screen/MakeupPage.php:131",
             "includes/Admin/Screen/UnmatchedPage.php:166",
             "includes/Admin/Screen/DisplaySetsPage.php:470",
@@ -1529,7 +1605,9 @@
         "singular": "Runs",
         "plural": null,
         "refs": [
-            "includes/Render/CourseDetail.php:102"
+            "includes/Render/Fields.php:101",
+            "includes/Render/Fields.php:102",
+            "includes/Render/CourseDetail.php:101"
         ]
     },
     {
@@ -1686,8 +1764,15 @@
         "singular": "Sign up in iSport",
         "plural": null,
         "refs": [
-            "includes/Render/CourseDetail.php:215",
+            "includes/Render/CourseDetail.php:211",
             "includes/Render/Listing.php:303"
+        ]
+    },
+    {
+        "singular": "Sign-up button",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:141"
         ]
     },
     {
@@ -1702,6 +1787,8 @@
         "plural": null,
         "refs": [
             "templates/single-trainer.php:50",
+            "includes/Render/Fields.php:224",
+            "includes/Render/Fields.php:225",
             "includes/Admin/TrainerEditor.php:161"
         ]
     },
@@ -1812,10 +1899,59 @@
         ]
     },
     {
+        "singular": "The featured image of the course.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:152"
+        ]
+    },
+    {
+        "singular": "The first and last day of the course.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:104"
+        ]
+    },
+    {
+        "singular": "The hall or halls the course runs in.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:120"
+        ]
+    },
+    {
+        "singular": "The hours the course meets at, in step with the days.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:96"
+        ]
+    },
+    {
+        "singular": "The link into iSport. It hides itself when the course is full or takes no bookings.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:144"
+        ]
+    },
+    {
+        "singular": "The name of the course, as a heading you can style.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:72"
+        ]
+    },
+    {
         "singular": "The next few days",
         "plural": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:250"
+        ]
+    },
+    {
+        "singular": "The person to contact about a course nobody books through iSport.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:168"
         ]
     },
     {
@@ -1826,10 +1962,59 @@
         ]
     },
     {
+        "singular": "The sentence or two that makes this a person.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:227"
+        ]
+    },
+    {
+        "singular": "The trainer’s motto.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:235"
+        ]
+    },
+    {
+        "singular": "The trainer’s name, as a heading you can style.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:195"
+        ]
+    },
+    {
+        "singular": "The trainer’s picture: your own where you set one, otherwise the one from iSport.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:203"
+        ]
+    },
+    {
+        "singular": "The weekday or weekdays the course meets on, one to a line.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:88"
+        ]
+    },
+    {
         "singular": "The whole term",
         "plural": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:248"
+        ]
+    },
+    {
+        "singular": "The words written on the course in WordPress.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:160"
+        ]
+    },
+    {
+        "singular": "The words written on the trainer in WordPress.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:243"
         ]
     },
     {
@@ -1844,6 +2029,20 @@
         "plural": null,
         "refs": [
             "includes/Admin/Screen/SettingsPage.php:122"
+        ]
+    },
+    {
+        "singular": "This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings.",
+        "plural": null,
+        "refs": [
+            "includes/Render/FieldRenderer.php:148"
+        ]
+    },
+    {
+        "singular": "This course’s own timetable, as a table.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:176"
         ]
     },
     {
@@ -1886,7 +2085,9 @@
         "singular": "Time",
         "plural": null,
         "refs": [
-            "includes/Render/CourseDetail.php:101",
+            "includes/Render/Fields.php:93",
+            "includes/Render/Fields.php:94",
+            "includes/Render/CourseDetail.php:100",
             "includes/Admin/Screen/MakeupPage.php:129",
             "includes/Admin/Screen/UnmatchedPage.php:164",
             "includes/Admin/Screen/DisplaySetsPage.php:469"
@@ -1910,8 +2111,10 @@
         "singular": "Trainer",
         "plural": null,
         "refs": [
-            "includes/Render/CourseDetail.php:108",
-            "includes/Render/CourseDetail.php:131",
+            "includes/Render/Fields.php:125",
+            "includes/Render/Fields.php:126",
+            "includes/Render/CourseDetail.php:104",
+            "includes/Render/CourseDetail.php:127",
             "includes/Render/TrainerDetail.php:239",
             "includes/Admin/Screen/MakeupPage.php:132",
             "includes/Admin/Screen/UnmatchedPage.php:167",
@@ -1919,6 +2122,20 @@
             "includes/Admin/CourseEditor.php:312",
             "includes/Data/PostType.php:159",
             "includes/Data/TrainerType.php:93"
+        ]
+    },
+    {
+        "singular": "Trainer description",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:240"
+        ]
+    },
+    {
+        "singular": "Trainer name",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:192"
         ]
     },
     {
@@ -1968,7 +2185,9 @@
         "singular": "Upcoming classes",
         "plural": null,
         "refs": [
-            "templates/single-course.php:85"
+            "templates/single-course.php:85",
+            "includes/Render/Fields.php:173",
+            "includes/Render/Fields.php:174"
         ]
     },
     {
@@ -1997,6 +2216,20 @@
         "plural": null,
         "refs": [
             "includes/Admin/Screen/Overview.php:80"
+        ]
+    },
+    {
+        "singular": "What the course costs. A course with no price shows as free.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:80"
+        ]
+    },
+    {
+        "singular": "What the trainer does when they are not in the hall.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:219"
         ]
     },
     {
@@ -2056,10 +2289,19 @@
         ]
     },
     {
+        "singular": "Who runs the course, linked to their own page where they have one.",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:128"
+        ]
+    },
+    {
         "singular": "Who to ask",
         "plural": null,
         "refs": [
-            "templates/single-course.php:62"
+            "templates/single-course.php:62",
+            "includes/Render/Fields.php:165",
+            "includes/Render/Fields.php:166"
         ]
     },
     {

@@ -38,6 +38,7 @@ use CSCS\Data\TrainerRepository;
 use CSCS\Data\TrainerType;
 use CSCS\Render\Assets;
 use CSCS\Render\Block;
+use CSCS\Render\FieldBlocks;
 use CSCS\Divi\DesignGuard;
 use CSCS\Divi\DisplayModule;
 use CSCS\Render\Renderer;
@@ -151,6 +152,7 @@ final class Plugin {
 		( new Assets( $this ) )->register();
 		( new Shortcodes( $this ) )->register();
 		( new Block( $this ) )->register();
+		( new FieldBlocks( $this ) )->register();
 		( new SingleCourse( $this ) )->register();
 		( new SingleTrainer( $this ) )->register();
 		( new RestPreview( $this ) )->register();

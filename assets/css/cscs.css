@@ -183,6 +183,12 @@
  * making a design decision that belongs to whoever owns the design.
  */
 .cscs-trainer__photo {
+	/*
+	 * A portrait at its full width is a wall, not a photograph of a person.
+	 * This is the plugin's own page, which exists so that a trainer has one
+	 * before anybody has designed one; the blocks below override it entirely.
+	 */
+	max-width: 20rem;
 	margin: 0 0 1rem;
 }
 
@@ -216,4 +222,108 @@
  */
 .cscs-course__facts td {
 	white-space: normal;
+}
+
+/*
+ * The field blocks and modules.
+ *
+ * A heading and a value, and almost nothing else. Everything a designer would
+ * want to change is set in the editor and arrives as an inline style, so what
+ * is left here is the shape: how the two sit relative to each other, and what a
+ * list looks like before anybody has an opinion about it.
+ */
+.cscs-field {
+	--cscs-field-gap: 0.25rem;
+}
+
+.cscs-field--stack .cscs-field__label {
+	margin: 0 0 var(--cscs-field-gap);
+}
+
+.cscs-field--stack .cscs-field__value {
+	margin: 0;
+}
+
+.cscs-field--inline {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--cscs-field-gap);
+}
+
+.cscs-field--inline .cscs-field__label,
+.cscs-field--inline .cscs-field__value {
+	margin: 0;
+}
+
+.cscs-field__list {
+	margin: 0;
+	padding-left: 1.25rem;
+}
+
+.cscs-field__list > li + li {
+	margin-top: 0.25rem;
+}
+
+.cscs-field__list[style*="list-style-type:none"] {
+	padding-left: 0;
+}
+
+.cscs-field__contact-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.cscs-field__empty {
+	opacity: 0.7;
+}
+
+/*
+ * Animation.
+ *
+ * Nothing is hidden by the markup. The armed class is added by the script, so
+ * an element is only ever invisible once something is certainly going to bring
+ * it back — a page whose JavaScript failed shows everything, as it should.
+ */
+.cscs-animate--armed {
+	opacity: 0;
+	will-change: opacity, transform;
+}
+
+.cscs-animate--armed[data-cscs-animation="slide-up"] {
+	transform: translateY(1.5rem);
+}
+
+.cscs-animate--armed[data-cscs-animation="slide-down"] {
+	transform: translateY(-1.5rem);
+}
+
+.cscs-animate--armed[data-cscs-animation="slide-left"] {
+	transform: translateX(-1.5rem);
+}
+
+.cscs-animate--armed[data-cscs-animation="slide-right"] {
+	transform: translateX(1.5rem);
+}
+
+.cscs-animate--armed[data-cscs-animation="zoom"] {
+	transform: scale(0.94);
+}
+
+.cscs-animate--in {
+	opacity: 1;
+	transform: none;
+	transition:
+		opacity var(--cscs-animation-duration, 600ms) ease-out var(--cscs-animation-delay, 0ms),
+		transform var(--cscs-animation-duration, 600ms) ease-out var(--cscs-animation-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cscs-animate--armed,
+	.cscs-animate--in {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
 }

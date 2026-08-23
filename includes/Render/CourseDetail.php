@@ -92,20 +92,16 @@ final class CourseDetail {
 	public function facts(): array {
 		$course = $this->course;
 
+		unset( $course );
+
 		$facts = array(
-			__( 'Price', 'course-schedule-connector' )   => Formatter::price(
-				$course['price'] ?? null,
-				__( 'Free', 'course-schedule-connector' )
-			),
+			__( 'Price', 'course-schedule-connector' )   => $this->price(),
 			__( 'Day', 'course-schedule-connector' )     => $this->meeting_days(),
 			__( 'Time', 'course-schedule-connector' )    => $this->meeting_hours(),
-			__( 'Runs', 'course-schedule-connector' )    => Formatter::date_range(
-				$this->short_date( (string) ( $course['date_from'] ?? '' ) ),
-				$this->short_date( (string) ( $course['date_to'] ?? '' ) )
-			),
-			__( 'Classes', 'course-schedule-connector' ) => 0 === (int) ( $course['lessons'] ?? 0 ) ? '' : (string) (int) $course['lessons'],
-			__( 'Room', 'course-schedule-connector' )    => implode( ', ', array_map( 'strval', (array) ( $course['rooms'] ?? array() ) ) ),
-			__( 'Trainer', 'course-schedule-connector' ) => (string) ( $course['trainer'] ?? '' ),
+			__( 'Runs', 'course-schedule-connector' )    => $this->period(),
+			__( 'Classes', 'course-schedule-connector' ) => $this->lessons(),
+			__( 'Room', 'course-schedule-connector' )    => $this->rooms(),
+			__( 'Trainer', 'course-schedule-connector' ) => $this->trainer(),
 			__( 'Places left', 'course-schedule-connector' ) => $this->places(),
 		);
 
@@ -422,11 +418,73 @@ final class CourseDetail {
 	}
 
 	/**
+	 * Returns the price, in words.
+	 *
+	 * @return string
+	 */
+	public function price(): string {
+		return Formatter::price(
+			$this->course['price'] ?? null,
+			__( 'Free', 'course-schedule-connector' )
+		);
+	}
+
+	/**
+	 * Returns the span of dates the course runs over.
+	 *
+	 * @return string
+	 */
+	public function period(): string {
+		return Formatter::date_range(
+			$this->short_date( (string) ( $this->course['date_from'] ?? '' ) ),
+			$this->short_date( (string) ( $this->course['date_to'] ?? '' ) )
+		);
+	}
+
+	/**
+	 * Returns how many classes the course has, or nothing when it says none.
+	 *
+	 * @return string
+	 */
+	public function lessons(): string {
+		$lessons = (int) ( $this->course['lessons'] ?? 0 );
+
+		return 0 === $lessons ? '' : (string) $lessons;
+	}
+
+	/**
+	 * Returns the rooms the course runs in.
+	 *
+	 * @return string
+	 */
+	public function rooms(): string {
+		return implode( ', ', array_map( 'strval', (array) ( $this->course['rooms'] ?? array() ) ) );
+	}
+
+	/**
+	 * Returns the trainer's name as iSport spells it.
+	 *
+	 * @return string
+	 */
+	public function trainer(): string {
+		return (string) ( $this->course['trainer'] ?? '' );
+	}
+
+	/**
+	 * Returns the course's name.
+	 *
+	 * @return string
+	 */
+	public function name(): string {
+		return (string) ( $this->course['name'] ?? '' );
+	}
+
+	/**
 	 * Returns how many places are left, in words.
 	 *
 	 * @return string
 	 */
-	private function places(): string {
+	public function places(): string {
 		$available = (int) ( $this->course['available'] ?? 0 );
 		$capacity  = (int) ( $this->course['capacity'] ?? 0 );
 

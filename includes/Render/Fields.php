@@ -1,0 +1,544 @@
+<?php
+/**
+ * The catalogue of fields a page can be built out of.
+ *
+ * @package CourseScheduleConnector
+ */
+
+declare( strict_types=1 );
+
+namespace CSCS\Render;
+
+use CSCS\Data\PostType;
+use CSCS\Data\TrainerType;
+use CSCS\Plugin;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * One list of what a course and a trainer are made of.
+ *
+ * Every field on a course page is the same shape — a heading and a value — and
+ * the temptation is to ship one block called "field" with a dropdown on it. The
+ * trouble with that is the first thing anybody does: they open the inserter,
+ * type "price", and find nothing. A person building a page thinks in the thing
+ * they want, not in the abstraction it happens to be an instance of.
+ *
+ * So the blocks are named — Price, Day, Time, Trainer — and this is the single
+ * place that knows what each of them means. The Gutenberg blocks, the Divi
+ * modules and the plugin's own templates are all generated from it, which is
+ * why a field added here appears in three editors at once and cannot say three
+ * different things.
+ */
+final class Fields {
+
+	/**
+	 * Fields that describe a course.
+	 */
+	public const COURSE = 'course';
+
+	/**
+	 * Fields that describe a trainer.
+	 */
+	public const TRAINER = 'trainer';
+
+	/**
+	 * A single line, or several lines that belong together.
+	 */
+	public const TEXT = 'text';
+
+	/**
+	 * An ordered list of lines.
+	 */
+	public const LIST = 'list';
+
+	/**
+	 * Markup the plugin itself produced: a button, a table, an image.
+	 */
+	public const HTML = 'html';
+
+	/**
+	 * Returns every field, keyed by the name its block and module carry.
+	 *
+	 * @return array<string, array{context: string, kind: string, title: string, label: string, icon: string, description: string, heading: bool}>
+	 */
+	public static function all(): array {
+		$course = array(
+			'name'    => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Course name', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'editor-textcolor',
+				'description' => __( 'The name of the course, as a heading you can style.', 'course-schedule-connector' ),
+				'heading'     => false,
+			),
+			'price'   => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Price', 'course-schedule-connector' ),
+				'label'       => __( 'Price', 'course-schedule-connector' ),
+				'icon'        => 'tag',
+				'description' => __( 'What the course costs. A course with no price shows as free.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'day'     => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Day', 'course-schedule-connector' ),
+				'label'       => __( 'Day', 'course-schedule-connector' ),
+				'icon'        => 'calendar',
+				'description' => __( 'The weekday or weekdays the course meets on, one to a line.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'time'    => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Time', 'course-schedule-connector' ),
+				'label'       => __( 'Time', 'course-schedule-connector' ),
+				'icon'        => 'clock',
+				'description' => __( 'The hours the course meets at, in step with the days.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'period'  => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Runs', 'course-schedule-connector' ),
+				'label'       => __( 'Runs', 'course-schedule-connector' ),
+				'icon'        => 'calendar-alt',
+				'description' => __( 'The first and last day of the course.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'lessons' => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Classes', 'course-schedule-connector' ),
+				'label'       => __( 'Classes', 'course-schedule-connector' ),
+				'icon'        => 'list-view',
+				'description' => __( 'How many classes the course has.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'room'    => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Room', 'course-schedule-connector' ),
+				'label'       => __( 'Room', 'course-schedule-connector' ),
+				'icon'        => 'location',
+				'description' => __( 'The hall or halls the course runs in.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'trainer' => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Trainer', 'course-schedule-connector' ),
+				'label'       => __( 'Trainer', 'course-schedule-connector' ),
+				'icon'        => 'groups',
+				'description' => __( 'Who runs the course, linked to their own page where they have one.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'places'  => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Places left', 'course-schedule-connector' ),
+				'label'       => __( 'Places left', 'course-schedule-connector' ),
+				'icon'        => 'admin-users',
+				'description' => __( 'How many places are still free.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'button'  => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Sign-up button', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'external',
+				'description' => __( 'The link into iSport. It hides itself when the course is full or takes no bookings.', 'course-schedule-connector' ),
+				'heading'     => false,
+			),
+			'image'   => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Course picture', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'format-image',
+				'description' => __( 'The featured image of the course.', 'course-schedule-connector' ),
+				'heading'     => false,
+			),
+			'text'    => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Course description', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'editor-paragraph',
+				'description' => __( 'The words written on the course in WordPress.', 'course-schedule-connector' ),
+				'heading'     => false,
+			),
+			'contact' => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Who to ask', 'course-schedule-connector' ),
+				'label'       => __( 'Who to ask', 'course-schedule-connector' ),
+				'icon'        => 'email',
+				'description' => __( 'The person to contact about a course nobody books through iSport.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'schedule' => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Upcoming classes', 'course-schedule-connector' ),
+				'label'       => __( 'Upcoming classes', 'course-schedule-connector' ),
+				'icon'        => 'calendar-alt',
+				'description' => __( 'This course’s own timetable, as a table.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'makeup'  => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Make-up classes', 'course-schedule-connector' ),
+				'label'       => __( 'Make-up classes for this course', 'course-schedule-connector' ),
+				'icon'        => 'update',
+				'description' => __( 'Classes that stand in for one somebody missed.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+		);
+
+		$trainer = array(
+			'name'           => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Trainer name', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'editor-textcolor',
+				'description' => __( 'The trainer’s name, as a heading you can style.', 'course-schedule-connector' ),
+				'heading'     => false,
+			),
+			'photo'          => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Photograph', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'format-image',
+				'description' => __( 'The trainer’s picture: your own where you set one, otherwise the one from iSport.', 'course-schedule-connector' ),
+				'heading'     => false,
+			),
+			'qualifications' => array(
+				'kind'        => self::LIST,
+				'title'       => __( 'Qualifications', 'course-schedule-connector' ),
+				'label'       => __( 'Qualifications', 'course-schedule-connector' ),
+				'icon'        => 'awards',
+				'description' => __( 'Every qualification, in the order they were entered.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'hobbies'        => array(
+				'kind'        => self::LIST,
+				'title'       => __( 'Interests', 'course-schedule-connector' ),
+				'label'       => __( 'Interests', 'course-schedule-connector' ),
+				'icon'        => 'heart',
+				'description' => __( 'What the trainer does when they are not in the hall.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'fact'           => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Something worth knowing', 'course-schedule-connector' ),
+				'label'       => __( 'Something worth knowing', 'course-schedule-connector' ),
+				'icon'        => 'lightbulb',
+				'description' => __( 'The sentence or two that makes this a person.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'motto'          => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Motto', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'format-quote',
+				'description' => __( 'The trainer’s motto.', 'course-schedule-connector' ),
+				'heading'     => false,
+			),
+			'text'           => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Trainer description', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'editor-paragraph',
+				'description' => __( 'The words written on the trainer in WordPress.', 'course-schedule-connector' ),
+				'heading'     => false,
+			),
+			'courses'        => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Courses this trainer runs', 'course-schedule-connector' ),
+				'label'       => __( 'Courses this trainer runs', 'course-schedule-connector' ),
+				'icon'        => 'calendar-alt',
+				'description' => __( 'Every course paired with this trainer, as a table.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+		);
+
+		$fields = array();
+
+		foreach ( $course as $key => $field ) {
+			$fields[ self::COURSE . '-' . $key ] = array_merge( $field, array( 'context' => self::COURSE ) );
+		}
+
+		foreach ( $trainer as $key => $field ) {
+			$fields[ self::TRAINER . '-' . $key ] = array_merge( $field, array( 'context' => self::TRAINER ) );
+		}
+
+		/**
+		 * Filters the fields a page can be built out of.
+		 *
+		 * Adding one here adds a Gutenberg block and a Divi module at once.
+		 *
+		 * @since 0.5.0
+		 *
+		 * @param array<string, array<string, mixed>> $fields Fields, keyed by name.
+		 */
+		return apply_filters( 'cscs_fields', $fields );
+	}
+
+	/**
+	 * Returns one field's definition, or null when there is no such field.
+	 *
+	 * @param string $name Field name, `course-price` and the like.
+	 * @return array<string, mixed>|null
+	 */
+	public static function get( string $name ): ?array {
+		$all = self::all();
+
+		return $all[ $name ] ?? null;
+	}
+
+	/**
+	 * Works out what a field says about the post it is standing on.
+	 *
+	 * @param Plugin   $plugin Plugin instance.
+	 * @param string   $name   Field name.
+	 * @param \WP_Post $post   The course or trainer.
+	 * @return array{kind: string, text: string, list: array<int, string>, html: string}
+	 */
+	public static function value( Plugin $plugin, string $name, \WP_Post $post ): array {
+		$field = self::get( $name );
+		$empty = array(
+			'kind' => self::TEXT,
+			'text' => '',
+			'list' => array(),
+			'html' => '',
+		);
+
+		if ( null === $field ) {
+			return $empty;
+		}
+
+		$empty['kind'] = (string) $field['kind'];
+		$key           = substr( $name, strlen( (string) $field['context'] ) + 1 );
+
+		if ( self::COURSE === $field['context'] ) {
+			return array_merge( $empty, self::course_value( $plugin, $key, $post ) );
+		}
+
+		return array_merge( $empty, self::trainer_value( $plugin, $key, $post ) );
+	}
+
+	/**
+	 * Works out one course field.
+	 *
+	 * @param Plugin   $plugin Plugin instance.
+	 * @param string   $key    Field key without its context.
+	 * @param \WP_Post $post   Course.
+	 * @return array<string, mixed>
+	 */
+	private static function course_value( Plugin $plugin, string $key, \WP_Post $post ): array {
+		$detail = new CourseDetail( $plugin, $post );
+
+		switch ( $key ) {
+			case 'name':
+				return array( 'text' => $detail->name() );
+
+			case 'price':
+				return array( 'text' => $detail->price() );
+
+			case 'day':
+				return array( 'text' => $detail->meeting_days() );
+
+			case 'time':
+				return array( 'text' => $detail->meeting_hours() );
+
+			case 'period':
+				return array( 'text' => $detail->period() );
+
+			case 'lessons':
+				return array( 'text' => $detail->lessons() );
+
+			case 'room':
+				return array( 'text' => $detail->rooms() );
+
+			case 'places':
+				return array( 'text' => $detail->places() );
+
+			case 'trainer':
+				$name = $detail->trainer();
+				$url  = $detail->trainer_url();
+
+				if ( '' === $name ) {
+					return array( 'html' => '' );
+				}
+
+				return array(
+					'html' => '' === $url
+						? esc_html( $name )
+						: sprintf(
+							'<a class="cscs-field__link" href="%s">%s</a>',
+							esc_url( $url ),
+							esc_html( $name )
+						),
+				);
+
+			case 'button':
+				return array( 'html' => $detail->button() );
+
+			case 'image':
+				return array( 'html' => (string) get_the_post_thumbnail( $post, 'large' ) );
+
+			case 'text':
+				return array( 'html' => self::written_text( $post ) );
+
+			case 'contact':
+				return array( 'html' => self::contact( $detail ) );
+
+			case 'schedule':
+				return array( 'html' => self::table( $detail->schedule() ) );
+
+			case 'makeup':
+				return array( 'html' => self::table( $detail->makeup() ) );
+		}
+
+		return array();
+	}
+
+	/**
+	 * Works out one trainer field.
+	 *
+	 * @param Plugin   $plugin Plugin instance.
+	 * @param string   $key    Field key without its context.
+	 * @param \WP_Post $post   Trainer.
+	 * @return array<string, mixed>
+	 */
+	private static function trainer_value( Plugin $plugin, string $key, \WP_Post $post ): array {
+		$detail = new TrainerDetail( $plugin, $post );
+
+		switch ( $key ) {
+			case 'name':
+				return array( 'text' => $detail->name() );
+
+			case 'fact':
+				return array( 'text' => $detail->fact() );
+
+			case 'motto':
+				return array( 'text' => $detail->motto() );
+
+			case 'qualifications':
+				return array( 'list' => $detail->qualifications() );
+
+			case 'hobbies':
+				return array( 'list' => $detail->hobbies() );
+
+			case 'photo':
+				return array( 'html' => $detail->photograph_html( 'large' ) );
+
+			case 'text':
+				return array( 'html' => self::written_text( $post ) );
+
+			case 'courses':
+				return array( 'html' => self::table( $detail->course_listing() ) );
+		}
+
+		return array();
+	}
+
+	/**
+	 * Renders the post's own text, without setting the content filter on itself.
+	 *
+	 * @param \WP_Post $post Post.
+	 * @return string
+	 */
+	private static function written_text( \WP_Post $post ): string {
+		$content = (string) get_post_field( 'post_content', $post->ID );
+
+		if ( '' === trim( $content ) ) {
+			return '';
+		}
+
+		// `the_content` is where the course and trainer pages hang themselves,
+		// and running it from inside a block that is itself part of that page
+		// would call it from within itself. The formatting filters are applied
+		// by hand instead, which is what everything else on the page has had.
+		$content = wp_unslash( $content );
+		$content = do_blocks( $content );
+		$content = wptexturize( $content );
+		$content = wpautop( $content );
+		$content = do_shortcode( $content );
+
+		return wp_kses_post( $content );
+	}
+
+	/**
+	 * Renders a listing as its table, or nothing when there is none.
+	 *
+	 * @param Listing|null $listing Listing.
+	 * @return string
+	 */
+	private static function table( ?Listing $listing ): string {
+		if ( ! $listing instanceof Listing ) {
+			return '';
+		}
+
+		$file = Renderer::locate( 'partials/table' );
+
+		if ( '' === $file ) {
+			return '';
+		}
+
+		ob_start();
+
+		require $file;
+
+		return (string) ob_get_clean();
+	}
+
+	/**
+	 * Renders the contact details, where somebody entered any.
+	 *
+	 * @param CourseDetail $detail Course.
+	 * @return string
+	 */
+	private static function contact( CourseDetail $detail ): string {
+		$contact = $detail->contact();
+
+		if ( null === $contact ) {
+			return '';
+		}
+
+		$lines = array();
+
+		if ( '' !== $contact['name'] ) {
+			$lines[] = sprintf( '<p class="cscs-field__contact-name">%s</p>', esc_html( $contact['name'] ) );
+		}
+
+		$links = '';
+
+		if ( '' !== $contact['email'] ) {
+			$links .= sprintf(
+				'<li><a href="%s">%s</a></li>',
+				esc_url( 'mailto:' . $contact['email'] ),
+				esc_html( $contact['email'] )
+			);
+		}
+
+		if ( '' !== $contact['phone'] ) {
+			$links .= sprintf(
+				'<li><a href="%s">%s</a></li>',
+				esc_url( 'tel:' . (string) preg_replace( '/\s+/', '', $contact['phone'] ) ),
+				esc_html( $contact['phone'] )
+			);
+		}
+
+		if ( '' !== $links ) {
+			$lines[] = '<ul class="cscs-field__contact-list">' . $links . '</ul>';
+		}
+
+		if ( '' !== $contact['note'] ) {
+			$lines[] = sprintf( '<p class="cscs-field__contact-note">%s</p>', esc_html( $contact['note'] ) );
+		}
+
+		return implode( '', $lines );
+	}
+
+	/**
+	 * Returns the post type a field's context lives in.
+	 *
+	 * @param string $context Context.
+	 * @return string
+	 */
+	public static function post_type( string $context ): string {
+		return self::TRAINER === $context ? TrainerType::TRAINER : PostType::COURSE;
+	}
+}

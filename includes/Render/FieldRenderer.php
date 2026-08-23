@@ -1,0 +1,593 @@
+<?php
+/**
+ * Turning one field and its settings into markup.
+ *
+ * @package CourseScheduleConnector
+ */
+
+declare( strict_types=1 );
+
+namespace CSCS\Render;
+
+use CSCS\Plugin;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Draws a heading and a value, exactly as somebody arranged them.
+ *
+ * A field block has to give away as much control as a page builder does, and a
+ * page builder's control is mostly typography — and typography of two things,
+ * not one. "Price" wants to be small and quiet; "4 160 Kč" wants to be large.
+ * Both live in one block, so both need their own settings, and neither can be
+ * had from WordPress's own block supports, which style a block as a whole.
+ *
+ * So the heading and the value each carry their own set here, written into
+ * inline styles. Everything a browser will be handed is checked against a
+ * pattern or a list first: an attribute arrives from a saved post, a saved post
+ * can be edited by anybody who may edit posts, and "it came from our own
+ * editor" is not a claim about safety.
+ */
+final class FieldRenderer {
+
+	/**
+	 * The settings both the heading and the value hold.
+	 *
+	 * @return array<int, string>
+	 */
+	public static function element_settings(): array {
+		return array(
+			'FontSize',
+			'FontFamily',
+			'FontWeight',
+			'FontStyle',
+			'LineHeight',
+			'LetterSpacing',
+			'TextTransform',
+			'TextDecoration',
+			'Colour',
+			'Align',
+			'Margin',
+		);
+	}
+
+	/**
+	 * Returns the attributes every field block and module understands.
+	 *
+	 * @param array<string, mixed> $field Field definition.
+	 * @return array<string, array<string, mixed>>
+	 */
+	public static function attributes( array $field ): array {
+		$attributes = array(
+			'postId'            => array(
+				'type'    => 'number',
+				'default' => 0,
+			),
+			'showLabel'         => array(
+				'type'    => 'boolean',
+				'default' => (bool) ( $field['heading'] ?? false ),
+			),
+			'label'             => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			'labelTag'          => array(
+				'type'    => 'string',
+				'default' => 'h3',
+			),
+			'valueTag'          => array(
+				'type'    => 'string',
+				'default' => 'div',
+			),
+			'layout'            => array(
+				'type'    => 'string',
+				'default' => 'stack',
+			),
+			'separator'         => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			'gap'               => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			'listStyle'         => array(
+				'type'    => 'string',
+				'default' => 'disc',
+			),
+			'emptyText'         => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			'animation'         => array(
+				'type'    => 'string',
+				'default' => 'none',
+			),
+			'animationDuration' => array(
+				'type'    => 'number',
+				'default' => 600,
+			),
+			'animationDelay'    => array(
+				'type'    => 'number',
+				'default' => 0,
+			),
+		);
+
+		foreach ( array( 'label', 'value' ) as $element ) {
+			foreach ( self::element_settings() as $setting ) {
+				$attributes[ $element . $setting ] = array(
+					'type'    => 'string',
+					'default' => '',
+				);
+			}
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Renders one field.
+	 *
+	 * @param Plugin               $plugin     Plugin instance.
+	 * @param string               $name       Field name.
+	 * @param array<string, mixed> $attributes Settings.
+	 * @param string               $wrapper    Extra attributes for the outer element.
+	 * @return string
+	 */
+	public static function render( Plugin $plugin, string $name, array $attributes, string $wrapper = '' ): string {
+		$field = Fields::get( $name );
+
+		if ( null === $field ) {
+			return '';
+		}
+
+		$post = self::post( $field, $attributes );
+
+		if ( ! $post instanceof \WP_Post ) {
+			return self::notice(
+				__( 'This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings.', 'course-schedule-connector' )
+			);
+		}
+
+		$value = Fields::value( $plugin, $name, $post );
+		$body  = self::body( $value, $attributes );
+
+		if ( '' === $body ) {
+			$empty = trim( (string) ( $attributes['emptyText'] ?? '' ) );
+
+			// A field with nothing to say is left out rather than printed
+			// empty, exactly as an empty column is dropped from a listing. A
+			// heading over a blank space reads as a broken page, not as "none".
+			if ( '' === $empty ) {
+				return '';
+			}
+
+			$body = '<span class="cscs-field__empty">' . esc_html( $empty ) . '</span>';
+		}
+
+		$label = self::label( $field, $attributes );
+		$style = self::element_style( 'value', $attributes );
+
+		$value_tag = self::tag( (string) ( $attributes['valueTag'] ?? 'div' ) );
+
+		$html = sprintf(
+			'<%1$s class="cscs-field__value"%2$s>%3$s</%1$s>',
+			$value_tag,
+			'' === $style ? '' : ' style="' . esc_attr( $style ) . '"',
+			$body
+		);
+
+		return sprintf(
+			'<div %1$s>%2$s%3$s</div>',
+			self::wrapper_attributes( $name, $attributes, $wrapper ),
+			$label,
+			$html
+		);
+	}
+
+	/**
+	 * Returns the post a field is standing on.
+	 *
+	 * @param array<string, mixed> $field      Field definition.
+	 * @param array<string, mixed> $attributes Settings.
+	 * @return \WP_Post|null
+	 */
+	private static function post( array $field, array $attributes ): ?\WP_Post {
+		$wanted = (int) ( $attributes['postId'] ?? 0 );
+		$type   = Fields::post_type( (string) $field['context'] );
+
+		// Nothing chosen means "whichever course this page is about", which is
+		// what a template in a theme builder needs and what makes one design
+		// serve every course.
+		$post = 0 === $wanted ? get_post() : get_post( $wanted );
+
+		if ( ! $post instanceof \WP_Post || $type !== $post->post_type ) {
+			return null;
+		}
+
+		return $post;
+	}
+
+	/**
+	 * Renders the heading.
+	 *
+	 * @param array<string, mixed> $field      Field definition.
+	 * @param array<string, mixed> $attributes Settings.
+	 * @return string
+	 */
+	private static function label( array $field, array $attributes ): string {
+		if ( empty( $attributes['showLabel'] ) ) {
+			return '';
+		}
+
+		$text = trim( (string) ( $attributes['label'] ?? '' ) );
+		$text = '' === $text ? (string) ( $field['label'] ?? '' ) : $text;
+
+		if ( '' === $text ) {
+			return '';
+		}
+
+		$separator = (string) ( $attributes['separator'] ?? '' );
+		$style     = self::element_style( 'label', $attributes );
+
+		return sprintf(
+			'<%1$s class="cscs-field__label"%2$s>%3$s%4$s</%1$s>',
+			self::tag( (string) ( $attributes['labelTag'] ?? 'h3' ) ),
+			'' === $style ? '' : ' style="' . esc_attr( $style ) . '"',
+			esc_html( $text ),
+			'' === $separator ? '' : '<span class="cscs-field__separator">' . esc_html( $separator ) . '</span>'
+		);
+	}
+
+	/**
+	 * Renders the value itself, according to what kind of thing it is.
+	 *
+	 * @param array{kind: string, text: string, list: array<int, string>, html: string} $value      Value.
+	 * @param array<string, mixed>                                                      $attributes Settings.
+	 * @return string
+	 */
+	private static function body( array $value, array $attributes ): string {
+		if ( Fields::LIST === $value['kind'] ) {
+			if ( array() === $value['list'] ) {
+				return '';
+			}
+
+			$style = self::list_style( (string) ( $attributes['listStyle'] ?? 'disc' ) );
+			$tag   = 'ordered' === (string) ( $attributes['listStyle'] ?? '' ) ? 'ol' : 'ul';
+			$items = '';
+
+			foreach ( $value['list'] as $line ) {
+				$items .= '<li>' . esc_html( $line ) . '</li>';
+			}
+
+			return sprintf(
+				'<%1$s class="cscs-field__list"%2$s>%3$s</%1$s>',
+				$tag,
+				'' === $style ? '' : ' style="' . esc_attr( $style ) . '"',
+				$items
+			);
+		}
+
+		if ( Fields::HTML === $value['kind'] ) {
+			return $value['html'];
+		}
+
+		$text = trim( $value['text'] );
+
+		// Several lines that belong together — the days a course meets — are
+		// kept apart, because joining them back into a sentence is exactly the
+		// thing separating day from time was meant to stop.
+		return '' === $text ? '' : nl2br( esc_html( $text ) );
+	}
+
+	/**
+	 * Builds the outer element's attributes.
+	 *
+	 * @param string               $name       Field name.
+	 * @param array<string, mixed> $attributes Settings.
+	 * @param string               $wrapper    Attributes contributed by the editor.
+	 * @return string
+	 */
+	private static function wrapper_attributes( string $name, array $attributes, string $wrapper ): string {
+		$classes = array(
+			'cscs',
+			'cscs-field',
+			'cscs-field--' . sanitize_html_class( $name ),
+			'cscs-field--' . ( 'inline' === (string) ( $attributes['layout'] ?? '' ) ? 'inline' : 'stack' ),
+		);
+
+		$style     = '';
+		$gap       = self::length( (string) ( $attributes['gap'] ?? '' ) );
+		$animation = self::animation( (string) ( $attributes['animation'] ?? 'none' ) );
+
+		if ( '' !== $gap ) {
+			$style .= '--cscs-field-gap:' . $gap . ';';
+		}
+
+		$extra = '';
+
+		if ( '' !== $animation ) {
+			$classes[] = 'cscs-animate';
+			$duration  = max( 0, min( 10000, (int) ( $attributes['animationDuration'] ?? 600 ) ) );
+			$delay     = max( 0, min( 10000, (int) ( $attributes['animationDelay'] ?? 0 ) ) );
+			$style    .= sprintf( '--cscs-animation-duration:%dms;--cscs-animation-delay:%dms;', $duration, $delay );
+			$extra     = ' data-cscs-animation="' . esc_attr( $animation ) . '"';
+		}
+
+		$own = sprintf(
+			'class="%s"%s',
+			esc_attr( implode( ' ', $classes ) ),
+			'' === $style ? '' : ' style="' . esc_attr( $style ) . '"'
+		);
+
+		// The editor hands over the classes and styles the block supports
+		// produced. They are merged rather than replaced, because a background
+		// colour chosen in the sidebar and a gap chosen here are both real.
+		if ( '' !== $wrapper ) {
+			return self::merge_attributes( $wrapper, implode( ' ', $classes ), $style ) . $extra;
+		}
+
+		return $own . $extra;
+	}
+
+	/**
+	 * Merges the editor's wrapper attributes with the block's own.
+	 *
+	 * @param string $wrapper Attributes from the editor.
+	 * @param string $classes Classes to add.
+	 * @param string $style   Style to add.
+	 * @return string
+	 */
+	private static function merge_attributes( string $wrapper, string $classes, string $style ): string {
+		if ( 1 === preg_match( '/class="([^"]*)"/', $wrapper, $found ) ) {
+			$wrapper = str_replace(
+				$found[0],
+				'class="' . esc_attr( trim( $found[1] . ' ' . $classes ) ) . '"',
+				$wrapper
+			);
+		} else {
+			$wrapper .= ' class="' . esc_attr( $classes ) . '"';
+		}
+
+		if ( '' === $style ) {
+			return $wrapper;
+		}
+
+		if ( 1 === preg_match( '/style="([^"]*)"/', $wrapper, $found ) ) {
+			return str_replace(
+				$found[0],
+				'style="' . esc_attr( rtrim( $found[1], ';' ) . ';' . $style ) . '"',
+				$wrapper
+			);
+		}
+
+		return $wrapper . ' style="' . esc_attr( $style ) . '"';
+	}
+
+	/**
+	 * Builds the inline style of one element.
+	 *
+	 * @param string               $element    `label` or `value`.
+	 * @param array<string, mixed> $attributes Settings.
+	 * @return string
+	 */
+	private static function element_style( string $element, array $attributes ): string {
+		$read = static function ( string $setting ) use ( $element, $attributes ): string {
+			return trim( (string) ( $attributes[ $element . $setting ] ?? '' ) );
+		};
+
+		$rules = array(
+			'font-size'      => self::length( $read( 'FontSize' ) ),
+			'font-family'    => self::font_family( $read( 'FontFamily' ) ),
+			'font-weight'    => self::one_of(
+				$read( 'FontWeight' ),
+				array( '100', '200', '300', '400', '500', '600', '700', '800', '900', 'normal', 'bold', 'lighter', 'bolder' )
+			),
+			'font-style'     => self::one_of( $read( 'FontStyle' ), array( 'normal', 'italic', 'oblique' ) ),
+			'line-height'    => self::line_height( $read( 'LineHeight' ) ),
+			'letter-spacing' => self::length( $read( 'LetterSpacing' ) ),
+			'text-transform' => self::one_of( $read( 'TextTransform' ), array( 'none', 'uppercase', 'lowercase', 'capitalize' ) ),
+			'text-decoration' => self::one_of( $read( 'TextDecoration' ), array( 'none', 'underline', 'line-through', 'overline' ) ),
+			'color'          => self::colour( $read( 'Colour' ) ),
+			'text-align'     => self::one_of( $read( 'Align' ), array( 'left', 'center', 'right', 'justify' ) ),
+			'margin'         => self::spacing( $read( 'Margin' ) ),
+		);
+
+		$style = '';
+
+		foreach ( $rules as $property => $value ) {
+			if ( '' !== $value ) {
+				$style .= $property . ':' . $value . ';';
+			}
+		}
+
+		return $style;
+	}
+
+	/**
+	 * Returns a heading tag, or a safe one.
+	 *
+	 * @param string $tag Tag.
+	 * @return string
+	 */
+	private static function tag( string $tag ): string {
+		$allowed = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span', 'strong', 'em', 'figcaption' );
+
+		return in_array( strtolower( $tag ), $allowed, true ) ? strtolower( $tag ) : 'div';
+	}
+
+	/**
+	 * Returns a CSS length, or nothing.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private static function length( string $value ): string {
+		if ( '' === $value ) {
+			return '';
+		}
+
+		if ( 1 === preg_match( '/^-?\d+(\.\d+)?(px|rem|em|%|vw|vh|pt|ch)$/', $value ) ) {
+			return $value;
+		}
+
+		if ( 1 === preg_match( '/^-?\d+(\.\d+)?$/', $value ) ) {
+			return $value . 'px';
+		}
+
+		return self::variable( $value );
+	}
+
+	/**
+	 * Returns a unitless or unit line height, or nothing.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private static function line_height( string $value ): string {
+		if ( 1 === preg_match( '/^\d+(\.\d+)?$/', $value ) ) {
+			return $value;
+		}
+
+		return self::length( $value );
+	}
+
+	/**
+	 * Returns a colour, or nothing.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private static function colour( string $value ): string {
+		if ( '' === $value ) {
+			return '';
+		}
+
+		$hex = sanitize_hex_color( $value );
+
+		if ( is_string( $hex ) && '' !== $hex ) {
+			return $hex;
+		}
+
+		if ( 1 === preg_match( '/^rgba?\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+\s*(,\s*[\d.]+\s*)?\)$/', $value ) ) {
+			return $value;
+		}
+
+		return self::variable( $value );
+	}
+
+	/**
+	 * Returns a CSS custom property reference, or nothing.
+	 *
+	 * The theme's own palette and type scale arrive as `var(--wp--preset--…)`,
+	 * and refusing them would mean a block that cannot use the colours the site
+	 * is built from. The shape is checked rather than trusted: a variable name
+	 * and nothing else, so no expression can be smuggled through in one.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private static function variable( string $value ): string {
+		return 1 === preg_match( '/^var\(\s*--[A-Za-z0-9_-]+\s*\)$/', $value ) ? $value : '';
+	}
+
+	/**
+	 * Returns a value from a list, or nothing.
+	 *
+	 * @param string             $value   Value.
+	 * @param array<int, string> $allowed Allowed values.
+	 * @return string
+	 */
+	private static function one_of( string $value, array $allowed ): string {
+		return in_array( $value, $allowed, true ) ? $value : '';
+	}
+
+	/**
+	 * Returns a font family, or nothing.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private static function font_family( string $value ): string {
+		if ( '' === $value ) {
+			return '';
+		}
+
+		$variable = self::variable( $value );
+
+		if ( '' !== $variable ) {
+			return $variable;
+		}
+
+		// Family names, commas, and the quotes a name with a space needs.
+		return 1 === preg_match( '/^[A-Za-z0-9 ,\'"_-]{1,200}$/', $value ) ? $value : '';
+	}
+
+	/**
+	 * Returns up to four lengths, as a margin.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private static function spacing( string $value ): string {
+		if ( '' === $value ) {
+			return '';
+		}
+
+		$parts = preg_split( '/\s+/', trim( $value ) );
+		$parts = is_array( $parts ) ? array_slice( $parts, 0, 4 ) : array();
+		$clean = array();
+
+		foreach ( $parts as $part ) {
+			$length = '0' === $part ? '0' : self::length( (string) $part );
+
+			if ( '' === $length ) {
+				return '';
+			}
+
+			$clean[] = $length;
+		}
+
+		return implode( ' ', $clean );
+	}
+
+	/**
+	 * Returns the list-style rule for a chosen kind of list.
+	 *
+	 * @param string $style Chosen style.
+	 * @return string
+	 */
+	private static function list_style( string $style ): string {
+		$allowed = array( 'disc', 'circle', 'square', 'none', 'ordered' );
+
+		if ( ! in_array( $style, $allowed, true ) ) {
+			return '';
+		}
+
+		return 'ordered' === $style ? 'list-style-type:decimal;' : 'list-style-type:' . $style . ';';
+	}
+
+	/**
+	 * Returns an animation name, or nothing.
+	 *
+	 * @param string $animation Animation.
+	 * @return string
+	 */
+	private static function animation( string $animation ): string {
+		$allowed = array( 'fade', 'slide-up', 'slide-down', 'slide-left', 'slide-right', 'zoom' );
+
+		return in_array( $animation, $allowed, true ) ? $animation : '';
+	}
+
+	/**
+	 * Returns a note only an editor sees.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	private static function notice( string $text ): string {
+		return current_user_can( 'edit_posts' )
+			? '<p class="cscs-notice">' . esc_html( $text ) . '</p>'
+			: '';
+	}
+}

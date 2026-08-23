@@ -4,7 +4,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 os.chdir(ROOT)
-from cs import CS, CS_PLURAL, JS, CONTEXT, JS_DIVI
+from cs import CS, CS_PLURAL, JS, CONTEXT, JS_DIVI, JS_FIELDS
 
 strings = json.load(open(os.path.join(HERE, 'strings.json')))
 PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : ((n>=2 && n<=4) ? 1 : 2);"
@@ -39,6 +39,10 @@ def extra_entries(translate):
         if msgid in JS or msgid in CS:
             continue
         entries.append((None, msgid, value if translate else '', ['visual-builder/cscs-divi-display.js']))
+    for msgid, value in JS_FIELDS.items():
+        if msgid in JS or msgid in JS_DIVI or msgid in CS:
+            continue
+        entries.append((None, msgid, value if translate else '', ['blocks/fields/editor.js']))
     return entries
 
 def write_po(path, locale, translate):
@@ -121,6 +125,7 @@ def write_jed(path, source=None):
 
 write_jed('languages/course-schedule-connector-cs_CZ-84a9a5368804f03abd39989b3bb2f03e.json')
 write_jed('languages/course-schedule-connector-cs_CZ-778c604286e0aee407aeab4fb7e26475.json', JS_DIVI)
+write_jed('languages/course-schedule-connector-cs_CZ-93b7686115c9c4edfe5f0d2a6935cf5d.json', JS_FIELDS)
 write_po('languages/course-schedule-connector.pot', None, False)
 write_po('languages/course-schedule-connector-cs_CZ.po', 'cs_CZ', True)
 write_mo('languages/course-schedule-connector-cs_CZ.mo')

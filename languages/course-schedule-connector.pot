@@ -274,10 +274,16 @@ msgstr ""
 msgid "Class synchronisation interval"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:106
+#: includes/Render/Fields.php:109
+#: includes/Render/Fields.php:110
+#: includes/Render/CourseDetail.php:102
 #: includes/Admin/Screen/DisplaySetsPage.php:132
 #: includes/Admin/Screen/DisplaySetsPage.php:196
 msgid "Classes"
+msgstr ""
+
+#: includes/Render/Fields.php:184
+msgid "Classes that stand in for one somebody missed."
 msgstr ""
 
 #: includes/Admin/Screen/RoomsPage.php:87
@@ -328,12 +334,21 @@ msgstr ""
 msgid "Course created, but the matching could not be re-run: %s"
 msgstr ""
 
+#: includes/Render/Fields.php:157
+msgid "Course description"
+msgstr ""
+
 #: includes/Admin/CourseEditor.php:192
 msgid "Course id"
 msgstr ""
 
+#: includes/Render/Fields.php:69
 #: includes/Admin/CourseEditor.php:310
 msgid "Course name"
+msgstr ""
+
+#: includes/Render/Fields.php:149
+msgid "Course picture"
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:102
@@ -374,6 +389,8 @@ msgid "Courses are what people sign up to; classes are the individual times in t
 msgstr ""
 
 #: templates/single-trainer.php:79
+#: includes/Render/Fields.php:248
+#: includes/Render/Fields.php:249
 #: includes/Admin/TrainerEditor.php:82
 msgid "Courses this trainer runs"
 msgstr ""
@@ -392,7 +409,9 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:100
+#: includes/Render/Fields.php:85
+#: includes/Render/Fields.php:86
+#: includes/Render/CourseDetail.php:99
 msgid "Day"
 msgstr ""
 
@@ -478,6 +497,14 @@ msgstr ""
 msgid "Even when shown, the button hides itself while the course is full or iSport reports that it takes no registrations."
 msgstr ""
 
+#: includes/Render/Fields.php:251
+msgid "Every course paired with this trainer, as a table."
+msgstr ""
+
+#: includes/Render/Fields.php:211
+msgid "Every qualification, in the order they were entered."
+msgstr ""
+
 #: includes/Admin/Screen/UnmatchedPage.php:153
 msgid "Everything somebody tied to a course by hand, whatever the matching would have decided. Choosing \"belongs to no course\" here gives the class back to the matching, which is how an assignment made by mistake is undone."
 msgstr ""
@@ -515,7 +542,7 @@ msgstr ""
 msgid "For example when to ring, or that places are arranged individually."
 msgstr ""
 
-#: includes/Render/CourseDetail.php:98
+#: includes/Render/CourseDetail.php:428
 #: includes/Render/Listing.php:482
 #: includes/Render/Listing.php:486
 #: includes/Admin/Screen/SettingsPage.php:118
@@ -531,7 +558,7 @@ msgstr ""
 msgid "From:"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:438
+#: includes/Render/CourseDetail.php:496
 #: includes/Render/Listing.php:314
 msgid "Full"
 msgstr ""
@@ -556,6 +583,14 @@ msgstr ""
 msgid "How far ahead"
 msgstr ""
 
+#: includes/Render/Fields.php:112
+msgid "How many classes the course has."
+msgstr ""
+
+#: includes/Render/Fields.php:136
+msgid "How many places are still free."
+msgstr ""
+
 #: includes/Admin/Screen/RoomsPage.php:84
 msgid "In iSport"
 msgstr ""
@@ -573,6 +608,8 @@ msgid "Individual courses can override this."
 msgstr ""
 
 #: templates/single-trainer.php:68
+#: includes/Render/Fields.php:216
+#: includes/Render/Fields.php:217
 #: includes/Admin/TrainerEditor.php:150
 msgid "Interests"
 msgstr ""
@@ -609,7 +646,12 @@ msgstr ""
 msgid "Make this a course of its own"
 msgstr ""
 
+#: includes/Render/Fields.php:181
+msgid "Make-up classes"
+msgstr ""
+
 #: templates/single-course.php:95
+#: includes/Render/Fields.php:182
 msgid "Make-up classes for this course"
 msgstr ""
 
@@ -625,6 +667,7 @@ msgstr ""
 msgid "Maximum requests per hour"
 msgstr ""
 
+#: includes/Render/Fields.php:232
 #: includes/Admin/TrainerEditor.php:168
 msgid "Motto"
 msgstr ""
@@ -823,17 +866,22 @@ msgstr ""
 msgid "Past occurrences older than this are removed. Courses are never deleted."
 msgstr ""
 
+#: includes/Render/Fields.php:200
 #: includes/Admin/TrainerEditor.php:90
 msgid "Photograph"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:109
+#: includes/Render/Fields.php:133
+#: includes/Render/Fields.php:134
+#: includes/Render/CourseDetail.php:105
 #: includes/Admin/Screen/DisplaySetsPage.php:475
 #: includes/Admin/Screen/DisplaySetsPage.php:500
 msgid "Places left"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:96
+#: includes/Render/Fields.php:77
+#: includes/Render/Fields.php:78
+#: includes/Render/CourseDetail.php:98
 #: includes/Admin/Screen/DisplaySetsPage.php:474
 #: includes/Admin/Screen/DisplaySetsPage.php:499
 #: includes/Admin/CourseEditor.php:201
@@ -842,6 +890,8 @@ msgid "Price"
 msgstr ""
 
 #: templates/single-trainer.php:57
+#: includes/Render/Fields.php:208
+#: includes/Render/Fields.php:209
 #: includes/Admin/TrainerEditor.php:143
 msgid "Qualifications"
 msgstr ""
@@ -900,7 +950,9 @@ msgid "Retries"
 msgstr ""
 
 #: templates/partials/controls.php:54
-#: includes/Render/CourseDetail.php:107
+#: includes/Render/Fields.php:117
+#: includes/Render/Fields.php:118
+#: includes/Render/CourseDetail.php:103
 #: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Admin/Screen/UnmatchedPage.php:166
 #: includes/Admin/Screen/DisplaySetsPage.php:470
@@ -923,7 +975,9 @@ msgstr ""
 msgid "Running"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:102
+#: includes/Render/Fields.php:101
+#: includes/Render/Fields.php:102
+#: includes/Render/CourseDetail.php:101
 msgid "Runs"
 msgstr ""
 
@@ -1014,9 +1068,13 @@ msgstr ""
 msgid "Shows"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:215
+#: includes/Render/CourseDetail.php:211
 #: includes/Render/Listing.php:303
 msgid "Sign up in iSport"
+msgstr ""
+
+#: includes/Render/Fields.php:141
+msgid "Sign-up button"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:112
@@ -1024,6 +1082,8 @@ msgid "Some courses take no bookings through iSport at all, and a visitor who wa
 msgstr ""
 
 #: templates/single-trainer.php:50
+#: includes/Render/Fields.php:224
+#: includes/Render/Fields.php:225
 #: includes/Admin/TrainerEditor.php:161
 msgid "Something worth knowing"
 msgstr ""
@@ -1089,16 +1149,72 @@ msgstr ""
 msgid "The course could not be created."
 msgstr ""
 
+#: includes/Render/Fields.php:152
+msgid "The featured image of the course."
+msgstr ""
+
+#: includes/Render/Fields.php:104
+msgid "The first and last day of the course."
+msgstr ""
+
+#: includes/Render/Fields.php:120
+msgid "The hall or halls the course runs in."
+msgstr ""
+
+#: includes/Render/Fields.php:96
+msgid "The hours the course meets at, in step with the days."
+msgstr ""
+
+#: includes/Render/Fields.php:144
+msgid "The link into iSport. It hides itself when the course is full or takes no bookings."
+msgstr ""
+
+#: includes/Render/Fields.php:72
+msgid "The name of the course, as a heading you can style."
+msgstr ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:250
 msgid "The next few days"
+msgstr ""
+
+#: includes/Render/Fields.php:168
+msgid "The person to contact about a course nobody books through iSport."
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:146
 msgid "The remote system tags every class, and a tag maintained there stays right for everyone, so it is asked before the list above. One rule per line, in the form label = category. Categories are course, external_course, makeup and rental. A label that is not listed here simply falls through to the list above."
 msgstr ""
 
+#: includes/Render/Fields.php:227
+msgid "The sentence or two that makes this a person."
+msgstr ""
+
+#: includes/Render/Fields.php:235
+msgid "The trainer’s motto."
+msgstr ""
+
+#: includes/Render/Fields.php:195
+msgid "The trainer’s name, as a heading you can style."
+msgstr ""
+
+#: includes/Render/Fields.php:203
+msgid "The trainer’s picture: your own where you set one, otherwise the one from iSport."
+msgstr ""
+
+#: includes/Render/Fields.php:88
+msgid "The weekday or weekdays the course meets on, one to a line."
+msgstr ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:248
 msgid "The whole term"
+msgstr ""
+
+#: includes/Render/Fields.php:160
+msgid "The words written on the course in WordPress."
+msgstr ""
+
+#: includes/Render/Fields.php:243
+msgid "The words written on the trainer in WordPress."
 msgstr ""
 
 #: includes/Render/Renderer.php:72
@@ -1107,6 +1223,14 @@ msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:122
 msgid "They appear struck through and labelled. Unticking hides them entirely."
+msgstr ""
+
+#: includes/Render/FieldRenderer.php:148
+msgid "This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings."
+msgstr ""
+
+#: includes/Render/Fields.php:176
+msgid "This course’s own timetable, as a table."
 msgstr ""
 
 #: includes/Admin/TrainerEditor.php:281
@@ -1130,7 +1254,9 @@ msgstr ""
 msgid "Tied to a course"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:101
+#: includes/Render/Fields.php:93
+#: includes/Render/Fields.php:94
+#: includes/Render/CourseDetail.php:100
 #: includes/Admin/Screen/MakeupPage.php:129
 #: includes/Admin/Screen/UnmatchedPage.php:164
 #: includes/Admin/Screen/DisplaySetsPage.php:469
@@ -1145,8 +1271,10 @@ msgstr ""
 msgid "To:"
 msgstr ""
 
-#: includes/Render/CourseDetail.php:108
-#: includes/Render/CourseDetail.php:131
+#: includes/Render/Fields.php:125
+#: includes/Render/Fields.php:126
+#: includes/Render/CourseDetail.php:104
+#: includes/Render/CourseDetail.php:127
 #: includes/Render/TrainerDetail.php:239
 #: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Admin/Screen/UnmatchedPage.php:167
@@ -1155,6 +1283,14 @@ msgstr ""
 #: includes/Data/PostType.php:159
 #: includes/Data/TrainerType.php:93
 msgid "Trainer"
+msgstr ""
+
+#: includes/Render/Fields.php:240
+msgid "Trainer description"
+msgstr ""
+
+#: includes/Render/Fields.php:192
+msgid "Trainer name"
 msgstr ""
 
 #: includes/Admin/Menu.php:101
@@ -1186,6 +1322,8 @@ msgid "Unresolved"
 msgstr ""
 
 #: templates/single-course.php:85
+#: includes/Render/Fields.php:173
+#: includes/Render/Fields.php:174
 msgid "Upcoming classes"
 msgstr ""
 
@@ -1203,6 +1341,14 @@ msgstr ""
 
 #: includes/Admin/Screen/Overview.php:80
 msgid "What is stored"
+msgstr ""
+
+#: includes/Render/Fields.php:80
+msgid "What the course costs. A course with no price shows as free."
+msgstr ""
+
+#: includes/Render/Fields.php:219
+msgid "What the trainer does when they are not in the hall."
 msgstr ""
 
 #: includes/Admin/TrainerEditor.php:151
@@ -1237,7 +1383,13 @@ msgstr ""
 msgid "Which week"
 msgstr ""
 
+#: includes/Render/Fields.php:128
+msgid "Who runs the course, linked to their own page where they have one."
+msgstr ""
+
 #: templates/single-course.php:62
+#: includes/Render/Fields.php:165
+#: includes/Render/Fields.php:166
 msgid "Who to ask"
 msgstr ""
 
@@ -1403,4 +1555,288 @@ msgstr ""
 
 #: visual-builder/cscs-divi-display.js
 msgid "This display set no longer exists."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "— default —"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Size"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "A length with its unit — 18px, 1.25rem — or empty to leave it to the theme."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Font"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Weight"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Light (300)"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Regular (400)"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Medium (500)"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Semibold (600)"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Bold (700)"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Black (900)"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Style"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Upright"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Italic"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Line height"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "A number — 1.4 — or a length."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Letter spacing"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "A length, which may be negative."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Capitals"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "As written"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "UPPERCASE"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "lowercase"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "First Letters"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Decoration"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "None"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Underline"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Struck through"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Alignment"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Left"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Centre"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Right"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Justified"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Margin"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Up to four lengths, the CSS way: \"0 0 4px 0\"."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "The one this page is about"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "What this shows"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Source"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Left as it is, the block shows whichever course or trainer the page is about — which is what a template in a theme builder wants, and what makes one design serve them all."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Heading and layout"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Show a heading"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Empty means “%s”."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "What to call this field."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Heading element"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "After the heading"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "A colon, a dash — printed right after the heading. Useful side by side."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Value element"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Arrangement"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Heading above"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Side by side"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Gap"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Between the heading and the value."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Bullets"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Round"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Hollow"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Square"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Numbered"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Left empty, the block disappears rather than printing a heading over a blank space."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Heading text"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Value text"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Animation"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "On first sight"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Fade in"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Rise"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Fall"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "From the left"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "From the right"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Grow"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Duration (ms)"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Delay (ms)"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Animations run when the block first comes into view, and never for a visitor who has asked their computer to keep still."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the block settings."
 msgstr ""
