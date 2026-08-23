@@ -104,7 +104,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The redundant PHP version guard is gone. WordPress enforces `Requires PHP` itself and refuses to activate a plugin the server cannot run, so the check was an unreachable branch that static analysis rightly flagged.
 
 ### Changed
-- A trainer's page lives at `/trener/…`, not `/trainer/…`. The plugin's own vocabulary stays English — that is for whoever maintains it — but an address is something a reader sees, and nothing a reader sees should be in a language the site is not written in. `cscs_trainer_rewrite_slug` filters it, and the rewrite rules rebuild themselves on the next request.
+- A course's page lives at `/kurz/…` and a trainer's at `/trener/…`, not `/course/…` and `/trainer/…`. The plugin's own vocabulary stays English — that is for whoever maintains it — but an address is something a reader sees, and nothing a reader sees should be in a language the site is not written in. `cscs_course_rewrite_slug` and `cscs_trainer_rewrite_slug` filter them, and the rewrite rules rebuild themselves on the next request.
 
 - The repository is renamed to match the plugin slug, so a checkout directory is never mistaken for the plugin name.
 - Every quality gate now runs even when an earlier one fails, and each writes its output to the run summary. One push therefore reports every problem at once, and the results are readable from the run page without downloading an artifact.

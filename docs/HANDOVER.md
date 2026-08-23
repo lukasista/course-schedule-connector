@@ -210,9 +210,10 @@ ne modulu.
   v `tools/i18n/cs.py`.
 - **Šablona stránky trenéra v Theme Builderu už existuje** („Všechny Trenéři“)
   a funguje. Šablona stránky kurzu zatím ne.
-- **Adresa trenéra je `/trener/…`.** Kdyby měl být český i slug kurzu
-  (`/kurz/` místo `/course/`), mění se to filtrem `cscs_course_rewrite_slug`
-  a zvednutím `Plugin::REWRITE_VERSION`.
+- **Adresy jsou česky:** kurz `/kurz/…`, trenér `/trener/…`. Mění se filtry
+  `cscs_course_rewrite_slug` a `cscs_trainer_rewrite_slug`; po každé takové
+  změně je nutné zvednout `Plugin::REWRITE_VERSION`, jinak se přepisovací
+  pravidla nepřestaví a adresy vrátí 404.
 
 ## 6. Trvalá omezení, která platí bez ohledu na fázi
 

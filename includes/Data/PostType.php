@@ -78,11 +78,17 @@ final class PostType {
 				/**
 				 * Filters the URL slug of a course.
 				 *
+				 * Czech, like the trainer's, and for the same reason: the
+				 * plugin's own vocabulary stays English because that is for
+				 * whoever maintains it, but an address is something a reader
+				 * sees, and nothing a reader sees should be in a language the
+				 * site is not written in.
+				 *
 				 * @since 0.2.0
 				 *
 				 * @param string $slug Rewrite slug.
 				 */
-				'rewrite'            => array( 'slug' => apply_filters( 'cscs_course_rewrite_slug', 'course' ) ),
+				'rewrite'            => array( 'slug' => apply_filters( 'cscs_course_rewrite_slug', 'kurz' ) ),
 			)
 		);
 
