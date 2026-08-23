@@ -1,4 +1,4 @@
-# Předání práce — stav k 22. 8. 2026
+# Předání práce — stav k 23. 8. 2026
 
 Tenhle soubor je most mezi pracovními dny. Je psaný tak, aby se do něj dalo
 vstoupit bez znalosti předchozího rozhovoru: co je hotové, jak se to spouští,
@@ -12,74 +12,67 @@ Fáze **F0 – F7 jsou hotové**. Zbývá F8 (bezpečnostní audit), F9 (výkon,
 přístupnost), F10 (testy + Plugin Check), F11 (dokumentace) a F12 (akceptační
 brána). Podrobné zadání každé fáze je v `PLAN.md`, kapitola 9.
 
+**Lukášova prohlídka pluginu, která měla přednost před F8, proběhla** a vzešly
+z ní tři úpravy. Všechny jsou hotové a ověřené v prohlížeči.
+
 Poslední commity:
 
 | commit | co přinesl |
 |---|---|
-| `cc98196` | filtr sálů jako rozbalovací seznam, oprava kliknutí polykaného šablonou |
-| `3bc6580` | procházení výpisu: týdny, sál, stránkování |
-| `4140b7b` | vracení ručních rozhodnutí zpět (náhradní lekce i nespárované lekce) |
-| `8bc59bc` | stránka detailu kurzu |
+| `1c44582` | Divi 5 modul pro každé pole, nadpis stylovaný zvlášť od hodnoty |
+| `7672436` | pojmenovaný Gutenberg blok pro každé pole |
+| `ba734c1` | Den a Čas místo „Kdy“; trenéři jako typ příspěvku |
+| `49cde06` | předchozí předání práce |
 
-Testy: **183 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
+Testy: **193 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
 repozitáře.
+
+**Nepushnuté commity** na Macu — viz problém s portem 443 níže.
 
 ---
 
-## 2. Co je hotové, po částech
+## 2. Co přibylo naposledy
 
-### Data a synchronizace (F1 – F3)
-Kurzy jsou vlastní typ obsahu `cscs_course`, lekce vlastní tabulka. Stahuje se
-ze dvou endpointů iSportu, jen čtení, jen ze serveru — v prohlížeči návštěvníka
-nevzniká žádný požadavek na iSport a neodesílá se o něm nic.
+### Den a Čas
+Detail kurzu psal „Kdy: Po 16:00, St 17:00“ — jedno pole se dvěma fakty
+v jediné podobě, ve které se rozvrh číst nedá. Teď jsou to dvě pole a jejich
+řádky běží v jednom kroku, takže první den patří k prvnímu času a čtenář
+nemusí hádat. Tabulka lekcí uměla nahlásit i konec termínu (`time_to`), jen se
+jí nikdo neptal.
 
-Kurz a jeho lekce spojuje dvojice `activity_name` + `stamp`, protože API žádný
-společný identifikátor nemá. Co se spárovat nepodaří, se neztrácí: leží to
-v administraci ve výpisu **Nespárované lekce**, kde se to dá přiřadit ručně.
-**Náhradní lekce** mají vlastní obrazovku, včetně tlačítka „přiřadit stejně
-jako…“ pro celou řadu termínů najednou.
+### Trenéři
+Vlastní typ příspěvku `cscs_trainer_profile` — dvacet znaků, což je přesně
+maximum, které WordPress dovolí, a záměrně **ne** `cscs_trainer`: to jméno patří
+taxonomii a typ příspěvku by s ní kolidoval o query var. Taxonomie zůstává beze
+změny, protože podle ní filtrují Zobrazovací sady.
 
-Každé ruční rozhodnutí jde vzít zpět. U náhradních lekcí tlačítkem přímo
-u řádku, u nespárovaných lekcí přes filtr **Přiřazené ručně**, kde se volbou
-„nepatří k žádnému kurzu“ lekce vrátí zpátky párování.
+Páruje se **normalizovaným jménem** (`Normalise::match_key`) — jiný společný
+identifikátor obě strany nemají. Klíč se na kurz zapisuje **až po meta smyčce**
+v `CourseRepository::save()`, aby web se zamčeným jménem trenéra měl klíč toho
+jména, které opravdu zobrazuje.
 
-### Zobrazení (F4 – F7)
-Zobrazovací sada je pojmenované nastavení výpisu: typ (kurzy / rozvrh), sloupce,
-rozsah, sály, počet na stránku, texty. Vykresluje ji jeden PHP renderer, který
-používají všechny tři cesty — shortcode, Gutenberg blok i modul pro Divi 5.
-Šablony jsou přepsatelné v tématu.
+Fotka se stahuje na serveru do knihovny médií, takže prohlížeč návštěvníka se
+iSportu nikdy na nic neptá. Náhledový obrázek nastavený ručně má vždycky
+přednost. `wp cscs trainers backfill [--dry-run] [--photographs]` postaví
+stránky z už uložených kurzů.
 
-Sloupec, ve kterém není ani jedna hodnota, se z výpisu vynechá úplně — prázdná
-hlavička vypadá jako rozbitá tabulka, ne jako odpověď „žádné“.
+### Bloky a moduly pro pole
+Katalog `CSCS\Render\Fields` je jediný seznam toho, z čeho se kurz a trenér
+skládají. Generují se z něj Gutenberg bloky, Divi moduly i testy, takže pole
+přidané tam se objeví ve třech editorech naráz a nemůže v každém říkat něco
+jiného.
 
-Na mobilu se tabulka rozpadá na dvojice: název sloupce vlevo, hodnota vpravo.
-Zlom se nastavuje v administraci.
+Bloky se registrují programově, bez `block.json` a bez adresáře na blok —
+neexistuje k nim kód, který by tam patřil.
 
-Stránka kurzu ukazuje fakta, kontakt na lektora, rozvrh kurzu a jeho náhradní
-lekce, a nese strukturovaná data `Course` (JSON-LD).
+Nadpis a hodnota mají **vlastní typografii**. To je celý důvod, proč to není
+jeden blok s rozbalovacím seznamem: block supports stylují blok jako celek
+a „Cena“ a „4 160 Kč“ jsou dvě věci. Každá hodnota se před vypuštěním do
+prohlížeče ověří proti vzoru nebo seznamu — atribut přichází z uloženého
+příspěvku a „napsal to náš vlastní editor“ není tvrzení o bezpečnosti.
 
-Návštěvník si výpis může zúžit: **týden** (dopředu, dozadu, zpět na tento),
-**sál** (rozbalovací seznam) a **stránkování**. Všechno to jsou obyčejné odkazy
-a formulář se stavem v adrese — bez JavaScriptu to funguje, s ním se výpis jen
-vymění na místě přes REST `/wp-json/cscs/v1/listing`.
-
-### Divi 5
-Modul `cscs-display` je registrovaný přes `ModuleRegistration::register_module()`
-se `render_callback`, závislost přes `divi_module_library_modules_dependency_tree`.
-Design je výsada administrátora — `DesignGuard` to vynucuje na serveru, ne jen
-schováním v rozhraní.
-
-Dvě věci o Divi 5, které stály nejvíc času a nikde v dokumentaci nejsou:
-
-1. **Atribut se nesmí jmenovat `set`.** Divi drží atributy v seamless-immutable,
-   kde `set`/`setIn` jsou metody; atribut toho jména je přepíše a builder
-   selže na `getIn(...).setIn is not a function` — tiše, výběr se prostě
-   neuloží. Modul proto používá `listing.advanced.id`.
-2. **Modul musí mít `module-default-render-attributes.json`.** Bez něj neexistuje
-   struktura, do které by se dalo zapsat, a platí totéž — výběr se neuloží.
-
-V builderu se nesmí sáhnout na `window.React`; Divi vykresluje vlastní instancí
-v `window.vendor.React` a hooky z cizí kopie Reactu vyhodí výjimku.
+Divi moduly generuje `php tools/build-divi-modules.php` do `divi/fields/`.
+`FieldModulesTest` selže, když se katalog a vygenerované adresáře rozejdou.
 
 ---
 
@@ -97,12 +90,17 @@ naopak PHP není. Postup je tedy: upravit a otestovat v kontejneru, pak přenés
 Přenos tam a zpět se dělá jedním archivem, ne po souborech:
 
 ```
+# z Macu do kontejneru (nová session začíná tímhle)
+cd "$HOME/mnt/Jojo Gym iSport System Integration"
+tar czf _to_delete/repo-snapshot.tgz --exclude='.git' --exclude='_to_delete' .
+# device_stage_files → rozbalit v kontejneru
+
 # z kontejneru na Mac
 tar czf /tmp/sync.tgz <soubory>          # v kontejneru
 # SendUserFile → device_commit_files do _to_delete/sync.tgz
 cd "$HOME/mnt/Jojo Gym iSport System Integration"
 mkdir -p _to_delete/x && tar xzf _to_delete/sync.tgz -C _to_delete/x
-(cd _to_delete/x && find . -type f -print0 | while IFS= read -r -d '' f; do cp "$f" "../../$f"; done)
+(cd _to_delete/x && find . -type f -print0 | while IFS= read -r -d '' f; do mkdir -p "../../$(dirname "$f")"; cp "$f" "../../$f"; done)
 ```
 
 Kopíruje se přes `cp`, ne rozbalením rovnou na místo: připojený svazek nedovolí
@@ -119,60 +117,92 @@ git -c user.name="Lukas Pivonka" -c user.email="info@pivonka.co.uk" commit -F - 
 MSG
 ```
 
+Po **každém** git příkazu uklidit zámky, jinak zůstane `index.lock` a další
+příkaz odmítne běžet:
+
+```
+find .git \( -name '*.lock' -o -name 'tmp_obj_*' \) -print0 | while IFS= read -r -d '' f; do
+  mv "$f" "_to_delete/gitlocks/$(date +%s%N)-$(basename "$f")"
+done
+```
+
 Varování `unable to unlink '.git/objects/…tmp_obj_…'` je průvodní jev
-připojeného svazku, ne chyba — commit proběhne.
+připojeného svazku, ne chyba — commit proběhne. Pozor: `git add -A ':!cesta'`
+nefunguje, pathspec magic není v této verzi implementovaná.
 
 Na `git push` z Macu je otevřený problém: `Failed to connect to github.com
 port 443`. Ping projde, proxy ani záznam v `/etc/hosts` nejsou. Nesouvisí to
-s pluginem.
+s pluginem. **Nežádat o personal access token** — cloudová git proxy ho ignoruje.
 
 ### Testy, překlady
 ```
 php tools/phpunit-shim/run.php                                # testy
 php tools/extract-strings.php && python3 tools/i18n/build.py  # .pot, .po, .mo, JED
+php tools/build-divi-modules.php                              # Divi metadata
 ```
-Podrobnosti k nástrojům jsou v `tools/README.md`. Nové české překlady se
-dopisují do `tools/i18n/cs.py`, ne do `.po` — ta se generuje.
+Nové české překlady se dopisují do `tools/i18n/cs.py`, ne do `.po` — ta se
+generuje. Slovníky: `CS` (PHP), `JS` (blok výpisu), `JS_DIVI` (modul výpisu),
+`JS_FIELDS` (bloky polí), `JS_DIVI_FIELDS` (moduly polí). Každý JS soubor má
+svůj JED soubor pojmenovaný `md5(<cesta k souboru relativně ke kořeni>)` —
+při přidání nového skriptu je potřeba dopsat i jeho `write_jed(...)`.
 
 ### Prohlížeč
 Web běží na `http://localhost:8888`, na Lukášově Macu je rozšíření Claude in
-Chrome. Chování na frontendu se ověřuje přímo v něm — u Divi to byl jediný
-způsob, jak najít obě výše popsané pasti. `read_console_messages` začíná
+Chrome. Chování na frontendu se ověřuje přímo v něm — u Divi je to jediný
+způsob, jak najít pasti popsané níže. `read_console_messages` začíná
 zaznamenávat až od prvního zavolání, takže stránku je potřeba po zavolání
 načíst znovu.
 
+Vizuální builder Divi se otevírá jako `?et_fb=1&PageSpeed=off`. **Na typu
+příspěvku `cscs_course` se builder neotevře** — Divi má seznam typů, pro které
+je zapnutý, a kurzy v něm nejsou. Testovat se dá na stránce
+*Isport system integration test*.
+
+Modul se do stránky přidává přes vrstvy (druhá ikona vlevo) → ⋮ u existujícího
+modulu → *Přidat Prvek* → *Modul*. Přes ⋮ u sloupce se otevře vkládání řádku,
+ne modulu.
+
 ---
 
-## 4. Čím se právě skončilo
+## 4. Divi 5 — pasti, které stály čas
 
-Filtr sálů se zobrazoval, ale klik na něj nedělal nic — ani výměnu, ani přechod
-na odkaz. Server přitom filtroval správně na všech úrovních.
-
-Příčina: odkazy filtru mířily na `?cscs_room=12#cscs-lekce`, tedy na kotvu na
-téže stránce. Divi (a většina šablon) takové odkazy odchytává kvůli plynulému
-rolování a klik zastaví dřív, než ho uvidí kdokoli další. Posluchač pluginu se
-proto nespustil.
-
-Opraveno dvěma věcmi:
-- posluchač naslouchá **při cestě události dolů** (capture), takže se k němu
-  žádná šablona nedostane první, ať už web nosí jakoukoli;
-- sály jsou nově **formulář s rozbalovacím seznamem** a tlačítkem „Zobrazit“.
-  Bez JavaScriptu se formulář odešle, s ním stačí vybrat a tlačítko se skryje
-  (`.cscs-js` na `<html>`). Přepínač týdnů zůstal jako Předchozí/Další.
-
-Ověřeno v prohlížeči: výběr sálu 12 → 230 řádků, všechny „Gymnastická hala 2“,
-adresa `?cscs_room=12`. Zpětně ověřeno i na odkazu s kotvou.
+1. **Atribut se nesmí jmenovat `set`.** Divi drží atributy v seamless-immutable,
+   kde `set`/`setIn` jsou metody; atribut toho jména je přepíše a builder
+   selže na `getIn(...).setIn is not a function` — tiše, výběr se prostě
+   neuloží. Moduly proto používají `listing.advanced.id` a `field.advanced.*`.
+2. **Modul musí mít `module-default-render-attributes.json`.** Bez něj neexistuje
+   struktura, do které by se dalo zapsat, a platí totéž — výběr se neuloží.
+3. **V builderu se nesmí sáhnout na `window.React`**; Divi vykresluje vlastní
+   instancí v `window.vendor.React` a hooky z cizí kopie Reactu vyhodí výjimku.
+4. **Skupiny typografie je nutné pojmenovat.** Dvě podřízené skupiny `font`
+   ponechané na Divi se obě jmenují „Text Modulu“ a panel je nepoužitelný.
+   Řešení je `settings.groups.designHeadingText` / `designValueText` a u položek
+   `decoration.font` a `decoration.spacing` `groupSlug` na ně, s komponentou
+   `{type:"group", name:"divi/font"|"divi/spacing", props:{attrName, grouped,
+   fieldLabel}}`. Vzor je v `divi/blurb/module.json` v tématu Divi — ten soubor
+   je čitelný přes prohlížeč na
+   `/wp-content/themes/Divi/includes/builder-5/visual-builder/packages/module-library/src/components/<modul>/module.json`
+   a je to nejrychlejší způsob, jak se dozvědět, co Divi opravdu čeká.
+5. Odkazy s kotvou na téže stránce Divi polyká kvůli plynulému rolování;
+   posluchače je třeba věšet v **capture** fázi.
 
 ---
 
 ## 5. Otevřené body
 
+- **Testovací data na webu.** Na trenérovi *Pavlína Mládková* jsou vyplněné
+  zkušební kvalifikace, zajímavost a motto; na stránce *Isport system
+  integration test* je pod výpisem modul **Cena** namířený na kurz
+  113-Deskové hry. Obojí je tam kvůli ověření a dá se smazat.
 - **Přepínač týdnů se u sady `lekce` nezobrazuje**, protože má rozsah
   *pololetí*, ne *týden*. Je to záměr — přepínal by něco, co výpis nezohledňuje.
-  Zobrazí se po přepnutí rozsahu v nastavení sady.
 - **Nepushnuté commity** na Macu, viz problém s portem 443 výše.
-- **Lukášova prohlídka pluginu** proběhne před F8; z ní vzejdou úpravy, které
-  mají přednost před dalšími fázemi.
+- **Taxonomie „Lektoři“ se v češtině přejmenovala na „Trenéři“**, aby
+  v administraci nestála dvě jména pro tutéž věc. Kdyby to vadilo, mění se to
+  v `tools/i18n/cs.py`.
+- **Šablona stránky trenéra v Theme Builderu ještě neexistuje.** Bloky a moduly
+  jsou hotové, ale design stránky kurzu i trenéra si Lukáš postaví sám — to byl
+  smysl celé té práce.
 
 ## 6. Trvalá omezení, která platí bez ohledu na fázi
 
@@ -180,3 +210,5 @@ adresa `?cscs_room=12`. Zpětně ověřeno i na odkazu s kotvou.
   jen GET, jen ze serveru webu.
 - **Tagy kurzů se nemění** — pocházejí z API a zůstávají, jak jsou.
 - Design zůstává výsadou administrátora, vynucenou na serveru.
+- Synchronizace se dotýká jen toho, co vlastní API. Cokoli člověk napíše —
+  u kurzu i u trenéra — zůstává nedotčené.
