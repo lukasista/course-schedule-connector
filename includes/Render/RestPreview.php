@@ -109,6 +109,63 @@ final class RestPreview {
 				),
 			)
 		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/field',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'field' ),
+				'permission_callback' => static function (): bool {
+					return current_user_can( 'edit_posts' );
+				},
+				'args'                => array(
+					'name'     => array(
+						'type'              => 'string',
+						'required'          => true,
+						'sanitize_callback' => 'sanitize_key',
+					),
+					'settings' => array( 'type' => 'string' ),
+				),
+			)
+		);
+	}
+
+	/**
+	 * Renders one field, for a builder that cannot draw it itself.
+	 *
+	 * The settings arrive as JSON in one parameter rather than as a parameter
+	 * each, because the set of them belongs to the renderer and a route that
+	 * listed them would be a second place to change every time one is added.
+	 * Nothing is trusted: the renderer checks every value it is handed, exactly
+	 * as it does for a value that arrived from a saved post.
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 * @return \WP_REST_Response
+	 */
+	public function field( \WP_REST_Request $request ): \WP_REST_Response {
+		$name  = sanitize_key( (string) $request->get_param( 'name' ) );
+		$field = Fields::get( $name );
+
+		if ( null === $field ) {
+			return new \WP_REST_Response(
+				array(
+					'found' => false,
+					'html'  => '',
+				),
+				404
+			);
+		}
+
+		$settings = json_decode( (string) $request->get_param( 'settings' ), true );
+		$settings = is_array( $settings ) ? $settings : array();
+
+		return new \WP_REST_Response(
+			array(
+				'found' => true,
+				'html'  => FieldRenderer::render( $this->plugin, $name, $settings ),
+			)
+		);
 	}
 
 	/**

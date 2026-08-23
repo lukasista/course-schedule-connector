@@ -574,6 +574,10 @@ msgstr "Obsazeno"
 msgid "Heading"
 msgstr "Nadpis"
 
+#: includes/Divi/FieldModules.php:150
+msgid "Heading text"
+msgstr "Text nadpisu"
+
 #: includes/Admin/Screen/RoomsPage.php:88
 msgid "Hidden"
 msgstr "Skrytý"
@@ -1184,6 +1188,10 @@ msgstr "Název kurzu jako nadpis, kterému můžete dát vlastní vzhled."
 msgid "The next few days"
 msgstr "Nejbližší dny"
 
+#: includes/Divi/FieldModules.php:201
+msgid "The one this page is about"
+msgstr "Ten, o kterém tahle stránka je"
+
 #: includes/Render/Fields.php:168
 msgid "The person to contact about a course nobody books through iSport."
 msgstr "Osoba, na kterou se obrátit u kurzu, na který se přes iSport nepřihlašuje."
@@ -1338,6 +1346,10 @@ msgstr "Nejbližší lekce"
 msgid "Use"
 msgstr "Použít"
 
+#: includes/Divi/FieldModules.php:152
+msgid "Value text"
+msgstr "Text hodnoty"
+
 #: includes/Data/TrainerType.php:98
 msgid "View trainer"
 msgstr "Zobrazit trenéra"
@@ -1490,6 +1502,14 @@ msgid_plural "last %d places"
 msgstr[0] "poslední %d místo"
 msgstr[1] "poslední %d místa"
 msgstr[2] "posledních %d míst"
+
+#: includes/Divi/FieldModules.php:160
+msgid "of the heading"
+msgstr "nadpisu"
+
+#: includes/Divi/FieldModules.php:161
+msgid "of the value"
+msgstr "hodnoty"
 
 #: includes/Admin/Screen/DisplaySetsPage.php:125
 msgid "— being edited"
@@ -1702,10 +1722,6 @@ msgid "Up to four lengths, the CSS way: \"0 0 4px 0\"."
 msgstr "Až čtyři délky, jak je zvykem v CSS: „0 0 4px 0“."
 
 #: blocks/fields/editor.js
-msgid "The one this page is about"
-msgstr "Ten, o kterém tahle stránka je"
-
-#: blocks/fields/editor.js
 msgid "What this shows"
 msgstr "Co se zobrazuje"
 
@@ -1794,14 +1810,6 @@ msgid "Left empty, the block disappears rather than printing a heading over a bl
 msgstr "Když necháte prázdné, blok zmizí, místo aby tiskl nadpis nad prázdným místem."
 
 #: blocks/fields/editor.js
-msgid "Heading text"
-msgstr "Text nadpisu"
-
-#: blocks/fields/editor.js
-msgid "Value text"
-msgstr "Text hodnoty"
-
-#: blocks/fields/editor.js
 msgid "Animation"
 msgstr "Animace"
 
@@ -1848,3 +1856,11 @@ msgstr "Animace se spustí, když se blok poprvé objeví na obrazovce — a nik
 #: blocks/fields/editor.js
 msgid "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the block settings."
 msgstr "Zatím není co zobrazit. Na stránce kurzu nebo trenéra se to doplní samo; jinde je vyberte v nastavení bloku."
+
+#: visual-builder/cscs-divi-fields.js
+msgid "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the module settings."
+msgstr "Zatím není co zobrazit. Na stránce kurzu nebo trenéra se to doplní samo; jinde je vyberte v nastavení modulu."
+
+#: visual-builder/cscs-divi-fields.js
+msgid "The field could not be loaded."
+msgstr "Pole se nepodařilo načíst."

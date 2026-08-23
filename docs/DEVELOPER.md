@@ -60,6 +60,8 @@
 - [Rendering and template overrides](#rendering-and-template-overrides)
 - [Shortcode](#shortcode)
 - [Block](#block)
+- [The trainer page](#the-trainer-page)
+- [Fields, blocks and field modules](#fields-blocks-and-field-modules)
 - [Divi 5 modules](#divi-5-modules)
 - [REST API](#rest-api)
 - [Capabilities](#capabilities)
@@ -256,6 +258,32 @@ The editor script is plain browser JavaScript against the packages WordPress loa
 
 `structured_data()` prints a `Course` JSON-LD in `wp_head`: name, description, provider, the term as a `CourseInstance`, the room as a `Place`, and an `Offer` only when there is a real price. Nothing is claimed there that the page does not also say in words.
 
+## The trainer page
+
+`TrainerType` registers `cscs_trainer_profile` — twenty characters, which is exactly what WordPress allows, and deliberately not `cscs_trainer`: that name belongs to the taxonomy, and a post type sharing it would collide over the query variable. The taxonomy stays exactly as it was, because it is what display sets filter by.
+
+Pairing is by `TrainerRepository::key()`, which is `Normalise::match_key()` — the same normalised name the class matcher uses, since it is the only identifier both sides have. The key is written onto the course in `CourseRepository::save()` **after** the meta loop, so a site that has locked the trainer name keeps the key of the name it actually shows; a key disagreeing with the name beside it would point the course at somebody else's page. `cscs_create_trainer_pages` switches off page creation while keeping the pairing.
+
+The photograph is fetched with `download_url()` and `media_handle_sideload()` at synchronisation time and remembered by source URL, so it is fetched once. A featured image always wins over it. `wp cscs trainers backfill [--dry-run] [--photographs]` builds the pages from courses already stored.
+
+## Fields, blocks and field modules
+
+`Render\Fields` is the catalogue: one list of what a course and a trainer are made of, each entry naming its context, its kind (`text`, `list`, `html`), its title, its default heading and its icon. `Fields::value()` works out what a field says about a given post. Everything else is generated from it, so a field added there appears in the block inserter, in Divi's module list and in the tests at once.
+
+`Render\FieldRenderer` turns one field and its settings into markup: a heading and a value, each with typography of its own. WordPress's block supports style a block as a whole and this block is two things, which is the whole reason for the second set. Every value is checked against a pattern or a list before it reaches a browser — `length()`, `colour()`, `variable()`, `one_of()` — because an attribute arrives from a saved post and "our own editor wrote it" is not a claim about safety. `var(--wp--preset--…)` is accepted by shape so the theme's own palette and type scale can be used.
+
+`Render\FieldBlocks` registers one block per field with `register_block_type( $name, $args )`. There is no `block.json` and no directory per block because there is no per-block code; the editor script is one file that reads the localised catalogue and registers them all with a shared `edit`.
+
+`Divi\FieldModules` does the same for Divi, which cannot be told about a module in code — it reads a directory holding `module.json`. Those are generated:
+
+```
+php tools/build-divi-modules.php
+```
+
+The generator loads `Fields::all()` directly, standing up the two functions and the constant it needs, so there is one list rather than two that drift. `FieldModulesTest` fails if the generated directories and the catalogue disagree.
+
+Two things about the module metadata that are not obvious. The heading and the value are declared as attributes with selectors of their own (`{{selector}} .cscs-field__label` and `…__value`) and each font and spacing group is assigned to a **named** group — `designHeadingText`, `designValueText`. Left to Divi's own naming both typography groups come out called "Module Text", and a design panel with two identically named groups in it is a panel nobody can use. And the source field is called `field.advanced.source`, never `set`, for the reason recorded below.
+
 ## Divi 5 modules
 
 One module, `cscs/divi-display`, with one content field: the display set. Registered the way Divi registers its own — `divi_module_library_modules_dependency_tree` hands over a `DependencyInterface` object whose `load()` calls `ModuleRegistration::register_module()` with `divi/cscs-display/module.json` and a render callback. The callback wraps the plugin's own renderer in `Module::render()`, so Divi contributes the classnames, the design styles and the custom CSS while nothing about the listing's content is decided there.
@@ -306,6 +334,7 @@ Namespace `cscs/v1`.
 | `/courses` | GET | public — same data as the front end |
 | `/lessons` | GET | public |
 | `/render` | GET | `edit_posts` — Visual Builder and block preview |
+| `/field` | GET | `edit_posts` — one field, for the Visual Builder |
 | `/display-sets` | GET | `cscs_manage_content` |
 | `/sync` | POST | `cscs_manage_design` |
 | `/match/unmatched` | GET | `cscs_manage_content` |

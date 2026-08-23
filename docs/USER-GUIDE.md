@@ -16,6 +16,8 @@ Příručka je pro **správce webu** – člověka, který spravuje nabídku kur
 - [Náhradní lekce](#náhradní-lekce)
 - [Sály](#sály)
 - [Stránka kurzu](#stránka-kurzu)
+- [Trenéři](#trenéři)
+- [Bloky a moduly pro vlastní design](#bloky-a-moduly-pro-vlastní-design)
 - [Kurzy, které v iSportu nejsou](#kurzy-které-v-isportu-nejsou)
 - [Přehled a synchronizace](#přehled-a-synchronizace)
 - [Co plugin dělá na mobilu](#co-plugin-dělá-na-mobilu)
@@ -149,12 +151,44 @@ Ve výpisu jsou sály, které uložený rozvrh skutečně používá. Žádný s
 
 Každý kurz má vlastní stránku. Kromě textu a obrázku, které k němu doplníte, se na ní zobrazí:
 
-- **fakta** – cena, kdy kurz probíhá (dny a časy odvozené z lekcí), termín od–do, počet lekcí, sál, lektor a volná místa; údaj, který není čím vyplnit, se vynechá,
+- **fakta** – cena, **den** a **čas od–do** (odvozené z lekcí, každý termín na svém řádku, aby se dvojice četla naproti sobě), termín od–do, počet lekcí, sál, trenér a volná místa; údaj, který není čím vyplnit, se vynechá,
+- **jméno trenéra jako odkaz** na jeho stránku, pokud ji má,
 - **kontakt na lektora**, pokud jste ho vyplnil — u kurzů, na které se přes iSport nepřihlašuje, je to to hlavní, co návštěvník potřebuje,
 - **tlačítko pro přihlášení** podle stejných tří pravidel jako všude jinde,
 - **nejbližší lekce kurzu** a **náhradní lekce**, které jste k tomuto kurzu přiřadil.
 
 Stránka se vkládá do obsahu, takže hlavičku, patičku i vzhled okolo kreslí dál vaše téma. Do hlavičky stránky se navíc přidává strojově čitelný popis kurzu (JSON-LD) pro vyhledávače — nic v něm netvrdíme, co by stránka neříkala i slovy.
+
+## Trenéři
+
+Trenéři jsou vlastní typ obsahu, *iSport → Trenéři*. Zakládá je synchronizace: jakmile nějaký kurz jmenuje trenéra, vznikne mu stránka, stáhne se fotografie z iSportu do knihovny médií a kurz se s ním spáruje. Prohlížeč návštěvníka se tak iSportu nikdy na nic neptá.
+
+Páruje se **podle jména**, bez ohledu na mezery a velikost písmen — jiný společný identifikátor obě strany nemají. Kurzy, které trenér vede, vidíte přímo na jeho editační obrazovce a návštěvník je vidí na jeho stránce.
+
+Na stránce trenéra doplníte to, co iSport nemá kam uložit:
+
+- **Kvalifikace** a **Záliby** – opakovatelné řádky. Přidáte je tlačítkem *Přidat řádek*, odeberete vyprázdněním nebo tlačítkem *Odebrat*. Vypíšou se v pořadí, v jakém je necháte.
+- **Zajímavost** – věta nebo dvě, díky kterým je z jména v rozvrhu člověk.
+- **Motto**.
+- **Fotografie** – ve výchozím stavu ta z iSportu. Chcete-li jinou, nastavte **náhledový obrázek**: ten má vždycky přednost a synchronizace ho nikdy nepřepíše.
+
+Text, který napíšete do editoru, se na stránce zobrazí jako u kurzu. Synchronizace se dotýká jen jména a fotografie — nic z toho, co napíšete, nikdy nepřepíše.
+
+## Bloky a moduly pro vlastní design
+
+Když vám výchozí stránka kurzu nebo trenéra nestačí, postavíte si vlastní. Každý údaj má svůj **blok** (Gutenberg) i **modul** (Divi 5) pod vlastním jménem: *Cena, Den, Čas, Termín, Lekce, Sál, Trenér, Volná místa, Tlačítko přihlášení, Nejbližší lekce, Náhradní lekce, Obrázek kurzu, Popis kurzu, Na koho se obrátit, Název kurzu* — a u trenéra *Fotografie, Kvalifikace, Záliby, Zajímavost, Motto, Popis, Kurzy které trenér vede*.
+
+Každý z nich umí:
+
+- **nadpis** – zapnout či vypnout, přejmenovat, zvolit HTML prvek (H1–H6, P, DIV…), přidat za něj oddělovač,
+- **rozvržení** – nadpis nad hodnotou, nebo vedle sebe, s nastavitelnou mezerou,
+- **vzhled nadpisu i hodnoty zvlášť** – písmo, řez, velikost, řádkování, prostrkání, verzálky, barvu a zarovnání. Tohle je hlavní důvod, proč bloky existují: „Cena“ a „4 160 Kč“ jsou dvě věci, které chce návrhář nastavit jinak,
+- **všechno ostatní, co editor nabízí** – barvy, pozadí, přechody, odsazení, rámečky, stín, sticky pozici, šířku na celou stránku; v Divi navíc jeho vlastní skupiny *Text nadpisu* a *Text hodnoty*,
+- **animaci** při prvním objevení na obrazovce (prolnutí, posun, zvětšení), která se nespustí návštěvníkovi, který si v systému vyžádal omezení pohybu.
+
+Pole, které nemá co říct, se **vynechá celé** — nadpis nad prázdným místem vypadá jako rozbitá stránka, ne jako odpověď „žádné“. Chcete-li místo toho něco napsat, vyplňte *Když není co zobrazit*.
+
+**Zdroj**: pokud nic nevyberete, blok ukáže ten kurz nebo toho trenéra, o kterém stránka je. Právě proto z nich jde postavit jednu šablonu v Divi Theme Builderu nebo v editoru šablon, která poslouží všem kurzům. Konkrétní kurz vyberete jen tam, kde blok stojí na běžné stránce.
 
 ## Kurzy, které v iSportu nejsou
 

@@ -121,6 +121,7 @@ CS = {
 "From:": "Od:",
 "Full": "Obsazeno",
 "Heading": "Nadpis",
+"Heading text": "Text nadpisu",
 "Hidden": "Skrytý",
 "Hide": "Skrýt",
 "Hide them": "Skrýt",
@@ -259,6 +260,7 @@ CS = {
 "The link into iSport. It hides itself when the course is full or takes no bookings.": "Odkaz do iSportu. Sám se skryje, když je kurz plný nebo na něj nelze se přihlásit.",
 "The name of the course, as a heading you can style.": "Název kurzu jako nadpis, kterému můžete dát vlastní vzhled.",
 "The next few days": "Nejbližší dny",
+"The one this page is about": "Ten, o kterém tahle stránka je",
 "The person to contact about a course nobody books through iSport.": "Osoba, na kterou se obrátit u kurzu, na který se přes iSport nepřihlašuje.",
 "The remote system tags every class, and a tag maintained there stays right for everyone, so it is asked before the list above. One rule per line, in the form label = category. Categories are course, external_course, makeup and rental. A label that is not listed here simply falls through to the list above.": "Každou lekci štítkuje iSport systém a štítek udržovaný tam zůstává správný pro všechny, proto se plugin ptá na něj dřív než na seznam výše. Jedno pravidlo na řádek, ve tvaru štítek = kategorie. Kategorie jsou course, external_course, makeup a rental. Štítek, který tu není uvedený, prostě propadne na seznam výše.",
 "The sentence or two that makes this a person.": "Věta nebo dvě, díky kterým je z tohoto člověk.",
@@ -291,6 +293,7 @@ CS = {
 "Unresolved": "Nespárované",
 "Upcoming classes": "Nejbližší lekce",
 "Use": "Použít",
+"Value text": "Text hodnoty",
 "View trainer": "Zobrazit trenéra",
 "What each tag means": "Co který štítek znamená",
 "What is stored": "Co je uložené",
@@ -326,6 +329,8 @@ CS = {
 "iSport overview": "Přehled iSport",
 "iSport publishes no link between a course and the classes that make it up, so the plugin works it out from the name and the time. Anything it could not place with confidence is here, together with the classes it decided belong to nobody — hall rentals, open sessions, and activities that take no bookings. Choosing a course records the answer for good: no later synchronisation will decide otherwise.": "iSport nezveřejňuje vazbu mezi kurzem a jeho jednotlivými lekcemi, plugin ji proto odvozuje z názvu a času. Co nedokázal s jistotou zařadit, je tady — spolu s lekcemi, o kterých rozhodl, že nepatří nikomu: pronájmy sálů, open lekce a aktivity, na které se nepřihlašuje. Výběrem kurzu odpověď zaznamenáte natrvalo: žádná další synchronizace ji nepřepíše.",
 "iSport settings": "Nastavení iSport",
+"of the heading": "nadpisu",
+"of the value": "hodnoty",
 "— being edited": "— upravováno",
 "— belongs to no course —": "— nepatří k žádnému kurzu —",
 "— choose a set —": "— vyberte sadu —",
@@ -444,4 +449,9 @@ JS_FIELDS = {
 "Delay (ms)": "Zpoždění (ms)",
 "Animations run when the block first comes into view, and never for a visitor who has asked their computer to keep still.": "Animace se spustí, když se blok poprvé objeví na obrazovce — a nikdy návštěvníkovi, který si vyžádal omezení pohybu.",
 "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the block settings.": "Zatím není co zobrazit. Na stránce kurzu nebo trenéra se to doplní samo; jinde je vyberte v nastavení bloku.",
+}
+
+JS_DIVI_FIELDS = {
+"Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the module settings.": "Zatím není co zobrazit. Na stránce kurzu nebo trenéra se to doplní samo; jinde je vyberte v nastavení modulu.",
+"The field could not be loaded.": "Pole se nepodařilo načíst.",
 }

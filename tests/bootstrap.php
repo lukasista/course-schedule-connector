@@ -223,6 +223,21 @@ if ( ! function_exists( 'wp_strip_all_tags_stub' ) ) {
 	}
 }
 
+if ( ! function_exists( '__' ) ) {
+	/**
+	 * Translation stub: the tests run without a text domain loaded.
+	 *
+	 * @param string $text   Text.
+	 * @param string $domain Text domain.
+	 * @return string
+	 */
+	function __( string $text, string $domain = 'default' ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- A stub for the test bootstrap.
+		unset( $domain );
+
+		return $text;
+	}
+}
+
 if ( ! function_exists( 'apply_filters' ) ) {
 	/**
 	 * Filter stub.

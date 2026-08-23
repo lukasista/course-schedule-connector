@@ -567,6 +567,10 @@ msgstr ""
 msgid "Heading"
 msgstr ""
 
+#: includes/Divi/FieldModules.php:150
+msgid "Heading text"
+msgstr ""
+
 #: includes/Admin/Screen/RoomsPage.php:88
 msgid "Hidden"
 msgstr ""
@@ -1177,6 +1181,10 @@ msgstr ""
 msgid "The next few days"
 msgstr ""
 
+#: includes/Divi/FieldModules.php:201
+msgid "The one this page is about"
+msgstr ""
+
 #: includes/Render/Fields.php:168
 msgid "The person to contact about a course nobody books through iSport."
 msgstr ""
@@ -1331,6 +1339,10 @@ msgstr ""
 msgid "Use"
 msgstr ""
 
+#: includes/Divi/FieldModules.php:152
+msgid "Value text"
+msgstr ""
+
 #: includes/Data/TrainerType.php:98
 msgid "View trainer"
 msgstr ""
@@ -1482,6 +1494,14 @@ msgid "last %d place"
 msgid_plural "last %d places"
 msgstr[0] ""
 msgstr[1] ""
+
+#: includes/Divi/FieldModules.php:160
+msgid "of the heading"
+msgstr ""
+
+#: includes/Divi/FieldModules.php:161
+msgid "of the value"
+msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:125
 msgid "— being edited"
@@ -1694,10 +1714,6 @@ msgid "Up to four lengths, the CSS way: \"0 0 4px 0\"."
 msgstr ""
 
 #: blocks/fields/editor.js
-msgid "The one this page is about"
-msgstr ""
-
-#: blocks/fields/editor.js
 msgid "What this shows"
 msgstr ""
 
@@ -1786,14 +1802,6 @@ msgid "Left empty, the block disappears rather than printing a heading over a bl
 msgstr ""
 
 #: blocks/fields/editor.js
-msgid "Heading text"
-msgstr ""
-
-#: blocks/fields/editor.js
-msgid "Value text"
-msgstr ""
-
-#: blocks/fields/editor.js
 msgid "Animation"
 msgstr ""
 
@@ -1839,4 +1847,12 @@ msgstr ""
 
 #: blocks/fields/editor.js
 msgid "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the block settings."
+msgstr ""
+
+#: visual-builder/cscs-divi-fields.js
+msgid "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the module settings."
+msgstr ""
+
+#: visual-builder/cscs-divi-fields.js
+msgid "The field could not be loaded."
 msgstr ""

@@ -924,6 +924,13 @@
         ]
     },
     {
+        "singular": "Heading text",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:150"
+        ]
+    },
+    {
         "singular": "Hidden",
         "plural": null,
         "refs": [
@@ -1948,6 +1955,13 @@
         ]
     },
     {
+        "singular": "The one this page is about",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:201"
+        ]
+    },
+    {
         "singular": "The person to contact about a course nobody books through iSport.",
         "plural": null,
         "refs": [
@@ -2195,6 +2209,13 @@
         "plural": null,
         "refs": [
             "includes/Admin/Screen/RoomsPage.php:113"
+        ]
+    },
+    {
+        "singular": "Value text",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:152"
         ]
     },
     {
@@ -2450,6 +2471,20 @@
         "plural": "last %d places",
         "refs": [
             "includes/Render/Listing.php:507"
+        ]
+    },
+    {
+        "singular": "of the heading",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:160"
+        ]
+    },
+    {
+        "singular": "of the value",
+        "plural": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:161"
         ]
     },
     {
