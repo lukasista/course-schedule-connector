@@ -34,6 +34,8 @@
 
 	var ModuleContainer = divi.module ? divi.module.ModuleContainer : null;
 	var elementClassnames = divi.module ? divi.module.elementClassnames : null;
+	var StyleContainer = divi.module ? divi.module.StyleContainer : null;
+	var CssStyle = divi.module ? divi.module.CssStyle : null;
 	var registerModule = divi.moduleLibrary ? divi.moduleLibrary.registerModule : null;
 
 	if ( ! React || ! hooks || ! ModuleContainer || ! registerModule ) {
@@ -197,6 +199,106 @@
 	}
 
 	/**
+	 * Builds the part of a module that writes its CSS in the builder.
+	 *
+	 * This is the half of a Divi module that is easy to leave out, because nothing
+	 * complains: without it a module registers, opens, offers every design setting
+	 * and stores every value, and the canvas simply never changes. The settings
+	 * only appear once the page is saved and the front end renders them, which
+	 * makes a builder that cannot be designed in.
+	 *
+	 * Two things have to be right, and both are quiet when they are not. Every
+	 * attribute that carries styles has to declare an `elementType` in its
+	 * `module.json` — Divi decides from it which style components an attribute
+	 * gets, and an attribute without one gets none. And the module's order class
+	 * has to be on the elements before the styles are asked for, or the rules come
+	 * out as ` .cscs-field__label`, with nothing in front of the space, and apply
+	 * to every field on the page or to none.
+	 *
+	 * What it emits is the same list as {@see \CSCS\Divi\FieldModuleRenderer}
+	 * emits in PHP, and for the same reason: the module itself, the heading and the
+	 * value styled apart from each other, the picture where the field is one, and
+	 * whatever custom CSS was written. The two have to agree, or the builder shows
+	 * one design and the page another.
+	 *
+	 * @param {Object} metadata Module metadata from the server.
+	 * @return {Function} The renderer.
+	 */
+	function stylesRenderer( metadata ) {
+		// Only the picture fields declare an `image` element; asking for its
+		// styles anywhere else would be asking about a selector that is not on
+		// the page.
+		var picture = !! ( metadata.attributes && metadata.attributes.image );
+
+		return function ( props ) {
+			var elements = props.elements;
+			var attrs = props.attrs || {};
+			var settings = props.settings || {};
+			var orderClass = props.orderClass;
+			var children = [];
+
+			if ( ! elements || 'function' !== typeof elements.style ) {
+				return null;
+			}
+
+			// Divi names the classes itself when it renders a module's styles on
+			// their own. Inside the edit tree, where these are rendered, it has
+			// not done it yet.
+			if ( ! orderClass ) {
+				orderClass = '.' + metadata.moduleOrderClassName + '_' + props.id;
+
+				elements.setBaseOrderClass( '.' + metadata.moduleOrderClassName );
+				elements.setOrderClass( orderClass );
+				elements.setModuleNameClass( '.' + metadata.moduleClassName );
+			}
+
+			children.push(
+				elements.style( {
+					attrName: 'module',
+					styleProps: {
+						disabledOn: {
+							disabledModuleVisibility: settings.disabledModuleVisibility,
+						},
+					},
+				} )
+			);
+
+			children.push( elements.style( { attrName: 'title' } ) );
+			children.push( elements.style( { attrName: 'value' } ) );
+
+			if ( picture ) {
+				children.push( elements.style( { attrName: 'image' } ) );
+			}
+
+			if ( CssStyle ) {
+				children.push(
+					React.createElement( CssStyle, {
+						key: 'cscs-css',
+						selector: orderClass,
+						attr: attrs.css,
+					} )
+				);
+			}
+
+			if ( ! StyleContainer ) {
+				return React.createElement( React.Fragment, null, children );
+			}
+
+			return React.createElement(
+				StyleContainer,
+				{
+					mode: props.mode,
+					state: props.state,
+					noStyleTag: props.noStyleTag,
+					isInsideStickyModule: props.isInsideStickyModule,
+					stickyParentOrderClass: props.stickyParentOrderClass,
+				},
+				children
+			);
+		};
+	}
+
+	/**
 	 * Registers one module.
 	 *
 	 * @param {Object} metadata Module metadata from the server.
@@ -205,6 +307,10 @@
 	function register( metadata ) {
 		// "cscs/divi-course-price" → "course-price": the field the server knows.
 		var field = String( metadata.name ).replace( /^cscs\/divi-/, '' );
+
+		// Built once: the renderer is the same for every copy of the module on
+		// the page, and Divi hands it whichever one it is drawing.
+		var styles = stylesRenderer( metadata );
 
 		var module = {
 			metadata: metadata,
@@ -225,26 +331,6 @@
 						},
 					} );
 
-					var children = [];
-
-					// styleComponents is what puts an administrator's design into
-					// the preview. If a version of Divi does not offer it, the
-					// field is still worth showing.
-					//
-					// Asking for the sub-elements here as well — title, value,
-					// image — was tried and changed nothing: inside the Theme
-					// Builder, Divi generates no CSS for these modules at all
-					// until the layout is saved, while on an ordinary page it
-					// does. The settings are stored and rendered correctly
-					// either way; it is the live preview in that one editor
-					// that lags, and guessing further at Divi's internals to
-					// chase it would cost more than it is worth.
-					if ( props.elements && 'function' === typeof props.elements.styleComponents ) {
-						children.push( props.elements.styleComponents( { attrName: 'module' } ) );
-					}
-
-					children.push( preview );
-
 					return React.createElement(
 						ModuleContainer,
 						{
@@ -255,9 +341,16 @@
 							name: props.name,
 							classnamesFunction: moduleClassnames,
 						},
-						children
+						[ styles( props ), preview ]
 					);
 				},
+
+				// Divi asks for this when it draws a module's styles on their own.
+				// It does not do that for a module registered from a plugin — hence
+				// the call in `edit` above, which is what actually reaches the
+				// canvas — but a module that answers the question honestly costs
+				// nothing and stops being wrong the day Divi asks.
+				styles: styles,
 			},
 		};
 

@@ -284,6 +284,18 @@ The generator loads `Fields::all()` directly, standing up the two functions and 
 
 Two things about the module metadata that are not obvious. The heading and the value are declared as attributes with selectors of their own (`{{selector}} .cscs-field__label` and `…__value`) and each font and spacing group is assigned to a **named** group — `designHeadingText`, `designValueText`. Left to Divi's own naming both typography groups come out called "Module Text", and a design panel with two identically named groups in it is a panel nobody can use. And the source field is called `field.advanced.source`, never `set`, for the reason recorded below.
 
+### Making the builder show the design
+
+A module can register, open, offer every design setting, store every value and render every one of them correctly on the page while the builder's canvas never changes. Nothing errors; there is simply no CSS. Two things cause it, and both are silent.
+
+**Every attribute that carries styles must declare an `elementType`.** Divi decides from it which style components an attribute gets — an attribute without one gets none, and `elements.style( { attrName } )` renders nothing for it. PHP does not ask, which is why the page is right and only the builder is wrong. Divi's own names are the ones to use: a heading is `heading`, a body of text is `content`, a picture is `image` (`imageLink` when the picture is itself the link), a wrapper is `wrapper`. Divi's module definitions are readable on any site running it, at `/wp-content/themes/Divi/includes/builder-5/visual-builder/packages/module-library/src/components/<module>/module.json`, and are the fastest way to check what a version actually expects.
+
+**The order class has to be on the elements before the styles are asked for.** Divi sets it when it renders a module's styles on its own; inside the edit tree it has not done it yet, and the rules come out as ` .cscs-field__label` — beginning with a space, belonging to nothing. `visual-builder/cscs-divi-fields.js` calls `setBaseOrderClass`, `setOrderClass` and `setModuleNameClass` from `metadata.moduleOrderClassName` and the module's id first, then renders `elements.style()` for the module, the heading, the value and the picture inside a `StyleContainer`, as a child of `ModuleContainer`. That is where the style tag lands for Divi's own modules too.
+
+The module also registers the same renderer as `renderers.styles`, which is the documented place for it. Divi does not call that for a module registered from a plugin — it wraps it and never asks — so the call in `edit` is the one that reaches the canvas; the registration is there so the module stops being wrong the day Divi does ask.
+
+`FieldModulesTest::test_every_styled_element_declares_its_kind` is the guard for the first half. There is no test for the second: it is one call site, and the only honest test is opening the builder.
+
 ## Divi 5 modules
 
 One module, `cscs/divi-display`, with one content field: the display set. Registered the way Divi registers its own — `divi_module_library_modules_dependency_tree` hands over a `DependencyInterface` object whose `load()` calls `ModuleRegistration::register_module()` with `divi/cscs-display/module.json` and a render callback. The callback wraps the plugin's own renderer in `Module::render()`, so Divi contributes the classnames, the design styles and the custom CSS while nothing about the listing's content is decided there.

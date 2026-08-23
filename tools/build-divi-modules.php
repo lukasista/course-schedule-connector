@@ -117,8 +117,8 @@ function module_metadata( string $name, array $field ): array {
 		'attributes'           => array_filter(
 			array(
 				'module' => module_attribute( ! empty( $field['image'] ) ),
-				'title'  => element_attribute( '{{selector}} .cscs-field__label', 'title', 'designHeadingText', 'Heading' ),
-				'value'  => element_attribute( '{{selector}} .cscs-field__value', 'value', 'designValueText', 'Value' ),
+				'title'  => element_attribute( '{{selector}} .cscs-field__label', 'title', 'designHeadingText', 'Heading', 'heading' ),
+				'value'  => element_attribute( '{{selector}} .cscs-field__value', 'value', 'designValueText', 'Value', 'content' ),
 				'image'  => empty( $field['image'] ) ? array() : image_attribute(),
 				'field'  => field_attribute( $field ),
 				'css'    => array( 'type' => 'object' ),
@@ -269,9 +269,10 @@ function image_attribute(): array {
 	$image = '{{selector}} .cscs-field__image';
 
 	return array(
-		'type'      => 'object',
-		'selector'  => $image,
-		'settings'  => array(
+		'type'        => 'object',
+		'elementType' => 'image',
+		'selector'    => $image,
+		'settings'    => array(
 			'decoration' => array(
 				'fit'       => array(),
 				'border'    => array(),
@@ -284,7 +285,7 @@ function image_attribute(): array {
 		// selectors are named rather than left to the default for the same
 		// reason Divi names its own — a border on a picture belongs on the
 		// picture, not on whatever happens to wrap it.
-		'styleProps' => array(
+		'styleProps'  => array(
 			'selector'  => $image,
 			'fit'       => array( 'selector' => $image ),
 			'border'    => array( 'selector' => $image ),
@@ -301,10 +302,22 @@ function image_attribute(): array {
  * differently, and Divi's own font group applied to the module as a whole
  * cannot tell them apart.
  *
+ * Every element that carries styles has to say what kind of element it is.
+ * Divi's builder decides from `elementType` which style components an attribute
+ * gets; an attribute without one is styled correctly by PHP on the page and
+ * silently by nothing at all in the builder, which is how a design can look
+ * saved and applied and still not show until the page is reloaded. Divi's own
+ * modules name a heading `heading` and a body of text `content`, and so do
+ * these.
+ *
  * @param string $selector Where the styles land.
+ * @param string $attr     Attribute name.
+ * @param string $group    Which design group the settings belong to.
+ * @param string $label    What the settings call this element.
+ * @param string $type     Divi's name for this kind of element.
  * @return array<string, mixed>
  */
-function element_attribute( string $selector, string $attr, string $group, string $label ): array {
+function element_attribute( string $selector, string $attr, string $group, string $label, string $type ): array {
 	$item = static function ( string $component, string $property, int $priority ) use ( $attr, $group, $label ): array {
 		return array(
 			'groupType' => 'group-item',
@@ -326,9 +339,10 @@ function element_attribute( string $selector, string $attr, string $group, strin
 	};
 
 	return array(
-		'type'     => 'object',
-		'selector' => $selector,
-		'settings' => array(
+		'type'        => 'object',
+		'elementType' => $type,
+		'selector'    => $selector,
+		'settings'    => array(
 			'decoration' => array(
 				'font'    => $item( 'divi/font', 'font', 10 ),
 				'spacing' => $item( 'divi/spacing', 'spacing', 20 ),

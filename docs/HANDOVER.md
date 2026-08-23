@@ -195,12 +195,24 @@ ne modulu.
    jeho CSS.** Pole hodnotu přijme a nic se nestane. K tomu musí render
    callback modulu vypsat `$elements->style( array( 'attrName' => … ) )` pro
    každý podřízený prvek, jinak se styly nedostanou ani na frontend.
-8. **V Theme Builderu Divi negeneruje CSS našich modulů vůbec, dokud se
-   rozvržení neuloží** — na běžné stránce ano. Nastavení se ukládá i vykresluje
-   správně, jen živý náhled v tomhle jednom editoru zaostává. Zkoušel jsem
-   vypisovat `styleComponents` i pro podřízené prvky; nepomohlo to a je to
-   vráceno zpět. Dál se v tom hrabat naslepo se nevyplácí.
-9. Odkazy s kotvou na téže stránce Divi polyká kvůli plynulému rolování;
+8. **Každý atribut, který nese styly, musí mít `elementType`.** Podle něj si
+   Divi vybírá style komponenty; atribut bez něj nedostane žádné a
+   `elements.style( { attrName } )` pro něj nevykreslí nic. PHP se na to
+   neptá — proto byl frontend celou dobu správně a mýlil se jen builder.
+   Používají se Diviho vlastní názvy: nadpis `heading`, text `content`,
+   obrázek `image` (`imageLink`, když je obrázek zároveň odkaz), obal
+   `wrapper`.
+9. **Než se modul zeptá na styly, musí mít nastavenou svou order class.**
+   Divi ji nastaví, když vykresluje styly modulu samostatně; uvnitř edit
+   stromu ještě ne, a pravidla pak vyjdou jako ` .cscs-field__label` — začínají
+   mezerou a nepatří ničemu. `visual-builder/cscs-divi-fields.js` proto volá
+   `setBaseOrderClass`, `setOrderClass` a `setModuleNameClass` a teprve pak
+   vykresluje `elements.style()` uvnitř `StyleContainer` jako potomka
+   `ModuleContainer`. Tam přistane style tag i u Diviho vlastních modulů.
+10. **`renderers.styles` Divi u modulu z pluginu nezavolá.** Obalí ho, ale
+   nikdy se ho nezeptá — ověřeno sondou. Registruje se dál, protože je to
+   správné místo, ale na plátno se dostane až volání v `edit`.
+11. Odkazy s kotvou na téže stránce Divi polyká kvůli plynulému rolování;
    posluchače je třeba věšet v **capture** fázi.
 
 ---

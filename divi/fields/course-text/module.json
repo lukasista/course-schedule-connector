@@ -41,6 +41,7 @@
         },
         "title": {
             "type": "object",
+            "elementType": "heading",
             "selector": "{{selector}} .cscs-field__label",
             "settings": {
                 "decoration": {
@@ -83,6 +84,7 @@
         },
         "value": {
             "type": "object",
+            "elementType": "content",
             "selector": "{{selector}} .cscs-field__value",
             "settings": {
                 "decoration": {

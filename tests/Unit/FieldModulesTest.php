@@ -135,6 +135,32 @@ final class FieldModulesTest extends TestCase {
 	}
 
 	/**
+	 * Every styled element says what kind of element it is.
+	 *
+	 * Divi's builder decides from `elementType` which style components an
+	 * attribute gets, and gives one without it none at all. The page still
+	 * renders correctly, because PHP does not ask — so the only symptom is a
+	 * builder in which no design setting ever changes anything, which is a long
+	 * way to find from a missing word in a generated file.
+	 *
+	 * @return void
+	 */
+	public function test_every_styled_element_declares_its_kind(): void {
+		foreach ( Fields::all() as $name => $field ) {
+			$attributes = $this->read( 'divi/fields/' . $name . '/module.json' )['attributes'] ?? array();
+
+			$this->assertSame( 'heading', $attributes['title']['elementType'] ?? '', $name );
+			$this->assertSame( 'content', $attributes['value']['elementType'] ?? '', $name );
+
+			if ( empty( $field['image'] ) ) {
+				continue;
+			}
+
+			$this->assertSame( 'image', $attributes['image']['elementType'] ?? '', $name );
+		}
+	}
+
+	/**
 	 * Two modules may not answer to one name.
 	 *
 	 * @return void
