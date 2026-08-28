@@ -19,6 +19,7 @@ Poslední commity:
 
 | commit | co přinesl |
 |---|---|
+| `39cc66d` | druh kurzu jako taxonomie — karta se postaví zaškrtnutím druhu |
 | `8407a63` | skupiny kurzů pod jedním jménem (ruční výběr + filtry), věk kurzu |
 | `29fadad` | pohlaví a úroveň kurzu — čtení z názvu, ruční přepis, překlady s kontextem |
 | `36ad88f` | sloupce Den a Čas od–do; stylopis se dostane i do Theme Builderu |
