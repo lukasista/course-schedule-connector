@@ -12,8 +12,10 @@ Fáze **F0 – F7 jsou hotové**. Zbývá F8 (bezpečnostní audit), F9 (výkon,
 přístupnost), F10 (testy + Plugin Check), F11 (dokumentace) a F12 (akceptační
 brána). Podrobné zadání každé fáze je v `PLAN.md`, kapitola 9.
 
-**Lukášova prohlídka pluginu, která měla přednost před F8, proběhla** a vzešly
-z ní tři úpravy. Všechny jsou hotové a ověřené v prohlížeči.
+**Lukášova prohlídka pluginu běží dál a má přednost před F8.** Všechno, co z ní
+zatím vzešlo, je hotové a ověřené proti živým datům. Poslední kolo přineslo:
+druh kurzu (taxonomie + vlastní stránka), věk, pohlaví a úroveň, popis
+z iSportu, srovnané odrážky a rozdělení panelů bloku na *Nastavení* a *Styly*.
 
 Poslední commity:
 
@@ -37,7 +39,7 @@ Poslední commity:
 | `ba734c1` | Den a Čas místo „Kdy“; trenéři jako typ příspěvku |
 | `49cde06` | předchozí předání práce |
 
-Testy: **209 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
+Testy: **225 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
 repozitáře.
 
 **Nepushnuté commity** na Macu — viz problém s portem 443 níže.
@@ -45,6 +47,10 @@ repozitáře.
 ---
 
 ## 2. Co přibylo naposledy
+
+Odshora nejnovější. Každá kapitola je psaná tak, aby stačila sama o sobě:
+proč to tak je, kde to v kódu leží a co se tím na živých datech ověřilo.
+
 
 ### Stránka druhu kurzu
 Typ příspěvku `cscs_kind_page` (**ne** `cscs_kind` — to je taxonomie, kolidovalo
@@ -354,7 +360,23 @@ ne modulu.
   113-Deskové hry. Obojí je tam kvůli ověření a dá se smazat.
 - **Přepínač týdnů se u sady `lekce` nezobrazuje**, protože má rozsah
   *pololetí*, ne *týden*. Je to záměr — přepínal by něco, co výpis nezohledňuje.
-- **Nepushnuté commity** na Macu, viz problém s portem 443 výše.
+- **Nepushnuté commity.** Lukáš pushnul do commitu `8707e35` včetně; od té doby
+  přibyly `41249c4`, `bcbb77f` a dva dokumentační. Push dělá Lukáš ručně.
+- **Přepisovací pravidla pro `/druh/…`.** `Plugin::REWRITE_VERSION` je 5
+  a uložená hodnota byla vynulována, takže se pravidla přestaví při prvním
+  načtení administrace. Kdyby přesto adresa druhu vrátila 404, stačí uložit
+  *Nastavení → Trvalé odkazy*.
+- **Ukázková sada `gymnastika-divky`** je na webu založená (druh *Gymnastika*
+  + pohlaví *dívky*, 18 kurzů) a odpovídá tabulce ze starého webu řádek po
+  řádku. Je to ukázka, ne produkční nastavení — klidně smazat nebo přenastavit.
+- **Taxonomie `cscs_activity` zůstává prázdná.** iSport posílá jako
+  `activity_name` celý název kurzu, takže by to byl jeden term na kurz.
+  Filtr *Aktivity* v zobrazovacích sadách proto zatím nemá co nabídnout;
+  seskupuje se podle **Druhu kurzu**.
+- **Kurz 25** se jmenuje *Gymnastika 4-6 let dívky pokročilé*, ale iSport u něj
+  posílá aktivitu *Jojo přípravka…*. Druh se čte z aktivity, takže je pod Jojo
+  přípravkou — stejně jako na starém webu. Kdyby to mělo být jinak, přepíše se
+  druh u kurzu a zaškrtne zámek.
 - **Taxonomie „Lektoři“ se v češtině přejmenovala na „Trenéři“**, aby
   v administraci nestála dvě jména pro tutéž věc. Kdyby to vadilo, mění se to
   v `tools/i18n/cs.py`.
