@@ -27,24 +27,30 @@ final class AudienceTest extends TestCase {
 	public function test_real_course_names_are_read_the_way_the_website_reads_them(): void {
 		$this->assertSame(
 			array(
-				'gender' => Audience::GIRLS,
-				'level'  => '',
+				'gender'   => Audience::GIRLS,
+				'level'    => '',
+				'age_from' => '9',
+				'age_to'   => '11',
 			),
 			Audience::read( '37-Gymnastika 9-11 let dívky' )
 		);
 
 		$this->assertSame(
 			array(
-				'gender' => Audience::MIXED,
-				'level'  => Audience::IMPROVER,
+				'gender'   => Audience::MIXED,
+				'level'    => Audience::IMPROVER,
+				'age_from' => '10',
+				'age_to'   => '',
 			),
 			Audience::read( '101-Lezení od 10 let mix mírně pokročilí' )
 		);
 
 		$this->assertSame(
 			array(
-				'gender' => '',
-				'level'  => Audience::COMPETITIVE,
+				'gender'   => '',
+				'level'    => Audience::COMPETITIVE,
+				'age_from' => '',
+				'age_to'   => '',
 			),
 			Audience::read( '82-Gymnastika závodní průprava' )
 		);
@@ -62,8 +68,10 @@ final class AudienceTest extends TestCase {
 	public function test_a_name_that_says_nothing_yields_nothing(): void {
 		$this->assertSame(
 			array(
-				'gender' => '',
-				'level'  => '',
+				'gender'   => '',
+				'level'    => '',
+				'age_from' => '',
+				'age_to'   => '',
 			),
 			Audience::read( '79-Cvičení ve všech sálách dospělí' )
 		);
@@ -115,6 +123,42 @@ final class AudienceTest extends TestCase {
 		$this->assertSame( 'Beginners', Audience::level_label( Audience::BEGINNER, Audience::MIXED ) );
 		$this->assertSame( '', Audience::level_label( 'nonsense', Audience::MIXED ) );
 		$this->assertSame( '', Audience::level_label( '' ) );
+	}
+
+	/**
+	 * The ages a course is for, in the three shapes the catalogue writes them.
+	 *
+	 * @return void
+	 */
+	public function test_ages_are_read_in_all_three_shapes(): void {
+		$this->assertSame( array( 'from' => '9', 'to' => '11' ), Audience::read_age( '37-Gymnastika 9-11 let dívky' ) );
+		$this->assertSame( array( 'from' => '10', 'to' => '' ), Audience::read_age( '101-Lezení od 10 let mix' ) );
+		$this->assertSame( array( 'from' => '4', 'to' => '4' ), Audience::read_age( 'Hravé cvičení 4 roky' ) );
+		$this->assertSame( array( 'from' => '', 'to' => '' ), Audience::read_age( '103-Lezení pro dospělé' ) );
+	}
+
+	/**
+	 * Half a year is a real age here: the gym runs courses for two-and-a-half
+	 * year olds, and rounding one to two would put a toddler in the wrong room.
+	 *
+	 * @return void
+	 */
+	public function test_halves_survive_and_the_comma_becomes_a_full_stop(): void {
+		$this->assertSame( array( 'from' => '2.5', 'to' => '3' ), Audience::read_age( '03-Rodiče a děti 2,5-3 roky' ) );
+		$this->assertSame( array( 'from' => '1.5', 'to' => '2' ), Audience::read_age( '01-Cvičení pro batolata 1,5-2 roky' ) );
+		$this->assertSame( array( 'from' => '5', 'to' => '6.5' ), Audience::read_age( '16-Jojo přípravka 5-6,5 let mix' ) );
+	}
+
+	/**
+	 * The course's own number is a number in the same name, and the unit is
+	 * the only thing telling the two apart.
+	 *
+	 * @return void
+	 */
+	public function test_the_course_number_is_not_an_age(): void {
+		$this->assertSame( array( 'from' => '10', 'to' => '16' ), Audience::read_age( '106- Kondiční posilovací trénink 10-16 let dívky' ) );
+		$this->assertSame( array( 'from' => '8', 'to' => '' ), Audience::read_age( '114-Základy skoků na trampolíně od 8 let' ) );
+		$this->assertSame( array( 'from' => '', 'to' => '' ), Audience::read_age( '110-Funkční kruhový trénink I. pololetí' ) );
 	}
 
 	/**

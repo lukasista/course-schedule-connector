@@ -10,6 +10,7 @@ declare( strict_types=1 );
 namespace CSCS\Admin\Screen;
 
 use CSCS\Admin\Capabilities;
+use CSCS\Data\Audience;
 use CSCS\Data\DisplaySet;
 use CSCS\Data\PostType;
 use CSCS\Plugin;
@@ -241,6 +242,14 @@ final class DisplaySetsPage {
 				$this->rooms_row( $set->rooms );
 				$this->term_row( 'trainers', __( 'Trainers', 'course-schedule-connector' ), PostType::TRAINER, $set->trainers, __( 'Nothing ticked means every trainer.', 'course-schedule-connector' ) );
 				$this->term_row( 'activities', __( 'Activities', 'course-schedule-connector' ), PostType::ACTIVITY, $set->activities, __( 'Nothing ticked means every activity.', 'course-schedule-connector' ) );
+
+				if ( DisplaySet::TYPE_COURSES === $type ) {
+					$this->keys_row( 'genders', __( 'Gender', 'course-schedule-connector' ), Audience::genders(), $set->genders );
+					$this->keys_row( 'levels', __( 'Level', 'course-schedule-connector' ), Audience::levels(), $set->levels );
+					$this->age_row( $set );
+					$this->courses_row( 'courses', __( 'Courses to add', 'course-schedule-connector' ), $set->courses, __( 'These are shown whatever the filters above say. This is how several courses go under one heading — tick them here and give the set a heading below.', 'course-schedule-connector' ) );
+					$this->courses_row( 'exclude', __( 'Courses to leave out', 'course-schedule-connector' ), $set->exclude, __( 'These are never shown, whatever else says otherwise.', 'course-schedule-connector' ) );
+				}
 				?>
 				<tr>
 					<th scope="row"><label for="cscs-set-range"><?php esc_html_e( 'How far ahead', 'course-schedule-connector' ); ?></label></th>
@@ -383,6 +392,101 @@ final class DisplaySetsPage {
 						<?php endforeach; ?>
 					</fieldset>
 					<p class="description"><?php esc_html_e( 'Nothing ticked means every room.', 'course-schedule-connector' ); ?></p>
+				<?php endif; ?>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Renders a row of checkboxes for a fixed list of keys.
+	 *
+	 * @param string                $field    Field name.
+	 * @param string                $label    Row label.
+	 * @param array<string, string> $choices  Key to label.
+	 * @param array<int, string>    $selected Chosen keys.
+	 * @return void
+	 */
+	private function keys_row( string $field, string $label, array $choices, array $selected ): void {
+		?>
+		<tr>
+			<th scope="row"><?php echo esc_html( $label ); ?></th>
+			<td>
+				<fieldset>
+					<?php foreach ( $choices as $key => $name ) : ?>
+						<label style="margin-right:1em">
+							<input type="checkbox" name="cscs_set[<?php echo esc_attr( $field ); ?>][]" value="<?php echo esc_attr( (string) $key ); ?>" <?php checked( in_array( (string) $key, $selected, true ) ); ?> />
+							<?php echo esc_html( $name ); ?>
+						</label>
+					<?php endforeach; ?>
+				</fieldset>
+				<p class="description"><?php esc_html_e( 'Nothing ticked means it does not matter. A course the name says nothing about is left out when something is ticked.', 'course-schedule-connector' ); ?></p>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Renders the two age boxes.
+	 *
+	 * @param DisplaySet $set Set being edited.
+	 * @return void
+	 */
+	private function age_row( DisplaySet $set ): void {
+		?>
+		<tr>
+			<th scope="row"><label for="cscs-set-age-min"><?php esc_html_e( 'Age', 'course-schedule-connector' ); ?></label></th>
+			<td>
+				<input type="number" step="0.5" min="0" max="99" class="small-text" id="cscs-set-age-min" name="cscs_set[age_min]" value="<?php echo esc_attr( $set->age_min ); ?>" />
+				<span aria-hidden="true">–</span>
+				<label class="screen-reader-text" for="cscs-set-age-max"><?php esc_html_e( 'Oldest age', 'course-schedule-connector' ); ?></label>
+				<input type="number" step="0.5" min="0" max="99" class="small-text" id="cscs-set-age-max" name="cscs_set[age_max]" value="<?php echo esc_attr( $set->age_max ); ?>" />
+				<p class="description"><?php esc_html_e( 'Keeps the courses whose ages overlap these — a set for 7 to 9 also finds the course for 6 to 8. Leave both empty for every age.', 'course-schedule-connector' ); ?></p>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Renders a row of course checkboxes.
+	 *
+	 * Courses are picked by post id rather than by name: a set outlives a
+	 * rename, and iSport renames courses every term.
+	 *
+	 * @param string           $field       Field name.
+	 * @param string           $label       Row label.
+	 * @param array<int, int>  $selected    Chosen post ids.
+	 * @param string           $description Help text.
+	 * @return void
+	 */
+	private function courses_row( string $field, string $label, array $selected, string $description ): void {
+		$courses = get_posts(
+			array(
+				'post_type'        => PostType::COURSE,
+				'post_status'      => 'publish',
+				'numberposts'      => -1,
+				'orderby'          => 'title',
+				'order'            => 'ASC',
+				'suppress_filters' => false,
+			)
+		);
+
+		?>
+		<tr>
+			<th scope="row"><?php echo esc_html( $label ); ?></th>
+			<td>
+				<?php if ( array() === $courses ) : ?>
+					<p class="description"><?php esc_html_e( 'Nothing to choose from yet. Synchronise first.', 'course-schedule-connector' ); ?></p>
+				<?php else : ?>
+					<fieldset style="max-height:14em;overflow:auto;border:1px solid #dcdcde;padding:.5em">
+						<?php foreach ( $courses as $course ) : ?>
+							<label style="display:block">
+								<input type="checkbox" name="cscs_set[<?php echo esc_attr( $field ); ?>][]" value="<?php echo esc_attr( (string) $course->ID ); ?>" <?php checked( in_array( (int) $course->ID, $selected, true ) ); ?> />
+								<?php echo esc_html( $course->post_title ); ?>
+							</label>
+						<?php endforeach; ?>
+					</fieldset>
+					<p class="description"><?php echo esc_html( $description ); ?></p>
 				<?php endif; ?>
 			</td>
 		</tr>

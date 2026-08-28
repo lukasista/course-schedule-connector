@@ -101,6 +101,7 @@ final class CourseDetail {
 			__( 'Time', 'course-schedule-connector' )    => $this->meeting_hours(),
 			__( 'Runs', 'course-schedule-connector' )    => $this->period(),
 			__( 'Classes', 'course-schedule-connector' ) => $this->lessons(),
+			__( 'Age', 'course-schedule-connector' )     => $this->age(),
 			__( 'Gender', 'course-schedule-connector' )  => $this->gender(),
 			__( 'Level', 'course-schedule-connector' )   => $this->level(),
 			__( 'Room', 'course-schedule-connector' )    => $this->rooms(),
@@ -113,6 +114,18 @@ final class CourseDetail {
 			static function ( string $value ): bool {
 				return '' !== trim( $value );
 			}
+		);
+	}
+
+	/**
+	 * Returns the ages the course is for.
+	 *
+	 * @return string
+	 */
+	public function age(): string {
+		return Formatter::age_range(
+			(string) ( $this->course['age_from'] ?? '' ),
+			(string) ( $this->course['age_to'] ?? '' )
 		);
 	}
 

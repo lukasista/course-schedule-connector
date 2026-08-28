@@ -31,7 +31,7 @@ Poslední commity:
 | `ba734c1` | Den a Čas místo „Kdy“; trenéři jako typ příspěvku |
 | `49cde06` | předchozí předání práce |
 
-Testy: **203 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
+Testy: **209 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
 repozitáře.
 
 **Nepushnuté commity** na Macu — viz problém s portem 443 níže.
@@ -39,6 +39,30 @@ repozitáře.
 ---
 
 ## 2. Co přibylo naposledy
+
+### Skupiny kurzů pod jedním jménem a věk
+Dosavadní web publikuje kartu *Gymnastika dívky*: jeden nadpis, jedna tabulka,
+osmnáct kurzů, které v datech nespojuje nic než rozhodnutí člověka. Zobrazovací
+sada uměla jen filtry, takže takovou kartu postavit nešlo. Teď nese navíc
+`courses` (kurzy zaškrtnuté ručně, zobrazí se bez ohledu na filtry), `exclude`
+(nikdy se nezobrazí), `genders`, `levels`, `age_min` a `age_max`.
+
+`Query::courses()` pustí filtry zvlášť (`fields => ids`), přidá ručně vybrané,
+odečte vyloučené a výsledek předá skutečnému dotazu jako `post__in` — řazení
+i stránkování tak zůstávají v databázi. **Sada, která má zaškrtnuté kurzy a
+žádný filtr, znamená přesně ty kurzy**; bez toho pravidla by znamenala ty kurzy
+plus celý katalog. Sada bez ručního výběru se dotazuje přesně jako dřív.
+
+Věk je třetí údaj, který iSport nemá, a čte se z názvu ve třech tvarech:
+`9-11 let` rozsah, `od 10 let` spodní hranice, `4 roky` jeden věk. Jednotka
+odlišuje věk od čísla kurzu. Půlroky zůstávají (`2,5-3 roky` → `2.5`–`3`),
+ukládají se s tečkou, vypisují s čárkou. Na živém webu má věk 106 ze 113 kurzů,
+zbytek jsou kurzy pro dospělé. Filtr věku je **překryv**, ne obsažení: sada 7–9
+vezme i kurz 6–8.
+
+Ukázková sada `gymnastika-divky` je na webu založená (dívky, 7–9 let, sloupce
+Den / Čas od–do / Věk / Pohlaví / Úroveň / Volná místa / tlačítko) — vypadá jako
+přiložený obrázek z dosavadního webu.
 
 ### Pohlaví a úroveň
 Kurz nese, **pro koho je** a jakou má **úroveň**. V iSportu ani jedno pole není

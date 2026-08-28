@@ -375,7 +375,14 @@ final class SyncCommand {
 			// change that did not happen.
 			$shown = array();
 
-			foreach ( array( CourseRepository::META_GENDER => $found['gender'], CourseRepository::META_LEVEL => $found['level'] ) as $key => $value ) {
+			$reading = array(
+				CourseRepository::META_GENDER   => $found['gender'],
+				CourseRepository::META_LEVEL    => $found['level'],
+				CourseRepository::META_AGE_FROM => $found['age_from'],
+				CourseRepository::META_AGE_TO   => $found['age_to'],
+			);
+
+			foreach ( $reading as $key => $value ) {
 				if ( in_array( $key, $locked, true ) ) {
 					++$kept;
 
@@ -404,12 +411,17 @@ final class SyncCommand {
 				}
 			}
 
+			// Four columns rather than a rendered range, because this is the
+			// screen somebody checks a reading on: what is stored is what is
+			// worth seeing, and an empty ceiling is a fact of its own.
 			\WP_CLI::log(
 				sprintf(
-					'%-58s %-10s %s',
-					mb_substr( $title, 0, 58 ),
+					'%-56s %-10s %-10s %-8s %s',
+					mb_substr( $title, 0, 56 ),
 					$shown[ CourseRepository::META_GENDER ],
-					$shown[ CourseRepository::META_LEVEL ]
+					$shown[ CourseRepository::META_LEVEL ],
+					$shown[ CourseRepository::META_AGE_FROM ],
+					$shown[ CourseRepository::META_AGE_TO ]
 				)
 			);
 		}

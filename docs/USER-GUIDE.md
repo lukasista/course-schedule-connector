@@ -48,7 +48,8 @@ Sady najdete v **iSport → Zobrazovací sady**. U každé nastavíte:
 
 - **Co ukazuje** – *Kurzy* (to, na co se lidé přihlašují), nebo *Lekce* (jednotlivé termíny v rozvrhu). Každý typ má jinou nabídku sloupců.
 - **Sloupce** – zaškrtnutím vyberete, co se zobrazí, číslem určíte pořadí a volitelně zadáte **vlastní popisek**. Sloupec, ve kterém by nebyla ani jedna hodnota — třeba tlačítko, když je globálně vypnuté — se z výpisu vynechá sám a vrátí se, jakmile bude co zobrazit. Popisek se vyplatí držet krátký: na mobilu se tabulka překlopí tak, že popisky jdou v levém sloupci a hodnoty v pravém.
-- **Co zahrnout** – sály, lektory, aktivity (nic zaškrtnutého = všechno), jak daleko dopředu (celé pololetí / tento týden / nejbližší dny / mezi dvěma daty), zda zahrnout **pronájmy a cizí oddíly**, jak naložit se **zrušenými lekcemi** a zda vynechat kurzy bez volných míst.
+- **Co zahrnout** – sály, lektory, aktivity, **pohlaví**, **úroveň** a **věk** (nic zaškrtnutého a prázdný věk = všechno), jak daleko dopředu (celé pololetí / tento týden / nejbližší dny / mezi dvěma daty), zda zahrnout **pronájmy a cizí oddíly**, jak naložit se **zrušenými lekcemi** a zda vynechat kurzy bez volných míst.
+- **Kurzy navíc a Kurzy, které vynechat** – konkrétní kurzy zaškrtnuté jménem. *Navíc* se zobrazí bez ohledu na filtry výše, *vynechat* se nezobrazí nikdy. Právě tímhle se dá postavit karta jako **Gymnastika dívky**: filtry naberou základ, ručně přidáte, co do skupiny patří navzdory názvu, a odeberete, co tam nepatří. Sada, která má zaškrtnuté kurzy a žádný filtr, ukazuje přesně ty zaškrtnuté a nic jiného.
 - **Řazení a rozsah** – podle čeho řadit, vzestupně/sestupně, počet položek na stránku (nula = všechno najednou) a od kolika volných míst má výpis hlásit „posledních pár míst“.
 - **Texty** – nadpis, text tlačítka, co napsat, když není co zobrazit, a co místo tlačítka, když je kurz plný.
 
@@ -163,15 +164,21 @@ Stránka se vkládá do obsahu, takže hlavičku, patičku i vzhled okolo kresl�
 
 ## Pro koho kurz je
 
-U kurzu se vypisuje, **pro koho je** (dívky, kluci, mix, ženy, muži) a jakou má
-**úroveň** (začátečníci, mírně pokročilí, pokročilí, závodní průprava). iSport
-ani jedno neposílá — nemá na to pole — takže se obojí čte z názvu kurzu, přesně
-jako to dělá dosavadní web: *„101-Lezení od 10 let mix mírně pokročilí“* je mix
-a mírně pokročilí. Kurz, jehož název nic neříká, nemá vyplněné nic; raději
-prázdno než domněnka.
+U kurzu se vypisuje, **pro koho je** (dívky, kluci, mix, ženy, muži), jakou má
+**úroveň** (začátečníci, mírně pokročilí, pokročilí, závodní průprava) a pro
+jaký **věk** je určen. iSport neposílá ani jedno — nemá na to pole — takže se
+všechno tři čte z názvu kurzu, přesně jako to dělá dosavadní web:
+*„101-Lezení od 10 let mix mírně pokročilí“* je mix, mírně pokročilí, od 10 let.
+Kurz, jehož název nic neříká, nemá vyplněné nic; raději prázdno než domněnka.
+
+Věk se čte ve třech tvarech: *9-11 let* je rozsah, *od 10 let* je spodní hranice
+bez horní a *4 roky* je jeden věk. Půlrok se nezaokrouhluje — *2,5-3 roky* jsou
+opravdu dva a půl. Číslo kurzu na začátku názvu se za věk nepovažuje, protože za
+věkem musí stát „let“ nebo „rok“.
 
 Když čtení něco splete nebo název mlčí, vyberete správnou hodnotu ručně
-v editaci kurzu. Od té chvíle platí vaše volba a žádná synchronizace ji
+v editaci kurzu — u věku vyplníte dvě políčka od–do (druhé nechte prázdné
+u kurzu bez horní hranice). Od té chvíle platí vaše volba a žádná synchronizace ji
 nepřepíše. Vrátit se k automatickému čtení znamená vybrat *— podle názvu —*.
 
 U dívek a žen se úroveň vypíše v ženském rodě (*začátečnice*, *pokročilé*),
@@ -194,7 +201,7 @@ Text, který napíšete do editoru, se na stránce zobrazí jako u kurzu. Synchr
 
 ## Bloky a moduly pro vlastní design
 
-Když vám výchozí stránka kurzu nebo trenéra nestačí, postavíte si vlastní. Každý údaj má svůj **blok** (Gutenberg) i **modul** (Divi 5) pod vlastním jménem: *Cena, Den, Čas, Pohlaví, Úroveň, Termín, Lekce, Sál, Trenér, Volná místa, Tlačítko přihlášení, Nejbližší lekce, Náhradní lekce, Obrázek kurzu, Popis kurzu, Na koho se obrátit, Název kurzu* — a u trenéra *Fotografie, Kvalifikace, Záliby, Zajímavost, Motto, Popis, Kurzy které trenér vede*.
+Když vám výchozí stránka kurzu nebo trenéra nestačí, postavíte si vlastní. Každý údaj má svůj **blok** (Gutenberg) i **modul** (Divi 5) pod vlastním jménem: *Cena, Den, Čas, Věk, Pohlaví, Úroveň, Termín, Lekce, Sál, Trenér, Volná místa, Tlačítko přihlášení, Nejbližší lekce, Náhradní lekce, Obrázek kurzu, Popis kurzu, Na koho se obrátit, Název kurzu* — a u trenéra *Fotografie, Kvalifikace, Záliby, Zajímavost, Motto, Popis, Kurzy které trenér vede*.
 
 Každý z nich umí:
 
@@ -210,7 +217,7 @@ Pole, které nemá co říct, se **vynechá celé** — nadpis nad prázdným m�
 
 ### Kde moduly v Divi najdete
 
-Všechny jsou pohromadě: v seznamu modulů je jedna položka **iSport** a v ní všech dvacet pět. Stejně to dělá WooCommerce se svou sekcí *Woo Modules*. Každý modul má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe.
+Všechny jsou pohromadě: v seznamu modulů je jedna položka **iSport** a v ní všech dvacet šest. Stejně to dělá WooCommerce se svou sekcí *Woo Modules*. Každý modul má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe.
 
 ### Tabulky
 

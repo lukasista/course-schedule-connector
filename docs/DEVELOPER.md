@@ -134,6 +134,7 @@ Public, with an archive and single template. Enrichment fields live alongside th
 | `_cscs_status` | enum | `running` / `finished` / `archived` |
 | `_cscs_show_isport_button` | enum | `inherit` / `always` / `never` |
 | `_cscs_gender` | enum | `girls` / `boys` / `mixed` / `women` / `men`, read from the course's name or set by hand |
+| `_cscs_age_from`, `_cscs_age_to` | decimal string | The ages the course is for, likewise. No `_to` means no upper age |
 | `_cscs_level` | enum | `beginner` / `improver` / `advanced` / `competitive`, likewise |
 | `_cscs_locked_fields` | JSON array | Fields edited by hand, protected from synchronisation |
 | `_cscs_synced_at` | int | Timestamp |
@@ -536,13 +537,50 @@ for either, and the website this plugin replaces reads both off the name too.
   editor's two selects append their key to `_cscs_locked_fields`, and a locked
   key is left alone for good. Choosing *— podle názvu —* deletes the meta and
   the reading takes over again.
-- `Fields` carries `course-gender` and `course-level` like any other field, so
-  the block, the Divi module, the course page's facts and the listing column all
-  come from the one catalogue.
+- The age is read the same way, in three shapes asked in order: a range
+  ("9-11 let"), a floor with no ceiling ("od 10 let") and a single age
+  ("4 roky"). The unit is what separates an age from the course's own number —
+  "101-Lezení od 10 let" has two numbers in it — so nothing without `let` or
+  `rok` after it counts. Halves are kept, because the gym runs courses for
+  two-and-a-half-year-olds; they are stored with a full stop and rendered with
+  whatever the language writes, which in Czech is a comma. The two ages lock
+  together on the course editor: half a fact set by hand and half read from the
+  name is a state with no screen to explain it on.
+- `Fields` carries `course-age`, `course-gender` and `course-level` like any
+  other field, so the block, the Divi module, the course page's facts and the
+  listing column all come from the one catalogue.
 
 ## Rooms
 
 `RoomMap` keeps label, order, colour and visibility per remote room id in the autoloaded option `cscs_rooms`, and stores only the rows somebody actually configured. `RoomMap::apply()` merges that with the rooms the stored timetable mentions — `LessonRepository::rooms()`, since no endpoint lists them — and sorts by order then by the name the site shows. Hidden rooms stay in the list; filtering them out belongs to whoever renders, or the screen that edits them could never show one again.
+
+## Grouping courses under one name
+
+A display set answers "what should this listing show", and until now it answered
+it only with filters — rooms, trainers, activities. A page that says
+*Gymnastika dívky* wants eighteen named courses under one heading, and no
+combination of those three picks exactly those eighteen. So a set also carries:
+
+| Field | Meaning |
+|---|---|
+| `courses` | Post ids shown whatever the filters say |
+| `exclude` | Post ids never shown, whatever else says |
+| `genders`, `levels` | Audience keys to keep, empty for all |
+| `age_min`, `age_max` | Ages to overlap, empty for no bound |
+
+`Query::courses()` runs the filters on their own first (`fields => ids`), adds
+the named courses, subtracts the excluded ones and hands the result to the real
+query as `post__in` — so ordering and paging still happen in the database rather
+than in PHP. A set that names courses and filters by nothing means those courses
+and no others; without that rule it would mean those courses *plus the whole
+catalogue*, which is the opposite of what anybody asked for. The filters-only
+path is untouched, so a set written before any of this exists queries exactly as
+it did.
+
+Age matching is overlap, not containment: a set for 7 to 9 keeps the course for
+6 to 8, because a seven-year-old could join it. A course with no age at all is
+left out of an age-filtered set — it cannot be shown to match, and a wrong
+course on a card is worse than a missing one.
 
 ## Display sets
 
@@ -550,7 +588,7 @@ A set is a `CSCS\Data\DisplaySet` value object: `from_array()` normalises anythi
 
 `DisplaySetRepository` keeps every set in one autoloaded option, `cscs_display_sets`, keyed by id. Ids are slugs, made from the name on creation and immutable afterwards: `[cscs_courses set="kurzy-pro-deti"]` is written by hand on a page, and a renamed id would empty it silently.
 
-Adding a column means adding it to `DisplaySet::catalogue()`, to `DisplaySetsPage::column_labels()` and to the renderer. The first is what decides whether a stored value survives, so a column missing from it is dropped no matter what the other two say.
+Adding a column means adding it to `DisplaySet::catalogue()`, to `Fields::column_labels()` — the one map the sets screen, the block sidebar and the Divi panel all read — and to `Listing::value()`. The first is what decides whether a stored value survives, so a column missing from it is dropped no matter what the other two say.
 
 ## Options
 

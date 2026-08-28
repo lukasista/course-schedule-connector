@@ -50,6 +50,19 @@ final class CourseRepository {
 	public const META_LEVEL = '_cscs_level';
 
 	/**
+	 * Meta key holding the youngest age the course is for.
+	 */
+	public const META_AGE_FROM = '_cscs_age_from';
+
+	/**
+	 * Meta key holding the oldest age the course is for.
+	 *
+	 * Empty where the name gives a floor and no ceiling — "od 10 let" — which
+	 * is a different thing from an unknown age and has to stay tellable apart.
+	 */
+	public const META_AGE_TO = '_cscs_age_to';
+
+	/**
 	 * Where the ids of hand-made courses start.
 	 *
 	 * A course a person creates here has no id in iSport, and everything
@@ -188,7 +201,8 @@ final class CourseRepository {
 	}
 
 	/**
-	 * Works out who the course is for and what level it is, from its name.
+	 * Works out who the course is for, at what level and at what age, from its
+	 * name.
 	 *
 	 * After the meta loop and after the title, for the same reason the trainer
 	 * key is: a site that has locked the course name shows a name of its own,
@@ -207,8 +221,10 @@ final class CourseRepository {
 		$read = Audience::read( (string) get_post_field( 'post_title', $post_id ) );
 
 		$values = array(
-			self::META_GENDER => $read['gender'],
-			self::META_LEVEL  => $read['level'],
+			self::META_GENDER   => $read['gender'],
+			self::META_LEVEL    => $read['level'],
+			self::META_AGE_FROM => $read['age_from'],
+			self::META_AGE_TO   => $read['age_to'],
 		);
 
 		foreach ( $values as $key => $value ) {

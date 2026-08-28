@@ -1,0 +1,60 @@
+{
+    "module": {
+        "meta": {
+            "adminLabel": {
+                "desktop": {
+                    "value": "Age"
+                }
+            }
+        }
+    },
+    "field": {
+        "advanced": {
+            "source": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "showLabel": {
+                "desktop": {
+                    "value": "on"
+                }
+            },
+            "label": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "labelTag": {
+                "desktop": {
+                    "value": "h3"
+                }
+            },
+            "valueTag": {
+                "desktop": {
+                    "value": "div"
+                }
+            },
+            "layout": {
+                "desktop": {
+                    "value": "stack"
+                }
+            },
+            "separator": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "gap": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "emptyText": {
+                "desktop": {
+                    "value": ""
+                }
+            }
+        }
+    }
+}

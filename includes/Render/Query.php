@@ -67,14 +67,120 @@ final class Query {
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function courses( DisplaySet $set, ?ListingArgs $args = null ): array {
-		$args = $args ?? ListingArgs::from_array( array() );
-		$size = 0 === $set->per_page ? self::CEILING : min( self::CEILING, $set->per_page );
-		$arguments = array(
+		$args      = $args ?? ListingArgs::from_array( array() );
+		$size      = 0 === $set->per_page ? self::CEILING : min( self::CEILING, $set->per_page );
+		$arguments = array_merge(
+			$this->course_filters( $set ),
+			array(
+				'posts_per_page' => $size,
+				'offset'         => ( $args->page - 1 ) * $size,
+				'no_found_rows'  => false,
+			),
+			$this->ordering( $set )
+		);
+
+		// A set that names courses by hand is asking for something no filter
+		// can express, so the filters are run first, on their own, and what
+		// they find is added to and taken from before a single row is read.
+		// Ordering and paging then happen where they belong, in the database.
+		if ( array() !== $set->courses || array() !== $set->exclude ) {
+			$chosen = $this->chosen( $set );
+
+			if ( array() === $chosen ) {
+				$this->total = 0;
+
+				return array();
+			}
+
+			$arguments             = array_merge( $arguments, $this->course_guard() );
+			$arguments['post__in'] = $chosen;
+		}
+
+		$rows  = array();
+		$query = new \WP_Query( $arguments );
+
+		$this->total = (int) $query->found_posts;
+
+		foreach ( $query->posts as $post ) {
+			$row = $this->course_row( $post );
+
+			if ( $set->only_available && 'full' === Formatter::availability( (int) $row['available'], $set->few_places ) ) {
+				continue;
+			}
+
+			$rows[] = $row;
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Returns the courses a set covers once hand-picking is taken into account.
+	 *
+	 * The filters answer first, then the named courses are added, then the
+	 * excluded ones are taken away — in that order, because a course named in
+	 * both lists is a person changing their mind, and the last word should be
+	 * "not this one".
+	 *
+	 * @param DisplaySet $set Display set.
+	 * @return array<int, int> Post ids, empty when the set covers nothing.
+	 */
+	private function chosen( DisplaySet $set ): array {
+		$found = array();
+
+		if ( $this->filters_anything( $set ) ) {
+			$query = new \WP_Query(
+				array_merge(
+					$this->course_filters( $set ),
+					array(
+						'posts_per_page' => self::CEILING,
+						'fields'         => 'ids',
+						'no_found_rows'  => true,
+					)
+				)
+			);
+
+			$found = array_map( 'intval', $query->posts );
+		}
+
+		foreach ( $set->courses as $course_id ) {
+			if ( ! in_array( $course_id, $found, true ) ) {
+				$found[] = $course_id;
+			}
+		}
+
+		return array_values( array_diff( $found, $set->exclude ) );
+	}
+
+	/**
+	 * Returns whether the set narrows the catalogue at all.
+	 *
+	 * A set that names its courses and filters by nothing means those courses
+	 * and no others; without this it would mean those courses plus every other
+	 * course on the site, which is the opposite of what anybody asked for.
+	 *
+	 * @param DisplaySet $set Display set.
+	 * @return bool
+	 */
+	private function filters_anything( DisplaySet $set ): bool {
+		return array() !== $set->rooms
+			|| array() !== $set->trainers
+			|| array() !== $set->activities
+			|| array() !== $set->genders
+			|| array() !== $set->levels
+			|| '' !== $set->age_min
+			|| '' !== $set->age_max;
+	}
+
+	/**
+	 * Returns the query arguments every course listing starts from.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function course_guard(): array {
+		return array(
 			'post_type'        => PostType::COURSE,
 			'post_status'      => 'publish',
-			'posts_per_page'   => $size,
-			'offset'           => ( $args->page - 1 ) * $size,
-			'no_found_rows'    => false,
 			'suppress_filters' => false,
 			'meta_query'       => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- A course post type holds hundreds of rows, and the alternative is reading them all and filtering in PHP.
 				array(
@@ -84,8 +190,16 @@ final class Query {
 				),
 			),
 		);
+	}
 
-		$arguments = array_merge( $arguments, $this->ordering( $set ) );
+	/**
+	 * Returns what a set says a course must be, as query arguments.
+	 *
+	 * @param DisplaySet $set Display set.
+	 * @return array<string, mixed>
+	 */
+	private function course_filters( DisplaySet $set ): array {
+		$arguments = $this->course_guard();
 
 		$taxonomies = array_filter(
 			array(
@@ -113,22 +227,62 @@ final class Query {
 			);
 		}
 
-		$rows  = array();
-		$query = new \WP_Query( $arguments );
-
-		$this->total = (int) $query->found_posts;
-
-		foreach ( $query->posts as $post ) {
-			$row = $this->course_row( $post );
-
-			if ( $set->only_available && 'full' === Formatter::availability( (int) $row['available'], $set->few_places ) ) {
-				continue;
-			}
-
-			$rows[] = $row;
+		if ( array() !== $set->genders ) {
+			$arguments['meta_query'][] = array(
+				'key'     => CourseRepository::META_GENDER,
+				'value'   => $set->genders,
+				'compare' => 'IN',
+			);
 		}
 
-		return $rows;
+		if ( array() !== $set->levels ) {
+			$arguments['meta_query'][] = array(
+				'key'     => CourseRepository::META_LEVEL,
+				'value'   => $set->levels,
+				'compare' => 'IN',
+			);
+		}
+
+		// An age nobody knows cannot be shown to match, and a course on a card
+		// it does not belong on is worse than a course missing from one — so a
+		// set that asks about age asks only courses that have one.
+		if ( '' !== $set->age_min || '' !== $set->age_max ) {
+			$arguments['meta_query'][] = array(
+				'key'     => CourseRepository::META_AGE_FROM,
+				'compare' => 'EXISTS',
+			);
+		}
+
+		// Overlap, not containment: a set for seven to nine year olds is about
+		// the courses a seven-year-old could join, which includes the one for
+		// six to eight. A course with an open top — "od 10 let" — has no
+		// ceiling stored, and no ceiling is above every floor.
+		if ( '' !== $set->age_min ) {
+			$arguments['meta_query'][] = array(
+				'relation' => 'OR',
+				array(
+					'key'     => CourseRepository::META_AGE_TO,
+					'value'   => $set->age_min,
+					'type'    => 'DECIMAL(4,1)',
+					'compare' => '>=',
+				),
+				array(
+					'key'     => CourseRepository::META_AGE_TO,
+					'compare' => 'NOT EXISTS',
+				),
+			);
+		}
+
+		if ( '' !== $set->age_max ) {
+			$arguments['meta_query'][] = array(
+				'key'     => CourseRepository::META_AGE_FROM,
+				'value'   => $set->age_max,
+				'type'    => 'DECIMAL(4,1)',
+				'compare' => '<=',
+			);
+		}
+
+		return $arguments;
 	}
 
 	/**
@@ -485,6 +639,8 @@ final class Query {
 			'date_from'   => (string) $read( '_cscs_date_from' ),
 			'date_to'     => (string) $read( '_cscs_date_to' ),
 			'lessons'     => (int) $read( '_cscs_number_lessons' ),
+			'age_from'    => (string) $read( CourseRepository::META_AGE_FROM ),
+			'age_to'      => (string) $read( CourseRepository::META_AGE_TO ),
 			'gender'      => (string) $read( CourseRepository::META_GENDER ),
 			'level'       => (string) $read( CourseRepository::META_LEVEL ),
 			'capacity'    => (int) $read( '_cscs_capacity' ),

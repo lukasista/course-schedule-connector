@@ -109,6 +109,64 @@ final class DisplaySet {
 	public array $activities;
 
 	/**
+	 * Course post ids the set shows whatever the filters say.
+	 *
+	 * This is what makes one card out of courses that have nothing in the data
+	 * to join them: a page that says "Gymnastika dívky" wants eighteen named
+	 * courses under one heading, and no combination of activity, room and
+	 * trainer picks exactly those eighteen. The filters gather the obvious
+	 * ones and these are added by hand.
+	 *
+	 * @var array<int, int>
+	 */
+	public array $courses;
+
+	/**
+	 * Course post ids the set never shows, whatever else says otherwise.
+	 *
+	 * The other half of picking by hand. A filter that is right about forty
+	 * courses and wrong about one is worth keeping and correcting, rather than
+	 * throwing away for a list of forty-one written out.
+	 *
+	 * @var array<int, int>
+	 */
+	public array $exclude;
+
+	/**
+	 * Audience keys to keep, or an empty list for all of them.
+	 *
+	 * @var array<int, string>
+	 */
+	public array $genders;
+
+	/**
+	 * Level keys to keep, or an empty list for all of them.
+	 *
+	 * @var array<int, string>
+	 */
+	public array $levels;
+
+	/**
+	 * Youngest age to cover, empty for no floor.
+	 *
+	 * A course is kept when the ages it is for overlap the ages asked for, so
+	 * "7 to 9" finds a course for 6-8 year olds as well as one for 9-11. A
+	 * course whose age nobody knows is left out of an age-filtered set: it
+	 * cannot be shown to match, and a wrong course on a card is worse than a
+	 * missing one.
+	 *
+	 * @var string
+	 */
+	public string $age_min;
+
+	/**
+	 * Oldest age to cover, empty for no ceiling.
+	 *
+	 * @var string
+	 */
+	public string $age_max;
+
+	/**
 	 * Which classes to cover: `term`, `week`, `days` or `custom`.
 	 *
 	 * @var string
@@ -236,6 +294,13 @@ final class DisplaySet {
 		$set->trainers   = self::ids( $data['trainers'] ?? array() );
 		$set->activities = self::ids( $data['activities'] ?? array() );
 
+		$set->courses = self::ids( $data['courses'] ?? array() );
+		$set->exclude = self::ids( $data['exclude'] ?? array() );
+		$set->genders = self::keys_from( $data['genders'] ?? array(), Audience::gender_keys() );
+		$set->levels  = self::keys_from( $data['levels'] ?? array(), Audience::level_keys() );
+		$set->age_min = self::age( $data['age_min'] ?? '' );
+		$set->age_max = self::age( $data['age_max'] ?? '' );
+
 		$set->range      = self::one_of( Normalise::to_string( $data['range'] ?? '' ), array( 'term', 'week', 'days', 'custom' ), 'term' );
 		$set->range_days = min( 366, max( 1, Normalise::to_int( $data['range_days'] ?? 14 ) ) );
 		$set->date_from  = (string) Normalise::to_date( $data['date_from'] ?? '' );
@@ -273,6 +338,12 @@ final class DisplaySet {
 			'rooms'           => $this->rooms,
 			'trainers'        => $this->trainers,
 			'activities'      => $this->activities,
+			'courses'         => $this->courses,
+			'exclude'         => $this->exclude,
+			'genders'         => $this->genders,
+			'levels'          => $this->levels,
+			'age_min'         => $this->age_min,
+			'age_max'         => $this->age_max,
 			'range'           => $this->range,
 			'range_days'      => $this->range_days,
 			'date_from'       => $this->date_from,
@@ -307,7 +378,7 @@ final class DisplaySet {
 			return array( 'date', 'time', 'activity', 'course', 'room', 'trainer', 'price', 'places', 'state', 'button' );
 		}
 
-		return array( 'name', 'activity', 'days', 'day', 'hours', 'gender', 'level', 'room', 'trainer', 'period', 'lessons', 'price', 'places', 'button' );
+		return array( 'name', 'activity', 'days', 'day', 'hours', 'age', 'gender', 'level', 'room', 'trainer', 'period', 'lessons', 'price', 'places', 'button' );
 	}
 
 	/**
@@ -437,6 +508,51 @@ final class DisplaySet {
 		}
 
 		return $ids;
+	}
+
+	/**
+	 * Reduces a list to the keys that are actually allowed.
+	 *
+	 * @param mixed              $value   Submitted keys.
+	 * @param array<int, string> $allowed Keys that mean something.
+	 * @return array<int, string>
+	 */
+	private static function keys_from( $value, array $allowed ): array {
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+
+		$keys = array();
+
+		foreach ( $value as $key ) {
+			$key = Normalise::to_string( $key );
+
+			if ( in_array( $key, $allowed, true ) && ! in_array( $key, $keys, true ) ) {
+				$keys[] = $key;
+			}
+		}
+
+		return $keys;
+	}
+
+	/**
+	 * Reduces an age to the one spelling the rest of the plugin compares.
+	 *
+	 * A comma is what a Czech types and a full stop is what a database sorts,
+	 * so both are taken and one is stored. Anything that is not a number at
+	 * all becomes no age rather than zero, which would mean "from birth".
+	 *
+	 * @param mixed $value Submitted age.
+	 * @return string
+	 */
+	private static function age( $value ): string {
+		$value = str_replace( ',', '.', trim( Normalise::to_string( $value ) ) );
+
+		if ( '' === $value || ! is_numeric( $value ) || (float) $value < 0 ) {
+			return '';
+		}
+
+		return rtrim( rtrim( number_format( (float) $value, 1, '.', '' ), '0' ), '.' );
 	}
 
 	/**

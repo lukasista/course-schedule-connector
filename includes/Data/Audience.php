@@ -14,7 +14,7 @@ use CSCS\Support\Normalise;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Reads the audience and the level out of a course's name.
+ * Reads the audience, the level and the ages out of a course's name.
  *
  * iSport publishes neither. There is no field for "girls" and none for
  * "advanced": both are words inside the course's name — "Gymnastika 9-11 let
@@ -56,6 +56,27 @@ final class Audience {
 	public const COMPETITIVE = 'competitive';
 
 	/**
+	 * Returns the audience keys, without translating anything.
+	 *
+	 * Validation asks what a key may be, not what it is called, and a set
+	 * being checked on a REST request has no business loading a text domain.
+	 *
+	 * @return array<int, string>
+	 */
+	public static function gender_keys(): array {
+		return array( self::GIRLS, self::BOYS, self::MIXED, self::WOMEN, self::MEN );
+	}
+
+	/**
+	 * Returns the level keys, without translating anything.
+	 *
+	 * @return array<int, string>
+	 */
+	public static function level_keys(): array {
+		return array( self::BEGINNER, self::IMPROVER, self::ADVANCED, self::COMPETITIVE );
+	}
+
+	/**
 	 * Returns every audience, keyed by what is stored.
 	 *
 	 * @return array<string, string> Key to label.
@@ -89,18 +110,82 @@ final class Audience {
 	}
 
 	/**
-	 * Reads both out of a course's name.
+	 * Reads all three out of a course's name.
 	 *
 	 * @param string $name Course name.
-	 * @return array{gender: string, level: string} Keys, either of which may be empty.
+	 * @return array{gender: string, level: string, age_from: string, age_to: string} Any of which may be empty.
 	 */
 	public static function read( string $name ): array {
 		$plain = Normalise::plain( $name );
+		$age   = self::read_age( $name );
 
 		return array(
-			'gender' => self::first( $plain, self::gender_terms() ),
-			'level'  => self::first( $plain, self::level_terms() ),
+			'gender'   => self::first( $plain, self::gender_terms() ),
+			'level'    => self::first( $plain, self::level_terms() ),
+			'age_from' => $age['from'],
+			'age_to'   => $age['to'],
 		);
+	}
+
+	/**
+	 * Reads the ages a course is for out of its name.
+	 *
+	 * Three shapes, asked in this order, because a name that fits two of them
+	 * means the first: "9-11 let" is a range, "od 10 let" is a floor with no
+	 * ceiling, and "4 roky" is one age. The unit is what tells an age from the
+	 * course's own number — "101-Lezení od 10 let" has two numbers in it and
+	 * only one of them is an age — so nothing without "let" or "rok" after it
+	 * counts.
+	 *
+	 * Halves are real here: the gym runs courses for two-and-a-half-year-olds,
+	 * written "2,5-3 roky". They are kept as a decimal with a full stop, which
+	 * is what a database can compare; the comma is the renderer's business.
+	 *
+	 * @param string $name Course name.
+	 * @return array{from: string, to: string} Either of which may be empty.
+	 */
+	public static function read_age( string $name ): array {
+		$plain  = Normalise::plain( $name );
+		$number = '(\d+(?:[.,]\d+)?)';
+		$unit   = '(?:let|rok[uy]?)';
+
+		if ( 1 === preg_match( '/' . $number . '\s*[-–—]\s*' . $number . '\s*' . $unit . '(?![a-z0-9])/u', $plain, $found ) ) {
+			return array(
+				'from' => self::number( $found[1] ),
+				'to'   => self::number( $found[2] ),
+			);
+		}
+
+		if ( 1 === preg_match( '/(?<![a-z0-9])od\s+' . $number . '\s*' . $unit . '(?![a-z0-9])/u', $plain, $found ) ) {
+			return array(
+				'from' => self::number( $found[1] ),
+				'to'   => '',
+			);
+		}
+
+		if ( 1 === preg_match( '/' . $number . '\s*' . $unit . '(?![a-z0-9])/u', $plain, $found ) ) {
+			return array(
+				'from' => self::number( $found[1] ),
+				'to'   => self::number( $found[1] ),
+			);
+		}
+
+		return array(
+			'from' => '',
+			'to'   => '',
+		);
+	}
+
+	/**
+	 * Returns an age as the one spelling everything else compares.
+	 *
+	 * @param string $value Number as the name wrote it.
+	 * @return string
+	 */
+	private static function number( string $value ): string {
+		$value = number_format( (float) str_replace( ',', '.', $value ), 1, '.', '' );
+
+		return rtrim( rtrim( $value, '0' ), '.' );
 	}
 
 	/**

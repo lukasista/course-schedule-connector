@@ -118,6 +118,15 @@ final class Fields {
 				'description' => __( 'How many classes the course has.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
+			'age'     => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Age', 'course-schedule-connector' ),
+				'label'       => __( 'Age', 'course-schedule-connector' ),
+				'icon'        => 'admin-users',
+				'moduleIcon'  => 'divi/module-slider',
+				'description' => __( 'The ages the course is for. Read from the course name, and can be set by hand on the course.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
 			'gender'  => array(
 				'kind'        => self::TEXT,
 				'title'       => __( 'Gender', 'course-schedule-connector' ),
@@ -420,6 +429,9 @@ final class Fields {
 			case 'lessons':
 				return array( 'text' => $detail->lessons() );
 
+			case 'age':
+				return array( 'text' => $detail->age() );
+
 			case 'gender':
 				return array( 'text' => $detail->gender() );
 
@@ -608,6 +620,7 @@ final class Fields {
 			'course'   => __( 'Course', 'course-schedule-connector' ),
 			'activity' => __( 'Activity', 'course-schedule-connector' ),
 			'days'     => __( 'Days and times', 'course-schedule-connector' ),
+			'age'      => __( 'Age', 'course-schedule-connector' ),
 			'gender'   => __( 'Gender', 'course-schedule-connector' ),
 			'level'    => __( 'Level', 'course-schedule-connector' ),
 			'day'      => __( 'Day', 'course-schedule-connector' ),

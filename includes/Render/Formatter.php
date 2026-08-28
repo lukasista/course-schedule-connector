@@ -144,6 +144,59 @@ final class Formatter {
 	}
 
 	/**
+	 * Renders the ages a course is for.
+	 *
+	 * Three readings, three shapes: "9 – 11", "od 10" where there is no
+	 * ceiling, and "4" where both ends are the same age. The decimal point the
+	 * numbers are stored with becomes whatever the language writes — Czech
+	 * writes two and a half as "2,5" — because this is the only place the
+	 * number is read by a person.
+	 *
+	 * @param string $from Youngest age.
+	 * @param string $to   Oldest age, empty where there is none.
+	 * @return string
+	 */
+	public static function age_range( string $from, string $to ): string {
+		$from = self::age( $from );
+		$to   = self::age( $to );
+
+		if ( '' === $from ) {
+			return $to;
+		}
+
+		if ( '' === $to ) {
+			/* translators: %s: the youngest age a course is for. */
+			return sprintf( __( 'from %s', 'course-schedule-connector' ), $from );
+		}
+
+		if ( $from === $to ) {
+			return $from;
+		}
+
+		return $from . self::NBSP . '–' . self::NBSP . $to;
+	}
+
+	/**
+	 * Renders one age the way the language writes a number.
+	 *
+	 * @param string $value Age as it is stored, with a full stop.
+	 * @return string
+	 */
+	private static function age( string $value ): string {
+		$value = trim( $value );
+
+		if ( '' === $value || ! is_numeric( $value ) ) {
+			return '';
+		}
+
+		$decimals = ( (float) $value === floor( (float) $value ) ) ? 0 : 1;
+
+		return function_exists( 'number_format_i18n' )
+			? number_format_i18n( (float) $value, $decimals )
+			: number_format( (float) $value, $decimals, ',', '' );
+	}
+
+	/**
 	 * Renders a range of dates as one string, dropping what repeats.
 	 *
 	 * @param string $from First day, already formatted.

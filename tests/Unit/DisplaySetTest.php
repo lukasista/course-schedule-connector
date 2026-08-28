@@ -159,6 +159,12 @@ final class DisplaySetTest extends TestCase {
 				'type'            => DisplaySet::TYPE_COURSES,
 				'columns'         => array( 'name', 'days', 'price' ),
 				'rooms'           => array( 4, 7 ),
+				'courses'         => array( 900201, 900205 ),
+				'exclude'         => array( 900203 ),
+				'genders'         => array( 'girls' ),
+				'levels'          => array( 'beginner' ),
+				'age_min'         => '7',
+				'age_max'         => '9',
 				'include_rentals' => true,
 				'per_page'        => 12,
 			)
@@ -172,6 +178,73 @@ final class DisplaySetTest extends TestCase {
 
 		$this->assertInstanceOf( DisplaySet::class, $read );
 		$this->assertSame( $set->to_array(), $read->to_array() );
+	}
+
+	/**
+	 * Courses picked by hand and courses left out are kept as ids, in the
+	 * shape the query will ask for them.
+	 *
+	 * @return void
+	 */
+	public function test_hand_picked_courses_are_kept_as_ids(): void {
+		$set = DisplaySet::from_array(
+			array(
+				'name'    => 'Gymnastika dívky',
+				'courses' => array( '12', 12, 0, 'nonsense', 34 ),
+				'exclude' => array( 56, '56' ),
+			)
+		);
+
+		$this->assertSame( array( 12, 34 ), $set->courses );
+		$this->assertSame( array( 56 ), $set->exclude );
+	}
+
+	/**
+	 * The audience filters take the keys the plugin stores and nothing else.
+	 *
+	 * @return void
+	 */
+	public function test_audience_filters_drop_what_nobody_can_store(): void {
+		$set = DisplaySet::from_array(
+			array(
+				'name'    => 'Gymnastika dívky',
+				'genders' => array( 'girls', 'girls', 'aliens' ),
+				'levels'  => array( 'advanced', 'expert' ),
+			)
+		);
+
+		$this->assertSame( array( 'girls' ), $set->genders );
+		$this->assertSame( array( 'advanced' ), $set->levels );
+	}
+
+	/**
+	 * An age is stored one way whichever way it is typed, and nonsense becomes
+	 * no age rather than zero — which would mean "from birth".
+	 *
+	 * @return void
+	 */
+	public function test_ages_are_normalised_and_nonsense_is_dropped(): void {
+		$set = DisplaySet::from_array(
+			array(
+				'name'    => 'Batolata',
+				'age_min' => '2,5',
+				'age_max' => ' 4.0 ',
+			)
+		);
+
+		$this->assertSame( '2.5', $set->age_min );
+		$this->assertSame( '4', $set->age_max );
+
+		$empty = DisplaySet::from_array(
+			array(
+				'name'    => 'Batolata',
+				'age_min' => 'nonsense',
+				'age_max' => '-3',
+			)
+		);
+
+		$this->assertSame( '', $empty->age_min );
+		$this->assertSame( '', $empty->age_max );
 	}
 
 	/**

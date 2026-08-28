@@ -411,6 +411,12 @@ final class Listing {
 			case 'time':
 				return Formatter::time_range( (string) ( $row['time_from'] ?? '' ), (string) ( $row['time_to'] ?? '' ) );
 
+			case 'age':
+				return Formatter::age_range(
+					(string) ( $row['age_from'] ?? '' ),
+					(string) ( $row['age_to'] ?? '' )
+				);
+
 			case 'gender':
 				return Audience::gender_label( (string) ( $row['gender'] ?? '' ) );
 

@@ -117,6 +117,13 @@ final class CourseEditor {
 			? (string) get_post_meta( $post->ID, CourseRepository::META_LEVEL, true )
 			: '';
 
+		// The two ages are one decision, so they are locked together: a course
+		// where somebody wrote the floor and left the ceiling to the name would
+		// have half a fact of each kind, and no screen to explain it on.
+		$age_set  = in_array( CourseRepository::META_AGE_FROM, $locked, true );
+		$age_from = $age_set ? (string) get_post_meta( $post->ID, CourseRepository::META_AGE_FROM, true ) : '';
+		$age_to   = $age_set ? (string) get_post_meta( $post->ID, CourseRepository::META_AGE_TO, true ) : '';
+
 		wp_nonce_field( self::NONCE, 'cscs_course_nonce' );
 
 		?>
@@ -145,6 +152,16 @@ final class CourseEditor {
 				<td>
 					<textarea id="cscs-contact-note" name="cscs_course[contact_note]" rows="3" class="large-text"><?php echo esc_textarea( (string) get_post_meta( $post->ID, CourseRepository::META_CONTACT_NOTE, true ) ); ?></textarea>
 					<p class="description"><?php esc_html_e( 'For example when to ring, or that places are arranged individually.', 'course-schedule-connector' ); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="cscs-age-from"><?php esc_html_e( 'Age', 'course-schedule-connector' ); ?></label></th>
+				<td>
+					<input type="number" step="0.5" min="0" max="99" class="small-text" id="cscs-age-from" name="cscs_course[age_from]" value="<?php echo esc_attr( $age_from ); ?>" />
+					<span aria-hidden="true">–</span>
+					<label class="screen-reader-text" for="cscs-age-to"><?php esc_html_e( 'Oldest age', 'course-schedule-connector' ); ?></label>
+					<input type="number" step="0.5" min="0" max="99" class="small-text" id="cscs-age-to" name="cscs_course[age_to]" value="<?php echo esc_attr( $age_to ); ?>" />
+					<p class="description"><?php esc_html_e( 'Also read from the course name — "9-11 let", "od 10 let". Fill either box in to overrule the reading; leave the second empty for a course with no upper age. Empty both to go back to reading the name.', 'course-schedule-connector' ); ?></p>
 				</td>
 			</tr>
 			<tr>
@@ -352,7 +369,45 @@ final class CourseEditor {
 			$locked[] = $key;
 		}
 
+		$age_from = self::age( (string) ( $submitted['age_from'] ?? '' ) );
+		$age_to   = self::age( (string) ( $submitted['age_to'] ?? '' ) );
+
+		if ( '' === $age_from && '' === $age_to ) {
+			delete_post_meta( $post_id, CourseRepository::META_AGE_FROM );
+			delete_post_meta( $post_id, CourseRepository::META_AGE_TO );
+		} else {
+			update_post_meta( $post_id, CourseRepository::META_AGE_FROM, $age_from );
+
+			// An empty ceiling means "and upwards", which is a thing the name
+			// can say too, so it is stored as no ceiling rather than as a
+			// number nobody wrote.
+			if ( '' === $age_to ) {
+				delete_post_meta( $post_id, CourseRepository::META_AGE_TO );
+			} else {
+				update_post_meta( $post_id, CourseRepository::META_AGE_TO, $age_to );
+			}
+
+			$locked[] = CourseRepository::META_AGE_FROM;
+			$locked[] = CourseRepository::META_AGE_TO;
+		}
+
 		update_post_meta( $post_id, CourseRepository::META_LOCKED, array_values( array_unique( $locked ) ) );
+	}
+
+	/**
+	 * Reduces a submitted age to what is stored, or to nothing.
+	 *
+	 * @param string $value Submitted age.
+	 * @return string
+	 */
+	private static function age( string $value ): string {
+		$value = str_replace( ',', '.', trim( $value ) );
+
+		if ( '' === $value || ! is_numeric( $value ) || (float) $value < 0 || (float) $value > 99 ) {
+			return '';
+		}
+
+		return rtrim( rtrim( number_format( (float) $value, 1, '.', '' ), '0' ), '.' );
 	}
 
 	/**
