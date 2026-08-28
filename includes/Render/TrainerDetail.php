@@ -202,7 +202,10 @@ final class TrainerDetail {
 		$set = \CSCS\Data\DisplaySet::from_array(
 			array(
 				'type'    => \CSCS\Data\DisplaySet::TYPE_COURSES,
-				'columns' => array( 'name', 'days', 'period', 'price', 'places' ),
+				// Day and time apart, the way the course's own page says them:
+				// "Po 15:30" is two facts in the one shape nobody can read a
+				// timetable out of.
+				'columns' => array( 'name', 'day', 'hours', 'period', 'price', 'places' ),
 			)
 		);
 

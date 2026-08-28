@@ -37,7 +37,9 @@
 
 .cscs-col-price,
 .cscs-col-places,
-.cscs-col-lessons {
+.cscs-col-lessons,
+.cscs-col-day,
+.cscs-col-hours {
 	white-space: nowrap;
 }
 

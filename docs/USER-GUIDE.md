@@ -196,7 +196,9 @@ Všechny jsou pohromadě: v seznamu modulů je jedna položka **iSport** a v ní
 
 ### Tabulky
 
-*Nejbližší lekce*, *Náhradní lekce* a *Kurzy které trenér vede* nevypisují jednu hodnotu, ale tabulku — a ta se dá navrhnout po částech:
+*Nejbližší lekce*, *Náhradní lekce* a *Kurzy které trenér vede* nevypisují jednu hodnotu, ale tabulku. U kurzů trenéra jsou **Den** a **Čas od–do** dva sloupce, ne jeden — kurz, který se schází dvakrát týdně, má dva dny a dva časy a čtou se vedle sebe. Ve zobrazovacích sadách si můžete vybrat: buď původní sloupec *Dny a časy*, nebo tyhle dva.
+
+Tabulka se dá navrhnout po částech:
 
 - **Hlavička tabulky** a **Buňka tabulky** mají každá vlastní písmo, velikost, barvu, pozadí a vnitřní okraj,
 - **Odkaz v tabulce** vlastní barvu a zdobení. Když ho necháte být, odkaz si nechá barvu ze šablony webu,

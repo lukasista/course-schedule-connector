@@ -358,6 +358,13 @@ final class Listing {
 			$text = wp_strip_all_tags( $html );
 		}
 
+		// A course that meets twice a week has two days and two times, and they
+		// are read in step. Joined into a sentence they stop being readable,
+		// which is the whole reason these are two columns rather than one.
+		if ( 'day' === $column || 'hours' === $column ) {
+			$html = nl2br( esc_html( $text ) );
+		}
+
 		if ( 'state' === $column && ! empty( $row['cancelled'] ) ) {
 			$html = '<span class="cscs-cancelled">' . esc_html( $text ) . '</span>';
 		}
@@ -388,6 +395,12 @@ final class Listing {
 
 			case 'days':
 				return $this->days( (int) ( $row['course_id'] ?? 0 ) );
+
+			case 'day':
+				return $this->weekdays( (int) ( $row['course_id'] ?? 0 ) );
+
+			case 'hours':
+				return $this->hours( (int) ( $row['course_id'] ?? 0 ) );
 
 			case 'date':
 				return '' === (string) ( $row['date'] ?? '' )
@@ -451,6 +464,55 @@ final class Listing {
 		}
 
 		return implode( ', ', $parts );
+	}
+
+	/**
+	 * Returns the weekdays a course meets on, one to a line.
+	 *
+	 * The abbreviated name, because this is a table column and "Pondělí" in a
+	 * column beside four others is a column that pushes everything else off a
+	 * telephone.
+	 *
+	 * @param int $course_id Course id.
+	 * @return string One weekday per line.
+	 */
+	private function weekdays( int $course_id ): string {
+		global $wp_locale;
+
+		$days = array();
+
+		foreach ( $this->times[ $course_id ] ?? array() as $slot ) {
+			// WEEKDAY() counts from Monday; WordPress's own list starts on
+			// Sunday, which is a difference of one place and a whole day if it
+			// goes unnoticed.
+			$index = ( (int) $slot['day'] + 1 ) % 7;
+
+			$days[] = $wp_locale instanceof \WP_Locale ? $wp_locale->get_weekday_abbrev( $wp_locale->get_weekday( $index ) ) : '';
+		}
+
+		return implode( "\n", $days );
+	}
+
+	/**
+	 * Returns the hours a course meets at, one to a line.
+	 *
+	 * The lines match {@see self::weekdays()} one for one: the first day
+	 * belongs to the first time, and a reader never has to guess which.
+	 *
+	 * @param int $course_id Course id.
+	 * @return string One time range per line.
+	 */
+	private function hours( int $course_id ): string {
+		$hours = array();
+
+		foreach ( $this->times[ $course_id ] ?? array() as $slot ) {
+			$hours[] = Formatter::time_range(
+				(string) ( $slot['from'] ?? $slot['time'] ?? '' ),
+				(string) ( $slot['to'] ?? '' )
+			);
+		}
+
+		return implode( "\n", $hours );
 	}
 
 	/**

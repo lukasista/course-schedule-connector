@@ -256,7 +256,7 @@ msgstr "Mezi dvěma daty"
 
 #: includes/Admin/CourseEditor.php:139
 #: includes/Admin/CourseList.php:55
-#: includes/Render/Fields.php:596
+#: includes/Render/Fields.php:598
 msgid "Booking button"
 msgstr "Tlačítko pro přihlášení"
 
@@ -292,8 +292,8 @@ msgid "Button text"
 msgstr "Text tlačítka"
 
 #: includes/Admin/Screen/Overview.php:225
-#: includes/Render/Fields.php:595
-#: includes/Render/Listing.php:422
+#: includes/Render/Fields.php:597
+#: includes/Render/Listing.php:435
 msgid "Cancelled"
 msgstr "Zrušené"
 
@@ -456,11 +456,12 @@ msgstr "Vytvořit sadu"
 
 #: includes/Admin/Screen/MakeupPage.php:128
 #: includes/Admin/Screen/UnmatchedPage.php:163
-#: includes/Render/Fields.php:587
+#: includes/Render/Fields.php:589
 msgid "Date"
 msgstr "Datum"
 
 #: includes/Render/CourseDetail.php:99
+#: includes/Render/Fields.php:587
 #: includes/Render/Fields.php:87
 #: includes/Render/Fields.php:88
 msgid "Day"
@@ -596,8 +597,8 @@ msgstr "Například kdy volat nebo že se termíny domlouvají individuálně."
 #: includes/Admin/CourseEditor.php:342
 #: includes/Admin/Screen/SettingsPage.php:118
 #: includes/Render/CourseDetail.php:428
-#: includes/Render/Listing.php:482
-#: includes/Render/Listing.php:486
+#: includes/Render/Listing.php:544
+#: includes/Render/Listing.php:548
 msgid "Free"
 msgstr "Zdarma"
 
@@ -907,7 +908,7 @@ msgstr "Nic se nepřiřadilo: řada se buď neshoduje na kurzu, nebo v ní není
 msgid "Nowhere"
 msgstr "Nikam"
 
-#: includes/Render/Fields.php:592
+#: includes/Render/Fields.php:594
 msgid "Number of classes"
 msgstr "Počet lekcí"
 
@@ -920,7 +921,7 @@ msgid "Off by default. Deleting a plugin is not the same as wanting the course p
 msgstr "Ve výchozím stavu vypnuto. Smazat plugin není totéž jako chtít přijít o stránky kurzů a o všechno, co je na nich napsané."
 
 #: includes/Admin/Screen/SettingsPage.php:117
-#: includes/Render/Listing.php:487
+#: includes/Render/Listing.php:549
 msgid "On request"
 msgstr "Na dotaz"
 
@@ -987,7 +988,7 @@ msgstr "Obrázek"
 #: includes/Render/CourseDetail.php:105
 #: includes/Render/Fields.php:141
 #: includes/Render/Fields.php:142
-#: includes/Render/Fields.php:594
+#: includes/Render/Fields.php:596
 msgid "Places left"
 msgstr "Volná místa"
 
@@ -995,7 +996,7 @@ msgstr "Volná místa"
 #: includes/Admin/CourseEditor.php:314
 #: includes/Admin/Screen/DisplaySetsPage.php:485
 #: includes/Render/CourseDetail.php:98
-#: includes/Render/Fields.php:593
+#: includes/Render/Fields.php:595
 #: includes/Render/Fields.php:78
 #: includes/Render/Fields.php:79
 msgid "Price"
@@ -1069,7 +1070,7 @@ msgstr "Počet opakování"
 #: includes/Render/CourseDetail.php:103
 #: includes/Render/Fields.php:123
 #: includes/Render/Fields.php:124
-#: includes/Render/Fields.php:589
+#: includes/Render/Fields.php:591
 #: templates/partials/controls.php:54
 msgid "Room"
 msgstr "Sál"
@@ -1101,7 +1102,7 @@ msgstr "Termín"
 msgid "Runs from"
 msgstr "Od"
 
-#: includes/Render/Fields.php:591
+#: includes/Render/Fields.php:593
 msgid "Runs from and to"
 msgstr "Termín od–do"
 
@@ -1421,11 +1422,15 @@ msgstr "Spárováno s kurzem"
 #: includes/Admin/Screen/MakeupPage.php:129
 #: includes/Admin/Screen/UnmatchedPage.php:164
 #: includes/Render/CourseDetail.php:100
-#: includes/Render/Fields.php:588
+#: includes/Render/Fields.php:590
 #: includes/Render/Fields.php:96
 #: includes/Render/Fields.php:97
 msgid "Time"
 msgstr "Čas"
+
+#: includes/Render/Fields.php:588
+msgid "Time from and to"
+msgstr "Čas od–do"
 
 #: includes/Admin/Screen/SettingsPage.php:103
 msgid "Timetable refresh interval (seconds)"
@@ -1444,8 +1449,8 @@ msgstr "Do:"
 #: includes/Render/CourseDetail.php:127
 #: includes/Render/Fields.php:132
 #: includes/Render/Fields.php:133
-#: includes/Render/Fields.php:590
-#: includes/Render/TrainerDetail.php:239
+#: includes/Render/Fields.php:592
+#: includes/Render/TrainerDetail.php:242
 msgid "Trainer"
 msgstr "Trenér"
 
@@ -1691,7 +1696,7 @@ msgstr "iSport nezveřejňuje vazbu mezi kurzem a jeho jednotlivými lekcemi, pl
 msgid "iSport settings"
 msgstr "Nastavení iSport"
 
-#: includes/Render/Listing.php:507
+#: includes/Render/Listing.php:569
 msgid "last %d place"
 msgid_plural "last %d places"
 msgstr[0] "poslední %d místo"

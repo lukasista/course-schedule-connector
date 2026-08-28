@@ -399,7 +399,7 @@
         "refs": [
             "includes/Admin/CourseEditor.php:139",
             "includes/Admin/CourseList.php:55",
-            "includes/Render/Fields.php:596"
+            "includes/Render/Fields.php:598"
         ]
     },
     {
@@ -456,8 +456,8 @@
         "plural": null,
         "refs": [
             "includes/Admin/Screen/Overview.php:225",
-            "includes/Render/Fields.php:595",
-            "includes/Render/Listing.php:422"
+            "includes/Render/Fields.php:597",
+            "includes/Render/Listing.php:435"
         ]
     },
     {
@@ -728,7 +728,7 @@
         "refs": [
             "includes/Admin/Screen/MakeupPage.php:128",
             "includes/Admin/Screen/UnmatchedPage.php:163",
-            "includes/Render/Fields.php:587"
+            "includes/Render/Fields.php:589"
         ]
     },
     {
@@ -736,6 +736,7 @@
         "plural": null,
         "refs": [
             "includes/Render/CourseDetail.php:99",
+            "includes/Render/Fields.php:587",
             "includes/Render/Fields.php:87",
             "includes/Render/Fields.php:88"
         ]
@@ -967,8 +968,8 @@
             "includes/Admin/CourseEditor.php:342",
             "includes/Admin/Screen/SettingsPage.php:118",
             "includes/Render/CourseDetail.php:428",
-            "includes/Render/Listing.php:482",
-            "includes/Render/Listing.php:486"
+            "includes/Render/Listing.php:544",
+            "includes/Render/Listing.php:548"
         ]
     },
     {
@@ -1497,7 +1498,7 @@
         "singular": "Number of classes",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:592"
+            "includes/Render/Fields.php:594"
         ]
     },
     {
@@ -1519,7 +1520,7 @@
         "plural": null,
         "refs": [
             "includes/Admin/Screen/SettingsPage.php:117",
-            "includes/Render/Listing.php:487"
+            "includes/Render/Listing.php:549"
         ]
     },
     {
@@ -1631,7 +1632,7 @@
             "includes/Render/CourseDetail.php:105",
             "includes/Render/Fields.php:141",
             "includes/Render/Fields.php:142",
-            "includes/Render/Fields.php:594"
+            "includes/Render/Fields.php:596"
         ]
     },
     {
@@ -1642,7 +1643,7 @@
             "includes/Admin/CourseEditor.php:314",
             "includes/Admin/Screen/DisplaySetsPage.php:485",
             "includes/Render/CourseDetail.php:98",
-            "includes/Render/Fields.php:593",
+            "includes/Render/Fields.php:595",
             "includes/Render/Fields.php:78",
             "includes/Render/Fields.php:79"
         ]
@@ -1761,7 +1762,7 @@
             "includes/Render/CourseDetail.php:103",
             "includes/Render/Fields.php:123",
             "includes/Render/Fields.php:124",
-            "includes/Render/Fields.php:589",
+            "includes/Render/Fields.php:591",
             "templates/partials/controls.php:54"
         ]
     },
@@ -1811,7 +1812,7 @@
         "singular": "Runs from and to",
         "plural": null,
         "refs": [
-            "includes/Render/Fields.php:591"
+            "includes/Render/Fields.php:593"
         ]
     },
     {
@@ -2362,9 +2363,16 @@
             "includes/Admin/Screen/MakeupPage.php:129",
             "includes/Admin/Screen/UnmatchedPage.php:164",
             "includes/Render/CourseDetail.php:100",
-            "includes/Render/Fields.php:588",
+            "includes/Render/Fields.php:590",
             "includes/Render/Fields.php:96",
             "includes/Render/Fields.php:97"
+        ]
+    },
+    {
+        "singular": "Time from and to",
+        "plural": null,
+        "refs": [
+            "includes/Render/Fields.php:588"
         ]
     },
     {
@@ -2394,8 +2402,8 @@
             "includes/Render/CourseDetail.php:127",
             "includes/Render/Fields.php:132",
             "includes/Render/Fields.php:133",
-            "includes/Render/Fields.php:590",
-            "includes/Render/TrainerDetail.php:239"
+            "includes/Render/Fields.php:592",
+            "includes/Render/TrainerDetail.php:242"
         ]
     },
     {
@@ -2809,7 +2817,7 @@
         "singular": "last %d place",
         "plural": "last %d places",
         "refs": [
-            "includes/Render/Listing.php:507"
+            "includes/Render/Listing.php:569"
         ]
     },
     {

@@ -10,6 +10,7 @@ declare( strict_types=1 );
 namespace CSCS\Divi;
 
 use CSCS\Render\FieldRenderer;
+use CSCS\Render\Assets;
 use CSCS\Render\Fields;
 use ET\Builder\FrontEnd\BlockParser\BlockParserStore;
 use ET\Builder\FrontEnd\Module\Style;
@@ -62,6 +63,13 @@ final class FieldModuleRenderer {
 		if ( '' === trim( $field ) ) {
 			return '';
 		}
+
+		// The stylesheet reaches a page only where something renders, and a
+		// module rendered inside a Divi theme builder template is that
+		// something: the plugin's own single-trainer template never runs there,
+		// so nothing else would ask for it and the table would lose its rule,
+		// its spacing and the fold that turns it into cards on a telephone.
+		wp_enqueue_style( Assets::HANDLE );
 
 		return Module::render(
 			array(

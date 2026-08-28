@@ -318,6 +318,7 @@ CS = {
 "Tick what to show and number the order. A column left unticked is not rendered at all; a label left empty uses the built-in one. On a narrow screen every table folds so that these headings run down the left and the values down the right, which is why a short label is worth the trouble.": "Zaškrtněte, co se má zobrazit, a čísly určete pořadí. Nezaškrtnutý sloupec se vůbec nevykreslí; prázdný popisek použije ten vestavěný. Na úzké obrazovce se tabulka překlopí tak, že tyhle popisky jdou v levém sloupci a hodnoty v pravém — proto se krátký popisek vyplatí.",
 "Tied to a course": "Spárováno s kurzem",
 "Time": "Čas",
+"Time from and to": "Čas od–do",
 "Timetable refresh interval (seconds)": "Jak často stahovat rozvrh (sekundy)",
 "To:": "Do:",
 "Trainer": "Trenér",
