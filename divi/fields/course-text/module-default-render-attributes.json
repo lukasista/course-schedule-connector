@@ -54,6 +54,11 @@
                 "desktop": {
                     "value": ""
                 }
+            },
+            "bulletStyle": {
+                "desktop": {
+                    "value": ""
+                }
             }
         }
     }

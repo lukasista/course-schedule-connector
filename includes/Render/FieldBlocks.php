@@ -223,6 +223,7 @@ final class FieldBlocks {
 				'icon'    => (string) $field['icon'],
 				'heading' => (bool) $field['heading'],
 				'image'   => (bool) $field['image'],
+				'bullets' => (bool) $field['bullets'],
 				'columns' => $columns,
 			);
 		}

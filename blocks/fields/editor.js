@@ -260,6 +260,46 @@
 	}
 
 	/**
+	 * The panel for the marks of a list inside the value.
+	 *
+	 * The words of an item are already the value's own typography; this is
+	 * about the mark in front of them and the space around it. Left alone,
+	 * nothing is written and the theme's own list styling stands.
+	 *
+	 * @param {Object} props   Block props.
+	 * @param {Array}  palette The theme's colours.
+	 * @return {Object} The panel.
+	 */
+	function bulletPanel( props, palette ) {
+		return el(
+			components.PanelBody,
+			{ title: __( 'Bullets', 'course-schedule-connector' ), initialOpen: false },
+			select( props, 'bulletStyle', __( 'Marked with', 'course-schedule-connector' ), [
+				{ label: __( 'As the theme says', 'course-schedule-connector' ), value: '' },
+				{ label: __( 'Round', 'course-schedule-connector' ), value: 'disc' },
+				{ label: __( 'Hollow', 'course-schedule-connector' ), value: 'circle' },
+				{ label: __( 'Square', 'course-schedule-connector' ), value: 'square' },
+				{ label: __( 'Numbered', 'course-schedule-connector' ), value: 'decimal' },
+				{ label: __( 'Lettered', 'course-schedule-connector' ), value: 'lower-alpha' },
+				{ label: __( 'None', 'course-schedule-connector' ), value: 'none' },
+			] ),
+			colour( props, 'bulletColour', __( 'Mark colour', 'course-schedule-connector' ), palette ),
+			text(
+				props,
+				'bulletIndent',
+				__( 'Indent', 'course-schedule-connector' ),
+				__( 'How far the list sits from the left — 1.5em, 24px.', 'course-schedule-connector' )
+			),
+			text(
+				props,
+				'bulletGap',
+				__( 'Between items', 'course-schedule-connector' ),
+				__( 'Space added between one item and the next.', 'course-schedule-connector' )
+			)
+		);
+	}
+
+	/**
 	 * The panels a field that draws a table gets, on top of the usual ones.
 	 *
 	 * A table is not one thing. Its heading row, its cells, the links inside
@@ -518,10 +558,27 @@
 				var blockProps = blockEditor.useBlockProps();
 
 				var controls = el(
-					blockEditor.InspectorControls,
+					Fragment,
 					{},
-					sourcePanel( props, postType ),
-					field.image ? picturePanel( props ) : null,
+					el(
+						blockEditor.InspectorControls,
+						{},
+						sourcePanel( props, postType ),
+						field.image ? picturePanel( props ) : null,
+						el(
+							components.PanelBody,
+							{ title: __( 'Content', 'course-schedule-connector' ), initialOpen: true },
+							text(
+								props,
+								'emptyText',
+								__( 'When there is nothing to show', 'course-schedule-connector' ),
+								__( 'Left empty, the block disappears rather than printing a heading over a blank space.', 'course-schedule-connector' )
+							)
+						)
+					),
+					el(
+					blockEditor.InspectorControls,
+					{ group: 'styles' },
 					el(
 						components.PanelBody,
 						{ title: __( 'Heading and layout', 'course-schedule-connector' ), initialOpen: false },
@@ -578,12 +635,6 @@
 									{ label: __( 'None', 'course-schedule-connector' ), value: 'none' },
 							  ] )
 							: null,
-						text(
-							props,
-							'emptyText',
-							__( 'When there is nothing to show', 'course-schedule-connector' ),
-							__( 'Left empty, the block disappears rather than printing a heading over a blank space.', 'course-schedule-connector' )
-						)
 					),
 					elementPanel(
 						props,
@@ -599,6 +650,7 @@
 						palette,
 						families
 					),
+					field.bullets ? bulletPanel( props, palette ) : null,
 					tablePanels( props, field, palette, families ),
 					el(
 						components.PanelBody,
@@ -648,6 +700,7 @@
 								'course-schedule-connector'
 							)
 						)
+					)
 					)
 				);
 

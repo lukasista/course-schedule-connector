@@ -230,12 +230,17 @@ Text, který napíšete do editoru, se na stránce zobrazí jako u kurzu. Synchr
 
 Když vám výchozí stránka kurzu nebo trenéra nestačí, postavíte si vlastní. Každý údaj má svůj **blok** (Gutenberg) i **modul** (Divi 5) pod vlastním jménem: *Cena, Den, Čas, Věk, Pohlaví, Úroveň, Termín, Lekce, Sál, Trenér, Volná místa, Tlačítko přihlášení, Nejbližší lekce, Náhradní lekce, Obrázek kurzu, Popis kurzu, Popis z iSportu, Na koho se obrátit, Název kurzu* — a u trenéra *Fotografie, Kvalifikace, Záliby, Zajímavost, Motto, Popis, Kurzy které trenér vede*.
 
+Nastavení bloku je rozdělené jako ve WordPressu samotném: v kartě **Nastavení** je,
+*co* blok ukazuje (který kurz, co napsat, když není co), v kartě **Styly** všechno
+ostatní — nadpis a rozvržení, písmo nadpisu i hodnoty, tabulka, odrážky a animace.
+
 Každý z nich umí:
 
 - **nadpis** – zapnout či vypnout, přejmenovat, zvolit HTML prvek (H1–H6, P, DIV…), přidat za něj oddělovač,
 - **rozvržení** – nadpis nad hodnotou, nebo vedle sebe, s nastavitelnou mezerou,
 - **vzhled nadpisu i hodnoty zvlášť** – písmo, řez, velikost, řádkování, prostrkání, verzálky, barvu a zarovnání. Tohle je hlavní důvod, proč bloky existují: „Cena“ a „4 160 Kč“ jsou dvě věci, které chce návrhář nastavit jinak,
 - **všechno ostatní, co editor nabízí** – barvy, pozadí, přechody, odsazení, rámečky, stín, sticky pozici, šířku na celou stránku; v Divi navíc jeho vlastní skupiny *Text nadpisu* a *Text hodnoty*,
+- **odrážky** – u polí, jejichž text může obsahovat seznam (*Popis kurzu*, *Popis z iSportu*, *Popis trenéra*, *Kvalifikace*, *Záliby*): čím se odráží, barvu odrážky, odsazení a mezeru mezi položkami. V Divi jsou to skupiny *Položka seznamu* a *Značka odrážky*,
 - **animaci** při prvním objevení na obrazovce (prolnutí, posun, zvětšení), která se nespustí návštěvníkovi, který si v systému vyžádal omezení pohybu.
 
 Pole, které nemá co říct, se **vynechá celé** — nadpis nad prázdným místem vypadá jako rozbitá stránka, ne jako odpověď „žádné“. Chcete-li místo toho něco napsat, vyplňte *Když není co zobrazit*.

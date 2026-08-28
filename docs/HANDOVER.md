@@ -44,6 +44,13 @@ repozitáře.
 
 ## 2. Co přibylo naposledy
 
+### Odrážky
+`Markup::flatten_lists()` (DOM) srovná seznamy na jednu úroveň — iSport posílá
+`<ul><li><ul><li>` u 24 kurzů. Pole s `'bullets' => true` v katalogu dostane
+v bloku nastavení odrážek a v Divi skupiny *Bullet item* / *Bullet mark*
+(`::marker`). Panely bloku se přestěhovaly: **Nastavení** = co ukazuje,
+**Styly** = jak vypadá.
+
 ### Popis z iSportu
 `course-text` (*Popis kurzu*) ukazuje **text z editoru** a ten je na webu
 prázdný u všech 113 kurzů; `_cscs_api_description` má naopak 111 kurzů a nikde

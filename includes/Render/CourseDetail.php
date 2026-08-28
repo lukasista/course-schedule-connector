@@ -14,6 +14,7 @@ use CSCS\Data\CourseRepository;
 use CSCS\Data\DisplaySet;
 use CSCS\Data\TrainerRepository;
 use CSCS\Plugin;
+use CSCS\Support\Markup;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -135,7 +136,15 @@ final class CourseDetail {
 		$description = (string) ( $this->course['api_description'] ?? '' );
 		$description = (string) preg_replace( '#^(?:\s|<br\s*/?>)+#i', '', $description );
 
-		return '' === trim( $description ) ? '' : wp_kses_post( $description );
+		if ( '' === trim( $description ) ) {
+			return '';
+		}
+
+		// The booking system's editor wraps a list in a list often enough — 24
+		// of this gym's 113 courses — that a page would show two levels of
+		// bullets where one was meant. No stylesheet can undo that: the second
+		// level is really in the markup.
+		return wp_kses_post( Markup::flatten_lists( $description ) );
 	}
 
 	/**

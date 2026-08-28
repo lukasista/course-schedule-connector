@@ -138,7 +138,7 @@ msgstr ""
 #: includes/Admin/Screen/MakeupPage.php:130
 #: includes/Admin/Screen/UnmatchedPage.php:165
 #: includes/Data/PostType.php:179
-#: includes/Render/Fields.php:633
+#: includes/Render/Fields.php:639
 msgid "Activity"
 msgstr ""
 
@@ -177,7 +177,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:104
 #: includes/Render/Fields.php:123
 #: includes/Render/Fields.php:124
-#: includes/Render/Fields.php:635
+#: includes/Render/Fields.php:641
 msgid "Age"
 msgstr ""
 
@@ -287,7 +287,7 @@ msgstr ""
 
 #: includes/Admin/CourseEditor.php:192
 #: includes/Admin/CourseList.php:55
-#: includes/Render/Fields.php:649
+#: includes/Render/Fields.php:655
 msgid "Booking button"
 msgstr ""
 
@@ -326,7 +326,7 @@ msgid "Button text"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:225
-#: includes/Render/Fields.php:648
+#: includes/Render/Fields.php:654
 #: includes/Render/Listing.php:451
 msgid "Cancelled"
 msgstr ""
@@ -363,7 +363,7 @@ msgstr ""
 msgid "Classes"
 msgstr ""
 
-#: includes/Render/Fields.php:238
+#: includes/Render/Fields.php:240
 msgid "Classes that stand in for one somebody missed."
 msgstr ""
 
@@ -412,8 +412,8 @@ msgid "Contact and booking"
 msgstr ""
 
 #: includes/Data/PostType.php:71
-#: includes/Render/Fields.php:631
-#: includes/Render/Fields.php:632
+#: includes/Render/Fields.php:637
+#: includes/Render/Fields.php:638
 msgid "Course"
 msgstr ""
 
@@ -484,8 +484,8 @@ msgid "Courses are what people sign up to; classes are the individual times in t
 msgstr ""
 
 #: includes/Admin/TrainerEditor.php:82
-#: includes/Render/Fields.php:310
-#: includes/Render/Fields.php:311
+#: includes/Render/Fields.php:315
+#: includes/Render/Fields.php:316
 #: templates/single-trainer.php:79
 msgid "Courses this trainer runs"
 msgstr ""
@@ -508,18 +508,18 @@ msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:128
 #: includes/Admin/Screen/UnmatchedPage.php:163
-#: includes/Render/Fields.php:640
+#: includes/Render/Fields.php:646
 msgid "Date"
 msgstr ""
 
 #: includes/Render/CourseDetail.php:100
-#: includes/Render/Fields.php:638
+#: includes/Render/Fields.php:644
 #: includes/Render/Fields.php:87
 #: includes/Render/Fields.php:88
 msgid "Day"
 msgstr ""
 
-#: includes/Render/Fields.php:634
+#: includes/Render/Fields.php:640
 msgid "Days and times"
 msgstr ""
 
@@ -552,7 +552,7 @@ msgid "Descending"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:426
-#: includes/Render/Fields.php:205
+#: includes/Render/Fields.php:206
 msgid "Description from iSport"
 msgstr ""
 
@@ -602,11 +602,11 @@ msgstr ""
 msgid "Even when shown, the button hides itself while the course is full or iSport reports that it takes no registrations."
 msgstr ""
 
-#: includes/Render/Fields.php:315
+#: includes/Render/Fields.php:320
 msgid "Every course paired with this trainer, as a table."
 msgstr ""
 
-#: includes/Render/Fields.php:269
+#: includes/Render/Fields.php:271
 msgid "Every qualification, in the order they were entered."
 msgstr ""
 
@@ -677,7 +677,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:105
 #: includes/Render/Fields.php:132
 #: includes/Render/Fields.php:133
-#: includes/Render/Fields.php:636
+#: includes/Render/Fields.php:642
 msgid "Gender"
 msgstr ""
 
@@ -761,8 +761,8 @@ msgid "Individual courses can override this."
 msgstr ""
 
 #: includes/Admin/TrainerEditor.php:150
-#: includes/Render/Fields.php:274
-#: includes/Render/Fields.php:275
+#: includes/Render/Fields.php:277
+#: includes/Render/Fields.php:278
 #: templates/single-trainer.php:68
 msgid "Interests"
 msgstr ""
@@ -822,7 +822,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:106
 #: includes/Render/Fields.php:141
 #: includes/Render/Fields.php:142
-#: includes/Render/Fields.php:637
+#: includes/Render/Fields.php:643
 msgid "Level"
 msgstr ""
 
@@ -838,11 +838,11 @@ msgstr ""
 msgid "Make this a course of its own"
 msgstr ""
 
-#: includes/Render/Fields.php:233
+#: includes/Render/Fields.php:235
 msgid "Make-up classes"
 msgstr ""
 
-#: includes/Render/Fields.php:234
+#: includes/Render/Fields.php:236
 #: templates/single-course.php:100
 msgid "Make-up classes for this course"
 msgstr ""
@@ -868,7 +868,7 @@ msgid "Mixed"
 msgstr ""
 
 #: includes/Admin/TrainerEditor.php:168
-#: includes/Render/Fields.php:292
+#: includes/Render/Fields.php:296
 msgid "Motto"
 msgstr ""
 
@@ -1020,7 +1020,7 @@ msgstr ""
 msgid "Nowhere"
 msgstr ""
 
-#: includes/Render/Fields.php:645
+#: includes/Render/Fields.php:651
 msgid "Number of classes"
 msgstr ""
 
@@ -1093,7 +1093,7 @@ msgid "Past occurrences older than this are removed. Courses are never deleted."
 msgstr ""
 
 #: includes/Admin/TrainerEditor.php:90
-#: includes/Render/Fields.php:255
+#: includes/Render/Fields.php:257
 msgid "Photograph"
 msgstr ""
 
@@ -1105,7 +1105,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:109
 #: includes/Render/Fields.php:168
 #: includes/Render/Fields.php:169
-#: includes/Render/Fields.php:647
+#: includes/Render/Fields.php:653
 msgid "Places left"
 msgstr ""
 
@@ -1113,15 +1113,15 @@ msgstr ""
 #: includes/Admin/CourseEditor.php:429
 #: includes/Admin/Screen/DisplaySetsPage.php:590
 #: includes/Render/CourseDetail.php:99
-#: includes/Render/Fields.php:646
+#: includes/Render/Fields.php:652
 #: includes/Render/Fields.php:78
 #: includes/Render/Fields.php:79
 msgid "Price"
 msgstr ""
 
 #: includes/Admin/TrainerEditor.php:143
-#: includes/Render/Fields.php:265
-#: includes/Render/Fields.php:266
+#: includes/Render/Fields.php:267
+#: includes/Render/Fields.php:268
 #: templates/single-trainer.php:57
 msgid "Qualifications"
 msgstr ""
@@ -1187,7 +1187,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:107
 #: includes/Render/Fields.php:150
 #: includes/Render/Fields.php:151
-#: includes/Render/Fields.php:642
+#: includes/Render/Fields.php:648
 #: templates/partials/controls.php:54
 msgid "Room"
 msgstr ""
@@ -1219,7 +1219,7 @@ msgstr ""
 msgid "Runs from"
 msgstr ""
 
-#: includes/Render/Fields.php:644
+#: includes/Render/Fields.php:650
 msgid "Runs from and to"
 msgstr ""
 
@@ -1328,8 +1328,8 @@ msgid "Some courses take no bookings through iSport at all, and a visitor who wa
 msgstr ""
 
 #: includes/Admin/TrainerEditor.php:161
-#: includes/Render/Fields.php:283
-#: includes/Render/Fields.php:284
+#: includes/Render/Fields.php:287
+#: includes/Render/Fields.php:288
 #: templates/single-trainer.php:50
 msgid "Something worth knowing"
 msgstr ""
@@ -1419,7 +1419,7 @@ msgstr ""
 msgid "The course could not be created."
 msgstr ""
 
-#: includes/Render/Fields.php:209
+#: includes/Render/Fields.php:210
 msgid "The description the booking system holds for the course, which is a different text from the one written in WordPress."
 msgstr ""
 
@@ -1459,7 +1459,7 @@ msgstr ""
 msgid "The one this page is about"
 msgstr ""
 
-#: includes/Render/Fields.php:218
+#: includes/Render/Fields.php:220
 msgid "The person to contact about a course nobody books through iSport."
 msgstr ""
 
@@ -1471,19 +1471,19 @@ msgstr ""
 msgid "The remote system tags every class, and a tag maintained there stays right for everyone, so it is asked before the list above. One rule per line, in the form label = category. Categories are course, external_course, makeup and rental. A label that is not listed here simply falls through to the list above."
 msgstr ""
 
-#: includes/Render/Fields.php:287
+#: includes/Render/Fields.php:291
 msgid "The sentence or two that makes this a person."
 msgstr ""
 
-#: includes/Render/Fields.php:296
+#: includes/Render/Fields.php:300
 msgid "The trainer’s motto."
 msgstr ""
 
-#: includes/Render/Fields.php:250
+#: includes/Render/Fields.php:252
 msgid "The trainer’s name, as a heading you can style."
 msgstr ""
 
-#: includes/Render/Fields.php:259
+#: includes/Render/Fields.php:261
 msgid "The trainer’s picture: your own where you set one, otherwise the one from iSport."
 msgstr ""
 
@@ -1503,7 +1503,7 @@ msgstr ""
 msgid "The words written on the course in WordPress."
 msgstr ""
 
-#: includes/Render/Fields.php:305
+#: includes/Render/Fields.php:309
 msgid "The words written on the trainer in WordPress."
 msgstr ""
 
@@ -1523,11 +1523,11 @@ msgstr ""
 msgid "They appear struck through and labelled. Unticking hides them entirely."
 msgstr ""
 
-#: includes/Render/FieldRenderer.php:263
+#: includes/Render/FieldRenderer.php:286
 msgid "This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings."
 msgstr ""
 
-#: includes/Render/Fields.php:228
+#: includes/Render/Fields.php:230
 msgid "This course’s own timetable, as a table."
 msgstr ""
 
@@ -1563,13 +1563,13 @@ msgstr ""
 #: includes/Admin/Screen/MakeupPage.php:129
 #: includes/Admin/Screen/UnmatchedPage.php:164
 #: includes/Render/CourseDetail.php:101
-#: includes/Render/Fields.php:641
+#: includes/Render/Fields.php:647
 #: includes/Render/Fields.php:96
 #: includes/Render/Fields.php:97
 msgid "Time"
 msgstr ""
 
-#: includes/Render/Fields.php:639
+#: includes/Render/Fields.php:645
 msgid "Time from and to"
 msgstr ""
 
@@ -1590,16 +1590,16 @@ msgstr ""
 #: includes/Render/CourseDetail.php:185
 #: includes/Render/Fields.php:159
 #: includes/Render/Fields.php:160
-#: includes/Render/Fields.php:643
+#: includes/Render/Fields.php:649
 #: includes/Render/TrainerDetail.php:242
 msgid "Trainer"
 msgstr ""
 
-#: includes/Render/Fields.php:301
+#: includes/Render/Fields.php:305
 msgid "Trainer description"
 msgstr ""
 
-#: includes/Render/Fields.php:246
+#: includes/Render/Fields.php:248
 msgid "Trainer name"
 msgstr ""
 
@@ -1631,8 +1631,8 @@ msgstr ""
 msgid "Unresolved"
 msgstr ""
 
-#: includes/Render/Fields.php:223
-#: includes/Render/Fields.php:224
+#: includes/Render/Fields.php:225
+#: includes/Render/Fields.php:226
 #: templates/single-course.php:90
 msgid "Upcoming classes"
 msgstr ""
@@ -1677,7 +1677,7 @@ msgstr ""
 msgid "What the picture says to somebody who cannot see it. Empty means the name of the course or trainer, which is usually right."
 msgstr ""
 
-#: includes/Render/Fields.php:278
+#: includes/Render/Fields.php:281
 msgid "What the trainer does when they are not in the hall."
 msgstr ""
 
@@ -1750,8 +1750,8 @@ msgstr ""
 msgid "Who the course is for — girls, boys, mixed, women, men. Read from the course name, and can be set by hand on the course."
 msgstr ""
 
-#: includes/Render/Fields.php:214
-#: includes/Render/Fields.php:215
+#: includes/Render/Fields.php:216
+#: includes/Render/Fields.php:217
 #: templates/single-course.php:67
 msgid "Who to ask"
 msgstr ""
@@ -1960,6 +1960,42 @@ msgstr ""
 
 #: visual-builder/cscs-divi-display.js
 msgid "This display set no longer exists."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "As the theme says"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Between items"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Content"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "How far the list sits from the left — 1.5em, 24px."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Indent"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Lettered"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Mark colour"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Marked with"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Space added between one item and the next."
 msgstr ""
 
 #: blocks/fields/editor.js

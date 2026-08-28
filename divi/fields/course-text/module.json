@@ -126,6 +126,75 @@
                 }
             }
         },
+        "bulletItem": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-field__value li",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designBulletItem",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "bulletItem.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Bullet item"
+                                }
+                            }
+                        }
+                    },
+                    "spacing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designBulletItem",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/spacing",
+                                "props": {
+                                    "attrName": "bulletItem.decoration.spacing",
+                                    "grouped": true,
+                                    "fieldLabel": "Bullet item"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "bulletMarker": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-field__value li::marker",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designBulletMarker",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "bulletMarker.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Bullet mark"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "field": {
             "type": "object",
             "selector": "{{selector}}",
@@ -379,13 +448,60 @@
                             }
                         }
                     },
+                    "bulletStyle": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "content",
+                            "attrName": "field.advanced.bulletStyle",
+                            "category": "configuration",
+                            "priority": 90,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Bullets",
+                            "description": "What a list inside this text is marked with. Left alone, whatever the theme says.",
+                            "component": {
+                                "name": "divi/select",
+                                "type": "field",
+                                "props": {
+                                    "options": {
+                                        "": {
+                                            "label": "As the theme says"
+                                        },
+                                        "disc": {
+                                            "label": "Round"
+                                        },
+                                        "circle": {
+                                            "label": "Hollow"
+                                        },
+                                        "square": {
+                                            "label": "Square"
+                                        },
+                                        "decimal": {
+                                            "label": "Numbered"
+                                        },
+                                        "lower-alpha": {
+                                            "label": "Lettered"
+                                        },
+                                        "none": {
+                                            "label": "None"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "emptyText": {
                         "groupType": "group-item",
                         "item": {
                             "groupSlug": "content",
                             "attrName": "field.advanced.emptyText",
                             "category": "configuration",
-                            "priority": 90,
+                            "priority": 100,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -446,6 +562,32 @@
                     "name": "divi/composite",
                     "props": {
                         "groupLabel": "Value text",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designBulletItem": {
+                "panel": "design",
+                "priority": 29,
+                "groupName": "bulletItem",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Bullet item",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designBulletMarker": {
+                "panel": "design",
+                "priority": 30,
+                "groupName": "bulletMarker",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Bullet mark",
                         "clipboardCategory": "style"
                     }
                 }

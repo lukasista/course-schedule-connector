@@ -465,6 +465,15 @@ JS_DIVI = {
 
 
 JS_FIELDS = {
+"As the theme says": "Podle šablony webu",
+"Between items": "Mezi položkami",
+"Content": "Obsah",
+"How far the list sits from the left — 1.5em, 24px.": "Jak daleko seznam odsadit zleva — 1.5em, 24px.",
+"Indent": "Odsazení",
+"Lettered": "Písmena",
+"Mark colour": "Barva odrážky",
+"Marked with": "Odrážka",
+"Space added between one item and the next.": "Mezera přidaná mezi jednu položku a další.",
 "— default —": "— výchozí —",
 "Size": "Velikost",
 "A length with its unit — 18px, 1.25rem — or empty to leave it to the theme.": "Délka i s jednotkou — 18px, 1.25rem — nebo prázdné, ať rozhodne šablona.",

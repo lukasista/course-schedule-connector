@@ -126,6 +126,7 @@ function module_metadata( string $name, array $field ): array {
 					'value'  => element_attribute( '{{selector}} .cscs-field__value', 'value', 'designValueText', 'Value', 'content' ),
 					'image'  => empty( $field['image'] ) ? array() : image_attribute(),
 				),
+				bullet_attributes( $field ),
 				table_attributes( $field ),
 				array(
 					'field' => field_attribute( $field ),
@@ -200,7 +201,7 @@ function module_metadata( string $name, array $field ): array {
 					),
 				),
 				)
-			) + table_groups( $field ),
+			) + bullet_groups( $field ) + table_groups( $field ),
 		),
 	);
 }
@@ -373,6 +374,61 @@ function element_attribute( string $selector, string $attr, string $group, strin
  * cells, the links inside them, the banding behind them and the width of each
  * column. They are declared the way Divi declares its own sub-elements, so the
  * panel that appears is Divi's, in the language the rest of the builder speaks.
+ *
+ * @param array<string, mixed> $field Field definition.
+ * @return array<string, mixed>
+ */
+function bullet_attributes( array $field ): array {
+	if ( empty( $field['bullets'] ) ) {
+		return array();
+	}
+
+	// The words of an item and the mark in front of them are two decisions.
+	// The mark is styled through `::marker`, which is what it is — colouring
+	// the item would colour the words with it.
+	return array(
+		'bulletItem'   => element_attribute( '{{selector}} .cscs-field__value li', 'bulletItem', 'designBulletItem', 'Bullet item', 'content', array( 'font' => 'divi/font', 'spacing' => 'divi/spacing' ) ),
+		'bulletMarker' => element_attribute( '{{selector}} .cscs-field__value li::marker', 'bulletMarker', 'designBulletMarker', 'Bullet mark', 'content', array( 'font' => 'divi/font' ) ),
+	);
+}
+
+/**
+ * The design groups a list's parts appear in.
+ *
+ * @param array<string, mixed> $field Field definition.
+ * @return array<string, mixed>
+ */
+function bullet_groups( array $field ): array {
+	if ( empty( $field['bullets'] ) ) {
+		return array();
+	}
+
+	$groups   = array();
+	$priority = 29;
+
+	foreach ( array( 'designBulletItem' => 'Bullet item', 'designBulletMarker' => 'Bullet mark' ) as $key => $label ) {
+		$groups[ $key ] = array(
+			'panel'         => 'design',
+			'priority'      => $priority,
+			'groupName'     => lcfirst( substr( $key, strlen( 'design' ) ) ),
+			'multiElements' => true,
+			'component'     => array(
+				'name'  => 'divi/composite',
+				'props' => array(
+					'groupLabel'        => $label,
+					'clipboardCategory' => 'style',
+				),
+			),
+		);
+
+		++$priority;
+	}
+
+	return $groups;
+}
+
+/**
+ * The parts of a table, as things a designer can style.
  *
  * @param array<string, mixed> $field Field definition.
  * @return array<string, mixed>
@@ -656,6 +712,31 @@ function field_attribute( array $field ): array {
 		)
 	);
 
+	if ( ! empty( $field['bullets'] ) ) {
+		$add(
+			'bulletStyle',
+			array(
+				'label'       => 'Bullets',
+				'description' => 'What a list inside this text is marked with. Left alone, whatever the theme says.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array(
+						'options' => array(
+							''            => array( 'label' => 'As the theme says' ),
+							'disc'        => array( 'label' => 'Round' ),
+							'circle'      => array( 'label' => 'Hollow' ),
+							'square'      => array( 'label' => 'Square' ),
+							'decimal'     => array( 'label' => 'Numbered' ),
+							'lower-alpha' => array( 'label' => 'Lettered' ),
+							'none'        => array( 'label' => 'None' ),
+						),
+					),
+				),
+			)
+		);
+	}
+
 	if ( 'list' === $field['kind'] ) {
 		$add(
 			'listStyle',
@@ -799,6 +880,10 @@ function module_defaults( array $field ): array {
 
 	if ( 'list' === $field['kind'] ) {
 		$advanced['listStyle'] = 'disc';
+	}
+
+	if ( ! empty( $field['bullets'] ) ) {
+		$advanced['bulletStyle'] = '';
 	}
 
 	if ( ! empty( $field['image'] ) ) {

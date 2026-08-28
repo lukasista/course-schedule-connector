@@ -182,6 +182,29 @@ final class FieldRenderer {
 			);
 		}
 
+		if ( ! empty( $field['bullets'] ) ) {
+			// A value that can hold a list is a value somebody will want the
+			// marks of that list to obey. The words are already covered by the
+			// value's own typography; these are about the mark and the space
+			// around it.
+			$attributes['bulletStyle']  = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['bulletColour'] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['bulletIndent'] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['bulletGap']    = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+		}
+
 		foreach ( array( 'label', 'value' ) as $element ) {
 			foreach ( self::element_settings() as $setting ) {
 				$attributes[ $element . $setting ] = array(
@@ -292,12 +315,12 @@ final class FieldRenderer {
 			$body
 		);
 
-		$table = self::table_style( $field, $attributes );
+		$scoped = self::scoped_style( $field, $attributes );
 
 		return sprintf(
 			'<div %1$s>%2$s%3$s%4$s</div>',
-			self::wrapper_attributes( $name, $attributes, $wrapper, $table['class'] ),
-			$table['style'],
+			self::wrapper_attributes( $name, $attributes, $wrapper, $scoped['class'] ),
+			$scoped['style'],
 			$label,
 			$html
 		);
@@ -325,24 +348,22 @@ final class FieldRenderer {
 	 * @param array<string, mixed> $attributes Settings.
 	 * @return array{class: string, style: string}
 	 */
-	private static function table_style( array $field, array $attributes ): array {
-		$empty   = array(
-			'class' => '',
-			'style' => '',
+	private static function scoped_style( array $field, array $attributes ): array {
+		$rules = array_merge(
+			self::table_rules( (array) ( $field['columns'] ?? array() ), $attributes ),
+			empty( $field['bullets'] ) ? array() : self::bullet_rules( $attributes )
 		);
-		$columns = (array) ( $field['columns'] ?? array() );
-
-		if ( array() === $columns ) {
-			return $empty;
-		}
-
-		$rules = self::table_rules( $columns, $attributes );
 
 		if ( array() === $rules ) {
-			return $empty;
+			return array(
+				'class' => '',
+				'style' => '',
+			);
 		}
 
-		$class = 'cscs-table--' . substr( md5( wp_json_encode( $rules ) ?: '' ), 0, 10 );
+		// The class is named after what it says, so two blocks designed alike
+		// share one rule and a block nobody has designed writes nothing at all.
+		$class = 'cscs-scope--' . substr( md5( wp_json_encode( $rules ) ?: '' ), 0, 10 );
 		$css   = '';
 
 		foreach ( $rules as $selector => $declarations ) {
@@ -363,6 +384,10 @@ final class FieldRenderer {
 	 * @return array<string, string>
 	 */
 	private static function table_rules( array $columns, array $attributes ): array {
+		if ( array() === $columns ) {
+			return array();
+		}
+
 		$read = static function ( string $key ) use ( $attributes ): string {
 			return trim( (string) ( $attributes[ $key ] ?? '' ) );
 		};
@@ -415,6 +440,56 @@ final class FieldRenderer {
 			if ( '' !== $declaration ) {
 				$rules[ '{{scope}} .cscs-table .cscs-col-' . sanitize_html_class( (string) $column ) ] = $declaration;
 			}
+		}
+
+		return $rules;
+	}
+
+	/**
+	 * Returns the rules that dress a list, or nothing where none was asked for.
+	 *
+	 * The mark in front of an item is styled through `::marker`, which is what
+	 * the mark actually is — colouring the item itself would colour the words
+	 * with it, and the words already have the value's own typography.
+	 *
+	 * @param array<string, mixed> $attributes Settings.
+	 * @return array<string, string>
+	 */
+	private static function bullet_rules( array $attributes ): array {
+		$read = static function ( string $key ) use ( $attributes ): string {
+			return trim( (string) ( $attributes[ $key ] ?? '' ) );
+		};
+
+		$rules = array();
+		$style = self::one_of(
+			$read( 'bulletStyle' ),
+			array( 'disc', 'circle', 'square', 'decimal', 'lower-alpha', 'upper-alpha', 'none' )
+		);
+		$indent = self::length( $read( 'bulletIndent' ) );
+		$list   = '';
+
+		if ( '' !== $style ) {
+			$list .= 'list-style-type:' . $style . ';';
+		}
+
+		if ( '' !== $indent ) {
+			$list .= 'padding-inline-start:' . $indent . ';';
+		}
+
+		if ( '' !== $list ) {
+			$rules['{{scope}} .cscs-field__value ul,{{scope}} .cscs-field__value ol'] = $list;
+		}
+
+		$gap = self::length( $read( 'bulletGap' ) );
+
+		if ( '' !== $gap ) {
+			$rules['{{scope}} .cscs-field__value li + li'] = 'margin-top:' . $gap . ';';
+		}
+
+		$colour = self::colour( $read( 'bulletColour' ) );
+
+		if ( '' !== $colour ) {
+			$rules['{{scope}} .cscs-field__value li::marker'] = 'color:' . $colour . ';';
 		}
 
 		return $rules;

@@ -600,6 +600,25 @@ because merging two kinds by hand is possible where un-merging one is not. The
 hand survives every synchronisation. `wp cscs sync kinds [--dry-run]` re-files
 the catalogue and prints one line per kind.
 
+## Markup from somewhere else
+
+`CSCS\Support\Markup::flatten_lists()` puts every list one level deep: a list
+inside a list item is lifted into the list above it and an item left empty is
+dropped. iSport's rich-text box produces `<ul><li><ul><li>…` in 24 of the 113
+live descriptions, which reads as two levels of bullets, and no stylesheet can
+undo it — the second level is in the markup.
+
+It parses with `DOMDocument`, and where that is missing (or the fragment has no
+nesting at all) it hands the markup straight back, so the cheap case stays
+cheap and the impossible case stays safe. Only structure moves; no text is
+rewritten.
+
+Fields whose value can hold a list carry `'bullets' => true` in the catalogue,
+which adds `bulletStyle`, `bulletColour`, `bulletIndent` and `bulletGap` to a
+block and declares `bulletItem` / `bulletMarker` as styled elements for Divi.
+The mark is styled through `::marker`, which is what it is: colouring the item
+would colour the words with it.
+
 ## Two descriptions
 
 A course has two texts and neither is a fallback for the other inside one

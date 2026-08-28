@@ -199,6 +199,7 @@ final class Fields {
 				'moduleIcon'  => 'divi/module-post-content',
 				'description' => __( 'The words written on the course in WordPress.', 'course-schedule-connector' ),
 				'heading'     => false,
+				'bullets'     => true,
 			),
 			'api'     => array(
 				'kind'        => self::HTML,
@@ -208,6 +209,7 @@ final class Fields {
 				'moduleIcon'  => 'divi/module-sidebar',
 				'description' => __( 'The description the booking system holds for the course, which is a different text from the one written in WordPress.', 'course-schedule-connector' ),
 				'heading'     => false,
+				'bullets'     => true,
 			),
 			'contact' => array(
 				'kind'        => self::HTML,
@@ -268,6 +270,7 @@ final class Fields {
 				'moduleIcon'  => 'divi/module-icon-list',
 				'description' => __( 'Every qualification, in the order they were entered.', 'course-schedule-connector' ),
 				'heading'     => true,
+				'bullets'     => true,
 			),
 			'hobbies'        => array(
 				'kind'        => self::LIST,
@@ -277,6 +280,7 @@ final class Fields {
 				'moduleIcon'  => 'divi/module-icon-list-item',
 				'description' => __( 'What the trainer does when they are not in the hall.', 'course-schedule-connector' ),
 				'heading'     => true,
+				'bullets'     => true,
 			),
 			'fact'           => array(
 				'kind'        => self::TEXT,
@@ -304,6 +308,7 @@ final class Fields {
 				'moduleIcon'  => 'divi/module-text',
 				'description' => __( 'The words written on the trainer in WordPress.', 'course-schedule-connector' ),
 				'heading'     => false,
+				'bullets'     => true,
 			),
 			'courses'        => array(
 				'kind'        => self::HTML,
@@ -360,6 +365,7 @@ final class Fields {
 	private static function defaults(): array {
 		return array(
 			'image'      => false,
+			'bullets'    => false,
 			'columns'    => array(),
 			'moduleIcon' => 'divi/module-text',
 		);
@@ -682,6 +688,13 @@ final class Fields {
 
 		if ( ! empty( $field['image'] ) ) {
 			$elements['image'] = '{{selector}} .cscs-field__image';
+		}
+
+		// A list is two things a designer means separately: the words of an
+		// item, and the mark in front of them.
+		if ( ! empty( $field['bullets'] ) ) {
+			$elements['bulletItem']   = '{{selector}} .cscs-field__value li';
+			$elements['bulletMarker'] = '{{selector}} .cscs-field__value li::marker';
 		}
 
 		$columns = (array) ( $field['columns'] ?? array() );
