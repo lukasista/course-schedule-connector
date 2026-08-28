@@ -15,6 +15,7 @@ use CSCS\Admin\Screen\Overview;
 use CSCS\Admin\Screen\RoomsPage;
 use CSCS\Admin\Screen\UnmatchedPage;
 use CSCS\Admin\Screen\SettingsPage;
+use CSCS\Data\KindType;
 use CSCS\Data\PostType;
 use CSCS\Data\TrainerType;
 use CSCS\Plugin;
@@ -102,6 +103,14 @@ final class Menu {
 			__( 'Trainers', 'course-schedule-connector' ),
 			Capabilities::MANAGE_CONTENT,
 			'edit.php?post_type=' . TrainerType::TRAINER
+		);
+
+		add_submenu_page(
+			self::SLUG,
+			__( 'Kinds of course', 'course-schedule-connector' ),
+			__( 'Kinds of course', 'course-schedule-connector' ),
+			Capabilities::MANAGE_CONTENT,
+			'edit.php?post_type=' . KindType::KIND
 		);
 
 		$sets = new DisplaySetsPage( $this->plugin );

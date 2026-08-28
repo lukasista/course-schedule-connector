@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+use CSCS\Data\KindType;
 use CSCS\Data\PostType;
 use CSCS\Data\TrainerType;
 use CSCS\Plugin;
@@ -41,6 +42,11 @@ final class Fields {
 	 * Fields that describe a trainer.
 	 */
 	public const TRAINER = 'trainer';
+
+	/**
+	 * Fields of a kind of course.
+	 */
+	public const KIND = 'kind';
 
 	/**
 	 * A single line, or several lines that belong together.
@@ -322,6 +328,24 @@ final class Fields {
 			),
 		);
 
+		// A kind of course holds no facts of its own — no price, no room, no
+		// capacity, because it is not a thing anybody signs up for. What it has
+		// that a page cannot write by hand is the timetable of what runs under
+		// it, and that is what this is. The words and the picture are the
+		// page's own, and any editor already knows how to place those.
+		$kind = array(
+			'courses' => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Courses of this kind', 'course-schedule-connector' ),
+				'label'       => __( 'Courses of this kind', 'course-schedule-connector' ),
+				'icon'        => 'calendar-alt',
+				'moduleIcon'  => 'divi/module-post-slider',
+				'columns'     => array( 'day', 'hours', 'age', 'gender', 'level', 'places', 'button' ),
+				'description' => __( 'Every course filed under this kind, as a table.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+		);
+
 		$fields = array();
 
 		foreach ( $course as $key => $field ) {
@@ -337,6 +361,14 @@ final class Fields {
 				self::defaults(),
 				$field,
 				array( 'context' => self::TRAINER )
+			);
+		}
+
+		foreach ( $kind as $key => $field ) {
+			$fields[ self::KIND . '-' . $key ] = array_merge(
+				self::defaults(),
+				$field,
+				array( 'context' => self::KIND )
 			);
 		}
 
@@ -409,6 +441,10 @@ final class Fields {
 
 		if ( self::COURSE === $field['context'] ) {
 			return array_merge( $empty, self::course_value( $plugin, $key, $post, $settings ) );
+		}
+
+		if ( self::KIND === $field['context'] ) {
+			return array_merge( $empty, self::kind_value( $plugin, $key, $post ) );
 		}
 
 		return array_merge( $empty, self::trainer_value( $plugin, $key, $post, $settings ) );
@@ -500,6 +536,22 @@ final class Fields {
 		}
 
 		return array();
+	}
+
+	/**
+	 * Works out one field of a kind of course.
+	 *
+	 * @param Plugin   $plugin Plugin instance.
+	 * @param string   $key    Field key without its context.
+	 * @param \WP_Post $post   Kind page.
+	 * @return array<string, mixed>
+	 */
+	private static function kind_value( Plugin $plugin, string $key, \WP_Post $post ): array {
+		if ( 'courses' !== $key ) {
+			return array();
+		}
+
+		return array( 'html' => self::table( ( new KindDetail( $plugin, $post ) )->course_listing() ) );
 	}
 
 	/**
@@ -849,6 +901,11 @@ final class Fields {
 	 * @return string
 	 */
 	public static function post_type( string $context ): string {
-		return self::TRAINER === $context ? TrainerType::TRAINER : PostType::COURSE;
+		$types = array(
+			self::TRAINER => TrainerType::TRAINER,
+			self::KIND    => KindType::KIND,
+		);
+
+		return $types[ $context ] ?? PostType::COURSE;
 	}
 }

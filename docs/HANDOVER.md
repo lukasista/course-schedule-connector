@@ -44,6 +44,17 @@ repozitáře.
 
 ## 2. Co přibylo naposledy
 
+### Stránka druhu kurzu
+Typ příspěvku `cscs_kind_page` (**ne** `cscs_kind` — to je taxonomie, kolidovalo
+by to o query var), párovaný `Normalise::match_key_loose()` jako u trenérů.
+`KindRepository::ensure()` volá `derive_kind()`, takže stránka vznikne, jakmile
+pod druh spadne první kurz; `wp cscs sync kinds` je založí všechny. Adresa
+`/druh/…` — po změně slugu je nutné zvednout `Plugin::REWRITE_VERSION` (teď 5).
+
+`KindDetail::course_listing()` staví tabulku přes stejný `Listing` jako všechno
+ostatní. Pole `kind-courses` = blok i Divi modul *Kurzy tohoto druhu*;
+`templates/single-kind.php` ji přidá pod text stránky.
+
 ### Odrážky
 `Markup::flatten_lists()` (DOM) srovná seznamy na jednu úroveň — iSport posílá
 `<ul><li><ul><li>` u 24 kurzů. Pole s `'bullets' => true` v katalogu dostane

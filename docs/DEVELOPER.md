@@ -600,6 +600,25 @@ because merging two kinds by hand is possible where un-merging one is not. The
 hand survives every synchronisation. `wp cscs sync kinds [--dry-run]` re-files
 the catalogue and prints one line per kind.
 
+## A kind's own page
+
+`CSCS\Data\KindType` registers `cscs_kind_page` — not `cscs_kind`, which is the
+taxonomy and would collide over the query variable — and `KindRepository` pairs
+the two on `Normalise::match_key_loose()`, the same key the trainers use. The
+pairing survives a retitle, which somebody will do the first time a page wants
+to read differently from the term.
+
+`derive_kind()` calls `KindRepository::ensure()` as it files a course, so a page
+exists as soon as its kind does; `wp cscs sync kinds` does the same for the
+catalogue at once. Only the name is ever written, and only when the page is
+made.
+
+`KindDetail::course_listing()` builds the timetable from the term's courses
+through the same `Listing` every other list of courses uses, which is what makes
+it fold identically on a telephone. The `kind-courses` field renders it as a
+block and a Divi module; `templates/single-kind.php` appends it to the page's
+own words rather than replacing them.
+
 ## Markup from somewhere else
 
 `CSCS\Support\Markup::flatten_lists()` puts every list one level deep: a list

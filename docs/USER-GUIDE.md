@@ -183,7 +183,15 @@ aktivita — je to její jméno, které říká, kam kurz patří. Takových kur
 (*Gymnastika 4-6 let dívky pokročilé* × *Jojo přípravka 4-6 let dívky
 pokročilé*) a patří k Jojo přípravce, přesně jako na dosavadním webu.
 
-Druhy najdete pod **iSport → Druhy kurzů**. Přejmenování druhu se propíše všem
+Každý druh má navíc **vlastní stránku** — *iSport → Druhy kurzů*. Je to běžný
+příspěvek: napíšete text, dáte náhledový obrázek, výpisek i SEO, adresa je
+`/druh/gymnastika/`. Stránky vznikají samy, jakmile je pod druh zařazen první
+kurz, a synchronizace do nich nikdy nesahá. Pod tím, co napíšete, se vypíše
+**rozvrh všech kurzů toho druhu**; totéž jde vložit kamkoli blokem nebo Divi
+modulem **Kurzy tohoto druhu** (sloupce Den, Čas od–do, Věk, Pohlaví, Úroveň,
+Volná místa a tlačítko, s celým nastavením vzhledu tabulky).
+
+Druhy jako zařazení najdete pod **iSport → Druhy kurzů**. Přejmenování druhu se propíše všem
 kurzům pod ním. Když je čtení u nějakého kurzu vedle — nebo když chcete dva
 druhy sloučit do jednoho — přepište u kurzu druh ručně a v panelu *Pole, kterých
 se synchronizace nesmí dotknout* zaškrtněte **Druh kurzu**; od té chvíle je vaše

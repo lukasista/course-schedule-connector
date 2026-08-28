@@ -393,6 +393,7 @@ final class SyncCommand {
 
 				if ( ! $dry ) {
 					wp_set_object_terms( $post_id, array( $kind ), PostType::KIND );
+					$this->plugin->kinds()->ensure( $kind );
 				}
 			}
 

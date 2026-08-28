@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+use CSCS\Data\KindType;
 use CSCS\Data\PostType;
 use CSCS\Data\TrainerType;
 use CSCS\Plugin;
@@ -233,6 +234,7 @@ final class FieldBlocks {
 			'postTypes' => array(
 				Fields::COURSE  => PostType::COURSE,
 				Fields::TRAINER => TrainerType::TRAINER,
+				Fields::KIND    => KindType::KIND,
 			),
 			'settings'  => FieldRenderer::element_settings(),
 			// The sizes are this site's, not the plugin's: a theme registers

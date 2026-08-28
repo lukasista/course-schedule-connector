@@ -274,6 +274,13 @@ final class CourseRepository {
 		);
 
 		wp_set_object_terms( $post_id, '' === $kind ? array() : array( $kind ), PostType::KIND );
+
+		// The page written about a kind is made the moment a course is filed
+		// under it, the way a trainer's page is: an editor should find it
+		// waiting rather than have to know it must be created first.
+		if ( '' !== $kind ) {
+			( new KindRepository() )->ensure( $kind );
+		}
 	}
 
 	/**

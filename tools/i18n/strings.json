@@ -235,7 +235,15 @@
             "includes/Admin/Screen/MakeupPage.php:130",
             "includes/Admin/Screen/UnmatchedPage.php:165",
             "includes/Data/PostType.php:179",
-            "includes/Render/Fields.php:639"
+            "includes/Render/Fields.php:691"
+        ]
+    },
+    {
+        "singular": "Add a kind of course",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Data/KindType.php:58"
         ]
     },
     {
@@ -301,10 +309,10 @@
         "refs": [
             "includes/Admin/CourseEditor.php:158",
             "includes/Admin/Screen/DisplaySetsPage.php:439",
-            "includes/Render/CourseDetail.php:104",
-            "includes/Render/Fields.php:123",
-            "includes/Render/Fields.php:124",
-            "includes/Render/Fields.php:641"
+            "includes/Render/CourseDetail.php:105",
+            "includes/Render/Fields.php:129",
+            "includes/Render/Fields.php:130",
+            "includes/Render/Fields.php:693"
         ]
     },
     {
@@ -482,7 +490,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:145"
+            "includes/Render/Fields.php:151"
         ]
     },
     {
@@ -516,7 +524,7 @@
         "refs": [
             "includes/Admin/CourseEditor.php:192",
             "includes/Admin/CourseList.php:55",
-            "includes/Render/Fields.php:655"
+            "includes/Render/Fields.php:707"
         ]
     },
     {
@@ -589,7 +597,7 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/Overview.php:225",
-            "includes/Render/Fields.php:654",
+            "includes/Render/Fields.php:706",
             "includes/Render/Listing.php:451"
         ]
     },
@@ -648,9 +656,9 @@
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:134",
             "includes/Admin/Screen/DisplaySetsPage.php:198",
-            "includes/Render/CourseDetail.php:103",
-            "includes/Render/Fields.php:114",
-            "includes/Render/Fields.php:115"
+            "includes/Render/CourseDetail.php:104",
+            "includes/Render/Fields.php:120",
+            "includes/Render/Fields.php:121"
         ]
     },
     {
@@ -658,7 +666,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:240"
+            "includes/Render/Fields.php:246"
         ]
     },
     {
@@ -749,8 +757,8 @@
         "context": null,
         "refs": [
             "includes/Data/PostType.php:71",
-            "includes/Render/Fields.php:637",
-            "includes/Render/Fields.php:638"
+            "includes/Render/Fields.php:689",
+            "includes/Render/Fields.php:690"
         ]
     },
     {
@@ -782,7 +790,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:196"
+            "includes/Render/Fields.php:202"
         ]
     },
     {
@@ -799,7 +807,7 @@
         "context": null,
         "refs": [
             "includes/Admin/CourseEditor.php:424",
-            "includes/Render/Fields.php:69"
+            "includes/Render/Fields.php:75"
         ]
     },
     {
@@ -807,7 +815,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:186"
+            "includes/Render/Fields.php:192"
         ]
     },
     {
@@ -863,8 +871,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Menu.php:93",
             "includes/Admin/Menu.php:94",
+            "includes/Admin/Menu.php:95",
             "includes/Admin/Screen/DisplaySetsPage.php:135",
             "includes/Admin/Screen/DisplaySetsPage.php:197",
             "includes/Data/PostType.php:70",
@@ -880,13 +888,22 @@
         ]
     },
     {
+        "singular": "Courses of this kind",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Render/Fields.php:339",
+            "includes/Render/Fields.php:340"
+        ]
+    },
+    {
         "singular": "Courses this trainer runs",
         "plural": null,
         "context": null,
         "refs": [
             "includes/Admin/TrainerEditor.php:82",
-            "includes/Render/Fields.php:315",
-            "includes/Render/Fields.php:316",
+            "includes/Render/Fields.php:321",
+            "includes/Render/Fields.php:322",
             "templates/single-trainer.php:79"
         ]
     },
@@ -929,7 +946,7 @@
         "refs": [
             "includes/Admin/Screen/MakeupPage.php:128",
             "includes/Admin/Screen/UnmatchedPage.php:163",
-            "includes/Render/Fields.php:646"
+            "includes/Render/Fields.php:698"
         ]
     },
     {
@@ -937,10 +954,10 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/CourseDetail.php:100",
-            "includes/Render/Fields.php:644",
-            "includes/Render/Fields.php:87",
-            "includes/Render/Fields.php:88"
+            "includes/Render/CourseDetail.php:101",
+            "includes/Render/Fields.php:696",
+            "includes/Render/Fields.php:93",
+            "includes/Render/Fields.php:94"
         ]
     },
     {
@@ -948,7 +965,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:640"
+            "includes/Render/Fields.php:692"
         ]
     },
     {
@@ -1013,7 +1030,7 @@
         "context": null,
         "refs": [
             "includes/Admin/CourseEditor.php:426",
-            "includes/Render/Fields.php:206"
+            "includes/Render/Fields.php:212"
         ]
     },
     {
@@ -1045,8 +1062,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Menu.php:111",
-            "includes/Admin/Menu.php:112",
+            "includes/Admin/Menu.php:120",
+            "includes/Admin/Menu.php:121",
             "includes/Admin/Screen/DisplaySetsPage.php:75"
         ]
     },
@@ -1072,6 +1089,14 @@
         "context": null,
         "refs": [
             "includes/Data/PostType.php:75"
+        ]
+    },
+    {
+        "singular": "Edit kind of course",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Data/KindType.php:59"
         ]
     },
     {
@@ -1107,11 +1132,19 @@
         ]
     },
     {
+        "singular": "Every course filed under this kind, as a table.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Render/Fields.php:344"
+        ]
+    },
+    {
         "singular": "Every course paired with this trainer, as a table.",
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:320"
+            "includes/Render/Fields.php:326"
         ]
     },
     {
@@ -1119,7 +1152,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:271"
+            "includes/Render/Fields.php:277"
         ]
     },
     {
@@ -1202,7 +1235,7 @@
         "refs": [
             "includes/Admin/CourseEditor.php:457",
             "includes/Admin/Screen/SettingsPage.php:118",
-            "includes/Render/CourseDetail.php:486",
+            "includes/Render/CourseDetail.php:495",
             "includes/Render/Listing.php:560",
             "includes/Render/Listing.php:564"
         ]
@@ -1228,7 +1261,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/CourseDetail.php:554",
+            "includes/Render/CourseDetail.php:563",
             "includes/Render/Listing.php:315"
         ]
     },
@@ -1247,10 +1280,10 @@
         "refs": [
             "includes/Admin/CourseEditor.php:168",
             "includes/Admin/Screen/DisplaySetsPage.php:248",
-            "includes/Render/CourseDetail.php:105",
-            "includes/Render/Fields.php:132",
-            "includes/Render/Fields.php:133",
-            "includes/Render/Fields.php:642"
+            "includes/Render/CourseDetail.php:106",
+            "includes/Render/Fields.php:138",
+            "includes/Render/Fields.php:139",
+            "includes/Render/Fields.php:694"
         ]
     },
     {
@@ -1347,7 +1380,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:118"
+            "includes/Render/Fields.php:124"
         ]
     },
     {
@@ -1355,7 +1388,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:172"
+            "includes/Render/Fields.php:178"
         ]
     },
     {
@@ -1412,8 +1445,8 @@
         "context": null,
         "refs": [
             "includes/Admin/TrainerEditor.php:150",
-            "includes/Render/Fields.php:277",
-            "includes/Render/Fields.php:278",
+            "includes/Render/Fields.php:283",
+            "includes/Render/Fields.php:284",
             "templates/single-trainer.php:68"
         ]
     },
@@ -1455,6 +1488,7 @@
         "context": null,
         "refs": [
             "includes/Admin/CourseEditor.php:425",
+            "includes/Data/KindType.php:56",
             "includes/Data/PostType.php:183"
         ]
     },
@@ -1463,7 +1497,11 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/Menu.php:110",
+            "includes/Admin/Menu.php:111",
             "includes/Admin/Screen/DisplaySetsPage.php:247",
+            "includes/Data/KindType.php:55",
+            "includes/Data/KindType.php:57",
             "includes/Data/PostType.php:182"
         ]
     },
@@ -1522,10 +1560,10 @@
         "refs": [
             "includes/Admin/CourseEditor.php:180",
             "includes/Admin/Screen/DisplaySetsPage.php:249",
-            "includes/Render/CourseDetail.php:106",
-            "includes/Render/Fields.php:141",
-            "includes/Render/Fields.php:142",
-            "includes/Render/Fields.php:643"
+            "includes/Render/CourseDetail.php:107",
+            "includes/Render/Fields.php:147",
+            "includes/Render/Fields.php:148",
+            "includes/Render/Fields.php:695"
         ]
     },
     {
@@ -1557,7 +1595,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:235"
+            "includes/Render/Fields.php:241"
         ]
     },
     {
@@ -1565,7 +1603,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:236",
+            "includes/Render/Fields.php:242",
             "templates/single-course.php:100"
         ]
     },
@@ -1574,8 +1612,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Menu.php:133",
-            "includes/Admin/Menu.php:134",
+            "includes/Admin/Menu.php:142",
+            "includes/Admin/Menu.php:143",
             "includes/Admin/Screen/MakeupPage.php:100",
             "includes/Admin/Screen/Overview.php:223",
             "includes/Admin/Screen/SettingsPage.php:136"
@@ -1611,7 +1649,7 @@
         "context": null,
         "refs": [
             "includes/Admin/TrainerEditor.php:168",
-            "includes/Render/Fields.php:296"
+            "includes/Render/Fields.php:302"
         ]
     },
     {
@@ -1658,6 +1696,14 @@
         ]
     },
     {
+        "singular": "New kind of course",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Data/KindType.php:60"
+        ]
+    },
+    {
         "singular": "New set",
         "plural": null,
         "context": null,
@@ -1698,6 +1744,14 @@
         ]
     },
     {
+        "singular": "No course of this kind is running at the moment.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "templates/single-kind.php:35"
+        ]
+    },
+    {
         "singular": "No courses are stored yet, so there is nothing to choose from. Synchronise first.",
         "plural": null,
         "context": null,
@@ -1719,6 +1773,22 @@
         "context": null,
         "refs": [
             "includes/Admin/TrainerEditor.php:237"
+        ]
+    },
+    {
+        "singular": "No kinds of course found.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Data/KindType.php:63"
+        ]
+    },
+    {
+        "singular": "No kinds of course in the bin.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Data/KindType.php:64"
         ]
     },
     {
@@ -1907,7 +1977,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:651"
+            "includes/Render/Fields.php:703"
         ]
     },
     {
@@ -2006,8 +2076,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Menu.php:84",
-            "includes/Admin/Menu.php:85"
+            "includes/Admin/Menu.php:85",
+            "includes/Admin/Menu.php:86"
         ]
     },
     {
@@ -2048,7 +2118,7 @@
         "context": null,
         "refs": [
             "includes/Admin/TrainerEditor.php:90",
-            "includes/Render/Fields.php:257"
+            "includes/Render/Fields.php:263"
         ]
     },
     {
@@ -2065,10 +2135,10 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:591",
-            "includes/Render/CourseDetail.php:109",
-            "includes/Render/Fields.php:168",
-            "includes/Render/Fields.php:169",
-            "includes/Render/Fields.php:653"
+            "includes/Render/CourseDetail.php:110",
+            "includes/Render/Fields.php:174",
+            "includes/Render/Fields.php:175",
+            "includes/Render/Fields.php:705"
         ]
     },
     {
@@ -2079,10 +2149,10 @@
             "includes/Admin/CourseEditor.php:254",
             "includes/Admin/CourseEditor.php:429",
             "includes/Admin/Screen/DisplaySetsPage.php:590",
-            "includes/Render/CourseDetail.php:99",
-            "includes/Render/Fields.php:652",
-            "includes/Render/Fields.php:78",
-            "includes/Render/Fields.php:79"
+            "includes/Render/CourseDetail.php:100",
+            "includes/Render/Fields.php:704",
+            "includes/Render/Fields.php:84",
+            "includes/Render/Fields.php:85"
         ]
     },
     {
@@ -2091,8 +2161,8 @@
         "context": null,
         "refs": [
             "includes/Admin/TrainerEditor.php:143",
-            "includes/Render/Fields.php:267",
-            "includes/Render/Fields.php:268",
+            "includes/Render/Fields.php:273",
+            "includes/Render/Fields.php:274",
             "templates/single-trainer.php:57"
         ]
     },
@@ -2211,10 +2281,10 @@
             "includes/Admin/Screen/MakeupPage.php:131",
             "includes/Admin/Screen/UnmatchedPage.php:166",
             "includes/Data/PostType.php:171",
-            "includes/Render/CourseDetail.php:107",
-            "includes/Render/Fields.php:150",
-            "includes/Render/Fields.php:151",
-            "includes/Render/Fields.php:648",
+            "includes/Render/CourseDetail.php:108",
+            "includes/Render/Fields.php:156",
+            "includes/Render/Fields.php:157",
+            "includes/Render/Fields.php:700",
             "templates/partials/controls.php:54"
         ]
     },
@@ -2223,8 +2293,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Menu.php:144",
-            "includes/Admin/Menu.php:145",
+            "includes/Admin/Menu.php:153",
+            "includes/Admin/Menu.php:154",
             "includes/Admin/Screen/DisplaySetsPage.php:379",
             "includes/Admin/Screen/RoomsPage.php:68",
             "includes/Data/PostType.php:170"
@@ -2252,9 +2322,9 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/CourseDetail.php:102",
-            "includes/Render/Fields.php:105",
-            "includes/Render/Fields.php:106"
+            "includes/Render/CourseDetail.php:103",
+            "includes/Render/Fields.php:111",
+            "includes/Render/Fields.php:112"
         ]
     },
     {
@@ -2270,7 +2340,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:650"
+            "includes/Render/Fields.php:702"
         ]
     },
     {
@@ -2323,11 +2393,27 @@
         ]
     },
     {
+        "singular": "Schedule",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "templates/single-kind.php:28"
+        ]
+    },
+    {
         "singular": "Search courses",
         "plural": null,
         "context": null,
         "refs": [
             "includes/Data/PostType.php:73"
+        ]
+    },
+    {
+        "singular": "Search kinds of course",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Data/KindType.php:62"
         ]
     },
     {
@@ -2375,8 +2461,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Menu.php:155",
-            "includes/Admin/Menu.php:156"
+            "includes/Admin/Menu.php:164",
+            "includes/Admin/Menu.php:165"
         ]
     },
     {
@@ -2449,7 +2535,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/CourseDetail.php:269",
+            "includes/Render/CourseDetail.php:278",
             "includes/Render/Listing.php:304"
         ]
     },
@@ -2458,7 +2544,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:177"
+            "includes/Render/Fields.php:183"
         ]
     },
     {
@@ -2483,8 +2569,8 @@
         "context": null,
         "refs": [
             "includes/Admin/TrainerEditor.php:161",
-            "includes/Render/Fields.php:287",
-            "includes/Render/Fields.php:288",
+            "includes/Render/Fields.php:293",
+            "includes/Render/Fields.php:294",
             "templates/single-trainer.php:50"
         ]
     },
@@ -2646,7 +2732,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:127"
+            "includes/Render/Fields.php:133"
         ]
     },
     {
@@ -2662,7 +2748,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:210"
+            "includes/Render/Fields.php:216"
         ]
     },
     {
@@ -2670,7 +2756,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:190"
+            "includes/Render/Fields.php:196"
         ]
     },
     {
@@ -2686,7 +2772,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:109"
+            "includes/Render/Fields.php:115"
         ]
     },
     {
@@ -2694,7 +2780,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:154"
+            "includes/Render/Fields.php:160"
         ]
     },
     {
@@ -2702,7 +2788,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:100"
+            "includes/Render/Fields.php:106"
         ]
     },
     {
@@ -2710,7 +2796,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:181"
+            "includes/Render/Fields.php:187"
         ]
     },
     {
@@ -2718,7 +2804,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:73"
+            "includes/Render/Fields.php:79"
         ]
     },
     {
@@ -2742,7 +2828,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:220"
+            "includes/Render/Fields.php:226"
         ]
     },
     {
@@ -2766,7 +2852,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:291"
+            "includes/Render/Fields.php:297"
         ]
     },
     {
@@ -2774,7 +2860,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:300"
+            "includes/Render/Fields.php:306"
         ]
     },
     {
@@ -2782,7 +2868,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:252"
+            "includes/Render/Fields.php:258"
         ]
     },
     {
@@ -2790,7 +2876,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:261"
+            "includes/Render/Fields.php:267"
         ]
     },
     {
@@ -2798,7 +2884,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:91"
+            "includes/Render/Fields.php:97"
         ]
     },
     {
@@ -2822,7 +2908,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:200"
+            "includes/Render/Fields.php:206"
         ]
     },
     {
@@ -2830,7 +2916,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:309"
+            "includes/Render/Fields.php:315"
         ]
     },
     {
@@ -2878,7 +2964,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:230"
+            "includes/Render/Fields.php:236"
         ]
     },
     {
@@ -2945,10 +3031,10 @@
         "refs": [
             "includes/Admin/Screen/MakeupPage.php:129",
             "includes/Admin/Screen/UnmatchedPage.php:164",
-            "includes/Render/CourseDetail.php:101",
-            "includes/Render/Fields.php:647",
-            "includes/Render/Fields.php:96",
-            "includes/Render/Fields.php:97"
+            "includes/Render/CourseDetail.php:102",
+            "includes/Render/Fields.php:102",
+            "includes/Render/Fields.php:103",
+            "includes/Render/Fields.php:699"
         ]
     },
     {
@@ -2956,7 +3042,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:645"
+            "includes/Render/Fields.php:697"
         ]
     },
     {
@@ -2985,11 +3071,11 @@
             "includes/Admin/Screen/UnmatchedPage.php:167",
             "includes/Data/PostType.php:175",
             "includes/Data/TrainerType.php:93",
-            "includes/Render/CourseDetail.php:108",
-            "includes/Render/CourseDetail.php:185",
-            "includes/Render/Fields.php:159",
-            "includes/Render/Fields.php:160",
-            "includes/Render/Fields.php:649",
+            "includes/Render/CourseDetail.php:109",
+            "includes/Render/CourseDetail.php:194",
+            "includes/Render/Fields.php:165",
+            "includes/Render/Fields.php:166",
+            "includes/Render/Fields.php:701",
             "includes/Render/TrainerDetail.php:242"
         ]
     },
@@ -2998,7 +3084,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:305"
+            "includes/Render/Fields.php:311"
         ]
     },
     {
@@ -3006,7 +3092,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:248"
+            "includes/Render/Fields.php:254"
         ]
     },
     {
@@ -3014,8 +3100,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Menu.php:101",
             "includes/Admin/Menu.php:102",
+            "includes/Admin/Menu.php:103",
             "includes/Admin/Screen/DisplaySetsPage.php:243",
             "includes/Data/PostType.php:174",
             "includes/Data/TrainerType.php:92",
@@ -3043,8 +3129,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Menu.php:122",
-            "includes/Admin/Menu.php:123",
+            "includes/Admin/Menu.php:131",
+            "includes/Admin/Menu.php:132",
             "includes/Admin/Screen/UnmatchedPage.php:114"
         ]
     },
@@ -3062,8 +3148,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:225",
-            "includes/Render/Fields.php:226",
+            "includes/Render/Fields.php:231",
+            "includes/Render/Fields.php:232",
             "templates/single-course.php:90"
         ]
     },
@@ -3100,6 +3186,14 @@
         ]
     },
     {
+        "singular": "View kind of course",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Data/KindType.php:61"
+        ]
+    },
+    {
         "singular": "View trainer",
         "plural": null,
         "context": null,
@@ -3128,7 +3222,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:82"
+            "includes/Render/Fields.php:88"
         ]
     },
     {
@@ -3152,7 +3246,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:281"
+            "includes/Render/Fields.php:287"
         ]
     },
     {
@@ -3281,7 +3375,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:163"
+            "includes/Render/Fields.php:169"
         ]
     },
     {
@@ -3289,7 +3383,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:136"
+            "includes/Render/Fields.php:142"
         ]
     },
     {
@@ -3297,8 +3391,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:216",
-            "includes/Render/Fields.php:217",
+            "includes/Render/Fields.php:222",
+            "includes/Render/Fields.php:223",
             "templates/single-course.php:67"
         ]
     },
@@ -3418,8 +3512,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Menu.php:73",
             "includes/Admin/Menu.php:74",
+            "includes/Admin/Menu.php:75",
             "includes/Divi/ModuleFolder.php:58"
         ]
     },

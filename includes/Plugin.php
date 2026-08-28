@@ -34,6 +34,8 @@ use CSCS\Data\LessonRepository;
 use CSCS\Data\PostType;
 use CSCS\Data\RoomMap;
 use CSCS\Data\Schema;
+use CSCS\Data\KindRepository;
+use CSCS\Data\KindType;
 use CSCS\Data\TrainerRepository;
 use CSCS\Data\TrainerType;
 use CSCS\Render\Assets;
@@ -46,6 +48,7 @@ use CSCS\Render\Renderer;
 use CSCS\Render\RestPreview;
 use CSCS\Render\Shortcodes;
 use CSCS\Render\SingleCourse;
+use CSCS\Render\SingleKind;
 use CSCS\Render\SingleTrainer;
 use CSCS\Sync\Logger;
 use CSCS\Sync\Matcher;
@@ -72,7 +75,7 @@ final class Plugin {
 	/**
 	 * Raise this whenever the plugin adds or renames a URL.
 	 */
-	public const REWRITE_VERSION = 4;
+	public const REWRITE_VERSION = 5;
 
 	/**
 	 * Singleton instance.
@@ -143,6 +146,7 @@ final class Plugin {
 		add_action( 'init', array( $this, 'load_translations' ), 5 );
 		add_action( 'init', array( PostType::class, 'register' ) );
 		add_action( 'init', array( TrainerType::class, 'register' ) );
+		add_action( 'init', array( KindType::class, 'register' ) );
 
 		if ( is_admin() ) {
 			( new Menu( $this ) )->register();
@@ -156,6 +160,7 @@ final class Plugin {
 		( new FieldBlocks( $this ) )->register();
 		( new SingleCourse( $this ) )->register();
 		( new SingleTrainer( $this ) )->register();
+		( new SingleKind( $this ) )->register();
 		( new RestPreview( $this ) )->register();
 		( new DisplayModule( $this ) )->register();
 		( new FieldModules( $this ) )->register();
@@ -311,6 +316,15 @@ final class Plugin {
 	}
 
 	/**
+	 * Returns the repository of the pages written about kinds of course.
+	 *
+	 * @return KindRepository
+	 */
+	public function kinds(): KindRepository {
+		return $this->service( 'kinds', static fn(): KindRepository => new KindRepository() );
+	}
+
+	/**
 	 * Returns the renderer.
 	 *
 	 * @return Renderer
@@ -431,6 +445,7 @@ final class Plugin {
 		Capabilities::install();
 		PostType::register();
 		TrainerType::register();
+		KindType::register();
 		self::instance()->scheduler()->schedule();
 		flush_rewrite_rules();
 	}
