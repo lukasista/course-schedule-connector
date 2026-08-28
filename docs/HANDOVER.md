@@ -19,6 +19,8 @@ Poslední commity:
 
 | commit | co přinesl |
 |---|---|
+| `eaaaaa6` | Popis z iSportu jako vlastní blok i modul; stránka kurzu ho doplní |
+| `e90d138` | druh se čte z názvu aktivity, kde se liší od názvu kurzu |
 | `39cc66d` | druh kurzu jako taxonomie — karta se postaví zaškrtnutím druhu |
 | `8407a63` | skupiny kurzů pod jedním jménem (ruční výběr + filtry), věk kurzu |
 | `29fadad` | pohlaví a úroveň kurzu — čtení z názvu, ruční přepis, překlady s kontextem |
