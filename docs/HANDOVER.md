@@ -19,6 +19,7 @@ Poslední commity:
 
 | commit | co přinesl |
 |---|---|
+| `36ad88f` | sloupce Den a Čas od–do; stylopis se dostane i do Theme Builderu |
 | `a7b9d1d` | sekce iSport, ikony modulů, nastavení vzhledu tabulky |
 | `1b74a31` | builder ukazuje design už při návrhu (`elementType` + order class) |
 | `e1a9df2` | modul Fotografie se chová jako obrázek |
