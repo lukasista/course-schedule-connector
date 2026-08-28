@@ -42,6 +42,13 @@ repozitáře.
 
 ## 2. Co přibylo naposledy
 
+### Popis z iSportu
+`course-text` (*Popis kurzu*) ukazuje **text z editoru** a ten je na webu
+prázdný u všech 113 kurzů; `_cscs_api_description` má naopak 111 kurzů a nikde
+se nezobrazoval. Přibyl proto samostatný blok i modul **Popis z iSportu**
+(`course-api`) a výchozí stránka kurzu vypíše popis z iSportu, když v editoru
+nic není. Text z iSportu je HTML a začíná zbytečným `<br>` — ten se ořezává.
+
 ### Druh kurzu
 `CSCS\Data\CourseKind` čte z názvu **druh kurzu** a synchronizace pod něj kurz
 zařadí do nové taxonomie `cscs_kind` (*Druhy kurzů*). Karta se pak postaví

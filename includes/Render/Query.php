@@ -635,6 +635,7 @@ final class Query {
 			'permalink'   => (string) get_permalink( $post ),
 			'excerpt'     => $post->post_excerpt,
 			'activity'    => (string) $read( '_cscs_activity_name' ),
+			'api_description' => (string) $read( '_cscs_api_description' ),
 			'trainer'     => (string) $read( '_cscs_trainer_name' ),
 			'rooms'       => wp_get_object_terms( $post->ID, PostType::ROOM, array( 'fields' => 'names' ) ),
 			'price'       => '' === $read( '_cscs_price' ) ? null : (string) $read( '_cscs_price' ),

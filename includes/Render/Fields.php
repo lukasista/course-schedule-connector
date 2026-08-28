@@ -200,6 +200,15 @@ final class Fields {
 				'description' => __( 'The words written on the course in WordPress.', 'course-schedule-connector' ),
 				'heading'     => false,
 			),
+			'api'     => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Description from iSport', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'media-document',
+				'moduleIcon'  => 'divi/module-sidebar',
+				'description' => __( 'The description the booking system holds for the course, which is a different text from the one written in WordPress.', 'course-schedule-connector' ),
+				'heading'     => false,
+			),
 			'contact' => array(
 				'kind'        => self::HTML,
 				'title'       => __( 'Who to ask', 'course-schedule-connector' ),
@@ -470,6 +479,9 @@ final class Fields {
 
 			case 'text':
 				return array( 'html' => self::written_text( $post ) );
+
+			case 'api':
+				return array( 'html' => $detail->api_description() );
 
 			case 'contact':
 				return array( 'html' => self::contact( $detail ) );

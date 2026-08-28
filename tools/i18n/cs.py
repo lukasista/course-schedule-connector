@@ -304,6 +304,7 @@ CS = {
 "That class is no longer stored.": "Tahle lekce už uložená není.",
 "The ages the course is for. Read from the course name, and can be set by hand on the course.": "Věk, pro který je kurz určen. Čte se z názvu kurzu a u kurzu se dá přepsat ručně.",
 "The course could not be created.": "Kurz se nepodařilo založit.",
+"The description the booking system holds for the course, which is a different text from the one written in WordPress.": "Popis, který ke kurzu drží rezervační systém — je to jiný text než ten napsaný ve WordPressu.",
 "The featured image of the course.": "Náhledový obrázek kurzu.",
 "The field could not be loaded.": "Pole se nepodařilo načíst.",
 "The first and last day of the course.": "První a poslední den kurzu.",

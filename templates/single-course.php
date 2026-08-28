@@ -37,6 +37,11 @@ $cscs_button   = $detail->button();
 		<div class="cscs-course__text">
 			<?php echo wp_kses_post( apply_filters( 'the_content', get_post_field( 'post_content', (int) $cscs_course['post_id'] ) ) ); ?>
 		</div>
+	<?php elseif ( '' !== $detail->api_description() ) : ?>
+		<?php // Nobody has written anything here, and the booking system has: a page with the description it holds beats a page with nothing on it. Anything written in WordPress wins the moment it exists. ?>
+		<div class="cscs-course__text cscs-course__text--api">
+			<?php echo wp_kses_post( $detail->api_description() ); ?>
+		</div>
 	<?php endif; ?>
 
 	<?php $cscs_facts = $detail->facts_html(); ?>

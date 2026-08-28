@@ -600,6 +600,20 @@ because merging two kinds by hand is possible where un-merging one is not. The
 hand survives every synchronisation. `wp cscs sync kinds [--dry-run]` re-files
 the catalogue and prints one line per kind.
 
+## Two descriptions
+
+A course has two texts and neither is a fallback for the other inside one
+field: `course-text` shows what was written in the WordPress editor,
+`course-api` shows what iSport holds (`_cscs_api_description`). Each is a block
+and a Divi module, so a design can place either, both or neither.
+
+The remote text is HTML — lists, line breaks — and usually opens with a stray
+`<br>`; `CourseDetail::api_description()` trims that and runs `wp_kses_post()`
+over the rest. On the plugin's own course page the editor's content wins and the
+iSport description fills in where there is none, which on this installation is
+every course: none of the 113 has a word written in WordPress and 111 have a
+description in iSport.
+
 ## Grouping courses under one name
 
 A display set answers "what should this listing show", and until now it answered

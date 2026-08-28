@@ -155,6 +155,7 @@ Ve výpisu jsou sály, které uložený rozvrh skutečně používá. Žádný s
 
 Každý kurz má vlastní stránku. Kromě textu a obrázku, které k němu doplníte, se na ní zobrazí:
 
+- **popis** – co jste ke kurzu napsal v editoru; když jste nenapsal nic, vypíše se **popis z iSportu** (dnes ho má 111 kurzů ze 113). Cokoli napsaného ve WordPressu má vždycky přednost,
 - **fakta** – cena, **den** a **čas od–do** (odvozené z lekcí, každý termín na svém řádku, aby se dvojice četla naproti sobě), **pohlaví** a **úroveň**, termín od–do, počet lekcí, sál, trenér a volná místa; údaj, který není čím vyplnit, se vynechá,
 - **jméno trenéra jako odkaz** na jeho stránku, pokud ji má,
 - **kontakt na lektora**, pokud jste ho vyplnil — u kurzů, na které se přes iSport nepřihlašuje, je to to hlavní, co návštěvník potřebuje,
@@ -227,7 +228,7 @@ Text, který napíšete do editoru, se na stránce zobrazí jako u kurzu. Synchr
 
 ## Bloky a moduly pro vlastní design
 
-Když vám výchozí stránka kurzu nebo trenéra nestačí, postavíte si vlastní. Každý údaj má svůj **blok** (Gutenberg) i **modul** (Divi 5) pod vlastním jménem: *Cena, Den, Čas, Věk, Pohlaví, Úroveň, Termín, Lekce, Sál, Trenér, Volná místa, Tlačítko přihlášení, Nejbližší lekce, Náhradní lekce, Obrázek kurzu, Popis kurzu, Na koho se obrátit, Název kurzu* — a u trenéra *Fotografie, Kvalifikace, Záliby, Zajímavost, Motto, Popis, Kurzy které trenér vede*.
+Když vám výchozí stránka kurzu nebo trenéra nestačí, postavíte si vlastní. Každý údaj má svůj **blok** (Gutenberg) i **modul** (Divi 5) pod vlastním jménem: *Cena, Den, Čas, Věk, Pohlaví, Úroveň, Termín, Lekce, Sál, Trenér, Volná místa, Tlačítko přihlášení, Nejbližší lekce, Náhradní lekce, Obrázek kurzu, Popis kurzu, Popis z iSportu, Na koho se obrátit, Název kurzu* — a u trenéra *Fotografie, Kvalifikace, Záliby, Zajímavost, Motto, Popis, Kurzy které trenér vede*.
 
 Každý z nich umí:
 
@@ -243,7 +244,7 @@ Pole, které nemá co říct, se **vynechá celé** — nadpis nad prázdným m�
 
 ### Kde moduly v Divi najdete
 
-Všechny jsou pohromadě: v seznamu modulů je jedna položka **iSport** a v ní všech dvacet šest. Stejně to dělá WooCommerce se svou sekcí *Woo Modules*. Každý modul má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe.
+Všechny jsou pohromadě: v seznamu modulů je jedna položka **iSport** a v ní všech dvacet sedm. Stejně to dělá WooCommerce se svou sekcí *Woo Modules*. Každý modul má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe.
 
 ### Tabulky
 

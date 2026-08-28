@@ -118,6 +118,27 @@ final class CourseDetail {
 	}
 
 	/**
+	 * Returns the description iSport holds for the course, as markup.
+	 *
+	 * Not the same thing as the words written in WordPress, and deliberately a
+	 * second field rather than a fallback inside the first: one is what the gym
+	 * wrote for its own website and the other is what the booking system says,
+	 * and a page should be able to show either, both or neither.
+	 *
+	 * The remote system sends HTML — lists, line breaks — usually opening with
+	 * a stray `<br>` that is nothing but a gap at the top of a page, so that is
+	 * trimmed. What survives goes through the same filter as any post content.
+	 *
+	 * @return string
+	 */
+	public function api_description(): string {
+		$description = (string) ( $this->course['api_description'] ?? '' );
+		$description = (string) preg_replace( '#^(?:\s|<br\s*/?>)+#i', '', $description );
+
+		return '' === trim( $description ) ? '' : wp_kses_post( $description );
+	}
+
+	/**
 	 * Returns the ages the course is for.
 	 *
 	 * @return string
