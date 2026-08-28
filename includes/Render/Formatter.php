@@ -144,6 +144,47 @@ final class Formatter {
 	}
 
 	/**
+	 * Renders how long a lesson lasts.
+	 *
+	 * @param int $minutes Length in minutes.
+	 * @return string
+	 */
+	public static function duration( int $minutes ): string {
+		if ( $minutes < 1 ) {
+			return '';
+		}
+
+		return sprintf(
+			/* translators: %d: how many minutes a lesson lasts. */
+			_n( '%d minute', '%d minutes', $minutes, 'course-schedule-connector' ),
+			$minutes
+		);
+	}
+
+	/**
+	 * Returns how many minutes lie between two times of day.
+	 *
+	 * @param string $from Start, `HH:MM`.
+	 * @param string $to   End, `HH:MM`.
+	 * @return int Minutes, or zero where the pair says nothing.
+	 */
+	public static function minutes_between( string $from, string $to ): int {
+		if ( 1 !== preg_match( '/^(\d{1,2}):(\d{2})/', trim( $from ), $start ) ) {
+			return 0;
+		}
+
+		if ( 1 !== preg_match( '/^(\d{1,2}):(\d{2})/', trim( $to ), $end ) ) {
+			return 0;
+		}
+
+		$minutes = ( (int) $end[1] * 60 + (int) $end[2] ) - ( (int) $start[1] * 60 + (int) $start[2] );
+
+		// A slot that ends before it starts has crossed midnight, which no
+		// lesson in this timetable does; it is a typo in the remote data.
+		return $minutes > 0 ? $minutes : 0;
+	}
+
+	/**
 	 * Renders the ages a course is for.
 	 *
 	 * Three readings, three shapes: "9 – 11", "od 10" where there is no

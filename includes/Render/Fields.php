@@ -334,6 +334,16 @@ final class Fields {
 		// it, and that is what this is. The words and the picture are the
 		// page's own, and any editor already knows how to place those.
 		$kind = array(
+			'prices'  => array(
+				'kind'        => self::LIST,
+				'title'       => __( 'Prices of this kind', 'course-schedule-connector' ),
+				'label'       => __( 'Price', 'course-schedule-connector' ),
+				'icon'        => 'tag',
+				'moduleIcon'  => 'divi/module-pricing-tables',
+				'description' => __( 'What the courses of this kind cost, one line per length of lesson — a kind with an hour and an hour and a half has two.', 'course-schedule-connector' ),
+				'heading'     => true,
+				'bullets'     => true,
+			),
 			'courses' => array(
 				'kind'        => self::HTML,
 				'title'       => __( 'Courses of this kind', 'course-schedule-connector' ),
@@ -547,11 +557,17 @@ final class Fields {
 	 * @return array<string, mixed>
 	 */
 	private static function kind_value( Plugin $plugin, string $key, \WP_Post $post ): array {
-		if ( 'courses' !== $key ) {
-			return array();
+		$detail = new KindDetail( $plugin, $post );
+
+		switch ( $key ) {
+			case 'courses':
+				return array( 'html' => self::table( $detail->course_listing() ) );
+
+			case 'prices':
+				return array( 'list' => $detail->prices() );
 		}
 
-		return array( 'html' => self::table( ( new KindDetail( $plugin, $post ) )->course_listing() ) );
+		return array();
 	}
 
 	/**
@@ -690,6 +706,7 @@ final class Fields {
 			'course'   => __( 'Course', 'course-schedule-connector' ),
 			'activity' => __( 'Activity', 'course-schedule-connector' ),
 			'days'     => __( 'Days and times', 'course-schedule-connector' ),
+			'duration' => __( 'Length', 'course-schedule-connector' ),
 			'age'      => __( 'Age', 'course-schedule-connector' ),
 			'gender'   => __( 'Gender', 'course-schedule-connector' ),
 			'level'    => __( 'Level', 'course-schedule-connector' ),

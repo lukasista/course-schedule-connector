@@ -52,6 +52,19 @@ Odshora nejnovější. Každá kapitola je psaná tak, aby stačila sama o sobě
 proč to tak je, kde to v kódu leží a co se tím na živých datech ověřilo.
 
 
+### Popis druhu a ceny podle délky
+Stránka druhu se při založení plní `KindRepository::fill_description()` —
+nejčastějším `_cscs_api_description` mezi kurzy druhu, a jen když je prázdná.
+Na živých datech to vyplnilo **23 z 25** stránek. Panel *Popis z kurzu*
+(`Admin\KindEditor`) načte popis konkrétního kurzu na kliknutí; je to odkaz
+s nonce přes `admin-post.php`, ne formulář — formulář ve formuláři blokového
+editoru je nevalidní.
+
+`KindDetail::prices()` páruje cenu s délkou první lekce
+(`Formatter::minutes_between()`) a vrací dvojice: *60 minut — 4 160 Kč*,
+*90 minut — 5 160 Kč*. Sloupec `duration` (**Délka**) je k dispozici všem
+výpisům, nejen druhu.
+
 ### Stránka druhu kurzu
 Typ příspěvku `cscs_kind_page` (**ne** `cscs_kind` — to je taxonomie, kolidovalo
 by to o query var), párovaný `Normalise::match_key_loose()` jako u trenérů.

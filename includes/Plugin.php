@@ -18,6 +18,7 @@ use CSCS\Admin\Capabilities;
 use CSCS\Admin\CourseEditor;
 use CSCS\Admin\CourseList;
 use CSCS\Admin\Menu;
+use CSCS\Admin\KindEditor;
 use CSCS\Admin\TrainerEditor;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
@@ -152,6 +153,7 @@ final class Plugin {
 			( new Menu( $this ) )->register();
 			( new CourseEditor( $this ) )->register();
 			( new TrainerEditor( $this ) )->register();
+			( new KindEditor( $this ) )->register();
 			( new CourseList() )->register();
 		}
 		( new Assets( $this ) )->register();

@@ -1,0 +1,70 @@
+{
+    "module": {
+        "meta": {
+            "adminLabel": {
+                "desktop": {
+                    "value": "Prices of this kind"
+                }
+            }
+        }
+    },
+    "field": {
+        "advanced": {
+            "source": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "showLabel": {
+                "desktop": {
+                    "value": "on"
+                }
+            },
+            "label": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "labelTag": {
+                "desktop": {
+                    "value": "h3"
+                }
+            },
+            "valueTag": {
+                "desktop": {
+                    "value": "div"
+                }
+            },
+            "layout": {
+                "desktop": {
+                    "value": "stack"
+                }
+            },
+            "separator": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "gap": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "emptyText": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "listStyle": {
+                "desktop": {
+                    "value": "disc"
+                }
+            },
+            "bulletStyle": {
+                "desktop": {
+                    "value": ""
+                }
+            }
+        }
+    }
+}

@@ -600,6 +600,21 @@ because merging two kinds by hand is possible where un-merging one is not. The
 hand survives every synchronisation. `wp cscs sync kinds [--dry-run]` re-files
 the catalogue and prints one line per kind.
 
+## What a kind costs, and what it says
+
+`KindRepository::prevailing_description()` counts the identical
+`_cscs_api_description` values among a kind's courses and answers with the most
+common one; `fill_description()` writes it only onto a page whose content is
+empty, and `wp cscs sync kinds` calls it for every page after filing. `Admin\KindEditor`
+adds the panel that fetches one course's description on demand — a link with a
+nonce through `admin-post.php`, not a form, because a form inside the block
+editor's own form is invalid markup.
+
+`KindDetail::prices()` pairs each course's price with the length of its first
+class (`Formatter::minutes_between()`), keeps the distinct pairs and words them
+through `Formatter::duration()`. The `duration` column does the same per row and
+is offered to every course listing, not only a kind's.
+
 ## A kind's own page
 
 `CSCS\Data\KindType` registers `cscs_kind_page` — not `cscs_kind`, which is the

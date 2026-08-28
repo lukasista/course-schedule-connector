@@ -411,6 +411,9 @@ final class Listing {
 			case 'time':
 				return Formatter::time_range( (string) ( $row['time_from'] ?? '' ), (string) ( $row['time_to'] ?? '' ) );
 
+			case 'duration':
+				return $this->duration( (int) ( $row['course_id'] ?? 0 ) );
+
 			case 'age':
 				return Formatter::age_range(
 					(string) ( $row['age_from'] ?? '' ),
@@ -529,6 +532,31 @@ final class Listing {
 		}
 
 		return implode( "\n", $hours );
+	}
+
+	/**
+	 * Returns how long one class of this course lasts.
+	 *
+	 * The first slot answers for the course: a course that meets twice a week
+	 * meets for the same length both times, and where it does not, the first
+	 * one is the one at the top of the timetable beside it.
+	 *
+	 * @param int $course_id Course id.
+	 * @return string
+	 */
+	private function duration( int $course_id ): string {
+		foreach ( $this->times[ $course_id ] ?? array() as $slot ) {
+			$minutes = Formatter::minutes_between(
+				(string) ( $slot['from'] ?? '' ),
+				(string) ( $slot['to'] ?? '' )
+			);
+
+			if ( 0 !== $minutes ) {
+				return Formatter::duration( $minutes );
+			}
+		}
+
+		return '';
 	}
 
 	/**

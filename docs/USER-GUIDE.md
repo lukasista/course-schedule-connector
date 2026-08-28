@@ -183,7 +183,19 @@ aktivita — je to její jméno, které říká, kam kurz patří. Takových kur
 (*Gymnastika 4-6 let dívky pokročilé* × *Jojo přípravka 4-6 let dívky
 pokročilé*) a patří k Jojo přípravce, přesně jako na dosavadním webu.
 
-Každý druh má navíc **vlastní stránku** — *iSport → Druhy kurzů*. Je to běžný
+Stránka druhu se při založení rovnou vyplní **popisem, který sdílí nejvíc kurzů
+toho druhu** — máte tedy co ukazovat, aniž byste psal 25 textů. Pak už do ní
+synchronizace nikdy nesáhne. Když chcete jiný, v editaci stránky je panel
+**Popis z kurzu**: vyberete kurz, kliknete na *Načíst popis* a text se přepíše
+(vlastní znění si napřed uložte, vrátit to odtud nejde).
+
+Cena druhu není jedno číslo — hodinová a půldruhahodinová lekce stojí jinak.
+Blok i modul **Ceny tohoto druhu** proto vypíšou každou dvojici, která se
+u druhu vyskytuje: *60 minut — 4 160 Kč*, *90 minut — 5 160 Kč*. V tabulce
+kurzů daného druhu jsou navíc sloupce **Délka** a **Cena**, aby bylo u každého
+termínu vidět, co platí právě pro něj.
+
+Každý druh má **vlastní stránku** — *iSport → Druhy kurzů*. Je to běžný
 příspěvek: napíšete text, dáte náhledový obrázek, výpisek i SEO, adresa je
 `/druh/gymnastika/`. Stránky vznikají samy, jakmile je pod druh zařazen první
 kurz, a synchronizace do nich nikdy nesahá. Pod tím, co napíšete, se vypíše

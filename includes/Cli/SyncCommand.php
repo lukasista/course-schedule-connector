@@ -12,6 +12,7 @@ namespace CSCS\Cli;
 use CSCS\Api\ApiException;
 use CSCS\Data\Audience;
 use CSCS\Data\CourseKind;
+use CSCS\Data\KindType;
 use CSCS\Data\CourseRepository;
 use CSCS\Data\PostType;
 use CSCS\Plugin;
@@ -406,6 +407,24 @@ final class SyncCommand {
 			++$groups[ $label ];
 		}
 
+		$described = 0;
+
+		if ( ! $dry ) {
+			foreach ( get_posts(
+				array(
+					'post_type'        => KindType::KIND,
+					'post_status'      => 'any',
+					'numberposts'      => -1,
+					'fields'           => 'ids',
+					'suppress_filters' => false,
+				)
+			) as $page_id ) {
+				if ( $this->plugin->kinds()->fill_description( (int) $page_id ) ) {
+					++$described;
+				}
+			}
+		}
+
 		ksort( $groups );
 
 		// One line per kind rather than per course: the question this answers
@@ -417,12 +436,13 @@ final class SyncCommand {
 
 		\WP_CLI::success(
 			sprintf(
-				'%d courses in %d kinds: %d read from a name, %d left to a name that says nothing, %d kept as somebody set them (marked *).%s',
+				'%d courses in %d kinds: %d read from a name, %d left to a name that says nothing, %d kept as somebody set them (marked *). %d pages given the description their courses share.%s',
 				count( $posts ),
 				count( $groups ),
 				$read,
 				$nothing,
 				$kept,
+				$described,
 				$dry ? ' Nothing was written.' : ''
 			)
 		);

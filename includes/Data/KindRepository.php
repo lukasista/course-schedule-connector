@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Data;
 
+use CSCS\Support\Markup;
 use CSCS\Support\Normalise;
 
 defined( 'ABSPATH' ) || exit;
@@ -104,6 +105,101 @@ final class KindRepository {
 		update_post_meta( (int) $post_id, KindType::META_KEY_NAME, self::key( $name ) );
 
 		return (int) $post_id;
+	}
+
+	/**
+	 * Returns the description most of a kind's courses share.
+	 *
+	 * Every course of a kind carries the same paragraph often enough that the
+	 * kind's page can start from it — but not always: eleven of this gym's
+	 * twenty-five kinds hold more than one wording, and Gymnastika holds five
+	 * across twenty-two courses. So the answer is the one the most courses
+	 * agree on, which for Gymnastika is the text eighteen of them share, and a
+	 * person can replace it with any single course's afterwards.
+	 *
+	 * @param int $post_id Kind page id.
+	 * @return string Markup, or an empty string where no course says anything.
+	 */
+	public function prevailing_description( int $post_id ): string {
+		$counts = array();
+		$texts  = array();
+
+		foreach ( $this->courses( $post_id ) as $course_id ) {
+			$text = trim( (string) get_post_meta( $course_id, '_cscs_api_description', true ) );
+
+			if ( '' === $text ) {
+				continue;
+			}
+
+			$key = md5( $text );
+
+			$counts[ $key ] = ( $counts[ $key ] ?? 0 ) + 1;
+			$texts[ $key ]  = $text;
+		}
+
+		if ( array() === $counts ) {
+			return '';
+		}
+
+		arsort( $counts );
+
+		return (string) $texts[ (string) array_key_first( $counts ) ];
+	}
+
+	/**
+	 * Writes a description onto a kind's page where it has none.
+	 *
+	 * Only where it has none. A page somebody has written on is a page nobody
+	 * asked this to touch, and the whole point of a page beside the term is
+	 * that what is written on it stays written.
+	 *
+	 * @param int $post_id Kind page id.
+	 * @return bool Whether anything was written.
+	 */
+	public function fill_description( int $post_id ): bool {
+		if ( '' !== trim( (string) get_post_field( 'post_content', $post_id ) ) ) {
+			return false;
+		}
+
+		$description = $this->prevailing_description( $post_id );
+
+		if ( '' === $description ) {
+			return false;
+		}
+
+		return $this->write_description( $post_id, $description );
+	}
+
+	/**
+	 * Writes a description onto a kind's page, whatever is there.
+	 *
+	 * For the button on the editing screen: somebody asked for this text, in so
+	 * many words, and was told what it would replace.
+	 *
+	 * @param int    $post_id     Kind page id.
+	 * @param string $description Markup.
+	 * @return bool Whether anything was written.
+	 */
+	public function write_description( int $post_id, string $description ): bool {
+		$description = trim( (string) preg_replace( '#^(?:\s|<br\s*/?>)+#i', '', $description ) );
+
+		if ( '' === $description ) {
+			return false;
+		}
+
+		// The remote editor nests lists inside lists; a page that keeps that
+		// would show two levels of bullets in whatever renders it next.
+		$description = Markup::flatten_lists( $description );
+
+		$written = wp_update_post(
+			array(
+				'ID'           => $post_id,
+				'post_content' => wp_kses_post( $description ),
+			),
+			true
+		);
+
+		return ! $written instanceof \WP_Error;
 	}
 
 	/**

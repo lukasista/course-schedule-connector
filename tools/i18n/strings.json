@@ -8,6 +8,14 @@
         ]
     },
     {
+        "singular": "%1$s — %2$s",
+        "plural": null,
+        "context": "a length of lesson and what it costs",
+        "refs": [
+            "includes/Render/KindDetail.php:207"
+        ]
+    },
+    {
         "singular": "%d class assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone.",
         "plural": "%d classes assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone.",
         "context": null,
@@ -21,6 +29,14 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/MakeupPage.php:420"
+        ]
+    },
+    {
+        "singular": "%d minute",
+        "plural": "%d minutes",
+        "context": null,
+        "refs": [
+            "includes/Render/Formatter.php:159"
         ]
     },
     {
@@ -235,7 +251,7 @@
             "includes/Admin/Screen/MakeupPage.php:130",
             "includes/Admin/Screen/UnmatchedPage.php:165",
             "includes/Data/PostType.php:179",
-            "includes/Render/Fields.php:691"
+            "includes/Render/Fields.php:707"
         ]
     },
     {
@@ -312,7 +328,7 @@
             "includes/Render/CourseDetail.php:105",
             "includes/Render/Fields.php:129",
             "includes/Render/Fields.php:130",
-            "includes/Render/Fields.php:693"
+            "includes/Render/Fields.php:710"
         ]
     },
     {
@@ -524,7 +540,7 @@
         "refs": [
             "includes/Admin/CourseEditor.php:192",
             "includes/Admin/CourseList.php:55",
-            "includes/Render/Fields.php:707"
+            "includes/Render/Fields.php:724"
         ]
     },
     {
@@ -597,8 +613,8 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/Overview.php:225",
-            "includes/Render/Fields.php:706",
-            "includes/Render/Listing.php:451"
+            "includes/Render/Fields.php:723",
+            "includes/Render/Listing.php:454"
         ]
     },
     {
@@ -757,8 +773,8 @@
         "context": null,
         "refs": [
             "includes/Data/PostType.php:71",
-            "includes/Render/Fields.php:689",
-            "includes/Render/Fields.php:690"
+            "includes/Render/Fields.php:705",
+            "includes/Render/Fields.php:706"
         ]
     },
     {
@@ -867,6 +883,14 @@
         ]
     },
     {
+        "singular": "Course to take the description from",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:135"
+        ]
+    },
+    {
         "singular": "Courses",
         "plural": null,
         "context": null,
@@ -892,8 +916,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:339",
-            "includes/Render/Fields.php:340"
+            "includes/Render/Fields.php:349",
+            "includes/Render/Fields.php:350"
         ]
     },
     {
@@ -946,7 +970,7 @@
         "refs": [
             "includes/Admin/Screen/MakeupPage.php:128",
             "includes/Admin/Screen/UnmatchedPage.php:163",
-            "includes/Render/Fields.php:698"
+            "includes/Render/Fields.php:715"
         ]
     },
     {
@@ -955,7 +979,7 @@
         "context": null,
         "refs": [
             "includes/Render/CourseDetail.php:101",
-            "includes/Render/Fields.php:696",
+            "includes/Render/Fields.php:713",
             "includes/Render/Fields.php:93",
             "includes/Render/Fields.php:94"
         ]
@@ -965,7 +989,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:692"
+            "includes/Render/Fields.php:708"
         ]
     },
     {
@@ -1022,6 +1046,14 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:321"
+        ]
+    },
+    {
+        "singular": "Description from a course",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:71"
         ]
     },
     {
@@ -1136,7 +1168,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:344"
+            "includes/Render/Fields.php:354"
         ]
     },
     {
@@ -1161,6 +1193,14 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/UnmatchedPage.php:153"
+        ]
+    },
+    {
+        "singular": "Fetch the description",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:145"
         ]
     },
     {
@@ -1236,8 +1276,9 @@
             "includes/Admin/CourseEditor.php:457",
             "includes/Admin/Screen/SettingsPage.php:118",
             "includes/Render/CourseDetail.php:495",
-            "includes/Render/Listing.php:560",
-            "includes/Render/Listing.php:564"
+            "includes/Render/KindDetail.php:196",
+            "includes/Render/Listing.php:588",
+            "includes/Render/Listing.php:592"
         ]
     },
     {
@@ -1283,7 +1324,7 @@
             "includes/Render/CourseDetail.php:106",
             "includes/Render/Fields.php:138",
             "includes/Render/Fields.php:139",
-            "includes/Render/Fields.php:694"
+            "includes/Render/Fields.php:711"
         ]
     },
     {
@@ -1554,6 +1595,14 @@
         ]
     },
     {
+        "singular": "Length",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Render/Fields.php:709"
+        ]
+    },
+    {
         "singular": "Level",
         "plural": null,
         "context": null,
@@ -1563,7 +1612,7 @@
             "includes/Render/CourseDetail.php:107",
             "includes/Render/Fields.php:147",
             "includes/Render/Fields.php:148",
-            "includes/Render/Fields.php:695"
+            "includes/Render/Fields.php:712"
         ]
     },
     {
@@ -1741,6 +1790,14 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/Overview.php:126"
+        ]
+    },
+    {
+        "singular": "No course is filed under this kind yet, so there is no description to fetch.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:116"
         ]
     },
     {
@@ -1977,7 +2034,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:703"
+            "includes/Render/Fields.php:720"
         ]
     },
     {
@@ -2011,7 +2068,7 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/SettingsPage.php:117",
-            "includes/Render/Listing.php:565"
+            "includes/Render/Listing.php:593"
         ]
     },
     {
@@ -2138,7 +2195,7 @@
             "includes/Render/CourseDetail.php:110",
             "includes/Render/Fields.php:174",
             "includes/Render/Fields.php:175",
-            "includes/Render/Fields.php:705"
+            "includes/Render/Fields.php:722"
         ]
     },
     {
@@ -2150,9 +2207,18 @@
             "includes/Admin/CourseEditor.php:429",
             "includes/Admin/Screen/DisplaySetsPage.php:590",
             "includes/Render/CourseDetail.php:100",
-            "includes/Render/Fields.php:704",
+            "includes/Render/Fields.php:340",
+            "includes/Render/Fields.php:721",
             "includes/Render/Fields.php:84",
             "includes/Render/Fields.php:85"
+        ]
+    },
+    {
+        "singular": "Prices of this kind",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Render/Fields.php:339"
         ]
     },
     {
@@ -2224,6 +2290,14 @@
         ]
     },
     {
+        "singular": "Replaces everything written in the editor with the description iSport holds for that course. Save any wording of your own first — this cannot be undone from here.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:149"
+        ]
+    },
+    {
         "singular": "Request timeout (seconds)",
         "plural": null,
         "context": null,
@@ -2284,7 +2358,7 @@
             "includes/Render/CourseDetail.php:108",
             "includes/Render/Fields.php:156",
             "includes/Render/Fields.php:157",
-            "includes/Render/Fields.php:700",
+            "includes/Render/Fields.php:717",
             "templates/partials/controls.php:54"
         ]
     },
@@ -2340,7 +2414,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:702"
+            "includes/Render/Fields.php:719"
         ]
     },
     {
@@ -3034,7 +3108,7 @@
             "includes/Render/CourseDetail.php:102",
             "includes/Render/Fields.php:102",
             "includes/Render/Fields.php:103",
-            "includes/Render/Fields.php:699"
+            "includes/Render/Fields.php:716"
         ]
     },
     {
@@ -3042,7 +3116,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:697"
+            "includes/Render/Fields.php:714"
         ]
     },
     {
@@ -3075,7 +3149,7 @@
             "includes/Render/CourseDetail.php:194",
             "includes/Render/Fields.php:165",
             "includes/Render/Fields.php:166",
-            "includes/Render/Fields.php:701",
+            "includes/Render/Fields.php:718",
             "includes/Render/TrainerDetail.php:242"
         ]
     },
@@ -3223,6 +3297,14 @@
         "context": null,
         "refs": [
             "includes/Render/Fields.php:88"
+        ]
+    },
+    {
+        "singular": "What the courses of this kind cost, one line per length of lesson — a kind with an hour and an hour and a half has two.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Render/Fields.php:343"
         ]
     },
     {
@@ -3454,6 +3536,14 @@
         ]
     },
     {
+        "singular": "You are not allowed to do that.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:165"
+        ]
+    },
+    {
         "singular": "You are not allowed to run that.",
         "plural": null,
         "context": null,
@@ -3504,7 +3594,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Formatter.php:169"
+            "includes/Render/Formatter.php:210"
         ]
     },
     {
@@ -3586,7 +3676,7 @@
         "plural": "last %d places",
         "context": null,
         "refs": [
-            "includes/Render/Listing.php:585"
+            "includes/Render/Listing.php:613"
         ]
     },
     {
@@ -3692,6 +3782,14 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/MakeupPage.php:247"
+        ]
+    },
+    {
+        "singular": "— the one most courses share —",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:137"
         ]
     },
     {
