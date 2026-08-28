@@ -21,6 +21,7 @@ Poslední commity:
 
 | commit | co přinesl |
 |---|---|
+| `b90e32e` | popis druhu z kurzů, ceny podle délky lekce, sloupec Délka |
 | `bcbb77f` | druh kurzu má vlastní stránku a modul s rozvrhem svých kurzů |
 | `41249c4` | jedna úroveň odrážek a jejich nastavení; panely bloku do karty Styly |
 | `eaaaaa6` | Popis z iSportu jako vlastní blok i modul; stránka kurzu ho doplní |
