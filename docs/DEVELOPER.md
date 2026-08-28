@@ -581,6 +581,14 @@ dash or comma the cut left behind. Cutting at the first space instead — the
 obvious shortcut — puts *Gymnastika pro radost* on the *Gymnastika* card, which
 is two different courses under one heading.
 
+A course has two names and the activity is asked first: iSport sends
+`activity_name` beside the course's own, documented as "may be an alternative
+name", and where the two differ it is the activity that says which group the
+course belongs to. Course 25 is called *Gymnastika 4-6 let dívky pokročilé* and
+its activity is *Jojo přípravka 4-6 let dívky pokročilé*; the old website
+publishes it under Jojo přípravka. Fourteen of the 113 live courses have names
+that differ at all, and all but that one differ by a stray space.
+
 The vocabularies are `Audience`'s own, so a gym that words "girls" differently
 teaches both readers at once; `cscs_course_kind_patterns` filters the whole list
 of cut markers. Nothing is guessed beyond the cut: *Gymnastika pro dospělé* is

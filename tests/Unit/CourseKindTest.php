@@ -82,6 +82,35 @@ final class CourseKindTest extends TestCase {
 	}
 
 	/**
+	 * A course has two names, and where they differ it is the activity that
+	 * says which card the course belongs on.
+	 *
+	 * Course 25 is called "Gymnastika 4-6 let dívky pokročilé" and its activity
+	 * is "Jojo přípravka 4-6 let dívky pokročilé". The website this replaces
+	 * publishes it under Jojo přípravka, and reading its own name instead put
+	 * it on the Gymnastika card, one row that did not belong there.
+	 *
+	 * @return void
+	 */
+	public function test_the_activity_name_decides_where_the_two_names_disagree(): void {
+		$this->assertSame(
+			'Jojo přípravka',
+			CourseKind::read_for( '25-Jojo přípravka 4-6 let dívky pokročilé I. pololetí', '25-Gymnastika 4-6 let dívky pokročilé I. pololetí' )
+		);
+	}
+
+	/**
+	 * With no activity name the course's own name answers, which is the case
+	 * for the great majority of them.
+	 *
+	 * @return void
+	 */
+	public function test_the_course_name_answers_when_there_is_no_activity(): void {
+		$this->assertSame( 'Parkour', CourseKind::read_for( '', '66-Parkour 12-15 let I. pololetí' ) );
+		$this->assertSame( 'Parkour', CourseKind::read_for( '   ', '66-Parkour 12-15 let I. pololetí' ) );
+	}
+
+	/**
 	 * Every course of one kind must read as the same kind, or the card breaks
 	 * into two with the same name on both.
 	 *

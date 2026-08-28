@@ -251,6 +251,10 @@ final class CourseRepository {
 	 * display set filters by, what the courses list can be sorted by and what
 	 * somebody can rename in one place for every course under it.
 	 *
+	 * Read from the activity name where iSport sends one that differs from the
+	 * course's own — see {@see CourseKind::read_for()} — because that is the
+	 * name that says which group a course belongs to.
+	 *
 	 * Locked like anything else a person may have corrected: tick *Kind of
 	 * course* on the course and the reading stops touching it, which is how two
 	 * kinds get merged into one where the names disagree.
@@ -264,7 +268,10 @@ final class CourseRepository {
 			return;
 		}
 
-		$kind = CourseKind::read( (string) get_post_field( 'post_title', $post_id ) );
+		$kind = CourseKind::read_for(
+			(string) get_post_meta( $post_id, '_cscs_activity_name', true ),
+			(string) get_post_field( 'post_title', $post_id )
+		);
 
 		wp_set_object_terms( $post_id, '' === $kind ? array() : array( $kind ), PostType::KIND );
 	}

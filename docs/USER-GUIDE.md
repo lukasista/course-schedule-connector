@@ -176,6 +176,12 @@ pololetí, takže víceslovný název zůstane celý. Na dnešní nabídce z toh
 25 druhů, což je přesně 25 karet, které web publikuje: Gymnastika (23 kurzů),
 Jojo přípravka (15), Lezení (12), Parkour (12), Gymnastika pro radost (7)…
 
+Když iSport u kurzu pošle **jiný název aktivity** než název kurzu, rozhoduje
+aktivita — je to její jméno, které říká, kam kurz patří. Takových kurzů je dnes
+čtrnáct a u třinácti jde jen o mezeru navíc; u kurzu 25 se ale liší doopravdy
+(*Gymnastika 4-6 let dívky pokročilé* × *Jojo přípravka 4-6 let dívky
+pokročilé*) a patří k Jojo přípravce, přesně jako na dosavadním webu.
+
 Druhy najdete pod **iSport → Druhy kurzů**. Přejmenování druhu se propíše všem
 kurzům pod ním. Když je čtení u nějakého kurzu vedle — nebo když chcete dva
 druhy sloučit do jednoho — přepište u kurzu druh ručně a v panelu *Pole, kterých

@@ -50,6 +50,12 @@ zaškrtnutím druhu v sadě — ruční seznamy zůstávají jen jako záchrann�
 Proč ne `cscs_activity`: iSport posílá jako `activity_name` **celý název kurzu**,
 takže by to byl jeden term na kurz. (V téhle instalaci ji stejně nikdo neplní.)
 
+Kurz má **dvě jména** a rozhoduje `activity_name`, když se liší od názvu:
+kurz 25 se jmenuje *Gymnastika 4-6 let dívky pokročilé*, ale aktivitu má
+*Jojo přípravka…* a na starém webu je pod Jojo přípravkou. Takových je 14, ale
+13 z nich se liší jen mezerou. Bez toho pravidla měla karta Gymnastika dívky 19
+řádků místo 18 — a ten devatenáctý tam nepatřil.
+
 Druh končí tam, kde začíná věk, pohlaví, úroveň nebo pololetí — tedy **ne u
 první mezery**; to byla chyba prvního pokusu, kvůli které se „Gymnastika pro
 radost“ dostala do „Gymnastiky“. Slovníky jsou `Audience`ovy, filtr

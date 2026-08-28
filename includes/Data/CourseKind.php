@@ -45,6 +45,28 @@ defined( 'ABSPATH' ) || exit;
 final class CourseKind {
 
 	/**
+	 * Reads the kind out of the name that says which activity this is.
+	 *
+	 * A course has two names. iSport sends `activity_name` beside the course's
+	 * own, documented as "may be an alternative name", and where the two differ
+	 * it is the activity that says which group the course belongs to: course 25
+	 * is called "Gymnastika 4-6 let dívky pokročilé" and its activity is
+	 * "Jojo přípravka 4-6 let dívky pokročilé", and the website it replaces
+	 * publishes it on the Jojo přípravka card, not the Gymnastika one.
+	 *
+	 * So the activity is asked first and the course's own name is the fallback,
+	 * which is what the great majority of courses have anyway — for them the
+	 * two names are the same string.
+	 *
+	 * @param string $activity_name Activity name from the API, if any.
+	 * @param string $title         Course name.
+	 * @return string
+	 */
+	public static function read_for( string $activity_name, string $title ): string {
+		return self::read( '' !== trim( $activity_name ) ? $activity_name : $title );
+	}
+
+	/**
 	 * Reads the kind out of a course's name.
 	 *
 	 * @param string $name Course name.

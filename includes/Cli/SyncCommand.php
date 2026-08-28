@@ -372,7 +372,10 @@ final class SyncCommand {
 			$post_id = (int) $post_id;
 			$title   = (string) get_post_field( 'post_title', $post_id );
 			$locked  = in_array( PostType::KIND, $this->plugin->courses()->locked_fields( $post_id ), true );
-			$kind    = CourseKind::read( $title );
+			$kind    = CourseKind::read_for(
+				(string) get_post_meta( $post_id, '_cscs_activity_name', true ),
+				$title
+			);
 
 			if ( $locked ) {
 				++$kept;
