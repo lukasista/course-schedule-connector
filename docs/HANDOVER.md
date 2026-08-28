@@ -19,6 +19,7 @@ Poslední commity:
 
 | commit | co přinesl |
 |---|---|
+| `a7b9d1d` | sekce iSport, ikony modulů, nastavení vzhledu tabulky |
 | `1b74a31` | builder ukazuje design už při návrhu (`elementType` + order class) |
 | `e1a9df2` | modul Fotografie se chová jako obrázek |
 | `838aeca` | prázdné pole mizí ze stránky i s obalem |
