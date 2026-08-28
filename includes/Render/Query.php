@@ -485,6 +485,8 @@ final class Query {
 			'date_from'   => (string) $read( '_cscs_date_from' ),
 			'date_to'     => (string) $read( '_cscs_date_to' ),
 			'lessons'     => (int) $read( '_cscs_number_lessons' ),
+			'gender'      => (string) $read( CourseRepository::META_GENDER ),
+			'level'       => (string) $read( CourseRepository::META_LEVEL ),
 			'capacity'    => (int) $read( '_cscs_capacity' ),
 			'available'   => (int) $read( '_cscs_available' ),
 			'url'         => (string) $read( '_cscs_course_url' ),

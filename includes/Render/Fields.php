@@ -118,6 +118,24 @@ final class Fields {
 				'description' => __( 'How many classes the course has.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
+			'gender'  => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Gender', 'course-schedule-connector' ),
+				'label'       => __( 'Gender', 'course-schedule-connector' ),
+				'icon'        => 'groups',
+				'moduleIcon'  => 'divi/module-toggle',
+				'description' => __( 'Who the course is for — girls, boys, mixed, women, men. Read from the course name, and can be set by hand on the course.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
+			'level'   => array(
+				'kind'        => self::TEXT,
+				'title'       => __( 'Level', 'course-schedule-connector' ),
+				'label'       => __( 'Level', 'course-schedule-connector' ),
+				'icon'        => 'chart-bar',
+				'moduleIcon'  => 'divi/module-bar-counters',
+				'description' => __( 'Beginners, improvers, advanced, competitive training. Worded for the group the course is for, so a course for girls reads differently from a mixed one.', 'course-schedule-connector' ),
+				'heading'     => true,
+			),
 			'room'    => array(
 				'kind'        => self::TEXT,
 				'title'       => __( 'Room', 'course-schedule-connector' ),
@@ -402,6 +420,12 @@ final class Fields {
 			case 'lessons':
 				return array( 'text' => $detail->lessons() );
 
+			case 'gender':
+				return array( 'text' => $detail->gender() );
+
+			case 'level':
+				return array( 'text' => $detail->level() );
+
 			case 'room':
 				return array( 'text' => $detail->rooms() );
 
@@ -584,6 +608,8 @@ final class Fields {
 			'course'   => __( 'Course', 'course-schedule-connector' ),
 			'activity' => __( 'Activity', 'course-schedule-connector' ),
 			'days'     => __( 'Days and times', 'course-schedule-connector' ),
+			'gender'   => __( 'Gender', 'course-schedule-connector' ),
+			'level'    => __( 'Level', 'course-schedule-connector' ),
 			'day'      => __( 'Day', 'course-schedule-connector' ),
 			'hours'    => __( 'Time from and to', 'course-schedule-connector' ),
 			'date'     => __( 'Date', 'course-schedule-connector' ),

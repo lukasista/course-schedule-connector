@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+use CSCS\Data\Audience;
 use CSCS\Data\CourseRepository;
 use CSCS\Data\DisplaySet;
 use CSCS\Data\TrainerRepository;
@@ -100,6 +101,8 @@ final class CourseDetail {
 			__( 'Time', 'course-schedule-connector' )    => $this->meeting_hours(),
 			__( 'Runs', 'course-schedule-connector' )    => $this->period(),
 			__( 'Classes', 'course-schedule-connector' ) => $this->lessons(),
+			__( 'Gender', 'course-schedule-connector' )  => $this->gender(),
+			__( 'Level', 'course-schedule-connector' )   => $this->level(),
 			__( 'Room', 'course-schedule-connector' )    => $this->rooms(),
 			__( 'Trainer', 'course-schedule-connector' ) => $this->trainer(),
 			__( 'Places left', 'course-schedule-connector' ) => $this->places(),
@@ -110,6 +113,27 @@ final class CourseDetail {
 			static function ( string $value ): bool {
 				return '' !== trim( $value );
 			}
+		);
+	}
+
+	/**
+	 * Returns who the course is for, in words.
+	 *
+	 * @return string
+	 */
+	public function gender(): string {
+		return Audience::gender_label( (string) ( $this->course['gender'] ?? '' ) );
+	}
+
+	/**
+	 * Returns the level the course is at, worded for the group it is for.
+	 *
+	 * @return string
+	 */
+	public function level(): string {
+		return Audience::level_label(
+			(string) ( $this->course['level'] ?? '' ),
+			(string) ( $this->course['gender'] ?? '' )
 		);
 	}
 

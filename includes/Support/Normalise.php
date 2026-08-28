@@ -301,6 +301,22 @@ final class Normalise {
 	}
 
 	/**
+	 * Returns a string with its accents removed and its case flattened.
+	 *
+	 * Unlike the match keys above this keeps the spaces and the punctuation:
+	 * it is for reading words out of a name, where "mix" inside "mixáž" must
+	 * not count and "mírně pokročilí" is two words that belong together.
+	 *
+	 * @param string $value Input string.
+	 * @return string
+	 */
+	public static function plain( string $value ): string {
+		$value = function_exists( 'mb_strtolower' ) ? mb_strtolower( $value, 'UTF-8' ) : strtolower( $value );
+
+		return self::strip_diacritics( $value );
+	}
+
+	/**
 	 * Removes diacritics from a UTF-8 string.
 	 *
 	 * @param string $value Input string.

@@ -40,6 +40,16 @@ final class CourseRepository {
 	public const META_STATUS = '_cscs_status';
 
 	/**
+	 * Meta key holding who the course is for.
+	 */
+	public const META_GENDER = '_cscs_gender';
+
+	/**
+	 * Meta key holding the level the course is at.
+	 */
+	public const META_LEVEL = '_cscs_level';
+
+	/**
 	 * Where the ids of hand-made courses start.
 	 *
 	 * A course a person creates here has no id in iSport, and everything
@@ -161,6 +171,7 @@ final class CourseRepository {
 		// name it actually shows. A key that disagreed with the name beside it
 		// would point the course at somebody else's page.
 		$this->pair_with_trainer( $post_id, $course );
+		$this->derive_audience( $post_id, $locked );
 		wp_set_object_terms( $post_id, $this->term_names( array_values( $course->tags ) ), PostType::TAG );
 
 		/**
@@ -174,6 +185,45 @@ final class CourseRepository {
 		do_action( 'cscs_course_saved', $post_id, $course );
 
 		return $post_id;
+	}
+
+	/**
+	 * Works out who the course is for and what level it is, from its name.
+	 *
+	 * After the meta loop and after the title, for the same reason the trainer
+	 * key is: a site that has locked the course name shows a name of its own,
+	 * and reading the audience out of iSport's name instead would say one thing
+	 * beside another. What is on the page is what is read.
+	 *
+	 * Either value may be locked on its own, which is how an administrator
+	 * overrules a reading — a course whose name says nothing, or says it in
+	 * words this does not know, is filled in by hand and stays filled in.
+	 *
+	 * @param int                $post_id Course post id.
+	 * @param array<int, string> $locked  Fields a human has edited.
+	 * @return void
+	 */
+	private function derive_audience( int $post_id, array $locked ): void {
+		$read = Audience::read( (string) get_post_field( 'post_title', $post_id ) );
+
+		$values = array(
+			self::META_GENDER => $read['gender'],
+			self::META_LEVEL  => $read['level'],
+		);
+
+		foreach ( $values as $key => $value ) {
+			if ( in_array( $key, $locked, true ) ) {
+				continue;
+			}
+
+			if ( '' === $value ) {
+				delete_post_meta( $post_id, $key );
+
+				continue;
+			}
+
+			update_post_meta( $post_id, $key, $value );
+		}
 	}
 
 	/**

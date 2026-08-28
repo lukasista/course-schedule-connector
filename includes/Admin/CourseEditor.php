@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin;
 
+use CSCS\Data\Audience;
 use CSCS\Data\CourseRepository;
 use CSCS\Data\PostType;
 use CSCS\Plugin;
@@ -104,6 +105,17 @@ final class CourseEditor {
 	public function render_content_box( \WP_Post $post ): void {
 		$button = (string) get_post_meta( $post->ID, CourseRepository::META_BUTTON, true );
 		$button = in_array( $button, array( 'always', 'never' ), true ) ? $button : 'default';
+		$locked = $this->plugin->courses()->locked_fields( $post->ID );
+
+		// Only a value somebody chose is shown as chosen. A value read from the
+		// name is shown as "as the name says", which is what it is — and what
+		// makes the difference between the two visible at a glance.
+		$gender = in_array( CourseRepository::META_GENDER, $locked, true )
+			? (string) get_post_meta( $post->ID, CourseRepository::META_GENDER, true )
+			: '';
+		$level  = in_array( CourseRepository::META_LEVEL, $locked, true )
+			? (string) get_post_meta( $post->ID, CourseRepository::META_LEVEL, true )
+			: '';
 
 		wp_nonce_field( self::NONCE, 'cscs_course_nonce' );
 
@@ -133,6 +145,30 @@ final class CourseEditor {
 				<td>
 					<textarea id="cscs-contact-note" name="cscs_course[contact_note]" rows="3" class="large-text"><?php echo esc_textarea( (string) get_post_meta( $post->ID, CourseRepository::META_CONTACT_NOTE, true ) ); ?></textarea>
 					<p class="description"><?php esc_html_e( 'For example when to ring, or that places are arranged individually.', 'course-schedule-connector' ); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="cscs-gender"><?php esc_html_e( 'Gender', 'course-schedule-connector' ); ?></label></th>
+				<td>
+					<select id="cscs-gender" name="cscs_course[gender]">
+						<option value=""><?php esc_html_e( '— as the name says —', 'course-schedule-connector' ); ?></option>
+						<?php foreach ( Audience::genders() as $value => $label ) : ?>
+							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $gender, $value ); ?>><?php echo esc_html( $label ); ?></option>
+						<?php endforeach; ?>
+					</select>
+					<p class="description"><?php esc_html_e( 'iSport has no field for this: it is read from the course name. Choosing something here overrules the reading, and no synchronisation will change it back.', 'course-schedule-connector' ); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="cscs-level"><?php esc_html_e( 'Level', 'course-schedule-connector' ); ?></label></th>
+				<td>
+					<select id="cscs-level" name="cscs_course[level]">
+						<option value=""><?php esc_html_e( '— as the name says —', 'course-schedule-connector' ); ?></option>
+						<?php foreach ( Audience::levels() as $value => $label ) : ?>
+							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $level, $value ); ?>><?php echo esc_html( $label ); ?></option>
+						<?php endforeach; ?>
+					</select>
+					<p class="description"><?php esc_html_e( 'The wording follows the group: a course for girls is worded differently from a mixed one, and the choice made here is the same either way.', 'course-schedule-connector' ); ?></p>
 				</td>
 			</tr>
 			<tr>
@@ -293,7 +329,30 @@ final class CourseEditor {
 			array_keys( self::lockable() )
 		);
 
-		update_post_meta( $post_id, CourseRepository::META_LOCKED, array_values( $locked ) );
+		// The audience and the level have no tick of their own: choosing a
+		// value is the tick. Left at "as the name says" the key is unlocked and
+		// the next synchronisation reads it out of the name again, which is why
+		// the meta is deleted rather than emptied — an empty string is a value,
+		// and a value would be shown.
+		$audience = array(
+			CourseRepository::META_GENDER => array( sanitize_key( (string) ( $submitted['gender'] ?? '' ) ), array_keys( Audience::genders() ) ),
+			CourseRepository::META_LEVEL  => array( sanitize_key( (string) ( $submitted['level'] ?? '' ) ), array_keys( Audience::levels() ) ),
+		);
+
+		foreach ( $audience as $key => $choice ) {
+			list( $value, $allowed ) = $choice;
+
+			if ( ! in_array( $value, $allowed, true ) ) {
+				delete_post_meta( $post_id, $key );
+
+				continue;
+			}
+
+			update_post_meta( $post_id, $key, $value );
+			$locked[] = $key;
+		}
+
+		update_post_meta( $post_id, CourseRepository::META_LOCKED, array_values( array_unique( $locked ) ) );
 	}
 
 	/**

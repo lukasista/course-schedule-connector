@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+use CSCS\Data\Audience;
 use CSCS\Data\DisplaySet;
 use CSCS\Settings;
 
@@ -409,6 +410,15 @@ final class Listing {
 
 			case 'time':
 				return Formatter::time_range( (string) ( $row['time_from'] ?? '' ), (string) ( $row['time_to'] ?? '' ) );
+
+			case 'gender':
+				return Audience::gender_label( (string) ( $row['gender'] ?? '' ) );
+
+			case 'level':
+				return Audience::level_label(
+					(string) ( $row['level'] ?? '' ),
+					(string) ( $row['gender'] ?? '' )
+				);
 
 			case 'room':
 				return $this->room( $row );

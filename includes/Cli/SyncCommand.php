@@ -10,6 +10,9 @@ declare( strict_types=1 );
 namespace CSCS\Cli;
 
 use CSCS\Api\ApiException;
+use CSCS\Data\Audience;
+use CSCS\Data\CourseRepository;
+use CSCS\Data\PostType;
 use CSCS\Plugin;
 use CSCS\Sync\MatchResult;
 
@@ -318,6 +321,107 @@ final class SyncCommand {
 				$result['lessons_removed'],
 				$result['log_removed'],
 				$result['courses_finished']
+			)
+		);
+	}
+
+	/**
+	 * Reads the audience and the level out of every stored course's name.
+	 *
+	 * The next synchronisation would do this on its own, one course at a time.
+	 * This is for the day the fields are added, when waiting for a whole cycle
+	 * to pass means a website that says nothing about who a course is for.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--dry-run]
+	 * : Print what would be written and write nothing.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp cscs sync audience --dry-run
+	 *     wp cscs sync audience
+	 *
+	 * @param array<int, string>    $args       Positional arguments.
+	 * @param array<string, string> $assoc_args Options.
+	 * @return void
+	 */
+	public function audience( array $args, array $assoc_args ): void {
+		unset( $args );
+
+		$dry     = isset( $assoc_args['dry-run'] );
+		$posts   = get_posts(
+			array(
+				'post_type'        => PostType::COURSE,
+				'post_status'      => 'any',
+				'numberposts'      => -1,
+				'fields'           => 'ids',
+				'suppress_filters' => false,
+			)
+		);
+		$read    = 0;
+		$kept    = 0;
+		$nothing = 0;
+
+		foreach ( $posts as $post_id ) {
+			$post_id = (int) $post_id;
+			$title   = (string) get_post_field( 'post_title', $post_id );
+			$found   = Audience::read( $title );
+			$locked  = $this->plugin->courses()->locked_fields( $post_id );
+
+			// What the row shows is what the course ends up with, not what its
+			// name says: on a course somebody has set by hand those are two
+			// different answers, and printing the reading there would report a
+			// change that did not happen.
+			$shown = array();
+
+			foreach ( array( CourseRepository::META_GENDER => $found['gender'], CourseRepository::META_LEVEL => $found['level'] ) as $key => $value ) {
+				if ( in_array( $key, $locked, true ) ) {
+					++$kept;
+
+					$stored        = (string) get_post_meta( $post_id, $key, true );
+					$shown[ $key ] = ( '' === $stored ? '—' : $stored ) . ' *';
+
+					continue;
+				}
+
+				$shown[ $key ] = '' === $value ? '—' : $value;
+
+				if ( '' === $value ) {
+					++$nothing;
+
+					if ( ! $dry ) {
+						delete_post_meta( $post_id, $key );
+					}
+
+					continue;
+				}
+
+				++$read;
+
+				if ( ! $dry ) {
+					update_post_meta( $post_id, $key, $value );
+				}
+			}
+
+			\WP_CLI::log(
+				sprintf(
+					'%-58s %-10s %s',
+					mb_substr( $title, 0, 58 ),
+					$shown[ CourseRepository::META_GENDER ],
+					$shown[ CourseRepository::META_LEVEL ]
+				)
+			);
+		}
+
+		\WP_CLI::success(
+			sprintf(
+				'%d courses: %d values read from a name, %d left to a name that says nothing, %d kept as somebody set them (marked *).%s',
+				count( $posts ),
+				$read,
+				$nothing,
+				$kept,
+				$dry ? ' Nothing was written.' : ''
 			)
 		);
 	}

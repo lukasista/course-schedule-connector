@@ -1,4 +1,4 @@
-# Předání práce — stav k 23. 8. 2026
+# Předání práce — stav k 28. 8. 2026
 
 Tenhle soubor je most mezi pracovními dny. Je psaný tak, aby se do něj dalo
 vstoupit bez znalosti předchozího rozhovoru: co je hotové, jak se to spouští,
@@ -30,7 +30,7 @@ Poslední commity:
 | `ba734c1` | Den a Čas místo „Kdy“; trenéři jako typ příspěvku |
 | `49cde06` | předchozí předání práce |
 
-Testy: **196 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
+Testy: **203 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
 repozitáře.
 
 **Nepushnuté commity** na Macu — viz problém s portem 443 níže.
@@ -38,6 +38,25 @@ repozitáře.
 ---
 
 ## 2. Co přibylo naposledy
+
+### Pohlaví a úroveň
+Kurz nese, **pro koho je** a jakou má **úroveň**. V iSportu ani jedno pole není
+— ověřeno na obou endpointech — a dosavadní web to čte z názvu kurzu, takže to
+tak dělá i plugin: `CSCS\Data\Audience` porovnává pevný slovník proti názvu
+zbavenému diakritiky a velkých písmen, na celá slova (`mix` se tedy nenajde
+v `mixáž`) a v pořadí, ve kterém `mírně pokročilí` předchází `pokročilí`.
+
+Živý běh `wp cscs sync audience`: **113 kurzů, 104 přečteno z názvu, 122 polí
+zůstalo prázdných, 0 přepsáno.** Řádky byly projité ručně.
+
+Ruční volba v editaci kurzu zapíše meta a přidá klíč do `_cscs_locked_fields`,
+takže ji synchronizace už nikdy nepřepíše; *— podle názvu —* meta smaže.
+
+Úroveň se skloňuje podle pohlaví (*začátečnice* × *začátečníci*). Anglicky je to
+jedno slovo, takže se obě čtení rozlišují **gettext kontextem** — kvůli tomu se
+musel naučit kontexty i `tools/extract-strings.php` a `tools/i18n/build.py`.
+Builder navíc přeskočí ručně vypsaný řetězec, který extraktor našel i v PHP;
+katalog se stejným řetězcem dvakrát gettext nepřečte.
 
 ### Den a Čas
 Detail kurzu psal „Kdy: Po 16:00, St 17:00“ — jedno pole se dvěma fakty

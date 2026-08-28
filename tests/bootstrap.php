@@ -238,6 +238,25 @@ if ( ! function_exists( '__' ) ) {
 	}
 }
 
+if ( ! function_exists( '_x' ) ) {
+	/**
+	 * Translation stub for a string with a context.
+	 *
+	 * The context is what tells two identical English words apart; untranslated,
+	 * the word itself is the answer and the context is only bookkeeping.
+	 *
+	 * @param string $text    Text.
+	 * @param string $context Context.
+	 * @param string $domain  Text domain.
+	 * @return string
+	 */
+	function _x( string $text, string $context, string $domain = 'default' ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- A stub for the test bootstrap.
+		unset( $context, $domain );
+
+		return $text;
+	}
+}
+
 if ( ! function_exists( 'apply_filters' ) ) {
 	/**
 	 * Filter stub.

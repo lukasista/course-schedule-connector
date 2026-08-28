@@ -30,32 +30,69 @@ def header(locale, translated):
         lines.append('"Plural-Forms: nplurals=2; plural=(n != 1);\\n"')
     return '\n'.join(lines) + '\n'
 
+def extracted():
+    """The strings the extractor already found in the PHP.
+
+    Everything listed by hand below is a string no extractor can see — a title
+    in a block.json, a word inside a JavaScript file — but a few of them are
+    written in PHP as well, and a catalogue that defines one string twice is one
+    gettext refuses to read. A string with a context is the same string as
+    another only when the context matches too, so the pair is what is kept."""
+    return set((entry.get('context'), entry['singular']) for entry in strings)
+
+
 def extra_entries(translate):
     entries = []
+    seen = extracted()
     for (ctxt, msgid), value in CONTEXT.items():
+        if (ctxt, msgid) in seen:
+            continue
         entries.append((ctxt, msgid, value if translate else '', ['blocks/display/block.json']))
     for msgid, value in JS.items():
+        if (None, msgid) in seen:
+            continue
         entries.append((None, msgid, value if translate else '', ['blocks/display/editor.js']))
     for msgid, value in JS_DIVI.items():
+        if (None, msgid) in seen:
+            continue
         if msgid in JS or msgid in CS:
             continue
         entries.append((None, msgid, value if translate else '', ['visual-builder/cscs-divi-display.js']))
     for msgid, value in JS_FIELDS.items():
+        if (None, msgid) in seen:
+            continue
         if msgid in JS or msgid in JS_DIVI or msgid in CS:
             continue
         entries.append((None, msgid, value if translate else '', ['blocks/fields/editor.js']))
     for msgid, value in JS_DIVI_FIELDS.items():
+        if (None, msgid) in seen:
+            continue
         if msgid in JS or msgid in JS_DIVI or msgid in JS_FIELDS or msgid in CS:
             continue
         entries.append((None, msgid, value if translate else '', ['visual-builder/cscs-divi-fields.js']))
     return entries
+
+def translation(entry):
+    """The Czech for one extracted string, looked up the way it was written.
+
+    A string with a context is two strings that happen to read alike in
+    English, so it is looked up by the pair — which is also how gettext will
+    look it up at runtime."""
+    singular = entry['singular']
+    context = entry.get('context')
+    if context:
+        return CONTEXT[(context, singular)]
+    return CS[singular]
 
 def write_po(path, locale, translate):
     out = [header(locale, translate)]
     for entry in strings:
         singular = entry['singular']
         plural = entry['plural']
+        context = entry.get('context')
         out.append('\n#: ' + '\n#: '.join(entry['refs']))
+        if context:
+            out.append('msgctxt "%s"' % po_escape(context))
         out.append('msgid "%s"' % po_escape(singular))
         if plural:
             out.append('msgid_plural "%s"' % po_escape(plural))
@@ -63,7 +100,7 @@ def write_po(path, locale, translate):
             for index, form in enumerate(forms):
                 out.append('msgstr[%d] "%s"' % (index, po_escape(form)))
         else:
-            out.append('msgstr "%s"' % po_escape(CS[singular] if translate else ''))
+            out.append('msgstr "%s"' % po_escape(translation(entry) if translate else ''))
     for ctxt, msgid, value, refs in extra_entries(translate):
         out.append('\n#: ' + '\n#: '.join(refs))
         if ctxt is not None:
@@ -79,13 +116,16 @@ def write_mo(path):
     for entry in strings:
         singular = entry['singular']
         plural = entry['plural']
+        context = entry.get('context')
         if plural:
-            key = (singular + '\x00' + plural).encode('utf-8')
-            value = '\x00'.join(CS_PLURAL[singular]).encode('utf-8')
+            key = singular + '\x00' + plural
+            value = '\x00'.join(CS_PLURAL[singular])
         else:
-            key = singular.encode('utf-8')
-            value = CS[singular].encode('utf-8')
-        entries.append((key, value))
+            key = singular
+            value = translation(entry)
+        if context:
+            key = context + '\x04' + key
+        entries.append((key.encode('utf-8'), value.encode('utf-8')))
 
     for ctxt, msgid, value, refs in extra_entries(True):
         key = msgid if ctxt is None else (ctxt + '\x04' + msgid)

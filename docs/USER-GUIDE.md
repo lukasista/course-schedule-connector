@@ -16,6 +16,7 @@ Příručka je pro **správce webu** – člověka, který spravuje nabídku kur
 - [Náhradní lekce](#náhradní-lekce)
 - [Sály](#sály)
 - [Stránka kurzu](#stránka-kurzu)
+- [Pro koho kurz je](#pro-koho-kurz-je)
 - [Trenéři](#trenéři)
 - [Bloky a moduly pro vlastní design](#bloky-a-moduly-pro-vlastní-design)
 - [Kurzy, které v iSportu nejsou](#kurzy-které-v-isportu-nejsou)
@@ -87,6 +88,7 @@ V editaci kurzu můžete doplnit obsah, který v iSportu není:
 - vlastní **obrázek** kurzu (náhledový obrázek),
 - **delší popis** pro stránku kurzu (hlavní editor),
 - **krátký úvod** (výpisek),
+- **pohlaví** (dívky, kluci, mix, ženy, muži) a **úroveň** (začátečníci, mírně pokročilí, pokročilí, závodní průprava) – ve výchozím stavu *— podle názvu —*, tedy se čtou z názvu kurzu. Jakmile jednu z voleb vyberete, platí vaše a synchronizace ji už nikdy nepřepíše; vrátit se k automatickému čtení můžete kdykoli výběrem *— podle názvu —*.
 - **kontakt na lektora** – jméno, e-mail, telefon a poznámka. To je určené hlavně pro kurzy, na které se přes iSport nepřihlašuje: návštěvník potřebuje někoho, koho se zeptá. Když jméno necháte prázdné, zobrazí se lektor z iSportu.
 
 Panel **Z iSportu** vedle editoru ukazuje, co o kurzu říká iSport – ID, cena, kapacita, obsazenost, termíny a kdy se to naposledy stahovalo – plus odkaz na kurz přímo v iSportu. Tyhle údaje se mění v iSport systému, ne tady.
@@ -151,13 +153,29 @@ Ve výpisu jsou sály, které uložený rozvrh skutečně používá. Žádný s
 
 Každý kurz má vlastní stránku. Kromě textu a obrázku, které k němu doplníte, se na ní zobrazí:
 
-- **fakta** – cena, **den** a **čas od–do** (odvozené z lekcí, každý termín na svém řádku, aby se dvojice četla naproti sobě), termín od–do, počet lekcí, sál, trenér a volná místa; údaj, který není čím vyplnit, se vynechá,
+- **fakta** – cena, **den** a **čas od–do** (odvozené z lekcí, každý termín na svém řádku, aby se dvojice četla naproti sobě), **pohlaví** a **úroveň**, termín od–do, počet lekcí, sál, trenér a volná místa; údaj, který není čím vyplnit, se vynechá,
 - **jméno trenéra jako odkaz** na jeho stránku, pokud ji má,
 - **kontakt na lektora**, pokud jste ho vyplnil — u kurzů, na které se přes iSport nepřihlašuje, je to to hlavní, co návštěvník potřebuje,
 - **tlačítko pro přihlášení** podle stejných tří pravidel jako všude jinde,
 - **nejbližší lekce kurzu** a **náhradní lekce**, které jste k tomuto kurzu přiřadil.
 
 Stránka se vkládá do obsahu, takže hlavičku, patičku i vzhled okolo kreslí dál vaše téma. Do hlavičky stránky se navíc přidává strojově čitelný popis kurzu (JSON-LD) pro vyhledávače — nic v něm netvrdíme, co by stránka neříkala i slovy.
+
+## Pro koho kurz je
+
+U kurzu se vypisuje, **pro koho je** (dívky, kluci, mix, ženy, muži) a jakou má
+**úroveň** (začátečníci, mírně pokročilí, pokročilí, závodní průprava). iSport
+ani jedno neposílá — nemá na to pole — takže se obojí čte z názvu kurzu, přesně
+jako to dělá dosavadní web: *„101-Lezení od 10 let mix mírně pokročilí“* je mix
+a mírně pokročilí. Kurz, jehož název nic neříká, nemá vyplněné nic; raději
+prázdno než domněnka.
+
+Když čtení něco splete nebo název mlčí, vyberete správnou hodnotu ručně
+v editaci kurzu. Od té chvíle platí vaše volba a žádná synchronizace ji
+nepřepíše. Vrátit se k automatickému čtení znamená vybrat *— podle názvu —*.
+
+U dívek a žen se úroveň vypíše v ženském rodě (*začátečnice*, *pokročilé*),
+jinak v mužském — to není nastavení, plyne to z toho, pro koho kurz je.
 
 ## Trenéři
 
@@ -176,7 +194,7 @@ Text, který napíšete do editoru, se na stránce zobrazí jako u kurzu. Synchr
 
 ## Bloky a moduly pro vlastní design
 
-Když vám výchozí stránka kurzu nebo trenéra nestačí, postavíte si vlastní. Každý údaj má svůj **blok** (Gutenberg) i **modul** (Divi 5) pod vlastním jménem: *Cena, Den, Čas, Termín, Lekce, Sál, Trenér, Volná místa, Tlačítko přihlášení, Nejbližší lekce, Náhradní lekce, Obrázek kurzu, Popis kurzu, Na koho se obrátit, Název kurzu* — a u trenéra *Fotografie, Kvalifikace, Záliby, Zajímavost, Motto, Popis, Kurzy které trenér vede*.
+Když vám výchozí stránka kurzu nebo trenéra nestačí, postavíte si vlastní. Každý údaj má svůj **blok** (Gutenberg) i **modul** (Divi 5) pod vlastním jménem: *Cena, Den, Čas, Pohlaví, Úroveň, Termín, Lekce, Sál, Trenér, Volná místa, Tlačítko přihlášení, Nejbližší lekce, Náhradní lekce, Obrázek kurzu, Popis kurzu, Na koho se obrátit, Název kurzu* — a u trenéra *Fotografie, Kvalifikace, Záliby, Zajímavost, Motto, Popis, Kurzy které trenér vede*.
 
 Každý z nich umí:
 
@@ -192,7 +210,7 @@ Pole, které nemá co říct, se **vynechá celé** — nadpis nad prázdným m�
 
 ### Kde moduly v Divi najdete
 
-Všechny jsou pohromadě: v seznamu modulů je jedna položka **iSport** a v ní všech dvacet čtyři. Stejně to dělá WooCommerce se svou sekcí *Woo Modules*. Každý modul má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe.
+Všechny jsou pohromadě: v seznamu modulů je jedna položka **iSport** a v ní všech dvacet pět. Stejně to dělá WooCommerce se svou sekcí *Woo Modules*. Každý modul má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe.
 
 ### Tabulky
 

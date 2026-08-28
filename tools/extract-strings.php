@@ -33,11 +33,16 @@ foreach ($rii as $file) {
         $fn = $t[1];
         $singular = $args[0] ?? null;
         $plural = null;
+        // A context is part of what a string is: `_x( 'Advanced', … )` said of
+        // a group of girls and of a mixed one are two different translations
+        // of one English word, and without the context they collapse into one.
+        $context = null;
+        if ($fn === '_x') { $context = $args[1] ?? null; }
         if ($fn === '_n') { $plural = $args[1] ?? null; }
-        if ($fn === '_nx') { $plural = $args[1] ?? null; }
+        if ($fn === '_nx') { $plural = $args[1] ?? null; $context = $args[3] ?? null; }
         if ($singular === null) continue;
-        $key = $singular . "\x00" . (string) $plural;
-        if (!isset($strings[$key])) $strings[$key] = array('singular'=>$singular,'plural'=>$plural,'refs'=>array());
+        $key = $singular . "\x00" . (string) $plural . "\x00" . (string) $context;
+        if (!isset($strings[$key])) $strings[$key] = array('singular'=>$singular,'plural'=>$plural,'context'=>$context,'refs'=>array());
         $strings[$key]['refs'][] = ltrim( str_replace( dirname( __DIR__ ), '', $path ), '/' ) . ':' . $t[2];
     }
 }

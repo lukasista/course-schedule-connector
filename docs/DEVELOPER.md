@@ -133,6 +133,8 @@ Public, with an archive and single template. Enrichment fields live alongside th
 | `_cscs_api_description` | string | API `course_description` |
 | `_cscs_status` | enum | `running` / `finished` / `archived` |
 | `_cscs_show_isport_button` | enum | `inherit` / `always` / `never` |
+| `_cscs_gender` | enum | `girls` / `boys` / `mixed` / `women` / `men`, read from the course's name or set by hand |
+| `_cscs_level` | enum | `beginner` / `improver` / `advanced` / `competitive`, likewise |
 | `_cscs_locked_fields` | JSON array | Fields edited by hand, protected from synchronisation |
 | `_cscs_synced_at` | int | Timestamp |
 
@@ -412,6 +414,8 @@ The design restriction is enforced when settings are saved, not only in the inte
 | `cscs_price_format` | Change price formatting | planned |
 | `cscs_availability_state` | Change the thresholds behind availability states | planned |
 | `cscs_course_lesson_tags` | Tag labels that mark an occurrence as part of a course | implemented |
+| `cscs_course_gender_terms` | Words in a course name that say who it is for | implemented |
+| `cscs_course_level_terms` | Words in a course name that say what level it is | implemented |
 | `cscs_course_rewrite_slug` | Change the URL slug of a course | implemented |
 
 **Actions**
@@ -439,6 +443,7 @@ wp cscs sync list --status=matched|external|not_bookable|makeup|unresolved
 wp cscs makeup list [--unlinked]                       # one row per make-up occurrence
 wp cscs makeup link <term-id> <course-id>             # 0 or omitted clears it
                                                       # same job as iSport → Make-up lessons
+wp cscs sync audience [--dry-run]                     # re-read gender and level from every course name
 wp cscs sync assign <term> <course>                   # permanent manual assignment
 wp cscs sync retention
 
@@ -484,6 +489,15 @@ wp i18n update-po languages/course-schedule-connector.pot languages/
 wp i18n make-mo languages/ languages/
 ```
 
+A string whose English is ambiguous carries a context: `_x( 'Beginners', 'level
+of a course for girls or women', … )` and its mixed-group twin are two
+translations of one word, and without the context they collapse into one. The
+extractor records the context, the builder emits `msgctxt`, and the compiled
+`.mo` keys the entry as `context \x04 msgid`, which is what gettext looks for.
+A string listed by hand in `tools/i18n/cs.py` for a JavaScript file is skipped
+when the extractor already found it in PHP; a catalogue that defines one string
+twice is one gettext refuses to read.
+
 Czech takes three plural forms, `nplurals=3; plural=(n==1) ? 0 : ((n>=2 && n<=4) ? 1 : 2);`, so every `_n()` call needs three. A string that reads well in English and awkwardly in Czech is a string worth rewording in both: the source text is not sacred.
 
 Once the plugin is listed on WordPress.org, translations come from translate.wordpress.org and land in `WP_LANG_DIR/plugins`, which wins over anything shipped here. The bundled Czech file is what makes the admin readable before that happens.
@@ -497,6 +511,34 @@ Three consequences, each deliberate:
 - `archive_missing()` skips manual ids. Absence from the remote list is not evidence about a course that was never in it.
 - `Matcher::match()` takes the manual ids as a fourth argument and honours a manual assignment to one, but never indexes them by name: a manual course has no term list, so a name match would fail the timestamp check and report classes as failures that are correctly classified today.
 - `CourseEditor::ensure_id()` runs on `save_post` at priority 5, so a course created through the WordPress editor gets its id before anything else looks for one.
+
+## Who a course is for, and at what level
+
+`CSCS\Data\Audience` reads a gender and a level out of a course's name and
+nothing else, because there is nothing else: neither endpoint carries a field
+for either, and the website this plugin replaces reads both off the name too.
+
+- The vocabulary is a fixed, ordered list per key, compared against
+  `Normalise::plain()` — the name lowercased with its diacritics removed, spaces
+  and punctuation kept — with a whole-word pattern
+  (`(?<![a-z0-9])word(?![a-z0-9])`). Keeping the spaces is the point: "mix" must
+  not be found inside "mixáž", and "mírně pokročilí" is two words that belong
+  together. Order matters, so "mírně pokročilí" is looked for before
+  "pokročilí".
+- What is stored is a key, never a word. `Audience::level_label( $level,
+  $gender )` decides the word, because Czech agrees it with the group:
+  "začátečnice" for girls and women, "začátečníci" otherwise. The two are one
+  word in English, told apart by a gettext context — see *Translations*.
+  `Audience::levels()` returns the masculine set, which is the form Czech uses
+  where there is no group to agree with, such as a settings screen.
+- `CourseRepository::derive_audience()` runs on every save, right after the
+  trainer is paired, and writes nothing over a value a person chose: the course
+  editor's two selects append their key to `_cscs_locked_fields`, and a locked
+  key is left alone for good. Choosing *— podle názvu —* deletes the meta and
+  the reading takes over again.
+- `Fields` carries `course-gender` and `course-level` like any other field, so
+  the block, the Divi module, the course page's facts and the listing column all
+  come from the one catalogue.
 
 ## Rooms
 
