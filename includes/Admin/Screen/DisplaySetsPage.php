@@ -13,6 +13,7 @@ use CSCS\Admin\Capabilities;
 use CSCS\Data\DisplaySet;
 use CSCS\Data\PostType;
 use CSCS\Plugin;
+use CSCS\Render\Fields;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -460,22 +461,7 @@ final class DisplaySetsPage {
 	 * @return array<string, string>
 	 */
 	public static function column_labels( string $type ): array {
-		$labels = array(
-			'name'     => __( 'Course', 'course-schedule-connector' ),
-			'course'   => __( 'Course', 'course-schedule-connector' ),
-			'activity' => __( 'Activity', 'course-schedule-connector' ),
-			'days'     => __( 'Days and times', 'course-schedule-connector' ),
-			'date'     => __( 'Date', 'course-schedule-connector' ),
-			'time'     => __( 'Time', 'course-schedule-connector' ),
-			'room'     => __( 'Room', 'course-schedule-connector' ),
-			'trainer'  => __( 'Trainer', 'course-schedule-connector' ),
-			'period'   => __( 'Runs from and to', 'course-schedule-connector' ),
-			'lessons'  => __( 'Number of classes', 'course-schedule-connector' ),
-			'price'    => __( 'Price', 'course-schedule-connector' ),
-			'places'   => __( 'Places left', 'course-schedule-connector' ),
-			'state'    => __( 'Cancelled', 'course-schedule-connector' ),
-			'button'   => __( 'Booking button', 'course-schedule-connector' ),
-		);
+		$labels = Fields::column_labels();
 
 		$ordered = array();
 

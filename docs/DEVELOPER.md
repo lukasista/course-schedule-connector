@@ -284,6 +284,20 @@ The generator loads `Fields::all()` directly, standing up the two functions and 
 
 Two things about the module metadata that are not obvious. The heading and the value are declared as attributes with selectors of their own (`{{selector}} .cscs-field__label` and `…__value`) and each font and spacing group is assigned to a **named** group — `designHeadingText`, `designValueText`. Left to Divi's own naming both typography groups come out called "Module Text", and a design panel with two identically named groups in it is a panel nobody can use. And the source field is called `field.advanced.source`, never `set`, for the reason recorded below.
 
+### One folder, and an icon each
+
+Every generated module carries `folder: "cscs-modules"`, the same key WooCommerce's modules carry to get their own shelf, and the builder is told what that folder is by `divi.moduleLibrary.registerFolder`. The definition is `Divi\ModuleFolder`; both builder scripts register it, because either may load first and registering the same folder twice registers the same folder.
+
+The icon of each module is `moduleIcon` in the catalogue, and the names are Divi's own — `divi/module-pricing-table`, `divi/module-countdown-timer`, and so on. There is no public way to add an icon to Divi's set: `divi.iconLibrary` exposes no registration, so a drawing of our own would mean reaching into the theme's internals for a picture. The registered modules' `moduleIcon` values are the list of what is available, readable from the builder with `divi.data.select( 'divi/module-library' ).getModules()`.
+
+### The parts of a table
+
+A field that draws a table declares its columns in the catalogue, and everything follows from that list. `Fields::style_elements()` answers what parts the field has — the heading and the value always, the picture where there is one, and for a table its heading row, its cells, its links, its banding and one attribute per column. That one answer is used by the generator to declare the attributes, by `FieldModuleRenderer::module_styles()` to emit their CSS, and by the builder script, which reads it back off the metadata as "every attribute that declares an `elementType`". A test asserts the three agree.
+
+The blocks cannot do it the same way. The heading and the value are one element each and take an inline style; a table is drawn by a shared template that knows nothing about this block's settings. So the block writes rules, scoped to a class named after the settings themselves — two tables designed alike share one class, and a table nobody has designed writes nothing.
+
+Custom properties with defaults in the stylesheet would have been tidier and are wrong: a rule like `.cscs-table a { color: var(--…) }` exists whether or not anybody set the property, and an unset custom property does not fall back to the theme's own rule. It falls back to nothing, and every link in every table loses the colour the theme gave it.
+
 ### Making the builder show the design
 
 A module can register, open, offer every design setting, store every value and render every one of them correctly on the page while the builder's canvas never changes. Nothing errors; there is simply no CSS. Two things cause it, and both are silent.

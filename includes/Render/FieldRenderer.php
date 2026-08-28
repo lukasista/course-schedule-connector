@@ -52,6 +52,49 @@ final class FieldRenderer {
 	}
 
 	/**
+	 * The settings the two halves of a table hold.
+	 *
+	 * A heading row and a body cell are two things a designer treats
+	 * differently — the heading small and quiet in capitals, the cell plain —
+	 * so each carries its own set, exactly as the field's heading and value do.
+	 *
+	 * @return array<int, string>
+	 */
+	public static function table_settings(): array {
+		return array(
+			'FontSize',
+			'FontFamily',
+			'FontWeight',
+			'FontStyle',
+			'LineHeight',
+			'LetterSpacing',
+			'TextTransform',
+			'TextDecoration',
+			'Colour',
+			'Align',
+			'Background',
+			'Padding',
+		);
+	}
+
+	/**
+	 * The settings a link inside a table holds.
+	 *
+	 * Short on purpose. A link in a cell is the cell's text in another colour;
+	 * giving it a font size of its own is offering a way to make a table look
+	 * broken.
+	 *
+	 * @return array<int, string>
+	 */
+	public static function link_settings(): array {
+		return array(
+			'Colour',
+			'FontWeight',
+			'TextDecoration',
+		);
+	}
+
+	/**
 	 * Returns the attributes every field block and module understands.
 	 *
 	 * @param array<string, mixed> $field Field definition.
@@ -148,6 +191,52 @@ final class FieldRenderer {
 			}
 		}
 
+		$columns = (array) ( $field['columns'] ?? array() );
+
+		if ( array() === $columns ) {
+			return $attributes;
+		}
+
+		// A field that draws a table has more parts than a heading and a value,
+		// and until now none of them could be reached: the heading row, the
+		// cells, the links in them, the rule between them, the banding behind
+		// them, and the width of each column.
+		foreach ( array( 'tableHead', 'tableCell' ) as $element ) {
+			foreach ( self::table_settings() as $setting ) {
+				$attributes[ $element . $setting ] = array(
+					'type'    => 'string',
+					'default' => '',
+				);
+			}
+		}
+
+		foreach ( self::link_settings() as $setting ) {
+			$attributes[ 'tableLink' . $setting ] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+		}
+
+		foreach ( array( 'tableLineWidth', 'tableLineColour', 'tableStripe' ) as $setting ) {
+			$attributes[ $setting ] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+		}
+
+		foreach ( $columns as $column ) {
+			$attribute = Fields::column_attribute( (string) $column );
+
+			$attributes[ $attribute . 'Width' ] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes[ $attribute . 'Align' ] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+		}
+
 		return $attributes;
 	}
 
@@ -203,12 +292,132 @@ final class FieldRenderer {
 			$body
 		);
 
+		$table = self::table_style( $field, $attributes );
+
 		return sprintf(
-			'<div %1$s>%2$s%3$s</div>',
-			self::wrapper_attributes( $name, $attributes, $wrapper ),
+			'<div %1$s>%2$s%3$s%4$s</div>',
+			self::wrapper_attributes( $name, $attributes, $wrapper, $table['class'] ),
+			$table['style'],
 			$label,
 			$html
 		);
+	}
+
+	/**
+	 * Builds the CSS a styled table needs, and the class it hangs on.
+	 *
+	 * A table cannot be styled the way the heading and the value are. Those are
+	 * one element each and take an inline style; a table is a heading row, a
+	 * body, cells, links and a rule between them, all drawn by a shared
+	 * template that knows nothing about this block's settings. So the block
+	 * writes rules instead, scoped to a class named after the settings
+	 * themselves — two tables designed the same way share one class and one set
+	 * of rules, and a table nobody has designed writes nothing at all.
+	 *
+	 * Which is also why the plugin's stylesheet does not carry these as custom
+	 * properties with defaults. A rule like `.cscs-table a { color: var(--…) }`
+	 * exists whether or not anybody set the property, and an unset custom
+	 * property does not fall back to the theme's own rule — it falls back to
+	 * nothing, and every link in every table loses the colour the theme gave
+	 * it. Rules that exist only when somebody asked for them cannot do that.
+	 *
+	 * @param array<string, mixed> $field      Field definition.
+	 * @param array<string, mixed> $attributes Settings.
+	 * @return array{class: string, style: string}
+	 */
+	private static function table_style( array $field, array $attributes ): array {
+		$empty   = array(
+			'class' => '',
+			'style' => '',
+		);
+		$columns = (array) ( $field['columns'] ?? array() );
+
+		if ( array() === $columns ) {
+			return $empty;
+		}
+
+		$rules = self::table_rules( $columns, $attributes );
+
+		if ( array() === $rules ) {
+			return $empty;
+		}
+
+		$class = 'cscs-table--' . substr( md5( wp_json_encode( $rules ) ?: '' ), 0, 10 );
+		$css   = '';
+
+		foreach ( $rules as $selector => $declarations ) {
+			$css .= str_replace( '{{scope}}', '.' . $class, $selector ) . '{' . $declarations . '}';
+		}
+
+		return array(
+			'class' => $class,
+			'style' => '<style>' . $css . '</style>',
+		);
+	}
+
+	/**
+	 * Returns the table's rules, selector to declarations, or nothing.
+	 *
+	 * @param array<int, string>   $columns    The columns this table has.
+	 * @param array<string, mixed> $attributes Settings.
+	 * @return array<string, string>
+	 */
+	private static function table_rules( array $columns, array $attributes ): array {
+		$read = static function ( string $key ) use ( $attributes ): string {
+			return trim( (string) ( $attributes[ $key ] ?? '' ) );
+		};
+
+		$rules = array();
+
+		foreach ( array(
+			'{{scope}} .cscs-table thead th' => 'tableHead',
+			'{{scope}} .cscs-table tbody td' => 'tableCell',
+			'{{scope}} .cscs-table tbody a'  => 'tableLink',
+		) as $selector => $element ) {
+			$style = self::element_style( $element, $attributes );
+
+			if ( '' !== $style ) {
+				$rules[ $selector ] = $style;
+			}
+		}
+
+		$stripe = self::colour( $read( 'tableStripe' ) );
+
+		if ( '' !== $stripe ) {
+			$rules['{{scope}} .cscs-table tbody tr:nth-child(even)'] = 'background-color:' . $stripe . ';';
+		}
+
+		$width  = self::length( $read( 'tableLineWidth' ) );
+		$colour = self::colour( $read( 'tableLineColour' ) );
+
+		if ( '' !== $width || '' !== $colour ) {
+			$rules['{{scope}} .cscs-table th,{{scope}} .cscs-table td'] = sprintf(
+				'border-bottom:%s solid %s;',
+				'' === $width ? '1px' : $width,
+				'' === $colour ? 'var(--cscs-border)' : $colour
+			);
+		}
+
+		foreach ( $columns as $column ) {
+			$attribute   = Fields::column_attribute( (string) $column );
+			$declaration = '';
+			$size        = self::length( $read( $attribute . 'Width' ) );
+			$align       = self::one_of( $read( $attribute . 'Align' ), array( 'left', 'center', 'right' ) );
+
+			if ( '' !== $size ) {
+				$declaration .= 'width:' . $size . ';';
+			}
+
+			if ( '' !== $align ) {
+				$declaration .= 'text-align:' . $align . ';';
+			}
+
+			if ( '' !== $declaration ) {
+				$rules[ '{{scope}} .cscs-table .cscs-col-' . sanitize_html_class( (string) $column ) ] = $declaration;
+			}
+		}
+
+		return $rules;
 	}
 
 	/**
@@ -379,16 +588,21 @@ final class FieldRenderer {
 	 *
 	 * @param string               $name       Field name.
 	 * @param array<string, mixed> $attributes Settings.
-	 * @param string               $wrapper    Attributes contributed by the editor.
+	 * @param string               $wrapper     Attributes contributed by the editor.
+	 * @param string               $extra_class One more class, where the table has styles of its own.
 	 * @return string
 	 */
-	private static function wrapper_attributes( string $name, array $attributes, string $wrapper ): string {
+	private static function wrapper_attributes( string $name, array $attributes, string $wrapper, string $extra_class = '' ): string {
 		$classes = array(
 			'cscs',
 			'cscs-field',
 			'cscs-field--' . sanitize_html_class( $name ),
 			'cscs-field--' . ( 'inline' === (string) ( $attributes['layout'] ?? '' ) ? 'inline' : 'stack' ),
 		);
+
+		if ( '' !== $extra_class ) {
+			$classes[] = $extra_class;
+		}
 
 		$style     = '';
 		$gap       = self::length( (string) ( $attributes['gap'] ?? '' ) );
@@ -471,20 +685,24 @@ final class FieldRenderer {
 		};
 
 		$rules = array(
-			'font-size'      => self::length( $read( 'FontSize' ) ),
-			'font-family'    => self::font_family( $read( 'FontFamily' ) ),
-			'font-weight'    => self::one_of(
+			'font-size'        => self::length( $read( 'FontSize' ) ),
+			'font-family'      => self::font_family( $read( 'FontFamily' ) ),
+			'font-weight'      => self::one_of(
 				$read( 'FontWeight' ),
 				array( '100', '200', '300', '400', '500', '600', '700', '800', '900', 'normal', 'bold', 'lighter', 'bolder' )
 			),
-			'font-style'     => self::one_of( $read( 'FontStyle' ), array( 'normal', 'italic', 'oblique' ) ),
-			'line-height'    => self::line_height( $read( 'LineHeight' ) ),
-			'letter-spacing' => self::length( $read( 'LetterSpacing' ) ),
-			'text-transform' => self::one_of( $read( 'TextTransform' ), array( 'none', 'uppercase', 'lowercase', 'capitalize' ) ),
-			'text-decoration' => self::one_of( $read( 'TextDecoration' ), array( 'none', 'underline', 'line-through', 'overline' ) ),
-			'color'          => self::colour( $read( 'Colour' ) ),
-			'text-align'     => self::one_of( $read( 'Align' ), array( 'left', 'center', 'right', 'justify' ) ),
-			'margin'         => self::spacing( $read( 'Margin' ) ),
+			'font-style'       => self::one_of( $read( 'FontStyle' ), array( 'normal', 'italic', 'oblique' ) ),
+			'line-height'      => self::line_height( $read( 'LineHeight' ) ),
+			'letter-spacing'   => self::length( $read( 'LetterSpacing' ) ),
+			'text-transform'   => self::one_of( $read( 'TextTransform' ), array( 'none', 'uppercase', 'lowercase', 'capitalize' ) ),
+			'text-decoration'  => self::one_of( $read( 'TextDecoration' ), array( 'none', 'underline', 'line-through', 'overline' ) ),
+			'color'            => self::colour( $read( 'Colour' ) ),
+			'text-align'       => self::one_of( $read( 'Align' ), array( 'left', 'center', 'right', 'justify' ) ),
+			'margin'           => self::spacing( $read( 'Margin' ) ),
+			// Only a table's parts declare these, so for a heading or a value
+			// they read as nothing and print nothing.
+			'background-color' => self::colour( $read( 'Background' ) ),
+			'padding'          => self::spacing( $read( 'Padding' ) ),
 		);
 
 		$style = '';

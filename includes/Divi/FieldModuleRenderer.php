@@ -10,6 +10,7 @@ declare( strict_types=1 );
 namespace CSCS\Divi;
 
 use CSCS\Render\FieldRenderer;
+use CSCS\Render\Fields;
 use ET\Builder\FrontEnd\BlockParser\BlockParserStore;
 use ET\Builder\FrontEnd\Module\Style;
 use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
@@ -193,14 +194,26 @@ final class FieldModuleRenderer {
 						)
 					),
 					// The sets that make these modules worth having: the heading
-					// and the value styled apart from each other, and — where
-					// the field is a picture — the picture itself. A module that
-					// declares a setting and never emits its CSS is worse than
-					// one that does not offer it at all: the field accepts a
-					// value and nothing happens.
-					$elements->style( array( 'attrName' => 'title' ) ),
-					$elements->style( array( 'attrName' => 'value' ) ),
-					$elements->style( array( 'attrName' => 'image' ) ),
+					// and the value styled apart from each other, the picture
+					// where the field is one, and every part of a table where the
+					// field draws one. A module that declares a setting and never
+					// emits its CSS is worse than one that does not offer it at
+					// all: the field accepts a value and nothing happens.
+					//
+					// The list is the catalogue's rather than this file's, so a
+					// part added to a field arrives here without anybody having to
+					// remember that this line exists.
+					...array_map(
+						// No return type: `style()` answers with whatever the
+						// element needs — a string for some, a list of style
+						// declarations for others — and `Style::add()` takes
+						// both. Promising a string here is how a page of fields
+						// became a fatal error.
+						static function ( string $element ) use ( $elements ) {
+							return $elements->style( array( 'attrName' => $element ) );
+						},
+						array_keys( Fields::style_elements( self::definition( (string) $args['name'] ) ) )
+					),
 					CssStyle::style(
 						array(
 							'selector' => $args['orderClass'],
@@ -210,6 +223,16 @@ final class FieldModuleRenderer {
 				),
 			)
 		);
+	}
+
+	/**
+	 * Returns the definition of the field a module's name belongs to.
+	 *
+	 * @param string $module Module name, `cscs/divi-course-price` and the like.
+	 * @return array<string, mixed>
+	 */
+	private static function definition( string $module ): array {
+		return Fields::get( (string) preg_replace( '#^cscs/divi-#', '', $module ) ) ?? array();
 	}
 
 	/**

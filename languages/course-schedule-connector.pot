@@ -67,7 +67,7 @@ msgstr ""
 msgid "A class you can attend instead of one you missed."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:255
+#: includes/Divi/FieldModules.php:274
 msgid "A colon, a dash — printed right after the heading."
 msgstr ""
 
@@ -75,11 +75,11 @@ msgstr ""
 msgid "A course with no price always shows as free. This is about hall rentals and open sessions, where \"free\" would be misleading."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:76
+#: includes/Admin/Screen/DisplaySetsPage.php:77
 msgid "A display set is a named answer to \"what should this listing show\": which columns, in what order, which rooms and trainers, how far ahead, what to say when there is nothing. Pages refer to the set by name, so changing the set changes every page that uses it — without opening the page builder, and without touching the design."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:274
+#: includes/Admin/Screen/DisplaySetsPage.php:275
 msgid "A hall rented to somebody else occupies the room but is not a course of yours. On a full timetable of hall occupancy that matters; on the home page it usually does not."
 msgstr ""
 
@@ -91,7 +91,7 @@ msgstr ""
 msgid "A make-up slot usually repeats: the same name, the same weekday, the same hour, the same room. Where you have already assigned one of a series, the others can be assigned like it in one press, and each row offers the same button on its own. Where two occurrences of one series were assigned to two different courses, nothing is offered — the series is not a series. The trainer is not part of the comparison, because the timetable fills it in some weeks and leaves it blank others; it is on screen for you to weigh."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:301
+#: includes/Divi/FieldModules.php:320
 msgid "A new window is a surprise, so it is off unless somebody asks for it."
 msgstr ""
 
@@ -99,7 +99,7 @@ msgstr ""
 msgid "A sentence or two that makes this a person rather than a name on a timetable."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:561
+#: includes/Admin/Screen/DisplaySetsPage.php:547
 msgid "A set needs a name."
 msgstr ""
 
@@ -119,7 +119,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:242
+#: includes/Admin/Screen/DisplaySetsPage.php:243
 #: includes/Data/PostType.php:168
 msgid "Activities"
 msgstr ""
@@ -134,11 +134,11 @@ msgstr ""
 msgid "Activities that take no bookings"
 msgstr ""
 
+#: includes/Admin/CourseEditor.php:199
 #: includes/Admin/Screen/MakeupPage.php:130
 #: includes/Admin/Screen/UnmatchedPage.php:165
-#: includes/Admin/Screen/DisplaySetsPage.php:466
-#: includes/Admin/CourseEditor.php:199
 #: includes/Data/PostType.php:169
+#: includes/Render/Fields.php:585
 msgid "Activity"
 msgstr ""
 
@@ -150,7 +150,7 @@ msgstr ""
 msgid "Add trainer"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:296
+#: includes/Divi/FieldModules.php:315
 msgid "Address"
 msgstr ""
 
@@ -158,7 +158,7 @@ msgstr ""
 msgid "Address of the iSport System"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:254
+#: includes/Divi/FieldModules.php:273
 msgid "After the heading"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgstr ""
 msgid "All rooms"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:282
+#: includes/Divi/FieldModules.php:301
 msgid "Alternative text"
 msgstr ""
 
@@ -182,7 +182,7 @@ msgstr ""
 msgid "Always shown"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:292
+#: includes/Divi/FieldModules.php:311
 msgid "An address of your own"
 msgstr ""
 
@@ -190,17 +190,17 @@ msgstr ""
 msgid "An empty name uses the one from iSport. Rooms with the same order are listed alphabetically, so leaving every order at nought is a perfectly good answer. A colour is used only when \"Use\" is ticked; a hidden room is left out of every listing but keeps its classes counted."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:246
+#: includes/Divi/FieldModules.php:265
 msgid "Arrangement"
 msgstr ""
 
-#: includes/Admin/CourseList.php:93
-#: includes/Admin/Screen/DisplaySetsPage.php:281
 #: includes/Admin/CourseEditor.php:142
+#: includes/Admin/CourseList.php:93
+#: includes/Admin/Screen/DisplaySetsPage.php:282
 msgid "As the settings say"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:309
+#: includes/Admin/Screen/DisplaySetsPage.php:310
 msgid "Ascending"
 msgstr ""
 
@@ -228,25 +228,29 @@ msgstr ""
 msgid "Assignment undone. The occurrence is unassigned again."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:325
+#: includes/Admin/Screen/DisplaySetsPage.php:326
 msgid "At or below this many free places the listing says so. Zero switches the warning off."
+msgstr ""
+
+#: includes/Divi/FieldModules.php:339
+msgid "Banded row"
 msgstr ""
 
 #: includes/Admin/Screen/UnmatchedPage.php:169
 msgid "Belongs to"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:259
+#: includes/Divi/FieldModules.php:278
 msgid "Between the heading and the value."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:251
+#: includes/Admin/Screen/DisplaySetsPage.php:252
 msgid "Between two dates"
 msgstr ""
 
-#: includes/Admin/CourseList.php:55
-#: includes/Admin/Screen/DisplaySetsPage.php:477
 #: includes/Admin/CourseEditor.php:139
+#: includes/Admin/CourseList.php:55
+#: includes/Render/Fields.php:596
 msgid "Booking button"
 msgstr ""
 
@@ -272,21 +276,21 @@ msgstr ""
 msgid "Brought in from iSport and stored in the media library. To use another, set a featured image — it wins, and this one stays where it is."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:262
+#: includes/Divi/FieldModules.php:281
 msgid "Bullets"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:334
+#: includes/Admin/Screen/DisplaySetsPage.php:335
 msgid "Button text"
 msgstr ""
 
-#: includes/Render/Listing.php:422
 #: includes/Admin/Screen/Overview.php:225
-#: includes/Admin/Screen/DisplaySetsPage.php:476
+#: includes/Render/Fields.php:595
+#: includes/Render/Listing.php:422
 msgid "Cancelled"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:278
+#: includes/Admin/Screen/DisplaySetsPage.php:279
 msgid "Cancelled classes"
 msgstr ""
 
@@ -310,15 +314,15 @@ msgstr ""
 msgid "Class synchronisation interval"
 msgstr ""
 
-#: includes/Render/Fields.php:109
-#: includes/Render/Fields.php:110
+#: includes/Admin/Screen/DisplaySetsPage.php:133
+#: includes/Admin/Screen/DisplaySetsPage.php:197
 #: includes/Render/CourseDetail.php:102
-#: includes/Admin/Screen/DisplaySetsPage.php:132
-#: includes/Admin/Screen/DisplaySetsPage.php:196
+#: includes/Render/Fields.php:114
+#: includes/Render/Fields.php:115
 msgid "Classes"
 msgstr ""
 
-#: includes/Render/Fields.php:185
+#: includes/Render/Fields.php:202
 msgid "Classes that stand in for one somebody missed."
 msgstr ""
 
@@ -326,12 +330,16 @@ msgstr ""
 msgid "Colour"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:211
+#: includes/Admin/Screen/DisplaySetsPage.php:212
 msgid "Column"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:111
-#: includes/Admin/Screen/DisplaySetsPage.php:203
+#: includes/Divi/FieldModules.php:201
+msgid "Column: %s"
+msgstr ""
+
+#: includes/Admin/Screen/DisplaySetsPage.php:112
+#: includes/Admin/Screen/DisplaySetsPage.php:204
 msgid "Columns"
 msgstr ""
 
@@ -352,9 +360,9 @@ msgstr ""
 msgid "Contact and booking"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:464
-#: includes/Admin/Screen/DisplaySetsPage.php:465
 #: includes/Data/PostType.php:61
+#: includes/Render/Fields.php:583
+#: includes/Render/Fields.php:584
 msgid "Course"
 msgstr ""
 
@@ -370,7 +378,7 @@ msgstr ""
 msgid "Course created, but the matching could not be re-run: %s"
 msgstr ""
 
-#: includes/Render/Fields.php:158
+#: includes/Render/Fields.php:169
 msgid "Course description"
 msgstr ""
 
@@ -378,12 +386,12 @@ msgstr ""
 msgid "Course id"
 msgstr ""
 
-#: includes/Render/Fields.php:69
 #: includes/Admin/CourseEditor.php:310
+#: includes/Render/Fields.php:69
 msgid "Course name"
 msgstr ""
 
-#: includes/Render/Fields.php:149
+#: includes/Render/Fields.php:159
 msgid "Course picture"
 msgstr ""
 
@@ -413,45 +421,45 @@ msgstr ""
 
 #: includes/Admin/Menu.php:93
 #: includes/Admin/Menu.php:94
-#: includes/Admin/Screen/DisplaySetsPage.php:133
-#: includes/Admin/Screen/DisplaySetsPage.php:195
+#: includes/Admin/Screen/DisplaySetsPage.php:134
+#: includes/Admin/Screen/DisplaySetsPage.php:196
 #: includes/Data/PostType.php:60
 #: includes/Data/PostType.php:62
 msgid "Courses"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:198
+#: includes/Admin/Screen/DisplaySetsPage.php:199
 msgid "Courses are what people sign up to; classes are the individual times in the timetable. Changing this resets the columns, since the two have different ones."
 msgstr ""
 
-#: templates/single-trainer.php:79
-#: includes/Render/Fields.php:250
-#: includes/Render/Fields.php:251
 #: includes/Admin/TrainerEditor.php:82
+#: includes/Render/Fields.php:274
+#: includes/Render/Fields.php:275
+#: templates/single-trainer.php:79
 msgid "Courses this trainer runs"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:288
+#: includes/Admin/Screen/DisplaySetsPage.php:289
 msgid "Courses with no places left"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:342
+#: includes/Admin/Screen/DisplaySetsPage.php:343
 msgid "Create set"
 msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:128
 #: includes/Admin/Screen/UnmatchedPage.php:163
-#: includes/Admin/Screen/DisplaySetsPage.php:468
+#: includes/Render/Fields.php:587
 msgid "Date"
 msgstr ""
 
-#: includes/Render/Fields.php:85
-#: includes/Render/Fields.php:86
 #: includes/Render/CourseDetail.php:99
+#: includes/Render/Fields.php:87
+#: includes/Render/Fields.php:88
 msgid "Day"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:467
+#: includes/Render/Fields.php:586
 msgid "Days and times"
 msgstr ""
 
@@ -463,7 +471,7 @@ msgstr ""
 msgid "Days of past timetable to keep"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:254
+#: includes/Admin/Screen/DisplaySetsPage.php:255
 msgid "Days:"
 msgstr ""
 
@@ -471,7 +479,7 @@ msgstr ""
 msgid "Decides how far ahead the timetable is retrieved."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:144
+#: includes/Admin/Screen/DisplaySetsPage.php:145
 msgid "Delete"
 msgstr ""
 
@@ -479,7 +487,7 @@ msgstr ""
 msgid "Delete all data when the plugin is deleted"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:310
+#: includes/Admin/Screen/DisplaySetsPage.php:311
 msgid "Descending"
 msgstr ""
 
@@ -495,13 +503,13 @@ msgstr ""
 msgid "Display"
 msgstr ""
 
-#: includes/Divi/DisplayModule.php:223
+#: includes/Divi/DisplayModule.php:224
 msgid "Display set"
 msgstr ""
 
 #: includes/Admin/Menu.php:111
 #: includes/Admin/Menu.php:112
-#: includes/Admin/Screen/DisplaySetsPage.php:73
+#: includes/Admin/Screen/DisplaySetsPage.php:74
 msgid "Display sets"
 msgstr ""
 
@@ -509,7 +517,7 @@ msgstr ""
 msgid "E-mail"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:142
+#: includes/Admin/Screen/DisplaySetsPage.php:143
 msgid "Edit"
 msgstr ""
 
@@ -517,7 +525,7 @@ msgstr ""
 msgid "Edit course"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:165
+#: includes/Admin/Screen/DisplaySetsPage.php:166
 msgid "Edit set"
 msgstr ""
 
@@ -533,11 +541,11 @@ msgstr ""
 msgid "Even when shown, the button hides itself while the course is full or iSport reports that it takes no registrations."
 msgstr ""
 
-#: includes/Render/Fields.php:253
+#: includes/Render/Fields.php:279
 msgid "Every course paired with this trainer, as a table."
 msgstr ""
 
-#: includes/Render/Fields.php:213
+#: includes/Render/Fields.php:233
 msgid "Every qualification, in the order they were entered."
 msgstr ""
 
@@ -545,7 +553,7 @@ msgstr ""
 msgid "Everything somebody tied to a course by hand, whatever the matching would have decided. Choosing \"belongs to no course\" here gives the class back to the matching, which is how an assignment made by mistake is undone."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:322
+#: includes/Admin/Screen/DisplaySetsPage.php:323
 msgid "Few places left at"
 msgstr ""
 
@@ -557,16 +565,16 @@ msgstr ""
 msgid "Fill in and save the suggestions"
 msgstr ""
 
-#: includes/Admin/CourseList.php:77
 #: includes/Admin/CourseEditor.php:327
+#: includes/Admin/CourseList.php:77
 msgid "Finished"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:180
+#: includes/Admin/Screen/DisplaySetsPage.php:181
 msgid "For example \"Children's courses — home page\". The shortcode name is made from this and never changes afterwards."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:334
+#: includes/Admin/Screen/DisplaySetsPage.php:335
 msgid "For example \"Sign up in iSport\"."
 msgstr ""
 
@@ -578,11 +586,11 @@ msgstr ""
 msgid "For example when to ring, or that places are arranged individually."
 msgstr ""
 
+#: includes/Admin/CourseEditor.php:342
+#: includes/Admin/Screen/SettingsPage.php:118
 #: includes/Render/CourseDetail.php:428
 #: includes/Render/Listing.php:482
 #: includes/Render/Listing.php:486
-#: includes/Admin/Screen/SettingsPage.php:118
-#: includes/Admin/CourseEditor.php:342
 msgid "Free"
 msgstr ""
 
@@ -590,7 +598,7 @@ msgstr ""
 msgid "From iSport"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:258
+#: includes/Admin/Screen/DisplaySetsPage.php:259
 msgid "From:"
 msgstr ""
 
@@ -599,28 +607,28 @@ msgstr ""
 msgid "Full"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:258
+#: includes/Divi/FieldModules.php:277
 msgid "Gap"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:333
-#: includes/Divi/FieldModules.php:234
+#: includes/Admin/Screen/DisplaySetsPage.php:334
+#: includes/Divi/FieldModules.php:253
 msgid "Heading"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:249
+#: includes/Divi/FieldModules.php:268
 msgid "Heading above"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:247
+#: includes/Divi/FieldModules.php:266
 msgid "Heading above the value, or beside it."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:238
+#: includes/Divi/FieldModules.php:257
 msgid "Heading element"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:315
+#: includes/Divi/FieldModules.php:334
 msgid "Heading text"
 msgstr ""
 
@@ -632,23 +640,23 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:283
+#: includes/Admin/Screen/DisplaySetsPage.php:284
 msgid "Hide them"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:266
+#: includes/Divi/FieldModules.php:285
 msgid "Hollow"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:245
+#: includes/Admin/Screen/DisplaySetsPage.php:246
 msgid "How far ahead"
 msgstr ""
 
-#: includes/Render/Fields.php:112
+#: includes/Render/Fields.php:118
 msgid "How many classes the course has."
 msgstr ""
 
-#: includes/Render/Fields.php:136
+#: includes/Render/Fields.php:145
 msgid "How many places are still free."
 msgstr ""
 
@@ -660,7 +668,7 @@ msgstr ""
 msgid "In the form 2026-09-11. Applies to every course at once."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:272
+#: includes/Admin/Screen/DisplaySetsPage.php:273
 msgid "Include them"
 msgstr ""
 
@@ -668,18 +676,18 @@ msgstr ""
 msgid "Individual courses can override this."
 msgstr ""
 
-#: templates/single-trainer.php:68
-#: includes/Render/Fields.php:218
-#: includes/Render/Fields.php:219
 #: includes/Admin/TrainerEditor.php:150
+#: includes/Render/Fields.php:238
+#: includes/Render/Fields.php:239
+#: templates/single-trainer.php:68
 msgid "Interests"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:315
+#: includes/Admin/Screen/DisplaySetsPage.php:316
 msgid "Items per page"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:290
+#: includes/Divi/FieldModules.php:309
 msgid "Its own page"
 msgstr ""
 
@@ -687,7 +695,7 @@ msgstr ""
 msgid "Job"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:213
+#: includes/Admin/Screen/DisplaySetsPage.php:214
 msgid "Label"
 msgstr ""
 
@@ -699,23 +707,23 @@ msgstr ""
 msgid "Leave empty to show the trainer iSport names."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:292
+#: includes/Admin/Screen/DisplaySetsPage.php:293
 msgid "Leave them out"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:333
+#: includes/Admin/Screen/DisplaySetsPage.php:334
 msgid "Left empty, no heading is printed."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:274
+#: includes/Divi/FieldModules.php:293
 msgid "Left empty, the module disappears rather than printing a heading over a blank space."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:318
+#: includes/Divi/FieldModules.php:341
 msgid "Link"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:286
+#: includes/Divi/FieldModules.php:305
 msgid "Links to"
 msgstr ""
 
@@ -723,12 +731,12 @@ msgstr ""
 msgid "Make this a course of its own"
 msgstr ""
 
-#: includes/Render/Fields.php:182
+#: includes/Render/Fields.php:197
 msgid "Make-up classes"
 msgstr ""
 
+#: includes/Render/Fields.php:198
 #: templates/single-course.php:95
-#: includes/Render/Fields.php:183
 msgid "Make-up classes for this course"
 msgstr ""
 
@@ -744,19 +752,19 @@ msgstr ""
 msgid "Maximum requests per hour"
 msgstr ""
 
-#: includes/Render/Fields.php:234
 #: includes/Admin/TrainerEditor.php:168
+#: includes/Render/Fields.php:256
 msgid "Motto"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:108
-#: includes/Admin/Screen/DisplaySetsPage.php:173
-#: includes/Admin/Screen/DisplaySetsPage.php:497
+#: includes/Admin/Screen/DisplaySetsPage.php:109
+#: includes/Admin/Screen/DisplaySetsPage.php:174
+#: includes/Admin/Screen/DisplaySetsPage.php:483
 msgid "Name"
 msgstr ""
 
-#: includes/Admin/Screen/RoomsPage.php:85
 #: includes/Admin/Screen/RoomsPage.php:103
+#: includes/Admin/Screen/RoomsPage.php:85
 msgid "Name on the website"
 msgstr ""
 
@@ -772,7 +780,7 @@ msgstr ""
 msgid "Never shown"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:165
+#: includes/Admin/Screen/DisplaySetsPage.php:166
 msgid "New set"
 msgstr ""
 
@@ -808,8 +816,8 @@ msgstr ""
 msgid "No lesson names a course clearly enough to suggest one."
 msgstr ""
 
-#: includes/Admin/CourseList.php:78
 #: includes/Admin/CourseEditor.php:328
+#: includes/Admin/CourseList.php:78
 msgid "No longer offered by iSport"
 msgstr ""
 
@@ -821,7 +829,7 @@ msgstr ""
 msgid "No rooms yet, because no timetable is stored. Synchronise first."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:117
+#: includes/Admin/Screen/DisplaySetsPage.php:118
 msgid "No sets yet. The form below makes the first one."
 msgstr ""
 
@@ -837,7 +845,7 @@ msgstr ""
 msgid "No usable address of an iSport System installation is configured, so nothing is being retrieved."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:269
+#: includes/Divi/FieldModules.php:288
 msgid "None"
 msgstr ""
 
@@ -858,20 +866,20 @@ msgstr ""
 msgid "Nothing is listed here at the moment."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:242
+#: includes/Admin/Screen/DisplaySetsPage.php:243
 msgid "Nothing ticked means every activity."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:384
+#: includes/Admin/Screen/DisplaySetsPage.php:385
 msgid "Nothing ticked means every room."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:241
+#: includes/Admin/Screen/DisplaySetsPage.php:242
 msgid "Nothing ticked means every trainer."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:371
-#: includes/Admin/Screen/DisplaySetsPage.php:414
+#: includes/Admin/Screen/DisplaySetsPage.php:372
+#: includes/Admin/Screen/DisplaySetsPage.php:415
 msgid "Nothing to choose from yet. Synchronise first."
 msgstr ""
 
@@ -888,15 +896,15 @@ msgstr ""
 msgid "Nothing was assigned: the series either disagrees about its course or has no assignment to copy."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:289
+#: includes/Divi/FieldModules.php:308
 msgid "Nowhere"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:473
+#: includes/Render/Fields.php:592
 msgid "Number of classes"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:268
+#: includes/Divi/FieldModules.php:287
 msgid "Numbered"
 msgstr ""
 
@@ -904,8 +912,8 @@ msgstr ""
 msgid "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear."
 msgstr ""
 
-#: includes/Render/Listing.php:487
 #: includes/Admin/Screen/SettingsPage.php:117
+#: includes/Render/Listing.php:487
 msgid "On request"
 msgstr ""
 
@@ -913,7 +921,7 @@ msgstr ""
 msgid "One qualification to a line — a coaching licence, a course completed, a degree. They are printed in the order they are in here."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:300
+#: includes/Divi/FieldModules.php:319
 msgid "Open in a new window"
 msgstr ""
 
@@ -925,12 +933,12 @@ msgstr ""
 msgid "Open this course in iSport"
 msgstr ""
 
+#: includes/Admin/Screen/DisplaySetsPage.php:213
 #: includes/Admin/Screen/RoomsPage.php:86
-#: includes/Admin/Screen/DisplaySetsPage.php:212
 msgid "Order"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:298
+#: includes/Admin/Screen/DisplaySetsPage.php:299
 msgid "Order and size"
 msgstr ""
 
@@ -959,37 +967,37 @@ msgstr ""
 msgid "Past occurrences older than this are removed. Courses are never deleted."
 msgstr ""
 
-#: includes/Render/Fields.php:201
 #: includes/Admin/TrainerEditor.php:90
+#: includes/Render/Fields.php:219
 msgid "Photograph"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:317
+#: includes/Divi/FieldModules.php:340
 msgid "Picture"
 msgstr ""
 
-#: includes/Render/Fields.php:133
-#: includes/Render/Fields.php:134
+#: includes/Admin/Screen/DisplaySetsPage.php:486
 #: includes/Render/CourseDetail.php:105
-#: includes/Admin/Screen/DisplaySetsPage.php:475
-#: includes/Admin/Screen/DisplaySetsPage.php:500
+#: includes/Render/Fields.php:141
+#: includes/Render/Fields.php:142
+#: includes/Render/Fields.php:594
 msgid "Places left"
 msgstr ""
 
-#: includes/Render/Fields.php:77
-#: includes/Render/Fields.php:78
-#: includes/Render/CourseDetail.php:98
-#: includes/Admin/Screen/DisplaySetsPage.php:474
-#: includes/Admin/Screen/DisplaySetsPage.php:499
 #: includes/Admin/CourseEditor.php:201
 #: includes/Admin/CourseEditor.php:314
+#: includes/Admin/Screen/DisplaySetsPage.php:485
+#: includes/Render/CourseDetail.php:98
+#: includes/Render/Fields.php:593
+#: includes/Render/Fields.php:78
+#: includes/Render/Fields.php:79
 msgid "Price"
 msgstr ""
 
-#: templates/single-trainer.php:57
-#: includes/Render/Fields.php:210
-#: includes/Render/Fields.php:211
 #: includes/Admin/TrainerEditor.php:143
+#: includes/Render/Fields.php:229
+#: includes/Render/Fields.php:230
+#: templates/single-trainer.php:57
 msgid "Qualifications"
 msgstr ""
 
@@ -1001,7 +1009,7 @@ msgstr ""
 msgid "Records"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:183
+#: includes/Admin/Screen/DisplaySetsPage.php:184
 msgid "Referred to as \"%s\", which stays as it is so that pages using it keep working."
 msgstr ""
 
@@ -1018,7 +1026,7 @@ msgstr ""
 msgid "Rentals and open sessions"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:268
+#: includes/Admin/Screen/DisplaySetsPage.php:269
 msgid "Rentals and outside clubs"
 msgstr ""
 
@@ -1046,39 +1054,39 @@ msgstr ""
 msgid "Retries"
 msgstr ""
 
-#: templates/partials/controls.php:54
-#: includes/Render/Fields.php:117
-#: includes/Render/Fields.php:118
-#: includes/Render/CourseDetail.php:103
+#: includes/Admin/CourseEditor.php:313
+#: includes/Admin/Screen/DisplaySetsPage.php:487
 #: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Admin/Screen/UnmatchedPage.php:166
-#: includes/Admin/Screen/DisplaySetsPage.php:470
-#: includes/Admin/Screen/DisplaySetsPage.php:501
-#: includes/Admin/CourseEditor.php:313
 #: includes/Data/PostType.php:161
+#: includes/Render/CourseDetail.php:103
+#: includes/Render/Fields.php:123
+#: includes/Render/Fields.php:124
+#: includes/Render/Fields.php:589
+#: templates/partials/controls.php:54
 msgid "Room"
 msgstr ""
 
 #: includes/Admin/Menu.php:144
 #: includes/Admin/Menu.php:145
+#: includes/Admin/Screen/DisplaySetsPage.php:369
 #: includes/Admin/Screen/RoomsPage.php:68
-#: includes/Admin/Screen/DisplaySetsPage.php:368
 #: includes/Data/PostType.php:160
 msgid "Rooms"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:265
+#: includes/Divi/FieldModules.php:284
 msgid "Round"
 msgstr ""
 
-#: includes/Admin/CourseList.php:76
 #: includes/Admin/CourseEditor.php:326
+#: includes/Admin/CourseList.php:76
 msgid "Running"
 msgstr ""
 
-#: includes/Render/Fields.php:101
-#: includes/Render/Fields.php:102
 #: includes/Render/CourseDetail.php:101
+#: includes/Render/Fields.php:105
+#: includes/Render/Fields.php:106
 msgid "Runs"
 msgstr ""
 
@@ -1086,7 +1094,7 @@ msgstr ""
 msgid "Runs from"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:472
+#: includes/Render/Fields.php:591
 msgid "Runs from and to"
 msgstr ""
 
@@ -1103,7 +1111,7 @@ msgstr ""
 msgid "Save rooms"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:342
+#: includes/Admin/Screen/DisplaySetsPage.php:343
 msgid "Save set"
 msgstr ""
 
@@ -1123,19 +1131,19 @@ msgstr ""
 msgid "Search trainers"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:567
+#: includes/Admin/Screen/DisplaySetsPage.php:553
 msgid "Set created. Refer to it as \"%s\"."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:592
+#: includes/Admin/Screen/DisplaySetsPage.php:578
 msgid "Set deleted. Any page still referring to it now shows nothing."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:570
+#: includes/Admin/Screen/DisplaySetsPage.php:556
 msgid "Set saved."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:103
+#: includes/Admin/Screen/DisplaySetsPage.php:104
 msgid "Sets"
 msgstr ""
 
@@ -1144,7 +1152,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:110
+#: includes/Admin/Screen/DisplaySetsPage.php:111
 msgid "Shortcode"
 msgstr ""
 
@@ -1152,7 +1160,7 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:230
+#: includes/Divi/FieldModules.php:249
 msgid "Show a heading"
 msgstr ""
 
@@ -1164,16 +1172,16 @@ msgstr ""
 msgid "Show the booking button by default"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:282
+#: includes/Admin/Screen/DisplaySetsPage.php:283
 msgid "Show them, struck through"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:109
-#: includes/Admin/Screen/DisplaySetsPage.php:192
+#: includes/Admin/Screen/DisplaySetsPage.php:110
+#: includes/Admin/Screen/DisplaySetsPage.php:193
 msgid "Shows"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:250
+#: includes/Divi/FieldModules.php:269
 msgid "Side by side"
 msgstr ""
 
@@ -1182,11 +1190,11 @@ msgstr ""
 msgid "Sign up in iSport"
 msgstr ""
 
-#: includes/Render/Fields.php:141
+#: includes/Render/Fields.php:150
 msgid "Sign-up button"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:277
+#: includes/Divi/FieldModules.php:296
 msgid "Size"
 msgstr ""
 
@@ -1194,22 +1202,22 @@ msgstr ""
 msgid "Some courses take no bookings through iSport at all, and a visitor who wants one needs a person to ask. Anything filled in here is shown on the course, and nothing here is ever overwritten by a synchronisation."
 msgstr ""
 
-#: templates/single-trainer.php:50
-#: includes/Render/Fields.php:226
-#: includes/Render/Fields.php:227
 #: includes/Admin/TrainerEditor.php:161
+#: includes/Render/Fields.php:247
+#: includes/Render/Fields.php:248
+#: templates/single-trainer.php:50
 msgid "Something worth knowing"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:301
+#: includes/Admin/Screen/DisplaySetsPage.php:302
 msgid "Sort by"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:226
+#: includes/Divi/FieldModules.php:245
 msgid "Source"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:267
+#: includes/Divi/FieldModules.php:286
 msgid "Square"
 msgstr ""
 
@@ -1217,12 +1225,12 @@ msgstr ""
 msgid "Stands in for"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:345
+#: includes/Admin/Screen/DisplaySetsPage.php:346
 msgid "Start a new one"
 msgstr ""
 
-#: includes/Admin/CourseList.php:54
 #: includes/Admin/CourseEditor.php:200
+#: includes/Admin/CourseList.php:54
 msgid "State"
 msgstr ""
 
@@ -1236,6 +1244,18 @@ msgstr ""
 
 #: includes/Admin/Screen/Overview.php:146
 msgid "Synchronise now"
+msgstr ""
+
+#: includes/Divi/FieldModules.php:337
+msgid "Table cell"
+msgstr ""
+
+#: includes/Divi/FieldModules.php:336
+msgid "Table heading"
+msgstr ""
+
+#: includes/Divi/FieldModules.php:338
+msgid "Table link"
 msgstr ""
 
 #: includes/Admin/Screen/UnmatchedPage.php:168
@@ -1270,47 +1290,47 @@ msgstr ""
 msgid "The course could not be created."
 msgstr ""
 
-#: includes/Render/Fields.php:152
+#: includes/Render/Fields.php:163
 msgid "The featured image of the course."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:213
+#: includes/Divi/FieldModules.php:232
 msgid "The field could not be loaded."
 msgstr ""
 
-#: includes/Render/Fields.php:104
+#: includes/Render/Fields.php:109
 msgid "The first and last day of the course."
 msgstr ""
 
-#: includes/Render/Fields.php:120
+#: includes/Render/Fields.php:127
 msgid "The hall or halls the course runs in."
 msgstr ""
 
-#: includes/Render/Fields.php:96
+#: includes/Render/Fields.php:100
 msgid "The hours the course meets at, in step with the days."
 msgstr ""
 
-#: includes/Render/Fields.php:144
+#: includes/Render/Fields.php:154
 msgid "The link into iSport. It hides itself when the course is full or takes no bookings."
 msgstr ""
 
-#: includes/Render/Fields.php:72
+#: includes/Render/Fields.php:73
 msgid "The name of the course, as a heading you can style."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:250
+#: includes/Admin/Screen/DisplaySetsPage.php:251
 msgid "The next few days"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:353
+#: includes/Divi/FieldModules.php:376
 msgid "The one this page is about"
 msgstr ""
 
-#: includes/Render/Fields.php:169
+#: includes/Render/Fields.php:182
 msgid "The person to contact about a course nobody books through iSport."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:291
+#: includes/Divi/FieldModules.php:310
 msgid "The picture at full size"
 msgstr ""
 
@@ -1318,35 +1338,35 @@ msgstr ""
 msgid "The remote system tags every class, and a tag maintained there stays right for everyone, so it is asked before the list above. One rule per line, in the form label = category. Categories are course, external_course, makeup and rental. A label that is not listed here simply falls through to the list above."
 msgstr ""
 
-#: includes/Render/Fields.php:229
+#: includes/Render/Fields.php:251
 msgid "The sentence or two that makes this a person."
 msgstr ""
 
-#: includes/Render/Fields.php:237
+#: includes/Render/Fields.php:260
 msgid "The trainer’s motto."
 msgstr ""
 
-#: includes/Render/Fields.php:196
+#: includes/Render/Fields.php:214
 msgid "The trainer’s name, as a heading you can style."
 msgstr ""
 
-#: includes/Render/Fields.php:204
+#: includes/Render/Fields.php:223
 msgid "The trainer’s picture: your own where you set one, otherwise the one from iSport."
 msgstr ""
 
-#: includes/Render/Fields.php:88
+#: includes/Render/Fields.php:91
 msgid "The weekday or weekdays the course meets on, one to a line."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:248
+#: includes/Admin/Screen/DisplaySetsPage.php:249
 msgid "The whole term"
 msgstr ""
 
-#: includes/Render/Fields.php:161
+#: includes/Render/Fields.php:173
 msgid "The words written on the course in WordPress."
 msgstr ""
 
-#: includes/Render/Fields.php:245
+#: includes/Render/Fields.php:269
 msgid "The words written on the trainer in WordPress."
 msgstr ""
 
@@ -1358,15 +1378,15 @@ msgstr ""
 msgid "They appear struck through and labelled. Unticking hides them entirely."
 msgstr ""
 
-#: includes/Render/FieldRenderer.php:174
+#: includes/Render/FieldRenderer.php:263
 msgid "This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings."
 msgstr ""
 
-#: includes/Render/Fields.php:177
+#: includes/Render/Fields.php:192
 msgid "This course’s own timetable, as a table."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:212
+#: includes/Divi/FieldModules.php:231
 msgid "This field is empty for this record, so it will not appear on the page."
 msgstr ""
 
@@ -1378,12 +1398,12 @@ msgstr ""
 msgid "This shortcode needs a display set, for example [cscs_courses set=\"kurzy-pro-deti\"]."
 msgstr ""
 
+#: includes/Admin/Screen/DisplaySetsPage.php:250
 #: templates/partials/controls.php:37
-#: includes/Admin/Screen/DisplaySetsPage.php:249
 msgid "This week"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:205
+#: includes/Admin/Screen/DisplaySetsPage.php:206
 msgid "Tick what to show and number the order. A column left unticked is not rendered at all; a label left empty uses the built-in one. On a narrow screen every table folds so that these headings run down the left and the values down the right, which is why a short label is worth the trouble."
 msgstr ""
 
@@ -1391,12 +1411,12 @@ msgstr ""
 msgid "Tied to a course"
 msgstr ""
 
-#: includes/Render/Fields.php:93
-#: includes/Render/Fields.php:94
-#: includes/Render/CourseDetail.php:100
 #: includes/Admin/Screen/MakeupPage.php:129
 #: includes/Admin/Screen/UnmatchedPage.php:164
-#: includes/Admin/Screen/DisplaySetsPage.php:469
+#: includes/Render/CourseDetail.php:100
+#: includes/Render/Fields.php:588
+#: includes/Render/Fields.php:96
+#: includes/Render/Fields.php:97
 msgid "Time"
 msgstr ""
 
@@ -1404,35 +1424,35 @@ msgstr ""
 msgid "Timetable refresh interval (seconds)"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:262
+#: includes/Admin/Screen/DisplaySetsPage.php:263
 msgid "To:"
 msgstr ""
 
-#: includes/Render/Fields.php:125
-#: includes/Render/Fields.php:126
-#: includes/Render/CourseDetail.php:104
-#: includes/Render/CourseDetail.php:127
-#: includes/Render/TrainerDetail.php:239
+#: includes/Admin/CourseEditor.php:312
 #: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Admin/Screen/UnmatchedPage.php:167
-#: includes/Admin/Screen/DisplaySetsPage.php:471
-#: includes/Admin/CourseEditor.php:312
 #: includes/Data/PostType.php:165
 #: includes/Data/TrainerType.php:93
+#: includes/Render/CourseDetail.php:104
+#: includes/Render/CourseDetail.php:127
+#: includes/Render/Fields.php:132
+#: includes/Render/Fields.php:133
+#: includes/Render/Fields.php:590
+#: includes/Render/TrainerDetail.php:239
 msgid "Trainer"
 msgstr ""
 
-#: includes/Render/Fields.php:242
+#: includes/Render/Fields.php:265
 msgid "Trainer description"
 msgstr ""
 
-#: includes/Render/Fields.php:193
+#: includes/Render/Fields.php:210
 msgid "Trainer name"
 msgstr ""
 
 #: includes/Admin/Menu.php:101
 #: includes/Admin/Menu.php:102
-#: includes/Admin/Screen/DisplaySetsPage.php:241
+#: includes/Admin/Screen/DisplaySetsPage.php:242
 #: includes/Data/PostType.php:164
 #: includes/Data/TrainerType.php:92
 #: includes/Data/TrainerType.php:94
@@ -1458,9 +1478,9 @@ msgstr ""
 msgid "Unresolved"
 msgstr ""
 
+#: includes/Render/Fields.php:187
+#: includes/Render/Fields.php:188
 #: templates/single-course.php:85
-#: includes/Render/Fields.php:174
-#: includes/Render/Fields.php:175
 msgid "Upcoming classes"
 msgstr ""
 
@@ -1468,15 +1488,15 @@ msgstr ""
 msgid "Use"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:297
+#: includes/Divi/FieldModules.php:316
 msgid "Used when the picture links to an address of your own."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:242
+#: includes/Divi/FieldModules.php:261
 msgid "Value element"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:316
+#: includes/Divi/FieldModules.php:335
 msgid "Value text"
 msgstr ""
 
@@ -1492,19 +1512,19 @@ msgstr ""
 msgid "What is stored"
 msgstr ""
 
-#: includes/Render/Fields.php:80
+#: includes/Render/Fields.php:82
 msgid "What the course costs. A course with no price shows as free."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:263
+#: includes/Divi/FieldModules.php:282
 msgid "What the list is marked with."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:283
+#: includes/Divi/FieldModules.php:302
 msgid "What the picture says to somebody who cannot see it. Empty means the name of the course or trainer, which is usually right."
 msgstr ""
 
-#: includes/Render/Fields.php:221
+#: includes/Render/Fields.php:242
 msgid "What the trainer does when they are not in the hall."
 msgstr ""
 
@@ -1512,11 +1532,11 @@ msgstr ""
 msgid "What this trainer does when they are not in the hall."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:235
+#: includes/Divi/FieldModules.php:254
 msgid "What to call this field. Empty means the name it comes with."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:237
+#: includes/Admin/Screen/DisplaySetsPage.php:238
 msgid "What to include"
 msgstr ""
 
@@ -1524,44 +1544,44 @@ msgstr ""
 msgid "When"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:336
+#: includes/Admin/Screen/DisplaySetsPage.php:337
 msgid "When a course is full"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:498
+#: includes/Admin/Screen/DisplaySetsPage.php:484
 msgid "When it starts"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:335
-#: includes/Divi/FieldModules.php:273
+#: includes/Admin/Screen/DisplaySetsPage.php:336
+#: includes/Divi/FieldModules.php:292
 msgid "When there is nothing to show"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:287
+#: includes/Divi/FieldModules.php:306
 msgid "Where the picture takes a visitor who clicks it."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:231
+#: includes/Divi/FieldModules.php:250
 msgid "Whether the field prints its name above or beside the value."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:239
+#: includes/Divi/FieldModules.php:258
 msgid "Which HTML element the heading is."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:243
+#: includes/Divi/FieldModules.php:262
 msgid "Which HTML element the value is."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:227
+#: includes/Divi/FieldModules.php:246
 msgid "Which course or trainer this shows. Left as it is, it follows the page — which is what a theme builder template wants."
 msgstr ""
 
-#: includes/Divi/DisplayModule.php:224
+#: includes/Divi/DisplayModule.php:225
 msgid "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:278
+#: includes/Divi/FieldModules.php:297
 msgid "Which of the sizes WordPress made of this picture to serve. Larger is not better: a portrait shown at 300 pixels costs the visitor nothing extra if 300 pixels is what is sent."
 msgstr ""
 
@@ -1569,13 +1589,13 @@ msgstr ""
 msgid "Which week"
 msgstr ""
 
-#: includes/Render/Fields.php:128
+#: includes/Render/Fields.php:136
 msgid "Who runs the course, linked to their own page where they have one."
 msgstr ""
 
+#: includes/Render/Fields.php:178
+#: includes/Render/Fields.php:179
 #: templates/single-course.php:62
-#: includes/Render/Fields.php:166
-#: includes/Render/Fields.php:167
 msgid "Who to ask"
 msgstr ""
 
@@ -1587,7 +1607,7 @@ msgstr ""
 msgid "Width at which tables fold (pixels)"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:330
+#: includes/Admin/Screen/DisplaySetsPage.php:331
 msgid "Wording"
 msgstr ""
 
@@ -1599,8 +1619,8 @@ msgstr ""
 msgid "Yes, until %s"
 msgstr ""
 
-#: includes/Admin/Screen/SettingsPage.php:51
 #: includes/Admin/Screen/SettingsPage.php:190
+#: includes/Admin/Screen/SettingsPage.php:51
 msgid "You are not allowed to change these settings."
 msgstr ""
 
@@ -1608,38 +1628,39 @@ msgstr ""
 msgid "You are not allowed to run that."
 msgstr ""
 
+#: includes/Admin/Screen/DisplaySetsPage.php:63
 #: includes/Admin/Screen/MakeupPage.php:75
 #: includes/Admin/Screen/Overview.php:52
 #: includes/Admin/Screen/RoomsPage.php:60
 #: includes/Admin/Screen/UnmatchedPage.php:99
-#: includes/Admin/Screen/DisplaySetsPage.php:62
 msgid "You are not allowed to view this page."
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:318
+#: includes/Admin/Screen/DisplaySetsPage.php:319
 msgid "Zero shows everything on one page."
 msgstr ""
 
+#: includes/Divi/DisplayModule.php:267
 #: includes/Render/Block.php:140
-#: includes/Divi/DisplayModule.php:266
 msgid "classes"
 msgstr ""
 
+#: includes/Divi/DisplayModule.php:268
 #: includes/Render/Block.php:141
-#: includes/Divi/DisplayModule.php:267
 msgid "courses"
 msgstr ""
 
 #: includes/Admin/Menu.php:73
 #: includes/Admin/Menu.php:74
+#: includes/Divi/ModuleFolder.php:58
 msgid "iSport"
 msgstr ""
 
-#: includes/Divi/DisplayModule.php:209
+#: includes/Divi/DisplayModule.php:210
 msgid "iSport listing"
 msgstr ""
 
-#: includes/Divi/DisplayModule.php:210
+#: includes/Divi/DisplayModule.php:211
 msgid "iSport listings"
 msgstr ""
 
@@ -1669,15 +1690,35 @@ msgid_plural "last %d places"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Divi/FieldModules.php:155
-msgid "of the heading"
+#: includes/Divi/FieldModules.php:166
+msgid "of the %s column"
+msgstr ""
+
+#: includes/Divi/FieldModules.php:161
+msgid "of the banded row"
 msgstr ""
 
 #: includes/Divi/FieldModules.php:156
+msgid "of the heading"
+msgstr ""
+
+#: includes/Divi/FieldModules.php:160
+msgid "of the link in a table"
+msgstr ""
+
+#: includes/Divi/FieldModules.php:159
+msgid "of the table cell"
+msgstr ""
+
+#: includes/Divi/FieldModules.php:158
+msgid "of the table heading"
+msgstr ""
+
+#: includes/Divi/FieldModules.php:157
 msgid "of the value"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:125
+#: includes/Admin/Screen/DisplaySetsPage.php:126
 msgid "— being edited"
 msgstr ""
 
@@ -1689,7 +1730,7 @@ msgstr ""
 msgid "— choose a set —"
 msgstr ""
 
-#: includes/Admin/Screen/DisplaySetsPage.php:379
+#: includes/Admin/Screen/DisplaySetsPage.php:380
 msgid "— hidden everywhere"
 msgstr ""
 
@@ -1953,6 +1994,58 @@ msgstr ""
 
 #: blocks/fields/editor.js
 msgid "Larger is not better: a portrait shown at 300 pixels costs the visitor nothing extra if 300 pixels is what is sent."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Padding"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Up to four lengths, the CSS way: \"8px 12px\"."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Background"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Left alone, a link keeps the colour the theme gives it."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Lines and banding"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Line thickness"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "The rule under each row. A length — 1px, 2px."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Line colour"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Every other row"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "A colour here bands the table: every second row takes it."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Width of %s"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Alignment of %s"
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "A length or a percentage. Empty lets the table decide."
 msgstr ""
 
 #: visual-builder/cscs-divi-fields.js

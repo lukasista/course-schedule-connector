@@ -49,6 +49,29 @@
 		return;
 	}
 
+	/**
+	 * Puts the plugin's modules on a shelf of their own.
+	 *
+	 * Divi's module list is alphabetical, and twenty-four modules spread
+	 * through it are not a set anybody can find. A folder is how Divi answers
+	 * that for WooCommerce, and the modules ask to be in it by carrying a
+	 * `folder` key. Both of the plugin's builder scripts do this, because
+	 * either may load first and neither can wait for the other; registering the
+	 * same folder twice registers the same folder.
+	 *
+	 * @return {void}
+	 */
+	function registerOwnFolder() {
+		var folder = window.cscsDiviFolder;
+		var register = divi.moduleLibrary ? divi.moduleLibrary.registerFolder : null;
+
+		if ( ! folder || ! folder.name || 'function' !== typeof register ) {
+			return;
+		}
+
+		register( folder );
+	}
+
 	var __ = i18n ? i18n.__ : function ( text ) {
 		return text;
 	};
@@ -211,6 +234,8 @@
 		'divi.moduleLibrary.registerModuleLibraryStore.after',
 		'cscs.diviDisplay',
 		function () {
+			registerOwnFolder();
+
 			registerModule( config, module );
 		}
 	);

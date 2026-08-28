@@ -199,6 +199,29 @@
 	}
 
 	/**
+	 * Puts the plugin's modules on a shelf of their own.
+	 *
+	 * Divi's module list is alphabetical, and twenty-four modules spread
+	 * through it are not a set anybody can find. A folder is how Divi answers
+	 * that for WooCommerce, and the modules ask to be in it by carrying a
+	 * `folder` key. Both of the plugin's builder scripts do this, because
+	 * either may load first and neither can wait for the other; registering the
+	 * same folder twice registers the same folder.
+	 *
+	 * @return {void}
+	 */
+	function registerOwnFolder() {
+		var folder = window.cscsDiviFolder;
+		var register = divi.moduleLibrary ? divi.moduleLibrary.registerFolder : null;
+
+		if ( ! folder || ! folder.name || 'function' !== typeof register ) {
+			return;
+		}
+
+		register( folder );
+	}
+
+	/**
 	 * Builds the part of a module that writes its CSS in the builder.
 	 *
 	 * This is the half of a Divi module that is easy to leave out, because nothing
@@ -225,10 +248,14 @@
 	 * @return {Function} The renderer.
 	 */
 	function stylesRenderer( metadata ) {
-		// Only the picture fields declare an `image` element; asking for its
-		// styles anywhere else would be asking about a selector that is not on
-		// the page.
-		var picture = !! ( metadata.attributes && metadata.attributes.image );
+		// Which parts this field has is the metadata's answer, not this file's:
+		// a heading and a value always, a picture on the picture fields, and on
+		// a field that draws a table its heading row, its cells, its links, its
+		// banding and each of its columns. An attribute that carries styles is
+		// exactly one that declares what kind of element it is.
+		var styled = Object.keys( metadata.attributes || {} ).filter( function ( key ) {
+			return !! ( metadata.attributes[ key ] && metadata.attributes[ key ].elementType );
+		} );
 
 		return function ( props ) {
 			var elements = props.elements;
@@ -263,12 +290,9 @@
 				} )
 			);
 
-			children.push( elements.style( { attrName: 'title' } ) );
-			children.push( elements.style( { attrName: 'value' } ) );
-
-			if ( picture ) {
-				children.push( elements.style( { attrName: 'image' } ) );
-			}
+			styled.forEach( function ( key ) {
+				children.push( elements.style( { attrName: key } ) );
+			} );
 
 			if ( CssStyle ) {
 				children.push(
@@ -361,6 +385,8 @@
 		'divi.moduleLibrary.registerModuleLibraryStore.after',
 		'cscs.diviFields',
 		function () {
+			registerOwnFolder();
+
 			config.modules.forEach( register );
 		}
 	);

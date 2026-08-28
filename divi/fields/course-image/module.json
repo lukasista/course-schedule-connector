@@ -5,8 +5,9 @@
     "titles": "Course picture",
     "moduleClassName": "cscs_divi_field",
     "moduleOrderClassName": "cscs_divi_field_course_image",
-    "moduleIcon": "divi/module-text",
+    "moduleIcon": "divi/module-image",
     "category": "module",
+    "folder": "cscs-modules",
     "attributes": {
         "module": {
             "type": "object",

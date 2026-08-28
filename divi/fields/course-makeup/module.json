@@ -5,8 +5,9 @@
     "titles": "Make-up classes",
     "moduleClassName": "cscs_divi_field",
     "moduleOrderClassName": "cscs_divi_field_course_makeup",
-    "moduleIcon": "divi/module-text",
+    "moduleIcon": "divi/module-tabs",
     "category": "module",
+    "folder": "cscs-modules",
     "attributes": {
         "module": {
             "type": "object",
@@ -118,6 +119,384 @@
                                     "attrName": "value.decoration.spacing",
                                     "grouped": true,
                                     "fieldLabel": "Value"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tableHead": {
+            "type": "object",
+            "elementType": "heading",
+            "selector": "{{selector}} .cscs-table thead th",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableHead",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "tableHead.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Table heading"
+                                }
+                            }
+                        }
+                    },
+                    "spacing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableHead",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/spacing",
+                                "props": {
+                                    "attrName": "tableHead.decoration.spacing",
+                                    "grouped": true,
+                                    "fieldLabel": "Table heading"
+                                }
+                            }
+                        }
+                    },
+                    "background": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableHead",
+                            "priority": 30,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/background",
+                                "props": {
+                                    "attrName": "tableHead.decoration.background",
+                                    "grouped": true,
+                                    "fieldLabel": "Table heading"
+                                }
+                            }
+                        }
+                    },
+                    "border": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableHead",
+                            "priority": 40,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/border",
+                                "props": {
+                                    "attrName": "tableHead.decoration.border",
+                                    "grouped": true,
+                                    "fieldLabel": "Table heading"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tableCell": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-table tbody td",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableCell",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "tableCell.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Table cell"
+                                }
+                            }
+                        }
+                    },
+                    "spacing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableCell",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/spacing",
+                                "props": {
+                                    "attrName": "tableCell.decoration.spacing",
+                                    "grouped": true,
+                                    "fieldLabel": "Table cell"
+                                }
+                            }
+                        }
+                    },
+                    "background": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableCell",
+                            "priority": 30,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/background",
+                                "props": {
+                                    "attrName": "tableCell.decoration.background",
+                                    "grouped": true,
+                                    "fieldLabel": "Table cell"
+                                }
+                            }
+                        }
+                    },
+                    "border": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableCell",
+                            "priority": 40,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/border",
+                                "props": {
+                                    "attrName": "tableCell.decoration.border",
+                                    "grouped": true,
+                                    "fieldLabel": "Table cell"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tableLink": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-table tbody a",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableLink",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "tableLink.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Table link"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tableStripe": {
+            "type": "object",
+            "elementType": "wrapper",
+            "selector": "{{selector}} .cscs-table tbody tr:nth-child(even)",
+            "settings": {
+                "decoration": {
+                    "background": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableRow",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/background",
+                                "props": {
+                                    "attrName": "tableStripe.decoration.background",
+                                    "grouped": true,
+                                    "fieldLabel": "Banded row"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "colDate": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-table .cscs-col-date",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColDate",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "colDate.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Date column"
+                                }
+                            }
+                        }
+                    },
+                    "sizing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColDate",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/sizing",
+                                "props": {
+                                    "attrName": "colDate.decoration.sizing",
+                                    "grouped": true,
+                                    "fieldLabel": "Date column"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "colTime": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-table .cscs-col-time",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColTime",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "colTime.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Time column"
+                                }
+                            }
+                        }
+                    },
+                    "sizing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColTime",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/sizing",
+                                "props": {
+                                    "attrName": "colTime.decoration.sizing",
+                                    "grouped": true,
+                                    "fieldLabel": "Time column"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "colRoom": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-table .cscs-col-room",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColRoom",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "colRoom.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Room column"
+                                }
+                            }
+                        }
+                    },
+                    "sizing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColRoom",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/sizing",
+                                "props": {
+                                    "attrName": "colRoom.decoration.sizing",
+                                    "grouped": true,
+                                    "fieldLabel": "Room column"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "colTrainer": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-table .cscs-col-trainer",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColTrainer",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "colTrainer.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Trainer column"
+                                }
+                            }
+                        }
+                    },
+                    "sizing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColTrainer",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/sizing",
+                                "props": {
+                                    "attrName": "colTrainer.decoration.sizing",
+                                    "grouped": true,
+                                    "fieldLabel": "Trainer column"
                                 }
                             }
                         }
@@ -445,6 +824,110 @@
                     "name": "divi/composite",
                     "props": {
                         "groupLabel": "Value text",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designTableHead": {
+                "panel": "design",
+                "priority": 31,
+                "groupName": "tableHead",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Table heading",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designTableCell": {
+                "panel": "design",
+                "priority": 32,
+                "groupName": "tableCell",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Table cell",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designTableLink": {
+                "panel": "design",
+                "priority": 33,
+                "groupName": "tableLink",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Table link",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designTableRow": {
+                "panel": "design",
+                "priority": 34,
+                "groupName": "tableRow",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Banded row",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designColDate": {
+                "panel": "design",
+                "priority": 35,
+                "groupName": "colDate",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Date column",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designColTime": {
+                "panel": "design",
+                "priority": 36,
+                "groupName": "colTime",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Time column",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designColRoom": {
+                "panel": "design",
+                "priority": 37,
+                "groupName": "colRoom",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Room column",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designColTrainer": {
+                "panel": "design",
+                "priority": 38,
+                "groupName": "colTrainer",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Trainer column",
                         "clipboardCategory": "style"
                     }
                 }

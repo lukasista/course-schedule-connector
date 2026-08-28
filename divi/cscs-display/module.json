@@ -5,8 +5,9 @@
 	"titles": "iSport listings",
 	"moduleClassName": "cscs_divi_display",
 	"moduleOrderClassName": "cscs_divi_display",
-	"moduleIcon": "divi/module-code",
+	"moduleIcon": "divi/module-filterable-portfolio",
 	"category": "module",
+	"folder": "cscs-modules",
 	"attributes": {
 		"module": {
 			"type": "object",

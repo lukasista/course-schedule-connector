@@ -60,7 +60,7 @@ final class Fields {
 	/**
 	 * Returns every field, keyed by the name its block and module carry.
 	 *
-	 * @return array<string, array{context: string, kind: string, title: string, label: string, icon: string, description: string, heading: bool}>
+	 * @return array<string, array{context: string, kind: string, title: string, label: string, icon: string, moduleIcon: string, columns: array<int, string>, description: string, heading: bool}>
 	 */
 	public static function all(): array {
 		$course = array(
@@ -69,6 +69,7 @@ final class Fields {
 				'title'       => __( 'Course name', 'course-schedule-connector' ),
 				'label'       => '',
 				'icon'        => 'editor-textcolor',
+				'moduleIcon'  => 'divi/module-post-title',
 				'description' => __( 'The name of the course, as a heading you can style.', 'course-schedule-connector' ),
 				'heading'     => false,
 			),
@@ -77,6 +78,7 @@ final class Fields {
 				'title'       => __( 'Price', 'course-schedule-connector' ),
 				'label'       => __( 'Price', 'course-schedule-connector' ),
 				'icon'        => 'tag',
+				'moduleIcon'  => 'divi/module-pricing-table',
 				'description' => __( 'What the course costs. A course with no price shows as free.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -85,6 +87,7 @@ final class Fields {
 				'title'       => __( 'Day', 'course-schedule-connector' ),
 				'label'       => __( 'Day', 'course-schedule-connector' ),
 				'icon'        => 'calendar',
+				'moduleIcon'  => 'divi/module-timeline',
 				'description' => __( 'The weekday or weekdays the course meets on, one to a line.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -93,6 +96,7 @@ final class Fields {
 				'title'       => __( 'Time', 'course-schedule-connector' ),
 				'label'       => __( 'Time', 'course-schedule-connector' ),
 				'icon'        => 'clock',
+				'moduleIcon'  => 'divi/module-countdown-timer',
 				'description' => __( 'The hours the course meets at, in step with the days.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -101,6 +105,7 @@ final class Fields {
 				'title'       => __( 'Runs', 'course-schedule-connector' ),
 				'label'       => __( 'Runs', 'course-schedule-connector' ),
 				'icon'        => 'calendar-alt',
+				'moduleIcon'  => 'divi/module-timeline-item',
 				'description' => __( 'The first and last day of the course.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -109,6 +114,7 @@ final class Fields {
 				'title'       => __( 'Classes', 'course-schedule-connector' ),
 				'label'       => __( 'Classes', 'course-schedule-connector' ),
 				'icon'        => 'list-view',
+				'moduleIcon'  => 'divi/module-number-counter',
 				'description' => __( 'How many classes the course has.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -117,6 +123,7 @@ final class Fields {
 				'title'       => __( 'Room', 'course-schedule-connector' ),
 				'label'       => __( 'Room', 'course-schedule-connector' ),
 				'icon'        => 'location',
+				'moduleIcon'  => 'divi/module-map-pin',
 				'description' => __( 'The hall or halls the course runs in.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -125,6 +132,7 @@ final class Fields {
 				'title'       => __( 'Trainer', 'course-schedule-connector' ),
 				'label'       => __( 'Trainer', 'course-schedule-connector' ),
 				'icon'        => 'groups',
+				'moduleIcon'  => 'divi/module-link',
 				'description' => __( 'Who runs the course, linked to their own page where they have one.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -133,6 +141,7 @@ final class Fields {
 				'title'       => __( 'Places left', 'course-schedule-connector' ),
 				'label'       => __( 'Places left', 'course-schedule-connector' ),
 				'icon'        => 'admin-users',
+				'moduleIcon'  => 'divi/module-circle-counter',
 				'description' => __( 'How many places are still free.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -141,6 +150,7 @@ final class Fields {
 				'title'       => __( 'Sign-up button', 'course-schedule-connector' ),
 				'label'       => '',
 				'icon'        => 'external',
+				'moduleIcon'  => 'divi/module-button',
 				'description' => __( 'The link into iSport. It hides itself when the course is full or takes no bookings.', 'course-schedule-connector' ),
 				'heading'     => false,
 			),
@@ -149,6 +159,7 @@ final class Fields {
 				'title'       => __( 'Course picture', 'course-schedule-connector' ),
 				'label'       => '',
 				'icon'        => 'format-image',
+				'moduleIcon'  => 'divi/module-image',
 				'description' => __( 'The featured image of the course.', 'course-schedule-connector' ),
 				'heading'     => false,
 				'image'       => true,
@@ -158,6 +169,7 @@ final class Fields {
 				'title'       => __( 'Course description', 'course-schedule-connector' ),
 				'label'       => '',
 				'icon'        => 'editor-paragraph',
+				'moduleIcon'  => 'divi/module-post-content',
 				'description' => __( 'The words written on the course in WordPress.', 'course-schedule-connector' ),
 				'heading'     => false,
 			),
@@ -166,6 +178,7 @@ final class Fields {
 				'title'       => __( 'Who to ask', 'course-schedule-connector' ),
 				'label'       => __( 'Who to ask', 'course-schedule-connector' ),
 				'icon'        => 'email',
+				'moduleIcon'  => 'divi/module-contact-form',
 				'description' => __( 'The person to contact about a course nobody books through iSport.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -174,6 +187,8 @@ final class Fields {
 				'title'       => __( 'Upcoming classes', 'course-schedule-connector' ),
 				'label'       => __( 'Upcoming classes', 'course-schedule-connector' ),
 				'icon'        => 'calendar-alt',
+				'moduleIcon'  => 'divi/module-table-of-contents',
+				'columns'     => array( 'date', 'time', 'room', 'trainer', 'state' ),
 				'description' => __( 'This course’s own timetable, as a table.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -182,6 +197,8 @@ final class Fields {
 				'title'       => __( 'Make-up classes', 'course-schedule-connector' ),
 				'label'       => __( 'Make-up classes for this course', 'course-schedule-connector' ),
 				'icon'        => 'update',
+				'moduleIcon'  => 'divi/module-tabs',
+				'columns'     => array( 'date', 'time', 'room', 'trainer' ),
 				'description' => __( 'Classes that stand in for one somebody missed.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -193,6 +210,7 @@ final class Fields {
 				'title'       => __( 'Trainer name', 'course-schedule-connector' ),
 				'label'       => '',
 				'icon'        => 'editor-textcolor',
+				'moduleIcon'  => 'divi/module-heading',
 				'description' => __( 'The trainer’s name, as a heading you can style.', 'course-schedule-connector' ),
 				'heading'     => false,
 			),
@@ -201,6 +219,7 @@ final class Fields {
 				'title'       => __( 'Photograph', 'course-schedule-connector' ),
 				'label'       => '',
 				'icon'        => 'format-image',
+				'moduleIcon'  => 'divi/module-team-member',
 				'description' => __( 'The trainer’s picture: your own where you set one, otherwise the one from iSport.', 'course-schedule-connector' ),
 				'heading'     => false,
 				'image'       => true,
@@ -210,6 +229,7 @@ final class Fields {
 				'title'       => __( 'Qualifications', 'course-schedule-connector' ),
 				'label'       => __( 'Qualifications', 'course-schedule-connector' ),
 				'icon'        => 'awards',
+				'moduleIcon'  => 'divi/module-icon-list',
 				'description' => __( 'Every qualification, in the order they were entered.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -218,6 +238,7 @@ final class Fields {
 				'title'       => __( 'Interests', 'course-schedule-connector' ),
 				'label'       => __( 'Interests', 'course-schedule-connector' ),
 				'icon'        => 'heart',
+				'moduleIcon'  => 'divi/module-icon-list-item',
 				'description' => __( 'What the trainer does when they are not in the hall.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -226,6 +247,7 @@ final class Fields {
 				'title'       => __( 'Something worth knowing', 'course-schedule-connector' ),
 				'label'       => __( 'Something worth knowing', 'course-schedule-connector' ),
 				'icon'        => 'lightbulb',
+				'moduleIcon'  => 'divi/module-tooltip',
 				'description' => __( 'The sentence or two that makes this a person.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -234,6 +256,7 @@ final class Fields {
 				'title'       => __( 'Motto', 'course-schedule-connector' ),
 				'label'       => '',
 				'icon'        => 'format-quote',
+				'moduleIcon'  => 'divi/module-testimonial',
 				'description' => __( 'The trainer’s motto.', 'course-schedule-connector' ),
 				'heading'     => false,
 			),
@@ -242,6 +265,7 @@ final class Fields {
 				'title'       => __( 'Trainer description', 'course-schedule-connector' ),
 				'label'       => '',
 				'icon'        => 'editor-paragraph',
+				'moduleIcon'  => 'divi/module-text',
 				'description' => __( 'The words written on the trainer in WordPress.', 'course-schedule-connector' ),
 				'heading'     => false,
 			),
@@ -250,6 +274,8 @@ final class Fields {
 				'title'       => __( 'Courses this trainer runs', 'course-schedule-connector' ),
 				'label'       => __( 'Courses this trainer runs', 'course-schedule-connector' ),
 				'icon'        => 'calendar-alt',
+				'moduleIcon'  => 'divi/module-blog',
+				'columns'     => array( 'name', 'days', 'period', 'price', 'places' ),
 				'description' => __( 'Every course paired with this trainer, as a table.', 'course-schedule-connector' ),
 				'heading'     => true,
 			),
@@ -259,7 +285,7 @@ final class Fields {
 
 		foreach ( $course as $key => $field ) {
 			$fields[ self::COURSE . '-' . $key ] = array_merge(
-				array( 'image' => false ),
+				self::defaults(),
 				$field,
 				array( 'context' => self::COURSE )
 			);
@@ -267,7 +293,7 @@ final class Fields {
 
 		foreach ( $trainer as $key => $field ) {
 			$fields[ self::TRAINER . '-' . $key ] = array_merge(
-				array( 'image' => false ),
+				self::defaults(),
 				$field,
 				array( 'context' => self::TRAINER )
 			);
@@ -283,6 +309,24 @@ final class Fields {
 		 * @param array<string, array<string, mixed>> $fields Fields, keyed by name.
 		 */
 		return apply_filters( 'cscs_fields', $fields );
+	}
+
+	/**
+	 * What a field is when its own entry says nothing.
+	 *
+	 * A field is text without a picture and without a table until it says
+	 * otherwise, and it carries Divi's plain text icon until somebody gives it
+	 * a better one. Written once here rather than repeated in twenty-three
+	 * entries, so that a key added to the shape reaches every field at once.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private static function defaults(): array {
+		return array(
+			'image'      => false,
+			'columns'    => array(),
+			'moduleIcon' => 'divi/module-text',
+		);
 	}
 
 	/**
@@ -523,6 +567,100 @@ final class Fields {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Returns what each column of a listing is called.
+	 *
+	 * The one map. A table's columns are named in three places — the display
+	 * sets screen, a Divi module's design panel, a block's sidebar — and three
+	 * maps would be three chances for a column to be called two things.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function column_labels(): array {
+		return array(
+			'name'     => __( 'Course', 'course-schedule-connector' ),
+			'course'   => __( 'Course', 'course-schedule-connector' ),
+			'activity' => __( 'Activity', 'course-schedule-connector' ),
+			'days'     => __( 'Days and times', 'course-schedule-connector' ),
+			'date'     => __( 'Date', 'course-schedule-connector' ),
+			'time'     => __( 'Time', 'course-schedule-connector' ),
+			'room'     => __( 'Room', 'course-schedule-connector' ),
+			'trainer'  => __( 'Trainer', 'course-schedule-connector' ),
+			'period'   => __( 'Runs from and to', 'course-schedule-connector' ),
+			'lessons'  => __( 'Number of classes', 'course-schedule-connector' ),
+			'price'    => __( 'Price', 'course-schedule-connector' ),
+			'places'   => __( 'Places left', 'course-schedule-connector' ),
+			'state'    => __( 'Cancelled', 'course-schedule-connector' ),
+			'button'   => __( 'Booking button', 'course-schedule-connector' ),
+		);
+	}
+
+	/**
+	 * Returns what one column is called.
+	 *
+	 * @param string $column Column key.
+	 * @return string
+	 */
+	public static function column_label( string $column ): string {
+		$labels = self::column_labels();
+
+		return $labels[ $column ] ?? $column;
+	}
+
+	/**
+	 * Returns the parts of a field a designer can style separately.
+	 *
+	 * This is the list Divi's modules declare as attributes, the list their
+	 * render callbacks emit styles for, and the list the builder writes CSS
+	 * from. Keeping it in one place is what stops the third from quietly
+	 * falling behind the first — a module that offers a setting and never
+	 * writes its CSS is worse than one that does not offer it.
+	 *
+	 * @param array<string, mixed> $field Field definition.
+	 * @return array<string, string> Attribute name to the selector it styles.
+	 */
+	public static function style_elements( array $field ): array {
+		$elements = array(
+			'title' => '{{selector}} .cscs-field__label',
+			'value' => '{{selector}} .cscs-field__value',
+		);
+
+		if ( ! empty( $field['image'] ) ) {
+			$elements['image'] = '{{selector}} .cscs-field__image';
+		}
+
+		$columns = (array) ( $field['columns'] ?? array() );
+
+		if ( array() === $columns ) {
+			return $elements;
+		}
+
+		// A table is not one thing either. Its heading row, its cells, the
+		// links inside them and the banding behind them are each what somebody
+		// means when they say the table looks wrong.
+		$elements['tableHead']   = '{{selector}} .cscs-table thead th';
+		$elements['tableCell']   = '{{selector}} .cscs-table tbody td';
+		$elements['tableLink']   = '{{selector}} .cscs-table tbody a';
+		$elements['tableStripe'] = '{{selector}} .cscs-table tbody tr:nth-child(even)';
+
+		foreach ( $columns as $column ) {
+			$elements[ self::column_attribute( (string) $column ) ] =
+				'{{selector}} .cscs-table .cscs-col-' . $column;
+		}
+
+		return $elements;
+	}
+
+	/**
+	 * Returns the attribute name a column's settings live under.
+	 *
+	 * @param string $column Column key.
+	 * @return string
+	 */
+	public static function column_attribute( string $column ): string {
+		return 'col' . ucfirst( str_replace( ' ', '', ucwords( str_replace( array( '-', '_' ), ' ', $column ) ) ) );
 	}
 
 	/**

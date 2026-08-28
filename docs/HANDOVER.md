@@ -28,7 +28,7 @@ Poslední commity:
 | `ba734c1` | Den a Čas místo „Kdy“; trenéři jako typ příspěvku |
 | `49cde06` | předchozí předání práce |
 
-Testy: **194 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
+Testy: **196 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
 repozitáře.
 
 **Nepushnuté commity** na Macu — viz problém s portem 443 níže.
@@ -144,6 +144,19 @@ php tools/phpunit-shim/run.php                                # testy
 php tools/extract-strings.php && python3 tools/i18n/build.py  # .pot, .po, .mo, JED
 php tools/build-divi-modules.php                              # Divi metadata
 ```
+**PHP na Macu je přes WP-CLI.** Ve VM, ve které běží `device_bash`, žádné PHP
+není, ale Studio ho má — a WP-CLI umí spustit skript i bez WordPressu, takže
+nic z toho se nemusí kopírovat tam a zpět:
+
+```
+wp eval 'require ".../tools/build-divi-modules.php";' --skip-wordpress
+```
+
+Bez `--skip-wordpress` by se načetla česká lokalizace a do generovaných souborů
+by se zapsaly české titulky místo anglických. `wp eval-file` nefunguje —
+soubory začínají `declare( strict_types=1 )` a ten musí být prvním příkazem
+skriptu.
+
 Nové české překlady se dopisují do `tools/i18n/cs.py`, ne do `.po` — ta se
 generuje. Slovníky: `CS` (PHP), `JS` (blok výpisu), `JS_DIVI` (modul výpisu),
 `JS_FIELDS` (bloky polí), `JS_DIVI_FIELDS` (moduly polí). Každý JS soubor má
@@ -216,7 +229,19 @@ ne modulu.
 10. **`renderers.styles` Divi u modulu z pluginu nezavolá.** Obalí ho, ale
    nikdy se ho nezeptá — ověřeno sondou. Registruje se dál, protože je to
    správné místo, ale na plátno se dostane až volání v `edit`.
-11. Odkazy s kotvou na téže stránce Divi polyká kvůli plynulému rolování;
+11. **`$elements->style()` v PHP nevrací řetězec.** Vrací to, co daný prvek
+   potřebuje — někdy řetězec, jindy pole deklarací — a `Style::add()` vezme
+   obojí. Slíbit v callbacku návratový typ `string` znamená fatální chybu na
+   každé stránce, kde takový modul je.
+12. **Vlastní sekce modulů se dělá dvěma věcmi**: klíčem `folder` v
+   `module.json` a zavoláním `divi.moduleLibrary.registerFolder( {name, path,
+   title, icon, category} )`. Přesně tak to má WooCommerce se svou sekcí
+   *Woo Modules*.
+13. **Vlastní ikonu modulu přidat nejde.** `divi.iconLibrary` žádnou registraci
+   nevystavuje. Použitelné názvy (`divi/module-*`) se dají vypsat z builderu:
+   `divi.data.select('divi/module-library').getModules()` a z každého modulu
+   `moduleIcon`.
+14. Odkazy s kotvou na téže stránce Divi polyká kvůli plynulému rolování;
    posluchače je třeba věšet v **capture** fázi.
 
 ---

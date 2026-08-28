@@ -35,3 +35,6 @@ auth.json
 
 # Scratch folder used when files must be removed by hand
 /_to_delete/
+
+# Left behind by the translation build importing its own dictionary
+__pycache__/

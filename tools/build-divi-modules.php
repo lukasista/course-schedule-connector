@@ -112,16 +112,25 @@ function module_metadata( string $name, array $field ): array {
 		'titles'               => $field['title'],
 		'moduleClassName'      => 'cscs_divi_field',
 		'moduleOrderClassName' => 'cscs_divi_field_' . $slug,
-		'moduleIcon'           => 'divi/module-text',
+		'moduleIcon'           => $field['moduleIcon'],
 		'category'             => 'module',
+		// Divi's module list is alphabetical and long; twenty-four modules
+		// spread through it are not a set anybody can find. This is the same
+		// key WooCommerce's modules carry to get their own shelf.
+		'folder'               => 'cscs-modules',
 		'attributes'           => array_filter(
-			array(
-				'module' => module_attribute( ! empty( $field['image'] ) ),
-				'title'  => element_attribute( '{{selector}} .cscs-field__label', 'title', 'designHeadingText', 'Heading', 'heading' ),
-				'value'  => element_attribute( '{{selector}} .cscs-field__value', 'value', 'designValueText', 'Value', 'content' ),
-				'image'  => empty( $field['image'] ) ? array() : image_attribute(),
-				'field'  => field_attribute( $field ),
-				'css'    => array( 'type' => 'object' ),
+			array_merge(
+				array(
+					'module' => module_attribute( ! empty( $field['image'] ) ),
+					'title'  => element_attribute( '{{selector}} .cscs-field__label', 'title', 'designHeadingText', 'Heading', 'heading' ),
+					'value'  => element_attribute( '{{selector}} .cscs-field__value', 'value', 'designValueText', 'Value', 'content' ),
+					'image'  => empty( $field['image'] ) ? array() : image_attribute(),
+				),
+				table_attributes( $field ),
+				array(
+					'field' => field_attribute( $field ),
+					'css'   => array( 'type' => 'object' ),
+				)
 			)
 		),
 		'settings'             => array(
@@ -191,7 +200,7 @@ function module_metadata( string $name, array $field ): array {
 					),
 				),
 				)
-			),
+			) + table_groups( $field ),
 		),
 	);
 }
@@ -317,7 +326,9 @@ function image_attribute(): array {
  * @param string $type     Divi's name for this kind of element.
  * @return array<string, mixed>
  */
-function element_attribute( string $selector, string $attr, string $group, string $label, string $type ): array {
+function element_attribute( string $selector, string $attr, string $group, string $label, string $type, array $groups = array() ): array {
+	$groups = array() === $groups ? array( 'font' => 'divi/font', 'spacing' => 'divi/spacing' ) : $groups;
+
 	$item = static function ( string $component, string $property, int $priority ) use ( $attr, $group, $label ): array {
 		return array(
 			'groupType' => 'group-item',
@@ -338,17 +349,149 @@ function element_attribute( string $selector, string $attr, string $group, strin
 		);
 	};
 
+	$decoration = array();
+	$priority   = 10;
+
+	foreach ( $groups as $property => $component ) {
+		$decoration[ $property ] = $item( $component, $property, $priority );
+		$priority               += 10;
+	}
+
 	return array(
 		'type'        => 'object',
 		'elementType' => $type,
 		'selector'    => $selector,
-		'settings'    => array(
-			'decoration' => array(
-				'font'    => $item( 'divi/font', 'font', 10 ),
-				'spacing' => $item( 'divi/spacing', 'spacing', 20 ),
-			),
-		),
+		'settings'    => array( 'decoration' => $decoration ),
 	);
+}
+
+/**
+ * The parts of a table, as things a designer can style.
+ *
+ * A field that draws a table has more in it than a heading and a value, and
+ * until now none of it could be reached from the builder: the heading row, the
+ * cells, the links inside them, the banding behind them and the width of each
+ * column. They are declared the way Divi declares its own sub-elements, so the
+ * panel that appears is Divi's, in the language the rest of the builder speaks.
+ *
+ * @param array<string, mixed> $field Field definition.
+ * @return array<string, mixed>
+ */
+function table_attributes( array $field ): array {
+	$columns = (array) ( $field['columns'] ?? array() );
+
+	if ( array() === $columns ) {
+		return array();
+	}
+
+	$text = array(
+		'font'       => 'divi/font',
+		'spacing'    => 'divi/spacing',
+		'background' => 'divi/background',
+		'border'     => 'divi/border',
+	);
+
+	$attributes = array(
+		'tableHead'   => element_attribute( '{{selector}} .cscs-table thead th', 'tableHead', 'designTableHead', 'Table heading', 'heading', $text ),
+		'tableCell'   => element_attribute( '{{selector}} .cscs-table tbody td', 'tableCell', 'designTableCell', 'Table cell', 'content', $text ),
+		'tableLink'   => element_attribute( '{{selector}} .cscs-table tbody a', 'tableLink', 'designTableLink', 'Table link', 'content', array( 'font' => 'divi/font' ) ),
+		'tableStripe' => element_attribute( '{{selector}} .cscs-table tbody tr:nth-child(even)', 'tableStripe', 'designTableRow', 'Banded row', 'wrapper', array( 'background' => 'divi/background' ) ),
+	);
+
+	foreach ( $columns as $column ) {
+		$name = column_attribute( (string) $column );
+
+		$attributes[ $name ] = element_attribute(
+			'{{selector}} .cscs-table .cscs-col-' . $column,
+			$name,
+			'design' . ucfirst( $name ),
+			column_label( (string) $column ) . ' column',
+			'content',
+			array(
+				'font'   => 'divi/font',
+				'sizing' => 'divi/sizing',
+			)
+		);
+	}
+
+	return $attributes;
+}
+
+/**
+ * The design groups a table's parts live in.
+ *
+ * One group per part, and one per column. Left in a single group they would be
+ * fifty controls under one heading, each distinguishable only by the words "of
+ * the Price column" trailing after it.
+ *
+ * @param array<string, mixed> $field Field definition.
+ * @return array<string, mixed>
+ */
+function table_groups( array $field ): array {
+	$columns = (array) ( $field['columns'] ?? array() );
+
+	if ( array() === $columns ) {
+		return array();
+	}
+
+	// Divi's own design groups sit at multiples of ten and the first of them
+	// is not far above thirty, so these go in the gap between the value's
+	// typography and Divi's — one apart, in a block, rather than every tenth
+	// and interleaved with Border, Box Shadow and Filters.
+	$priority = 31;
+	$groups   = array();
+
+	$add = static function ( string $key, string $label ) use ( &$groups, &$priority ): void {
+		$groups[ $key ] = array(
+			'panel'         => 'design',
+			'priority'      => $priority,
+			'groupName'     => lcfirst( substr( $key, strlen( 'design' ) ) ),
+			'multiElements' => true,
+			'component'     => array(
+				'name'  => 'divi/composite',
+				'props' => array(
+					'groupLabel'        => $label,
+					'clipboardCategory' => 'style',
+				),
+			),
+		);
+
+		++$priority;
+	};
+
+	$add( 'designTableHead', 'Table heading' );
+	$add( 'designTableCell', 'Table cell' );
+	$add( 'designTableLink', 'Table link' );
+	$add( 'designTableRow', 'Banded row' );
+
+	foreach ( $columns as $column ) {
+		$add( 'design' . ucfirst( column_attribute( (string) $column ) ), column_label( (string) $column ) . ' column' );
+	}
+
+	return $groups;
+}
+
+/**
+ * Returns the attribute name a column's settings live under.
+ *
+ * The catalogue's own answer, so that the generator and the renderer cannot
+ * disagree about what a column is called.
+ *
+ * @param string $column Column key.
+ * @return string
+ */
+function column_attribute( string $column ): string {
+	return \CSCS\Render\Fields::column_attribute( $column );
+}
+
+/**
+ * Returns what a column is called.
+ *
+ * @param string $column Column key.
+ * @return string
+ */
+function column_label( string $column ): string {
+	return \CSCS\Render\Fields::column_label( $column );
 }
 
 /**

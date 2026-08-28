@@ -161,6 +161,75 @@ final class FieldModulesTest extends TestCase {
 	}
 
 	/**
+	 * A field that draws a table can have the table designed.
+	 *
+	 * The heading row, the cells, the links, the banding and each column, each
+	 * with its own attribute, its own group and its own selector — and no such
+	 * attribute at all on a field that draws no table, where it would be a
+	 * design panel for something that is not on the page.
+	 *
+	 * @return void
+	 */
+	public function test_a_table_can_be_designed_part_by_part(): void {
+		foreach ( Fields::all() as $name => $field ) {
+			$metadata   = $this->read( 'divi/fields/' . $name . '/module.json' );
+			$attributes = $metadata['attributes'] ?? array();
+			$groups     = $metadata['settings']['groups'] ?? array();
+			$columns    = (array) $field['columns'];
+
+			if ( array() === $columns ) {
+				$this->assertArrayNotHasKey( 'tableHead', $attributes, $name );
+
+				continue;
+			}
+
+			foreach ( array( 'tableHead', 'tableCell', 'tableLink', 'tableStripe' ) as $element ) {
+				$this->assertArrayHasKey( $element, $attributes, $name . ' ' . $element );
+			}
+
+			$this->assertSame( '{{selector}} .cscs-table thead th', $attributes['tableHead']['selector'] ?? '', $name );
+
+			foreach ( $columns as $column ) {
+				$attribute = Fields::column_attribute( (string) $column );
+
+				$this->assertArrayHasKey( $attribute, $attributes, $name . ' ' . $attribute );
+				$this->assertSame(
+					'{{selector}} .cscs-table .cscs-col-' . $column,
+					$attributes[ $attribute ]['selector'] ?? '',
+					$name . ' ' . $attribute
+				);
+				$this->assertArrayHasKey( 'design' . ucfirst( $attribute ), $groups, $name . ' ' . $attribute );
+			}
+		}
+	}
+
+	/**
+	 * Every part a module offers to style, it also writes CSS for.
+	 *
+	 * The catalogue answers both questions, so they cannot drift: what the
+	 * generated file declares as an attribute is what the render callback and
+	 * the builder ask for styles for.
+	 *
+	 * @return void
+	 */
+	public function test_the_declared_parts_and_the_styled_parts_are_the_same(): void {
+		foreach ( Fields::all() as $name => $field ) {
+			$attributes = $this->read( 'divi/fields/' . $name . '/module.json' )['attributes'] ?? array();
+
+			$declared = array_keys(
+				array_filter(
+					$attributes,
+					static function ( $attribute ): bool {
+						return isset( $attribute['elementType'] );
+					}
+				)
+			);
+
+			$this->assertSame( array_keys( Fields::style_elements( $field ) ), $declared, $name );
+		}
+	}
+
+	/**
 	 * Two modules may not answer to one name.
 	 *
 	 * @return void

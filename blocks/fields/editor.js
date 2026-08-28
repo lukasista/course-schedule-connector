@@ -137,14 +137,17 @@
 	 * "Price" and "4 160 Kč" are two things a designer wants to treat
 	 * differently, and WordPress's own block supports style a block as one.
 	 *
-	 * @param {Object} props   Block props.
-	 * @param {string} prefix  "label" or "value".
-	 * @param {string} title   Panel title.
-	 * @param {Array}  palette Theme colours.
-	 * @param {Array}  families Theme font families.
+	 * @param {Object}  props    Block props.
+	 * @param {string}  prefix   "label", "value", "tableHead" or "tableCell".
+	 * @param {string}  title    Panel title.
+	 * @param {Array}   palette  Theme colours.
+	 * @param {Array}   families Theme font families.
+	 * @param {boolean} boxed    Whether this element also takes a padding and a
+	 *                           background — a table cell does, a heading in a
+	 *                           field does not.
 	 * @return {Object} The panel.
 	 */
-	function elementPanel( props, prefix, title, palette, families ) {
+	function elementPanel( props, prefix, title, palette, families, boxed ) {
 		var familyOptions = [ blank() ].concat(
 			families.map( function ( family ) {
 				return { label: family.name || family.slug, value: family.fontFamily };
@@ -215,25 +218,159 @@
 				__( 'Margin', 'course-schedule-connector' ),
 				__( 'Up to four lengths, the CSS way: "0 0 4px 0".', 'course-schedule-connector' )
 			),
+			boxed
+				? text(
+						props,
+						prefix + 'Padding',
+						__( 'Padding', 'course-schedule-connector' ),
+						__( 'Up to four lengths, the CSS way: "8px 12px".', 'course-schedule-connector' )
+				  )
+				: null,
+			colour( props, prefix + 'Colour', __( 'Colour', 'course-schedule-connector' ), palette ),
+			boxed
+				? colour( props, prefix + 'Background', __( 'Background', 'course-schedule-connector' ), palette )
+				: null
+		);
+	}
+
+	/**
+	 * Makes a colour control out of the theme's own palette.
+	 *
+	 * @param {Object} props   Block props.
+	 * @param {string} attr    Attribute name.
+	 * @param {string} label   Control label.
+	 * @param {Array}  palette Theme colours.
+	 * @return {Object} The control.
+	 */
+	function colour( props, attr, label, palette ) {
+		return el(
+			'div',
+			{ className: 'cscs-colour' },
+			el( 'p', { className: 'components-base-control__label' }, label ),
+			el( blockEditor.ColorPalette, {
+				colors: palette,
+				value: props.attributes[ attr ] || '',
+				onChange: function ( value ) {
+					var change = {};
+					change[ attr ] = value || '';
+					props.setAttributes( change );
+				},
+			} )
+		);
+	}
+
+	/**
+	 * The panels a field that draws a table gets, on top of the usual ones.
+	 *
+	 * A table is not one thing. Its heading row, its cells, the links inside
+	 * them, the rule between them, the banding behind them and the width of
+	 * each column are each what somebody means when they say the table looks
+	 * wrong, and until now none of them could be reached from here.
+	 *
+	 * @param {Object} props    Block props.
+	 * @param {Object} field    Field description from the server.
+	 * @param {Array}  palette  Theme colours.
+	 * @param {Array}  families Theme font families.
+	 * @return {Array} The panels.
+	 */
+	function tablePanels( props, field, palette, families ) {
+		var columns = field.columns || [];
+
+		if ( ! columns.length ) {
+			return [];
+		}
+
+		return [
+			elementPanel(
+				props,
+				'tableHead',
+				__( 'Table heading', 'course-schedule-connector' ),
+				palette,
+				families,
+				true
+			),
+			elementPanel(
+				props,
+				'tableCell',
+				__( 'Table cell', 'course-schedule-connector' ),
+				palette,
+				families,
+				true
+			),
 			el(
-				'div',
-				{ className: 'cscs-colour' },
+				components.PanelBody,
+				{ title: __( 'Table link', 'course-schedule-connector' ), initialOpen: false },
+				select( props, 'tableLinkFontWeight', __( 'Weight', 'course-schedule-connector' ), [
+					blank(),
+					{ label: __( 'Regular (400)', 'course-schedule-connector' ), value: '400' },
+					{ label: __( 'Semibold (600)', 'course-schedule-connector' ), value: '600' },
+					{ label: __( 'Bold (700)', 'course-schedule-connector' ), value: '700' },
+				] ),
+				select( props, 'tableLinkTextDecoration', __( 'Decoration', 'course-schedule-connector' ), [
+					blank(),
+					{ label: __( 'None', 'course-schedule-connector' ), value: 'none' },
+					{ label: __( 'Underline', 'course-schedule-connector' ), value: 'underline' },
+				] ),
+				colour( props, 'tableLinkColour', __( 'Colour', 'course-schedule-connector' ), palette ),
 				el(
 					'p',
-					{ className: 'components-base-control__label' },
-					__( 'Colour', 'course-schedule-connector' )
+					{ className: 'components-base-control__help' },
+					__( 'Left alone, a link keeps the colour the theme gives it.', 'course-schedule-connector' )
+				)
+			),
+			el(
+				components.PanelBody,
+				{ title: __( 'Lines and banding', 'course-schedule-connector' ), initialOpen: false },
+				text(
+					props,
+					'tableLineWidth',
+					__( 'Line thickness', 'course-schedule-connector' ),
+					__( 'The rule under each row. A length — 1px, 2px.', 'course-schedule-connector' )
 				),
-				el( blockEditor.ColorPalette, {
-					colors: palette,
-					value: props.attributes[ prefix + 'Colour' ] || '',
-					onChange: function ( value ) {
-						var change = {};
-						change[ prefix + 'Colour' ] = value || '';
-						props.setAttributes( change );
-					},
+				colour( props, 'tableLineColour', __( 'Line colour', 'course-schedule-connector' ), palette ),
+				colour( props, 'tableStripe', __( 'Every other row', 'course-schedule-connector' ), palette ),
+				el(
+					'p',
+					{ className: 'components-base-control__help' },
+					__( 'A colour here bands the table: every second row takes it.', 'course-schedule-connector' )
+				)
+			),
+			el(
+				components.PanelBody,
+				{ title: __( 'Columns', 'course-schedule-connector' ), initialOpen: false },
+				columns.map( function ( column ) {
+					return el(
+						Fragment,
+						{ key: column.key },
+						text(
+							props,
+							column.attribute + 'Width',
+							i18n.sprintf(
+								/* translators: %s: the name of a column, "Price" and the like. */
+								__( 'Width of %s', 'course-schedule-connector' ),
+								column.label
+							),
+							__( 'A length or a percentage. Empty lets the table decide.', 'course-schedule-connector' )
+						),
+						select(
+							props,
+							column.attribute + 'Align',
+							i18n.sprintf(
+								/* translators: %s: the name of a column, "Price" and the like. */
+								__( 'Alignment of %s', 'course-schedule-connector' ),
+								column.label
+							),
+							[
+								blank(),
+								{ label: __( 'Left', 'course-schedule-connector' ), value: 'left' },
+								{ label: __( 'Centre', 'course-schedule-connector' ), value: 'center' },
+								{ label: __( 'Right', 'course-schedule-connector' ), value: 'right' },
+							]
+						)
+					);
 				} )
-			)
-		);
+			),
+		];
 	}
 
 	/**
@@ -462,6 +599,7 @@
 						palette,
 						families
 					),
+					tablePanels( props, field, palette, families ),
 					el(
 						components.PanelBody,
 						{ title: __( 'Animation', 'course-schedule-connector' ), initialOpen: false },

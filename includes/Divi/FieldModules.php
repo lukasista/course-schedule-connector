@@ -112,6 +112,7 @@ final class FieldModules {
 			return;
 		}
 
+		wp_localize_script( self::PACKAGE, ModuleFolder::GLOBAL, ModuleFolder::definition() );
 		wp_localize_script( self::PACKAGE, 'cscsDiviFields', $this->metadata() );
 		wp_set_script_translations( self::PACKAGE, 'course-schedule-connector', CSCS_DIR . 'languages' );
 
@@ -152,12 +153,23 @@ final class FieldModules {
 			// rather than looped, so that the strings are literal where the
 			// extractor looks for them.
 			$labels = array(
-				'title' => __( 'of the heading', 'course-schedule-connector' ),
-				'value' => __( 'of the value', 'course-schedule-connector' ),
+				'title'       => __( 'of the heading', 'course-schedule-connector' ),
+				'value'       => __( 'of the value', 'course-schedule-connector' ),
+				'tableHead'   => __( 'of the table heading', 'course-schedule-connector' ),
+				'tableCell'   => __( 'of the table cell', 'course-schedule-connector' ),
+				'tableLink'   => __( 'of the link in a table', 'course-schedule-connector' ),
+				'tableStripe' => __( 'of the banded row', 'course-schedule-connector' ),
 			);
 
+			foreach ( (array) $field['columns'] as $column ) {
+				/* translators: %s: the name of a column, "Price" and the like. */
+				$labels[ Fields::column_attribute( (string) $column ) ] = sprintf( __( 'of the %s column', 'course-schedule-connector' ), Fields::column_label( (string) $column ) );
+			}
+
 			foreach ( $labels as $element => $label ) {
-				foreach ( array( 'font', 'spacing' ) as $property ) {
+				$decoration = $metadata['attributes'][ $element ]['settings']['decoration'] ?? array();
+
+				foreach ( array_keys( $decoration ) as $property ) {
 					$metadata['attributes'][ $element ]['settings']['decoration'][ $property ]['item']['component']['props']['fieldLabel'] = $label;
 				}
 			}
@@ -182,7 +194,14 @@ final class FieldModules {
 				}
 			}
 
-			foreach ( self::group_labels() as $group => $label ) {
+			$groups = self::group_labels();
+
+			foreach ( (array) $field['columns'] as $column ) {
+				/* translators: %s: the name of a column, "Price" and the like. */
+				$groups[ 'design' . ucfirst( Fields::column_attribute( (string) $column ) ) ] = sprintf( __( 'Column: %s', 'course-schedule-connector' ), Fields::column_label( (string) $column ) );
+			}
+
+			foreach ( $groups as $group => $label ) {
 				if ( isset( $metadata['settings']['groups'][ $group ] ) ) {
 					$metadata['settings']['groups'][ $group ]['component']['props']['groupLabel'] = $label;
 				}
@@ -314,6 +333,10 @@ final class FieldModules {
 		return array(
 			'designHeadingText'  => __( 'Heading text', 'course-schedule-connector' ),
 			'designValueText'    => __( 'Value text', 'course-schedule-connector' ),
+			'designTableHead'    => __( 'Table heading', 'course-schedule-connector' ),
+			'designTableCell'    => __( 'Table cell', 'course-schedule-connector' ),
+			'designTableLink'    => __( 'Table link', 'course-schedule-connector' ),
+			'designTableRow'     => __( 'Banded row', 'course-schedule-connector' ),
 			'contentPicture'     => __( 'Picture', 'course-schedule-connector' ),
 			'contentPictureLink' => __( 'Link', 'course-schedule-connector' ),
 		);

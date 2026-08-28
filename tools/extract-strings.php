@@ -5,7 +5,10 @@ $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator( dirname( __
 foreach ($rii as $file) {
     $path = $file->getPathname();
     if ($file->getExtension() !== 'php') continue;
-    if (str_contains($path, '/vendor/') || str_contains($path, '/tools/') || str_contains($path,'/tests/') || str_contains($path,'/node_modules/')) continue;
+    // `_to_delete/` holds copies of files this environment could not remove.
+    // Scanning it counts every string twice and files them under a path that
+    // does not exist in the repository.
+    if (str_contains($path, '/vendor/') || str_contains($path, '/tools/') || str_contains($path,'/tests/') || str_contains($path,'/node_modules/') || str_contains($path,'/_to_delete/')) continue;
     $tokens = token_get_all(file_get_contents($path));
     $count = count($tokens);
     for ($i = 0; $i < $count; $i++) {
@@ -39,5 +42,12 @@ foreach ($rii as $file) {
     }
 }
 ksort($strings);
+
+// The order a directory hands back its files is the filesystem's business, not
+// the plugin's, and this file is committed: without sorting, running the
+// extractor on two machines produces two different files that say the same
+// thing.
+foreach ($strings as $key => $string) { sort($strings[$key]['refs']); }
+
 file_put_contents( __DIR__ . '/i18n/strings.json', json_encode(array_values($strings), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
 echo count($strings), " strings\n";

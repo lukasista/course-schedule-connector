@@ -5,8 +5,9 @@
     "titles": "Motto",
     "moduleClassName": "cscs_divi_field",
     "moduleOrderClassName": "cscs_divi_field_trainer_motto",
-    "moduleIcon": "divi/module-text",
+    "moduleIcon": "divi/module-testimonial",
     "category": "module",
+    "folder": "cscs-modules",
     "attributes": {
         "module": {
             "type": "object",

@@ -190,6 +190,21 @@ Pole, které nemá co říct, se **vynechá celé** — nadpis nad prázdným m�
 
 **Zdroj**: pokud nic nevyberete, blok ukáže ten kurz nebo toho trenéra, o kterém stránka je. Právě proto z nich jde postavit jednu šablonu v Divi Theme Builderu nebo v editoru šablon, která poslouží všem kurzům. Konkrétní kurz vyberete jen tam, kde blok stojí na běžné stránce.
 
+### Kde moduly v Divi najdete
+
+Všechny jsou pohromadě: v seznamu modulů je jedna položka **iSport** a v ní všech dvacet čtyři. Stejně to dělá WooCommerce se svou sekcí *Woo Modules*. Každý modul má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe.
+
+### Tabulky
+
+*Nejbližší lekce*, *Náhradní lekce* a *Kurzy které trenér vede* nevypisují jednu hodnotu, ale tabulku — a ta se dá navrhnout po částech:
+
+- **Hlavička tabulky** a **Buňka tabulky** mají každá vlastní písmo, velikost, barvu, pozadí a vnitřní okraj,
+- **Odkaz v tabulce** vlastní barvu a zdobení. Když ho necháte být, odkaz si nechá barvu ze šablony webu,
+- **Čáry a pruhování** – síla a barva čáry pod řádkem a barva, kterou se obarví každý druhý řádek,
+- **Sloupce** – u každého sloupce zvlášť šířka a zarovnání. V Divi má každý sloupec navíc vlastní skupinu s celou typografií.
+
+Co nenastavíte, zůstane tak, jak to vypadá teď — plugin nic nepřepisuje jen proto, že je nastavení k dispozici.
+
 ## Kurzy, které v iSportu nejsou
 
 Na některé kurzy — typicky kurzy externích lektorů — Jojo Gym nepřijímá přihlášky ani platby, takže v iSportu žádný záznam kurzu nikdy nevznikne. Přesto zabírají místo v rozvrhu a na web patří.

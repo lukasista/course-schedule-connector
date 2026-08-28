@@ -5,8 +5,9 @@
     "titles": "Who to ask",
     "moduleClassName": "cscs_divi_field",
     "moduleOrderClassName": "cscs_divi_field_course_contact",
-    "moduleIcon": "divi/module-text",
+    "moduleIcon": "divi/module-contact-form",
     "category": "module",
+    "folder": "cscs-modules",
     "attributes": {
         "module": {
             "type": "object",

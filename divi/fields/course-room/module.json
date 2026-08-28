@@ -5,8 +5,9 @@
     "titles": "Room",
     "moduleClassName": "cscs_divi_field",
     "moduleOrderClassName": "cscs_divi_field_course_room",
-    "moduleIcon": "divi/module-text",
+    "moduleIcon": "divi/module-map-pin",
     "category": "module",
+    "folder": "cscs-modules",
     "attributes": {
         "module": {
             "type": "object",

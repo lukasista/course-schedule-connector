@@ -201,15 +201,29 @@ final class FieldBlocks {
 		$fields = array();
 
 		foreach ( Fields::all() as $name => $field ) {
+			$columns = array();
+
+			// Which columns a table has decides how many width and alignment
+			// controls the block offers, and what each of them is called.
+			foreach ( (array) $field['columns'] as $column ) {
+				$columns[] = array(
+					'key'       => (string) $column,
+					'label'     => Fields::column_label( (string) $column ),
+					'attribute' => Fields::column_attribute( (string) $column ),
+				);
+			}
+
 			$fields[] = array(
-				'name'      => 'cscs/' . $name,
-				'field'     => $name,
-				'context'   => (string) $field['context'],
-				'kind'      => (string) $field['kind'],
-				'title'     => (string) $field['title'],
-				'label'     => (string) $field['label'],
-				'icon'      => (string) $field['icon'],
-				'heading'   => (bool) $field['heading'],
+				'name'    => 'cscs/' . $name,
+				'field'   => $name,
+				'context' => (string) $field['context'],
+				'kind'    => (string) $field['kind'],
+				'title'   => (string) $field['title'],
+				'label'   => (string) $field['label'],
+				'icon'    => (string) $field['icon'],
+				'heading' => (bool) $field['heading'],
+				'image'   => (bool) $field['image'],
+				'columns' => $columns,
 			);
 		}
 

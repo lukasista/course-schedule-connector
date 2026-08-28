@@ -5,8 +5,9 @@
     "titles": "Places left",
     "moduleClassName": "cscs_divi_field",
     "moduleOrderClassName": "cscs_divi_field_course_places",
-    "moduleIcon": "divi/module-text",
+    "moduleIcon": "divi/module-circle-counter",
     "category": "module",
+    "folder": "cscs-modules",
     "attributes": {
         "module": {
             "type": "object",
