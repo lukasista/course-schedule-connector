@@ -19,6 +19,8 @@ Poslední commity:
 
 | commit | co přinesl |
 |---|---|
+| `bcbb77f` | druh kurzu má vlastní stránku a modul s rozvrhem svých kurzů |
+| `41249c4` | jedna úroveň odrážek a jejich nastavení; panely bloku do karty Styly |
 | `eaaaaa6` | Popis z iSportu jako vlastní blok i modul; stránka kurzu ho doplní |
 | `e90d138` | druh se čte z názvu aktivity, kde se liší od názvu kurzu |
 | `39cc66d` | druh kurzu jako taxonomie — karta se postaví zaškrtnutím druhu |
