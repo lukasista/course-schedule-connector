@@ -11,6 +11,7 @@ namespace CSCS\Cli;
 
 use CSCS\Api\ApiException;
 use CSCS\Data\Audience;
+use CSCS\Data\CourseKind;
 use CSCS\Data\CourseRepository;
 use CSCS\Data\PostType;
 use CSCS\Plugin;
@@ -321,6 +322,104 @@ final class SyncCommand {
 				$result['lessons_removed'],
 				$result['log_removed'],
 				$result['courses_finished']
+			)
+		);
+	}
+
+	/**
+	 * Files every stored course under the kind of course its name says it is.
+	 *
+	 * The next synchronisation would do this on its own, one course at a time.
+	 * This is for the day the kinds are added, when waiting for a whole cycle
+	 * to pass means a website with no cards on it.
+	 *
+	 * A course whose kind somebody has locked is left alone and counted apart,
+	 * the same way the audience is.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--dry-run]
+	 * : Print what would be written and write nothing.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp cscs sync kinds --dry-run
+	 *     wp cscs sync kinds
+	 *
+	 * @param array<int, string>    $args       Positional arguments.
+	 * @param array<string, string> $assoc_args Options.
+	 * @return void
+	 */
+	public function kinds( array $args, array $assoc_args ): void {
+		unset( $args );
+
+		$dry     = isset( $assoc_args['dry-run'] );
+		$posts   = get_posts(
+			array(
+				'post_type'        => PostType::COURSE,
+				'post_status'      => 'any',
+				'numberposts'      => -1,
+				'fields'           => 'ids',
+				'suppress_filters' => false,
+			)
+		);
+		$read    = 0;
+		$kept    = 0;
+		$nothing = 0;
+		$groups  = array();
+
+		foreach ( $posts as $post_id ) {
+			$post_id = (int) $post_id;
+			$title   = (string) get_post_field( 'post_title', $post_id );
+			$locked  = in_array( PostType::KIND, $this->plugin->courses()->locked_fields( $post_id ), true );
+			$kind    = CourseKind::read( $title );
+
+			if ( $locked ) {
+				++$kept;
+
+				$terms = wp_get_object_terms( $post_id, PostType::KIND, array( 'fields' => 'names' ) );
+				$kind  = is_array( $terms ) && array() !== $terms ? (string) $terms[0] : '';
+			} elseif ( '' === $kind ) {
+				++$nothing;
+
+				if ( ! $dry ) {
+					wp_set_object_terms( $post_id, array(), PostType::KIND );
+				}
+			} else {
+				++$read;
+
+				if ( ! $dry ) {
+					wp_set_object_terms( $post_id, array( $kind ), PostType::KIND );
+				}
+			}
+
+			$label = ( '' === $kind ? '—' : $kind ) . ( $locked ? ' *' : '' );
+
+			if ( ! isset( $groups[ $label ] ) ) {
+				$groups[ $label ] = 0;
+			}
+
+			++$groups[ $label ];
+		}
+
+		ksort( $groups );
+
+		// One line per kind rather than per course: the question this answers
+		// is "what cards does the catalogue fall into", and 113 lines is not an
+		// answer to it.
+		foreach ( $groups as $label => $count ) {
+			\WP_CLI::log( sprintf( '%-56s %d', mb_substr( (string) $label, 0, 56 ), $count ) );
+		}
+
+		\WP_CLI::success(
+			sprintf(
+				'%d courses in %d kinds: %d read from a name, %d left to a name that says nothing, %d kept as somebody set them (marked *).%s',
+				count( $posts ),
+				count( $groups ),
+				$read,
+				$nothing,
+				$kept,
+				$dry ? ' Nothing was written.' : ''
 			)
 		);
 	}

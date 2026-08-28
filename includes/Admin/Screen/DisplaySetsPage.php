@@ -244,6 +244,7 @@ final class DisplaySetsPage {
 				$this->term_row( 'activities', __( 'Activities', 'course-schedule-connector' ), PostType::ACTIVITY, $set->activities, __( 'Nothing ticked means every activity.', 'course-schedule-connector' ) );
 
 				if ( DisplaySet::TYPE_COURSES === $type ) {
+					$this->term_row( 'kinds', __( 'Kinds of course', 'course-schedule-connector' ), PostType::KIND, $set->kinds, __( 'This is what makes a card: tick "Gymnastika" and the set holds every course of that kind. The kind is read from the course name, so "Gymnastika pro radost" is a kind of its own.', 'course-schedule-connector' ) );
 					$this->keys_row( 'genders', __( 'Gender', 'course-schedule-connector' ), Audience::genders(), $set->genders );
 					$this->keys_row( 'levels', __( 'Level', 'course-schedule-connector' ), Audience::levels(), $set->levels );
 					$this->age_row( $set );

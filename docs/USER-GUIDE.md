@@ -16,6 +16,7 @@ Příručka je pro **správce webu** – člověka, který spravuje nabídku kur
 - [Náhradní lekce](#náhradní-lekce)
 - [Sály](#sály)
 - [Stránka kurzu](#stránka-kurzu)
+- [Druh kurzu a karty jako na starém webu](#druh-kurzu-a-karty-jako-na-starém-webu)
 - [Pro koho kurz je](#pro-koho-kurz-je)
 - [Trenéři](#trenéři)
 - [Bloky a moduly pro vlastní design](#bloky-a-moduly-pro-vlastní-design)
@@ -48,8 +49,8 @@ Sady najdete v **iSport → Zobrazovací sady**. U každé nastavíte:
 
 - **Co ukazuje** – *Kurzy* (to, na co se lidé přihlašují), nebo *Lekce* (jednotlivé termíny v rozvrhu). Každý typ má jinou nabídku sloupců.
 - **Sloupce** – zaškrtnutím vyberete, co se zobrazí, číslem určíte pořadí a volitelně zadáte **vlastní popisek**. Sloupec, ve kterém by nebyla ani jedna hodnota — třeba tlačítko, když je globálně vypnuté — se z výpisu vynechá sám a vrátí se, jakmile bude co zobrazit. Popisek se vyplatí držet krátký: na mobilu se tabulka překlopí tak, že popisky jdou v levém sloupci a hodnoty v pravém.
-- **Co zahrnout** – sály, lektory, aktivity, **pohlaví**, **úroveň** a **věk** (nic zaškrtnutého a prázdný věk = všechno), jak daleko dopředu (celé pololetí / tento týden / nejbližší dny / mezi dvěma daty), zda zahrnout **pronájmy a cizí oddíly**, jak naložit se **zrušenými lekcemi** a zda vynechat kurzy bez volných míst.
-- **Kurzy navíc a Kurzy, které vynechat** – konkrétní kurzy zaškrtnuté jménem. *Navíc* se zobrazí bez ohledu na filtry výše, *vynechat* se nezobrazí nikdy. Právě tímhle se dá postavit karta jako **Gymnastika dívky**: filtry naberou základ, ručně přidáte, co do skupiny patří navzdory názvu, a odeberete, co tam nepatří. Sada, která má zaškrtnuté kurzy a žádný filtr, ukazuje přesně ty zaškrtnuté a nic jiného.
+- **Co zahrnout** – **druh kurzu**, sály, lektory, **pohlaví**, **úroveň** a **věk** (nic zaškrtnutého a prázdný věk = všechno), jak daleko dopředu (celé pololetí / tento týden / nejbližší dny / mezi dvěma daty), zda zahrnout **pronájmy a cizí oddíly**, jak naložit se **zrušenými lekcemi** a zda vynechat kurzy bez volných míst.
+- **Kurzy navíc a Kurzy, které vynechat** – konkrétní kurzy zaškrtnuté jménem, pro výjimku, kterou žádný filtr nevystihne. *Navíc* se zobrazí bez ohledu na filtry výše, *vynechat* se nezobrazí nikdy. Sada, která má zaškrtnuté kurzy a žádný filtr, ukazuje přesně ty zaškrtnuté a nic jiného.
 - **Řazení a rozsah** – podle čeho řadit, vzestupně/sestupně, počet položek na stránku (nula = všechno najednou) a od kolika volných míst má výpis hlásit „posledních pár míst“.
 - **Texty** – nadpis, text tlačítka, co napsat, když není co zobrazit, a co místo tlačítka, když je kurz plný.
 
@@ -161,6 +162,25 @@ Každý kurz má vlastní stránku. Kromě textu a obrázku, které k němu dopl
 - **nejbližší lekce kurzu** a **náhradní lekce**, které jste k tomuto kurzu přiřadil.
 
 Stránka se vkládá do obsahu, takže hlavičku, patičku i vzhled okolo kreslí dál vaše téma. Do hlavičky stránky se navíc přidává strojově čitelný popis kurzu (JSON-LD) pro vyhledávače — nic v něm netvrdíme, co by stránka neříkala i slovy.
+
+## Druh kurzu a karty jako na starém webu
+
+Karta **Gymnastika dívky** — jeden nadpis, jedna tabulka, devatenáct kurzů — se
+postaví takhle: v sadě zaškrtnete **druh kurzu** *Gymnastika* a **pohlaví**
+*dívky*. Nic víc.
+
+**Druh kurzu** je nový údaj, který si plugin přečte z názvu: *„56-Gymnastika pro
+radost 7-11 let dívky I. pololetí“* je druh **Gymnastika pro radost**, ne
+Gymnastika — druh končí tam, kde v názvu začíná věk, pohlaví, úroveň nebo
+pololetí, takže víceslovný název zůstane celý. Na dnešní nabídce z toho vychází
+25 druhů, což je přesně 25 karet, které web publikuje: Gymnastika (23 kurzů),
+Jojo přípravka (15), Lezení (12), Parkour (12), Gymnastika pro radost (7)…
+
+Druhy najdete pod **iSport → Druhy kurzů**. Přejmenování druhu se propíše všem
+kurzům pod ním. Když je čtení u nějakého kurzu vedle — nebo když chcete dva
+druhy sloučit do jednoho — přepište u kurzu druh ručně a v panelu *Pole, kterých
+se synchronizace nesmí dotknout* zaškrtněte **Druh kurzu**; od té chvíle je vaše
+volba nedotknutelná.
 
 ## Pro koho kurz je
 

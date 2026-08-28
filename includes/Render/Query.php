@@ -166,6 +166,7 @@ final class Query {
 		return array() !== $set->rooms
 			|| array() !== $set->trainers
 			|| array() !== $set->activities
+			|| array() !== $set->kinds
 			|| array() !== $set->genders
 			|| array() !== $set->levels
 			|| '' !== $set->age_min
@@ -205,6 +206,7 @@ final class Query {
 			array(
 				PostType::TRAINER  => $set->trainers,
 				PostType::ACTIVITY => $set->activities,
+				PostType::KIND     => $set->kinds,
 			)
 		);
 

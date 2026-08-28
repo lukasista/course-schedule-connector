@@ -554,15 +554,53 @@ for either, and the website this plugin replaces reads both off the name too.
 
 `RoomMap` keeps label, order, colour and visibility per remote room id in the autoloaded option `cscs_rooms`, and stores only the rows somebody actually configured. `RoomMap::apply()` merges that with the rooms the stored timetable mentions — `LessonRepository::rooms()`, since no endpoint lists them — and sorts by order then by the name the site shows. Hidden rooms stay in the list; filtering them out belongs to whoever renders, or the screen that edits them could never show one again.
 
+## The kind of a course
+
+`CSCS\Data\CourseKind` reads what a page would call the card — "Gymnastika",
+"Jojo přípravka", "Lezení" — out of the course's name, and the synchronisation
+files the course under a `cscs_kind` term of that name.
+
+It is deliberately not the `cscs_activity` taxonomy, which belongs to the remote
+system: iSport sends the whole course name as `activity_name`, so that taxonomy
+would hold one term per course and group nothing. (It is also, in this
+installation, never assigned at all.)
+
+The names have a shape, kept by whoever types them:
+
+```
+113-Deskové hry 9-13 let I. pololetí
+^^^ ^^^^^^^^^^^ ^^^^^^^^ ^^^^^^^^^^^
+nr. kind        age      term
+```
+
+with an audience and a level allowed between the age and the term. So the kind
+is everything before the earliest of: an age in any of its three shapes, a word
+from the audience vocabulary, a word from the level vocabulary, or the term. The
+course's own number is cut from the front, and what is left is trimmed of any
+dash or comma the cut left behind. Cutting at the first space instead — the
+obvious shortcut — puts *Gymnastika pro radost* on the *Gymnastika* card, which
+is two different courses under one heading.
+
+The vocabularies are `Audience`'s own, so a gym that words "girls" differently
+teaches both readers at once; `cscs_course_kind_patterns` filters the whole list
+of cut markers. Nothing is guessed beyond the cut: *Gymnastika pro dospělé* is
+its own kind rather than *Gymnastika* for adults, because the name says so and
+because merging two kinds by hand is possible where un-merging one is not. The
+113 live courses fall into 25 kinds.
+
+`cscs_kind` is on the course editor's lockable list, so a reading corrected by
+hand survives every synchronisation. `wp cscs sync kinds [--dry-run]` re-files
+the catalogue and prints one line per kind.
+
 ## Grouping courses under one name
 
 A display set answers "what should this listing show", and until now it answered
-it only with filters — rooms, trainers, activities. A page that says
-*Gymnastika dívky* wants eighteen named courses under one heading, and no
-combination of those three picks exactly those eighteen. So a set also carries:
+it only with filters — rooms, trainers, activities, of which the last was always
+empty. Ticking a kind is what builds a card. Beyond that a set carries:
 
 | Field | Meaning |
 |---|---|
+| `kinds` | Kind term ids to keep, empty for all |
 | `courses` | Post ids shown whatever the filters say |
 | `exclude` | Post ids never shown, whatever else says |
 | `genders`, `levels` | Audience keys to keep, empty for all |

@@ -422,6 +422,7 @@ final class CourseEditor {
 	public static function lockable(): array {
 		return array(
 			'post_title'            => __( 'Course name', 'course-schedule-connector' ),
+			'cscs_kind'             => __( 'Kind of course', 'course-schedule-connector' ),
 			'_cscs_api_description' => __( 'Description from iSport', 'course-schedule-connector' ),
 			'_cscs_trainer_name'    => __( 'Trainer', 'course-schedule-connector' ),
 			'_cscs_room_name'       => __( 'Room', 'course-schedule-connector' ),

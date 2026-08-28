@@ -270,6 +270,45 @@ final class Audience {
 	}
 
 	/**
+	 * Returns every word that names an audience, flattened.
+	 *
+	 * For anything that needs the vocabulary rather than the reading — where
+	 * the kind of course stops being the kind, for one.
+	 *
+	 * @return array<int, string>
+	 */
+	public static function gender_words(): array {
+		return self::flatten( self::gender_terms() );
+	}
+
+	/**
+	 * Returns every word that names a level, flattened.
+	 *
+	 * @return array<int, string>
+	 */
+	public static function level_words(): array {
+		return self::flatten( self::level_terms() );
+	}
+
+	/**
+	 * Returns the words out of a keyed vocabulary.
+	 *
+	 * @param array<string, array<int, string>> $terms Key to its words.
+	 * @return array<int, string>
+	 */
+	private static function flatten( array $terms ): array {
+		$words = array();
+
+		foreach ( $terms as $group ) {
+			foreach ( (array) $group as $word ) {
+				$words[] = (string) $word;
+			}
+		}
+
+		return $words;
+	}
+
+	/**
 	 * Returns the words that name an audience.
 	 *
 	 * @return array<string, array<int, string>>

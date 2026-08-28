@@ -41,6 +41,23 @@ repozitáře.
 
 ## 2. Co přibylo naposledy
 
+### Druh kurzu
+`CSCS\Data\CourseKind` čte z názvu **druh kurzu** a synchronizace pod něj kurz
+zařadí do nové taxonomie `cscs_kind` (*Druhy kurzů*). Karta se pak postaví
+zaškrtnutím druhu v sadě — ruční seznamy zůstávají jen jako záchranná brzda.
+
+Proč ne `cscs_activity`: iSport posílá jako `activity_name` **celý název kurzu**,
+takže by to byl jeden term na kurz. (V téhle instalaci ji stejně nikdo neplní.)
+
+Druh končí tam, kde začíná věk, pohlaví, úroveň nebo pololetí — tedy **ne u
+první mezery**; to byla chyba prvního pokusu, kvůli které se „Gymnastika pro
+radost“ dostala do „Gymnastiky“. Slovníky jsou `Audience`ovy, filtr
+`cscs_course_kind_patterns`. Na živých datech: **113 kurzů → 25 druhů**,
+Gymnastika 23, Jojo přípravka 15, Lezení 12, Parkour 12, Gymnastika pro radost 7.
+
+`cscs_kind` je v zamykatelných polích, takže ručně opravený druh synchronizace
+nepřepíše. Backfill: `wp cscs sync kinds [--dry-run]`.
+
 ### Skupiny kurzů pod jedním jménem a věk
 Dosavadní web publikuje kartu *Gymnastika dívky*: jeden nadpis, jedna tabulka,
 osmnáct kurzů, které v datech nespojuje nic než rozhodnutí člověka. Zobrazovací

@@ -109,6 +109,17 @@ final class DisplaySet {
 	public array $activities;
 
 	/**
+	 * Kind term ids to keep, or an empty list for all of them.
+	 *
+	 * The one filter that answers "which card is this": the kind is read from
+	 * the course's name, so ticking *Gymnastika* gathers the twenty-three
+	 * courses called that and leaves *Gymnastika pro radost* where it is.
+	 *
+	 * @var array<int, int>
+	 */
+	public array $kinds;
+
+	/**
 	 * Course post ids the set shows whatever the filters say.
 	 *
 	 * This is what makes one card out of courses that have nothing in the data
@@ -294,6 +305,7 @@ final class DisplaySet {
 		$set->trainers   = self::ids( $data['trainers'] ?? array() );
 		$set->activities = self::ids( $data['activities'] ?? array() );
 
+		$set->kinds   = self::ids( $data['kinds'] ?? array() );
 		$set->courses = self::ids( $data['courses'] ?? array() );
 		$set->exclude = self::ids( $data['exclude'] ?? array() );
 		$set->genders = self::keys_from( $data['genders'] ?? array(), Audience::gender_keys() );
@@ -338,6 +350,7 @@ final class DisplaySet {
 			'rooms'           => $this->rooms,
 			'trainers'        => $this->trainers,
 			'activities'      => $this->activities,
+			'kinds'           => $this->kinds,
 			'courses'         => $this->courses,
 			'exclude'         => $this->exclude,
 			'genders'         => $this->genders,

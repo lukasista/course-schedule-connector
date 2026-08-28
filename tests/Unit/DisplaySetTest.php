@@ -159,6 +159,7 @@ final class DisplaySetTest extends TestCase {
 				'type'            => DisplaySet::TYPE_COURSES,
 				'columns'         => array( 'name', 'days', 'price' ),
 				'rooms'           => array( 4, 7 ),
+				'kinds'           => array( 41 ),
 				'courses'         => array( 900201, 900205 ),
 				'exclude'         => array( 900203 ),
 				'genders'         => array( 'girls' ),
@@ -190,11 +191,13 @@ final class DisplaySetTest extends TestCase {
 		$set = DisplaySet::from_array(
 			array(
 				'name'    => 'Gymnastika dívky',
+				'kinds'   => array( '41', 41, 0 ),
 				'courses' => array( '12', 12, 0, 'nonsense', 34 ),
 				'exclude' => array( 56, '56' ),
 			)
 		);
 
+		$this->assertSame( array( 41 ), $set->kinds );
 		$this->assertSame( array( 12, 34 ), $set->courses );
 		$this->assertSame( array( 56 ), $set->exclude );
 	}

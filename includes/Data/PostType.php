@@ -43,6 +43,16 @@ final class PostType {
 	public const ACTIVITY = 'cscs_activity';
 
 	/**
+	 * Kind-of-course taxonomy, read from the course's name.
+	 *
+	 * What a page calls a card: "Gymnastika", "Jojo přípravka", "Lezení". It is
+	 * deliberately not {@see self::ACTIVITY}, which belongs to the remote
+	 * system — iSport sends the whole course name as its activity, so that
+	 * taxonomy holds one term per course and groups nothing.
+	 */
+	public const KIND = 'cscs_kind';
+
+	/**
 	 * Tag taxonomy, mirroring the tags the API attaches to a course.
 	 */
 	public const TAG = 'cscs_tag';
@@ -167,6 +177,10 @@ final class PostType {
 			self::ACTIVITY => array(
 				'name'          => __( 'Activities', 'course-schedule-connector' ),
 				'singular_name' => __( 'Activity', 'course-schedule-connector' ),
+			),
+			self::KIND     => array(
+				'name'          => __( 'Kinds of course', 'course-schedule-connector' ),
+				'singular_name' => __( 'Kind of course', 'course-schedule-connector' ),
 			),
 			self::TAG      => array(
 				'name'          => __( 'Course tags', 'course-schedule-connector' ),

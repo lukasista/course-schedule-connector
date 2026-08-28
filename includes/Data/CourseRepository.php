@@ -185,6 +185,7 @@ final class CourseRepository {
 		// would point the course at somebody else's page.
 		$this->pair_with_trainer( $post_id, $course );
 		$this->derive_audience( $post_id, $locked );
+		$this->derive_kind( $post_id, $locked );
 		wp_set_object_terms( $post_id, $this->term_names( array_values( $course->tags ) ), PostType::TAG );
 
 		/**
@@ -240,6 +241,32 @@ final class CourseRepository {
 
 			update_post_meta( $post_id, $key, $value );
 		}
+	}
+
+	/**
+	 * Files the course under the kind of course its name says it is.
+	 *
+	 * The kind is what a page calls a card — "Gymnastika", "Jojo přípravka" —
+	 * and it is a taxonomy rather than a meta value because that is what a
+	 * display set filters by, what the courses list can be sorted by and what
+	 * somebody can rename in one place for every course under it.
+	 *
+	 * Locked like anything else a person may have corrected: tick *Kind of
+	 * course* on the course and the reading stops touching it, which is how two
+	 * kinds get merged into one where the names disagree.
+	 *
+	 * @param int                $post_id Course post id.
+	 * @param array<int, string> $locked  Fields a human has edited.
+	 * @return void
+	 */
+	private function derive_kind( int $post_id, array $locked ): void {
+		if ( in_array( PostType::KIND, $locked, true ) ) {
+			return;
+		}
+
+		$kind = CourseKind::read( (string) get_post_field( 'post_title', $post_id ) );
+
+		wp_set_object_terms( $post_id, '' === $kind ? array() : array( $kind ), PostType::KIND );
 	}
 
 	/**
