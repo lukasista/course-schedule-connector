@@ -190,9 +190,12 @@ synchronizace nikdy nesáhne. Když chcete jiný, v editaci stránky je panel
 (vlastní znění si napřed uložte, vrátit to odtud nejde).
 
 Cena druhu není jedno číslo — hodinová a půldruhahodinová lekce stojí jinak.
-Blok i modul **Ceny tohoto druhu** proto vypíšou každou dvojici, která se
-u druhu vyskytuje: *60 minut — 4 160 Kč*, *90 minut — 5 160 Kč*. V tabulce
-kurzů daného druhu jsou navíc sloupce **Délka** a **Cena**, aby bylo u každého
+Blok i modul **Ceny tohoto druhu** proto vypíšou tabulku o dvou sloupcích,
+**Délka** a **Cena**, a jen tolik řádků, kolik je u druhu různých dvojic:
+u *Gymnastiky* dva — *60 minut / 4 160 Kč* a *90 minut / 5 160 Kč* — ať jich
+pod ní běží dvacet dva. Co se opakuje, se nevypisuje podruhé. Je to obyčejná
+tabulka pluginu, takže se dá nastavit stejně jako ostatní. V tabulce kurzů
+daného druhu jsou navíc sloupce **Délka** a **Cena**, aby bylo u každého
 termínu vidět, co platí právě pro něj.
 
 Každý druh má **vlastní stránku** — *iSport → Druhy kurzů*. Je to běžný

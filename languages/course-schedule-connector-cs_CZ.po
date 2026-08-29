@@ -14,11 +14,6 @@ msgstr ""
 msgid "%1$d courses and %2$d occurrences retrieved."
 msgstr "Staženo %1$d kurzů a %2$d termínů."
 
-#: includes/Render/KindDetail.php:207
-msgctxt "a length of lesson and what it costs"
-msgid "%1$s — %2$s"
-msgstr "%1$s — %2$s"
-
 #: includes/Admin/Screen/UnmatchedPage.php:411
 msgid "%d class assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone."
 msgid_plural "%d classes assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone."
@@ -698,7 +693,6 @@ msgstr "Například kdy volat nebo že se termíny domlouvají individuálně."
 #: includes/Admin/CourseEditor.php:457
 #: includes/Admin/Screen/SettingsPage.php:118
 #: includes/Render/CourseDetail.php:495
-#: includes/Render/KindDetail.php:196
 #: includes/Render/Listing.php:588
 #: includes/Render/Listing.php:592
 msgid "Free"
@@ -1768,9 +1762,9 @@ msgstr "Co je uložené"
 msgid "What the course costs. A course with no price shows as free."
 msgstr "Kolik kurz stojí. Kurz bez ceny se zobrazí jako zdarma."
 
-#: includes/Render/Fields.php:343
-msgid "What the courses of this kind cost, one line per length of lesson — a kind with an hour and an hour and a half has two."
-msgstr "Kolik kurzy tohoto druhu stojí, jeden řádek pro každou délku lekce — druh s hodinou a hodinou a půl má dva."
+#: includes/Render/Fields.php:344
+msgid "What the courses of this kind cost, as a table of two columns: one row per length of lesson and price actually on offer, however many courses share it."
+msgstr "Kolik kurzy tohoto druhu stojí, jako tabulka o dvou sloupcích: jeden řádek pro každou dvojici délky a ceny, která se u druhu vyskytuje, ať ji sdílí kolik chce kurzů."
 
 #: includes/Divi/FieldModules.php:282
 msgid "What the list is marked with."

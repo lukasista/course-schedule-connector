@@ -54,16 +54,6 @@
                 "desktop": {
                     "value": ""
                 }
-            },
-            "listStyle": {
-                "desktop": {
-                    "value": "disc"
-                }
-            },
-            "bulletStyle": {
-                "desktop": {
-                    "value": ""
-                }
             }
         }
     }

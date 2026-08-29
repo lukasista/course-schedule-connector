@@ -126,25 +126,25 @@
                 }
             }
         },
-        "bulletItem": {
+        "tableHead": {
             "type": "object",
-            "elementType": "content",
-            "selector": "{{selector}} .cscs-field__value li",
+            "elementType": "heading",
+            "selector": "{{selector}} .cscs-table thead th",
             "settings": {
                 "decoration": {
                     "font": {
                         "groupType": "group-item",
                         "item": {
-                            "groupSlug": "designBulletItem",
+                            "groupSlug": "designTableHead",
                             "priority": 10,
                             "render": true,
                             "component": {
                                 "type": "group",
                                 "name": "divi/font",
                                 "props": {
-                                    "attrName": "bulletItem.decoration.font",
+                                    "attrName": "tableHead.decoration.font",
                                     "grouped": true,
-                                    "fieldLabel": "Bullet item"
+                                    "fieldLabel": "Table heading"
                                 }
                             }
                         }
@@ -152,16 +152,50 @@
                     "spacing": {
                         "groupType": "group-item",
                         "item": {
-                            "groupSlug": "designBulletItem",
+                            "groupSlug": "designTableHead",
                             "priority": 20,
                             "render": true,
                             "component": {
                                 "type": "group",
                                 "name": "divi/spacing",
                                 "props": {
-                                    "attrName": "bulletItem.decoration.spacing",
+                                    "attrName": "tableHead.decoration.spacing",
                                     "grouped": true,
-                                    "fieldLabel": "Bullet item"
+                                    "fieldLabel": "Table heading"
+                                }
+                            }
+                        }
+                    },
+                    "background": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableHead",
+                            "priority": 30,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/background",
+                                "props": {
+                                    "attrName": "tableHead.decoration.background",
+                                    "grouped": true,
+                                    "fieldLabel": "Table heading"
+                                }
+                            }
+                        }
+                    },
+                    "border": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableHead",
+                            "priority": 40,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/border",
+                                "props": {
+                                    "attrName": "tableHead.decoration.border",
+                                    "grouped": true,
+                                    "fieldLabel": "Table heading"
                                 }
                             }
                         }
@@ -169,25 +203,214 @@
                 }
             }
         },
-        "bulletMarker": {
+        "tableCell": {
             "type": "object",
             "elementType": "content",
-            "selector": "{{selector}} .cscs-field__value li::marker",
+            "selector": "{{selector}} .cscs-table tbody td",
             "settings": {
                 "decoration": {
                     "font": {
                         "groupType": "group-item",
                         "item": {
-                            "groupSlug": "designBulletMarker",
+                            "groupSlug": "designTableCell",
                             "priority": 10,
                             "render": true,
                             "component": {
                                 "type": "group",
                                 "name": "divi/font",
                                 "props": {
-                                    "attrName": "bulletMarker.decoration.font",
+                                    "attrName": "tableCell.decoration.font",
                                     "grouped": true,
-                                    "fieldLabel": "Bullet mark"
+                                    "fieldLabel": "Table cell"
+                                }
+                            }
+                        }
+                    },
+                    "spacing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableCell",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/spacing",
+                                "props": {
+                                    "attrName": "tableCell.decoration.spacing",
+                                    "grouped": true,
+                                    "fieldLabel": "Table cell"
+                                }
+                            }
+                        }
+                    },
+                    "background": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableCell",
+                            "priority": 30,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/background",
+                                "props": {
+                                    "attrName": "tableCell.decoration.background",
+                                    "grouped": true,
+                                    "fieldLabel": "Table cell"
+                                }
+                            }
+                        }
+                    },
+                    "border": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableCell",
+                            "priority": 40,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/border",
+                                "props": {
+                                    "attrName": "tableCell.decoration.border",
+                                    "grouped": true,
+                                    "fieldLabel": "Table cell"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tableLink": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-table tbody a",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableLink",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "tableLink.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Table link"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tableStripe": {
+            "type": "object",
+            "elementType": "wrapper",
+            "selector": "{{selector}} .cscs-table tbody tr:nth-child(even)",
+            "settings": {
+                "decoration": {
+                    "background": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designTableRow",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/background",
+                                "props": {
+                                    "attrName": "tableStripe.decoration.background",
+                                    "grouped": true,
+                                    "fieldLabel": "Banded row"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "colDuration": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-table .cscs-col-duration",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColDuration",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "colDuration.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Length column"
+                                }
+                            }
+                        }
+                    },
+                    "sizing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColDuration",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/sizing",
+                                "props": {
+                                    "attrName": "colDuration.decoration.sizing",
+                                    "grouped": true,
+                                    "fieldLabel": "Length column"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "colPrice": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-table .cscs-col-price",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColPrice",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "colPrice.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Price column"
+                                }
+                            }
+                        }
+                    },
+                    "sizing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designColPrice",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/sizing",
+                                "props": {
+                                    "attrName": "colPrice.decoration.sizing",
+                                    "grouped": true,
+                                    "fieldLabel": "Price column"
                                 }
                             }
                         }
@@ -448,101 +671,13 @@
                             }
                         }
                     },
-                    "bulletStyle": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "content",
-                            "attrName": "field.advanced.bulletStyle",
-                            "category": "configuration",
-                            "priority": 90,
-                            "render": true,
-                            "features": {
-                                "sticky": false,
-                                "responsive": false,
-                                "hover": false,
-                                "preset": "content"
-                            },
-                            "label": "Bullets",
-                            "description": "What a list inside this text is marked with. Left alone, whatever the theme says.",
-                            "component": {
-                                "name": "divi/select",
-                                "type": "field",
-                                "props": {
-                                    "options": {
-                                        "": {
-                                            "label": "As the theme says"
-                                        },
-                                        "disc": {
-                                            "label": "Round"
-                                        },
-                                        "circle": {
-                                            "label": "Hollow"
-                                        },
-                                        "square": {
-                                            "label": "Square"
-                                        },
-                                        "decimal": {
-                                            "label": "Numbered"
-                                        },
-                                        "lower-alpha": {
-                                            "label": "Lettered"
-                                        },
-                                        "none": {
-                                            "label": "None"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "listStyle": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "content",
-                            "attrName": "field.advanced.listStyle",
-                            "category": "configuration",
-                            "priority": 100,
-                            "render": true,
-                            "features": {
-                                "sticky": false,
-                                "responsive": false,
-                                "hover": false,
-                                "preset": "content"
-                            },
-                            "label": "Bullets",
-                            "description": "What the list is marked with.",
-                            "component": {
-                                "name": "divi/select",
-                                "type": "field",
-                                "props": {
-                                    "options": {
-                                        "disc": {
-                                            "label": "Round"
-                                        },
-                                        "circle": {
-                                            "label": "Hollow"
-                                        },
-                                        "square": {
-                                            "label": "Square"
-                                        },
-                                        "ordered": {
-                                            "label": "Numbered"
-                                        },
-                                        "none": {
-                                            "label": "None"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
                     "emptyText": {
                         "groupType": "group-item",
                         "item": {
                             "groupSlug": "content",
                             "attrName": "field.advanced.emptyText",
                             "category": "configuration",
-                            "priority": 110,
+                            "priority": 90,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -607,28 +742,80 @@
                     }
                 }
             },
-            "designBulletItem": {
+            "designTableHead": {
                 "panel": "design",
-                "priority": 29,
-                "groupName": "bulletItem",
+                "priority": 31,
+                "groupName": "tableHead",
                 "multiElements": true,
                 "component": {
                     "name": "divi/composite",
                     "props": {
-                        "groupLabel": "Bullet item",
+                        "groupLabel": "Table heading",
                         "clipboardCategory": "style"
                     }
                 }
             },
-            "designBulletMarker": {
+            "designTableCell": {
                 "panel": "design",
-                "priority": 30,
-                "groupName": "bulletMarker",
+                "priority": 32,
+                "groupName": "tableCell",
                 "multiElements": true,
                 "component": {
                     "name": "divi/composite",
                     "props": {
-                        "groupLabel": "Bullet mark",
+                        "groupLabel": "Table cell",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designTableLink": {
+                "panel": "design",
+                "priority": 33,
+                "groupName": "tableLink",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Table link",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designTableRow": {
+                "panel": "design",
+                "priority": 34,
+                "groupName": "tableRow",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Banded row",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designColDuration": {
+                "panel": "design",
+                "priority": 35,
+                "groupName": "colDuration",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Length column",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designColPrice": {
+                "panel": "design",
+                "priority": 36,
+                "groupName": "colPrice",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Price column",
                         "clipboardCategory": "style"
                     }
                 }

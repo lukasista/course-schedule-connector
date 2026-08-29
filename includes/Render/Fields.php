@@ -335,14 +335,14 @@ final class Fields {
 		// page's own, and any editor already knows how to place those.
 		$kind = array(
 			'prices'  => array(
-				'kind'        => self::LIST,
+				'kind'        => self::HTML,
 				'title'       => __( 'Prices of this kind', 'course-schedule-connector' ),
 				'label'       => __( 'Price', 'course-schedule-connector' ),
 				'icon'        => 'tag',
 				'moduleIcon'  => 'divi/module-pricing-tables',
-				'description' => __( 'What the courses of this kind cost, one line per length of lesson — a kind with an hour and an hour and a half has two.', 'course-schedule-connector' ),
+				'columns'     => array( 'duration', 'price' ),
+				'description' => __( 'What the courses of this kind cost, as a table of two columns: one row per length of lesson and price actually on offer, however many courses share it.', 'course-schedule-connector' ),
 				'heading'     => true,
-				'bullets'     => true,
 			),
 			'courses' => array(
 				'kind'        => self::HTML,
@@ -564,7 +564,7 @@ final class Fields {
 				return array( 'html' => self::table( $detail->course_listing() ) );
 
 			case 'prices':
-				return array( 'list' => $detail->prices() );
+				return array( 'html' => self::table( $detail->price_listing() ) );
 		}
 
 		return array();

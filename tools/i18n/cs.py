@@ -378,7 +378,7 @@ CS = {
 "What each tag means": "Co který štítek znamená",
 "What is stored": "Co je uložené",
 "What the course costs. A course with no price shows as free.": "Kolik kurz stojí. Kurz bez ceny se zobrazí jako zdarma.",
-"What the courses of this kind cost, one line per length of lesson — a kind with an hour and an hour and a half has two.": "Kolik kurzy tohoto druhu stojí, jeden řádek pro každou délku lekce — druh s hodinou a hodinou a půl má dva.",
+"What the courses of this kind cost, as a table of two columns: one row per length of lesson and price actually on offer, however many courses share it.": "Kolik kurzy tohoto druhu stojí, jako tabulka o dvou sloupcích: jeden řádek pro každou dvojici délky a ceny, která se u druhu vyskytuje, ať ji sdílí kolik chce kurzů.",
 "What the list is marked with.": "Čím je seznam odrážkovaný.",
 "What the picture says to somebody who cannot see it. Empty means the name of the course or trainer, which is usually right.": "Co obrázek říká tomu, kdo ho nevidí. Prázdné znamená název kurzu nebo jméno trenéra, což bývá správně.",
 "What the trainer does when they are not in the hall.": "Čemu se trenér věnuje, když není v sále.",
@@ -466,7 +466,6 @@ JS = {
 }
 
 CONTEXT = {
-("a length of lesson and what it costs", "%1$s — %2$s"): "%1$s — %2$s",
 ("level of a course for a mixed or male group", "Beginners"): "Začátečníci",
 ("level of a course for a mixed or male group", "Improvers"): "Mírně pokročilí",
 ("level of a course for a mixed or male group", "Advanced"): "Pokročilí",

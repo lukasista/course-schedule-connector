@@ -112,23 +112,28 @@ final class KindDetail {
 	}
 
 	/**
-	 * Returns what this kind costs, one line per length of lesson.
+	 * Returns what this kind costs, as a table of two columns.
 	 *
 	 * A kind has no price of its own, and often not one price at all: an hour
 	 * of gymnastics and an hour and a half of it are different courses at
-	 * different money, and on this site every kind but a few has two. So the
-	 * answer is the set of pairs actually on offer — "90 minut — 5 160 Kč" —
-	 * rather than a number that would have to be wrong for somebody.
+	 * different money, and on this site nearly every kind has two. So the
+	 * answer is a row per pair actually on offer — 60 minutes at 4 160, 90 at
+	 * 5 160 — and no more rows than there are distinct pairs: twenty-two
+	 * courses of Gymnastika make two lines, not twenty-two.
+	 *
+	 * It is a `Listing` like every other table the plugin draws, built from one
+	 * representative course per pair, so the columns are worded, formatted,
+	 * folded on a telephone and designed exactly as the rest are.
 	 *
 	 * Courses with no price are left out rather than shown as free.
 	 *
-	 * @return array<int, string>
+	 * @return Listing|null
 	 */
-	public function prices(): array {
+	public function price_listing(): ?Listing {
 		$ids = $this->plugin->kinds()->courses( $this->post->ID );
 
 		if ( array() === $ids ) {
-			return array();
+			return null;
 		}
 
 		$query = new Query( $this->plugin );
@@ -174,11 +179,24 @@ final class KindDetail {
 			}
 
 			// Keyed by both, so two courses of one length and one price are one
-			// line, and the same length at two prices is two.
-			$pairs[ $minutes . '|' . (string) $price ] = array(
+			// row, and the same length at two prices is two. The first course of
+			// a pair stands for it; every course of a pair would render the same
+			// two cells.
+			$key = $minutes . '|' . (string) $price;
+
+			if ( isset( $pairs[ $key ] ) ) {
+				continue;
+			}
+
+			$pairs[ $key ] = array(
 				'minutes' => $minutes,
+				'row'     => $row,
 				'price'   => (string) $price,
 			);
+		}
+
+		if ( array() === $pairs ) {
+			return null;
 		}
 
 		uasort(
@@ -188,29 +206,26 @@ final class KindDetail {
 			}
 		);
 
-		$lines = array();
+		$chosen = array();
+		$kept   = array();
 
 		foreach ( $pairs as $pair ) {
-			// A course with a price of zero really is free — that is what a
-			// course record with 0.00 in it says, and this list is of courses.
-			$price  = Formatter::price( $pair['price'], __( 'Free', 'course-schedule-connector' ) );
-			$length = Formatter::duration( (int) $pair['minutes'] );
+			$chosen[] = $pair['row'];
+			$course   = (int) ( $pair['row']['course_id'] ?? 0 );
 
-			if ( '' === $price ) {
-				continue;
+			if ( isset( $times[ $course ] ) ) {
+				$kept[ $course ] = $times[ $course ];
 			}
-
-			$lines[] = '' === $length
-				? $price
-				: sprintf(
-					/* translators: 1: how long a lesson lasts, 2: what the course costs. */
-					_x( '%1$s — %2$s', 'a length of lesson and what it costs', 'course-schedule-connector' ),
-					$length,
-					$price
-				);
 		}
 
-		return array_values( array_unique( $lines ) );
+		$set = DisplaySet::from_array(
+			array(
+				'type'    => DisplaySet::TYPE_COURSES,
+				'columns' => array( 'duration', 'price' ),
+			)
+		);
+
+		return new Listing( $set, $chosen, Renderer::labels_for( $set ), $this->plugin->settings(), $kept );
 	}
 
 	/**

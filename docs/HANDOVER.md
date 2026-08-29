@@ -61,10 +61,12 @@ Na živých datech to vyplnilo **23 z 25** stránek. Panel *Popis z kurzu*
 s nonce přes `admin-post.php`, ne formulář — formulář ve formuláři blokového
 editoru je nevalidní.
 
-`KindDetail::prices()` páruje cenu s délkou první lekce
-(`Formatter::minutes_between()`) a vrací dvojice: *60 minut — 4 160 Kč*,
-*90 minut — 5 160 Kč*. Sloupec `duration` (**Délka**) je k dispozici všem
-výpisům, nejen druhu.
+`KindDetail::price_listing()` páruje cenu s délkou první lekce
+(`Formatter::minutes_between()`), klíčuje dvojicí a nechává z každé dvojice
+první kurz — dvacet dva kurzů *Gymnastiky* dá dva řádky, ne dvacet dva — a vrací
+běžný `Listing` o dvou sloupcích, **Délka** a **Cena**. Na živých datech: 25
+druhů, žádný neopakuje řádek, šest jich má dva. Sloupec `duration` je
+k dispozici všem výpisům, nejen druhu.
 
 ### Stránka druhu kurzu
 Typ příspěvku `cscs_kind_page` (**ne** `cscs_kind` — to je taxonomie, kolidovalo

@@ -610,10 +610,14 @@ adds the panel that fetches one course's description on demand — a link with a
 nonce through `admin-post.php`, not a form, because a form inside the block
 editor's own form is invalid markup.
 
-`KindDetail::prices()` pairs each course's price with the length of its first
-class (`Formatter::minutes_between()`), keeps the distinct pairs and words them
-through `Formatter::duration()`. The `duration` column does the same per row and
-is offered to every course listing, not only a kind's.
+`KindDetail::price_listing()` pairs each course's price with the length of its
+first class (`Formatter::minutes_between()`), keys the pair on both numbers and
+keeps the first course of each — so twenty-two courses of *Gymnastika* answer
+with two rows, not twenty-two — then sorts by length and price and hands the
+chosen courses to an ordinary `Listing` of two columns, `duration` and `price`.
+It is a table like every other one the plugin draws, so it words, folds and
+designs itself the same way; the `duration` column is offered to every course
+listing, not only a kind's.
 
 ## A kind's own page
 

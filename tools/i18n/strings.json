@@ -8,14 +8,6 @@
         ]
     },
     {
-        "singular": "%1$s — %2$s",
-        "plural": null,
-        "context": "a length of lesson and what it costs",
-        "refs": [
-            "includes/Render/KindDetail.php:207"
-        ]
-    },
-    {
         "singular": "%d class assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone.",
         "plural": "%d classes assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone.",
         "context": null,
@@ -1276,7 +1268,6 @@
             "includes/Admin/CourseEditor.php:457",
             "includes/Admin/Screen/SettingsPage.php:118",
             "includes/Render/CourseDetail.php:495",
-            "includes/Render/KindDetail.php:196",
             "includes/Render/Listing.php:588",
             "includes/Render/Listing.php:592"
         ]
@@ -3300,11 +3291,11 @@
         ]
     },
     {
-        "singular": "What the courses of this kind cost, one line per length of lesson — a kind with an hour and an hour and a half has two.",
+        "singular": "What the courses of this kind cost, as a table of two columns: one row per length of lesson and price actually on offer, however many courses share it.",
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:343"
+            "includes/Render/Fields.php:344"
         ]
     },
     {
