@@ -206,12 +206,36 @@ kurz, a synchronizace do nich nikdy nesahá. Pod tím, co napíšete, se vypíš
 modulem **Kurzy tohoto druhu** (sloupce Den, Čas od–do, Věk, Pohlaví, Úroveň,
 Volná místa a tlačítko, s celým nastavením vzhledu tabulky).
 
-V panelu **Které kurzy** se dá tenhle výpis zúžit: pro koho kurz je, na jaké
-úrovni, věk od–do, řazení a nejvýš kolik řádků. Tím se z jednoho druhu udělají
-dvě tabulky na jedné stránce — u *Gymnastiky* osmnáct řádků pro dívky a dva pro
-kluky — aniž by se dvaadvacet kurzů muselo přeřazovat pod druh vymyšlený jen
-proto, aby polovinu z nich pojal. Kurz, jehož název o dané věci nic neříká, se
-pod nastavením, které se na ni ptá, neukáže.
+### Jeden druh jako dvě stránky
+
+*Gymnastika* je jedna karta a vy chcete zvlášť dívky a zvlášť kluky. Nepřeřazujte
+dvaadvacet kurzů pod druh vymyšlený jen proto, aby polovinu z nich pojal —
+udělejte druhou **stránku druhu**:
+
+1. *iSport → Druhy kurzů*, u *Gymnastiky* klikněte na **Kopírovat**. Vznikne
+   koncept s týmž popisem i obrázkem.
+2. Přejmenujte ho na *Gymnastika dívky*.
+3. V panelu **Které kurzy tato stránka ukazuje** nechte *Druh kurzu* na
+   Gymnastice a u *Pro koho kurz je* zvolte **Dívky**. Publikujte.
+
+Hotovo. Rozvrh na té stránce má osmnáct řádků, na původní dvaadvacet, na stránce
+pro kluky dva — a tabulka **cen** se řídí týmž výběrem, takže klukům ukáže jen
+jejich cenu.
+
+Důležité je, že se ptáte **na stránce**, ne v designu. Globální šablona v Divi
+Theme Builderu nebo v Šablonách Gutenbergu je jeden design pro všechny stránky
+druhu; kdybyste „dívky" nastavil v modulu v šabloně, platilo by to i pro stránku
+kluků. Takhle šablonu uděláte jednou a každá stránka si do ní vypíše své.
+
+Stránka, která se jmenuje jinak než druh, se sama s žádným druhem nespáruje —
+proto je v panelu i volba **Druh kurzu**. U stránek, které založila
+synchronizace, ji nechte být.
+
+Nastavit se to dá i přímo v bloku či modulu (panel **Které kurzy**), ale to má
+smysl jen tam, kde modul stojí na jedné konkrétní stránce a má ukázat něco
+jiného než ona. Co v modulu vyplníte, přebije stránku; čeho se nedotknete,
+nechá stránku mluvit. Kurz, jehož název o dané věci nic neříká, se pod
+nastavením, které se na ni ptá, neukáže.
 
 Text stránky druhu umí do šablony vložit blok a modul **Popis druhu kurzu** —
 je to protějšek *Popisu kurzu* a *Popisu z iSportu*, které se ptají kurzu,

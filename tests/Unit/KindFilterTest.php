@@ -90,6 +90,86 @@ final class KindFilterTest extends TestCase {
 	}
 
 	/**
+	 * Calls the helper that tells "not asked" from "asked for the default".
+	 *
+	 * @param array<string, mixed> $settings Settings.
+	 * @return array<string, mixed>
+	 */
+	private function asked( array $settings ): array {
+		$callable = new \ReflectionMethod( KindDetail::class, 'asked' );
+		$callable->setAccessible( true );
+
+		return (array) $callable->invoke( null, $settings );
+	}
+
+	/**
+	 * A module sends every setting, filled in or not.
+	 *
+	 * Which matters because the page is what a theme builder template reads: a
+	 * module that shouted its own defaults over the page would make one design
+	 * for twenty-six pages show the same timetable on all of them.
+	 *
+	 * @return void
+	 */
+	public function test_a_module_that_was_never_filled_in_overrules_nothing(): void {
+		$sent = array(
+			'postId'        => 0,
+			'showLabel'     => true,
+			'filterGenders' => '',
+			'filterLevels'  => '',
+			'filterAgeMin'  => '',
+			'filterAgeMax'  => '',
+			'filterSort'    => '',
+			'filterOrder'   => 'asc',
+			'filterLimit'   => 0,
+		);
+
+		$this->assertSame( array(), $this->asked( $sent ) );
+	}
+
+	/**
+	 * A direction without something to sort by is Divi's default, not a choice.
+	 *
+	 * @return void
+	 */
+	public function test_a_direction_alone_is_not_a_decision(): void {
+		$this->assertSame( array(), $this->asked( array( 'filterOrder' => 'desc' ) ) );
+		$this->assertSame(
+			array(
+				'filterSort'  => 'price',
+				'filterOrder' => 'desc',
+			),
+			$this->asked(
+				array(
+					'filterSort'  => 'price',
+					'filterOrder' => 'desc',
+				)
+			)
+		);
+	}
+
+	/**
+	 * What was filled in is what overrules the page.
+	 *
+	 * @return void
+	 */
+	public function test_what_somebody_typed_is_kept(): void {
+		$this->assertSame(
+			array(
+				'filterGenders' => 'boys',
+				'filterLimit'   => 3,
+			),
+			$this->asked(
+				array(
+					'filterGenders' => 'boys',
+					'filterLevels'  => '',
+					'filterLimit'   => 3,
+				)
+			)
+		);
+	}
+
+	/**
 	 * Nothing asked, nothing removed.
 	 *
 	 * @return void

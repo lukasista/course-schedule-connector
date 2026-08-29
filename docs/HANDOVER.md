@@ -99,6 +99,22 @@ pak název nepřečetlo až do další synchronizace. Dva kurzy ze 113 tak byly 
 věku, pohlaví a úrovně. `CourseRepository::refresh_audience()` se volá na konci
 `CourseEditor::save()`.
 
+### Filtr patří na stránku druhu, ne do šablony
+Klíčové zjištění: v globální šabloně (Divi Theme Builder / Šablony) nelze filtr
+nastavit v modulu — je to jeden design pro všechny stránky druhu. Proto
+`KindType::META_FILTER` (klíče v `KindRepository::FILTER_KEYS`) a
+`KindType::META_TERM` (druh zvolený ručně; `term_for()` ho upřednostní před
+názvem) na stránce druhu, panel *Které kurzy tato stránka ukazuje*
+(`KindEditor::render_courses_box()`), a řádková akce **Kopírovat**
+(`KindEditor::duplicate()` — přenáší text, výpisek, obrázek a filtr, **ne**
+`META_KEY_NAME`).
+
+`KindDetail::asked()` odděluje „nevyplněno" od „vyplněno na výchozí": modul
+posílá všechny hodnoty vždycky, takže `filterOrder=asc` bez `filterSort` se
+nesmí počítat jako rozhodnutí. Bez toho by šablona přebila všech 26 stránek.
+Filtrují se i ceny (`price_listing()`), aby stránka pro kluky ukázala jen jejich
+cenu. Ověřeno živě: 22 / 18 / 2 řádků, ceny 2 / 2 / 1.
+
 ### Filtry v modulu Kurzy tohoto druhu
 `'filters' => true` v katalogu → atributy `filterGenders`, `filterLevels`,
 `filterAgeMin`, `filterAgeMax`, `filterSort`, `filterOrder`, `filterLimit`

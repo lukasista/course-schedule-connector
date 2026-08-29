@@ -43,6 +43,20 @@ final class KindType {
 	public const META_KEY_NAME = '_cscs_kind_key';
 
 	/**
+	 * The term a page was pointed at by hand.
+	 *
+	 * A page made by the plugin is paired with its term by name. A page a
+	 * person made — "Gymnastika dívky", which is half of the kind Gymnastika —
+	 * has a name that pairs with nothing, so it says which term it is about.
+	 */
+	public const META_TERM = '_cscs_kind_term';
+
+	/**
+	 * Which of that term's courses the page shows.
+	 */
+	public const META_FILTER = '_cscs_kind_filter';
+
+	/**
 	 * Registers the post type and the field that pairs it with its term.
 	 *
 	 * @return void

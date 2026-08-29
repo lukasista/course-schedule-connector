@@ -26,6 +26,21 @@ defined( 'ABSPATH' ) || exit;
 final class KindRepository {
 
 	/**
+	 * The settings a page may carry, named as the blocks name them.
+	 *
+	 * @var array<int, string>
+	 */
+	public const FILTER_KEYS = array(
+		'filterGenders',
+		'filterLevels',
+		'filterAgeMin',
+		'filterAgeMax',
+		'filterSort',
+		'filterOrder',
+		'filterLimit',
+	);
+
+	/**
 	 * Returns the key a name is paired by.
 	 *
 	 * @param string $name Kind name.
@@ -209,6 +224,20 @@ final class KindRepository {
 	 * @return \WP_Term|null
 	 */
 	public function term_for( int $post_id ): ?\WP_Term {
+		// A page pointed at a term by hand says so, and that answer is not
+		// second-guessed by the name. It is how "Gymnastika dívky" can be a
+		// page of its own: its title pairs with no term at all, and it is not
+		// meant to.
+		$chosen = (int) get_post_meta( $post_id, KindType::META_TERM, true );
+
+		if ( 0 !== $chosen ) {
+			$term = get_term( $chosen, PostType::KIND );
+
+			if ( $term instanceof \WP_Term ) {
+				return $term;
+			}
+		}
+
 		$key = (string) get_post_meta( $post_id, KindType::META_KEY_NAME, true );
 
 		if ( '' === $key ) {
@@ -233,6 +262,39 @@ final class KindRepository {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns which of its kind's courses a page shows.
+	 *
+	 * The answer a theme builder template cannot give. A template is one design
+	 * for every page of a type, so a filter set on the module in it would be
+	 * set for all of them — "girls" on the page for boys. So the page carries
+	 * the question and the template only prints the answer, which is the whole
+	 * arrangement that makes one template serve twenty-six pages saying
+	 * twenty-six different things.
+	 *
+	 * @param int $post_id Kind page id.
+	 * @return array<string, mixed> Settings, in the shape the blocks use.
+	 */
+	public function filter( int $post_id ): array {
+		$stored = get_post_meta( $post_id, KindType::META_FILTER, true );
+
+		if ( ! is_array( $stored ) ) {
+			return array();
+		}
+
+		$filter = array();
+
+		foreach ( self::FILTER_KEYS as $key ) {
+			$value = $stored[ $key ] ?? '';
+
+			if ( '' !== $value && null !== $value ) {
+				$filter[ $key ] = $value;
+			}
+		}
+
+		return $filter;
 	}
 
 	/**

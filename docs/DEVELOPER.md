@@ -620,6 +620,22 @@ designs itself the same way; the `duration` column is offered to every course
 listing, not only a kind's. `course_listing()` does not use it, nor `price`:
 they moved out when the prices got a table.
 
+The narrowing is asked of the page first and the module second. `KindType::META_FILTER`
+holds the page's answer (the keys in `KindRepository::FILTER_KEYS`, named as the
+blocks name them) and `KindType::META_TERM` the term a page was pointed at by
+hand, which `KindRepository::term_for()` prefers over the name — a page called
+"Gymnastika dívky" pairs with no term by its title and is not meant to.
+`KindDetail::asked()` then keeps only the settings a person actually filled in,
+because a module sends every setting whether it was touched or not: an empty
+string is not an answer, a limit of zero is "all of them", and a direction with
+nothing to sort by is Divi's default rather than a decision. Without that rule a
+theme builder template — one design for every page of a type — would shout its
+own defaults over all twenty-six pages, which is the whole reason the filter is
+on the page and not in the design. `Admin\KindEditor` renders both panels and the
+**Copy** row action, which carries the words, the excerpt, the picture and the
+filter across but never `META_KEY_NAME`: that key says "the page the
+synchronisation made for this kind", and two pages claiming it is one too many.
+
 `KindDetail::course_listing()` takes the block's or module's settings and
 narrows the rows in memory — `filtered()` on gender, level and an age floor and
 ceiling, `sorted()` on the keys a rendered row actually carries (`name`,

@@ -11,6 +11,7 @@ namespace CSCS\Render;
 
 use CSCS\Data\Audience;
 use CSCS\Data\DisplaySet;
+use CSCS\Data\KindRepository;
 use CSCS\Data\KindType;
 use CSCS\Plugin;
 
@@ -74,17 +75,27 @@ final class KindDetail {
 	 * repeating both down every row of the timetable said the same thing
 	 * twenty-two times and made the columns a visitor came for narrower.
 	 *
-	 * The settings may narrow it further — girls only, beginners only, seven to
-	 * nine — which is how one kind shows as two tables without twenty-two
-	 * courses having to be refiled under a kind invented to hold them. What is
-	 * asked for and comes back empty is an empty table, not the whole kind:
-	 * a filter that silently stops applying is worse than one that shows
+	 * What it shows may be narrowed — girls only, beginners only, seven to nine
+	 * — which is how one kind shows as two tables without twenty-two courses
+	 * having to be refiled under a kind invented to hold them. The question is
+	 * asked in two places and that is the point: the page carries it, and the
+	 * module may override it. A theme builder template is one design for every
+	 * page of a type, so a filter set on the module inside it is set for all of
+	 * them — "girls" on the page for boys. The page is the only place an answer
+	 * can differ per page, so the page is where it belongs, and the module's
+	 * own setting is for the other case: a module dropped on one particular
+	 * page that wants something else.
+	 *
+	 * What is asked for and comes back empty is an empty table, not the whole
+	 * kind: a filter that silently stops applying is worse than one that shows
 	 * nothing.
 	 *
 	 * @param array<string, mixed> $settings Block or module settings.
 	 * @return Listing|null
 	 */
 	public function course_listing( array $settings = array() ): ?Listing {
+		$settings = array_merge( $this->plugin->kinds()->filter( $this->post->ID ), self::asked( $settings ) );
+
 		$ids = $this->plugin->kinds()->courses( $this->post->ID );
 
 		if ( array() === $ids ) {
@@ -148,11 +159,15 @@ final class KindDetail {
 	 * representative course per pair, so the columns are worded, formatted,
 	 * folded on a telephone and designed exactly as the rest are.
 	 *
-	 * Courses with no price are left out rather than shown as free.
+	 * Courses with no price are left out rather than shown as free, and
+	 * whatever narrows the page's timetable narrows this too.
 	 *
+	 * @param array<string, mixed> $settings Block or module settings.
 	 * @return Listing|null
 	 */
-	public function price_listing(): ?Listing {
+	public function price_listing( array $settings = array() ): ?Listing {
+		$settings = array_merge( $this->plugin->kinds()->filter( $this->post->ID ), self::asked( $settings ) );
+
 		$ids = $this->plugin->kinds()->courses( $this->post->ID );
 
 		if ( array() === $ids ) {
@@ -169,6 +184,11 @@ final class KindDetail {
 				$rows[] = $query->course_row( $post );
 			}
 		}
+
+		// The same courses the timetable beside it lists. A page for the girls'
+		// hours that priced the boys' as well would be answering a question
+		// nobody on that page asked.
+		$rows = self::filtered( $rows, $settings );
 
 		$times = $query->course_times(
 			array_map(
@@ -249,6 +269,36 @@ final class KindDetail {
 		);
 
 		return new Listing( $set, $chosen, Renderer::labels_for( $set ), $this->plugin->settings(), $kept );
+	}
+
+	/**
+	 * Keeps the settings that were actually asked for.
+	 *
+	 * Every module sends every setting, filled in or not, so "not asked" has to
+	 * be told from "asked for the default". An empty string is not asked; a
+	 * limit of zero is "all of them", which is what not asking means; and a
+	 * direction without something to sort by is Divi's own default rather than
+	 * anybody's decision, so it is not allowed to overrule the page.
+	 *
+	 * @param array<string, mixed> $settings Block or module settings.
+	 * @return array<string, mixed>
+	 */
+	private static function asked( array $settings ): array {
+		$asked = array();
+
+		foreach ( KindRepository::FILTER_KEYS as $key ) {
+			$value = $settings[ $key ] ?? '';
+
+			if ( '' !== $value && null !== $value && 0 !== $value && '0' !== $value ) {
+				$asked[ $key ] = $value;
+			}
+		}
+
+		if ( ! isset( $asked['filterSort'] ) ) {
+			unset( $asked['filterOrder'] );
+		}
+
+		return $asked;
 	}
 
 	/**

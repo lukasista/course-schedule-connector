@@ -80,6 +80,14 @@
         ]
     },
     {
+        "singular": "%s (copy)",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:140"
+        ]
+    },
+    {
         "singular": "A ceiling the scheduled jobs can never exceed, whatever the intervals say.",
         "plural": null,
         "context": null,
@@ -109,6 +117,14 @@
         "context": null,
         "refs": [
             "includes/Divi/FieldModules.php:303"
+        ]
+    },
+    {
+        "singular": "A course whose name says nothing about this is never shown by a setting that asks.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:275"
         ]
     },
     {
@@ -251,7 +267,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/KindType.php:58"
+            "includes/Data/KindType.php:72"
         ]
     },
     {
@@ -316,6 +332,7 @@
         "context": null,
         "refs": [
             "includes/Admin/CourseEditor.php:158",
+            "includes/Admin/KindEditor.php:290",
             "includes/Admin/Screen/DisplaySetsPage.php:439",
             "includes/Render/CourseDetail.php:105",
             "includes/Render/Fields.php:129",
@@ -426,6 +443,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:331",
             "includes/Divi/FieldModules.php:342"
         ]
     },
@@ -434,6 +452,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:308",
             "includes/Admin/Screen/DisplaySetsPage.php:320",
             "includes/Divi/FieldModules.php:353"
         ]
@@ -491,6 +510,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:314",
             "includes/Divi/FieldModules.php:358"
         ]
     },
@@ -507,6 +527,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:279",
             "includes/Divi/FieldModules.php:326"
         ]
     },
@@ -825,6 +846,14 @@
         ]
     },
     {
+        "singular": "Copy",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:108"
+        ]
+    },
+    {
         "singular": "Course",
         "plural": null,
         "context": null,
@@ -944,7 +973,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:135"
+            "includes/Admin/KindEditor.php:486"
         ]
     },
     {
@@ -1103,6 +1132,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:309",
             "includes/Admin/Screen/DisplaySetsPage.php:321",
             "includes/Divi/FieldModules.php:354"
         ]
@@ -1112,7 +1142,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:71"
+            "includes/Admin/KindEditor.php:195"
         ]
     },
     {
@@ -1187,7 +1217,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/KindType.php:59"
+            "includes/Data/KindType.php:73"
         ]
     },
     {
@@ -1243,6 +1273,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:282",
             "includes/Divi/FieldModules.php:328"
         ]
     },
@@ -1259,7 +1290,16 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:270",
             "includes/Divi/FieldModules.php:323"
+        ]
+    },
+    {
+        "singular": "Everything below decides which courses the timetable on this page lists — and the blocks and modules on it, wherever they are used, including a design made once for every page of this type. Leave it all alone and the page shows every course of its kind, which is what a page made by the synchronisation does.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:236"
         ]
     },
     {
@@ -1275,7 +1315,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:145"
+            "includes/Admin/KindEditor.php:496"
         ]
     },
     {
@@ -1511,6 +1551,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:317",
             "includes/Divi/FieldModules.php:359"
         ]
     },
@@ -1619,7 +1660,8 @@
         "context": null,
         "refs": [
             "includes/Admin/CourseEditor.php:434",
-            "includes/Data/KindType.php:56",
+            "includes/Admin/KindEditor.php:241",
+            "includes/Data/KindType.php:70",
             "includes/Data/PostType.php:183"
         ]
     },
@@ -1631,8 +1673,8 @@
             "includes/Admin/Menu.php:110",
             "includes/Admin/Menu.php:111",
             "includes/Admin/Screen/DisplaySetsPage.php:247",
-            "includes/Data/KindType.php:55",
-            "includes/Data/KindType.php:57",
+            "includes/Data/KindType.php:69",
+            "includes/Data/KindType.php:71",
             "includes/Data/PostType.php:182"
         ]
     },
@@ -1666,6 +1708,14 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:303"
+        ]
+    },
+    {
+        "singular": "Leaves out courses that finish below the floor or start above the ceiling. Either may be left empty.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:296"
         ]
     },
     {
@@ -1836,6 +1886,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:332",
             "includes/Admin/Screen/DisplaySetsPage.php:110",
             "includes/Admin/Screen/DisplaySetsPage.php:175",
             "includes/Admin/Screen/DisplaySetsPage.php:588",
@@ -1880,7 +1931,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/KindType.php:60"
+            "includes/Data/KindType.php:74"
         ]
     },
     {
@@ -1928,7 +1979,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:116"
+            "includes/Admin/KindEditor.php:467"
         ]
     },
     {
@@ -1968,7 +2019,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/KindType.php:63"
+            "includes/Data/KindType.php:77"
         ]
     },
     {
@@ -1976,7 +2027,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/KindType.php:64"
+            "includes/Data/KindType.php:78"
         ]
     },
     {
@@ -2256,6 +2307,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:300",
             "includes/Divi/FieldModules.php:339"
         ]
     },
@@ -2330,6 +2382,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:335",
             "includes/Divi/FieldModules.php:346"
         ]
     },
@@ -2352,6 +2405,7 @@
         "refs": [
             "includes/Admin/CourseEditor.php:254",
             "includes/Admin/CourseEditor.php:438",
+            "includes/Admin/KindEditor.php:334",
             "includes/Admin/Screen/DisplaySetsPage.php:590",
             "includes/Divi/FieldModules.php:345",
             "includes/Render/CourseDetail.php:100",
@@ -2442,7 +2496,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:149"
+            "includes/Admin/KindEditor.php:500"
         ]
     },
     {
@@ -2615,6 +2669,14 @@
         ]
     },
     {
+        "singular": "Say it outright when the page is called something the kind is not — a page named “Gymnastika dívky” pairs with no kind by itself.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:263"
+        ]
+    },
+    {
         "singular": "Schedule",
         "plural": null,
         "context": null,
@@ -2635,7 +2697,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/KindType.php:62"
+            "includes/Data/KindType.php:76"
         ]
     },
     {
@@ -3046,6 +3108,14 @@
         ]
     },
     {
+        "singular": "The page could not be copied.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:148"
+        ]
+    },
+    {
         "singular": "The person to contact about a course nobody books through iSport.",
         "plural": null,
         "context": null,
@@ -3428,7 +3498,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/KindType.php:61"
+            "includes/Data/KindType.php:75"
         ]
     },
     {
@@ -3540,6 +3610,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:333",
             "includes/Admin/Screen/DisplaySetsPage.php:589",
             "includes/Divi/FieldModules.php:344"
         ]
@@ -3602,6 +3673,14 @@
         ]
     },
     {
+        "singular": "Which courses this page is about",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:186"
+        ]
+    },
+    {
         "singular": "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows.",
         "plural": null,
         "context": null,
@@ -3646,6 +3725,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Admin/KindEditor.php:267",
             "includes/Divi/FieldModules.php:321"
         ]
     },
@@ -3729,7 +3809,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:165"
+            "includes/Admin/KindEditor.php:131",
+            "includes/Admin/KindEditor.php:516"
         ]
     },
     {
@@ -3776,6 +3857,14 @@
         "refs": [
             "includes/Divi/DisplayModule.php:268",
             "includes/Render/Block.php:141"
+        ]
+    },
+    {
+        "singular": "from",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:292"
         ]
     },
     {
@@ -3925,6 +4014,14 @@
         ]
     },
     {
+        "singular": "to",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:294"
+        ]
+    },
+    {
         "singular": "— as the name says —",
         "plural": null,
         "context": null,
@@ -3978,7 +4075,23 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:137"
+            "includes/Admin/KindEditor.php:488"
+        ]
+    },
+    {
+        "singular": "— the one this page is named after (%s) —",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:250"
+        ]
+    },
+    {
+        "singular": "— the one this page is named after —",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/KindEditor.php:253"
         ]
     },
     {

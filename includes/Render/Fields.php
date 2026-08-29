@@ -355,6 +355,7 @@ final class Fields {
 				'columns'     => array( 'duration', 'price' ),
 				'description' => __( 'What the courses of this kind cost, as a table of two columns: one row per length of lesson and price actually on offer, however many courses share it.', 'course-schedule-connector' ),
 				'heading'     => true,
+				'filters'     => true,
 			),
 			'courses' => array(
 				'kind'        => self::HTML,
@@ -582,7 +583,7 @@ final class Fields {
 				return array( 'html' => self::table( $detail->course_listing( $settings ) ) );
 
 			case 'prices':
-				return array( 'html' => self::table( $detail->price_listing() ) );
+				return array( 'html' => self::table( $detail->price_listing( $settings ) ) );
 		}
 
 		return array();
