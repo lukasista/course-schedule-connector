@@ -83,6 +83,11 @@ final class Scheduler {
 		add_action( self::HOOK_NEAR, array( $this, 'run_near' ) );
 		add_action( self::HOOK_FAR, array( $this, 'run_far' ) );
 		add_action( self::HOOK_RETENTION, array( $this, 'run_retention' ) );
+
+		// A job lost is a job nobody notices: the pages keep rendering, the
+		// numbers on them simply stop moving. Checking on every load costs four
+		// lookups in an option WordPress has already loaded.
+		add_action( 'init', array( $this, 'schedule' ), 20 );
 	}
 
 	/**
@@ -110,23 +115,77 @@ final class Scheduler {
 	}
 
 	/**
-	 * Schedules every job that is not scheduled yet.
+	 * Returns which recurrence each job runs on.
 	 *
-	 * @return void
+	 * @return array<string, string>
 	 */
-	public function schedule(): void {
-		$jobs = array(
+	public function jobs(): array {
+		return array(
 			self::HOOK_COURSES   => 'cscs_courses',
 			self::HOOK_NEAR      => 'cscs_lessons',
 			self::HOOK_FAR       => 'daily',
 			self::HOOK_RETENTION => 'daily',
 		);
+	}
 
-		foreach ( $jobs as $hook => $recurrence ) {
-			if ( false === wp_next_scheduled( $hook ) ) {
-				wp_schedule_event( time() + 60, $recurrence, $hook );
-			}
+	/**
+	 * Schedules every job that is not scheduled yet.
+	 *
+	 * Checked on every load rather than only at activation, and this is the fix
+	 * for a real and quiet failure. Two of the four jobs run on intervals this
+	 * plugin declares itself, and `wp_schedule_event()` refuses a recurrence
+	 * WordPress does not know at the moment it is called — which on the
+	 * activation request it does not, because a plugin being activated is not
+	 * yet in the list the `cron_schedules` filter is added from. So the two
+	 * daily jobs were scheduled and the two that matter most were not: courses
+	 * stopped being fetched, nobody was told, and the pages went on showing the
+	 * places free at whatever hour the last synchronisation happened to run. On
+	 * this gym's site 44 of 113 courses were out by the time it was noticed.
+	 *
+	 * The intervals are therefore registered here too, before anything is
+	 * scheduled, and a job whose interval is somehow still unknown falls back
+	 * to hourly rather than to nothing at all.
+	 *
+	 * @return void
+	 */
+	public function schedule(): void {
+		if ( ! has_filter( 'cron_schedules', array( $this, 'add_intervals' ) ) ) {
+			add_filter( 'cron_schedules', array( $this, 'add_intervals' ) ); // phpcs:ignore WordPress.WP.CronInterval.ChangeDetected -- Intervals are administrator-configurable and capped by the hourly request ceiling.
 		}
+
+		$known = wp_get_schedules();
+
+		foreach ( $this->jobs() as $hook => $recurrence ) {
+			if ( false !== wp_next_scheduled( $hook ) ) {
+				continue;
+			}
+
+			wp_schedule_event(
+				time() + MINUTE_IN_SECONDS,
+				isset( $known[ $recurrence ] ) ? $recurrence : 'hourly',
+				$hook
+			);
+		}
+	}
+
+	/**
+	 * Puts a job back on its interval after that interval has been changed.
+	 *
+	 * WordPress stores the recurrence with the event, not with the schedule, so
+	 * an administrator who shortens the course interval changes a number
+	 * nothing reads until the job is scheduled again. Which used to mean
+	 * switching the plugin off and on.
+	 *
+	 * @param string $hook Job.
+	 * @return void
+	 */
+	public function reschedule( string $hook ): void {
+		if ( ! isset( $this->jobs()[ $hook ] ) ) {
+			return;
+		}
+
+		wp_clear_scheduled_hook( $hook );
+		$this->schedule();
 	}
 
 	/**

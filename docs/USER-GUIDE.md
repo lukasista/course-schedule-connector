@@ -206,6 +206,13 @@ kurz, a synchronizace do nich nikdy nesahá. Pod tím, co napíšete, se vypíš
 modulem **Kurzy tohoto druhu** (sloupce Den, Čas od–do, Věk, Pohlaví, Úroveň,
 Volná místa a tlačítko, s celým nastavením vzhledu tabulky).
 
+V panelu **Které kurzy** se dá tenhle výpis zúžit: pro koho kurz je, na jaké
+úrovni, věk od–do, řazení a nejvýš kolik řádků. Tím se z jednoho druhu udělají
+dvě tabulky na jedné stránce — u *Gymnastiky* osmnáct řádků pro dívky a dva pro
+kluky — aniž by se dvaadvacet kurzů muselo přeřazovat pod druh vymyšlený jen
+proto, aby polovinu z nich pojal. Kurz, jehož název o dané věci nic neříká, se
+pod nastavením, které se na ni ptá, neukáže.
+
 Text stránky druhu umí do šablony vložit blok a modul **Popis druhu kurzu** —
 je to protějšek *Popisu kurzu* a *Popisu z iSportu*, které se ptají kurzu,
 a proto na stránce druhu nic nenajdou. Odrážky v něm se dají nastavit stejně
@@ -356,6 +363,13 @@ Pokud potřebujete něco z toho změnit, obraťte se na administrátora.
 
 **Menu „iSport“ v administraci vůbec není.** Přihlášený uživatel nemá oprávnění `cscs_manage_content`. Plugin si ho od verze 0.4 doplňuje sám při prvním načtení stránky; pokud přesto chybí, pomůže `wp cscs caps install`, nebo deaktivace a opětovná aktivace pluginu. Zkontrolovat stav jde příkazem `wp cscs caps list`.
 
+
+**Volná místa nesedí s tím, co ukazuje iSport.**
+Podívejte se na *iSport → Přehled*, do tabulky **Naplánované úlohy**. U řádku
+*Kurzy* má být napsáno, kdy poběží příště; když tam stojí **Neběží**, čísla se
+prostě přestala stahovat a stránky ukazují stav z poslední proběhlé
+synchronizace. Tlačítko *Synchronizovat* je srovná hned a úloha se od načtení
+téhle stránky plánuje sama.
 
 **Na stránce se nic nezobrazuje.**
 Zkontrolujte, že modul nebo zkrácený kód má vybranou Zobrazovací sadu a že filtry sady nejsou tak úzké, že jim nic neodpovídá. Zkuste dočasně zrušit filtr sálu.

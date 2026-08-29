@@ -81,6 +81,33 @@ Dřív to byla ruční mapa dvou kontextů v každém; druhy nebyly ani v jedné
 nastavení odpoví „tento obsah nelze zobrazit", zatímco frontend byl v pořádku.
 Hlídá to `FieldModulesTest::test_every_context_has_a_post_type_to_be_pointed_at()`.
 
+### Plánovač (opraveno 29. 8.)
+`Scheduler::schedule()` běží nově i na `init` a registruje `cron_schedules`
+dřív, než cokoli plánuje. `wp_schedule_event()` ověřuje recurrence proti
+`wp_get_schedules()`; při aktivaci ještě plugin není v seznamu aktivních, takže
+`Plugin::register()` filtr nepřidal a obě úlohy na vlastních intervalech
+(`cscs_sync_courses`, `cscs_sync_lessons_near`) se **nenaplánovaly**, zatímco
+obě `daily` ano. Frontend o tom nic neřekne — stránky se vykreslují dál a čísla
+stojí. Na živých datech bylo 44 ze 113 kurzů zastaralých. Neznámý interval teď
+padá na `hourly`, `reschedule()` přeplánuje úlohu po změně intervalu
+(`Plugin::on_setting_changed()`) a *iSport → Přehled* má tabulku **Naplánované
+úlohy** s `wp_next_scheduled()` u všech čtyř.
+
+### Publikum se ztrácelo při uložení kurzu
+Editor nabízí „jak říká název", což smaže uloženou hodnotu — správně — ale nic
+pak název nepřečetlo až do další synchronizace. Dva kurzy ze 113 tak byly bez
+věku, pohlaví a úrovně. `CourseRepository::refresh_audience()` se volá na konci
+`CourseEditor::save()`.
+
+### Filtry v modulu Kurzy tohoto druhu
+`'filters' => true` v katalogu → atributy `filterGenders`, `filterLevels`,
+`filterAgeMin`, `filterAgeMax`, `filterSort`, `filterOrder`, `filterLimit`
+v `FieldRenderer::attributes()`, čtou je `FieldModuleRenderer::settings()`
+i `blocks/fields/editor.js` (panel *Které kurzy*, v Divi vlastní content
+skupina `contentCourses`). Filtruje se v paměti v `KindDetail::filtered()`
+a `sorted()` — nad klíči vykreslené řádky, ne nad sloupci databáze. Testy
+`KindFilterTest`. Živě: Gymnastika 22 řádků, dívky 18, kluci 2.
+
 ### Stránka druhu kurzu
 Typ příspěvku `cscs_kind_page` (**ne** `cscs_kind` — to je taxonomie, kolidovalo
 by to o query var), párovaný `Normalise::match_key_loose()` jako u trenérů.

@@ -154,6 +154,13 @@ final class FieldModuleRenderer {
 			'imageLink'       => $read( 'imageLink', 'none' ),
 			'imageLinkUrl'    => $read( 'imageLinkUrl' ),
 			'imageLinkTarget' => 'on' === $read( 'imageLinkTarget', 'off' ),
+			'filterGenders'   => $read( 'filterGenders' ),
+			'filterLevels'    => $read( 'filterLevels' ),
+			'filterAgeMin'    => $read( 'filterAgeMin' ),
+			'filterAgeMax'    => $read( 'filterAgeMax' ),
+			'filterSort'      => $read( 'filterSort' ),
+			'filterOrder'     => $read( 'filterOrder', 'asc' ),
+			'filterLimit'     => (int) $read( 'filterLimit', '0' ),
 		);
 	}
 

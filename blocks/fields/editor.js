@@ -26,6 +26,7 @@
 	var fields = catalogue.fields || [];
 	var postTypes = catalogue.postTypes || {};
 	var sizes = catalogue.sizes || [];
+	var audience = catalogue.audience || { genders: {}, levels: {} };
 
 	if ( ! fields.length ) {
 		return;
@@ -475,6 +476,90 @@
 	}
 
 	/**
+	 * Turns a vocabulary into a select's options, with an "any" first.
+	 *
+	 * @param {Object} words Key to label.
+	 * @param {string} any   What the empty choice is called.
+	 * @return {Array} Options.
+	 */
+	function choices( words, any ) {
+		var options = [ { label: any, value: '' } ];
+
+		Object.keys( words || {} ).forEach( function ( key ) {
+			options.push( { label: words[ key ], value: key } );
+		} );
+
+		return options;
+	}
+
+	/**
+	 * Which of the courses under this heading to print.
+	 *
+	 * A kind of course is what the gym calls a card — "Gymnastika" — and one
+	 * card is sometimes wanted as two: the girls' hours and the boys'. Filing
+	 * twenty-two courses under a kind invented to hold half of them is a lot of
+	 * clicking to say something the courses already say, so the block asks
+	 * instead, and the same kind can appear twice on a page saying two
+	 * different things.
+	 *
+	 * @param {Object} props Block props.
+	 * @return {Object} The panel.
+	 */
+	function coursesPanel( props ) {
+		return el(
+			components.PanelBody,
+			{ title: __( 'Which courses', 'course-schedule-connector' ), initialOpen: false },
+			select(
+				props,
+				'filterGenders',
+				__( 'Who the course is for', 'course-schedule-connector' ),
+				choices( audience.genders, __( 'Everybody', 'course-schedule-connector' ) )
+			),
+			select(
+				props,
+				'filterLevels',
+				__( 'At what level', 'course-schedule-connector' ),
+				choices( audience.levels, __( 'Every level', 'course-schedule-connector' ) )
+			),
+			text(
+				props,
+				'filterAgeMin',
+				__( 'Age from', 'course-schedule-connector' ),
+				__( 'Leaves out courses that finish below this age. Empty means no floor.', 'course-schedule-connector' )
+			),
+			text(
+				props,
+				'filterAgeMax',
+				__( 'Age to', 'course-schedule-connector' ),
+				__( 'Leaves out courses that start above this age. Empty means no ceiling.', 'course-schedule-connector' )
+			),
+			select( props, 'filterSort', __( 'Order by', 'course-schedule-connector' ), [
+				{ label: __( 'As they are filed', 'course-schedule-connector' ), value: '' },
+				{ label: __( 'Name', 'course-schedule-connector' ), value: 'name' },
+				{ label: __( 'When it starts', 'course-schedule-connector' ), value: 'start' },
+				{ label: __( 'Price', 'course-schedule-connector' ), value: 'price' },
+				{ label: __( 'Places free', 'course-schedule-connector' ), value: 'places' },
+			] ),
+			select( props, 'filterOrder', __( 'Which way', 'course-schedule-connector' ), [
+				{ label: __( 'Ascending', 'course-schedule-connector' ), value: 'asc' },
+				{ label: __( 'Descending', 'course-schedule-connector' ), value: 'desc' },
+			] ),
+			el( components.TextControl, {
+				label: __( 'At most', 'course-schedule-connector' ),
+				help: __( 'How many rows to print. Empty or zero means all of them.', 'course-schedule-connector' ),
+				type: 'number',
+				min: 0,
+				value: props.attributes.filterLimit || 0,
+				__nextHasNoMarginBottom: true,
+				__next40pxDefaultSize: true,
+				onChange: function ( value ) {
+					props.setAttributes( { filterLimit: parseInt( value, 10 ) || 0 } );
+				},
+			} )
+		);
+	}
+
+	/**
 	 * The settings a picture has and a price does not.
 	 *
 	 * A field showing an image is a different shape from one showing a number,
@@ -564,6 +649,7 @@
 						blockEditor.InspectorControls,
 						{},
 						sourcePanel( props, postType ),
+						field.filters ? coursesPanel( props ) : null,
 						field.image ? picturePanel( props ) : null,
 						el(
 							components.PanelBody,

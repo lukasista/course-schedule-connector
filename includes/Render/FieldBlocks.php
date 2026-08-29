@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+use CSCS\Data\Audience;
 use CSCS\Plugin;
 
 defined( 'ABSPATH' ) || exit;
@@ -222,6 +223,7 @@ final class FieldBlocks {
 				'heading' => (bool) $field['heading'],
 				'image'   => (bool) $field['image'],
 				'bullets' => (bool) $field['bullets'],
+				'filters' => (bool) $field['filters'],
 				'columns' => $columns,
 			);
 		}
@@ -238,6 +240,13 @@ final class FieldBlocks {
 			// added to it cannot be missing from here.
 			'postTypes' => $post_types,
 			'settings'  => FieldRenderer::element_settings(),
+			// The vocabulary the filters offer. Read from the same place the
+			// course pages read it, so a gym that words its levels differently
+			// through the filters sees its own words here too.
+			'audience'  => array(
+				'genders' => Audience::genders(),
+				'levels'  => Audience::levels(),
+			),
 			// The sizes are this site's, not the plugin's: a theme registers
 			// them, and a list written here would refuse the one somebody added
 			// for exactly this picture.

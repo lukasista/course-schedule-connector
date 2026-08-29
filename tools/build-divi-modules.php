@@ -161,6 +161,19 @@ function module_metadata( string $name, array $field ): array {
 						'props' => array( 'groupLabel' => 'Picture' ),
 					),
 				),
+				// Which of the courses under this heading to show. Its own
+				// group, because "what this module is pointed at" and "which of
+				// what it found to print" are two questions, and running them
+				// together makes a panel of nine controls nobody reads.
+				'contentCourses'    => empty( $field['filters'] ) ? null : array(
+					'panel'     => 'content',
+					'priority'  => 20,
+					'groupName' => 'courses',
+					'component' => array(
+						'name'  => 'divi/composite',
+						'props' => array( 'groupLabel' => 'Which courses' ),
+					),
+				),
 				'contentPictureLink' => empty( $field['image'] ) ? null : array(
 					'panel'     => 'content',
 					'priority'  => 30,
@@ -760,6 +773,116 @@ function field_attribute( array $field ): array {
 		);
 	}
 
+	if ( ! empty( $field['filters'] ) ) {
+		$add(
+			'filterGenders',
+			array(
+				'label'       => 'Who the course is for',
+				'description' => 'Left alone, everybody. A course whose name says nothing about this is never shown by a setting that asks.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array( 'options' => new stdClass() ),
+				),
+			),
+			'contentCourses'
+		);
+
+		$add(
+			'filterLevels',
+			array(
+				'label'       => 'At what level',
+				'description' => 'Left alone, every level.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array( 'options' => new stdClass() ),
+				),
+			),
+			'contentCourses'
+		);
+
+		$add(
+			'filterAgeMin',
+			array(
+				'label'       => 'Age from',
+				'description' => 'Leaves out courses that finish below this age. Empty means no floor.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentCourses'
+		);
+
+		$add(
+			'filterAgeMax',
+			array(
+				'label'       => 'Age to',
+				'description' => 'Leaves out courses that start above this age. Empty means no ceiling.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentCourses'
+		);
+
+		$add(
+			'filterSort',
+			array(
+				'label'       => 'Order by',
+				'description' => 'Left alone, the order the courses are filed in.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array(
+						'options' => array(
+							''       => array( 'label' => 'As they are filed' ),
+							'name'   => array( 'label' => 'Name' ),
+							'start'  => array( 'label' => 'When it starts' ),
+							'price'  => array( 'label' => 'Price' ),
+							'places' => array( 'label' => 'Places free' ),
+						),
+					),
+				),
+			),
+			'contentCourses'
+		);
+
+		$add(
+			'filterOrder',
+			array(
+				'label'       => 'Which way',
+				'description' => 'Up or down.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array(
+						'options' => array(
+							'asc'  => array( 'label' => 'Ascending' ),
+							'desc' => array( 'label' => 'Descending' ),
+						),
+					),
+				),
+			),
+			'contentCourses'
+		);
+
+		$add(
+			'filterLimit',
+			array(
+				'label'       => 'At most',
+				'description' => 'How many rows to print. Empty or zero means all of them.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentCourses'
+		);
+	}
+
 	if ( ! empty( $field['image'] ) ) {
 		$add(
 			'imageSize',
@@ -884,6 +1007,16 @@ function module_defaults( array $field ): array {
 
 	if ( ! empty( $field['bullets'] ) ) {
 		$advanced['bulletStyle'] = '';
+	}
+
+	if ( ! empty( $field['filters'] ) ) {
+		$advanced['filterGenders'] = '';
+		$advanced['filterLevels']  = '';
+		$advanced['filterAgeMin']  = '';
+		$advanced['filterAgeMax']  = '';
+		$advanced['filterSort']    = '';
+		$advanced['filterOrder']   = 'asc';
+		$advanced['filterLimit']   = '';
 	}
 
 	if ( ! empty( $field['image'] ) ) {

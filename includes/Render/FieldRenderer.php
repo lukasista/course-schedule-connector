@@ -205,6 +205,41 @@ final class FieldRenderer {
 			);
 		}
 
+		if ( ! empty( $field['filters'] ) ) {
+			// Which of the courses under this heading to show. Stored as
+			// comma-separated keys rather than as arrays, because Divi's
+			// attributes are strings by breakpoint and state and a list there
+			// would have to be encoded anyway — one shape for both editors.
+			$attributes['filterGenders'] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['filterLevels']  = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['filterAgeMin']  = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['filterAgeMax']  = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['filterSort']    = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['filterOrder']   = array(
+				'type'    => 'string',
+				'default' => 'asc',
+			);
+			$attributes['filterLimit']   = array(
+				'type'    => 'number',
+				'default' => 0,
+			);
+		}
+
 		foreach ( array( 'label', 'value' ) as $element ) {
 			foreach ( self::element_settings() as $setting ) {
 				$attributes[ $element . $setting ] = array(

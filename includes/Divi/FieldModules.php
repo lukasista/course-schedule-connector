@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Divi;
 
+use CSCS\Data\Audience;
 use CSCS\Plugin;
 use CSCS\Render\Assets;
 use CSCS\Render\Fields;
@@ -246,6 +247,23 @@ final class FieldModules {
 	}
 
 	/**
+	 * Turns a list of labels into a select's options, with an "any" first.
+	 *
+	 * @param array<string, string> $labels Key to label.
+	 * @param string                $any    What the empty choice is called.
+	 * @return array<string, array<string, string>>
+	 */
+	private static function choices( array $labels, string $any ): array {
+		$options = array( '' => array( 'label' => $any ) );
+
+		foreach ( $labels as $key => $label ) {
+			$options[ (string) $key ] = array( 'label' => (string) $label );
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Returns the wording of every content setting, in the site's language.
 	 *
 	 * @return array<string, array<string, mixed>>
@@ -299,6 +317,47 @@ final class FieldModules {
 					'none'    => array( 'label' => __( 'None', 'course-schedule-connector' ) ),
 				),
 			),
+			'filterGenders'   => array(
+				'label'       => __( 'Who the course is for', 'course-schedule-connector' ),
+				'description' => __( 'Left as it is, everybody. A course whose name says nothing about this is never shown by a setting that asks.', 'course-schedule-connector' ),
+				'options'     => self::choices( Audience::genders(), __( 'Everybody', 'course-schedule-connector' ) ),
+			),
+			'filterLevels'    => array(
+				'label'       => __( 'At what level', 'course-schedule-connector' ),
+				'description' => __( 'Left as it is, every level.', 'course-schedule-connector' ),
+				'options'     => self::choices( Audience::levels(), __( 'Every level', 'course-schedule-connector' ) ),
+			),
+			'filterAgeMin'    => array(
+				'label'       => __( 'Age from', 'course-schedule-connector' ),
+				'description' => __( 'Leaves out courses that finish below this age. Empty means no floor.', 'course-schedule-connector' ),
+			),
+			'filterAgeMax'    => array(
+				'label'       => __( 'Age to', 'course-schedule-connector' ),
+				'description' => __( 'Leaves out courses that start above this age. Empty means no ceiling.', 'course-schedule-connector' ),
+			),
+			'filterSort'      => array(
+				'label'       => __( 'Order by', 'course-schedule-connector' ),
+				'description' => __( 'Left as it is, the order the courses are filed in.', 'course-schedule-connector' ),
+				'options'     => array(
+					''       => array( 'label' => __( 'As they are filed', 'course-schedule-connector' ) ),
+					'name'   => array( 'label' => __( 'Name', 'course-schedule-connector' ) ),
+					'start'  => array( 'label' => __( 'When it starts', 'course-schedule-connector' ) ),
+					'price'  => array( 'label' => __( 'Price', 'course-schedule-connector' ) ),
+					'places' => array( 'label' => __( 'Places free', 'course-schedule-connector' ) ),
+				),
+			),
+			'filterOrder'     => array(
+				'label'       => __( 'Which way', 'course-schedule-connector' ),
+				'description' => __( 'Up or down.', 'course-schedule-connector' ),
+				'options'     => array(
+					'asc'  => array( 'label' => __( 'Ascending', 'course-schedule-connector' ) ),
+					'desc' => array( 'label' => __( 'Descending', 'course-schedule-connector' ) ),
+				),
+			),
+			'filterLimit'     => array(
+				'label'       => __( 'At most', 'course-schedule-connector' ),
+				'description' => __( 'How many rows to print. Empty or zero means all of them.', 'course-schedule-connector' ),
+			),
 			'emptyText'       => array(
 				'label'       => __( 'When there is nothing to show', 'course-schedule-connector' ),
 				'description' => __( 'Left empty, the module disappears rather than printing a heading over a blank space.', 'course-schedule-connector' ),
@@ -348,6 +407,7 @@ final class FieldModules {
 			'designTableCell'    => __( 'Table cell', 'course-schedule-connector' ),
 			'designTableLink'    => __( 'Table link', 'course-schedule-connector' ),
 			'designTableRow'     => __( 'Banded row', 'course-schedule-connector' ),
+			'contentCourses'     => __( 'Which courses', 'course-schedule-connector' ),
 			'contentPicture'     => __( 'Picture', 'course-schedule-connector' ),
 			'contentPictureLink' => __( 'Link', 'course-schedule-connector' ),
 		);

@@ -363,8 +363,9 @@ final class Fields {
 				'icon'        => 'calendar-alt',
 				'moduleIcon'  => 'divi/module-post-slider',
 				'columns'     => array( 'day', 'hours', 'age', 'gender', 'level', 'places', 'button' ),
-				'description' => __( 'Every course filed under this kind, as a table.', 'course-schedule-connector' ),
+				'description' => __( 'Every course filed under this kind, as a table — or only the ones the settings ask for.', 'course-schedule-connector' ),
 				'heading'     => true,
+				'filters'     => true,
 			),
 		);
 
@@ -420,6 +421,7 @@ final class Fields {
 		return array(
 			'image'      => false,
 			'bullets'    => false,
+			'filters'    => false,
 			'columns'    => array(),
 			'moduleIcon' => 'divi/module-text',
 		);
@@ -466,7 +468,7 @@ final class Fields {
 		}
 
 		if ( self::KIND === $field['context'] ) {
-			return array_merge( $empty, self::kind_value( $plugin, $key, $post ) );
+			return array_merge( $empty, self::kind_value( $plugin, $key, $post, $settings ) );
 		}
 
 		return array_merge( $empty, self::trainer_value( $plugin, $key, $post, $settings ) );
@@ -565,10 +567,11 @@ final class Fields {
 	 *
 	 * @param Plugin   $plugin Plugin instance.
 	 * @param string   $key    Field key without its context.
-	 * @param \WP_Post $post   Kind page.
+	 * @param \WP_Post $post     Kind page.
+	 * @param array<string, mixed> $settings Block or module settings.
 	 * @return array<string, mixed>
 	 */
-	private static function kind_value( Plugin $plugin, string $key, \WP_Post $post ): array {
+	private static function kind_value( Plugin $plugin, string $key, \WP_Post $post, array $settings = array() ): array {
 		$detail = new KindDetail( $plugin, $post );
 
 		switch ( $key ) {
@@ -576,7 +579,7 @@ final class Fields {
 				return array( 'html' => self::written_text( $post ) );
 
 			case 'courses':
-				return array( 'html' => self::table( $detail->course_listing() ) );
+				return array( 'html' => self::table( $detail->course_listing( $settings ) ) );
 
 			case 'prices':
 				return array( 'html' => self::table( $detail->price_listing() ) );

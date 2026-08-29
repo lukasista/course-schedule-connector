@@ -620,6 +620,16 @@ designs itself the same way; the `duration` column is offered to every course
 listing, not only a kind's. `course_listing()` does not use it, nor `price`:
 they moved out when the prices got a table.
 
+`KindDetail::course_listing()` takes the block's or module's settings and
+narrows the rows in memory — `filtered()` on gender, level and an age floor and
+ceiling, `sorted()` on the keys a rendered row actually carries (`name`,
+`date_from`, `price`, `available`, which are not the database columns a display
+set sorts on), then a slice. A course that holds nothing for a thing being asked
+about is left out rather than kept, as in `Query`. The controls come from
+`'filters' => true` on the field, which `FieldRenderer::attributes()`,
+`FieldModuleRenderer::settings()`, the Divi generator and `blocks/fields/editor.js`
+each read; `KindFilterTest` covers the two helpers through reflection.
+
 `kind-text` renders the page's own `post_content` through `Fields::written_text()`,
 which is what `course-text` and `trainer-text` do — the field exists because the
 two description fields are both about a course, so a kind's page had no way to
@@ -633,6 +643,20 @@ missing key wrote `null` into the select's options, which Divi renders as "this
 content cannot be displayed" in the settings panel — the front end was fine, so
 nothing else showed it. `FieldModulesTest::test_every_context_has_a_post_type_to_be_pointed_at()`
 is the guard.
+
+## Scheduling
+
+`Scheduler::schedule()` runs on `init` as well as on activation, and registers
+the `cron_schedules` filter before it schedules anything. Both matter, and the
+second is the bug: `wp_schedule_event()` validates the recurrence against
+`wp_get_schedules()`, a plugin being activated is not yet in the active list
+when `plugins_loaded` fires in that request, so `Plugin::register()` had not
+added the filter and the two jobs on plugin-declared intervals — `cscs_courses`
+and `cscs_lessons` — were refused while the two `daily` ones were accepted. The
+front end shows nothing when this happens; the pages render and the numbers stop
+moving. An unknown recurrence now falls back to `hourly`, `reschedule()` puts a
+job back after its interval setting changes (`Plugin::on_setting_changed()`), and
+the overview screen lists all four with `wp_next_scheduled()`.
 
 ## A kind's own page
 

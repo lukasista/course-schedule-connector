@@ -13,6 +13,7 @@ use CSCS\Admin\Capabilities;
 use CSCS\Api\ApiException;
 use CSCS\Data\LessonRepository;
 use CSCS\Plugin;
+use CSCS\Sync\Scheduler;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -156,6 +157,23 @@ final class Overview {
 			<?php $this->render_log(); ?>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Returns what a job is called on this screen.
+	 *
+	 * @param string $hook Job.
+	 * @return string
+	 */
+	private static function job_name( string $hook ): string {
+		$names = array(
+			Scheduler::HOOK_COURSES   => __( 'Courses', 'course-schedule-connector' ),
+			Scheduler::HOOK_NEAR      => __( 'Classes in the near term', 'course-schedule-connector' ),
+			Scheduler::HOOK_FAR       => __( 'Classes further out', 'course-schedule-connector' ),
+			Scheduler::HOOK_RETENTION => __( 'Clearing out what is past', 'course-schedule-connector' ),
+		);
+
+		return $names[ $hook ] ?? $hook;
 	}
 
 	/**

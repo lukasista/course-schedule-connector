@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+use CSCS\Data\Audience;
 use CSCS\Data\DisplaySet;
 use CSCS\Data\KindType;
 use CSCS\Plugin;
@@ -73,9 +74,17 @@ final class KindDetail {
 	 * repeating both down every row of the timetable said the same thing
 	 * twenty-two times and made the columns a visitor came for narrower.
 	 *
+	 * The settings may narrow it further — girls only, beginners only, seven to
+	 * nine — which is how one kind shows as two tables without twenty-two
+	 * courses having to be refiled under a kind invented to hold them. What is
+	 * asked for and comes back empty is an empty table, not the whole kind:
+	 * a filter that silently stops applying is worse than one that shows
+	 * nothing.
+	 *
+	 * @param array<string, mixed> $settings Block or module settings.
 	 * @return Listing|null
 	 */
-	public function course_listing(): ?Listing {
+	public function course_listing( array $settings = array() ): ?Listing {
 		$ids = $this->plugin->kinds()->courses( $this->post->ID );
 
 		if ( array() === $ids ) {
@@ -93,16 +102,25 @@ final class KindDetail {
 			}
 		}
 
-		if ( array() === $rows ) {
-			return null;
-		}
-
 		$set = DisplaySet::from_array(
 			array(
 				'type'    => DisplaySet::TYPE_COURSES,
 				'columns' => array( 'day', 'hours', 'age', 'gender', 'level', 'places', 'button' ),
 			)
 		);
+
+		$rows = self::filtered( $rows, $settings );
+		$rows = self::sorted( $rows, $settings );
+
+		$limit = max( 0, (int) ( $settings['filterLimit'] ?? 0 ) );
+
+		if ( 0 !== $limit ) {
+			$rows = array_slice( $rows, 0, $limit );
+		}
+
+		if ( array() === $rows ) {
+			return null;
+		}
 
 		$times = $query->course_times(
 			array_map(
@@ -231,6 +249,113 @@ final class KindDetail {
 		);
 
 		return new Listing( $set, $chosen, Renderer::labels_for( $set ), $this->plugin->settings(), $kept );
+	}
+
+	/**
+	 * Keeps the rows the settings ask for.
+	 *
+	 * A course that says nothing about its group cannot be shown to match a
+	 * question about groups — the same rule a display set follows, and the only
+	 * one that does not put a mixed class on a card for girls.
+	 *
+	 * @param array<int, array<string, mixed>> $rows     Course rows.
+	 * @param array<string, mixed>             $settings Block or module settings.
+	 * @return array<int, array<string, mixed>>
+	 */
+	private static function filtered( array $rows, array $settings ): array {
+		$genders = self::keys( $settings['filterGenders'] ?? '' );
+		$levels  = self::keys( $settings['filterLevels'] ?? '' );
+		$min     = trim( (string) ( $settings['filterAgeMin'] ?? '' ) );
+		$max     = trim( (string) ( $settings['filterAgeMax'] ?? '' ) );
+
+		if ( array() === $genders && array() === $levels && '' === $min && '' === $max ) {
+			return $rows;
+		}
+
+		$kept = array();
+
+		foreach ( $rows as $row ) {
+			if ( array() !== $genders && ! in_array( (string) ( $row['gender'] ?? '' ), $genders, true ) ) {
+				continue;
+			}
+
+			if ( array() !== $levels && ! in_array( (string) ( $row['level'] ?? '' ), $levels, true ) ) {
+				continue;
+			}
+
+			$from = (string) ( $row['age_from'] ?? '' );
+			$to   = (string) ( $row['age_to'] ?? '' );
+
+			// An age nobody knows is not an age that matches. A course with no
+			// ceiling runs "and upwards", so it is only ever cut by the floor.
+			if ( '' !== $min && ( '' === $to || (float) $to < (float) $min ) ) {
+				continue;
+			}
+
+			if ( '' !== $max && ( '' === $from || (float) $from > (float) $max ) ) {
+				continue;
+			}
+
+			$kept[] = $row;
+		}
+
+		return $kept;
+	}
+
+	/**
+	 * Puts the rows in the order the settings ask for.
+	 *
+	 * @param array<int, array<string, mixed>> $rows     Course rows.
+	 * @param array<string, mixed>             $settings Block or module settings.
+	 * @return array<int, array<string, mixed>>
+	 */
+	private static function sorted( array $rows, array $settings ): array {
+		// The keys a rendered row actually carries, which are not the database
+		// columns a display set sorts on — this list is already in memory and
+		// there is nothing to ask the database for.
+		$sorts = array(
+			'name'   => array( 'name', false ),
+			'start'  => array( 'date_from', false ),
+			'price'  => array( 'price', true ),
+			'places' => array( 'available', true ),
+		);
+
+		$sort = (string) ( $settings['filterSort'] ?? '' );
+
+		if ( ! isset( $sorts[ $sort ] ) ) {
+			return $rows;
+		}
+
+		list( $field, $numeric ) = $sorts[ $sort ];
+
+		usort(
+			$rows,
+			static function ( array $left, array $right ) use ( $field, $numeric ): int {
+				$a = $left[ $field ] ?? '';
+				$b = $right[ $field ] ?? '';
+
+				return $numeric
+					? (float) $a <=> (float) $b
+					: strnatcasecmp( (string) $a, (string) $b );
+			}
+		);
+
+		return 'desc' === (string) ( $settings['filterOrder'] ?? 'asc' ) ? array_reverse( $rows ) : $rows;
+	}
+
+	/**
+	 * Reduces a stored list of keys to the ones that mean something.
+	 *
+	 * @param mixed $value Comma-separated keys, or a list of them.
+	 * @return array<int, string>
+	 */
+	private static function keys( $value ): array {
+		$list = is_array( $value ) ? $value : explode( ',', (string) $value );
+		$list = array_filter( array_map( 'sanitize_key', array_map( 'strval', $list ) ) );
+
+		return array_values(
+			array_intersect( $list, array_merge( Audience::gender_keys(), Audience::level_keys() ) )
+		);
 	}
 
 	/**

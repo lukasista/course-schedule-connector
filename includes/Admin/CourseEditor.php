@@ -392,6 +392,15 @@ final class CourseEditor {
 		}
 
 		update_post_meta( $post_id, CourseRepository::META_LOCKED, array_values( array_unique( $locked ) ) );
+
+		// And read the name for everything left unlocked, now rather than at
+		// the next synchronisation. "As the name says" deletes the stored value
+		// — that part is right, an empty string is a value and would be shown —
+		// but until this line nothing put the name's answer back, so a course
+		// somebody opened and saved without changing anything came out of the
+		// screen with no age, no group and no level, and stayed that way for
+		// however long the next synchronisation was.
+		$this->plugin->courses()->refresh_audience( $post_id );
 	}
 
 	/**

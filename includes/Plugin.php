@@ -264,6 +264,18 @@ final class Plugin {
 	 * @return void
 	 */
 	public function on_setting_changed( string $key ): void {
+		$intervals = array(
+			'interval_courses'      => Scheduler::HOOK_COURSES,
+			'interval_lessons_near' => Scheduler::HOOK_NEAR,
+		);
+
+		if ( isset( $intervals[ $key ] ) ) {
+			$this->settings()->flush();
+			$this->scheduler()->reschedule( $intervals[ $key ] );
+
+			return;
+		}
+
 		$affects_requests = array(
 			'api_base_url',
 			'allow_http',

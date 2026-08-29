@@ -4,7 +4,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:205"
+            "includes/Admin/Screen/Overview.php:223"
         ]
     },
     {
@@ -36,7 +36,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:102"
+            "includes/Admin/Screen/Overview.php:103"
         ]
     },
     {
@@ -108,7 +108,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:281"
+            "includes/Divi/FieldModules.php:303"
         ]
     },
     {
@@ -156,7 +156,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:327"
+            "includes/Divi/FieldModules.php:390"
         ]
     },
     {
@@ -204,7 +204,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:141"
+            "includes/Admin/Screen/Overview.php:142"
         ]
     },
     {
@@ -229,7 +229,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:222",
+            "includes/Admin/Screen/Overview.php:240",
             "includes/Admin/Screen/SettingsPage.php:128",
             "includes/Admin/Screen/UnmatchedPage.php:136"
         ]
@@ -243,7 +243,7 @@
             "includes/Admin/Screen/MakeupPage.php:130",
             "includes/Admin/Screen/UnmatchedPage.php:165",
             "includes/Data/PostType.php:179",
-            "includes/Render/Fields.php:722"
+            "includes/Render/Fields.php:725"
         ]
     },
     {
@@ -275,7 +275,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:322"
+            "includes/Divi/FieldModules.php:385"
         ]
     },
     {
@@ -307,7 +307,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:280"
+            "includes/Divi/FieldModules.php:302"
         ]
     },
     {
@@ -320,7 +320,23 @@
             "includes/Render/CourseDetail.php:105",
             "includes/Render/Fields.php:129",
             "includes/Render/Fields.php:130",
-            "includes/Render/Fields.php:725"
+            "includes/Render/Fields.php:728"
+        ]
+    },
+    {
+        "singular": "Age from",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:331"
+        ]
+    },
+    {
+        "singular": "Age to",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:335"
         ]
     },
     {
@@ -352,7 +368,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:308"
+            "includes/Divi/FieldModules.php:371"
         ]
     },
     {
@@ -376,7 +392,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:318"
+            "includes/Divi/FieldModules.php:381"
         ]
     },
     {
@@ -392,7 +408,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:272"
+            "includes/Divi/FieldModules.php:294"
         ]
     },
     {
@@ -406,11 +422,20 @@
         ]
     },
     {
+        "singular": "As they are filed",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:342"
+        ]
+    },
+    {
         "singular": "Ascending",
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/DisplaySetsPage.php:320"
+            "includes/Admin/Screen/DisplaySetsPage.php:320",
+            "includes/Divi/FieldModules.php:353"
         ]
     },
     {
@@ -418,7 +443,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:74"
+            "includes/Admin/Screen/Overview.php:75"
         ]
     },
     {
@@ -462,6 +487,14 @@
         ]
     },
     {
+        "singular": "At most",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:358"
+        ]
+    },
+    {
         "singular": "At or below this many free places the listing says so. Zero switches the warning off.",
         "plural": null,
         "context": null,
@@ -470,11 +503,19 @@
         ]
     },
     {
+        "singular": "At what level",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:326"
+        ]
+    },
+    {
         "singular": "Banded row",
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:346"
+            "includes/Divi/FieldModules.php:409"
         ]
     },
     {
@@ -514,7 +555,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:285"
+            "includes/Divi/FieldModules.php:307"
         ]
     },
     {
@@ -532,7 +573,7 @@
         "refs": [
             "includes/Admin/CourseEditor.php:192",
             "includes/Admin/CourseList.php:55",
-            "includes/Render/Fields.php:739"
+            "includes/Render/Fields.php:742"
         ]
     },
     {
@@ -588,7 +629,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:288"
+            "includes/Divi/FieldModules.php:310"
         ]
     },
     {
@@ -604,8 +645,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:225",
-            "includes/Render/Fields.php:738",
+            "includes/Admin/Screen/Overview.php:243",
+            "includes/Render/Fields.php:741",
             "includes/Render/Listing.php:454"
         ]
     },
@@ -646,7 +687,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:219"
+            "includes/Admin/Screen/Overview.php:237"
         ]
     },
     {
@@ -654,7 +695,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Sync/Scheduler.php:106"
+            "includes/Sync/Scheduler.php:111"
         ]
     },
     {
@@ -670,11 +711,35 @@
         ]
     },
     {
+        "singular": "Classes further out",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:172"
+        ]
+    },
+    {
+        "singular": "Classes in the near term",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:171"
+        ]
+    },
+    {
         "singular": "Classes that stand in for one somebody missed.",
         "plural": null,
         "context": null,
         "refs": [
             "includes/Render/Fields.php:246"
+        ]
+    },
+    {
+        "singular": "Clearing out what is past",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:173"
         ]
     },
     {
@@ -698,7 +763,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:208"
+            "includes/Divi/FieldModules.php:213"
         ]
     },
     {
@@ -731,7 +796,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:110",
+            "includes/Admin/Screen/Overview.php:111",
             "includes/Admin/Screen/SettingsPage.php:82"
         ]
     },
@@ -740,7 +805,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:118"
+            "includes/Admin/Screen/Overview.php:119"
         ]
     },
     {
@@ -765,8 +830,8 @@
         "context": null,
         "refs": [
             "includes/Data/PostType.php:71",
-            "includes/Render/Fields.php:720",
-            "includes/Render/Fields.php:721"
+            "includes/Render/Fields.php:723",
+            "includes/Render/Fields.php:724"
         ]
     },
     {
@@ -814,7 +879,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:424",
+            "includes/Admin/CourseEditor.php:433",
             "includes/Render/Fields.php:75"
         ]
     },
@@ -839,7 +904,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Sync/Scheduler.php:101"
+            "includes/Sync/Scheduler.php:106"
         ]
     },
     {
@@ -891,6 +956,7 @@
             "includes/Admin/Menu.php:95",
             "includes/Admin/Screen/DisplaySetsPage.php:135",
             "includes/Admin/Screen/DisplaySetsPage.php:197",
+            "includes/Admin/Screen/Overview.php:170",
             "includes/Data/PostType.php:70",
             "includes/Data/PostType.php:72"
         ]
@@ -962,7 +1028,7 @@
         "refs": [
             "includes/Admin/Screen/MakeupPage.php:128",
             "includes/Admin/Screen/UnmatchedPage.php:163",
-            "includes/Render/Fields.php:730"
+            "includes/Render/Fields.php:733"
         ]
     },
     {
@@ -971,7 +1037,7 @@
         "context": null,
         "refs": [
             "includes/Render/CourseDetail.php:101",
-            "includes/Render/Fields.php:728",
+            "includes/Render/Fields.php:731",
             "includes/Render/Fields.php:93",
             "includes/Render/Fields.php:94"
         ]
@@ -981,7 +1047,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:723"
+            "includes/Render/Fields.php:726"
         ]
     },
     {
@@ -1037,7 +1103,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/DisplaySetsPage.php:321"
+            "includes/Admin/Screen/DisplaySetsPage.php:321",
+            "includes/Divi/FieldModules.php:354"
         ]
     },
     {
@@ -1053,7 +1120,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:426",
+            "includes/Admin/CourseEditor.php:435",
             "includes/Render/Fields.php:212"
         ]
     },
@@ -1062,7 +1129,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:251"
+            "includes/Admin/Screen/Overview.php:269"
         ]
     },
     {
@@ -1156,7 +1223,7 @@
         ]
     },
     {
-        "singular": "Every course filed under this kind, as a table.",
+        "singular": "Every course filed under this kind, as a table — or only the ones the settings ask for.",
         "plural": null,
         "context": null,
         "refs": [
@@ -1172,11 +1239,27 @@
         ]
     },
     {
+        "singular": "Every level",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:328"
+        ]
+    },
+    {
         "singular": "Every qualification, in the order they were entered.",
         "plural": null,
         "context": null,
         "refs": [
             "includes/Render/Fields.php:277"
+        ]
+    },
+    {
+        "singular": "Everybody",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:323"
         ]
     },
     {
@@ -1224,7 +1307,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:442",
+            "includes/Admin/CourseEditor.php:451",
             "includes/Admin/CourseList.php:77"
         ]
     },
@@ -1265,7 +1348,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:457",
+            "includes/Admin/CourseEditor.php:466",
             "includes/Admin/Screen/SettingsPage.php:118",
             "includes/Render/CourseDetail.php:495",
             "includes/Render/Listing.php:588",
@@ -1302,7 +1385,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:284"
+            "includes/Divi/FieldModules.php:306"
         ]
     },
     {
@@ -1315,7 +1398,7 @@
             "includes/Render/CourseDetail.php:106",
             "includes/Render/Fields.php:138",
             "includes/Render/Fields.php:139",
-            "includes/Render/Fields.php:726"
+            "includes/Render/Fields.php:729"
         ]
     },
     {
@@ -1332,7 +1415,7 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:344",
-            "includes/Divi/FieldModules.php:260"
+            "includes/Divi/FieldModules.php:282"
         ]
     },
     {
@@ -1340,7 +1423,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:275"
+            "includes/Divi/FieldModules.php:297"
         ]
     },
     {
@@ -1348,7 +1431,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:273"
+            "includes/Divi/FieldModules.php:295"
         ]
     },
     {
@@ -1356,7 +1439,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:264"
+            "includes/Divi/FieldModules.php:286"
         ]
     },
     {
@@ -1364,7 +1447,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:341"
+            "includes/Divi/FieldModules.php:404"
         ]
     },
     {
@@ -1396,7 +1479,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:292"
+            "includes/Divi/FieldModules.php:314"
         ]
     },
     {
@@ -1421,6 +1504,14 @@
         "context": null,
         "refs": [
             "includes/Render/Fields.php:178"
+        ]
+    },
+    {
+        "singular": "How many rows to print. Empty or zero means all of them.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:359"
         ]
     },
     {
@@ -1495,7 +1586,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:316"
+            "includes/Divi/FieldModules.php:379"
         ]
     },
     {
@@ -1503,7 +1594,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:248"
+            "includes/Admin/Screen/Overview.php:266"
         ]
     },
     {
@@ -1527,7 +1618,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:425",
+            "includes/Admin/CourseEditor.php:434",
             "includes/Data/KindType.php:56",
             "includes/Data/PostType.php:183"
         ]
@@ -1578,6 +1669,46 @@
         ]
     },
     {
+        "singular": "Leaves out courses that finish below this age. Empty means no floor.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:332"
+        ]
+    },
+    {
+        "singular": "Leaves out courses that start above this age. Empty means no ceiling.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:336"
+        ]
+    },
+    {
+        "singular": "Left as it is, every level.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:327"
+        ]
+    },
+    {
+        "singular": "Left as it is, everybody. A course whose name says nothing about this is never shown by a setting that asks.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:322"
+        ]
+    },
+    {
+        "singular": "Left as it is, the order the courses are filed in.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:340"
+        ]
+    },
+    {
         "singular": "Left empty, no heading is printed.",
         "plural": null,
         "context": null,
@@ -1590,7 +1721,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:300"
+            "includes/Divi/FieldModules.php:363"
         ]
     },
     {
@@ -1598,7 +1729,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:724"
+            "includes/Render/Fields.php:727"
         ]
     },
     {
@@ -1611,7 +1742,7 @@
             "includes/Render/CourseDetail.php:107",
             "includes/Render/Fields.php:147",
             "includes/Render/Fields.php:148",
-            "includes/Render/Fields.php:727"
+            "includes/Render/Fields.php:730"
         ]
     },
     {
@@ -1619,7 +1750,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:348"
+            "includes/Divi/FieldModules.php:412"
         ]
     },
     {
@@ -1627,7 +1758,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:312"
+            "includes/Divi/FieldModules.php:375"
         ]
     },
     {
@@ -1663,7 +1794,7 @@
             "includes/Admin/Menu.php:142",
             "includes/Admin/Menu.php:143",
             "includes/Admin/Screen/MakeupPage.php:100",
-            "includes/Admin/Screen/Overview.php:223",
+            "includes/Admin/Screen/Overview.php:241",
             "includes/Admin/Screen/SettingsPage.php:136"
         ]
     },
@@ -1707,7 +1838,8 @@
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:110",
             "includes/Admin/Screen/DisplaySetsPage.php:175",
-            "includes/Admin/Screen/DisplaySetsPage.php:588"
+            "includes/Admin/Screen/DisplaySetsPage.php:588",
+            "includes/Divi/FieldModules.php:343"
         ]
     },
     {
@@ -1788,7 +1920,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:126"
+            "includes/Admin/Screen/Overview.php:127"
         ]
     },
     {
@@ -1860,7 +1992,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:443",
+            "includes/Admin/CourseEditor.php:452",
             "includes/Admin/CourseList.php:78"
         ]
     },
@@ -1909,7 +2041,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:70"
+            "includes/Admin/Screen/Overview.php:71"
         ]
     },
     {
@@ -1917,7 +2049,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:295"
+            "includes/Divi/FieldModules.php:317"
         ]
     },
     {
@@ -1942,7 +2074,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:238"
+            "includes/Admin/Screen/Overview.php:256"
         ]
     },
     {
@@ -2025,7 +2157,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:315"
+            "includes/Divi/FieldModules.php:378"
         ]
     },
     {
@@ -2033,7 +2165,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:735"
+            "includes/Render/Fields.php:738"
         ]
     },
     {
@@ -2041,7 +2173,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:294"
+            "includes/Divi/FieldModules.php:316"
         ]
     },
     {
@@ -2083,7 +2215,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:326"
+            "includes/Divi/FieldModules.php:389"
         ]
     },
     {
@@ -2091,7 +2223,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:72"
+            "includes/Admin/Screen/Overview.php:73"
         ]
     },
     {
@@ -2120,11 +2252,19 @@
         ]
     },
     {
+        "singular": "Order by",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:339"
+        ]
+    },
+    {
         "singular": "Outcome",
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:250"
+            "includes/Admin/Screen/Overview.php:268"
         ]
     },
     {
@@ -2182,7 +2322,15 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:347"
+            "includes/Divi/FieldModules.php:411"
+        ]
+    },
+    {
+        "singular": "Places free",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:346"
         ]
     },
     {
@@ -2194,7 +2342,7 @@
             "includes/Render/CourseDetail.php:110",
             "includes/Render/Fields.php:174",
             "includes/Render/Fields.php:175",
-            "includes/Render/Fields.php:737"
+            "includes/Render/Fields.php:740"
         ]
     },
     {
@@ -2203,11 +2351,12 @@
         "context": null,
         "refs": [
             "includes/Admin/CourseEditor.php:254",
-            "includes/Admin/CourseEditor.php:429",
+            "includes/Admin/CourseEditor.php:438",
             "includes/Admin/Screen/DisplaySetsPage.php:590",
+            "includes/Divi/FieldModules.php:345",
             "includes/Render/CourseDetail.php:100",
             "includes/Render/Fields.php:352",
-            "includes/Render/Fields.php:736",
+            "includes/Render/Fields.php:739",
             "includes/Render/Fields.php:84",
             "includes/Render/Fields.php:85"
         ]
@@ -2236,7 +2385,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:155"
+            "includes/Admin/Screen/Overview.php:156"
         ]
     },
     {
@@ -2244,7 +2393,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:249"
+            "includes/Admin/Screen/Overview.php:267"
         ]
     },
     {
@@ -2276,7 +2425,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:221",
+            "includes/Admin/Screen/Overview.php:239",
             "includes/Admin/Screen/UnmatchedPage.php:135"
         ]
     },
@@ -2309,7 +2458,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:122"
+            "includes/Admin/Screen/Overview.php:123"
         ]
     },
     {
@@ -2317,7 +2466,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:185"
+            "includes/Admin/Screen/Overview.php:203"
         ]
     },
     {
@@ -2325,7 +2474,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:114"
+            "includes/Admin/Screen/Overview.php:115"
         ]
     },
     {
@@ -2333,7 +2482,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:149"
+            "includes/Admin/Screen/Overview.php:150"
         ]
     },
     {
@@ -2349,7 +2498,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:428",
+            "includes/Admin/CourseEditor.php:437",
             "includes/Admin/Screen/DisplaySetsPage.php:592",
             "includes/Admin/Screen/MakeupPage.php:131",
             "includes/Admin/Screen/UnmatchedPage.php:166",
@@ -2357,7 +2506,7 @@
             "includes/Render/CourseDetail.php:108",
             "includes/Render/Fields.php:156",
             "includes/Render/Fields.php:157",
-            "includes/Render/Fields.php:732",
+            "includes/Render/Fields.php:735",
             "templates/partials/controls.php:54"
         ]
     },
@@ -2378,7 +2527,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:291"
+            "includes/Divi/FieldModules.php:313"
         ]
     },
     {
@@ -2386,7 +2535,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:441",
+            "includes/Admin/CourseEditor.php:450",
             "includes/Admin/CourseList.php:76"
         ]
     },
@@ -2413,7 +2562,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:734"
+            "includes/Render/Fields.php:737"
         ]
     },
     {
@@ -2559,7 +2708,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:256"
+            "includes/Divi/FieldModules.php:278"
         ]
     },
     {
@@ -2600,7 +2749,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:276"
+            "includes/Divi/FieldModules.php:298"
         ]
     },
     {
@@ -2625,7 +2774,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:303"
+            "includes/Divi/FieldModules.php:366"
         ]
     },
     {
@@ -2660,7 +2809,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:252"
+            "includes/Divi/FieldModules.php:274"
         ]
     },
     {
@@ -2668,7 +2817,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:293"
+            "includes/Divi/FieldModules.php:315"
         ]
     },
     {
@@ -2709,7 +2858,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:198"
+            "includes/Admin/Screen/Overview.php:216"
         ]
     },
     {
@@ -2717,7 +2866,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:146"
+            "includes/Admin/Screen/Overview.php:147"
         ]
     },
     {
@@ -2725,7 +2874,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:344"
+            "includes/Divi/FieldModules.php:407"
         ]
     },
     {
@@ -2733,7 +2882,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:343"
+            "includes/Divi/FieldModules.php:406"
         ]
     },
     {
@@ -2741,7 +2890,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:345"
+            "includes/Divi/FieldModules.php:408"
         ]
     },
     {
@@ -2837,7 +2986,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:239"
+            "includes/Divi/FieldModules.php:244"
         ]
     },
     {
@@ -2893,8 +3042,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:185",
-            "includes/Divi/FieldModules.php:382"
+            "includes/Divi/FieldModules.php:446"
         ]
     },
     {
@@ -2910,7 +3058,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:317"
+            "includes/Divi/FieldModules.php:380"
         ]
     },
     {
@@ -3038,7 +3186,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/FieldRenderer.php:286"
+            "includes/Render/FieldRenderer.php:321"
         ]
     },
     {
@@ -3054,7 +3202,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:238"
+            "includes/Divi/FieldModules.php:243"
         ]
     },
     {
@@ -3103,7 +3251,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:220"
+            "includes/Admin/Screen/Overview.php:238"
         ]
     },
     {
@@ -3116,7 +3264,7 @@
             "includes/Render/CourseDetail.php:102",
             "includes/Render/Fields.php:102",
             "includes/Render/Fields.php:103",
-            "includes/Render/Fields.php:731"
+            "includes/Render/Fields.php:734"
         ]
     },
     {
@@ -3124,7 +3272,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Fields.php:729"
+            "includes/Render/Fields.php:732"
         ]
     },
     {
@@ -3148,7 +3296,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:427",
+            "includes/Admin/CourseEditor.php:436",
             "includes/Admin/Screen/MakeupPage.php:132",
             "includes/Admin/Screen/UnmatchedPage.php:167",
             "includes/Data/PostType.php:175",
@@ -3157,7 +3305,7 @@
             "includes/Render/CourseDetail.php:194",
             "includes/Render/Fields.php:165",
             "includes/Render/Fields.php:166",
-            "includes/Render/Fields.php:733",
+            "includes/Render/Fields.php:736",
             "includes/Render/TrainerDetail.php:242"
         ]
     },
@@ -3221,8 +3369,16 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:224",
+            "includes/Admin/Screen/Overview.php:242",
             "includes/Admin/Screen/UnmatchedPage.php:134"
+        ]
+    },
+    {
+        "singular": "Up or down.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:351"
         ]
     },
     {
@@ -3248,7 +3404,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:323"
+            "includes/Divi/FieldModules.php:386"
         ]
     },
     {
@@ -3256,7 +3412,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:268"
+            "includes/Divi/FieldModules.php:290"
         ]
     },
     {
@@ -3264,7 +3420,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:342"
+            "includes/Divi/FieldModules.php:405"
         ]
     },
     {
@@ -3296,7 +3452,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:80"
+            "includes/Admin/Screen/Overview.php:81"
         ]
     },
     {
@@ -3320,7 +3476,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:289"
+            "includes/Divi/FieldModules.php:311"
         ]
     },
     {
@@ -3328,7 +3484,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:309"
+            "includes/Divi/FieldModules.php:372"
         ]
     },
     {
@@ -3352,7 +3508,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:261"
+            "includes/Divi/FieldModules.php:283"
         ]
     },
     {
@@ -3368,7 +3524,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:247"
+            "includes/Admin/Screen/Overview.php:265"
         ]
     },
     {
@@ -3384,7 +3540,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/DisplaySetsPage.php:589"
+            "includes/Admin/Screen/DisplaySetsPage.php:589",
+            "includes/Divi/FieldModules.php:344"
         ]
     },
     {
@@ -3393,7 +3550,7 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:346",
-            "includes/Divi/FieldModules.php:299"
+            "includes/Divi/FieldModules.php:362"
         ]
     },
     {
@@ -3401,7 +3558,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:313"
+            "includes/Divi/FieldModules.php:376"
         ]
     },
     {
@@ -3409,7 +3566,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:257"
+            "includes/Divi/FieldModules.php:279"
         ]
     },
     {
@@ -3417,7 +3574,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:265"
+            "includes/Divi/FieldModules.php:287"
         ]
     },
     {
@@ -3425,7 +3582,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:269"
+            "includes/Divi/FieldModules.php:291"
         ]
     },
     {
@@ -3433,7 +3590,15 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:253"
+            "includes/Divi/FieldModules.php:275"
+        ]
+    },
+    {
+        "singular": "Which courses",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:410"
         ]
     },
     {
@@ -3449,7 +3614,15 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:304"
+            "includes/Divi/FieldModules.php:367"
+        ]
+    },
+    {
+        "singular": "Which way",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:350"
         ]
     },
     {
@@ -3466,6 +3639,14 @@
         "context": null,
         "refs": [
             "includes/Render/Fields.php:169"
+        ]
+    },
+    {
+        "singular": "Who the course is for",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Divi/FieldModules.php:321"
         ]
     },
     {
@@ -3531,7 +3712,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:130"
+            "includes/Admin/Screen/Overview.php:131"
         ]
     },
     {
@@ -3556,7 +3737,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:175"
+            "includes/Admin/Screen/Overview.php:193"
         ]
     },
     {
@@ -3566,7 +3747,7 @@
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:64",
             "includes/Admin/Screen/MakeupPage.php:75",
-            "includes/Admin/Screen/Overview.php:52",
+            "includes/Admin/Screen/Overview.php:53",
             "includes/Admin/Screen/RoomsPage.php:60",
             "includes/Admin/Screen/UnmatchedPage.php:99"
         ]
@@ -3660,7 +3841,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:61"
+            "includes/Admin/Screen/Overview.php:62"
         ]
     },
     {
@@ -3692,7 +3873,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:168"
+            "includes/Divi/FieldModules.php:178"
         ]
     },
     {
@@ -3700,7 +3881,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:163"
+            "includes/Divi/FieldModules.php:173"
         ]
     },
     {
@@ -3708,7 +3889,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:158"
+            "includes/Divi/FieldModules.php:168"
         ]
     },
     {
@@ -3716,7 +3897,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:162"
+            "includes/Divi/FieldModules.php:172"
         ]
     },
     {
@@ -3724,7 +3905,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:161"
+            "includes/Divi/FieldModules.php:171"
         ]
     },
     {
@@ -3732,7 +3913,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:160"
+            "includes/Divi/FieldModules.php:170"
         ]
     },
     {
@@ -3740,7 +3921,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Divi/FieldModules.php:159"
+            "includes/Divi/FieldModules.php:169"
         ]
     },
     {

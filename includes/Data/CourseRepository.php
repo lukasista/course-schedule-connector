@@ -202,6 +202,22 @@ final class CourseRepository {
 	}
 
 	/**
+	 * Reads the audience out of a course's name again, right now.
+	 *
+	 * For the editing screen. Leaving a value at "as the name says" deletes the
+	 * stored one, and the panel promises the name will be read instead — but
+	 * nothing read it until the next synchronisation, so a course somebody
+	 * merely opened and saved lost its age, its group and its level until then.
+	 * Two of this gym's 113 courses were sitting like that.
+	 *
+	 * @param int $post_id Course post id.
+	 * @return void
+	 */
+	public function refresh_audience( int $post_id ): void {
+		$this->derive_audience( $post_id, $this->locked_fields( $post_id ) );
+	}
+
+	/**
 	 * Works out who the course is for, at what level and at what age, from its
 	 * name.
 	 *

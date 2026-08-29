@@ -54,6 +54,41 @@
                 "desktop": {
                     "value": ""
                 }
+            },
+            "filterGenders": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "filterLevels": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "filterAgeMin": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "filterAgeMax": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "filterSort": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "filterOrder": {
+                "desktop": {
+                    "value": "asc"
+                }
+            },
+            "filterLimit": {
+                "desktop": {
+                    "value": ""
+                }
             }
         }
     }
