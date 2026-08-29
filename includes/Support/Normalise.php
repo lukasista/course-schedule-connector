@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Support;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Converts values received from the iSport System API into predictable PHP types.
  *

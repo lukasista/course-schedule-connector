@@ -155,9 +155,106 @@ final class DesignGuardTest extends TestCase {
 		);
 
 		$this->assertSame(
-			array( array( 'set' => 'first' ), array( 'set' => 'second' ) ),
+			array( 'cscs/divi-display' => array( array( 'set' => 'first' ), array( 'set' => 'second' ) ) ),
 			DesignGuard::collect( $blocks )
 		);
+	}
+
+	/**
+	 * Every block the plugin registers is guarded, not only the listing.
+	 *
+	 * The listing module was guarded from the first day; thirty field blocks
+	 * and modules arrived later and were not, so the rule held on the one place
+	 * a design used to live and nowhere it had since moved to. A site manager
+	 * could recolour a table, restyle a heading and write custom CSS on any of
+	 * them.
+	 *
+	 * @return void
+	 */
+	public function test_a_field_module_is_guarded_too(): void {
+		$stored = array(
+			'field' => array( 'advanced' => array( 'source' => array( 'desktop' => array( 'value' => '0' ) ) ) ),
+			'value' => array( 'decoration' => array( 'font' => array( 'desktop' => array( 'value' => array( 'color' => '#111' ) ) ) ) ),
+			'css'   => array( 'desktop' => array( 'value' => array( 'main' => '.x{color:red}' ) ) ),
+		);
+
+		$submitted = array(
+			'field' => array( 'advanced' => array( 'source' => array( 'desktop' => array( 'value' => '42' ) ) ) ),
+			'value' => array( 'decoration' => array( 'font' => array( 'desktop' => array( 'value' => array( 'color' => '#f0f' ) ) ) ) ),
+			'css'   => array( 'desktop' => array( 'value' => array( 'main' => '.x{content:"mine"}' ) ) ),
+		);
+
+		$guarded = DesignGuard::merge( $stored, $submitted, false, 'cscs/divi-course-price' );
+
+		$this->assertSame( $submitted['field'], $guarded['field'] );
+		$this->assertSame( $stored['value'], $guarded['value'] );
+		$this->assertSame( $stored['css'], $guarded['css'] );
+	}
+
+	/**
+	 * A field block keeps what its Settings tab offers and nothing else.
+	 *
+	 * @return void
+	 */
+	public function test_a_field_block_keeps_only_its_settings(): void {
+		$stored = array(
+			'postId'          => 7,
+			'emptyText'       => 'Nothing yet',
+			'labelColour'     => '#111',
+			'tableStripe'     => '#eee',
+			'bulletColour'    => '#222',
+			'valueFontSize'   => '18px',
+		);
+
+		$submitted = array(
+			'postId'          => 9,
+			'emptyText'       => 'Still nothing',
+			'filterGenders'   => 'girls',
+			'labelColour'     => '#f0f',
+			'tableStripe'     => '#f0f',
+			'bulletColour'    => '#f0f',
+			'valueFontSize'   => '96px',
+		);
+
+		$guarded = DesignGuard::merge( $stored, $submitted, false, 'cscs/kind-courses' );
+
+		$this->assertSame( 9, $guarded['postId'] );
+		$this->assertSame( 'Still nothing', $guarded['emptyText'] );
+		$this->assertSame( 'girls', $guarded['filterGenders'] );
+		$this->assertSame( '#111', $guarded['labelColour'] );
+		$this->assertSame( '#eee', $guarded['tableStripe'] );
+		$this->assertSame( '#222', $guarded['bulletColour'] );
+		$this->assertSame( '18px', $guarded['valueFontSize'] );
+	}
+
+	/**
+	 * Blocks are counted per name, so adding one kind does not shift another's.
+	 *
+	 * @return void
+	 */
+	public function test_each_kind_of_block_is_counted_on_its_own(): void {
+		$collected = DesignGuard::collect(
+			array(
+				array(
+					'blockName'   => 'cscs/course-price',
+					'attrs'       => array( 'postId' => 1 ),
+					'innerBlocks' => array(),
+				),
+				array(
+					'blockName'   => 'cscs/divi-display',
+					'attrs'       => array( 'set' => 'only' ),
+					'innerBlocks' => array(),
+				),
+				array(
+					'blockName'   => 'cscs/course-price',
+					'attrs'       => array( 'postId' => 2 ),
+					'innerBlocks' => array(),
+				),
+			)
+		);
+
+		$this->assertSame( array( array( 'postId' => 1 ), array( 'postId' => 2 ) ), $collected['cscs/course-price'] );
+		$this->assertSame( array( array( 'set' => 'only' ) ), $collected['cscs/divi-display'] );
 	}
 
 	/**

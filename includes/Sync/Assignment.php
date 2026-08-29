@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Sync;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * The outcome of matching a single class occurrence.
  */

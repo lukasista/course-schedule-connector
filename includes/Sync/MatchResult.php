@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Sync;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * What matching produced, and how well it went.
  *

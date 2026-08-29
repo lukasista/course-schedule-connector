@@ -10,11 +10,17 @@ declare( strict_types=1 );
 namespace CSCS\Divi;
 
 use CSCS\Admin\Capabilities;
+use CSCS\Render\Block;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Keeps a site manager out of the module's design settings, on the server.
+ * Keeps a site manager out of the design settings, on the server.
+ *
+ * Every block and module the plugin registers, not one of them: the listing
+ * module was guarded from the first day and the thirty field blocks and modules
+ * that arrived later were not, which meant the rule held on the one place a
+ * design used to live and nowhere it had since moved to.
  *
  * This was the site owner's first requirement and the reason the plugin is
  * shaped the way it is: whoever maintains the courses may say which listing
@@ -31,14 +37,77 @@ defined( 'ABSPATH' ) || exit;
 final class DesignGuard {
 
 	/**
-	 * The attributes a site manager owns.
+	 * The attributes a site manager owns on a listing.
 	 *
 	 * Everything else on the module is design, including `css`, which is a
 	 * stylesheet by another name. `set` is the name the attribute had before it
 	 * turned out to collide with Divi's own, and is kept so that a page saved
 	 * under it is still a page whose content its manager owns.
 	 */
-	private const CONTENT_KEYS = array( 'listing', 'set' );
+	private const LISTING_KEYS = array( 'listing', 'set' );
+
+	/**
+	 * The attributes a site manager owns on a field block.
+	 *
+	 * Exactly what the block's **Settings** tab offers, which is the point:
+	 * the server refuses what the panel does not show and allows everything it
+	 * does, so a person cannot be told one thing by the builder and another by
+	 * the save. Which course this shows, what to say when there is nothing,
+	 * which of a kind's courses to list, and the picture — the picture because
+	 * choosing a size and writing what it says to somebody who cannot see it is
+	 * describing the content, not designing it.
+	 */
+	private const FIELD_KEYS = array(
+		'postId',
+		'emptyText',
+		'filterGenders',
+		'filterLevels',
+		'filterAgeMin',
+		'filterAgeMax',
+		'filterSort',
+		'filterOrder',
+		'filterLimit',
+		'imageSize',
+		'imageAlt',
+		'imageLink',
+		'imageLinkUrl',
+		'imageLinkTarget',
+	);
+
+	/**
+	 * The attribute a site manager owns on a Divi field module.
+	 *
+	 * One key, because Divi keeps every content setting of these modules under
+	 * it — `field.advanced.*` is precisely what the builder shows in the
+	 * Content panel, and everything else on the module (`module`, `title`,
+	 * `value`, the table parts, the columns, `css`) is a design group. The
+	 * split is Divi's own, so the server and the panel cannot disagree.
+	 */
+	private const MODULE_KEYS = array( 'field' );
+
+	/**
+	 * Returns which attributes a site manager owns on a given block.
+	 *
+	 * @param string $name Block name.
+	 * @return array<int, string>
+	 */
+	private static function content_keys( string $name ): array {
+		if ( DisplayModule::NAME === $name || Block::NAME === $name ) {
+			return self::LISTING_KEYS;
+		}
+
+		return str_starts_with( $name, 'cscs/divi-' ) ? self::MODULE_KEYS : self::FIELD_KEYS;
+	}
+
+	/**
+	 * Returns whether a block is one of the plugin's.
+	 *
+	 * @param string $name Block name.
+	 * @return bool
+	 */
+	private static function ours( string $name ): bool {
+		return str_starts_with( $name, 'cscs/' );
+	}
 
 	/**
 	 * Bookkeeping Divi writes for itself, which is nobody's decision.
@@ -62,11 +131,17 @@ final class DesignGuard {
 	 * @return array<string, mixed>
 	 */
 	public function guard( array $data, array $postarr ): array {
-		$content = (string) ( $data['post_content'] ?? '' );
+		// Post data reaches this filter slashed, and a block's attributes are
+		// JSON: `{\"set\":\"x\"}` is not JSON any more, so `parse_blocks()`
+		// hands back a block with no attributes at all. The guard then read
+		// "nothing was submitted", kept everything that was stored, and threw
+		// away the one thing a site manager is allowed to change — which looked
+		// exactly like the lock working, and was the lock eating the content.
+		$content = wp_unslash( (string) ( $data['post_content'] ?? '' ) );
 
 		// Cheap tests first: the overwhelming majority of saves on a site are
 		// of something else entirely.
-		if ( '' === $content || false === strpos( $content, DisplayModule::NAME ) ) {
+		if ( '' === $content || false === strpos( $content, 'wp:cscs/' ) ) {
 			return $data;
 		}
 
@@ -75,20 +150,28 @@ final class DesignGuard {
 		}
 
 		$stored = (int) ( $postarr['ID'] ?? 0 );
+
+		// Straight from the database, so unslashed already.
 		$before = 0 === $stored ? '' : (string) get_post_field( 'post_content', $stored );
 
 		$blocks  = parse_blocks( $content );
 		$known   = self::collect( parse_blocks( $before ) );
-		$index   = 0;
+		$seen    = array();
 		$changed = false;
 
 		self::walk(
 			$blocks,
-			static function ( array $block ) use ( &$index, &$changed, $known ): array {
-				$previous = $known[ $index ] ?? array();
-				++$index;
+			static function ( array $block ) use ( &$seen, &$changed, $known ): array {
+				$name = (string) ( $block['blockName'] ?? '' );
 
-				$guarded = self::merge( $previous, is_array( $block['attrs'] ?? null ) ? $block['attrs'] : array(), false );
+				// Counted per block name rather than across all of them, so
+				// that inserting one kind of block does not shift every other
+				// kind's design by one.
+				$at            = $seen[ $name ] ?? 0;
+				$seen[ $name ] = $at + 1;
+
+				$previous = $known[ $name ][ $at ] ?? array();
+				$guarded  = self::merge( $previous, is_array( $block['attrs'] ?? null ) ? $block['attrs'] : array(), false, $name );
 
 				if ( $guarded !== $block['attrs'] ) {
 					$block['attrs'] = $guarded;
@@ -102,7 +185,7 @@ final class DesignGuard {
 		// Serialising rewrites the whole document, so it is only worth doing
 		// when something actually needed putting back.
 		if ( $changed ) {
-			$data['post_content'] = serialize_blocks( $blocks );
+			$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
 		}
 
 		return $data;
@@ -116,14 +199,14 @@ final class DesignGuard {
 	 * @param bool                 $may_design Whether the person may change design.
 	 * @return array<string, mixed>
 	 */
-	public static function merge( array $old, array $new, bool $may_design ): array {
+	public static function merge( array $old, array $new, bool $may_design, string $name = DisplayModule::NAME ): array {
 		if ( $may_design ) {
 			return $new;
 		}
 
 		$guarded = $old;
 
-		foreach ( self::CONTENT_KEYS as $key ) {
+		foreach ( self::content_keys( $name ) as $key ) {
 			unset( $guarded[ $key ] );
 
 			if ( array_key_exists( $key, $new ) ) {
@@ -158,7 +241,8 @@ final class DesignGuard {
 		self::walk(
 			$blocks,
 			static function ( array $block ) use ( &$found ): array {
-				$found[] = is_array( $block['attrs'] ?? null ) ? $block['attrs'] : array();
+				$name             = (string) ( $block['blockName'] ?? '' );
+				$found[ $name ][] = is_array( $block['attrs'] ?? null ) ? $block['attrs'] : array();
 
 				return $block;
 			}
@@ -180,7 +264,7 @@ final class DesignGuard {
 				continue;
 			}
 
-			if ( DisplayModule::NAME === ( $block['blockName'] ?? '' ) ) {
+			if ( self::ours( (string) ( $block['blockName'] ?? '' ) ) ) {
 				$blocks[ $key ] = $visitor( $block );
 			}
 

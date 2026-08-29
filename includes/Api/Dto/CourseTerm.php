@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Api\Dto;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * A single term of a course, as listed in the course record's terms array.
  */

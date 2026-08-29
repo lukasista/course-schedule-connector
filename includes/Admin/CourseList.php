@@ -183,7 +183,7 @@ final class CourseList {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- See above.
-		$changed = (int) $_GET['cscs_button_changed'];
+		$changed = (int) wp_unslash( $_GET['cscs_button_changed'] );
 
 		printf(
 			'<div class="notice notice-success is-dismissible"><p>%s</p></div>',

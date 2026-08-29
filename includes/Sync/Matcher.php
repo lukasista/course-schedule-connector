@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Sync;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Api\Dto\Course;
 use CSCS\Api\Dto\Lesson;
 use CSCS\Support\Normalise;

@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Api;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * The parts of an HTTP response this plugin cares about.
  */

@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Api;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Raised when the remote system cannot be reached or answers unusably.
  *

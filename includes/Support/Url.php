@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Support;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Validates and normalises the base URL of an iSport System installation.
  *

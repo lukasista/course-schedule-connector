@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Api;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Api\Dto\Course;
 use CSCS\Api\Dto\CourseTerm;
 use CSCS\Api\Dto\Lesson;

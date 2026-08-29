@@ -160,6 +160,22 @@ final class RestPreview {
 		$settings = json_decode( (string) $request->get_param( 'settings' ), true );
 		$settings = is_array( $settings ) ? $settings : array();
 
+		// The route is for drawing a preview of what a page will show, and
+		// `edit_posts` is a low bar — an author of one post has it. A course
+		// nobody has published yet is not something a page shows, so it is not
+		// something this draws, unless the person asking could open it anyway.
+		$wanted = (int) ( $settings['postId'] ?? 0 );
+
+		if ( 0 !== $wanted && 'publish' !== get_post_status( $wanted ) && ! current_user_can( 'read_post', $wanted ) ) {
+			return new \WP_REST_Response(
+				array(
+					'found' => false,
+					'html'  => '',
+				),
+				403
+			);
+		}
+
 		return new \WP_REST_Response(
 			array(
 				'found' => true,
@@ -196,10 +212,19 @@ final class RestPreview {
 			)
 		);
 
-		// The address the listing sits on decides where its own links point.
-		// It is taken from the request and only used to build links, so the
-		// worst a made-up one can do is send its author somewhere odd.
-		$base = (string) $request->get_param( 'url' );
+		// The address the listing sits on decides where its own links point. It
+		// comes from the request, so it is held to this site: the route is
+		// public, and a public route that will write anybody's address into the
+		// links of a page is a redirector with the site's own name on it.
+		$base  = (string) $request->get_param( 'url' );
+		$mine  = wp_parse_url( home_url( '/' ) );
+		$given = '' === $base ? false : wp_parse_url( $base );
+
+		if ( ! is_array( $given ) || ! is_array( $mine )
+			|| strtolower( (string) ( $given['host'] ?? '' ) ) !== strtolower( (string) ( $mine['host'] ?? '' ) )
+		) {
+			$base = '';
+		}
 
 		return new \WP_REST_Response(
 			array(

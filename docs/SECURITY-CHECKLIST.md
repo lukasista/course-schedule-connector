@@ -2,6 +2,31 @@
 
 Every control below is a merge requirement, verified in code review and, where marked, enforced automatically in CI.
 
+## Audit of 29 August 2026 (phase F8)
+
+Every control below was walked line by line against the code as it then stood.
+Six controls were failing, all of them because the plugin had grown past the day
+the control was written; each is fixed and each fix is named beside its control.
+The rest were satisfied as written.
+
+| # | Control that failed | What was wrong | Fixed by |
+|---|---|---|---|
+| 1 | Server-side design lock | `DesignGuard` matched one block name, `cscs/divi-display`. The thirty field modules and thirty-one field blocks that arrived after it were unguarded, so a site manager without `cscs_manage_design` could recolour every table, restyle every heading and write custom CSS on any of them — on the server, not merely in a panel. | The guard now visits every block whose name begins `cscs/`, with the content keys each kind actually offers, and counts them per name so inserting one kind does not shift another's design. Three new tests. |
+| 2 | Direct-access guard | Fourteen files under `includes/` had no `defined( 'ABSPATH' ) \|\| exit;` — the DTOs, the mapper, the matcher, the normaliser and the URL validator. | Added to all fourteen. Nothing is left without it. |
+| 3 | Single host | `redirection => 2` let WordPress follow a redirect to **any** host, so an open redirect on the booking system would have been an open redirect out of this site's server. | `redirection => 0`, and one redirect is followed by hand only when the scheme, host and port match what was asked for. |
+| 4 | Escape late, escape always (public REST) | The public `/listing` route took a `url` parameter and wrote it into the links of the HTML it returned, so a public route would put anybody's address inside a page carrying this site's name. | The base is held to this site's own host; anything else is dropped and the links fall back to the request. |
+| 5 | Capability on every action | `/field` renders a preview for anyone with `edit_posts` — an author of one post — including a course nobody has published. | A post that is not published is refused unless the person asking could read it anyway. |
+| 6 | Clean removal | `uninstall.php` deleted courses and trainers but not the kind pages, and left every term of the plugin's three taxonomies behind. | Kind pages are deleted with the rest and the taxonomies are emptied. The cron hooks are named from `Scheduler`'s constants rather than retyped. |
+
+Checked and found sound, rather than assumed: the scoped inline CSS the blocks
+write cannot be broken out of — every value passes `colour()`, `length()`,
+`spacing()`, `one_of()`, `variable()` or `sanitize_html_class()`, and the one
+free-form value, `font-family`, is matched against a pattern with no `<`, `/`,
+`;`, `{` or `}` in it, so neither a declaration nor a closing tag can be
+smuggled through by somebody who can edit a post. Every custom query is
+prepared. There is no `eval`, no dynamic include, no debug output. Colours and
+URLs from iSport are normalised on ingest, not at the point of output.
+
 ## Input
 
 | Control | Detail | Enforced |

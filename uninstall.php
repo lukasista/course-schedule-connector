@@ -28,7 +28,11 @@ if ( ! is_array( $cscs_settings ) || empty( $cscs_settings['delete_data_on_unins
 // only on request.
 $cscs_posts = get_posts(
 	array(
-		'post_type'        => array( \CSCS\Data\PostType::COURSE, \CSCS\Data\TrainerType::TRAINER ),
+		'post_type'        => array(
+			\CSCS\Data\PostType::COURSE,
+			\CSCS\Data\TrainerType::TRAINER,
+			\CSCS\Data\KindType::KIND,
+		),
 		'post_status'      => 'any',
 		'numberposts'      => -1,
 		'fields'           => 'ids',
@@ -55,6 +59,36 @@ foreach ( $cscs_options as $cscs_option ) {
 	delete_option( $cscs_option );
 }
 
-foreach ( array( 'cscs_sync_courses', 'cscs_sync_lessons_near', 'cscs_sync_lessons_far', 'cscs_retention' ) as $cscs_hook ) {
+// The groupings the courses were filed under. Deleting a post does not delete
+// the terms it was in, and a site that removed this plugin should not be left
+// with two hundred empty ones in its database.
+foreach ( array(
+	\CSCS\Data\PostType::ROOM,
+	\CSCS\Data\PostType::KIND,
+	\CSCS\Data\PostType::TAG,
+) as $cscs_taxonomy ) {
+	$cscs_terms = get_terms(
+		array(
+			'taxonomy'   => $cscs_taxonomy,
+			'hide_empty' => false,
+			'fields'     => 'ids',
+		)
+	);
+
+	if ( ! is_array( $cscs_terms ) ) {
+		continue;
+	}
+
+	foreach ( $cscs_terms as $cscs_term_id ) {
+		wp_delete_term( (int) $cscs_term_id, $cscs_taxonomy );
+	}
+}
+
+foreach ( array(
+	\CSCS\Sync\Scheduler::HOOK_COURSES,
+	\CSCS\Sync\Scheduler::HOOK_NEAR,
+	\CSCS\Sync\Scheduler::HOOK_FAR,
+	\CSCS\Sync\Scheduler::HOOK_RETENTION,
+) as $cscs_hook ) {
 	wp_clear_scheduled_hook( $cscs_hook );
 }

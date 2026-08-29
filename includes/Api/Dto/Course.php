@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Api\Dto;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Normalised course record.
  *
