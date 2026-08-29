@@ -11,6 +11,33 @@ this folder; it is copied to the SVN `assets/` directory at release.
 | `icon-128x128.png` | The icon in search results | 128 × 128 |
 | `icon-256x256.png` | The same at twice the size | 256 × 256 |
 
+## Where the shots are taken
+
+A clean WordPress with this plugin, real data synchronised and nothing else
+installed — not a development site with other plugins in the admin bar. The one
+used for version 1.0.0 is the Studio site **CSCS Clean Check** at
+`http://localhost:8893`, whose addresses are:
+
+| # | Address |
+|---|---|
+| 1, 2 | `/kurzy/` — a course listing |
+| 3 | `/rozvrh/` — a class timetable, week by week |
+| 4 | `/kurz/28-gymnastika-6-9-let-divky-zacatecnici-i-pololeti/` |
+| 5 | `/druh/gymnastika/` |
+| 6 | `/wp-admin/admin.php?page=cscs-sets` |
+| 7 | `/wp-admin/admin.php?page=cscs` |
+| 8 | `/wp-admin/post-new.php?post_type=page` |
+
+Before shooting:
+
+- **Settings → General → Site language: English (United States).** The plugin's
+  own words follow the site's language; the course names are the gym's and stay
+  Czech.
+- Collapse the admin menu and hide the admin bar on the front end, or the
+  screenshots are half WordPress chrome.
+- Browser window 1200 px wide for everything except number 2, which is 390 px.
+- No browser chrome in the image: capture the page, not the window.
+
 ## Taking the screenshots
 
 They are taken on a clean WordPress with the plugin installed and real data
