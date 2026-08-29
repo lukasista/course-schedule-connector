@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Cli;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Api\ApiException;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Exposes the API client on the command line.

@@ -4,7 +4,7 @@
  * Plugin URI:        https://github.com/lukasista/course-schedule-connector
  * Description:       Display courses and class schedules from an iSport System installation, as a shortcode, a block, or Divi 5 modules.
  * Version:           0.1.0
- * Requires at least: 6.5
+ * Requires at least: 6.7
  * Requires PHP:      8.1
  * Author:            Lukas Pivonka
  * Author URI:        https://pivonka.co.uk

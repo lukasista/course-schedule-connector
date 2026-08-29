@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
-use CSCS\Plugin;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Plugin;
 
 /**
  * Registers the one stylesheet, in one place.

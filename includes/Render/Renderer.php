@@ -9,11 +9,11 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Admin\Screen\DisplaySetsPage;
 use CSCS\Data\DisplaySet;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * The one place that turns a set into markup.
@@ -107,9 +107,9 @@ final class Renderer {
 		 */
 		$rows = apply_filters( 'cscs_listing_rows', $rows, $set );
 
-		$listing = new Listing( $set, $rows, self::labels_for( $set ), $this->plugin->settings(), $times );
+		$cscs_listing = new Listing( $set, $rows, self::labels_for( $set ), $this->plugin->settings(), $times );
 
-		$listing->place(
+		$cscs_listing->place(
 			$args,
 			$query->total(),
 			$this->rooms( $set ),
@@ -118,7 +118,7 @@ final class Renderer {
 
 		$this->enqueue();
 
-		return $this->capture( DisplaySet::TYPE_SCHEDULE === $set->type ? 'schedule' : 'courses', $listing );
+		return $this->capture( DisplaySet::TYPE_SCHEDULE === $set->type ? 'schedule' : 'courses', $cscs_listing );
 	}
 
 	/**
@@ -188,10 +188,10 @@ final class Renderer {
 	 * Runs a template and returns what it printed.
 	 *
 	 * @param string  $name    Template name, without extension.
-	 * @param Listing $listing Listing.
+	 * @param Listing $cscs_listing Listing.
 	 * @return string
 	 */
-	private function capture( string $name, Listing $listing ): string {
+	private function capture( string $name, Listing $cscs_listing ): string {
 		$file = self::locate( $name );
 
 		if ( '' === $file ) {

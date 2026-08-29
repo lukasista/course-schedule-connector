@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
-use CSCS\Support\Normalise;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Support\Normalise;
 
 /**
  * The part of a listing a visitor chooses, as opposed to the part a set decides.

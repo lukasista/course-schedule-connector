@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Divi;
 
+defined( 'ABSPATH' ) || exit;
+
 use ET\Builder\Framework\DependencyManagement\Interfaces\DependencyInterface;
 use ET\Builder\Packages\ModuleLibrary\ModuleRegistration;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Registers the module when Divi loads its own.

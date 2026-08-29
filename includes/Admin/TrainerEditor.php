@@ -9,11 +9,11 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\TrainerRepository;
 use CSCS\Data\TrainerType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * The part of a trainer that iSport has nowhere to put.

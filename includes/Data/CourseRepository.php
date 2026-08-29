@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Data;
 
-use CSCS\Api\Dto\Course;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Api\Dto\Course;
 
 /**
  * Reads and writes courses as posts.

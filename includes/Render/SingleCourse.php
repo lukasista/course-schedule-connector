@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\PostType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Gives a course a page of its own without taking the theme's over.
@@ -92,7 +92,7 @@ final class SingleCourse {
 
 		wp_enqueue_style( Assets::HANDLE );
 
-		$detail = new CourseDetail( $this->plugin, $post );
+		$cscs_detail = new CourseDetail( $this->plugin, $post );
 
 		ob_start();
 

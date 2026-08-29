@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Sync;
 
-use CSCS\Support\Normalise;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Support\Normalise;
 
 /**
  * Reads one make-up occurrence's course off the ones that repeat with it.

@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin\Screen;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Admin\Capabilities;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Where the rooms get the names the website should use.

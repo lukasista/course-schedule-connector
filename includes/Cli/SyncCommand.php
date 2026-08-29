@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Cli;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Api\ApiException;
 use CSCS\Data\Audience;
 use CSCS\Data\CourseKind;
@@ -17,8 +19,6 @@ use CSCS\Data\CourseRepository;
 use CSCS\Data\PostType;
 use CSCS\Plugin;
 use CSCS\Sync\MatchResult;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Drives synchronisation, matching and retention from the command line.

@@ -9,12 +9,12 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\Audience;
 use CSCS\Data\KindType;
 use CSCS\Data\PostType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Lets an editor pull a kind's description out of one of its courses.
@@ -199,7 +199,6 @@ final class KindEditor {
 			'default'
 		);
 	}
-
 
 	/**
 	 * Renders the panel that says which courses this page is about.

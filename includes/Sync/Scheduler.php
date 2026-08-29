@@ -9,11 +9,11 @@ declare( strict_types=1 );
 
 namespace CSCS\Sync;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Api\ApiException;
 use CSCS\Plugin;
 use CSCS\Settings;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Registers and runs the scheduled jobs.

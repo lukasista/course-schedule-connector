@@ -9,12 +9,12 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\Audience;
 use CSCS\Data\CourseRepository;
 use CSCS\Data\PostType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Adds to a course the things the remote system has nowhere to put.

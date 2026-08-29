@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Data;
 
-use CSCS\Support\Normalise;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Support\Normalise;
 
 /**
  * Everything a listing needs to know, named once and reused everywhere.
@@ -352,6 +352,7 @@ final class DisplaySet {
 			'activities'      => $this->activities,
 			'kinds'           => $this->kinds,
 			'courses'         => $this->courses,
+			// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- Not a query argument: this is the set's own stored shape, and the exclusion is applied to a list of ids in PHP before any query is made.
 			'exclude'         => $this->exclude,
 			'genders'         => $this->genders,
 			'levels'          => $this->levels,

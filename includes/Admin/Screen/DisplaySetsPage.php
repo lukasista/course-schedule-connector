@@ -9,14 +9,14 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin\Screen;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Admin\Capabilities;
 use CSCS\Data\Audience;
 use CSCS\Data\DisplaySet;
 use CSCS\Data\PostType;
 use CSCS\Plugin;
 use CSCS\Render\Fields;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Where a site manager decides what a listing shows.

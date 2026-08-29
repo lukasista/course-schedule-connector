@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\CourseRepository;
 use CSCS\Data\PostType;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Makes the list of courses answer the questions it is opened with.
@@ -183,7 +183,7 @@ final class CourseList {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- See above.
-		$changed = (int) wp_unslash( $_GET['cscs_button_changed'] );
+		$changed = absint( wp_unslash( $_GET['cscs_button_changed'] ) );
 
 		printf(
 			'<div class="notice notice-success is-dismissible"><p>%s</p></div>',

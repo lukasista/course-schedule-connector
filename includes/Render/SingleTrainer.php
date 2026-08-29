@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\TrainerType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Gives a trainer a page of its own without taking the theme's over.
@@ -91,7 +91,7 @@ final class SingleTrainer {
 
 		wp_enqueue_style( Assets::HANDLE );
 
-		$detail = new TrainerDetail( $this->plugin, $post );
+		$cscs_detail = new TrainerDetail( $this->plugin, $post );
 
 		ob_start();
 

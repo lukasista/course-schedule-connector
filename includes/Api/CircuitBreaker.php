@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Api;
 
-use CSCS\Cache\Store;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Cache\Store;
 
 /**
  * Stops calling a remote system that keeps failing.

@@ -93,14 +93,14 @@ final class Store {
 			return 0;
 		}
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery -- Transients offer no prefix lookup, and this runs only on demand.
+		// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery -- Transients offer no prefix lookup, and this runs only on demand.
 		$names = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s",
 				$wpdb->esc_like( '_transient_' . self::PREFIX . 'api_' ) . '%'
 			)
 		);
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery
+		// phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery
 
 		$removed = 0;
 

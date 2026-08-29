@@ -9,14 +9,14 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin\Screen;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Admin\Capabilities;
 use CSCS\Api\ApiException;
 use CSCS\Data\CourseRepository;
 use CSCS\Data\LessonRepository;
 use CSCS\Data\Schema;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Shows what the matching did with each class, and lets a person overrule it.

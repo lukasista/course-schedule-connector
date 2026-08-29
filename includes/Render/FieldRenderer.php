@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
-use CSCS\Plugin;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Plugin;
 
 /**
  * Draws a heading and a value, exactly as somebody arranged them.

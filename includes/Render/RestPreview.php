@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
-use CSCS\Plugin;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Plugin;
 
 /**
  * Lets a builder ask the server what a listing looks like.

@@ -9,11 +9,11 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\Audience;
 use CSCS\Data\DisplaySet;
 use CSCS\Settings;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * One listing, worked out, ready to be printed.

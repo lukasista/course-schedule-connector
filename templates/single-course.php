@@ -4,22 +4,22 @@
  *
  * A theme may replace this by copying it to
  * `course-schedule-connector/single-course.php`. Everything is decided before
- * this runs: `$detail` holds the facts already worded, the contact, the button
+ * this runs: `$cscs_detail` holds the facts already worded, the contact, the button
  * and the two listings.
  *
  * @package CourseScheduleConnector
- * @var \CSCS\Render\CourseDetail $detail
+ * @var \CSCS\Render\CourseDetail $cscs_detail
  */
 
 declare( strict_types=1 );
 
 defined( 'ABSPATH' ) || exit;
 
-$cscs_course   = $detail->course();
-$cscs_contact  = $detail->contact();
-$cscs_schedule = $detail->schedule();
-$cscs_makeup   = $detail->makeup();
-$cscs_button   = $detail->button();
+$cscs_course   = $cscs_detail->course();
+$cscs_contact  = $cscs_detail->contact();
+$cscs_schedule = $cscs_detail->schedule();
+$cscs_makeup   = $cscs_detail->makeup();
+$cscs_button   = $cscs_detail->button();
 
 ?>
 <article class="cscs cscs-course" id="course-<?php echo esc_attr( (string) $cscs_course['post_id'] ); ?>">
@@ -35,16 +35,17 @@ $cscs_button   = $detail->button();
 
 	<?php if ( '' !== trim( (string) get_post_field( 'post_content', (int) $cscs_course['post_id'] ) ) ) : ?>
 		<div class="cscs-course__text">
+			<?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WordPress's own filter, applied rather than invented: the words on this page should go through shortcodes, embeds and wpautop exactly as they would in a theme. ?>
 			<?php echo wp_kses_post( apply_filters( 'the_content', get_post_field( 'post_content', (int) $cscs_course['post_id'] ) ) ); ?>
 		</div>
-	<?php elseif ( '' !== $detail->api_description() ) : ?>
+	<?php elseif ( '' !== $cscs_detail->api_description() ) : ?>
 		<?php // Nobody has written anything here, and the booking system has: a page with the description it holds beats a page with nothing on it. Anything written in WordPress wins the moment it exists. ?>
 		<div class="cscs-course__text cscs-course__text--api">
-			<?php echo wp_kses_post( $detail->api_description() ); ?>
+			<?php echo wp_kses_post( $cscs_detail->api_description() ); ?>
 		</div>
 	<?php endif; ?>
 
-	<?php $cscs_facts = $detail->facts_html(); ?>
+	<?php $cscs_facts = $cscs_detail->facts_html(); ?>
 	<?php if ( array() !== $cscs_facts ) : ?>
 		<table class="cscs-table cscs-course__facts">
 			<tbody>
@@ -89,7 +90,7 @@ $cscs_button   = $detail->button();
 		<section class="cscs-course__schedule">
 			<h2><?php esc_html_e( 'Upcoming classes', 'course-schedule-connector' ); ?></h2>
 			<?php
-			$listing = $cscs_schedule;
+			$cscs_listing = $cscs_schedule;
 			require \CSCS\Render\Renderer::locate( 'partials/table' );
 			?>
 		</section>
@@ -100,7 +101,7 @@ $cscs_button   = $detail->button();
 			<h2><?php esc_html_e( 'Make-up classes for this course', 'course-schedule-connector' ); ?></h2>
 			<p class="description"><?php esc_html_e( 'A class you can attend instead of one you missed.', 'course-schedule-connector' ); ?></p>
 			<?php
-			$listing = $cscs_makeup;
+			$cscs_listing = $cscs_makeup;
 			require \CSCS\Render\Renderer::locate( 'partials/table' );
 			?>
 		</section>

@@ -4,29 +4,29 @@
  *
  * A theme may replace this by copying it to
  * `course-schedule-connector/single-trainer.php`. Everything is decided before
- * this runs: `$detail` holds the photograph, the lists, the words and the
+ * this runs: `$cscs_detail` holds the photograph, the lists, the words and the
  * courses this trainer runs.
  *
  * @package CourseScheduleConnector
- * @var \CSCS\Render\TrainerDetail $detail
+ * @var \CSCS\Render\TrainerDetail $cscs_detail
  */
 
 declare( strict_types=1 );
 
 defined( 'ABSPATH' ) || exit;
 
-$cscs_trainer        = $detail->post();
-$cscs_photo          = $detail->photograph_html();
-$cscs_motto          = $detail->motto();
-$cscs_fact           = $detail->fact();
-$cscs_qualifications = $detail->qualifications();
-$cscs_hobbies        = $detail->hobbies();
-$cscs_courses        = $detail->course_listing();
+$cscs_trainer        = $cscs_detail->post();
+$cscs_photo          = $cscs_detail->photograph_html();
+$cscs_motto          = $cscs_detail->motto();
+$cscs_fact           = $cscs_detail->fact();
+$cscs_qualifications = $cscs_detail->qualifications();
+$cscs_hobbies        = $cscs_detail->hobbies();
+$cscs_courses        = $cscs_detail->course_listing();
 
 ?>
 <article class="cscs cscs-trainer" id="trainer-<?php echo esc_attr( (string) $cscs_trainer->ID ); ?>">
 	<header class="cscs-trainer__header">
-		<h1 class="cscs-trainer__title"><?php echo esc_html( $detail->name() ); ?></h1>
+		<h1 class="cscs-trainer__title"><?php echo esc_html( $cscs_detail->name() ); ?></h1>
 
 		<?php if ( '' !== $cscs_photo ) : ?>
 			<div class="cscs-trainer__photo">
@@ -41,6 +41,7 @@ $cscs_courses        = $detail->course_listing();
 
 	<?php if ( '' !== trim( (string) get_post_field( 'post_content', $cscs_trainer->ID ) ) ) : ?>
 		<div class="cscs-trainer__text">
+			<?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WordPress's own filter, applied rather than invented: the words on this page should go through shortcodes, embeds and wpautop exactly as they would in a theme. ?>
 			<?php echo wp_kses_post( apply_filters( 'the_content', get_post_field( 'post_content', $cscs_trainer->ID ) ) ); ?>
 		</div>
 	<?php endif; ?>
@@ -78,7 +79,7 @@ $cscs_courses        = $detail->course_listing();
 		<section class="cscs-trainer__courses">
 			<h2><?php esc_html_e( 'Courses this trainer runs', 'course-schedule-connector' ); ?></h2>
 			<?php
-			$listing = $cscs_courses;
+			$cscs_listing = $cscs_courses;
 			require \CSCS\Render\Renderer::locate( 'partials/table' );
 			?>
 		</section>

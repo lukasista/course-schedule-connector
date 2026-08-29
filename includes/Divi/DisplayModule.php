@@ -9,12 +9,12 @@ declare( strict_types=1 );
 
 namespace CSCS\Divi;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\DisplaySet;
 use CSCS\Plugin;
 use CSCS\Render\Assets;
 use CSCS\Render\RestPreview;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * A Divi 5 module whose only content field is the display set.

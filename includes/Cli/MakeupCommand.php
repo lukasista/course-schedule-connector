@@ -9,12 +9,12 @@ declare( strict_types=1 );
 
 namespace CSCS\Cli;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\LessonRepository;
 use CSCS\Plugin;
 use CSCS\Support\Normalise;
 use CSCS\Sync\MakeupResolver;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Ties each make-up lesson to the course it stands in for.

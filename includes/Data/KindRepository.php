@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Data;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Support\Markup;
 use CSCS\Support\Normalise;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Pairs a kind of course with the page written about it.

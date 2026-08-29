@@ -283,6 +283,89 @@ if ( ! function_exists( 'do_action' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wp_remote_retrieve_response_code' ) ) {
+	/**
+	 * Response code stub.
+	 *
+	 * @param mixed $response Response.
+	 * @return int
+	 */
+	function wp_remote_retrieve_response_code( $response ): int {
+		return (int) ( is_array( $response ) ? ( $response['response']['code'] ?? 0 ) : 0 );
+	}
+}
+
+if ( ! function_exists( 'wp_remote_retrieve_header' ) ) {
+	/**
+	 * Response header stub.
+	 *
+	 * @param mixed  $response Response.
+	 * @param string $name     Header name.
+	 * @return string
+	 */
+	function wp_remote_retrieve_header( $response, string $name ): string {
+		return (string) ( is_array( $response ) ? ( $response['headers'][ strtolower( $name ) ] ?? '' ) : '' );
+	}
+}
+
+if ( ! function_exists( 'wp_parse_url' ) ) {
+	/**
+	 * URL parsing stub.
+	 *
+	 * @param string $url       URL.
+	 * @param int    $component Component.
+	 * @return mixed
+	 */
+	function wp_parse_url( string $url, int $component = -1 ) {
+		return wp_parse_url_stub( $url, $component );
+	}
+}
+
+/**
+ * The parsing the stub above delegates to, kept out of the conditional.
+ *
+ * @param string $url       URL.
+ * @param int    $component Component.
+ * @return mixed
+ */
+function wp_parse_url_stub( string $url, int $component = -1 ) {
+	return -1 === $component ? wp_parse_url_parts( $url ) : ( wp_parse_url_parts( $url )[ $component ] ?? null );
+}
+
+/**
+ * Parses a URL the way WordPress does, for the stub.
+ *
+ * @param string $url URL.
+ * @return array<string, mixed>|false
+ */
+function wp_parse_url_parts( string $url ) {
+	return parse_url( $url ); // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- This is the stub that stands in for the alternative.
+}
+
+if ( ! function_exists( 'wp_http_validate_url' ) ) {
+	/**
+	 * URL validation stub: anything absolute and http(s) passes.
+	 *
+	 * @param string $url URL.
+	 * @return string|false
+	 */
+	function wp_http_validate_url( string $url ) {
+		return 1 === preg_match( '#^https?://[^/\s]+#i', $url ) ? $url : false;
+	}
+}
+
+if ( ! function_exists( 'untrailingslashit' ) ) {
+	/**
+	 * Trailing slash stub.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	function untrailingslashit( string $value ): string {
+		return rtrim( $value, '/\\' );
+	}
+}
+
 /**
  * Resets all in-memory storage between tests.
  *

@@ -9,14 +9,14 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\Audience;
 use CSCS\Data\CourseRepository;
 use CSCS\Data\DisplaySet;
 use CSCS\Data\TrainerRepository;
 use CSCS\Plugin;
 use CSCS\Support\Markup;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * A course, worked out, ready for its page.

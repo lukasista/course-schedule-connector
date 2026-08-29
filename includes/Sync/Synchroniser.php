@@ -9,12 +9,12 @@ declare( strict_types=1 );
 
 namespace CSCS\Sync;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Api\ApiException;
 use CSCS\Api\Client;
 use CSCS\Data\CourseRepository;
 use CSCS\Data\LessonRepository;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Brings the local copy up to date.

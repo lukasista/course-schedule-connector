@@ -9,11 +9,11 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\TrainerRepository;
 use CSCS\Data\TrainerType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * A trainer, worked out, ready for their page.

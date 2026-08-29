@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\KindType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Adds the timetable of a kind to the page written about that kind.
@@ -83,7 +83,7 @@ final class SingleKind {
 
 		wp_enqueue_style( Assets::HANDLE );
 
-		$detail = new KindDetail( $this->plugin, $post );
+		$cscs_detail = new KindDetail( $this->plugin, $post );
 
 		ob_start();
 

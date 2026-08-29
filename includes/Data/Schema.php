@@ -154,7 +154,7 @@ final class Schema {
 		global $wpdb;
 
 		foreach ( array( self::lessons_table(), self::log_table() ) as $table ) {
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- Table names cannot be parameterised and are built from $wpdb->prefix.
+			// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery -- Table names cannot be parameterised and are built from $wpdb->prefix.
 			$wpdb->query( "DROP TABLE IF EXISTS {$table}" );
 		}
 

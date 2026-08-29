@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin\Screen;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Admin\Capabilities;
 use CSCS\Data\LessonRepository;
 use CSCS\Data\Schema;
@@ -16,8 +18,6 @@ use CSCS\Plugin;
 use CSCS\Support\Normalise;
 use CSCS\Sync\MakeupResolver;
 use CSCS\Sync\MakeupSiblings;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Ties each make-up lesson to the course it stands in for, by hand.
@@ -390,8 +390,10 @@ final class MakeupPage {
 	 * @return string Message, empty when nothing changed.
 	 */
 	private function save_selection(): string {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Checked by the caller, which is the only caller: `handle()` runs check_admin_referer( 'cscs_makeup' ) before it reaches this.
 		$submitted = isset( $_POST['cscs_makeup'] ) && is_array( $_POST['cscs_makeup'] )
-			? wp_unslash( $_POST['cscs_makeup'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Both the key and the value are cast to integers below.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- See above; both the key and the value are cast to integers below.
+			? wp_unslash( $_POST['cscs_makeup'] )
 			: array();
 
 		$repository = $this->plugin->lessons();

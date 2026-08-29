@@ -8,7 +8,7 @@
  * `course-schedule-connector/partials/table.php`.
  *
  * @package CourseScheduleConnector
- * @var \CSCS\Render\Listing $listing
+ * @var \CSCS\Render\Listing $cscs_listing
  */
 
 declare( strict_types=1 );
@@ -23,24 +23,24 @@ defined( 'ABSPATH' ) || exit;
 	// heading above it is its name where there is one; where there is none, and
 	// on a kind's page or a trainer's there is none, saying how many rows it
 	// has at least tells the two tables apart.
-	$cscs_caption = trim( $listing->heading() );
-	$cscs_caption = '' === $cscs_caption ? $listing->spoken() : $cscs_caption;
+	$cscs_caption = trim( $cscs_listing->heading() );
+	$cscs_caption = '' === $cscs_caption ? $cscs_listing->spoken() : $cscs_caption;
 	?>
 	<caption class="cscs-visually-hidden"><?php echo esc_html( $cscs_caption ); ?></caption>
 	<thead>
 		<tr>
-			<?php foreach ( $listing->columns as $column => $label ) : ?>
-				<th scope="col" class="cscs-col-<?php echo esc_attr( $column ); ?>"><?php echo esc_html( $label ); ?></th>
+			<?php foreach ( $cscs_listing->columns as $cscs_column => $cscs_label ) : ?>
+				<th scope="col" class="cscs-col-<?php echo esc_attr( $cscs_column ); ?>"><?php echo esc_html( $cscs_label ); ?></th>
 			<?php endforeach; ?>
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ( $listing->rows as $row ) : ?>
-			<tr class="<?php echo esc_attr( $listing->row_class( $row ) ); ?>">
-				<?php foreach ( $listing->columns as $column => $label ) : ?>
-					<?php $cell = $listing->cell( $row, $column ); ?>
-					<td class="cscs-col-<?php echo esc_attr( $column ); ?>" data-label="<?php echo esc_attr( $label ); ?>">
-						<?php echo wp_kses_post( $cell['html'] ); ?>
+		<?php foreach ( $cscs_listing->rows as $cscs_row ) : ?>
+			<tr class="<?php echo esc_attr( $cscs_listing->row_class( $cscs_row ) ); ?>">
+				<?php foreach ( $cscs_listing->columns as $cscs_column => $cscs_label ) : ?>
+					<?php $cscs_cell = $cscs_listing->cell( $cscs_row, $cscs_column ); ?>
+					<td class="cscs-col-<?php echo esc_attr( $cscs_column ); ?>" data-label="<?php echo esc_attr( $cscs_label ); ?>">
+						<?php echo wp_kses_post( $cscs_cell['html'] ); ?>
 					</td>
 				<?php endforeach; ?>
 			</tr>

@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Cli;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Divi\DisplayModule;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Says which link in the Divi chain is broken.

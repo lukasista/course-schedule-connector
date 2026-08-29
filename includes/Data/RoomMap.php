@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Data;
 
-use CSCS\Support\Normalise;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Support\Normalise;
 
 /**
  * Lets a site say "Hala 1" where the booking system says something else.

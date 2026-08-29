@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Cli;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\DisplaySet;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Reads the display sets from the command line.

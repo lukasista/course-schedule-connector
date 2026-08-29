@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Data;
 
-use CSCS\Support\Normalise;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Support\Normalise;
 
 /**
  * Reads the audience, the level and the ages out of a course's name.

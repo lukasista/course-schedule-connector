@@ -9,13 +9,13 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin\Screen;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Admin\Capabilities;
 use CSCS\Api\ApiException;
 use CSCS\Data\LessonRepository;
 use CSCS\Plugin;
 use CSCS\Sync\Scheduler;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Shows whether the integration is working, in numbers.

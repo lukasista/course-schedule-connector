@@ -9,13 +9,13 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\Audience;
 use CSCS\Data\DisplaySet;
 use CSCS\Data\KindRepository;
 use CSCS\Data\KindType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * The page of one kind of course: what it is called and what runs under it.

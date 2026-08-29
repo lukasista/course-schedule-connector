@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS\Data;
 
-use CSCS\Support\Normalise;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Support\Normalise;
 
 /**
  * Keeps a trainer's page in step with the courses that name them.

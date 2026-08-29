@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Divi;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Admin\Capabilities;
 use CSCS\Render\Block;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Keeps a site manager out of the design settings, on the server.

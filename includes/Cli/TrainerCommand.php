@@ -9,12 +9,12 @@ declare( strict_types=1 );
 
 namespace CSCS\Cli;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\PostType;
 use CSCS\Data\TrainerRepository;
 use CSCS\Data\TrainerType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Builds trainer pages out of courses that are already stored.

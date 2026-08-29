@@ -9,12 +9,12 @@ declare( strict_types=1 );
 
 namespace CSCS\Sync;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\CourseRepository;
 use CSCS\Data\LessonRepository;
 use CSCS\Data\PostType;
 use CSCS\Settings;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Keeps stored data to the size it is actually useful at.

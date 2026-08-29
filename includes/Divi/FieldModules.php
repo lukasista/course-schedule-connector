@@ -9,13 +9,13 @@ declare( strict_types=1 );
 
 namespace CSCS\Divi;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\Audience;
 use CSCS\Plugin;
 use CSCS\Render\Assets;
 use CSCS\Render\Fields;
 use CSCS\Render\RestPreview;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * A Divi module for every field, from the same catalogue as the blocks.

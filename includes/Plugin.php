@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Api\CircuitBreaker;
 use CSCS\Api\Client;
 use CSCS\Api\Mapper;
@@ -57,8 +59,6 @@ use CSCS\Sync\Matcher;
 use CSCS\Sync\Retention;
 use CSCS\Sync\Scheduler;
 use CSCS\Sync\Synchroniser;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Wires the plugin together.
@@ -145,7 +145,6 @@ final class Plugin {
 		// nothing to say why. Same reasoning as the schema and the capabilities.
 		$this->ensure_permalinks();
 
-		add_action( 'init', array( $this, 'load_translations' ), 5 );
 		add_action( 'init', array( PostType::class, 'register' ) );
 		add_action( 'init', array( TrainerType::class, 'register' ) );
 		add_action( 'init', array( KindType::class, 'register' ) );
@@ -193,21 +192,6 @@ final class Plugin {
 		 * @param Plugin $plugin The plugin instance.
 		 */
 		do_action( 'cscs_booted', $this );
-	}
-
-	/**
-	 * Loads the plugin's own translations.
-	 *
-	 * WordPress finds translations of plugins hosted on WordPress.org by
-	 * itself, but only in its own languages directory. The ones shipped in this
-	 * plugin's `languages` folder have to be pointed at, and on `init` rather
-	 * than earlier, because loading a text domain before then is what makes
-	 * WordPress complain about a translation being asked for too soon.
-	 *
-	 * @return void
-	 */
-	public function load_translations(): void {
-		load_plugin_textdomain( 'course-schedule-connector', false, dirname( plugin_basename( CSCS_FILE ) ) . '/languages' );
 	}
 
 	/**

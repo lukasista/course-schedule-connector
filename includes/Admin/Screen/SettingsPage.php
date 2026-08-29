@@ -9,11 +9,11 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin\Screen;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Admin\Capabilities;
 use CSCS\Plugin;
 use CSCS\Settings;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Lets an administrator configure the integration.

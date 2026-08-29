@@ -9,12 +9,12 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Data\KindType;
 use CSCS\Data\PostType;
 use CSCS\Data\TrainerType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * One list of what a course and a trainer are made of.
@@ -874,6 +874,11 @@ final class Fields {
 		if ( '' === $file ) {
 			return '';
 		}
+
+		// The name the partial reads it under. Every template variable carries
+		// the plugin's prefix, because a template is included at file scope and
+		// a bare `$listing` there is indistinguishable from a global.
+		$cscs_listing = $listing;
 
 		ob_start();
 

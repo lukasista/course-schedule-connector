@@ -9,9 +9,9 @@ declare( strict_types=1 );
 
 namespace CSCS;
 
-use CSCS\Support\Url;
-
 defined( 'ABSPATH' ) || exit;
+
+use CSCS\Support\Url;
 
 /**
  * Typed access to the plugin's single settings option.

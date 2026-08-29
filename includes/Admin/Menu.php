@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Admin;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Admin\Screen\DisplaySetsPage;
 use CSCS\Admin\Screen\MakeupPage;
 use CSCS\Admin\Screen\Overview;
@@ -19,8 +21,6 @@ use CSCS\Data\KindType;
 use CSCS\Data\PostType;
 use CSCS\Data\TrainerType;
 use CSCS\Plugin;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Builds the plugin's own menu.

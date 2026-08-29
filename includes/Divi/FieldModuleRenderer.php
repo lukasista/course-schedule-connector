@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Divi;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Render\FieldRenderer;
 use CSCS\Render\Assets;
 use CSCS\Render\Fields;
@@ -19,8 +21,6 @@ use ET\Builder\Packages\Module\Module;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
 use WP_Block;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Turns a module's settings into a field.

@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace CSCS\Divi;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Render\Assets;
 use ET\Builder\FrontEnd\BlockParser\BlockParserStore;
 use ET\Builder\FrontEnd\Module\Style;
@@ -17,8 +19,6 @@ use ET\Builder\Packages\Module\Module;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
 use WP_Block;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Turns the module's one attribute into a listing.

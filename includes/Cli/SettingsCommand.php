@@ -9,10 +9,10 @@ declare( strict_types=1 );
 
 namespace CSCS\Cli;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Plugin;
 use CSCS\Settings;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Reads and writes settings from the command line.

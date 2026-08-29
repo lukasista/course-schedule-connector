@@ -9,13 +9,13 @@ declare( strict_types=1 );
 
 namespace CSCS\Api;
 
+defined( 'ABSPATH' ) || exit;
+
 use CSCS\Api\Dto\Course;
 use CSCS\Api\Dto\Lesson;
 use CSCS\Cache\Store;
 use CSCS\Settings;
 use CSCS\Support\Url;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Retrieves and decodes course and class data.

@@ -99,6 +99,27 @@ pak název nepřečetlo až do další synchronizace. Dva kurzy ze 113 tak byly 
 věku, pohlaví a úrovně. `CourseRepository::refresh_audience()` se volá na konci
 `CourseEditor::save()`.
 
+### F10 (29. 8.) — Plugin Check a čistá instalace
+**Plugin Check 2.1.0: 0 chyb, 0 varování**, všechny kategorie včetně
+`plugin_repo`, `--include-experimental`, proti buildu pro WordPress.org na
+čistém WP 7.1 (Studio site „CSCS Clean Check", localhost:8893 — nechal jsem ji
+stát pro F12).
+
+Opraveno 29 nálezů. Podstatné: ABSPATH guard byl v 61 souborech až pod blokem
+`use`, kam se nedívá; všechny proměnné, které čtou šablony, mají prefix
+(`$cscs_listing`, `$cscs_detail`, …), protože šablona se includuje na úrovni
+souboru; `load_plugin_textdomain()` zrušeno, WP načítá překlady pluginu sám od
+6.7 (= nové *Requires at least*). Zbytek byly sniffy, na které plugin
+odpovídal pro sadu WordPressu a ne pro sadu Plugin Checku — ignore teď jmenují
+obě a říkají proč.
+
+Buildy staví `/tmp/mkbuilds.sh` (v kontejneru) podle `.distignore`; wporg
+varianta navíc maže `includes/Updater` a hlavičku `Update URI`.
+
+**Pozor:** přejmenování proměnných rozbilo `Fields::table()`, které nastavovalo
+starý název — našel to až běh s Divi. Opraveno; je to důvod, proč se musí
+zkoušet obojí.
+
 ### F9 (29. 8.) — výkon, i18n, přístupnost
 Výpis 113 kurzů: 119 → **7 dotazů**, 191 → 51 ms. Viník byl
 `wp_get_object_terms()` v `course_row()` (obchází cache, běžel na řádek);
