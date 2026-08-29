@@ -102,6 +102,8 @@ final class KindDetail {
 			return null;
 		}
 
+		Query::prime( $ids );
+
 		$query = new Query( $this->plugin );
 		$rows  = array();
 
@@ -173,6 +175,8 @@ final class KindDetail {
 		if ( array() === $ids ) {
 			return null;
 		}
+
+		Query::prime( $ids );
 
 		$query = new Query( $this->plugin );
 		$rows  = array();

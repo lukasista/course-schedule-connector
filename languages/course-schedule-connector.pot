@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 
-#: includes/Admin/Screen/Overview.php:223
+#: includes/Admin/Screen/Overview.php:253
 msgid "%1$d courses and %2$d occurrences retrieved."
 msgstr ""
 
@@ -25,7 +25,7 @@ msgid_plural "%d make-up lessons saved. Assigned ones are in the Assigned list, 
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Render/Formatter.php:159
+#: includes/Render/Formatter.php:183
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
@@ -44,6 +44,12 @@ msgstr[1] ""
 #: includes/Admin/Screen/RoomsPage.php:199
 msgid "%d room configured."
 msgid_plural "%d rooms configured."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Render/Listing.php:284
+msgid "%d row"
+msgid_plural "%d rows"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -97,6 +103,10 @@ msgstr ""
 msgid "A hall rented to somebody else occupies the room but is not a course of yours. On a full timetable of hall occupancy that matters; on the home page it usually does not."
 msgstr ""
 
+#: includes/Admin/Screen/Overview.php:143
+msgid "A job that has stopped shows nothing on the pages themselves: they keep rendering, and the places free simply stay at whatever they were the last time anything ran."
+msgstr ""
+
 #: includes/Admin/Screen/MakeupPage.php:103
 msgid "A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course. Nothing here is final: an assignment can be undone in the Assigned list."
 msgstr ""
@@ -129,7 +139,7 @@ msgstr ""
 msgid "About the trainer"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:142
+#: includes/Admin/Screen/Overview.php:172
 msgid "Actions"
 msgstr ""
 
@@ -142,7 +152,7 @@ msgstr ""
 msgid "Activities that occupy a slot in the timetable but accept no payments or registrations: courses run by outside lecturers, make-up lessons, individual training. Nothing in the remote data marks them, so they are listed here, one per line. A name is matched loosely, so \"Zdravé cvičení\" also covers \"Zdravé cvičení s overbaly\". A course that genuinely matches always wins over this list."
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:240
+#: includes/Admin/Screen/Overview.php:270
 #: includes/Admin/Screen/SettingsPage.php:128
 #: includes/Admin/Screen/UnmatchedPage.php:136
 msgid "Activities that take no bookings"
@@ -369,9 +379,9 @@ msgstr ""
 msgid "Button text"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:243
+#: includes/Admin/Screen/Overview.php:273
 #: includes/Render/Fields.php:742
-#: includes/Render/Listing.php:454
+#: includes/Render/Listing.php:494
 msgid "Cancelled"
 msgstr ""
 
@@ -391,7 +401,7 @@ msgstr ""
 msgid "Choose a display set in the module settings."
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:237
+#: includes/Admin/Screen/Overview.php:267
 msgid "Class occurrences stored"
 msgstr ""
 
@@ -407,11 +417,11 @@ msgstr ""
 msgid "Classes"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:172
+#: includes/Admin/Screen/Overview.php:202
 msgid "Classes further out"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:171
+#: includes/Admin/Screen/Overview.php:201
 msgid "Classes in the near term"
 msgstr ""
 
@@ -419,7 +429,7 @@ msgstr ""
 msgid "Classes that stand in for one somebody missed."
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:173
+#: includes/Admin/Screen/Overview.php:203
 msgid "Clearing out what is past"
 msgstr ""
 
@@ -538,7 +548,7 @@ msgstr ""
 #: includes/Admin/Menu.php:95
 #: includes/Admin/Screen/DisplaySetsPage.php:135
 #: includes/Admin/Screen/DisplaySetsPage.php:197
-#: includes/Admin/Screen/Overview.php:170
+#: includes/Admin/Screen/Overview.php:200
 #: includes/Data/PostType.php:70
 #: includes/Data/PostType.php:72
 msgid "Courses"
@@ -632,7 +642,7 @@ msgstr ""
 msgid "Description from iSport"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:269
+#: includes/Admin/Screen/Overview.php:299
 msgid "Detail"
 msgstr ""
 
@@ -752,8 +762,8 @@ msgstr ""
 #: includes/Admin/CourseEditor.php:466
 #: includes/Admin/Screen/SettingsPage.php:118
 #: includes/Render/CourseDetail.php:495
-#: includes/Render/Listing.php:588
-#: includes/Render/Listing.php:592
+#: includes/Render/Listing.php:628
+#: includes/Render/Listing.php:632
 msgid "Free"
 msgstr ""
 
@@ -766,7 +776,7 @@ msgid "From:"
 msgstr ""
 
 #: includes/Render/CourseDetail.php:563
-#: includes/Render/Listing.php:315
+#: includes/Render/Listing.php:355
 msgid "Full"
 msgstr ""
 
@@ -882,7 +892,7 @@ msgstr ""
 msgid "Its own page"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:266
+#: includes/Admin/Screen/Overview.php:296
 msgid "Job"
 msgstr ""
 
@@ -908,6 +918,10 @@ msgstr ""
 #: includes/Data/KindType.php:71
 #: includes/Data/PostType.php:182
 msgid "Kinds of course"
+msgstr ""
+
+#: includes/Render/Formatter.php:51
+msgid "Kč"
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:215
@@ -995,7 +1009,7 @@ msgstr ""
 #: includes/Admin/Menu.php:142
 #: includes/Admin/Menu.php:143
 #: includes/Admin/Screen/MakeupPage.php:100
-#: includes/Admin/Screen/Overview.php:241
+#: includes/Admin/Screen/Overview.php:271
 #: includes/Admin/Screen/SettingsPage.php:136
 msgid "Make-up lessons"
 msgstr ""
@@ -1052,6 +1066,10 @@ msgstr ""
 
 #: includes/Data/TrainerType.php:97
 msgid "New trainer"
+msgstr ""
+
+#: includes/Admin/Screen/Overview.php:159
+msgid "Next at %s"
 msgstr ""
 
 #: templates/partials/controls.php:42
@@ -1131,6 +1149,10 @@ msgstr ""
 msgid "None"
 msgstr ""
 
+#: includes/Admin/Screen/Overview.php:154
+msgid "Not running"
+msgstr ""
+
 #: includes/Admin/CourseEditor.php:151
 msgid "Note"
 msgstr ""
@@ -1140,11 +1162,11 @@ msgstr ""
 msgid "Nothing changed."
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:256
+#: includes/Admin/Screen/Overview.php:286
 msgid "Nothing has run yet."
 msgstr ""
 
-#: includes/Render/Listing.php:293
+#: includes/Render/Listing.php:333
 msgid "Nothing is listed here at the moment."
 msgstr ""
 
@@ -1205,7 +1227,7 @@ msgid "Oldest age"
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:117
-#: includes/Render/Listing.php:593
+#: includes/Render/Listing.php:633
 msgid "On request"
 msgstr ""
 
@@ -1239,7 +1261,7 @@ msgstr ""
 msgid "Order by"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:268
+#: includes/Admin/Screen/Overview.php:298
 msgid "Outcome"
 msgstr ""
 
@@ -1248,6 +1270,7 @@ msgstr ""
 msgid "Overview"
 msgstr ""
 
+#: includes/Render/Listing.php:274
 #: templates/partials/pager.php:33
 msgid "Page %1$d of %2$d"
 msgstr ""
@@ -1310,11 +1333,11 @@ msgstr ""
 msgid "Qualifications"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:156
+#: includes/Admin/Screen/Overview.php:186
 msgid "Recent runs"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:267
+#: includes/Admin/Screen/Overview.php:297
 msgid "Records"
 msgstr ""
 
@@ -1330,7 +1353,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:239
+#: includes/Admin/Screen/Overview.php:269
 #: includes/Admin/Screen/UnmatchedPage.php:135
 msgid "Rentals and open sessions"
 msgstr ""
@@ -1351,7 +1374,7 @@ msgstr ""
 msgid "Requests paused"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:203
+#: includes/Admin/Screen/Overview.php:233
 msgid "Requests resumed and cached responses dropped."
 msgstr ""
 
@@ -1359,7 +1382,7 @@ msgstr ""
 msgid "Requests this hour"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:150
+#: includes/Admin/Screen/Overview.php:180
 msgid "Resume paused requests"
 msgstr ""
 
@@ -1444,6 +1467,10 @@ msgstr ""
 msgid "Schedule"
 msgstr ""
 
+#: includes/Admin/Screen/Overview.php:141
+msgid "Scheduled jobs"
+msgstr ""
+
 #: includes/Data/PostType.php:73
 msgid "Search courses"
 msgstr ""
@@ -1511,7 +1538,7 @@ msgid "Side by side"
 msgstr ""
 
 #: includes/Render/CourseDetail.php:278
-#: includes/Render/Listing.php:304
+#: includes/Render/Listing.php:344
 msgid "Sign up in iSport"
 msgstr ""
 
@@ -1563,11 +1590,11 @@ msgstr ""
 msgid "Suggested by the name: %s"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:216
+#: includes/Admin/Screen/Overview.php:246
 msgid "Synchronisation failed: %s"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:147
+#: includes/Admin/Screen/Overview.php:177
 msgid "Synchronise now"
 msgstr ""
 
@@ -1764,7 +1791,7 @@ msgstr ""
 msgid "Tick what to show and number the order. A column left unticked is not rendered at all; a label left empty uses the built-in one. On a narrow screen every table folds so that these headings run down the left and the values down the right, which is why a short label is worth the trouble."
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:238
+#: includes/Admin/Screen/Overview.php:268
 msgid "Tied to a course"
 msgstr ""
 
@@ -1799,7 +1826,7 @@ msgstr ""
 #: includes/Render/Fields.php:165
 #: includes/Render/Fields.php:166
 #: includes/Render/Fields.php:737
-#: includes/Render/TrainerDetail.php:242
+#: includes/Render/TrainerDetail.php:244
 msgid "Trainer"
 msgstr ""
 
@@ -1834,7 +1861,7 @@ msgstr ""
 msgid "Unmatched lessons"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:242
+#: includes/Admin/Screen/Overview.php:272
 #: includes/Admin/Screen/UnmatchedPage.php:134
 msgid "Unresolved"
 msgstr ""
@@ -1871,6 +1898,10 @@ msgstr ""
 
 #: includes/Data/TrainerType.php:98
 msgid "View trainer"
+msgstr ""
+
+#: includes/Render/Listing.php:268
+msgid "Week of %s"
 msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:144
@@ -1913,7 +1944,7 @@ msgstr ""
 msgid "What to include"
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:265
+#: includes/Admin/Screen/Overview.php:295
 msgid "When"
 msgstr ""
 
@@ -2029,7 +2060,7 @@ msgstr ""
 msgid "You are not allowed to do that."
 msgstr ""
 
-#: includes/Admin/Screen/Overview.php:193
+#: includes/Admin/Screen/Overview.php:223
 msgid "You are not allowed to run that."
 msgstr ""
 
@@ -2059,7 +2090,7 @@ msgstr ""
 msgid "from"
 msgstr ""
 
-#: includes/Render/Formatter.php:210
+#: includes/Render/Formatter.php:234
 msgid "from %s"
 msgstr ""
 
@@ -2102,7 +2133,7 @@ msgstr ""
 msgid "iSport settings"
 msgstr ""
 
-#: includes/Render/Listing.php:613
+#: includes/Render/Listing.php:653
 msgid "last %d place"
 msgid_plural "last %d places"
 msgstr[0] ""

@@ -138,6 +138,36 @@ final class Overview {
 				</tbody>
 			</table>
 
+			<h2><?php esc_html_e( 'Scheduled jobs', 'course-schedule-connector' ); ?></h2>
+			<p class="description" style="max-width:45em">
+				<?php esc_html_e( 'A job that has stopped shows nothing on the pages themselves: they keep rendering, and the places free simply stay at whatever they were the last time anything ran.', 'course-schedule-connector' ); ?>
+			</p>
+			<table class="widefat striped" style="max-width:40em">
+				<tbody>
+					<?php foreach ( $this->plugin->scheduler()->jobs() as $cscs_hook => $cscs_recurrence ) : ?>
+						<?php $cscs_next = wp_next_scheduled( $cscs_hook ); ?>
+						<tr>
+							<th scope="row"><?php echo esc_html( self::job_name( (string) $cscs_hook ) ); ?></th>
+							<td>
+								<?php
+								if ( false === $cscs_next ) {
+									echo '<strong>' . esc_html__( 'Not running', 'course-schedule-connector' ) . '</strong>';
+								} else {
+									echo esc_html(
+										sprintf(
+											/* translators: %s: a date and time */
+											__( 'Next at %s', 'course-schedule-connector' ),
+											wp_date( (string) get_option( 'date_format' ) . ' ' . (string) get_option( 'time_format' ), (int) $cscs_next )
+										)
+									);
+								}
+								?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+
 			<?php if ( Capabilities::can_manage_design() ) : ?>
 				<h2><?php esc_html_e( 'Actions', 'course-schedule-connector' ); ?></h2>
 				<form method="post">

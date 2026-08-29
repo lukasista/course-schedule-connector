@@ -18,6 +18,36 @@
 	--cscs-accent: currentColor;
 }
 
+/*
+ * Said to a screen reader and shown to nobody. Not `display:none`, which is not
+ * said either.
+ */
+.cscs-visually-hidden,
+.cscs-status {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+/*
+ * Where the keyboard is. The theme usually draws this and usually draws it
+ * well, but a link inside a table whose colours somebody has designed can end
+ * up with an outline the same colour as what is behind it — so the plugin draws
+ * its own in the colour of the text, which is legible against whatever that
+ * text is legible against by definition.
+ */
+.cscs :focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
 .cscs-table {
 	width: 100%;
 	border-collapse: collapse;

@@ -17,6 +17,16 @@ defined( 'ABSPATH' ) || exit;
 
 ?>
 <table class="cscs-table">
+	<?php
+	// A table with no name is, to somebody listening to the page, "table, five
+	// columns" and nothing else — and a page may carry three of them. The
+	// heading above it is its name where there is one; where there is none, and
+	// on a kind's page or a trainer's there is none, saying how many rows it
+	// has at least tells the two tables apart.
+	$cscs_caption = trim( $listing->heading() );
+	$cscs_caption = '' === $cscs_caption ? $listing->spoken() : $cscs_caption;
+	?>
+	<caption class="cscs-visually-hidden"><?php echo esc_html( $cscs_caption ); ?></caption>
 	<thead>
 		<tr>
 			<?php foreach ( $listing->columns as $column => $label ) : ?>

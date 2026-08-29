@@ -45,7 +45,12 @@ final class Formatter {
 	 * @param string      $currency Currency suffix.
 	 * @return string
 	 */
-	public static function price( ?string $value, string $empty, string $currency = 'Kč' ): string {
+	public static function price( ?string $value, string $empty, ?string $currency = null ): string {
+		if ( null === $currency ) {
+			/* translators: The currency written after a price. Czech koruna on the site this was built for; change it to whatever the courses are sold in. */
+			$currency = __( 'Kč', 'course-schedule-connector' );
+		}
+
 		$value = null === $value ? '' : trim( $value );
 
 		if ( '' === $value || ! is_numeric( $value ) ) {
@@ -62,9 +67,28 @@ final class Formatter {
 		}
 
 		$decimals = self::decimals( $number );
-		$whole    = number_format( $number, $decimals, ',', self::NBSP );
+
+		// Separators from the site's own language rather than from this file.
+		// A plugin that writes "1 960,50" in every language is a plugin that
+		// writes a Czech price on an English page; a thin space between the
+		// thousands is this gym's typography and stays, because a price broken
+		// across two lines is not a price.
+		$whole = str_replace( ' ', self::NBSP, self::localised( $number, $decimals ) );
 
 		return '' === $currency ? $whole : $whole . self::NBSP . $currency;
+	}
+
+	/**
+	 * Formats a number the way the site's language writes numbers.
+	 *
+	 * @param float $number   The number.
+	 * @param int   $decimals How many decimal places.
+	 * @return string
+	 */
+	private static function localised( float $number, int $decimals ): string {
+		return function_exists( 'number_format_i18n' )
+			? number_format_i18n( $number, $decimals )
+			: number_format( $number, $decimals, ',', ' ' );
 	}
 
 	/**

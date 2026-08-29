@@ -16,7 +16,7 @@ declare( strict_types=1 );
 defined( 'ABSPATH' ) || exit;
 
 ?>
-<div class="cscs cscs--courses" id="cscs-<?php echo esc_attr( $listing->set->id ); ?>" data-cscs-set="<?php echo esc_attr( $listing->set->id ); ?>" data-cscs-page="<?php echo esc_attr( (string) $listing->args->page ); ?>" data-cscs-week="<?php echo esc_attr( (string) $listing->args->week ); ?>" data-cscs-room="<?php echo esc_attr( (string) $listing->args->room ); ?>">
+<div class="cscs cscs--courses" id="cscs-<?php echo esc_attr( $listing->set->id ); ?>" data-cscs-set="<?php echo esc_attr( $listing->set->id ); ?>" data-cscs-page="<?php echo esc_attr( (string) $listing->args->page ); ?>" data-cscs-week="<?php echo esc_attr( (string) $listing->args->week ); ?>" data-cscs-room="<?php echo esc_attr( (string) $listing->args->room ); ?>" data-cscs-said="<?php echo esc_attr( $listing->spoken() ); ?>">
 	<?php if ( '' !== $listing->heading() ) : ?>
 		<h2 class="cscs-heading"><?php echo esc_html( $listing->heading() ); ?></h2>
 	<?php endif; ?>

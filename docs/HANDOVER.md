@@ -99,6 +99,25 @@ pak název nepřečetlo až do další synchronizace. Dva kurzy ze 113 tak byly 
 věku, pohlaví a úrovně. `CourseRepository::refresh_audience()` se volá na konci
 `CourseEditor::save()`.
 
+### F9 (29. 8.) — výkon, i18n, přístupnost
+Výpis 113 kurzů: 119 → **7 dotazů**, 191 → 51 ms. Viník byl
+`wp_get_object_terms()` v `course_row()` (obchází cache, běžel na řádek);
+teď `get_the_terms()` + `Query::prime()` před stavěním řádků. `prime()` má dvě
+větve: dostane-li `WP_Post`y, plní term a meta cache; dostane-li id (druh,
+trenér), pustí jeden `WP_Query`, jehož výsledek zahodí — tím se naplní i post
+cache. Druh: 37 → 17 dotazů. Frontend nedělá žádný odchozí požadavek (ověřeno
+přes `pre_http_request`).
+
+i18n: 575 řetězců, 0 nepřeložených, kontrola překladových volání parserem
+(`token_get_all`), ne grepem — žádné skládání, chybějící doména ani placeholder
+bez komentáře. Cena se formátuje přes `number_format_i18n()` a měna je
+překladový řetězec; `CourseDetail::short_date()` bere `get_option('date_format')`.
+
+Přístupnost: `Listing::spoken()` + živá oblast `#cscs-status` v `cscs.js`
+(WCAG 4.1.3 — výměna tabulky bez pohybu focusu se jinak neohlásí), `<caption>`
+z nadpisu sady, `:focus-visible` v `currentColor`. Doplněna i chybějící tabulka
+**Naplánované úlohy** v Přehledu, která z F8 zůstala jen jako pomocná metoda.
+
 ### Oddíl bloků
 `Render\BlockCategory` (slug `cscs`, titulek „iSport") na `block_categories_all`,
 vsazený za poslední kategorii, kterou dodává WordPress. Jmenuje ho `FieldBlocks`

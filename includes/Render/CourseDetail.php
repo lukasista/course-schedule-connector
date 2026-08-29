@@ -571,7 +571,10 @@ final class CourseDetail {
 	 * @return string
 	 */
 	private function short_date( string $date ): string {
-		return '' === $date ? '' : (string) mysql2date( 'j. n. Y', $date );
+		// The site's own date format, as the listings use. A course page that
+		// wrote "1. 9. 2026" under a site set to write "September 1, 2026" is
+		// one page disagreeing with every other page around it.
+		return '' === $date ? '' : (string) mysql2date( (string) get_option( 'date_format' ), $date );
 	}
 
 	/**

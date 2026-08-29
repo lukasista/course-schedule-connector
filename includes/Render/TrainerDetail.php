@@ -184,6 +184,8 @@ final class TrainerDetail {
 			return null;
 		}
 
+		Query::prime( $ids );
+
 		$query = new Query( $this->plugin );
 		$rows  = array();
 

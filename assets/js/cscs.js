@@ -105,6 +105,7 @@
 				}
 
 				listing.parentNode.replaceChild( fresh, listing );
+				announce( fresh );
 
 				if ( window.history && window.history.pushState ) {
 					window.history.pushState( {}, '', href );
@@ -113,6 +114,46 @@
 			.catch( function () {
 				window.location.href = href;
 			} );
+	}
+
+	/**
+	 * Says out loud what the listing now shows.
+	 *
+	 * Pressing "next week" replaces a table under the reader's feet. Somebody
+	 * looking at the screen sees that at once; somebody listening to it is
+	 * given no sign that anything happened at all, because focus has not moved
+	 * and nothing was navigated. So the listing carries a quiet live region and
+	 * this puts a sentence in it — which is WCAG's status-message rule, and is
+	 * also simply what a person would say if they were doing the pressing for
+	 * you.
+	 *
+	 * @param {Element} listing The listing that has just arrived.
+	 * @return {void}
+	 */
+	function announce( listing ) {
+		var region = document.getElementById( 'cscs-status' );
+
+		if ( ! region ) {
+			region = document.createElement( 'p' );
+			region.id = 'cscs-status';
+			region.className = 'cscs-status';
+			region.setAttribute( 'role', 'status' );
+			region.setAttribute( 'aria-live', 'polite' );
+			document.body.appendChild( region );
+		}
+
+		var said = listing.getAttribute( 'data-cscs-said' ) || '';
+		var rows = listing.querySelectorAll( '.cscs-row' ).length;
+
+		// Cleared first, because a live region handed the same words twice in a
+		// row says them once.
+		region.textContent = '';
+
+		window.setTimeout( function () {
+			region.textContent = said
+				? said
+				: String( rows );
+		}, 60 );
 	}
 
 	/**

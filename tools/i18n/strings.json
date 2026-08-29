@@ -4,7 +4,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:223"
+            "includes/Admin/Screen/Overview.php:253"
         ]
     },
     {
@@ -28,7 +28,7 @@
         "plural": "%d minutes",
         "context": null,
         "refs": [
-            "includes/Render/Formatter.php:159"
+            "includes/Render/Formatter.php:183"
         ]
     },
     {
@@ -53,6 +53,14 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/RoomsPage.php:199"
+        ]
+    },
+    {
+        "singular": "%d row",
+        "plural": "%d rows",
+        "context": null,
+        "refs": [
+            "includes/Render/Listing.php:284"
         ]
     },
     {
@@ -152,6 +160,14 @@
         ]
     },
     {
+        "singular": "A job that has stopped shows nothing on the pages themselves: they keep rendering, and the places free simply stay at whatever they were the last time anything ran.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:143"
+        ]
+    },
+    {
         "singular": "A make-up lesson replaces a class in exactly one course, but nothing in the timetable says which: the same name is used for the make-up slot of whichever course needs one, so two lessons named alike can belong to two different courses. Choose the course for each occurrence. Occurrences left unassigned are still counted and stored — they simply appear at no course. Nothing here is final: an assignment can be undone in the Assigned list.",
         "plural": null,
         "context": null,
@@ -220,7 +236,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:142"
+            "includes/Admin/Screen/Overview.php:172"
         ]
     },
     {
@@ -245,7 +261,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:240",
+            "includes/Admin/Screen/Overview.php:270",
             "includes/Admin/Screen/SettingsPage.php:128",
             "includes/Admin/Screen/UnmatchedPage.php:136"
         ]
@@ -666,9 +682,9 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:243",
+            "includes/Admin/Screen/Overview.php:273",
             "includes/Render/Fields.php:742",
-            "includes/Render/Listing.php:454"
+            "includes/Render/Listing.php:494"
         ]
     },
     {
@@ -708,7 +724,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:237"
+            "includes/Admin/Screen/Overview.php:267"
         ]
     },
     {
@@ -736,7 +752,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:172"
+            "includes/Admin/Screen/Overview.php:202"
         ]
     },
     {
@@ -744,7 +760,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:171"
+            "includes/Admin/Screen/Overview.php:201"
         ]
     },
     {
@@ -760,7 +776,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:173"
+            "includes/Admin/Screen/Overview.php:203"
         ]
     },
     {
@@ -985,7 +1001,7 @@
             "includes/Admin/Menu.php:95",
             "includes/Admin/Screen/DisplaySetsPage.php:135",
             "includes/Admin/Screen/DisplaySetsPage.php:197",
-            "includes/Admin/Screen/Overview.php:170",
+            "includes/Admin/Screen/Overview.php:200",
             "includes/Data/PostType.php:70",
             "includes/Data/PostType.php:72"
         ]
@@ -1159,7 +1175,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:269"
+            "includes/Admin/Screen/Overview.php:299"
         ]
     },
     {
@@ -1391,8 +1407,8 @@
             "includes/Admin/CourseEditor.php:466",
             "includes/Admin/Screen/SettingsPage.php:118",
             "includes/Render/CourseDetail.php:495",
-            "includes/Render/Listing.php:588",
-            "includes/Render/Listing.php:592"
+            "includes/Render/Listing.php:628",
+            "includes/Render/Listing.php:632"
         ]
     },
     {
@@ -1417,7 +1433,7 @@
         "context": null,
         "refs": [
             "includes/Render/CourseDetail.php:563",
-            "includes/Render/Listing.php:315"
+            "includes/Render/Listing.php:355"
         ]
     },
     {
@@ -1635,7 +1651,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:266"
+            "includes/Admin/Screen/Overview.php:296"
         ]
     },
     {
@@ -1676,6 +1692,14 @@
             "includes/Data/KindType.php:69",
             "includes/Data/KindType.php:71",
             "includes/Data/PostType.php:182"
+        ]
+    },
+    {
+        "singular": "Kč",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Render/Formatter.php:51"
         ]
     },
     {
@@ -1844,7 +1868,7 @@
             "includes/Admin/Menu.php:142",
             "includes/Admin/Menu.php:143",
             "includes/Admin/Screen/MakeupPage.php:100",
-            "includes/Admin/Screen/Overview.php:241",
+            "includes/Admin/Screen/Overview.php:271",
             "includes/Admin/Screen/SettingsPage.php:136"
         ]
     },
@@ -1948,6 +1972,14 @@
         "context": null,
         "refs": [
             "includes/Data/TrainerType.php:97"
+        ]
+    },
+    {
+        "singular": "Next at %s",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:159"
         ]
     },
     {
@@ -2104,6 +2136,14 @@
         ]
     },
     {
+        "singular": "Not running",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:154"
+        ]
+    },
+    {
         "singular": "Note",
         "plural": null,
         "context": null,
@@ -2125,7 +2165,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:256"
+            "includes/Admin/Screen/Overview.php:286"
         ]
     },
     {
@@ -2133,7 +2173,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Listing.php:293"
+            "includes/Render/Listing.php:333"
         ]
     },
     {
@@ -2250,7 +2290,7 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/SettingsPage.php:117",
-            "includes/Render/Listing.php:593"
+            "includes/Render/Listing.php:633"
         ]
     },
     {
@@ -2316,7 +2356,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:268"
+            "includes/Admin/Screen/Overview.php:298"
         ]
     },
     {
@@ -2333,6 +2373,7 @@
         "plural": null,
         "context": null,
         "refs": [
+            "includes/Render/Listing.php:274",
             "templates/partials/pager.php:33"
         ]
     },
@@ -2439,7 +2480,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:156"
+            "includes/Admin/Screen/Overview.php:186"
         ]
     },
     {
@@ -2447,7 +2488,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:267"
+            "includes/Admin/Screen/Overview.php:297"
         ]
     },
     {
@@ -2479,7 +2520,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:239",
+            "includes/Admin/Screen/Overview.php:269",
             "includes/Admin/Screen/UnmatchedPage.php:135"
         ]
     },
@@ -2520,7 +2561,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:203"
+            "includes/Admin/Screen/Overview.php:233"
         ]
     },
     {
@@ -2536,7 +2577,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:150"
+            "includes/Admin/Screen/Overview.php:180"
         ]
     },
     {
@@ -2685,6 +2726,14 @@
         ]
     },
     {
+        "singular": "Scheduled jobs",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/Screen/Overview.php:141"
+        ]
+    },
+    {
         "singular": "Search courses",
         "plural": null,
         "context": null,
@@ -2820,7 +2869,7 @@
         "context": null,
         "refs": [
             "includes/Render/CourseDetail.php:278",
-            "includes/Render/Listing.php:304"
+            "includes/Render/Listing.php:344"
         ]
     },
     {
@@ -2920,7 +2969,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:216"
+            "includes/Admin/Screen/Overview.php:246"
         ]
     },
     {
@@ -2928,7 +2977,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:147"
+            "includes/Admin/Screen/Overview.php:177"
         ]
     },
     {
@@ -3321,7 +3370,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:238"
+            "includes/Admin/Screen/Overview.php:268"
         ]
     },
     {
@@ -3376,7 +3425,7 @@
             "includes/Render/Fields.php:165",
             "includes/Render/Fields.php:166",
             "includes/Render/Fields.php:737",
-            "includes/Render/TrainerDetail.php:242"
+            "includes/Render/TrainerDetail.php:244"
         ]
     },
     {
@@ -3439,7 +3488,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:242",
+            "includes/Admin/Screen/Overview.php:272",
             "includes/Admin/Screen/UnmatchedPage.php:134"
         ]
     },
@@ -3507,6 +3556,14 @@
         "context": null,
         "refs": [
             "includes/Data/TrainerType.php:98"
+        ]
+    },
+    {
+        "singular": "Week of %s",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Render/Listing.php:268"
         ]
     },
     {
@@ -3594,7 +3651,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:265"
+            "includes/Admin/Screen/Overview.php:295"
         ]
     },
     {
@@ -3818,7 +3875,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/Screen/Overview.php:193"
+            "includes/Admin/Screen/Overview.php:223"
         ]
     },
     {
@@ -3872,7 +3929,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Render/Formatter.php:210"
+            "includes/Render/Formatter.php:234"
         ]
     },
     {
@@ -3955,7 +4012,7 @@
         "plural": "last %d places",
         "context": null,
         "refs": [
-            "includes/Render/Listing.php:613"
+            "includes/Render/Listing.php:653"
         ]
     },
     {

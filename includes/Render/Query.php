@@ -101,6 +101,13 @@ final class Query {
 
 		$this->total = (int) $query->found_posts;
 
+		// One query for the rooms of every course on the page, instead of one
+		// per course. `course_row()` asks each post which rooms it is in, and
+		// WordPress answers that from a cache it fills lazily — which for a
+		// listing of 113 courses meant 113 round trips nobody could see in the
+		// code, only in the count. Meta is primed by WP_Query itself.
+		self::prime( $query->posts );
+
 		foreach ( $query->posts as $post ) {
 			$row = $this->course_row( $post );
 
@@ -112,6 +119,77 @@ final class Query {
 		}
 
 		return $rows;
+	}
+
+	/**
+	 * Returns the names of the rooms a course is in, from the term cache.
+	 *
+	 * @param \WP_Post $post Course.
+	 * @return array<int, string>
+	 */
+	private static function room_names( \WP_Post $post ): array {
+		$terms = get_the_terms( $post, PostType::ROOM );
+
+		if ( ! is_array( $terms ) ) {
+			return array();
+		}
+
+		return array_values(
+			array_map(
+				static function ( \WP_Term $term ): string {
+					return $term->name;
+				},
+				$terms
+			)
+		);
+	}
+
+	/**
+	 * Fills the term and meta caches for a page of courses, in two queries.
+	 *
+	 * @param array<int, mixed> $posts Posts, or their ids.
+	 * @return void
+	 */
+	public static function prime( array $posts ): void {
+		$ids     = array();
+		$fetched = true;
+
+		foreach ( $posts as $post ) {
+			if ( $post instanceof \WP_Post ) {
+				$ids[] = $post->ID;
+			} elseif ( is_numeric( $post ) ) {
+				$ids[]   = (int) $post;
+				$fetched = false;
+			}
+		}
+
+		if ( array() === $ids ) {
+			return;
+		}
+
+		if ( $fetched ) {
+			update_object_term_cache( $ids, PostType::COURSE );
+			update_meta_cache( 'post', $ids );
+
+			return;
+		}
+
+		// Handed ids rather than posts, so the posts themselves are not in the
+		// cache either and `get_post()` would fetch each one on its own — 22
+		// courses of a kind, 22 queries. A query whose results are thrown away
+		// is a strange-looking thing to write, but fetching them together is
+		// exactly what it is for: WordPress fills the post, meta and term
+		// caches as it goes, and every `get_post()` afterwards is free.
+		new \WP_Query(
+			array(
+				'post_type'        => PostType::COURSE,
+				'post__in'         => $ids,
+				'posts_per_page'   => count( $ids ),
+				'post_status'      => 'any',
+				'no_found_rows'    => true,
+				'suppress_filters' => false,
+			)
+		);
 	}
 
 	/**
@@ -637,7 +715,11 @@ final class Query {
 			'activity'    => (string) $read( '_cscs_activity_name' ),
 			'api_description' => (string) $read( '_cscs_api_description' ),
 			'trainer'     => (string) $read( '_cscs_trainer_name' ),
-			'rooms'       => wp_get_object_terms( $post->ID, PostType::ROOM, array( 'fields' => 'names' ) ),
+			// `get_the_terms()` and not `wp_get_object_terms()`: the second asks
+			// the database every time, so a listing of 113 courses ran 113
+			// identical little queries for the rooms. This one reads the cache
+			// `prime()` filled in a single query.
+			'rooms'       => self::room_names( $post ),
 			'price'       => '' === $read( '_cscs_price' ) ? null : (string) $read( '_cscs_price' ),
 			'date_from'   => (string) $read( '_cscs_date_from' ),
 			'date_to'     => (string) $read( '_cscs_date_to' ),

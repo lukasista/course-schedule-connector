@@ -671,6 +671,32 @@ the last plugin to be activated left it. The Divi modules are a separate
 arrangement and stay on `category: module` with `folder: cscs-modules` — they
 are the builder's blocks, not the inserter's.
 
+## Queries per page
+
+`Query::prime()` is called before any row is built and is the difference
+between 7 queries and 119. Handed `WP_Post` objects — the `WP_Query` path — it
+fills the term and meta caches for the page in two queries. Handed ids — a
+kind's page and a trainer's, which get them from a taxonomy lookup — it runs one
+`WP_Query` whose results are discarded, because that fills the post cache too
+and `get_post()` afterwards is free. `course_row()` reads rooms through
+`get_the_terms()`, never `wp_get_object_terms()`: the second bypasses the cache
+and was running once per row.
+
+Front-end rendering makes no outbound request. That is verifiable rather than
+asserted — hook `pre_http_request`, render every listing, block and course page,
+and count.
+
+## Saying what changed
+
+`Listing::spoken()` is the sentence a screen reader is given after `cscs.js`
+replaces a table: the week where the set has weeks, the page where there is more
+than one, and the row count. `announce()` writes it into a polite live region
+(`#cscs-status`), clearing it first, because a live region handed the same words
+twice says them once. The same sentence is the table's `<caption>` where the set
+has no heading to use instead. Both are `.cscs-visually-hidden`, which is
+positioned and clipped rather than `display:none` — the latter is not read out
+either.
+
 ## Scheduling
 
 `Scheduler::schedule()` runs on `init` as well as on activation, and registers

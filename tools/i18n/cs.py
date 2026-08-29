@@ -405,6 +405,8 @@ CS = {
 "Leaves out courses that finish below the floor or start above the ceiling. Either may be left empty.": "Vynechá kurzy, které končí pod dolní hranicí nebo začínají nad horní. Obě se dají nechat prázdné.",
 "from": "od",
 "to": "do",
+"Kč": "Kč",
+"Week of %s": "Týden %s",
 "Trainer description": "Popis trenéra",
 "Trainer name": "Jméno trenéra",
 "Trainers": "Trenéři",
@@ -489,6 +491,7 @@ CS = {
 
 CS_PLURAL = {
 "%d minute": ["%d minuta", "%d minuty", "%d minut"],
+"%d row": ["%d řádek", "%d řádky", "%d řádků"],
 "%d class assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone.": ["Přiřazena %d lekce a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit.", "Přiřazeny %d lekce a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit.", "Přiřazeno %d lekcí a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit."],
 "%d make-up lesson saved. Assigned ones are in the Assigned list, where any of them can be undone.": ["Uložena %d náhradní lekce. Přiřazené najdete ve výpisu Přiřazené, kde jde přiřazení zrušit.", "Uloženy %d náhradní lekce. Přiřazené najdete ve výpisu Přiřazené, kde jde přiřazení zrušit.", "Uloženo %d náhradních lekcí. Přiřazené najdete ve výpisu Přiřazené, kde jde přiřazení zrušit."],
 "%d make-up lesson saved.": ["Uložena %d náhradní lekce.", "Uloženy %d náhradní lekce.", "Uloženo %d náhradních lekcí."],

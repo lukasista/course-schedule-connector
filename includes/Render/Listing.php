@@ -249,6 +249,46 @@ final class Listing {
 	}
 
 	/**
+	 * Returns what the listing shows, as a sentence to be read out.
+	 *
+	 * For the live region: after a control replaces the table, somebody looking
+	 * at the screen sees what changed and somebody listening is told nothing,
+	 * because focus has not moved and nothing was navigated. This is what gets
+	 * said — the week where there is one, the page where there is more than
+	 * one, and how many rows arrived, which is the answer to "did that do
+	 * anything".
+	 *
+	 * @return string
+	 */
+	public function spoken(): string {
+		$said = array();
+
+		if ( $this->has_weeks() ) {
+			/* translators: %s: a range of dates, "7. 9. – 13. 9. 2026". */
+			$said[] = sprintf( __( 'Week of %s', 'course-schedule-connector' ), $this->week_label() );
+		}
+
+		if ( 1 < $this->pages() ) {
+			$said[] = sprintf(
+				/* translators: 1: the page being shown, 2: how many pages there are. */
+				__( 'Page %1$d of %2$d', 'course-schedule-connector' ),
+				$this->args->page,
+				$this->pages()
+			);
+		}
+
+		$rows = count( $this->rows );
+
+		$said[] = sprintf(
+			/* translators: %d: how many rows the table has. */
+			_n( '%d row', '%d rows', $rows, 'course-schedule-connector' ),
+			$rows
+		);
+
+		return implode( ', ', $said );
+	}
+
+	/**
 	 * Returns the week being shown, as a person would say it.
 	 *
 	 * @return string
