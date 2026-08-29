@@ -5,7 +5,7 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2026-08-29
+## [1.0.0-alpha.1] - 2026-08-29
 
 ### Added
 - A course page says **Day** and **Time** where it used to say **When**. One field holding "Mon 16:00, Wed 17:00" is two facts in the one form nobody can read a timetable out of; as two fields whose lines run in step, the first day belongs to the first time and the reader never has to guess. The classes table has learned to report the end of a slot as well as its start, which it knew all along and was never asked.

@@ -4,7 +4,7 @@ Tags: courses, schedule, timetable, booking, sports
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.0
+Stable tag: 1.0.0-alpha.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,8 +92,8 @@ Yes. A kind's page carries its own answer to "which of these courses" — who th
 
 == Changelog ==
 
-= 1.0.0 =
-* First release.
+= 1.0.0-alpha.1 =
+* First alpha. Feature-complete and in testing on the site it was built for; not yet submitted to the directory.
 * Courses and class timetables from an iSport System installation, synchronised on a schedule and served from your own database.
 * Display sets; a shortcode; thirty-one blocks and thirty-one Divi 5 modules; course, trainer and kind-of-course pages.
 * Content and design permissions separated and enforced on the server.
@@ -101,5 +101,5 @@ Yes. A kind's page carries its own answer to "which of these courses" — who th
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-First release.
+= 1.0.0-alpha.1 =
+First alpha.

@@ -1,4 +1,11 @@
-# Předání práce — stav k 28. 8. 2026
+# Předání práce — deník po dnech
+
+> **Začínáte-li od nuly, čtěte `ALPHA.md`.** Ten shrnuje celý projekt na jednom
+> místě. Tenhle soubor je to, co se dělo den po dni, a je užitečný, když je
+> potřeba vědět *proč* něco vypadá, jak vypadá. Do vydaného pluginu se
+> nedistribuuje.
+
+## Stav k 28. 8. 2026
 
 Tenhle soubor je most mezi pracovními dny. Je psaný tak, aby se do něj dalo
 vstoupit bez znalosti předchozího rozhovoru: co je hotové, jak se to spouští,
