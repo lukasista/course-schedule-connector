@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "cscs/display",
 	"title": "Courses and schedule",
-	"category": "widgets",
+	"category": "cscs",
 	"icon": "calendar-alt",
 	"description": "Shows a listing of courses or classes from iSport, configured by a display set.",
 	"keywords": [ "isport", "courses", "schedule", "timetable" ],

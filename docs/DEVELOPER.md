@@ -660,6 +660,17 @@ content cannot be displayed" in the settings panel — the front end was fine, s
 nothing else showed it. `FieldModulesTest::test_every_context_has_a_post_type_to_be_pointed_at()`
 is the guard.
 
+## Where the blocks and the modules live
+
+`Render\BlockCategory` registers one inserter category, `cscs`, on
+`block_categories_all`, and both registrations name it: `FieldBlocks` through
+`BlockCategory::SLUG` and `blocks/display/block.json` as a literal, which
+`BlockMetadataTest` keeps in step. It is spliced in after the last category
+WordPress ships rather than appended, because the end of that list is wherever
+the last plugin to be activated left it. The Divi modules are a separate
+arrangement and stay on `category: module` with `folder: cscs-modules` — they
+are the builder's blocks, not the inserter's.
+
 ## Scheduling
 
 `Scheduler::schedule()` runs on `init` as well as on activation, and registers

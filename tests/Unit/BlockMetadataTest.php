@@ -10,6 +10,7 @@ declare( strict_types=1 );
 namespace CSCS\Tests\Unit;
 
 use CSCS\Data\DisplaySet;
+use CSCS\Render\BlockCategory;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -42,6 +43,57 @@ final class BlockMetadataTest extends TestCase {
 	 */
 	private function source( string $path ): string {
 		return (string) file_get_contents( dirname( __DIR__, 2 ) . '/' . $path );
+	}
+
+	/**
+	 * Every block of this plugin stands on the plugin's own shelf.
+	 *
+	 * Thirty-one blocks scattered through "Widgets" are not a set anybody can
+	 * find, and one of them is called "Price". The category is registered in
+	 * one place and named in two — the metadata file and the field registration
+	 * — which is exactly the sort of pair that comes apart quietly.
+	 *
+	 * @return void
+	 */
+	public function test_every_block_stands_in_the_plugins_own_category(): void {
+		$this->assertSame( BlockCategory::SLUG, (string) ( $this->metadata()['category'] ?? '' ) );
+		$this->assertStringContainsString(
+			"'category'              => BlockCategory::SLUG,",
+			$this->source( 'includes/Render/FieldBlocks.php' )
+		);
+	}
+
+	/**
+	 * The shelf is put where somebody can find it, and only once.
+	 *
+	 * @return void
+	 */
+	public function test_the_category_lands_after_the_ones_wordpress_ships(): void {
+		$core = array(
+			array( 'slug' => 'text' ),
+			array( 'slug' => 'media' ),
+			array( 'slug' => 'widgets' ),
+			array( 'slug' => 'embed' ),
+			array( 'slug' => 'woocommerce' ),
+		);
+
+		$added = ( new BlockCategory() )->add( $core );
+		$slugs = array_column( $added, 'slug' );
+
+		$this->assertSame( array( 'text', 'media', 'widgets', 'embed', BlockCategory::SLUG, 'woocommerce' ), $slugs );
+
+		// Called twice — which WordPress does when a filter is added twice, and
+		// two identical categories is a duplicated heading in the inserter.
+		$this->assertSame( $slugs, array_column( ( new BlockCategory() )->add( $added ), 'slug' ) );
+	}
+
+	/**
+	 * Anything the filter is handed that is not a list is still a list after.
+	 *
+	 * @return void
+	 */
+	public function test_the_filter_survives_being_handed_nonsense(): void {
+		$this->assertSame( array( BlockCategory::SLUG ), array_column( ( new BlockCategory() )->add( null ), 'slug' ) );
 	}
 
 	/**

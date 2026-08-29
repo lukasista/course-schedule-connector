@@ -152,7 +152,7 @@ msgstr ""
 #: includes/Admin/Screen/MakeupPage.php:130
 #: includes/Admin/Screen/UnmatchedPage.php:165
 #: includes/Data/PostType.php:179
-#: includes/Render/Fields.php:725
+#: includes/Render/Fields.php:726
 msgid "Activity"
 msgstr ""
 
@@ -196,7 +196,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:105
 #: includes/Render/Fields.php:129
 #: includes/Render/Fields.php:130
-#: includes/Render/Fields.php:728
+#: includes/Render/Fields.php:729
 msgid "Age"
 msgstr ""
 
@@ -331,7 +331,7 @@ msgstr ""
 
 #: includes/Admin/CourseEditor.php:192
 #: includes/Admin/CourseList.php:55
-#: includes/Render/Fields.php:742
+#: includes/Render/Fields.php:743
 msgid "Booking button"
 msgstr ""
 
@@ -370,7 +370,7 @@ msgid "Button text"
 msgstr ""
 
 #: includes/Admin/Screen/Overview.php:243
-#: includes/Render/Fields.php:741
+#: includes/Render/Fields.php:742
 #: includes/Render/Listing.php:454
 msgid "Cancelled"
 msgstr ""
@@ -472,8 +472,8 @@ msgid "Copy"
 msgstr ""
 
 #: includes/Data/PostType.php:71
-#: includes/Render/Fields.php:723
 #: includes/Render/Fields.php:724
+#: includes/Render/Fields.php:725
 msgid "Course"
 msgstr ""
 
@@ -548,8 +548,8 @@ msgstr ""
 msgid "Courses are what people sign up to; classes are the individual times in the timetable. Changing this resets the columns, since the two have different ones."
 msgstr ""
 
-#: includes/Render/Fields.php:361
 #: includes/Render/Fields.php:362
+#: includes/Render/Fields.php:363
 msgid "Courses of this kind"
 msgstr ""
 
@@ -578,18 +578,18 @@ msgstr ""
 
 #: includes/Admin/Screen/MakeupPage.php:128
 #: includes/Admin/Screen/UnmatchedPage.php:163
-#: includes/Render/Fields.php:733
+#: includes/Render/Fields.php:734
 msgid "Date"
 msgstr ""
 
 #: includes/Render/CourseDetail.php:101
-#: includes/Render/Fields.php:731
+#: includes/Render/Fields.php:732
 #: includes/Render/Fields.php:93
 #: includes/Render/Fields.php:94
 msgid "Day"
 msgstr ""
 
-#: includes/Render/Fields.php:726
+#: includes/Render/Fields.php:727
 msgid "Days and times"
 msgstr ""
 
@@ -682,7 +682,7 @@ msgstr ""
 msgid "Even when shown, the button hides itself while the course is full or iSport reports that it takes no registrations."
 msgstr ""
 
-#: includes/Render/Fields.php:366
+#: includes/Render/Fields.php:367
 msgid "Every course filed under this kind, as a table — or only the ones the settings ask for."
 msgstr ""
 
@@ -779,7 +779,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:106
 #: includes/Render/Fields.php:138
 #: includes/Render/Fields.php:139
-#: includes/Render/Fields.php:729
+#: includes/Render/Fields.php:730
 msgid "Gender"
 msgstr ""
 
@@ -958,7 +958,7 @@ msgstr ""
 msgid "Left empty, the module disappears rather than printing a heading over a blank space."
 msgstr ""
 
-#: includes/Render/Fields.php:727
+#: includes/Render/Fields.php:728
 msgid "Length"
 msgstr ""
 
@@ -967,7 +967,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:107
 #: includes/Render/Fields.php:147
 #: includes/Render/Fields.php:148
-#: includes/Render/Fields.php:730
+#: includes/Render/Fields.php:731
 msgid "Level"
 msgstr ""
 
@@ -1187,7 +1187,7 @@ msgstr ""
 msgid "Nowhere"
 msgstr ""
 
-#: includes/Render/Fields.php:738
+#: includes/Render/Fields.php:739
 msgid "Number of classes"
 msgstr ""
 
@@ -1282,7 +1282,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:110
 #: includes/Render/Fields.php:174
 #: includes/Render/Fields.php:175
-#: includes/Render/Fields.php:740
+#: includes/Render/Fields.php:741
 msgid "Places left"
 msgstr ""
 
@@ -1293,7 +1293,7 @@ msgstr ""
 #: includes/Divi/FieldModules.php:345
 #: includes/Render/CourseDetail.php:100
 #: includes/Render/Fields.php:352
-#: includes/Render/Fields.php:739
+#: includes/Render/Fields.php:740
 #: includes/Render/Fields.php:84
 #: includes/Render/Fields.php:85
 msgid "Price"
@@ -1375,7 +1375,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:108
 #: includes/Render/Fields.php:156
 #: includes/Render/Fields.php:157
-#: includes/Render/Fields.php:735
+#: includes/Render/Fields.php:736
 #: templates/partials/controls.php:54
 msgid "Room"
 msgstr ""
@@ -1407,7 +1407,7 @@ msgstr ""
 msgid "Runs from"
 msgstr ""
 
-#: includes/Render/Fields.php:737
+#: includes/Render/Fields.php:738
 msgid "Runs from and to"
 msgstr ""
 
@@ -1773,11 +1773,11 @@ msgstr ""
 #: includes/Render/CourseDetail.php:102
 #: includes/Render/Fields.php:102
 #: includes/Render/Fields.php:103
-#: includes/Render/Fields.php:734
+#: includes/Render/Fields.php:735
 msgid "Time"
 msgstr ""
 
-#: includes/Render/Fields.php:732
+#: includes/Render/Fields.php:733
 msgid "Time from and to"
 msgstr ""
 
@@ -1798,7 +1798,7 @@ msgstr ""
 #: includes/Render/CourseDetail.php:194
 #: includes/Render/Fields.php:165
 #: includes/Render/Fields.php:166
-#: includes/Render/Fields.php:736
+#: includes/Render/Fields.php:737
 #: includes/Render/TrainerDetail.php:242
 msgid "Trainer"
 msgstr ""
@@ -2066,6 +2066,7 @@ msgstr ""
 #: includes/Admin/Menu.php:74
 #: includes/Admin/Menu.php:75
 #: includes/Divi/ModuleFolder.php:58
+#: includes/Render/BlockCategory.php:78
 msgid "iSport"
 msgstr ""
 

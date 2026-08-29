@@ -306,9 +306,14 @@ Pole, které nemá co říct, se **vynechá celé** — nadpis nad prázdným m�
 
 **Zdroj**: pokud nic nevyberete, blok ukáže ten kurz nebo toho trenéra, o kterém stránka je. Právě proto z nich jde postavit jednu šablonu v Divi Theme Builderu nebo v editoru šablon, která poslouží všem kurzům. Konkrétní kurz vyberete jen tam, kde blok stojí na běžné stránce.
 
-### Kde moduly v Divi najdete
+### Kde bloky a moduly najdete
 
-Všechny jsou pohromadě: v seznamu modulů je jedna položka **iSport** a v ní všech dvacet sedm. Stejně to dělá WooCommerce se svou sekcí *Woo Modules*. Každý modul má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe.
+Všechny jsou pohromadě, v obou editorech. V Divi je v seznamu modulů jedna
+položka **iSport** a v ní všech třicet; v Gutenbergu má vkladač bloků oddíl
+**iSport** a v něm všech třicet jedna. Stejně to dělá WooCommerce. Každý modul
+má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe — mezi padesáti
+bloky, které nabízí WordPress a šablona, by *Cena* nebo *Název* samy o sobě
+neřekly nic.
 
 ### Tabulky
 

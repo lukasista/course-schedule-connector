@@ -99,6 +99,14 @@ pak název nepřečetlo až do další synchronizace. Dva kurzy ze 113 tak byly 
 věku, pohlaví a úrovně. `CourseRepository::refresh_audience()` se volá na konci
 `CourseEditor::save()`.
 
+### Oddíl bloků
+`Render\BlockCategory` (slug `cscs`, titulek „iSport") na `block_categories_all`,
+vsazený za poslední kategorii, kterou dodává WordPress. Jmenuje ho `FieldBlocks`
+přes `BlockCategory::SLUG` a `blocks/display/block.json` literálem — hlídá
+`BlockMetadataTest`. Divi moduly zůstávají na `category: module` +
+`folder: cscs-modules`, to je jiný seznam. Živě: 31 gutenbergovských bloků
+v oddílu, 0 mimo.
+
 ### Filtr patří na stránku druhu, ne do šablony
 Klíčové zjištění: v globální šabloně (Divi Theme Builder / Šablony) nelze filtr
 nastavit v modulu — je to jeden design pro všechny stránky druhu. Proto
