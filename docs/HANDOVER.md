@@ -66,7 +66,20 @@ editoru je nevalidní.
 první kurz — dvacet dva kurzů *Gymnastiky* dá dva řádky, ne dvacet dva — a vrací
 běžný `Listing` o dvou sloupcích, **Délka** a **Cena**. Na živých datech: 25
 druhů, žádný neopakuje řádek, šest jich má dva. Sloupec `duration` je
-k dispozici všem výpisům, nejen druhu.
+k dispozici všem výpisům, nejen druhu; `course_listing()` ho ani `price`
+nepoužívá — z rozvrhu druhu odešly, když ceny dostaly vlastní tabulku.
+
+Pole `kind-text` vykresluje `post_content` stránky druhu přes
+`Fields::written_text()`. *Popis kurzu* i *Popis z iSportu* se ptají kurzu,
+takže na stránce druhu nemají co ukázat, a v šabloně Theme Builderu není kam
+text napsat ručně.
+
+Seznam příspěvků, na které lze modul namířit, se staví procházkou
+`Fields::all()` a `Fields::post_type()` — v `FieldModules` i `FieldBlocks`.
+Dřív to byla ruční mapa dvou kontextů v každém; druhy nebyly ani v jedné,
+`$sources[$context]` na chybějícím klíči zapsalo `null` a Divi na to v panelu
+nastavení odpoví „tento obsah nelze zobrazit", zatímco frontend byl v pořádku.
+Hlídá to `FieldModulesTest::test_every_context_has_a_post_type_to_be_pointed_at()`.
 
 ### Stránka druhu kurzu
 Typ příspěvku `cscs_kind_page` (**ne** `cscs_kind` — to je taxonomie, kolidovalo

@@ -9,8 +9,6 @@ declare( strict_types=1 );
 
 namespace CSCS\Divi;
 
-use CSCS\Data\PostType;
-use CSCS\Data\TrainerType;
 use CSCS\Plugin;
 use CSCS\Render\Assets;
 use CSCS\Render\Fields;
@@ -131,10 +129,23 @@ final class FieldModules {
 	 */
 	private function metadata(): array {
 		$modules = array();
-		$sources = array(
-			Fields::COURSE  => $this->sources( PostType::COURSE ),
-			Fields::TRAINER => $this->sources( TrainerType::TRAINER ),
-		);
+
+		// Built from the catalogue rather than listed here, and this is not
+		// tidiness. A hand-written list of contexts is a list that falls behind
+		// the day somebody adds one: the kinds did, and every kind module
+		// answered the builder with a select whose options were null, which
+		// Divi shows as "this content cannot be displayed" — in the settings
+		// panel, where the module is unusable, while the page itself rendered
+		// perfectly and said nothing was wrong.
+		$sources = array();
+
+		foreach ( Fields::all() as $field ) {
+			$context = (string) $field['context'];
+
+			if ( ! isset( $sources[ $context ] ) ) {
+				$sources[ $context ] = $this->sources( Fields::post_type( $context ) );
+			}
+		}
 
 		foreach ( Fields::all() as $name => $field ) {
 			$directory = CSCS_DIR . 'divi/fields/' . $name;
@@ -175,7 +186,7 @@ final class FieldModules {
 			}
 
 			$metadata['attributes']['field']['settings']['advanced']['source']['item']['component']['props']['options'] =
-				$sources[ $field['context'] ];
+				$sources[ (string) $field['context'] ] ?? array();
 
 			// The content fields were written in English in the generated file
 			// and handed over that way, so the one panel a person opens first
@@ -361,8 +372,7 @@ final class FieldModules {
 	}
 
 	/**
-	 * Returns the courses or trainers a module may be pointed at.	/**
-	 * Returns the courses or trainers a module may be pointed at.
+	 * Returns the courses, trainers or kinds a module may be pointed at.
 	 *
 	 * @param string $post_type Post type.
 	 * @return array<string, array<string, string>>

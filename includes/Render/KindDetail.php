@@ -68,6 +68,11 @@ final class KindDetail {
 	 * a trainer's table already answers with — the timetable a visitor is
 	 * reading, not the catalogue an administrator is.
 	 *
+	 * Length and price are not among them. They were, until they got a table of
+	 * their own: what a kind costs is two numbers for twenty-two courses, so
+	 * repeating both down every row of the timetable said the same thing
+	 * twenty-two times and made the columns a visitor came for narrower.
+	 *
 	 * @return Listing|null
 	 */
 	public function course_listing(): ?Listing {
@@ -95,7 +100,7 @@ final class KindDetail {
 		$set = DisplaySet::from_array(
 			array(
 				'type'    => DisplaySet::TYPE_COURSES,
-				'columns' => array( 'day', 'hours', 'duration', 'age', 'gender', 'level', 'price', 'places', 'button' ),
+				'columns' => array( 'day', 'hours', 'age', 'gender', 'level', 'places', 'button' ),
 			)
 		);
 

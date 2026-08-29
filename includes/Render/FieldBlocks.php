@@ -9,9 +9,6 @@ declare( strict_types=1 );
 
 namespace CSCS\Render;
 
-use CSCS\Data\KindType;
-use CSCS\Data\PostType;
-use CSCS\Data\TrainerType;
 use CSCS\Plugin;
 
 defined( 'ABSPATH' ) || exit;
@@ -229,13 +226,17 @@ final class FieldBlocks {
 			);
 		}
 
+		$post_types = array();
+
+		foreach ( Fields::all() as $field ) {
+			$post_types[ (string) $field['context'] ] = Fields::post_type( (string) $field['context'] );
+		}
+
 		return array(
 			'fields'    => $fields,
-			'postTypes' => array(
-				Fields::COURSE  => PostType::COURSE,
-				Fields::TRAINER => TrainerType::TRAINER,
-				Fields::KIND    => KindType::KIND,
-			),
+			// Asked of the catalogue rather than listed, so that a context
+			// added to it cannot be missing from here.
+			'postTypes' => $post_types,
 			'settings'  => FieldRenderer::element_settings(),
 			// The sizes are this site's, not the plugin's: a theme registers
 			// them, and a list written here would refuse the one somebody added

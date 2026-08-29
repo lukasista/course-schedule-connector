@@ -195,8 +195,8 @@ Blok i modul **Ceny tohoto druhu** proto vypíšou tabulku o dvou sloupcích,
 u *Gymnastiky* dva — *60 minut / 4 160 Kč* a *90 minut / 5 160 Kč* — ať jich
 pod ní běží dvacet dva. Co se opakuje, se nevypisuje podruhé. Je to obyčejná
 tabulka pluginu, takže se dá nastavit stejně jako ostatní. V tabulce kurzů
-daného druhu jsou navíc sloupce **Délka** a **Cena**, aby bylo u každého
-termínu vidět, co platí právě pro něj.
+druhu už proto délka ani cena nejsou — opakovat dvě čísla ve dvaadvaceti
+řádcích jen ubíralo místo sloupcům, kvůli kterým se člověk na rozvrh dívá.
 
 Každý druh má **vlastní stránku** — *iSport → Druhy kurzů*. Je to běžný
 příspěvek: napíšete text, dáte náhledový obrázek, výpisek i SEO, adresa je
@@ -205,6 +205,11 @@ kurz, a synchronizace do nich nikdy nesahá. Pod tím, co napíšete, se vypíš
 **rozvrh všech kurzů toho druhu**; totéž jde vložit kamkoli blokem nebo Divi
 modulem **Kurzy tohoto druhu** (sloupce Den, Čas od–do, Věk, Pohlaví, Úroveň,
 Volná místa a tlačítko, s celým nastavením vzhledu tabulky).
+
+Text stránky druhu umí do šablony vložit blok a modul **Popis druhu kurzu** —
+je to protějšek *Popisu kurzu* a *Popisu z iSportu*, které se ptají kurzu,
+a proto na stránce druhu nic nenajdou. Odrážky v něm se dají nastavit stejně
+jako u ostatních textů.
 
 Druhy jako zařazení najdete pod **iSport → Druhy kurzů**. Přejmenování druhu se propíše všem
 kurzům pod ním. Když je čtení u nějakého kurzu vedle — nebo když chcete dva

@@ -617,7 +617,22 @@ with two rows, not twenty-two — then sorts by length and price and hands the
 chosen courses to an ordinary `Listing` of two columns, `duration` and `price`.
 It is a table like every other one the plugin draws, so it words, folds and
 designs itself the same way; the `duration` column is offered to every course
-listing, not only a kind's.
+listing, not only a kind's. `course_listing()` does not use it, nor `price`:
+they moved out when the prices got a table.
+
+`kind-text` renders the page's own `post_content` through `Fields::written_text()`,
+which is what `course-text` and `trainer-text` do — the field exists because the
+two description fields are both about a course, so a kind's page had no way to
+show its own words inside a theme builder template.
+
+The list of posts a field module may be pointed at is built by walking
+`Fields::all()` and asking `Fields::post_type()` per context, in `FieldModules`
+and in `FieldBlocks` alike. It used to be a literal map of two contexts in each,
+and the kinds were added to neither: `$sources[ $field['context'] ]` on a
+missing key wrote `null` into the select's options, which Divi renders as "this
+content cannot be displayed" in the settings panel — the front end was fine, so
+nothing else showed it. `FieldModulesTest::test_every_context_has_a_post_type_to_be_pointed_at()`
+is the guard.
 
 ## A kind's own page
 

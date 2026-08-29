@@ -331,9 +331,21 @@ final class Fields {
 		// A kind of course holds no facts of its own — no price, no room, no
 		// capacity, because it is not a thing anybody signs up for. What it has
 		// that a page cannot write by hand is the timetable of what runs under
-		// it, and that is what this is. The words and the picture are the
-		// page's own, and any editor already knows how to place those.
+		// it, and what a term costs, and those are two of these three. The
+		// third is the description, which a person does write — but a theme
+		// builder template is not a page and has nowhere to write it, so it
+		// needs a field like everything else on that template.
 		$kind = array(
+			'text'    => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Kind description', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'editor-paragraph',
+				'moduleIcon'  => 'divi/module-text',
+				'description' => __( 'The words written on this kind of course in WordPress — the ones fetched from a course, or whatever was written over them.', 'course-schedule-connector' ),
+				'heading'     => false,
+				'bullets'     => true,
+			),
 			'prices'  => array(
 				'kind'        => self::HTML,
 				'title'       => __( 'Prices of this kind', 'course-schedule-connector' ),
@@ -560,6 +572,9 @@ final class Fields {
 		$detail = new KindDetail( $plugin, $post );
 
 		switch ( $key ) {
+			case 'text':
+				return array( 'html' => self::written_text( $post ) );
+
 			case 'courses':
 				return array( 'html' => self::table( $detail->course_listing() ) );
 

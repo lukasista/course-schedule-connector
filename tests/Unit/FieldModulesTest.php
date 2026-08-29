@@ -248,4 +248,35 @@ final class FieldModulesTest extends TestCase {
 		$this->assertSame( $shortcodes, array_values( array_unique( $shortcodes ) ) );
 		$this->assertNotContains( '', $names );
 	}
+
+	/**
+	 * Every context a field is in knows which posts it can be pointed at.
+	 *
+	 * The kinds arrived without one, and nothing said so: the page rendered
+	 * perfectly and the builder answered "this content cannot be displayed" the
+	 * moment anybody opened the module's settings, because the select's options
+	 * were null. Both the module list and the block list are asked of the
+	 * catalogue now, and this is what says they still are.
+	 *
+	 * @return void
+	 */
+	public function test_every_context_has_a_post_type_to_be_pointed_at(): void {
+		$seen = array();
+
+		foreach ( Fields::all() as $name => $field ) {
+			$context = (string) $field['context'];
+
+			$this->assertNotSame( '', $context, $name . ' is in no context at all.' );
+
+			$seen[ $context ] = Fields::post_type( $context );
+		}
+
+		foreach ( $seen as $context => $post_type ) {
+			$this->assertNotSame( '', $post_type, 'Nothing says which posts a ' . $context . ' field may be pointed at.' );
+		}
+
+		// Not one answer for all of them either, which is what a fallback
+		// standing in for a missing case looks like from here.
+		$this->assertSame( count( $seen ), count( array_unique( $seen ) ) );
+	}
 }
