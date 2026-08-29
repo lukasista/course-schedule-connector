@@ -309,8 +309,8 @@ Pole, které nemá co říct, se **vynechá celé** — nadpis nad prázdným m�
 ### Kde bloky a moduly najdete
 
 Všechny jsou pohromadě, v obou editorech. V Divi je v seznamu modulů jedna
-položka **iSport** a v ní všech třicet; v Gutenbergu má vkladač bloků oddíl
-**iSport** a v něm všech třicet jedna. Stejně to dělá WooCommerce. Každý modul
+položka **iSport** a v ní všech jedenatřicet; v Gutenbergu má vkladač bloků oddíl
+**iSport** a v něm také jedenatřicet. Stejně to dělá WooCommerce. Každý modul
 má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe — mezi padesáti
 bloky, které nabízí WordPress a šablona, by *Cena* nebo *Název* samy o sobě
 neřekly nic.

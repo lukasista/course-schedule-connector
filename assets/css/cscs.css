@@ -48,6 +48,18 @@
 	outline-offset: 2px;
 }
 
+/*
+ * A timetable of eight columns is wider than a narrow content column, and a
+ * table that overflows its page is a table whose last column nobody can read.
+ * It scrolls sideways inside this instead — with a tab stop of its own, because
+ * a region somebody has to scroll is a region somebody has to be able to reach
+ * without a mouse.
+ */
+.cscs-table-scroll {
+	overflow-x: auto;
+	max-width: 100%;
+}
+
 .cscs-table {
 	width: 100%;
 	border-collapse: collapse;

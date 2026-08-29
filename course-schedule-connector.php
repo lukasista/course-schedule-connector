@@ -3,7 +3,7 @@
  * Plugin Name:       Course & Schedule Connector for iSport
  * Plugin URI:        https://github.com/lukasista/course-schedule-connector
  * Description:       Display courses and class schedules from an iSport System installation, as a shortcode, a block, or Divi 5 modules.
- * Version:           0.1.0
+ * Version:           1.0.0
  * Requires at least: 6.7
  * Requires PHP:      8.1
  * Author:            Lukas Pivonka
@@ -21,7 +21,7 @@ declare( strict_types=1 );
 
 defined( 'ABSPATH' ) || exit;
 
-const CSCS_VERSION     = '0.1.0';
+const CSCS_VERSION     = '1.0.0';
 const CSCS_TEXT_DOMAIN = 'course-schedule-connector';
 
 define( 'CSCS_FILE', __FILE__ );

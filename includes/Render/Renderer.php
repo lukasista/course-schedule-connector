@@ -294,13 +294,14 @@ final class Renderer {
 	public static function responsive_css( int $breakpoint ): string {
 		return sprintf(
 			'@media (max-width: %dpx) {
+	.cscs-table-scroll { overflow-x: visible; }
 	.cscs-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%%); white-space: nowrap; }
 	.cscs-table, .cscs-table tbody, .cscs-table tr, .cscs-table td { display: block; width: 100%%; }
 	.cscs-table tr { margin: 0 0 1rem; border: 1px solid var(--cscs-border, #e0e0e0); border-radius: 4px; overflow: hidden; }
 	.cscs-table td { display: grid; grid-template-columns: minmax(6rem, 40%%) 1fr; gap: 0.75rem; border: 0; border-bottom: 1px solid var(--cscs-border, #e0e0e0); padding: 0.5rem 0.75rem; }
 	.cscs-table td:last-child { border-bottom: 0; }
 	.cscs-table td::before { content: attr(data-label); font-weight: 600; }
-	.cscs-table td:empty { display: none; }
+	.cscs-table td:empty, .cscs-table td.cscs-col--empty { display: none; }
 }',
 			$breakpoint
 		);

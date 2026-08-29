@@ -99,6 +99,27 @@ pak název nepřečetlo až do další synchronizace. Dva kurzy ze 113 tak byly 
 věku, pohlaví a úrovně. `CourseRepository::refresh_audience()` se volá na konci
 `CourseEditor::save()`.
 
+### F11 (29. 8.) — dokumentace a dodání
+Verze **1.0.0** (hlavička, `CSCS_VERSION`, `Stable tag`, CHANGELOG).
+
+Dokumentace srovnána se skutečností, ne jen doplněna. Co bylo v DEVELOPERu
+špatně: seznam šablon jmenoval pět souborů, které nikdy neexistovaly
+(`courses-grid.php`…); druhá kapitola „Divi 5 modules" vypisovala čtyři vymyšlené
+moduly; tabulka hooků měla sedm „planned" filtrů, které nevznikly, a chyběly
+čtyři skutečné; úvod tvrdil, že vše od rendereru dál je teprve specifikace.
+Seznam WP-CLI příkazů neznal `sets`, `caps`, `trainers`, `divi` ani `sync kinds`.
+Hooky jsem porovnal grepem proti zdroji, ne po paměti.
+
+`readme.txt`: opraveny nepravdivé body (karty a kalendářní mřížka neexistují,
+e-mailové upozornění taky ne), doplněny druhy, filtr na stránce druhu a sekce
+`== Screenshots ==`. `.wordpress-org/README.md` popisuje osm snímků a jak je
+pořídit — samotné PNG musí vzniknout z prohlížeče, na to kontejner nedosáhne.
+
+**Dvě vady našel až snímek obrazovky**, ne kód: složená tabulka na telefonu
+nechávala popisky u prázdných buněk (`td:empty` nezabírá, protože šablona dovnitř
+píše konec řádku — teď třída `cscs-col--empty`), a osmisloupcová tabulka
+přetékala mimo stránku (`.cscs-table-scroll`, `role="region" tabindex="0"`).
+
 ### F10 (29. 8.) — Plugin Check a čistá instalace
 **Plugin Check 2.1.0: 0 chyb, 0 varování**, všechny kategorie včetně
 `plugin_repo`, `--include-experimental`, proti buildu pro WordPress.org na

@@ -1,8 +1,12 @@
 # Developer documentation
 
-> Status: written ahead of the implementation and used as the specification the code is built against. Phases F1 and F2 have landed, so the API layer, the data model and synchronisation below are descriptive; everything from the renderer onwards is still specification.
+> Status: descriptive. This file was written ahead of the code and used as the
+> specification it was built against; everything in it now describes what is
+> there. Where it says a thing exists, that thing exists — checked against the
+> source in phase F11, which is how the fictional templates and the invented
+> module names that had survived from the specification were found.
 
-## Implemented so far (phases F1 and F2)
+## The pieces
 
 | Component | Class | Notes |
 |---|---|---|
@@ -202,7 +206,26 @@ Templates are resolved in this order:
 2. `your-theme/course-schedule-connector/{template}.php`
 3. `course-schedule-connector/templates/{template}.php`
 
-Available templates: `courses-grid.php`, `courses-table.php`, `schedule-list.php`, `schedule-calendar.php`, `course-single.php`, plus partials under `templates/partials/`.
+Available templates:
+
+| File | Draws | Variables in scope |
+|---|---|---|
+| `courses.php` | a listing of courses | `$cscs_listing` |
+| `schedule.php` | a listing of classes | `$cscs_listing` |
+| `single-course.php` | a course's own page | `$cscs_detail`, and `$cscs_course`, `$cscs_schedule`, `$cscs_makeup` worked out from it |
+| `single-trainer.php` | a trainer's own page | `$cscs_detail`, `$cscs_trainer`, `$cscs_courses` |
+| `single-kind.php` | a kind of course's page | `$cscs_detail`, `$cscs_kind`, `$cscs_courses` |
+| `partials/table.php` | the table itself | `$cscs_listing` |
+| `partials/controls.php` | the week and room controls | `$cscs_listing` |
+| `partials/pager.php` | the pager | `$cscs_listing` |
+
+Every one of those names carries the plugin's prefix, and a template that
+overrides one of these must read the same name. The prefix is not decoration: a
+template is included at file scope, where a bare `$listing` cannot be told from
+a global — which is what the official Plugin Check says about it, and it is
+right. A partial included from a template is handed its listing by assignment
+(`$cscs_listing = $cscs_schedule;`) rather than by argument, because that is what
+`require` gives you.
 
 ## Rendering
 
@@ -341,18 +364,24 @@ A module with no stored counterpart is saved with no design at all rather than w
 
 Hiding the design panels would be a courtesy. A builder is a browser application, and anything a browser decides can be undone in the browser, so the rule is applied where it cannot be got around.
 
-## Divi 5 modules
+### What there is, and where it comes from
 
-| Module | Slug |
-|---|---|
-| Courses – cards | `cscs/courses-grid` |
-| Courses – table | `cscs/courses-table` |
-| Schedule – list by day | `cscs/schedule-list` |
-| Schedule – weekly calendar | `cscs/schedule-calendar` |
+Thirty-one modules: `cscs/divi-display`, and one per entry in the field
+catalogue — twenty for a course, eight for a trainer, three for a kind. None of
+them is written by hand. `tools/build-divi-modules.php` reads `Fields::all()`
+and writes `divi/fields/<name>/module.json` and its
+`module-default-render-attributes.json`; `FieldModules` reads those files back
+at runtime and puts in what a file cannot hold — the posts this site has, and
+the wording in this site's language. Add a field to the catalogue, run the
+generator, and there is a new module and a new block, both of them right.
 
-Each module is a `module.json` describing attributes, a PHP render callback registered through `ModuleRegistration::register_module()`, and a React edit component. **The edit component fetches HTML from the REST preview route** rather than reimplementing the markup, so the Visual Builder and the front end cannot diverge.
+The generated files are committed, because Divi insists on a directory it can
+read. The price of a generated file in a repository is that somebody forgets to
+run the generator, so `FieldModulesTest` fails when the catalogue and the files
+disagree.
 
-Registration is guarded: if the Divi 5 module API is not present, nothing is registered and no error is raised.
+Registration is guarded throughout: without Divi 5 nothing is registered, no
+class that names Divi's own is autoloaded, and no error is raised.
 
 ## REST API
 
@@ -401,34 +430,37 @@ The design restriction is enforced when settings are saved, not only in the inte
 
 ## Hooks
 
-*Planned — the list below is the intended surface and is finalised in phase F4.*
+Every hook below exists in the source; this list was checked against it rather
+than written from intention. A filter the plugin might one day want is not in
+the table, because a documented hook nobody implemented is worse than an
+undocumented one somebody has to look for.
 
 **Filters**
 
-| Filter | Purpose | Status |
-|---|---|---|
-| `cscs_api_request_args` | Modify `wp_remote_get()` arguments | implemented |
-| `cscs_normalise_course` | Adjust a course record after normalisation | planned |
-| `cscs_normalise_lesson` | Adjust a lesson record after normalisation | planned |
-| `cscs_match_key` | Replace the matching key algorithm | planned |
-| `cscs_template_path` | Override template resolution | planned |
-| `cscs_price_format` | Change price formatting | planned |
-| `cscs_availability_state` | Change the thresholds behind availability states | planned |
-| `cscs_course_lesson_tags` | Tag labels that mark an occurrence as part of a course | implemented |
-| `cscs_course_gender_terms` | Words in a course name that say who it is for | implemented |
-| `cscs_course_level_terms` | Words in a course name that say what level it is | implemented |
-| `cscs_course_rewrite_slug` | Change the URL slug of a course | implemented |
+| Filter | Purpose |
+|---|---|
+| `cscs_api_request_args` | The arguments of every outbound request (`WpHttp`) |
+| `cscs_fields` | The catalogue a block and a Divi module are generated from — one entry here is one of each |
+| `cscs_listing_rows` | The rows about to be rendered, after the query and before the table |
+| `cscs_template_directories` | Where a theme's overrides are looked for |
+| `cscs_course_lesson_tags` | Tag labels that mark an occurrence as part of a course |
+| `cscs_course_kind_patterns` | Where a course's name stops being the kind of course it is |
+| `cscs_course_gender_terms` | Words in a course name that say who it is for |
+| `cscs_course_level_terms` | Words in a course name that say what level it is |
+| `cscs_course_rewrite_slug` | The URL slug of a course (`kurz`) |
+| `cscs_trainer_rewrite_slug` | The URL slug of a trainer (`trener`) |
+| `cscs_kind_rewrite_slug` | The URL slug of a kind of course (`druh`) |
+| `cscs_create_trainer_pages` | Whether a synchronisation makes a page for a trainer it meets |
 
 **Actions**
 
-| Action | Fires | Status |
-|---|---|---|
-| `cscs_booted` | Once the plugin has booted and its services exist | implemented |
-| `cscs_circuit_opened` | When repeated failures pause outbound requests | implemented |
-| `cscs_before_sync` / `cscs_after_sync` | Around each synchronisation job | planned |
-| `cscs_sync_failed` | On failure, with the error | planned |
-| `cscs_course_saved` | After a course record is written | implemented |
-| `cscs_setting_changed` | After one setting is written and validated | implemented |
+| Action | Fires |
+|---|---|
+| `cscs_booted` | Once the plugin has booted and its services exist |
+| `cscs_circuit_opened` | When repeated failures pause outbound requests |
+| `cscs_course_saved` | After a course record is written |
+| `cscs_trainer_saved` | After a trainer record is written |
+| `cscs_setting_changed` | After one setting is written and validated |
 
 ## WP-CLI
 
@@ -456,12 +488,14 @@ wp cscs api doctor                                    # configuration and connec
 wp cscs api reset                                     # close the circuit, drop cached responses
 wp cscs api courses [--date=<Ymd>] [--force] [--format=<format>]
 wp cscs api lessons [--from=<Ymd>] [--to=<Ymd>] [--tab=<id>] [--limit=<n>] [--force] [--format=<format>]
-```
 
-Still planned:
-
-```bash
-wp cscs cache flush
+wp cscs sync kinds [--dry-run]                        # re-file every course under the kind its name says
+wp cscs sets list [--format=<format>]                 # the display sets, as stored
+wp cscs sets get <id>
+wp cscs caps list                                     # who holds the plugin's two capabilities
+wp cscs caps install
+wp cscs trainers backfill [--dry-run] [--photographs]
+wp cscs divi status                                   # whether Divi is present and what it registered
 ```
 
 ## Measuring the plugin's memory cost

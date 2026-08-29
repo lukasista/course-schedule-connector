@@ -4,7 +4,7 @@ Tags: courses, schedule, timetable, booking, sports
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.0
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,15 +18,15 @@ Data is synchronised in the background on a schedule, stored locally, and served
 
 **Features**
 
-* Course listings as cards or as a fully responsive table
-* Class schedule as a day-by-day list or as a weekly calendar grid
-* Tables collapse on small screens so the column label sits next to its value
-* Named display sets: a site manager configures what is shown once, and reuses it everywhere
-* Content and design permissions are separated, so a site manager cannot change the design
-* Individual course pages with your own images, descriptions and structured data
-* Output through a shortcode, a block, or Divi modules — the plugin does not require a page builder
+* Courses and class schedules as responsive tables that fold on a telephone into one card per row, the column label beside its value
+* Named display sets: what a listing shows is decided once and reused everywhere — by filter, by hand-picked course, or both
+* Thirty-one blocks and thirty-one Divi 5 modules, one per field: Price, Day, Time, Age, Who it is for, Level, Places left, the sign-up button, the timetable, a trainer's photograph and qualifications, a kind of course's prices — each designable on its own
+* Courses are grouped into kinds read from their names, and each kind has a page of its own that can be narrowed to part of it, so one design serves them all
+* Individual course and trainer pages, with your own words and pictures and structured data
+* Content and design permissions are separated, and the separation is enforced when the page is saved rather than by hiding a panel
 * Live availability, capacity and waiting-list counts
-* Full translation support
+* Works with no page builder and with no JavaScript; the Divi modules are an optional extra
+* Fully translatable, and shipped with a Czech translation
 
 **How it works**
 
@@ -65,18 +65,41 @@ Courses are refreshed every ten minutes and the upcoming three weeks of classes 
 
 = What happens if the remote system is unavailable? =
 
-The last successfully retrieved data continues to be displayed. Repeated failures pause synchronisation temporarily and notify the site administrator by e-mail.
+The last successfully retrieved data continues to be displayed, and the pages carry on working. Repeated failures pause outbound requests for a while rather than retrying into a wall; the **iSport → Overview** screen says so, along with when each scheduled job runs next.
 
 = Can a site manager break the design? =
 
-No. Design controls are restricted to users with the `cscs_manage_design` capability, which is granted to administrators only, and the restriction is enforced server-side when settings are saved.
+No. Design settings belong to the `cscs_manage_design` capability, which administrators hold and the Course manager role does not — and a save by somebody without it puts back the design that was there, on the server. Hiding the panels would be a courtesy: a builder is a browser application, and anything a browser decides can be undone in a browser.
+
+= Does the plugin send anything to the remote system about my visitors? =
+
+No. Every page is rendered from data already in your own database, and a visitor's browser never contacts iSport. The scheduled requests your server makes carry no personal data, no cookies and no identifiers.
+
+= Can I show only part of a kind of course? =
+
+Yes. A kind's page carries its own answer to "which of these courses" — who they are for, at what level, an age range — so *Gymnastics* can appear as one page for the girls' hours and another for the boys' without refiling a single course. One theme-builder template then serves every page of the type, because the question is asked on the page and not in the design.
+
+== Screenshots ==
+
+1. A course listing on a page: day, time, age, who it is for, level, price, places left and the sign-up button.
+2. The same listing on a telephone. Below a width you choose, every row becomes a card with the column name beside its value — and nothing where a course has nothing to say.
+3. A class timetable, with the week and room controls above it. They are ordinary links, so they work with no JavaScript.
+4. A course's own page: the facts, the lecturer's contact, the sign-up button and the course's own upcoming classes.
+5. A kind of course's page: your words, what its courses cost as a two-column table, and the timetable of everything filed under it.
+6. Display sets. What a listing shows is decided once here — by filter, by hand-picked course, or both.
+7. The Overview screen: what is stored, the state of the connection, and when each scheduled job runs next.
+8. The block editor, with the plugin's own section in the inserter and a field block's Styles tab open.
 
 == Changelog ==
 
-= 0.1.0 =
-* Initial development release.
+= 1.0.0 =
+* First release.
+* Courses and class timetables from an iSport System installation, synchronised on a schedule and served from your own database.
+* Display sets; a shortcode; thirty-one blocks and thirty-one Divi 5 modules; course, trainer and kind-of-course pages.
+* Content and design permissions separated and enforced on the server.
+* Czech translation included.
 
 == Upgrade Notice ==
 
-= 0.1.0 =
-Initial development release.
+= 1.0.0 =
+First release.

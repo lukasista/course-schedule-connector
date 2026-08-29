@@ -16,6 +16,7 @@ declare( strict_types=1 );
 defined( 'ABSPATH' ) || exit;
 
 ?>
+<div class="cscs-table-scroll" role="region" tabindex="0" aria-label="<?php echo esc_attr( '' === trim( $cscs_listing->heading() ) ? $cscs_listing->spoken() : trim( $cscs_listing->heading() ) ); ?>">
 <table class="cscs-table">
 	<?php
 	// A table with no name is, to somebody listening to the page, "table, five
@@ -39,7 +40,15 @@ defined( 'ABSPATH' ) || exit;
 			<tr class="<?php echo esc_attr( $cscs_listing->row_class( $cscs_row ) ); ?>">
 				<?php foreach ( $cscs_listing->columns as $cscs_column => $cscs_label ) : ?>
 					<?php $cscs_cell = $cscs_listing->cell( $cscs_row, $cscs_column ); ?>
-					<td class="cscs-col-<?php echo esc_attr( $cscs_column ); ?>" data-label="<?php echo esc_attr( $cscs_label ); ?>">
+					<?php
+					// A cell with nothing in it is marked as such, because
+					// folded onto a telephone every cell grows a heading of its
+					// own and a heading over nothing reads as a broken page.
+					// `:empty` cannot do this: the markup below puts a newline
+					// inside the cell, and a newline is content.
+					$cscs_empty = '' === trim( (string) $cscs_cell['html'] );
+					?>
+					<td class="cscs-col-<?php echo esc_attr( $cscs_column ); ?><?php echo $cscs_empty ? ' cscs-col--empty' : ''; ?>" data-label="<?php echo esc_attr( $cscs_label ); ?>">
 						<?php echo wp_kses_post( $cscs_cell['html'] ); ?>
 					</td>
 				<?php endforeach; ?>
@@ -47,3 +56,4 @@ defined( 'ABSPATH' ) || exit;
 		<?php endforeach; ?>
 	</tbody>
 </table>
+</div>
