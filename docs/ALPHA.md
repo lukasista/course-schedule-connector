@@ -7,8 +7,9 @@ plugin je, jak je postavený, jak se s ním pracuje, co je hotové, co se ví, �
 `USER-GUIDE.md` (jak se to používá, česky), `HANDOVER.md` (deník po dnech)
 a `../CHANGELOG.md` (co přibylo a proč).
 
-Stav k 29. 8. 2026. Fáze F0–F11 hotové, F12 (akceptační brána) odložená.
-Následuje **testovací a vylepšovací fáze**.
+Stav k 8. 9. 2026. Fáze F0–F11 hotové, F12 (akceptační brána) odložená.
+Probíhá **testovací a vylepšovací fáze**; alfa 2 je její první kolo — devět
+hlášení z ostrého provozu, z toho tři se ukázala být jednou chybou.
 
 ---
 
@@ -71,7 +72,7 @@ Totéž dělá v CI `.github/workflows/release.yml` na tag `v*.*.*`; ten navíc 
 ### Testy
 
 ```bash
-php tools/phpunit-shim/run.php        # 249 testů, 1053 assertions
+php tools/phpunit-shim/run.php        # 251 testů, 1055 assertions
 ```
 Vlastní běhoun, ne PHPUnit — kontejner nemá síť na Packagist. Testy jsou
 v `tests/Unit/`, stuby WordPressu v `tests/bootstrap.php`, fixtury odpovědí API
@@ -150,8 +151,16 @@ Cli\        api, sync, settings, sets, caps, trainers, makeup, divi
 ### Data z iSportu
 
 Dva endpointy: `/api/courses.php` a `/api/activities.php`. Kurz se páruje
-s lekcí přes **název + časové razítko**. Na ostrých datech: 113 kurzů, 511 lekcí,
-**úspěšnost párování 98,7 %**, 3 nevyřešené. Sály se odvozují z lekcí.
+s lekcí přes **název + časové razítko**. Na ostrých datech (8. 9.): 113 kurzů,
+z toho 105 nabízených a 8 zrušených; 2 067 lekcí, **úspěšnost párování 93 %**,
+57 nespárovaných — a osm z devíti jejich názvů jsou kurzy, které iSport ve
+výpisu kurzů nemá vůbec, takže na naší straně není co spravit (viz A8). Sály se
+odvozují z lekcí.
+
+**Endpoint kurzů bere datum** a čte ho jako „nejdřívější začátek kurzu, který
+mám hlásit". Bez data odpoví, jako by tím datem byl tenhle okamžik — což na
+rozjetém pololetí byla necelá dvě třetiny nabídky. Bere se proto **Term starts**
+minus měsíc; podrobně v `DEVELOPER.md`, oddíl *Synchronisation*.
 
 ---
 
@@ -169,13 +178,14 @@ s lekcí přes **název + časové razítko**. Na ostrých datech: 113 kurzů, 5
 | F10 | Plugin Check: **0 chyb, 0 varování**; čistá instalace i Divi | ✅ |
 | F11 | Dokumentace, verze, buildy, snímky | ✅ |
 | F12 | Akceptační brána `RELEASE-CHECKLIST.md` | ⏸ odloženo |
-| T1 | Testovací kolo alfa 1 — datum kurzů, pauza, export/import, popisy | ✅ |
+| T1 | Testovací kolo alfa 1 → alfa 2 | ✅ |
 
 Čísla, která stojí za zapamatování: **251 testů**, **31 bloků**, **31 Divi
-modulů**, **575 přeložených řetězců**, **25 druhů kurzů**, výpis 113 kurzů za
-**7 dotazů / 51 ms**, frontend dělá **0 odchozích požadavků**.
+modulů**, **533 přeložených řetězců** (0 nepřeložených), **26 stránek druhů
+kurzů**, **22 trenérů**, výpis 113 kurzů za **7 dotazů / 51 ms**, frontend dělá
+**0 odchozích požadavků**.
 
-### Dvě chyby, které stojí za připomenutí, protože se budou opakovat
+### Chyby, které stojí za připomenutí, protože se budou opakovat
 
 - **Zámek designu hlídal jeden blok z jedenašedesáti** a navíc požíral obsah,
   protože filtr dostává data zaescapovaná a `parse_blocks()` na nich vrátí blok
@@ -196,8 +206,25 @@ modulů**, **575 přeložených řetězců**, **25 druhů kurzů**, výpis 113 k
   starts** minus měsíc rezervy (filtr `cscs_course_lookback_days`), protože
   pololetí nezačíná v jeden den — kurzy se otevírají celý první týden.
 
+- **Fotka trenéra se stahovala pořád dokola.** Pojistka tam byla a ptala se
+  špatně: porovnávala příchozí adresu s tou naposledy staženou, jenže iSport
+  vede pod jedním jménem víc záznamů trenéra (11 z 22 jmen má dva nebo tři,
+  každý s vlastní fotkou) a kurz jmenuje ten, na který byl založen. Při průchodu
+  stovkou kurzů se adresa přepínala sem a tam a každé přepnutí bylo stažení.
+  V knihovně médií bylo **2 116 obrázků dvaadvaceti lidí**, z toho 309 jednoho
+  z nich. Otázka teď zní „stahoval jsem tuhle adresu **někdy**", ne „naposledy".
+
 Poučení, které platí dál: **co se neověří na živých datech nebo na obrázku, to se
-neví.** Obě chyby v tabulce níž našel snímek obrazovky, ne čtení kódu.
+neví.** Dvě z chyb výše našel snímek obrazovky, ne čtení kódu; tři další se
+projevily až měřením na živých datech (73 ze 113 kurzů, 2 116 příloh, 370px
+select ve 250px sloupci) — v kódu vypadaly všechny tři jako správně napsaná
+pojistka.
+
+A poučení specifické pro tuhle integraci: **iSport nemá stabilní identifikátory
+tam, kde bychom je čekali.** Jedno jméno trenéra = několik záznamů. Jeden kurz
+v rozvrhu = žádný záznam ve výpisu kurzů. Cokoli, co se páruje podle jména nebo
+se spoléhá na „poslední viděnou hodnotu", je proto potenciálně tahle chyba
+znovu.
 
 ---
 
@@ -213,6 +240,7 @@ Nic z toho neblokuje provoz. Seřazeno podle toho, jak moc to bije do očí.
 | A4 | Přehled → Poslední běhy | Datum se píše `29.8. 15:23` napevno česky i na anglickém webu. `wp_date('j.n. H:i')` v `Admin\Screen\Overview.php:275`. | `screenshot-7.png` |
 | A5 | Seznam kurzů v administraci | Hromadné akce z F3b nikdy nevznikly. | — |
 | A8 | Párování lekcí | 57 lekcí zůstává nespárovaných. 8 z 9 názvů jsou kurzy, které iSport ve výpisu kurzů nemá vůbec, na žádné datum — na naší straně už není co opravit. Devátý (`Funkční kruhový trénink`) má lekci bez čísla kurzu a tři kandidáty, takže se nedá rozhodnout. | `wp cscs sync unmatched` |
+| A11 | Knihovna médií | Ustálený stav je 115 příloh, ale u 11 trenérů s více záznamy v iSportu leží jedna fotka navíc (stažená, nepoužitá). Bez následků, jen zbytečný soubor. | `wp cscs trainers tidy` |
 | A9 | Popisy druhů | Dva kurzy (`108-Gymnastika pro dospělé`, `83-Vzdušná akrobacie … s hlídáním dětí`) mají popis prázdný přímo v iSportu. Tlačítko to teď říká, ale napravit se to dá jen v iSportu. | — |
 | A6 | `.wordpress-org` | Snímky 1 a 3 jsou tentýž obrázek; chybí snímek výpisu kurzů na desktopu. | — |
 | A7 | Adresář | Bannery a ikony (`banner-*.png`, `icon-*.png`) neexistují. | — |
@@ -235,6 +263,18 @@ stránek a kurzů**. Tomu odpovídají místa, kterých se to dotkne:
   tabulka je v `DEVELOPER.md`.
 - **Vzhled tabulky:** `assets/css/cscs.css` (statické) a
   `Render\Renderer::responsive_css()` (skládání podle nastavené šířky).
+
+Co přibylo v alfě 2 a co se toho může dotknout dál:
+
+- **Stav `cscs_cancelled`** (`Data\PostType`) a přesměrování v `Render\Cancelled`.
+  Kdo bude psát nový dotaz na kurzy, ať nepoužívá `post_status => 'any'` —
+  ve WordPressu to znamená „každý stav nevyloučený z vyhledávání" a tenhle
+  vyloučený je. Na to je `CourseRepository::every_status()`.
+- **Pauza synchronizace** (`Sync\Scheduler::PAUSED`) — cokoli, co plánuje úlohy,
+  musí respektovat `is_paused()`.
+- **Export/import nastavení** (`Admin\SettingsTransfer`) — nové nastavení stačí
+  přidat do `Settings::defaults()`, přenos i validace se o něj postarají samy.
+- **Fotky trenérů** (`TrainerType::META_PHOTO_SEEN`, `META_ATTACHMENT_SOURCE`).
 
 Až se bude chtít vydávat: **F12** je průchod `docs/RELEASE-CHECKLIST.md` na
 čisté instalaci, u každé položky důkaz, a dva podpisy. Teprve pak případné

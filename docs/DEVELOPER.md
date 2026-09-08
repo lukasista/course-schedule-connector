@@ -20,11 +20,14 @@
 | Guards | `CSCS\Api\RateLimiter`, `CSCS\Api\CircuitBreaker` | |
 | Mapping | `CSCS\Api\Mapper`, `CSCS\Api\Dto\*` | Typed records. |
 | Cache | `CSCS\Cache\Store` | Transients with stale-while-revalidate. |
-| CLI | `CSCS\Cli\ApiCommand`, `SyncCommand`, `SettingsCommand` | `wp cscs api`, `wp cscs sync`, `wp cscs settings`. |
+| CLI | `CSCS\Cli\ApiCommand`, `SyncCommand`, `SettingsCommand`, `TrainerCommand`, `MakeupCommand`, `SetsCommand`, `CapsCommand`, `DiviCommand` | `wp cscs api`, `sync`, `settings`, `trainers`, `makeup`, `sets`, `caps`, `divi`. |
 | Roles | `CSCS\Admin\Capabilities` | Role `cscs_manager`; capabilities checked on save, not by hiding fields. |
 | Admin menu | `CSCS\Admin\Menu` | One menu holding everything the plugin owns. |
 | Overview | `CSCS\Admin\Screen\Overview` | What is stored, connection state, recent runs, manual actions. |
 | Settings | `CSCS\Admin\Screen\SettingsPage` | Writes through the validating setter. |
+| Settings transfer | `CSCS\Admin\SettingsTransfer` | Export to a JSON file and import back, through that same setter. |
+| Kind list | `CSCS\Admin\KindList` | The description and course-count columns, switchable under Screen Options. |
+| Withdrawn courses | `CSCS\Render\Cancelled` | Redirects the address of a course iSport no longer offers. |
 | Schema | `CSCS\Data\Schema` | Versioned tables through `dbDelta()`, upgraded on the next request after a version bump. `id_course = 0` means no course: `$wpdb->prepare()` cannot bind a real NULL to `%d`. |
 | Post type | `CSCS\Data\PostType` | `cscs_course` plus four taxonomies. |
 | Course storage | `CSCS\Data\CourseRepository` | Never deletes, never overwrites a locked field. |
@@ -135,7 +138,7 @@ Public, with an archive and single template. Enrichment fields live alongside th
 | `_cscs_rating` | string | API |
 | `_cscs_terms` | JSON | API `terms[]` |
 | `_cscs_api_description` | string | API `course_description` |
-| `_cscs_status` | enum | `running` / `finished` / `archived` |
+| `_cscs_status` | enum | `running` / `finished` / `archived`. `archived` also puts the post itself into the `cscs_cancelled` post status |
 | `_cscs_show_isport_button` | enum | `inherit` / `always` / `never` |
 | `_cscs_gender` | enum | `girls` / `boys` / `mixed` / `women` / `men`, read from the course's name or set by hand |
 | `_cscs_age_from`, `_cscs_age_to` | decimal string | The ages the course is for, likewise. No `_to` means no upper age |
@@ -144,6 +147,8 @@ Public, with an archive and single template. Enrichment fields live alongside th
 | `_cscs_synced_at` | int | Timestamp |
 
 Taxonomies: `cscs_room` (**multi-value**, derived from the course's lessons), `cscs_trainer`, `cscs_activity`, `cscs_tag`.
+
+Post statuses: the usual ones, plus `cscs_cancelled` (`PostType::CANCELLED`) for a course iSport has stopped offering. It is not public and is excluded from search, which is what takes the page off the site — and which is also why `CourseRepository::find()`, `all_ids()` and `names()` name every status they mean rather than asking for `'any'`: WordPress reads `'any'` as "any status not excluded from search", so a withdrawn course would be invisible to them and the next synchronisation would make a second copy of it. `CourseRepository::every_status()` is that list. `Render\Cancelled` turns the resulting 404 into a permanent redirect to the page of the kind the course belonged to, or leaves the 404 where the kind has no page.
 
 ### Table `{$wpdb->prefix}cscs_lessons`
 
@@ -169,7 +174,9 @@ A single request returns capacity alongside everything else, so there is no sepa
 
 Protections: a transient mutex, a response hash that skips writes when nothing changed, a circuit breaker after three consecutive failures, a hard hourly request cap, and adaptive backoff when the relevant pages have had no traffic.
 
-Records that disappear from the API are **soft-deleted** — marked, never removed — so that manual enrichment survives.
+Records that disappear from the API are **soft-deleted** — marked, never removed — so that manual enrichment survives. The page also comes off the site: see `cscs_cancelled` under the data model.
+
+The course listing takes a date, and the remote system reads it as the earliest course start it should report. Asked without one it answers as though that date were this very moment, which on a term already under way is a fraction of the courses — 73 of 113 on the fourth day of this gym's autumn term. `Client::get_courses()` therefore defaults to the configured **Term starts**, less `cscs_course_lookback_days` (31), because a term does not begin on one single day: these courses open across the whole first week and the office calls the last day of it the start. Everything downstream depends on that list being complete — `archive_missing()` withdraws what is not in it, `Matcher` has nothing to tie an occurrence to without it, and a kind of course takes its description from it.
 
 ## Course ↔ lesson matching
 
@@ -290,7 +297,9 @@ The editor script is plain browser JavaScript against the packages WordPress loa
 
 Pairing is by `TrainerRepository::key()`, which is `Normalise::match_key()` — the same normalised name the class matcher uses, since it is the only identifier both sides have. The key is written onto the course in `CourseRepository::save()` **after** the meta loop, so a site that has locked the trainer name keeps the key of the name it actually shows; a key disagreeing with the name beside it would point the course at somebody else's page. `cscs_create_trainer_pages` switches off page creation while keeping the pairing.
 
-The photograph is fetched with `download_url()` and `media_handle_sideload()` at synchronisation time and remembered by source URL, so it is fetched once. A featured image always wins over it. `wp cscs trainers backfill [--dry-run] [--photographs]` builds the pages from courses already stored.
+The photograph is fetched with `download_url()` and `media_handle_sideload()` at synchronisation time and a featured image always wins over it. `wp cscs trainers backfill [--dry-run] [--photographs]` builds the pages from courses already stored.
+
+"Fetched once" was the intention, and comparing the incoming address with the last one fetched is not how you get it. **iSport keeps more than one trainer record under the same name** — eleven of this gym's twenty-two names have two or three, each with a photograph of its own — and a course names whichever record it was booked against. Walking a hundred courses therefore flipped the address back and forth, and every flip was a download and a new attachment: 2 116 pictures of twenty-two people, 309 of one of them. The question asked now is whether the address is one that has **ever** been fetched, which the flipping cannot defeat, and a photograph genuinely new to iSport still arrives because nobody has seen its address. `TrainerType::META_PHOTO_SEEN` holds those addresses, one meta row each; `META_ATTACHMENT_SOURCE` is written on the attachment so an existing one is reused rather than made again; and a static guard in `TrainerRepository` fetches each trainer at most once per run. `wp cscs trainers tidy [--dry-run]` clears out what the old behaviour left behind, keeping the picture a page shows and anything used as a featured image, and recording the addresses of the copies it removes so the next run does not fetch them straight back.
 
 ## Fields, blocks and field modules
 
@@ -404,13 +413,14 @@ Every route declares an explicit `permission_callback`.
 
 | Screen | Slug | Capability | What it is for |
 | --- | --- | --- | --- |
-| Overview | `cscs` | `cscs_manage_content` | What is stored, how the last runs went, requests this hour. Synchronising and clearing failure state need `cscs_manage_design`. |
+| Overview | `cscs` | `cscs_manage_content` | What is stored, how the last runs went, requests this hour. Synchronising, pausing the scheduled jobs, filling in missing kind descriptions and clearing failure state all need `cscs_manage_design`. |
 | Courses | `edit.php?post_type=cscs_course` | post capabilities | Editorial content, contact, booking button, field locks; bulk button changes. |
 | Display sets | `cscs-sets` | `cscs_manage_content` | What a listing shows: columns, filters, range, sorting, wording. |
 | Rooms | `cscs-rooms` | `cscs_manage_content` | The name, order, colour and visibility a room has on the site. |
 | Unmatched lessons | `cscs-unmatched` | `cscs_manage_content` | Permanent manual assignments, and a look at what was classified as belonging to nobody. |
 | Make-up lessons | `cscs-makeup` | `cscs_manage_content` | Which course each make-up occurrence stands in for. |
-| Settings | `cscs-settings` | `cscs_manage_design` | Connection, term, intervals, retention, display defaults, classification lists. |
+| Kinds of course | `edit.php?post_type=cscs_kind_page` | post capabilities | The pages behind the cards. Description and course count are columns, so Screen Options switches them per person. |
+| Settings | `cscs-settings` | `cscs_manage_design` | Connection, term, intervals, retention, display defaults, classification lists, and export or import of all of them. |
 
 Both make-up and unmatched carry a count in the menu label. Each is one indexed query on every admin page load, and both return zero before the schema exists, which is the state right after activation.
 
@@ -649,6 +659,21 @@ adds the panel that fetches one course's description on demand — a link with a
 nonce through `admin-post.php`, not a form, because a form inside the block
 editor's own form is invalid markup.
 
+That panel redirected with the outcome in the query string and nothing rendered
+it, so a kind whose courses carry no description in iSport looked exactly like a
+button that does nothing — which is how it was reported. `KindEditor::notice()`
+now says which of the two happened. Its select cuts each course title to
+twenty-six characters (`OPTION_LENGTH`, full title in a `title` attribute)
+because a select is as wide as its longest option and `width: 100%` does not
+change that: in a column that sizes itself to its contents, which is what a meta
+box beside the editor is, the percentage resolves against a width the select has
+just pushed out — 370 pixels of control in a 250 pixel column.
+
+`fill_descriptions( bool $overwrite = false )` does the same for every kind page
+at once, for the button on the overview screen and `wp cscs sync descriptions`.
+It leaves a page with anything written on it alone, and reports the three
+outcomes separately: written, kept, and nothing in iSport to take.
+
 `KindDetail::price_listing()` pairs each course's price with the length of its
 first class (`Formatter::minutes_between()`), keys the pair on both numbers and
 keeps the first course of each — so twenty-two courses of *Gymnastika* answer
@@ -750,6 +775,14 @@ moving. An unknown recurrence now falls back to `hourly`, `reschedule()` puts a
 job back after its interval setting changes (`Plugin::on_setting_changed()`), and
 the overview screen lists all four with `wp_next_scheduled()`.
 
+`Scheduler::pause()` clears the four events and sets `cscs_sync_paused`;
+`resume()` deletes the option and schedules them again. The events are cleared
+rather than left in place and skipped, because a paused plugin still holding
+four cron entries reads as a running one to anyone looking at the schedule.
+`schedule()` returns immediately while paused, so the `init` self-healing above
+does not undo it, and `ready()` refuses any job that fires anyway. Synchronising
+by hand is deliberately unaffected.
+
 ## A kind's own page
 
 `CSCS\Data\KindType` registers `cscs_kind_page` — not `cscs_kind`, which is the
@@ -840,4 +873,4 @@ Adding a column means adding it to `DisplaySet::catalogue()`, to `Fields::column
 
 ## Options
 
-All options are prefixed `cscs_`. Settings are stored as a single serialised array under `cscs_settings`; display sets under `cscs_display_sets`; schema version under `cscs_schema_version`.
+All options are prefixed `cscs_`. Settings are stored as a single serialised array under `cscs_settings`; display sets under `cscs_display_sets`; schema version under `cscs_schema_version`; whether the scheduled jobs are paused under `cscs_sync_paused` (`Scheduler::PAUSED`, absent when they are not).

@@ -33,6 +33,8 @@ Every row of [`SECURITY-CHECKLIST.md`](SECURITY-CHECKLIST.md) verified by readin
 - [ ] Design attributes submitted without `cscs_manage_design` are discarded server-side — verified by an authenticated request that attempts it
 - [ ] `defined( 'ABSPATH' ) || exit;` present in every PHP file
 - [ ] No `eval`, no dynamic `include`, no remote code, no file writes outside the uploads API
+- [ ] The settings import refuses a file that is too large, not JSON, or not the plugin's own format, and stores nothing that `Settings::set()` would refuse
+- [ ] A trainer photograph is fetched only from the configured iSport host
 - [ ] `uninstall.php` removes everything it created — verified on a scratch install
 - [ ] Composer `require` contains nothing but PHP; the built ZIP contains no `vendor/bin`, no tests, no dev tooling
 

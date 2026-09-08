@@ -2,6 +2,17 @@
 
 Every control below is a merge requirement, verified in code review and, where marked, enforced automatically in CI.
 
+## Audit of 8 September 2026 (alpha 2)
+
+Reading this checklist against the code after alpha 2 turned up one control
+stating something that was no longer true and one that had quietly stopped being
+true.
+
+| # | Control | What was wrong | Fixed by |
+|---|---|---|---|
+| 1 | Single host | A trainer's photograph is fetched from the address inside the API response, and nothing checked that address. Everywhere else the plugin talks only to the configured host; here a field in somebody else's JSON decided what this server would ask for, and the answer went into the media library. | `TrainerRepository::is_from_isport()` — same scheme, host and port as the configured base, checked before anything is downloaded. |
+| 2 | "No file uploads" | Written when it was true and left standing when the settings import arrived. A checklist that says something untrue is worse than one that says nothing. | Replaced with what the import actually does, and what bounds it. |
+
 ## Audit of 29 August 2026 (phase F8)
 
 Every control below was walked line by line against the code as it then stood.
@@ -70,7 +81,9 @@ URLs from iSport are normalised on ingest, not at the point of output.
 | Direct-access guard | `defined( 'ABSPATH' ) \|\| exit;` at the top of every PHP file | PHPCS |
 | No `eval`, no dynamic includes | No `eval()`, no `create_function()`, no variable `include` paths | PHPCS |
 | No remote code | Nothing downloaded is ever executed or written as PHP | Review |
-| No file uploads | The plugin accepts no upload; images are referenced by URL from the media library or the remote system | Review |
+| One upload, one shape | The settings import is the only thing the plugin accepts from a person's disk. Administrators only, nonce-checked, refused above 256 KB, and read as JSON — never written to the filesystem, never included, never executed. A file that does not carry the plugin's own format marker is refused before anything in it is read | Review |
+| Imported settings are not restored, they are set | Every value in an imported file goes through `Settings::set()`, the same validating setter the form and the command line use. A value the plugin would refuse to store is counted and reported rather than written, so a file from a stranger can do nothing that could not be typed into the form | Review |
+| Fetched images | A trainer's photograph is the one file the server fetches from elsewhere. The address must be on the configured iSport host — same scheme, host and port — before anything is downloaded, and WordPress's own sideload decides the type | Review |
 
 ## Outbound requests
 
@@ -79,7 +92,7 @@ URLs from iSport are normalised on ingest, not at the point of output.
 | Certificate verification on | `sslverify` stays at its default `true`. The example in the iSport API documentation disables host verification — that is deliberately **not** followed | Review |
 | Timeouts and retries | Ten-second timeout, at most two retries with backoff, then a circuit breaker after three consecutive failures | Review |
 | Request cap | A hard configurable ceiling on requests per hour that scheduled jobs cannot exceed | Review |
-| Single host | Requests go only to the configured host. Redirects to a different host are refused | Review |
+| Single host | Requests go only to the configured host. Redirects to a different host are refused, and the one address the plugin takes from a response rather than from settings — a trainer's photograph — is checked against that host before it is fetched | Review |
 | Never from a visitor | Front-end rendering reads local data only. A visitor request can never trigger an outbound call | Review |
 
 ## Errors and logging

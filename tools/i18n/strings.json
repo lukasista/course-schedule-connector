@@ -315,7 +315,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/TrainerType.php:95"
+            "includes/Data/TrainerType.php:111"
         ]
     },
     {
@@ -1314,7 +1314,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/TrainerType.php:96"
+            "includes/Data/TrainerType.php:112"
         ]
     },
     {
@@ -2060,7 +2060,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/TrainerType.php:97"
+            "includes/Data/TrainerType.php:113"
         ]
     },
     {
@@ -2212,7 +2212,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/TrainerType.php:100"
+            "includes/Data/TrainerType.php:116"
         ]
     },
     {
@@ -2220,7 +2220,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/TrainerType.php:101"
+            "includes/Data/TrainerType.php:117"
         ]
     },
     {
@@ -2946,7 +2946,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/TrainerType.php:99"
+            "includes/Data/TrainerType.php:115"
         ]
     },
     {
@@ -3691,7 +3691,7 @@
             "includes/Admin/Screen/MakeupPage.php:132",
             "includes/Admin/Screen/UnmatchedPage.php:167",
             "includes/Data/PostType.php:218",
-            "includes/Data/TrainerType.php:93",
+            "includes/Data/TrainerType.php:109",
             "includes/Render/CourseDetail.php:109",
             "includes/Render/CourseDetail.php:194",
             "includes/Render/Fields.php:165",
@@ -3725,8 +3725,8 @@
             "includes/Admin/Menu.php:139",
             "includes/Admin/Screen/DisplaySetsPage.php:243",
             "includes/Data/PostType.php:217",
-            "includes/Data/TrainerType.php:92",
-            "includes/Data/TrainerType.php:94"
+            "includes/Data/TrainerType.php:108",
+            "includes/Data/TrainerType.php:110"
         ]
     },
     {
@@ -3827,7 +3827,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/TrainerType.php:98"
+            "includes/Data/TrainerType.php:114"
         ]
     },
     {

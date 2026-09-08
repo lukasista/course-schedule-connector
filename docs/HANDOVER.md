@@ -5,7 +5,7 @@
 > potřeba vědět *proč* něco vypadá, jak vypadá. Do vydaného pluginu se
 > nedistribuuje.
 
-## Stav k 28. 8. 2026
+## Stav k 8. 9. 2026
 
 Tenhle soubor je most mezi pracovními dny. Je psaný tak, aby se do něj dalo
 vstoupit bez znalosti předchozího rozhovoru: co je hotové, jak se to spouští,
@@ -15,9 +15,9 @@ co je otevřené. Až se projekt uzavře, zmizí — do vydaného pluginu se ned
 
 ## 1. Kde projekt stojí
 
-Fáze **F0 – F7 jsou hotové**. Zbývá F8 (bezpečnostní audit), F9 (výkon, i18n,
-přístupnost), F10 (testy + Plugin Check), F11 (dokumentace) a F12 (akceptační
-brána). Podrobné zadání každé fáze je v `PLAN.md`, kapitola 9.
+Fáze **F0 – F11 jsou hotové**, F12 (akceptační brána) je odložená. Podrobné
+zadání každé fáze je v `PLAN.md`, kapitola 9. Běží **testovací a vylepšovací
+fáze**: verze `1.0.0-alpha.2` je její první kolo.
 
 **Lukášova prohlídka pluginu běží dál a má přednost před F8.** Všechno, co z ní
 zatím vzešlo, je hotové a ověřené proti živým datům. Poslední kolo přineslo:
@@ -55,6 +55,40 @@ repozitáře.
 ---
 
 ## 2. Co přibylo naposledy
+
+### Alfa 2 (8. 9.) — devět hlášení z provozu, tři z nich jedna chyba
+
+První kolo testování ostré alfy. Devět bodů od Lukáše; nejzajímavější je, že
+tři z nich — nespárované lekce, mizející kurzy a nefungující načítání popisů —
+měly **jednu příčinu**: `Client::get_courses()` se ptal iSportu bez data
+a dostal jen kurzy, jejichž nejbližší lekce je teprve před námi (73 ze 113).
+Ten neúplný seznam brala archivace, párování i popisy. Výchozí datum se teď
+bere z nastavení **Term starts** minus měsíc.
+
+Podobně dopadly fotky trenérů: pojistka proti opakovanému stahování tam byla
+a ptala se špatně (poslední adresa místo „někdy viděná"), protože iSport vede
+pod jedním jménem víc záznamů trenéra. V knihovně médií bylo 2 116 obrázků
+dvaadvaceti lidí. Po opravě a `wp cscs trainers tidy` jich je 115.
+
+Dál v tomhle kole: stav **Zrušený kurz** s přesměrováním na druh kurzu,
+pozastavení synchronizace, hromadné načtení popisů, export/import nastavení,
+sloupce Popis a Kurzy v seznamu druhů, hláška u tlačítka Načíst popis
+a zúžení rozbalovacího seznamu v postranním meta boxu. Podrobně
+v `../CHANGELOG.md` pod `1.0.0-alpha.2`.
+
+Tři věci, které se v tomhle kole ukázaly a platí dál:
+
+1. **`post_status => 'any'` neznamená any.** WordPress to čte jako „každý stav
+   nevyloučený z vyhledávání". Nový stav `cscs_cancelled` vyloučený je, takže
+   `find()`, `all_ids()` i `names()` by zrušený kurz přehlédly a synchronizace
+   by z něj udělala druhou kopii. Na to je `CourseRepository::every_status()`.
+2. **`width: 100%` neudrží select v úzkém sloupci.** Select je široký jako jeho
+   nejdelší položka; ve sloupci, který se přizpůsobuje obsahu, se procento
+   počítá ze šířky, kterou select sám roztáhl. Řeší se zkrácením textu položek.
+3. **iSport nemá stabilní identifikátory tam, kde je čekáme.** Jedno jméno
+   trenéra = několik záznamů s různými fotkami. Osm kurzů má lekce v rozvrhu,
+   ale ve výpisu kurzů nejsou vůbec. Cokoli, co se páruje podle jména nebo se
+   spoléhá na „poslední viděnou hodnotu", je proto potenciálně tahle chyba znovu.
 
 Odshora nejnovější. Každá kapitola je psaná tak, aby stačila sama o sobě:
 proč to tak je, kde to v kódu leží a co se tím na živých datech ověřilo.
@@ -508,8 +542,8 @@ ne modulu.
   113-Deskové hry. Obojí je tam kvůli ověření a dá se smazat.
 - **Přepínač týdnů se u sady `lekce` nezobrazuje**, protože má rozsah
   *pololetí*, ne *týden*. Je to záměr — přepínal by něco, co výpis nezohledňuje.
-- **Nepushnuté commity.** Lukáš pushnul do commitu `8707e35` včetně; od té doby
-  přibyly `41249c4`, `bcbb77f` a dva dokumentační. Push dělá Lukáš ručně.
+- **Push.** Lukáš pushnul alfu 2 včetně (`ce50461`). Push dělá vždycky ručně
+  sám — commituje se lokálně, na push se čeká.
 - **Přepisovací pravidla pro `/druh/…`.** `Plugin::REWRITE_VERSION` je 5
   a uložená hodnota byla vynulována, takže se pravidla přestaví při prvním
   načtení administrace. Kdyby přesto adresa druhu vrátila 404, stačí uložit
@@ -517,6 +551,14 @@ ne modulu.
 - **Ukázková sada `gymnastika-divky`** je na webu založená (druh *Gymnastika*
   + pohlaví *dívky*, 18 kurzů) a odpovídá tabulce ze starého webu řádek po
   řádku. Je to ukázka, ne produkční nastavení — klidně smazat nebo přenastavit.
+- **Osm kurzů má lekce, ale ve výpisu kurzů iSportu nejsou** (03-Rodiče a děti,
+  05-Rodiče a děti, 25/27-Gymnastika 4-6, 33-Gymnastika 7-9, 113-Deskové hry,
+  722-Free running, 841-Bouldrování). Jejich lekce proto zůstávají nespárované
+  (57 z ~2 000) a druh *Deskové hry* nemá z čeho vzít popis. Na naší straně
+  není co opravit — jde o data v iSportu.
+- **Dva kurzy mají popis prázdný přímo v iSportu** (`108-Gymnastika pro
+  dospělé`, `83-Vzdušná akrobacie … s hlídáním dětí`), takže jejich druhy
+  zůstanou bez popisu, dokud se nedoplní tam.
 - **Taxonomie `cscs_activity` zůstává prázdná.** iSport posílá jako
   `activity_name` celý název kurzu, takže by to byl jeden term na kurz.
   Filtr *Aktivity* v zobrazovacích sadách proto zatím nemá co nabídnout;

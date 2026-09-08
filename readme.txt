@@ -101,7 +101,9 @@ Yes. A kind's page carries its own answer to "which of these courses" — who th
 * The button that fetches a kind's description says what happened. A course with no description in iSport now says so, rather than looking like a button that does nothing.
 * Settings can be exported to a file and imported back. Every value goes through the same validation the form uses, so a file cannot store anything that could not be typed in.
 * The list of kinds of course has a **Description** column and a **Courses** count, both switchable under Screen Options.
-* `wp cscs sync descriptions` and `wp cscs sync pause on|off`.
+* The course dropdown in a kind's editor no longer hangs over the edge of the screen.
+* A trainer's photograph is fetched only from the configured iSport address, rather than from whatever address the response happens to carry.
+* `wp cscs sync descriptions`, `wp cscs sync pause on|off` and `wp cscs trainers tidy`.
 
 = 1.0.0-alpha.1 =
 * First alpha. Feature-complete and in testing on the site it was built for; not yet submitted to the directory.

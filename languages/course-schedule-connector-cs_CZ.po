@@ -190,7 +190,7 @@ msgstr "Přidat druh kurzu"
 msgid "Add a line"
 msgstr "Přidat řádek"
 
-#: includes/Data/TrainerType.php:95
+#: includes/Data/TrainerType.php:111
 msgid "Add trainer"
 msgstr "Přidat trenéra"
 
@@ -726,7 +726,7 @@ msgstr "Úprava sady"
 msgid "Edit the new course"
 msgstr "Upravit nový kurz"
 
-#: includes/Data/TrainerType.php:96
+#: includes/Data/TrainerType.php:112
 msgid "Edit trainer"
 msgstr "Upravit trenéra"
 
@@ -1122,7 +1122,7 @@ msgstr "Nový druh kurzu"
 msgid "New set"
 msgstr "Nová sada"
 
-#: includes/Data/TrainerType.php:97
+#: includes/Data/TrainerType.php:113
 msgid "New trainer"
 msgstr "Nový trenér"
 
@@ -1198,11 +1198,11 @@ msgstr "Zatím žádné sály, protože není uložený žádný rozvrh. Nejdř�
 msgid "No sets yet. The form below makes the first one."
 msgstr "Zatím žádné sady. Formulář níže vytvoří první."
 
-#: includes/Data/TrainerType.php:100
+#: includes/Data/TrainerType.php:116
 msgid "No trainers found."
 msgstr "Žádní trenéři nenalezeni."
 
-#: includes/Data/TrainerType.php:101
+#: includes/Data/TrainerType.php:117
 msgid "No trainers in the bin."
 msgstr "V koši nejsou žádní trenéři."
 
@@ -1588,7 +1588,7 @@ msgstr "Hledat kurzy"
 msgid "Search kinds of course"
 msgstr "Hledat druhy kurzů"
 
-#: includes/Data/TrainerType.php:99
+#: includes/Data/TrainerType.php:115
 msgid "Search trainers"
 msgstr "Hledat trenéry"
 
@@ -1969,7 +1969,7 @@ msgstr "Do:"
 #: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Admin/Screen/UnmatchedPage.php:167
 #: includes/Data/PostType.php:218
-#: includes/Data/TrainerType.php:93
+#: includes/Data/TrainerType.php:109
 #: includes/Render/CourseDetail.php:109
 #: includes/Render/CourseDetail.php:194
 #: includes/Render/Fields.php:165
@@ -1991,8 +1991,8 @@ msgstr "Jméno trenéra"
 #: includes/Admin/Menu.php:139
 #: includes/Admin/Screen/DisplaySetsPage.php:243
 #: includes/Data/PostType.php:217
-#: includes/Data/TrainerType.php:92
-#: includes/Data/TrainerType.php:94
+#: includes/Data/TrainerType.php:108
+#: includes/Data/TrainerType.php:110
 msgid "Trainers"
 msgstr "Trenéři"
 
@@ -2045,7 +2045,7 @@ msgstr "Text hodnoty"
 msgid "View kind of course"
 msgstr "Zobrazit druh kurzu"
 
-#: includes/Data/TrainerType.php:98
+#: includes/Data/TrainerType.php:114
 msgid "View trainer"
 msgstr "Zobrazit trenéra"
 

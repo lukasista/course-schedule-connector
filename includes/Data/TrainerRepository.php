@@ -11,6 +11,7 @@ namespace CSCS\Data;
 
 defined( 'ABSPATH' ) || exit;
 
+use CSCS\Settings;
 use CSCS\Support\Normalise;
 
 /**
@@ -277,7 +278,7 @@ final class TrainerRepository {
 	private function fetch_photograph( int $post_id, string $url ): void {
 		$url = (string) Normalise::to_url( $url );
 
-		if ( '' === $url ) {
+		if ( '' === $url || ! $this->is_from_isport( $url ) ) {
 			return;
 		}
 
@@ -346,6 +347,39 @@ final class TrainerRepository {
 		update_post_meta( (int) $attachment, TrainerType::META_ATTACHMENT_SOURCE, $url );
 
 		$this->remember( $post_id, (int) $attachment, $url );
+	}
+
+	/**
+	 * Says whether an address belongs to the configured iSport installation.
+	 *
+	 * The address arrives inside a third-party response, and this is the one
+	 * place in the plugin where such an address makes the server fetch
+	 * something. Without this the rest of the promise — requests go only to the
+	 * configured host, a visitor can never cause an outbound call — held
+	 * everywhere except here: a field in somebody else's JSON would have
+	 * decided what this server asks for, and put the answer in the media
+	 * library.
+	 *
+	 * @param string $url Photograph address.
+	 * @return bool
+	 */
+	private function is_from_isport( string $url ): bool {
+		$base = ( new Settings() )->api_base_url();
+
+		if ( '' === $base ) {
+			return false;
+		}
+
+		$wanted = wp_parse_url( $base );
+		$given  = wp_parse_url( $url );
+
+		if ( ! is_array( $wanted ) || ! is_array( $given ) ) {
+			return false;
+		}
+
+		return strtolower( (string) ( $wanted['scheme'] ?? '' ) ) === strtolower( (string) ( $given['scheme'] ?? '' ) )
+			&& strtolower( (string) ( $wanted['host'] ?? '' ) ) === strtolower( (string) ( $given['host'] ?? '' ) )
+			&& (int) ( $wanted['port'] ?? 0 ) === (int) ( $given['port'] ?? 0 );
 	}
 
 	/**
