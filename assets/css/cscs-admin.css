@@ -36,3 +36,33 @@
 	color: #b32d2e;
 	text-decoration: none;
 }
+
+/*
+ * A control that is meant to fill the box it sits in.
+ *
+ * `width: 100%` is half the answer and, on its own, a misleading one. A select
+ * is as wide as its longest option, and in a column that sizes itself to its
+ * contents — which is what a meta box beside the editor is — the percentage
+ * resolves against a width the select has just pushed out. Measured on this
+ * gym's courses: 370 pixels of control in a 250 pixel column, hanging over the
+ * edge of the screen. The option text is cut short in PHP so there is nothing
+ * left to push with; these rules hold the control to the column in the
+ * ordinary case, where the column's width is settled before the control is
+ * laid out.
+ */
+.cscs-full-width {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	text-overflow: ellipsis;
+}
+
+/*
+ * And a last line of defence: whatever else is dropped into this box, it stays
+ * inside it rather than over the panel beside it.
+ */
+#cscs-kind-description .inside {
+	overflow-x: hidden;
+}

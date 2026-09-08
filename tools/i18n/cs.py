@@ -515,6 +515,7 @@ CS = {
 "— choose a set —": "— vyberte sadu —",
 "— hidden everywhere": "— všude skrytý",
 "— not assigned —": "— nepřiřazeno —",
+"— shared by most courses —": "— nejčastější popis —",
 "— the one most courses share —": "— ten, který sdílí nejvíc kurzů —",
 "— the one this page is named after (%s) —": "— ten, po kterém se stránka jmenuje (%s) —",
 "— the one this page is named after —": "— ten, po kterém se stránka jmenuje —",

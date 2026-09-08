@@ -108,7 +108,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:175"
+            "includes/Admin/KindEditor.php:180"
         ]
     },
     {
@@ -148,7 +148,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:309"
+            "includes/Admin/KindEditor.php:314"
         ]
     },
     {
@@ -364,7 +364,7 @@
         "context": null,
         "refs": [
             "includes/Admin/CourseEditor.php:198",
-            "includes/Admin/KindEditor.php:324",
+            "includes/Admin/KindEditor.php:329",
             "includes/Admin/Screen/DisplaySetsPage.php:439",
             "includes/Render/CourseDetail.php:105",
             "includes/Render/Fields.php:129",
@@ -475,7 +475,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:365",
+            "includes/Admin/KindEditor.php:370",
             "includes/Divi/FieldModules.php:342"
         ]
     },
@@ -484,7 +484,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:342",
+            "includes/Admin/KindEditor.php:347",
             "includes/Admin/Screen/DisplaySetsPage.php:320",
             "includes/Divi/FieldModules.php:353"
         ]
@@ -542,7 +542,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:348",
+            "includes/Admin/KindEditor.php:353",
             "includes/Divi/FieldModules.php:358"
         ]
     },
@@ -559,7 +559,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:313",
+            "includes/Admin/KindEditor.php:318",
             "includes/Divi/FieldModules.php:326"
         ]
     },
@@ -906,7 +906,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:143"
+            "includes/Admin/KindEditor.php:148"
         ]
     },
     {
@@ -1029,7 +1029,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:520"
+            "includes/Admin/KindEditor.php:532"
         ]
     },
     {
@@ -1189,7 +1189,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:343",
+            "includes/Admin/KindEditor.php:348",
             "includes/Admin/Screen/DisplaySetsPage.php:321",
             "includes/Divi/FieldModules.php:354"
         ]
@@ -1207,7 +1207,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:230"
+            "includes/Admin/KindEditor.php:235"
         ]
     },
     {
@@ -1346,7 +1346,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:316",
+            "includes/Admin/KindEditor.php:321",
             "includes/Divi/FieldModules.php:328"
         ]
     },
@@ -1363,7 +1363,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:304",
+            "includes/Admin/KindEditor.php:309",
             "includes/Divi/FieldModules.php:323"
         ]
     },
@@ -1372,7 +1372,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:270"
+            "includes/Admin/KindEditor.php:275"
         ]
     },
     {
@@ -1404,7 +1404,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:530"
+            "includes/Admin/KindEditor.php:543"
         ]
     },
     {
@@ -1648,7 +1648,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:351",
+            "includes/Admin/KindEditor.php:356",
             "includes/Divi/FieldModules.php:359"
         ]
     },
@@ -1765,7 +1765,7 @@
         "context": null,
         "refs": [
             "includes/Admin/CourseEditor.php:474",
-            "includes/Admin/KindEditor.php:275",
+            "includes/Admin/KindEditor.php:280",
             "includes/Data/KindType.php:70",
             "includes/Data/PostType.php:226"
         ]
@@ -1828,7 +1828,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:330"
+            "includes/Admin/KindEditor.php:335"
         ]
     },
     {
@@ -1999,7 +1999,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:366",
+            "includes/Admin/KindEditor.php:371",
             "includes/Admin/Screen/DisplaySetsPage.php:110",
             "includes/Admin/Screen/DisplaySetsPage.php:175",
             "includes/Admin/Screen/DisplaySetsPage.php:588",
@@ -2100,7 +2100,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:501"
+            "includes/Admin/KindEditor.php:513"
         ]
     },
     {
@@ -2459,7 +2459,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:334",
+            "includes/Admin/KindEditor.php:339",
             "includes/Divi/FieldModules.php:339"
         ]
     },
@@ -2559,7 +2559,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:369",
+            "includes/Admin/KindEditor.php:374",
             "includes/Divi/FieldModules.php:346"
         ]
     },
@@ -2590,7 +2590,7 @@
         "refs": [
             "includes/Admin/CourseEditor.php:294",
             "includes/Admin/CourseEditor.php:478",
-            "includes/Admin/KindEditor.php:368",
+            "includes/Admin/KindEditor.php:373",
             "includes/Admin/Screen/DisplaySetsPage.php:590",
             "includes/Divi/FieldModules.php:345",
             "includes/Render/CourseDetail.php:100",
@@ -2689,7 +2689,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:534"
+            "includes/Admin/KindEditor.php:547"
         ]
     },
     {
@@ -2882,7 +2882,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:297"
+            "includes/Admin/KindEditor.php:302"
         ]
     },
     {
@@ -3313,7 +3313,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:103"
+            "includes/Admin/KindEditor.php:108"
         ]
     },
     {
@@ -3425,7 +3425,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:183"
+            "includes/Admin/KindEditor.php:188"
         ]
     },
     {
@@ -3939,7 +3939,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:367",
+            "includes/Admin/KindEditor.php:372",
             "includes/Admin/Screen/DisplaySetsPage.php:589",
             "includes/Divi/FieldModules.php:344"
         ]
@@ -4006,7 +4006,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:221"
+            "includes/Admin/KindEditor.php:226"
         ]
     },
     {
@@ -4054,7 +4054,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:301",
+            "includes/Admin/KindEditor.php:306",
             "includes/Divi/FieldModules.php:321"
         ]
     },
@@ -4146,8 +4146,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:166",
-            "includes/Admin/KindEditor.php:550",
+            "includes/Admin/KindEditor.php:171",
+            "includes/Admin/KindEditor.php:595",
             "includes/Admin/SettingsTransfer.php:120",
             "includes/Admin/SettingsTransfer.php:82"
         ]
@@ -4203,7 +4203,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:326"
+            "includes/Admin/KindEditor.php:331"
         ]
     },
     {
@@ -4238,7 +4238,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:104"
+            "includes/Admin/KindEditor.php:109"
         ]
     },
     {
@@ -4366,7 +4366,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:328"
+            "includes/Admin/KindEditor.php:333"
         ]
     },
     {
@@ -4419,11 +4419,11 @@
         ]
     },
     {
-        "singular": "— the one most courses share —",
+        "singular": "— shared by most courses —",
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:522"
+            "includes/Admin/KindEditor.php:534"
         ]
     },
     {
@@ -4431,7 +4431,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:284"
+            "includes/Admin/KindEditor.php:289"
         ]
     },
     {
@@ -4439,7 +4439,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/KindEditor.php:287"
+            "includes/Admin/KindEditor.php:292"
         ]
     },
     {

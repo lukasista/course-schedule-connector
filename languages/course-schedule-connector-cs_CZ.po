@@ -83,7 +83,7 @@ msgstr[2] "Doplněno %d návrhů. Než se na ně spolehnete, zkontrolujte je."
 msgid "%d — created here, not in iSport"
 msgstr "%d — založeno tady, v iSportu není"
 
-#: includes/Admin/KindEditor.php:175
+#: includes/Admin/KindEditor.php:180
 msgid "%s (copy)"
 msgstr "%s (kopie)"
 
@@ -103,7 +103,7 @@ msgstr "Lekce, kterou můžete navštívit místo té, kterou jste zmeškali."
 msgid "A colon, a dash — printed right after the heading."
 msgstr "Dvojtečka, pomlčka — vypíše se hned za nadpisem."
 
-#: includes/Admin/KindEditor.php:309
+#: includes/Admin/KindEditor.php:314
 msgid "A course whose name says nothing about this is never shown by a setting that asks."
 msgstr "Kurz, jehož název o tom nic neříká, se pod nastavením, které se ptá, nikdy neukáže."
 
@@ -217,7 +217,7 @@ msgid "After the heading"
 msgstr "Za nadpisem"
 
 #: includes/Admin/CourseEditor.php:198
-#: includes/Admin/KindEditor.php:324
+#: includes/Admin/KindEditor.php:329
 #: includes/Admin/Screen/DisplaySetsPage.php:439
 #: includes/Render/CourseDetail.php:105
 #: includes/Render/Fields.php:129
@@ -276,12 +276,12 @@ msgstr "Rozvržení"
 msgid "As the settings say"
 msgstr "Podle nastavení"
 
-#: includes/Admin/KindEditor.php:365
+#: includes/Admin/KindEditor.php:370
 #: includes/Divi/FieldModules.php:342
 msgid "As they are filed"
 msgstr "Jak jsou zařazené"
 
-#: includes/Admin/KindEditor.php:342
+#: includes/Admin/KindEditor.php:347
 #: includes/Admin/Screen/DisplaySetsPage.php:320
 #: includes/Divi/FieldModules.php:353
 msgid "Ascending"
@@ -311,7 +311,7 @@ msgstr "Přiřazené ručně"
 msgid "Assignment undone. The occurrence is unassigned again."
 msgstr "Přiřazení zrušeno. Termín je zase nepřiřazený."
 
-#: includes/Admin/KindEditor.php:348
+#: includes/Admin/KindEditor.php:353
 #: includes/Divi/FieldModules.php:358
 msgid "At most"
 msgstr "Nejvýš"
@@ -320,7 +320,7 @@ msgstr "Nejvýš"
 msgid "At or below this many free places the listing says so. Zero switches the warning off."
 msgstr "Při tomto počtu volných míst a méně na to výpis upozorní. Nula upozornění vypne."
 
-#: includes/Admin/KindEditor.php:313
+#: includes/Admin/KindEditor.php:318
 #: includes/Divi/FieldModules.php:326
 msgid "At what level"
 msgstr "Na jaké úrovni"
@@ -510,7 +510,7 @@ msgstr "Kontakt"
 msgid "Contact and booking"
 msgstr "Kontakt a přihlašování"
 
-#: includes/Admin/KindEditor.php:143
+#: includes/Admin/KindEditor.php:148
 msgid "Copy"
 msgstr "Kopírovat"
 
@@ -573,7 +573,7 @@ msgstr "Kurz, ke kterému lekce patří"
 msgid "Course this lesson stands in for"
 msgstr "Kurz, který tato lekce zastupuje"
 
-#: includes/Admin/KindEditor.php:520
+#: includes/Admin/KindEditor.php:532
 msgid "Course to take the description from"
 msgstr "Kurz, ze kterého popis vzít"
 
@@ -661,7 +661,7 @@ msgstr "Smazat"
 msgid "Delete all data when the plugin is deleted"
 msgstr "Při smazání pluginu smazat všechna data"
 
-#: includes/Admin/KindEditor.php:343
+#: includes/Admin/KindEditor.php:348
 #: includes/Admin/Screen/DisplaySetsPage.php:321
 #: includes/Divi/FieldModules.php:354
 msgid "Descending"
@@ -671,7 +671,7 @@ msgstr "Sestupně"
 msgid "Description"
 msgstr "Popis"
 
-#: includes/Admin/KindEditor.php:230
+#: includes/Admin/KindEditor.php:235
 msgid "Description from a course"
 msgstr "Popis z kurzu"
 
@@ -742,7 +742,7 @@ msgstr "Všechny kurzy zařazené pod tento druh jako tabulka — nebo jen ty, n
 msgid "Every course paired with this trainer, as a table."
 msgstr "Všechny kurzy spárované s tímto trenérem, jako tabulka."
 
-#: includes/Admin/KindEditor.php:316
+#: includes/Admin/KindEditor.php:321
 #: includes/Divi/FieldModules.php:328
 msgid "Every level"
 msgstr "Všechny úrovně"
@@ -751,12 +751,12 @@ msgstr "Všechny úrovně"
 msgid "Every qualification, in the order they were entered."
 msgstr "Všechny kvalifikace v pořadí, v jakém byly zadány."
 
-#: includes/Admin/KindEditor.php:304
+#: includes/Admin/KindEditor.php:309
 #: includes/Divi/FieldModules.php:323
 msgid "Everybody"
 msgstr "Pro všechny"
 
-#: includes/Admin/KindEditor.php:270
+#: includes/Admin/KindEditor.php:275
 msgid "Everything below decides which courses the timetable on this page lists — and the blocks and modules on it, wherever they are used, including a design made once for every page of this type. Leave it all alone and the page shows every course of its kind, which is what a page made by the synchronisation does."
 msgstr "Všechno níž rozhoduje o tom, které kurzy vypíše rozvrh na této stránce — a bloky i moduly na ní, ať jsou použité kdekoli, včetně designu udělaného jednou pro všechny stránky tohoto typu. Když se toho nedotknete, ukáže stránka všechny kurzy svého druhu, jako to dělá stránka založená synchronizací."
 
@@ -772,7 +772,7 @@ msgstr "Export a import"
 msgid "Fetch every missing description"
 msgstr "Načíst všechny chybějící popisy"
 
-#: includes/Admin/KindEditor.php:530
+#: includes/Admin/KindEditor.php:543
 msgid "Fetch the description"
 msgstr "Načíst popis"
 
@@ -900,7 +900,7 @@ msgstr "Kolik má kurz lekcí."
 msgid "How many places are still free."
 msgstr "Kolik míst je ještě volných."
 
-#: includes/Admin/KindEditor.php:351
+#: includes/Admin/KindEditor.php:356
 #: includes/Divi/FieldModules.php:359
 msgid "How many rows to print. Empty or zero means all of them."
 msgstr "Kolik řádků vypsat. Prázdné nebo nula znamená všechny."
@@ -963,7 +963,7 @@ msgid "Kind description"
 msgstr "Popis druhu kurzu"
 
 #: includes/Admin/CourseEditor.php:474
-#: includes/Admin/KindEditor.php:275
+#: includes/Admin/KindEditor.php:280
 #: includes/Data/KindType.php:70
 #: includes/Data/PostType.php:226
 msgid "Kind of course"
@@ -998,7 +998,7 @@ msgstr "Nechte prázdné, pokud se má zobrazit lektor uvedený v iSportu."
 msgid "Leave them out"
 msgstr "Vynechat"
 
-#: includes/Admin/KindEditor.php:330
+#: includes/Admin/KindEditor.php:335
 msgid "Leaves out courses that finish below the floor or start above the ceiling. Either may be left empty."
 msgstr "Vynechá kurzy, které končí pod dolní hranicí nebo začínají nad horní. Obě se dají nechat prázdné."
 
@@ -1089,7 +1089,7 @@ msgstr "Mix"
 msgid "Motto"
 msgstr "Motto"
 
-#: includes/Admin/KindEditor.php:366
+#: includes/Admin/KindEditor.php:371
 #: includes/Admin/Screen/DisplaySetsPage.php:110
 #: includes/Admin/Screen/DisplaySetsPage.php:175
 #: includes/Admin/Screen/DisplaySetsPage.php:588
@@ -1142,7 +1142,7 @@ msgstr "Další →"
 msgid "No"
 msgstr "Ne"
 
-#: includes/Admin/KindEditor.php:501
+#: includes/Admin/KindEditor.php:513
 msgid "No course is filed under this kind yet, so there is no description to fetch."
 msgstr "Pod tento druh zatím nespadá žádný kurz, takže není odkud popis vzít."
 
@@ -1325,7 +1325,7 @@ msgstr "Pořadí"
 msgid "Order and size"
 msgstr "Řazení a rozsah"
 
-#: includes/Admin/KindEditor.php:334
+#: includes/Admin/KindEditor.php:339
 #: includes/Divi/FieldModules.php:339
 msgid "Order by"
 msgstr "Řadit podle"
@@ -1377,7 +1377,7 @@ msgstr "Fotografie"
 msgid "Picture"
 msgstr "Obrázek"
 
-#: includes/Admin/KindEditor.php:369
+#: includes/Admin/KindEditor.php:374
 #: includes/Divi/FieldModules.php:346
 msgid "Places free"
 msgstr "Volná místa"
@@ -1396,7 +1396,7 @@ msgstr "Připravuji soubor…"
 
 #: includes/Admin/CourseEditor.php:294
 #: includes/Admin/CourseEditor.php:478
-#: includes/Admin/KindEditor.php:368
+#: includes/Admin/KindEditor.php:373
 #: includes/Admin/Screen/DisplaySetsPage.php:590
 #: includes/Divi/FieldModules.php:345
 #: includes/Render/CourseDetail.php:100
@@ -1451,7 +1451,7 @@ msgstr "Pronájmy a open lekce"
 msgid "Rentals and outside clubs"
 msgstr "Pronájmy a cizí oddíly"
 
-#: includes/Admin/KindEditor.php:534
+#: includes/Admin/KindEditor.php:547
 msgid "Replaces everything written in the editor with the description iSport holds for that course. Save any wording of your own first — this cannot be undone from here."
 msgstr "Nahradí všechno, co je v editoru, popisem, který k tomu kurzu drží iSport. Vlastní text si napřed uložte — odtud se to vrátit nedá."
 
@@ -1556,7 +1556,7 @@ msgstr "Uloženo, ale párování se nepodařilo spustit znovu: %s"
 msgid "Saving re-runs the matching over everything already stored, so an assignment takes effect at once and without a request to iSport."
 msgstr "Uložením se párování spustí znovu nad už uloženými daty, takže se přiřazení projeví hned a bez dotazu do iSportu."
 
-#: includes/Admin/KindEditor.php:297
+#: includes/Admin/KindEditor.php:302
 msgid "Say it outright when the page is called something the kind is not — a page named “Gymnastika dívky” pairs with no kind by itself."
 msgstr "Uveďte ho výslovně, když se stránka jmenuje jinak než druh — stránka „Gymnastika dívky“ se sama s žádným druhem nespáruje."
 
@@ -1775,7 +1775,7 @@ msgstr "Kurz se nepodařilo založit."
 msgid "The description the booking system holds for the course, which is a different text from the one written in WordPress."
 msgstr "Popis, který ke kurzu drží rezervační systém — je to jiný text než ten napsaný ve WordPressu."
 
-#: includes/Admin/KindEditor.php:103
+#: includes/Admin/KindEditor.php:108
 msgid "The description was taken from iSport and now stands in the editor."
 msgstr "Popis byl převzat z iSportu a je teď v editoru."
 
@@ -1831,7 +1831,7 @@ msgstr "Nejbližší dny"
 msgid "The one this page is about"
 msgstr "Ten, o kterém tahle stránka je"
 
-#: includes/Admin/KindEditor.php:183
+#: includes/Admin/KindEditor.php:188
 msgid "The page could not be copied."
 msgstr "Stránku se nepodařilo zkopírovat."
 
@@ -2101,7 +2101,7 @@ msgstr "Kdy"
 msgid "When a course is full"
 msgstr "Když je kurz plný"
 
-#: includes/Admin/KindEditor.php:367
+#: includes/Admin/KindEditor.php:372
 #: includes/Admin/Screen/DisplaySetsPage.php:589
 #: includes/Divi/FieldModules.php:344
 msgid "When it starts"
@@ -2136,7 +2136,7 @@ msgstr "Který kurz nebo kterého trenéra to ukazuje. Když to necháte být, �
 msgid "Which courses"
 msgstr "Které kurzy"
 
-#: includes/Admin/KindEditor.php:221
+#: includes/Admin/KindEditor.php:226
 msgid "Which courses this page is about"
 msgstr "Které kurzy tato stránka ukazuje"
 
@@ -2160,7 +2160,7 @@ msgstr "Který týden"
 msgid "Who runs the course, linked to their own page where they have one."
 msgstr "Kdo kurz vede, s odkazem na jeho stránku, pokud ji má."
 
-#: includes/Admin/KindEditor.php:301
+#: includes/Admin/KindEditor.php:306
 #: includes/Divi/FieldModules.php:321
 msgid "Who the course is for"
 msgstr "Pro koho kurz je"
@@ -2208,8 +2208,8 @@ msgstr "Ano, do %s"
 msgid "You are not allowed to change these settings."
 msgstr "Tohle nastavení nemáte oprávnění měnit."
 
-#: includes/Admin/KindEditor.php:166
-#: includes/Admin/KindEditor.php:550
+#: includes/Admin/KindEditor.php:171
+#: includes/Admin/KindEditor.php:595
 #: includes/Admin/SettingsTransfer.php:120
 #: includes/Admin/SettingsTransfer.php:82
 msgid "You are not allowed to do that."
@@ -2241,7 +2241,7 @@ msgstr "lekce"
 msgid "courses"
 msgstr "kurzy"
 
-#: includes/Admin/KindEditor.php:326
+#: includes/Admin/KindEditor.php:331
 msgid "from"
 msgstr "od"
 
@@ -2260,7 +2260,7 @@ msgstr "iSport"
 msgid "iSport has no field for this: it is read from the course name. Choosing something here overrules the reading, and no synchronisation will change it back."
 msgstr "iSport pro tohle nemá pole: čte se to z názvu kurzu. Když tady něco vyberete, přebije to čtení z názvu a žádná synchronizace to nevrátí zpátky."
 
-#: includes/Admin/KindEditor.php:104
+#: includes/Admin/KindEditor.php:109
 msgid "iSport holds no description for that course, so nothing was changed. Descriptions are written in iSport itself; a course with an empty one there has nothing to fetch."
 msgstr "iSport pro ten kurz žádný popis nemá, takže se nic nezměnilo. Popisy se píšou přímo v iSportu; u kurzu, který ho tam má prázdný, není co načíst."
 
@@ -2327,7 +2327,7 @@ msgstr "hlavičky tabulky"
 msgid "of the value"
 msgstr "hodnoty"
 
-#: includes/Admin/KindEditor.php:328
+#: includes/Admin/KindEditor.php:333
 msgid "to"
 msgstr "do"
 
@@ -2356,15 +2356,15 @@ msgstr "— všude skrytý"
 msgid "— not assigned —"
 msgstr "— nepřiřazeno —"
 
-#: includes/Admin/KindEditor.php:522
-msgid "— the one most courses share —"
-msgstr "— ten, který sdílí nejvíc kurzů —"
+#: includes/Admin/KindEditor.php:534
+msgid "— shared by most courses —"
+msgstr "— nejčastější popis —"
 
-#: includes/Admin/KindEditor.php:284
+#: includes/Admin/KindEditor.php:289
 msgid "— the one this page is named after (%s) —"
 msgstr "— ten, po kterém se stránka jmenuje (%s) —"
 
-#: includes/Admin/KindEditor.php:287
+#: includes/Admin/KindEditor.php:292
 msgid "— the one this page is named after —"
 msgstr "— ten, po kterém se stránka jmenuje —"
 

@@ -75,7 +75,7 @@ msgstr[1] ""
 msgid "%d — created here, not in iSport"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:175
+#: includes/Admin/KindEditor.php:180
 msgid "%s (copy)"
 msgstr ""
 
@@ -95,7 +95,7 @@ msgstr ""
 msgid "A colon, a dash — printed right after the heading."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:309
+#: includes/Admin/KindEditor.php:314
 msgid "A course whose name says nothing about this is never shown by a setting that asks."
 msgstr ""
 
@@ -209,7 +209,7 @@ msgid "After the heading"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:198
-#: includes/Admin/KindEditor.php:324
+#: includes/Admin/KindEditor.php:329
 #: includes/Admin/Screen/DisplaySetsPage.php:439
 #: includes/Render/CourseDetail.php:105
 #: includes/Render/Fields.php:129
@@ -268,12 +268,12 @@ msgstr ""
 msgid "As the settings say"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:365
+#: includes/Admin/KindEditor.php:370
 #: includes/Divi/FieldModules.php:342
 msgid "As they are filed"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:342
+#: includes/Admin/KindEditor.php:347
 #: includes/Admin/Screen/DisplaySetsPage.php:320
 #: includes/Divi/FieldModules.php:353
 msgid "Ascending"
@@ -303,7 +303,7 @@ msgstr ""
 msgid "Assignment undone. The occurrence is unassigned again."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:348
+#: includes/Admin/KindEditor.php:353
 #: includes/Divi/FieldModules.php:358
 msgid "At most"
 msgstr ""
@@ -312,7 +312,7 @@ msgstr ""
 msgid "At or below this many free places the listing says so. Zero switches the warning off."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:313
+#: includes/Admin/KindEditor.php:318
 #: includes/Divi/FieldModules.php:326
 msgid "At what level"
 msgstr ""
@@ -500,7 +500,7 @@ msgstr ""
 msgid "Contact and booking"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:143
+#: includes/Admin/KindEditor.php:148
 msgid "Copy"
 msgstr ""
 
@@ -563,7 +563,7 @@ msgstr ""
 msgid "Course this lesson stands in for"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:520
+#: includes/Admin/KindEditor.php:532
 msgid "Course to take the description from"
 msgstr ""
 
@@ -651,7 +651,7 @@ msgstr ""
 msgid "Delete all data when the plugin is deleted"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:343
+#: includes/Admin/KindEditor.php:348
 #: includes/Admin/Screen/DisplaySetsPage.php:321
 #: includes/Divi/FieldModules.php:354
 msgid "Descending"
@@ -661,7 +661,7 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:230
+#: includes/Admin/KindEditor.php:235
 msgid "Description from a course"
 msgstr ""
 
@@ -732,7 +732,7 @@ msgstr ""
 msgid "Every course paired with this trainer, as a table."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:316
+#: includes/Admin/KindEditor.php:321
 #: includes/Divi/FieldModules.php:328
 msgid "Every level"
 msgstr ""
@@ -741,12 +741,12 @@ msgstr ""
 msgid "Every qualification, in the order they were entered."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:304
+#: includes/Admin/KindEditor.php:309
 #: includes/Divi/FieldModules.php:323
 msgid "Everybody"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:270
+#: includes/Admin/KindEditor.php:275
 msgid "Everything below decides which courses the timetable on this page lists — and the blocks and modules on it, wherever they are used, including a design made once for every page of this type. Leave it all alone and the page shows every course of its kind, which is what a page made by the synchronisation does."
 msgstr ""
 
@@ -762,7 +762,7 @@ msgstr ""
 msgid "Fetch every missing description"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:530
+#: includes/Admin/KindEditor.php:543
 msgid "Fetch the description"
 msgstr ""
 
@@ -890,7 +890,7 @@ msgstr ""
 msgid "How many places are still free."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:351
+#: includes/Admin/KindEditor.php:356
 #: includes/Divi/FieldModules.php:359
 msgid "How many rows to print. Empty or zero means all of them."
 msgstr ""
@@ -953,7 +953,7 @@ msgid "Kind description"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:474
-#: includes/Admin/KindEditor.php:275
+#: includes/Admin/KindEditor.php:280
 #: includes/Data/KindType.php:70
 #: includes/Data/PostType.php:226
 msgid "Kind of course"
@@ -988,7 +988,7 @@ msgstr ""
 msgid "Leave them out"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:330
+#: includes/Admin/KindEditor.php:335
 msgid "Leaves out courses that finish below the floor or start above the ceiling. Either may be left empty."
 msgstr ""
 
@@ -1079,7 +1079,7 @@ msgstr ""
 msgid "Motto"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:366
+#: includes/Admin/KindEditor.php:371
 #: includes/Admin/Screen/DisplaySetsPage.php:110
 #: includes/Admin/Screen/DisplaySetsPage.php:175
 #: includes/Admin/Screen/DisplaySetsPage.php:588
@@ -1132,7 +1132,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:501
+#: includes/Admin/KindEditor.php:513
 msgid "No course is filed under this kind yet, so there is no description to fetch."
 msgstr ""
 
@@ -1315,7 +1315,7 @@ msgstr ""
 msgid "Order and size"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:334
+#: includes/Admin/KindEditor.php:339
 #: includes/Divi/FieldModules.php:339
 msgid "Order by"
 msgstr ""
@@ -1367,7 +1367,7 @@ msgstr ""
 msgid "Picture"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:369
+#: includes/Admin/KindEditor.php:374
 #: includes/Divi/FieldModules.php:346
 msgid "Places free"
 msgstr ""
@@ -1386,7 +1386,7 @@ msgstr ""
 
 #: includes/Admin/CourseEditor.php:294
 #: includes/Admin/CourseEditor.php:478
-#: includes/Admin/KindEditor.php:368
+#: includes/Admin/KindEditor.php:373
 #: includes/Admin/Screen/DisplaySetsPage.php:590
 #: includes/Divi/FieldModules.php:345
 #: includes/Render/CourseDetail.php:100
@@ -1441,7 +1441,7 @@ msgstr ""
 msgid "Rentals and outside clubs"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:534
+#: includes/Admin/KindEditor.php:547
 msgid "Replaces everything written in the editor with the description iSport holds for that course. Save any wording of your own first — this cannot be undone from here."
 msgstr ""
 
@@ -1546,7 +1546,7 @@ msgstr ""
 msgid "Saving re-runs the matching over everything already stored, so an assignment takes effect at once and without a request to iSport."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:297
+#: includes/Admin/KindEditor.php:302
 msgid "Say it outright when the page is called something the kind is not — a page named “Gymnastika dívky” pairs with no kind by itself."
 msgstr ""
 
@@ -1765,7 +1765,7 @@ msgstr ""
 msgid "The description the booking system holds for the course, which is a different text from the one written in WordPress."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:103
+#: includes/Admin/KindEditor.php:108
 msgid "The description was taken from iSport and now stands in the editor."
 msgstr ""
 
@@ -1821,7 +1821,7 @@ msgstr ""
 msgid "The one this page is about"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:183
+#: includes/Admin/KindEditor.php:188
 msgid "The page could not be copied."
 msgstr ""
 
@@ -2091,7 +2091,7 @@ msgstr ""
 msgid "When a course is full"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:367
+#: includes/Admin/KindEditor.php:372
 #: includes/Admin/Screen/DisplaySetsPage.php:589
 #: includes/Divi/FieldModules.php:344
 msgid "When it starts"
@@ -2126,7 +2126,7 @@ msgstr ""
 msgid "Which courses"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:221
+#: includes/Admin/KindEditor.php:226
 msgid "Which courses this page is about"
 msgstr ""
 
@@ -2150,7 +2150,7 @@ msgstr ""
 msgid "Who runs the course, linked to their own page where they have one."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:301
+#: includes/Admin/KindEditor.php:306
 #: includes/Divi/FieldModules.php:321
 msgid "Who the course is for"
 msgstr ""
@@ -2198,8 +2198,8 @@ msgstr ""
 msgid "You are not allowed to change these settings."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:166
-#: includes/Admin/KindEditor.php:550
+#: includes/Admin/KindEditor.php:171
+#: includes/Admin/KindEditor.php:595
 #: includes/Admin/SettingsTransfer.php:120
 #: includes/Admin/SettingsTransfer.php:82
 msgid "You are not allowed to do that."
@@ -2231,7 +2231,7 @@ msgstr ""
 msgid "courses"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:326
+#: includes/Admin/KindEditor.php:331
 msgid "from"
 msgstr ""
 
@@ -2250,7 +2250,7 @@ msgstr ""
 msgid "iSport has no field for this: it is read from the course name. Choosing something here overrules the reading, and no synchronisation will change it back."
 msgstr ""
 
-#: includes/Admin/KindEditor.php:104
+#: includes/Admin/KindEditor.php:109
 msgid "iSport holds no description for that course, so nothing was changed. Descriptions are written in iSport itself; a course with an empty one there has nothing to fetch."
 msgstr ""
 
@@ -2316,7 +2316,7 @@ msgstr ""
 msgid "of the value"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:328
+#: includes/Admin/KindEditor.php:333
 msgid "to"
 msgstr ""
 
@@ -2345,15 +2345,15 @@ msgstr ""
 msgid "— not assigned —"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:522
-msgid "— the one most courses share —"
+#: includes/Admin/KindEditor.php:534
+msgid "— shared by most courses —"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:284
+#: includes/Admin/KindEditor.php:289
 msgid "— the one this page is named after (%s) —"
 msgstr ""
 
-#: includes/Admin/KindEditor.php:287
+#: includes/Admin/KindEditor.php:292
 msgid "— the one this page is named after —"
 msgstr ""
 

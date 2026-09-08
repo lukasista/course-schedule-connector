@@ -46,6 +46,11 @@ final class KindEditor {
 	public const DUPLICATE = 'cscs_kind_duplicate';
 
 	/**
+	 * How many characters of a course title the select shows.
+	 */
+	private const OPTION_LENGTH = 26;
+
+	/**
 	 * Plugin instance.
 	 *
 	 * @var Plugin
@@ -478,6 +483,13 @@ final class KindEditor {
 			return;
 		}
 
+		wp_enqueue_style(
+			'cscs-admin',
+			CSCS_URL . 'assets/css/cscs-admin.css',
+			array(),
+			CSCS_VERSION
+		);
+
 		wp_enqueue_script(
 			'cscs-kind-editor',
 			CSCS_URL . 'assets/js/cscs-kind-editor.js',
@@ -518,10 +530,11 @@ final class KindEditor {
 		?>
 		<p>
 			<label class="screen-reader-text" for="cscs-kind-course"><?php esc_html_e( 'Course to take the description from', 'course-schedule-connector' ); ?></label>
-			<select id="cscs-kind-course" style="width:100%">
-				<option value="0"><?php esc_html_e( '— the one most courses share —', 'course-schedule-connector' ); ?></option>
+			<select id="cscs-kind-course" class="cscs-full-width">
+				<option value="0"><?php esc_html_e( '— shared by most courses —', 'course-schedule-connector' ); ?></option>
 				<?php foreach ( $courses as $course_id ) : ?>
-					<option value="<?php echo esc_attr( (string) $course_id ); ?>"><?php echo esc_html( (string) get_the_title( $course_id ) ); ?></option>
+					<?php $title = (string) get_the_title( $course_id ); ?>
+					<option value="<?php echo esc_attr( (string) $course_id ); ?>" title="<?php echo esc_attr( $title ); ?>"><?php echo esc_html( self::shorten( $title ) ); ?></option>
 				<?php endforeach; ?>
 			</select>
 		</p>
@@ -534,6 +547,38 @@ final class KindEditor {
 			<?php esc_html_e( 'Replaces everything written in the editor with the description iSport holds for that course. Save any wording of your own first — this cannot be undone from here.', 'course-schedule-connector' ); ?>
 		</p>
 		<?php
+	}
+
+	/**
+	 * Shortens a course title to something a narrow control can hold.
+	 *
+	 * A select is as wide as its longest option, and `width: 100%` does not
+	 * change that: in a column that sizes itself to its contents - which is
+	 * what a meta box beside the editor is - the percentage resolves against a
+	 * width the select itself has just pushed out. Measured on this gym's
+	 * courses the control came out 370 pixels wide in a 250 pixel column and
+	 * hung over the edge of the screen.
+	 *
+	 * Nothing is lost by cutting the text: a course title opens with the number
+	 * that identifies it, the open list is drawn at whatever width it needs,
+	 * and the whole title is on the option as a tooltip.
+	 *
+	 * @param string $title Course title.
+	 * @return string
+	 */
+	private static function shorten( string $title ): string {
+		$title  = trim( $title );
+		$length = function_exists( 'mb_strlen' ) ? mb_strlen( $title, 'UTF-8' ) : strlen( $title );
+
+		if ( $length <= self::OPTION_LENGTH ) {
+			return $title;
+		}
+
+		$cut = function_exists( 'mb_substr' )
+			? mb_substr( $title, 0, self::OPTION_LENGTH - 1, 'UTF-8' )
+			: substr( $title, 0, self::OPTION_LENGTH - 1 );
+
+		return rtrim( (string) $cut ) . '…';
 	}
 
 	/**
