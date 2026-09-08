@@ -58,6 +58,11 @@ final class PostType {
 	public const TAG = 'cscs_tag';
 
 	/**
+	 * The state of a course the remote system has stopped offering.
+	 */
+	public const CANCELLED = 'cscs_cancelled';
+
+	/**
 	 * Registers the post type and taxonomies.
 	 *
 	 * @return void
@@ -102,6 +107,7 @@ final class PostType {
 			)
 		);
 
+		self::register_cancelled_status();
 		self::register_meta();
 
 		foreach ( self::taxonomies() as $taxonomy => $labels ) {
@@ -118,6 +124,43 @@ final class PostType {
 				)
 			);
 		}
+	}
+
+	/**
+	 * Registers the state a withdrawn course is put into.
+	 *
+	 * Not a draft. A draft is something somebody started writing and has not
+	 * finished, and a year of withdrawn courses filed among them is a year of
+	 * nobody being able to tell the two apart. This is a state of its own, with
+	 * its own tab in the list of courses and its own count, so "what have we
+	 * stopped running" is a question the screen can answer.
+	 *
+	 * Not public either: the course is not on offer, so its page is not a page
+	 * to serve. What somebody holding the old address sees is decided in
+	 * `Render\Cancelled`, which sends them on to the kind of course it belonged
+	 * to rather than to a page saying nothing.
+	 *
+	 * @return void
+	 */
+	private static function register_cancelled_status(): void {
+		register_post_status(
+			self::CANCELLED,
+			array(
+				'label'                     => _x( 'Cancelled', 'course state', 'course-schedule-connector' ),
+				'public'                    => false,
+				'internal'                  => false,
+				'protected'                 => true,
+				'private'                   => false,
+				'exclude_from_search'       => true,
+				'show_in_admin_all_list'    => true,
+				'show_in_admin_status_list' => true,
+				'label_count'               => _n_noop(
+					'Cancelled <span class="count">(%s)</span>',
+					'Cancelled <span class="count">(%s)</span>',
+					'course-schedule-connector'
+				),
+			)
+		);
 	}
 
 	/**

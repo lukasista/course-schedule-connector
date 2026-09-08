@@ -438,7 +438,7 @@ final class SyncCommand {
 		$posts   = get_posts(
 			array(
 				'post_type'        => PostType::COURSE,
-				'post_status'      => 'any',
+				'post_status'      => CourseRepository::every_status(),
 				'numberposts'      => -1,
 				'fields'           => 'ids',
 				'suppress_filters' => false,
@@ -556,7 +556,7 @@ final class SyncCommand {
 		$posts   = get_posts(
 			array(
 				'post_type'        => PostType::COURSE,
-				'post_status'      => 'any',
+				'post_status'      => CourseRepository::every_status(),
 				'numberposts'      => -1,
 				'fields'           => 'ids',
 				'suppress_filters' => false,

@@ -62,6 +62,46 @@ final class CourseEditor {
 		add_action( 'add_meta_boxes_' . PostType::COURSE, array( $this, 'add_boxes' ) );
 		add_action( 'save_post_' . PostType::COURSE, array( $this, 'ensure_id' ), 5, 2 );
 		add_action( 'save_post_' . PostType::COURSE, array( $this, 'save' ), 10, 2 );
+		add_filter( 'wp_insert_post_data', array( $this, 'keep_cancelled' ), 10, 2 );
+	}
+
+	/**
+	 * Keeps a withdrawn course withdrawn when its page is saved.
+	 *
+	 * Without this, opening a course iSport has stopped offering and pressing
+	 * Update puts it back on the site, because that is what the editor sends:
+	 * a status of "publish" it never asked anybody about. The next
+	 * synchronisation would take it down again, so the page would appear and
+	 * disappear with nothing saying why.
+	 *
+	 * The plugin's own writes are exempt: the synchronisation is what puts a
+	 * course back when iSport offers it again.
+	 *
+	 * @param array<string, mixed> $data    Post data about to be written.
+	 * @param array<string, mixed> $postarr Raw post array.
+	 * @return array<string, mixed>
+	 */
+	public function keep_cancelled( array $data, array $postarr ): array {
+		if ( PostType::COURSE !== ( $data['post_type'] ?? '' ) || CourseRepository::is_writing() ) {
+			return $data;
+		}
+
+		$post_id = (int) ( $postarr['ID'] ?? 0 );
+		$status  = (string) ( $data['post_status'] ?? '' );
+
+		// Trashing one is a decision, not an accident, and so is leaving it as
+		// a draft. Only a return to the site is refused.
+		if ( 0 === $post_id || 'publish' !== $status ) {
+			return $data;
+		}
+
+		if ( CourseRepository::STATUS_ARCHIVED !== get_post_meta( $post_id, CourseRepository::META_STATUS, true ) ) {
+			return $data;
+		}
+
+		$data['post_status'] = PostType::CANCELLED;
+
+		return $data;
 	}
 
 	/**
@@ -449,7 +489,7 @@ final class CourseEditor {
 		$labels = array(
 			CourseRepository::STATUS_RUNNING  => __( 'Running', 'course-schedule-connector' ),
 			CourseRepository::STATUS_FINISHED => __( 'Finished', 'course-schedule-connector' ),
-			CourseRepository::STATUS_ARCHIVED => __( 'No longer offered by iSport', 'course-schedule-connector' ),
+			CourseRepository::STATUS_ARCHIVED => __( 'No longer offered by iSport — the page is off the site, and its old address sends visitors to the kind of course it belonged to. Everything written here is kept; it comes back on its own if iSport offers the course again.', 'course-schedule-connector' ),
 		);
 
 		return $labels[ $status ] ?? '';

@@ -21,6 +21,7 @@ Příručka je pro **správce webu** – člověka, který spravuje nabídku kur
 - [Trenéři](#trenéři)
 - [Bloky a moduly pro vlastní design](#bloky-a-moduly-pro-vlastní-design)
 - [Kurzy, které v iSportu nejsou](#kurzy-které-v-isportu-nejsou)
+- [Když kurz v iSportu skončí](#když-kurz-v-isportu-skončí)
 - [Přehled a synchronizace](#přehled-a-synchronizace)
 - [Co plugin dělá na mobilu](#co-plugin-dělá-na-mobilu)
 - [Kdy volat administrátora](#kdy-volat-administrátora)
@@ -344,6 +345,24 @@ Takový kurz můžete založit dvěma způsoby:
 Ručně založený kurz se chová jako každý jiný: má stránku, obsah, kontakt na lektora i tlačítko. Synchronizace se ho nedotkne a nikdy ho neoznačí jako „už se nenabízí“ — v iSportu nikdy nebyl, takže jeho nepřítomnost tam nic neznamená. Poznáte ho v panelu *Z iSportu* podle poznámky u ID.
 
 Další lekce k takovému kurzu přiřadíte na obrazovce *Nespárované lekce* výběrem ze seznamu; podle názvu se nespárují, protože ručně založený kurz nemá v datech termíny, proti kterým by se čas dal ověřit.
+
+## Když kurz v iSportu skončí
+
+Kurz, který iSport přestane nabízet, plugin **stáhne z webu**: zmizí ze všech
+výpisů a jeho vlastní stránka se přestane zobrazovat. Nesmaže se — dostane
+vlastní stav **Zrušený kurz** a v *iSport → Kurzy* na něj vede záložka
+s počtem, takže se dá kdykoli dohledat. Všechno, co je na stránce napsané —
+popis, fotka, kontakt — zůstává.
+
+Kdo přijde na starý odkaz (z Googlu, z loňského e-mailu), **se přesměruje na
+stránku druhu kurzu**, kam kurz patřil, aby místo chybové hlášky viděl kurzy,
+které běží. Když druh svou stránku nemá, zobrazí se běžná stránka „nenalezeno“.
+
+Až iSport kurz zase nabídne, stránka se sama publikuje zpátky. Ručně opravovat
+se nic nemusí — a nemá: kdybyste zrušený kurz otevřel a dal *Aktualizovat*,
+plugin ho v tom stavu ponechá, protože příští synchronizace by ho stejně
+stáhla znovu a stránka by se objevovala a mizela bez vysvětlení. Kurz založený
+ručně se nikdy nezruší, ten v iSportu nikdy nebyl.
 
 ## Přehled a synchronizace
 

@@ -46,6 +46,7 @@ use CSCS\Data\TrainerType;
 use CSCS\Render\Assets;
 use CSCS\Render\Block;
 use CSCS\Render\BlockCategory;
+use CSCS\Render\Cancelled;
 use CSCS\Render\FieldBlocks;
 use CSCS\Divi\DesignGuard;
 use CSCS\Divi\DisplayModule;
@@ -165,6 +166,7 @@ final class Plugin {
 		( new BlockCategory() )->register();
 		( new Block( $this ) )->register();
 		( new FieldBlocks( $this ) )->register();
+		( new Cancelled( $this ) )->register();
 		( new SingleCourse( $this ) )->register();
 		( new SingleTrainer( $this ) )->register();
 		( new SingleKind( $this ) )->register();

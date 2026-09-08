@@ -247,6 +247,7 @@ CS = {
 "No kinds of course in the bin.": "V koši nejsou žádné druhy kurzů.",
 "No lesson names a course clearly enough to suggest one.": "Žádná lekce nejmenuje kurz dost jasně na to, aby šel navrhnout.",
 "No longer offered by iSport": "iSport už kurz nenabízí",
+"No longer offered by iSport — the page is off the site, and its old address sends visitors to the kind of course it belonged to. Everything written here is kept; it comes back on its own if iSport offers the course again.": "iSport ho už nenabízí — stránka je stžena z webu a její původní adresa poslá návštěvníka na druh kurzu, pod který patřil. Všechno, co je tu napsáno, zůstává; až iSport kurz zase nabídne, stránka se sama vrátí.",
 "No photograph yet. iSport has none for this trainer, or none has been retrieved. Set a featured image to use your own.": "Zatím žádná fotografie. iSport ji pro tohoto trenéra nemá, nebo se ještě nestáhla. Vlastní nastavíte jako náhledový obrázek.",
 "No rooms yet, because no timetable is stored. Synchronise first.": "Zatím žádné sály, protože není uložený žádný rozvrh. Nejdřív spusťte synchronizaci.",
 "No sets yet. The form below makes the first one.": "Zatím žádné sady. Formulář níže vytvoří první.",
@@ -522,6 +523,7 @@ CS = {
 }
 
 CS_PLURAL = {
+"Cancelled <span class=\"count\">(%s)</span>": ["Zrušený <span class=\"count\">(%s)</span>", "Zrušené <span class=\"count\">(%s)</span>", "Zrušených <span class=\"count\">(%s)</span>"],
 "%d minute": ["%d minuta", "%d minuty", "%d minut"],
 "%d row": ["%d řádek", "%d řádky", "%d řádků"],
 "%d class assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone.": ["Přiřazena %d lekce a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit.", "Přiřazeny %d lekce a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit.", "Přiřazeno %d lekcí a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit."],
@@ -545,6 +547,7 @@ JS = {
 }
 
 CONTEXT = {
+("course state", "Cancelled"): "Zrušený kurz",
 ("level of a course for a mixed or male group", "Beginners"): "Začátečníci",
 ("level of a course for a mixed or male group", "Improvers"): "Mírně pokročilí",
 ("level of a course for a mixed or male group", "Advanced"): "Pokročilí",

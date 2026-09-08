@@ -443,6 +443,7 @@ undocumented one somebody has to look for.
 | `cscs_fields` | The catalogue a block and a Divi module are generated from — one entry here is one of each |
 | `cscs_listing_rows` | The rows about to be rendered, after the query and before the table |
 | `cscs_template_directories` | Where a theme's overrides are looked for |
+| `cscs_cancelled_course_redirect` | Where the address of a withdrawn course sends a visitor. Defaults to the page of the kind it belonged to; an empty string leaves the not-found page as it is |
 | `cscs_course_lookback_days` | How many days before the configured term start the course listing is asked for (31). The remote system reads its `date` argument as the earliest course start it should report, so a listing asked for from the term start alone misses the courses that opened earlier in the first week |
 | `cscs_course_lesson_tags` | Tag labels that mark an occurrence as part of a course |
 | `cscs_course_kind_patterns` | Where a course's name stops being the kind of course it is |

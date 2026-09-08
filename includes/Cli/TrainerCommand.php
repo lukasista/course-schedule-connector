@@ -11,6 +11,7 @@ namespace CSCS\Cli;
 
 defined( 'ABSPATH' ) || exit;
 
+use CSCS\Data\CourseRepository;
 use CSCS\Data\PostType;
 use CSCS\Data\TrainerRepository;
 use CSCS\Data\TrainerType;
@@ -82,7 +83,7 @@ final class TrainerCommand {
 		$courses = get_posts(
 			array(
 				'post_type'        => PostType::COURSE,
-				'post_status'      => 'any',
+				'post_status'      => CourseRepository::every_status(),
 				'numberposts'      => -1,
 				'suppress_filters' => false,
 			)

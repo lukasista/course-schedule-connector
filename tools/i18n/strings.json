@@ -100,7 +100,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:248"
+            "includes/Admin/CourseEditor.php:288"
         ]
     },
     {
@@ -236,7 +236,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:217"
+            "includes/Admin/CourseEditor.php:257"
         ]
     },
     {
@@ -261,7 +261,7 @@
         "context": null,
         "refs": [
             "includes/Admin/Screen/DisplaySetsPage.php:244",
-            "includes/Data/PostType.php:178"
+            "includes/Data/PostType.php:221"
         ]
     },
     {
@@ -287,10 +287,10 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:252",
+            "includes/Admin/CourseEditor.php:292",
             "includes/Admin/Screen/MakeupPage.php:130",
             "includes/Admin/Screen/UnmatchedPage.php:165",
-            "includes/Data/PostType.php:179",
+            "includes/Data/PostType.php:222",
             "includes/Render/Fields.php:726"
         ]
     },
@@ -363,7 +363,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:158",
+            "includes/Admin/CourseEditor.php:198",
             "includes/Admin/KindEditor.php:324",
             "includes/Admin/Screen/DisplaySetsPage.php:439",
             "includes/Render/CourseDetail.php:105",
@@ -409,7 +409,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:164"
+            "includes/Admin/CourseEditor.php:204"
         ]
     },
     {
@@ -425,7 +425,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:196"
+            "includes/Admin/CourseEditor.php:236"
         ]
     },
     {
@@ -465,7 +465,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:195",
+            "includes/Admin/CourseEditor.php:235",
             "includes/Admin/CourseList.php:93",
             "includes/Admin/Screen/DisplaySetsPage.php:292"
         ]
@@ -624,7 +624,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:192",
+            "includes/Admin/CourseEditor.php:232",
             "includes/Admin/CourseList.php:55",
             "includes/Render/Fields.php:743"
         ]
@@ -704,6 +704,22 @@
         ]
     },
     {
+        "singular": "Cancelled",
+        "plural": null,
+        "context": "course state",
+        "refs": [
+            "includes/Data/PostType.php:149"
+        ]
+    },
+    {
+        "singular": "Cancelled <span class=\"count\">(%s)</span>",
+        "plural": "Cancelled <span class=\"count\">(%s)</span>",
+        "context": null,
+        "refs": [
+            "includes/Data/PostType.php:157"
+        ]
+    },
+    {
         "singular": "Cancelled classes",
         "plural": null,
         "context": null,
@@ -716,7 +732,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:257"
+            "includes/Admin/CourseEditor.php:297"
         ]
     },
     {
@@ -882,7 +898,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:75"
+            "includes/Admin/CourseEditor.php:115"
         ]
     },
     {
@@ -898,7 +914,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/PostType.php:71",
+            "includes/Data/PostType.php:76",
             "includes/Render/Fields.php:724",
             "includes/Render/Fields.php:725"
         ]
@@ -940,7 +956,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:245"
+            "includes/Admin/CourseEditor.php:285"
         ]
     },
     {
@@ -948,7 +964,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:433",
+            "includes/Admin/CourseEditor.php:473",
             "includes/Render/Fields.php:75"
         ]
     },
@@ -981,7 +997,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/PostType.php:187"
+            "includes/Data/PostType.php:230"
         ]
     },
     {
@@ -989,7 +1005,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/PostType.php:186"
+            "includes/Data/PostType.php:229"
         ]
     },
     {
@@ -1027,8 +1043,8 @@
             "includes/Admin/Screen/DisplaySetsPage.php:135",
             "includes/Admin/Screen/DisplaySetsPage.php:197",
             "includes/Admin/Screen/Overview.php:226",
-            "includes/Data/PostType.php:70",
-            "includes/Data/PostType.php:72"
+            "includes/Data/PostType.php:75",
+            "includes/Data/PostType.php:77"
         ]
     },
     {
@@ -1199,7 +1215,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:435",
+            "includes/Admin/CourseEditor.php:475",
             "includes/Render/Fields.php:212"
         ]
     },
@@ -1250,7 +1266,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:143"
+            "includes/Admin/CourseEditor.php:183"
         ]
     },
     {
@@ -1266,7 +1282,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/PostType.php:75"
+            "includes/Data/PostType.php:80"
         ]
     },
     {
@@ -1306,7 +1322,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:199"
+            "includes/Admin/CourseEditor.php:239"
         ]
     },
     {
@@ -1412,7 +1428,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:84"
+            "includes/Admin/CourseEditor.php:124"
         ]
     },
     {
@@ -1428,7 +1444,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:451",
+            "includes/Admin/CourseEditor.php:491",
             "includes/Admin/CourseList.php:77"
         ]
     },
@@ -1461,7 +1477,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:154"
+            "includes/Admin/CourseEditor.php:194"
         ]
     },
     {
@@ -1469,7 +1485,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:466",
+            "includes/Admin/CourseEditor.php:506",
             "includes/Admin/Screen/SettingsPage.php:121",
             "includes/Render/CourseDetail.php:495",
             "includes/Render/Listing.php:628",
@@ -1481,7 +1497,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:92"
+            "includes/Admin/CourseEditor.php:132"
         ]
     },
     {
@@ -1514,7 +1530,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:168",
+            "includes/Admin/CourseEditor.php:208",
             "includes/Admin/Screen/DisplaySetsPage.php:248",
             "includes/Render/CourseDetail.php:106",
             "includes/Render/Fields.php:138",
@@ -1748,10 +1764,10 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:434",
+            "includes/Admin/CourseEditor.php:474",
             "includes/Admin/KindEditor.php:275",
             "includes/Data/KindType.php:70",
-            "includes/Data/PostType.php:183"
+            "includes/Data/PostType.php:226"
         ]
     },
     {
@@ -1764,7 +1780,7 @@
             "includes/Admin/Screen/DisplaySetsPage.php:247",
             "includes/Data/KindType.php:69",
             "includes/Data/KindType.php:71",
-            "includes/Data/PostType.php:182"
+            "includes/Data/PostType.php:225"
         ]
     },
     {
@@ -1788,7 +1804,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:259"
+            "includes/Admin/CourseEditor.php:299"
         ]
     },
     {
@@ -1796,7 +1812,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:139"
+            "includes/Admin/CourseEditor.php:179"
         ]
     },
     {
@@ -1884,7 +1900,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:180",
+            "includes/Admin/CourseEditor.php:220",
             "includes/Admin/Screen/DisplaySetsPage.php:249",
             "includes/Render/CourseDetail.php:107",
             "includes/Render/Fields.php:147",
@@ -2012,7 +2028,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:197"
+            "includes/Admin/CourseEditor.php:237"
         ]
     },
     {
@@ -2108,7 +2124,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/PostType.php:74"
+            "includes/Data/PostType.php:79"
         ]
     },
     {
@@ -2156,8 +2172,15 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:452",
             "includes/Admin/CourseList.php:78"
+        ]
+    },
+    {
+        "singular": "No longer offered by iSport — the page is off the site, and its old address sends visitors to the kind of course it belonged to. Everything written here is kept; it comes back on its own if iSport offers the course again.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/CourseEditor.php:492"
         ]
     },
     {
@@ -2229,7 +2252,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:151"
+            "includes/Admin/CourseEditor.php:191"
         ]
     },
     {
@@ -2369,7 +2392,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:162",
+            "includes/Admin/CourseEditor.php:202",
             "includes/Admin/Screen/DisplaySetsPage.php:443"
         ]
     },
@@ -2411,7 +2434,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:278"
+            "includes/Admin/CourseEditor.php:318"
         ]
     },
     {
@@ -2565,8 +2588,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:254",
-            "includes/Admin/CourseEditor.php:438",
+            "includes/Admin/CourseEditor.php:294",
+            "includes/Admin/CourseEditor.php:478",
             "includes/Admin/KindEditor.php:368",
             "includes/Admin/Screen/DisplaySetsPage.php:590",
             "includes/Divi/FieldModules.php:345",
@@ -2738,11 +2761,11 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:437",
+            "includes/Admin/CourseEditor.php:477",
             "includes/Admin/Screen/DisplaySetsPage.php:592",
             "includes/Admin/Screen/MakeupPage.php:131",
             "includes/Admin/Screen/UnmatchedPage.php:166",
-            "includes/Data/PostType.php:171",
+            "includes/Data/PostType.php:214",
             "includes/Render/CourseDetail.php:108",
             "includes/Render/Fields.php:156",
             "includes/Render/Fields.php:157",
@@ -2759,7 +2782,7 @@
             "includes/Admin/Menu.php:190",
             "includes/Admin/Screen/DisplaySetsPage.php:379",
             "includes/Admin/Screen/RoomsPage.php:68",
-            "includes/Data/PostType.php:170"
+            "includes/Data/PostType.php:213"
         ]
     },
     {
@@ -2775,7 +2798,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:450",
+            "includes/Admin/CourseEditor.php:490",
             "includes/Admin/CourseList.php:76"
         ]
     },
@@ -2794,7 +2817,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:255"
+            "includes/Admin/CourseEditor.php:295"
         ]
     },
     {
@@ -2810,7 +2833,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:256"
+            "includes/Admin/CourseEditor.php:296"
         ]
     },
     {
@@ -2907,7 +2930,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Data/PostType.php:73"
+            "includes/Data/PostType.php:78"
         ]
     },
     {
@@ -3070,7 +3093,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:131"
+            "includes/Admin/CourseEditor.php:171"
         ]
     },
     {
@@ -3137,7 +3160,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:253",
+            "includes/Admin/CourseEditor.php:293",
             "includes/Admin/CourseList.php:54"
         ]
     },
@@ -3202,7 +3225,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:258"
+            "includes/Admin/CourseEditor.php:298"
         ]
     },
     {
@@ -3210,7 +3233,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:147"
+            "includes/Admin/CourseEditor.php:187"
         ]
     },
     {
@@ -3490,7 +3513,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:188"
+            "includes/Admin/CourseEditor.php:228"
         ]
     },
     {
@@ -3664,10 +3687,10 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:436",
+            "includes/Admin/CourseEditor.php:476",
             "includes/Admin/Screen/MakeupPage.php:132",
             "includes/Admin/Screen/UnmatchedPage.php:167",
-            "includes/Data/PostType.php:175",
+            "includes/Data/PostType.php:218",
             "includes/Data/TrainerType.php:93",
             "includes/Render/CourseDetail.php:109",
             "includes/Render/CourseDetail.php:194",
@@ -3701,7 +3724,7 @@
             "includes/Admin/Menu.php:138",
             "includes/Admin/Menu.php:139",
             "includes/Admin/Screen/DisplaySetsPage.php:243",
-            "includes/Data/PostType.php:174",
+            "includes/Data/PostType.php:217",
             "includes/Data/TrainerType.php:92",
             "includes/Data/TrainerType.php:94"
         ]
@@ -4058,7 +4081,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:136"
+            "includes/Admin/CourseEditor.php:176"
         ]
     },
     {
@@ -4207,7 +4230,7 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:176"
+            "includes/Admin/CourseEditor.php:216"
         ]
     },
     {
@@ -4351,8 +4374,8 @@
         "plural": null,
         "context": null,
         "refs": [
-            "includes/Admin/CourseEditor.php:171",
-            "includes/Admin/CourseEditor.php:183"
+            "includes/Admin/CourseEditor.php:211",
+            "includes/Admin/CourseEditor.php:223"
         ]
     },
     {

@@ -94,6 +94,7 @@ Yes. A kind's page carries its own answer to "which of these courses" — who th
 
 = 1.0.0-alpha.2 =
 * Courses that began earlier in the term were missing: the remote system was asked for its listing without a date, which it answers as "courses starting from this moment". Forty of a hundred and thirteen courses had been archived as though iSport had stopped offering them, two hundred and nineteen class occurrences could not be tied to a course, and six kinds of course had nothing to take a description from. The listing now starts a month before the configured term start.
+* A course iSport has stopped offering now goes into a **Cancelled** state of its own: off the site, kept in full, with its own tab in the list of courses, and published again by itself if iSport offers it back. Its old address redirects to the kind of course it belonged to.
 * Overview: **Pause synchronisation**, which stops the scheduled jobs until you resume them and leaves synchronising by hand working; and **Fetch every missing description**, which fills in the kind pages that have nothing written on them.
 * Both long-running buttons now say what they are doing while they do it, instead of leaving the page sitting there.
 * The button that fetches a kind's description says what happened. A course with no description in iSport now says so, rather than looking like a button that does nothing.

@@ -183,6 +183,11 @@ modulů**, **575 přeložených řetězců**, **25 druhů kurzů**, výpis 113 k
 - **Plánovač se nikdy nenaplánoval.** `wp_schedule_event()` odmítne interval,
   který WordPress v tu chvíli nezná, a při aktivaci ho nezná. Frontend o tom
   neřekne nic — stránky se kreslí dál a čísla stojí.
+- **„Any" v dotazu na příspěvky neznamená any.** WordPress ho čte jako „každý
+  stav, který není vyloučený z vyhledávání", a nový stav *Zrušený kurz* z něj
+  vyloučený je. Tři metody `CourseRepository` by tak zrušený kurz vůbec
+  neviděly a příští synchronizace by z něj udělala druhou kopii. Stavy se teď
+  vypisují jménem.
 - **Seznam kurzů se stahoval bez data.** iSport pak vrátí jen kurzy, jejichž
   nejbližší lekce je teprve před námi — 73 ze 113. Ten neúplný seznam pak brala
   archivace (40 kurzů zmizelo z webu), párování (219 nespárovaných lekcí)
@@ -209,7 +214,6 @@ Nic z toho neblokuje provoz. Seřazeno podle toho, jak moc to bije do očí.
 | A5 | Seznam kurzů v administraci | Hromadné akce z F3b nikdy nevznikly. | — |
 | A8 | Párování lekcí | 57 lekcí zůstává nespárovaných. 8 z 9 názvů jsou kurzy, které iSport ve výpisu kurzů nemá vůbec, na žádné datum — na naší straně už není co opravit. Devátý (`Funkční kruhový trénink`) má lekci bez čísla kurzu a tři kandidáty, takže se nedá rozhodnout. | `wp cscs sync unmatched` |
 | A9 | Popisy druhů | Dva kurzy (`108-Gymnastika pro dospělé`, `83-Vzdušná akrobacie … s hlídáním dětí`) mají popis prázdný přímo v iSportu. Tlačítko to teď říká, ale napravit se to dá jen v iSportu. | — |
-| A10 | Archivovaný kurz | Z výpisů zmizí, ale jeho vlastní stránka zůstane veřejná. Zvoleno vědomě („nechat archivovat jako teď"). | — |
 | A6 | `.wordpress-org` | Snímky 1 a 3 jsou tentýž obrázek; chybí snímek výpisu kurzů na desktopu. | — |
 | A7 | Adresář | Bannery a ikony (`banner-*.png`, `icon-*.png`) neexistují. | — |
 

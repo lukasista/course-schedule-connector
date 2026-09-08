@@ -71,7 +71,7 @@ msgid_plural "%d suggestions applied. Check them before relying on them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Admin/CourseEditor.php:248
+#: includes/Admin/CourseEditor.php:288
 msgid "%d — created here, not in iSport"
 msgstr ""
 
@@ -139,7 +139,7 @@ msgstr ""
 msgid "A suggestion is offered only where the lesson names its course and exactly one course fits. Filling them in records those, and only those: anything already assigned is left alone, and a suggestion you disagree with is changed like any other row. Nothing here is guessed on your behalf at synchronisation time."
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:217
+#: includes/Admin/CourseEditor.php:257
 msgid "A ticked field keeps whatever is written here. Synchronisation refreshes everything else and leaves this alone, for good."
 msgstr ""
 
@@ -152,7 +152,7 @@ msgid "Actions"
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:244
-#: includes/Data/PostType.php:178
+#: includes/Data/PostType.php:221
 msgid "Activities"
 msgstr ""
 
@@ -166,10 +166,10 @@ msgstr ""
 msgid "Activities that take no bookings"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:252
+#: includes/Admin/CourseEditor.php:292
 #: includes/Admin/Screen/MakeupPage.php:130
 #: includes/Admin/Screen/UnmatchedPage.php:165
-#: includes/Data/PostType.php:179
+#: includes/Data/PostType.php:222
 #: includes/Render/Fields.php:726
 msgid "Activity"
 msgstr ""
@@ -208,7 +208,7 @@ msgstr ""
 msgid "After the heading"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:158
+#: includes/Admin/CourseEditor.php:198
 #: includes/Admin/KindEditor.php:324
 #: includes/Admin/Screen/DisplaySetsPage.php:439
 #: includes/Render/CourseDetail.php:105
@@ -234,7 +234,7 @@ msgstr ""
 msgid "All rooms"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:164
+#: includes/Admin/CourseEditor.php:204
 msgid "Also read from the course name — \"9-11 let\", \"od 10 let\". Fill either box in to overrule the reading; leave the second empty for a course with no upper age. Empty both to go back to reading the name."
 msgstr ""
 
@@ -242,7 +242,7 @@ msgstr ""
 msgid "Alternative text"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:196
+#: includes/Admin/CourseEditor.php:236
 msgid "Always show it"
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 msgid "Arrangement"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:195
+#: includes/Admin/CourseEditor.php:235
 #: includes/Admin/CourseList.php:93
 #: includes/Admin/Screen/DisplaySetsPage.php:292
 msgid "As the settings say"
@@ -347,7 +347,7 @@ msgstr ""
 msgid "Between two dates"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:192
+#: includes/Admin/CourseEditor.php:232
 #: includes/Admin/CourseList.php:55
 #: includes/Render/Fields.php:743
 msgid "Booking button"
@@ -393,11 +393,22 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
+#: includes/Data/PostType.php:149
+msgctxt "course state"
+msgid "Cancelled"
+msgstr ""
+
+#: includes/Data/PostType.php:157
+msgid "Cancelled <span class=\"count\">(%s)</span>"
+msgid_plural "Cancelled <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
 #: includes/Admin/Screen/DisplaySetsPage.php:289
 msgid "Cancelled classes"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:257
+#: includes/Admin/CourseEditor.php:297
 msgid "Capacity"
 msgstr ""
 
@@ -485,7 +496,7 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:75
+#: includes/Admin/CourseEditor.php:115
 msgid "Contact and booking"
 msgstr ""
 
@@ -493,7 +504,7 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
-#: includes/Data/PostType.php:71
+#: includes/Data/PostType.php:76
 #: includes/Render/Fields.php:724
 #: includes/Render/Fields.php:725
 msgid "Course"
@@ -515,11 +526,11 @@ msgstr ""
 msgid "Course description"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:245
+#: includes/Admin/CourseEditor.php:285
 msgid "Course id"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:433
+#: includes/Admin/CourseEditor.php:473
 #: includes/Render/Fields.php:75
 msgid "Course name"
 msgstr ""
@@ -536,11 +547,11 @@ msgstr ""
 msgid "Course synchronisation interval"
 msgstr ""
 
-#: includes/Data/PostType.php:187
+#: includes/Data/PostType.php:230
 msgid "Course tag"
 msgstr ""
 
-#: includes/Data/PostType.php:186
+#: includes/Data/PostType.php:229
 msgid "Course tags"
 msgstr ""
 
@@ -562,8 +573,8 @@ msgstr ""
 #: includes/Admin/Screen/DisplaySetsPage.php:135
 #: includes/Admin/Screen/DisplaySetsPage.php:197
 #: includes/Admin/Screen/Overview.php:226
-#: includes/Data/PostType.php:70
-#: includes/Data/PostType.php:72
+#: includes/Data/PostType.php:75
+#: includes/Data/PostType.php:77
 msgid "Courses"
 msgstr ""
 
@@ -654,7 +665,7 @@ msgstr ""
 msgid "Description from a course"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:435
+#: includes/Admin/CourseEditor.php:475
 #: includes/Render/Fields.php:212
 msgid "Description from iSport"
 msgstr ""
@@ -681,7 +692,7 @@ msgstr ""
 msgid "Download the settings"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:143
+#: includes/Admin/CourseEditor.php:183
 msgid "E-mail"
 msgstr ""
 
@@ -689,7 +700,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: includes/Data/PostType.php:75
+#: includes/Data/PostType.php:80
 msgid "Edit course"
 msgstr ""
 
@@ -709,7 +720,7 @@ msgstr ""
 msgid "Edit trainer"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:199
+#: includes/Admin/CourseEditor.php:239
 msgid "Even when shown, the button hides itself while the course is full or iSport reports that it takes no registrations."
 msgstr ""
 
@@ -763,7 +774,7 @@ msgstr ""
 msgid "Few places left at"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:84
+#: includes/Admin/CourseEditor.php:124
 msgid "Fields synchronisation must not touch"
 msgstr ""
 
@@ -771,7 +782,7 @@ msgstr ""
 msgid "Fill in and save the suggestions"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:451
+#: includes/Admin/CourseEditor.php:491
 #: includes/Admin/CourseList.php:77
 msgid "Finished"
 msgstr ""
@@ -788,11 +799,11 @@ msgstr ""
 msgid "For example https://example.isportsystem.cz — https only. An address inside a private network is refused."
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:154
+#: includes/Admin/CourseEditor.php:194
 msgid "For example when to ring, or that places are arranged individually."
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:466
+#: includes/Admin/CourseEditor.php:506
 #: includes/Admin/Screen/SettingsPage.php:121
 #: includes/Render/CourseDetail.php:495
 #: includes/Render/Listing.php:628
@@ -800,7 +811,7 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:92
+#: includes/Admin/CourseEditor.php:132
 msgid "From iSport"
 msgstr ""
 
@@ -817,7 +828,7 @@ msgstr ""
 msgid "Gap"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:168
+#: includes/Admin/CourseEditor.php:208
 #: includes/Admin/Screen/DisplaySetsPage.php:248
 #: includes/Render/CourseDetail.php:106
 #: includes/Render/Fields.php:138
@@ -941,10 +952,10 @@ msgstr ""
 msgid "Kind description"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:434
+#: includes/Admin/CourseEditor.php:474
 #: includes/Admin/KindEditor.php:275
 #: includes/Data/KindType.php:70
-#: includes/Data/PostType.php:183
+#: includes/Data/PostType.php:226
 msgid "Kind of course"
 msgstr ""
 
@@ -953,7 +964,7 @@ msgstr ""
 #: includes/Admin/Screen/DisplaySetsPage.php:247
 #: includes/Data/KindType.php:69
 #: includes/Data/KindType.php:71
-#: includes/Data/PostType.php:182
+#: includes/Data/PostType.php:225
 msgid "Kinds of course"
 msgstr ""
 
@@ -965,11 +976,11 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:259
+#: includes/Admin/CourseEditor.php:299
 msgid "Last retrieved"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:139
+#: includes/Admin/CourseEditor.php:179
 msgid "Leave empty to show the trainer iSport names."
 msgstr ""
 
@@ -1013,7 +1024,7 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:180
+#: includes/Admin/CourseEditor.php:220
 #: includes/Admin/Screen/DisplaySetsPage.php:249
 #: includes/Render/CourseDetail.php:107
 #: includes/Render/Fields.php:147
@@ -1085,7 +1096,7 @@ msgstr ""
 msgid "Names that mark a class as a replacement for one somebody missed, one per line, matched the same loose way. These are counted and shown separately from activities that take no bookings, because a make-up lesson belongs to a course — which one is recorded under iSport → Make-up lessons."
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:197
+#: includes/Admin/CourseEditor.php:237
 msgid "Never show it"
 msgstr ""
 
@@ -1133,7 +1144,7 @@ msgstr ""
 msgid "No courses are stored yet, so there is nothing to choose from. Synchronise first."
 msgstr ""
 
-#: includes/Data/PostType.php:74
+#: includes/Data/PostType.php:79
 msgid "No courses found."
 msgstr ""
 
@@ -1157,9 +1168,12 @@ msgstr ""
 msgid "No lesson names a course clearly enough to suggest one."
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:452
 #: includes/Admin/CourseList.php:78
 msgid "No longer offered by iSport"
+msgstr ""
+
+#: includes/Admin/CourseEditor.php:492
+msgid "No longer offered by iSport — the page is off the site, and its old address sends visitors to the kind of course it belonged to. Everything written here is kept; it comes back on its own if iSport offers the course again."
 msgstr ""
 
 #: includes/Admin/TrainerEditor.php:298
@@ -1194,7 +1208,7 @@ msgstr ""
 msgid "Not running"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:151
+#: includes/Admin/CourseEditor.php:191
 msgid "Note"
 msgstr ""
 
@@ -1266,7 +1280,7 @@ msgstr ""
 msgid "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear."
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:162
+#: includes/Admin/CourseEditor.php:202
 #: includes/Admin/Screen/DisplaySetsPage.php:443
 msgid "Oldest age"
 msgstr ""
@@ -1288,7 +1302,7 @@ msgstr ""
 msgid "Open settings"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:278
+#: includes/Admin/CourseEditor.php:318
 msgid "Open this course in iSport"
 msgstr ""
 
@@ -1370,8 +1384,8 @@ msgstr ""
 msgid "Preparing the file…"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:254
-#: includes/Admin/CourseEditor.php:438
+#: includes/Admin/CourseEditor.php:294
+#: includes/Admin/CourseEditor.php:478
 #: includes/Admin/KindEditor.php:368
 #: includes/Admin/Screen/DisplaySetsPage.php:590
 #: includes/Divi/FieldModules.php:345
@@ -1463,11 +1477,11 @@ msgstr ""
 msgid "Retrieving courses and classes from iSport. This can take a minute."
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:437
+#: includes/Admin/CourseEditor.php:477
 #: includes/Admin/Screen/DisplaySetsPage.php:592
 #: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Admin/Screen/UnmatchedPage.php:166
-#: includes/Data/PostType.php:171
+#: includes/Data/PostType.php:214
 #: includes/Render/CourseDetail.php:108
 #: includes/Render/Fields.php:156
 #: includes/Render/Fields.php:157
@@ -1480,7 +1494,7 @@ msgstr ""
 #: includes/Admin/Menu.php:190
 #: includes/Admin/Screen/DisplaySetsPage.php:379
 #: includes/Admin/Screen/RoomsPage.php:68
-#: includes/Data/PostType.php:170
+#: includes/Data/PostType.php:213
 msgid "Rooms"
 msgstr ""
 
@@ -1488,7 +1502,7 @@ msgstr ""
 msgid "Round"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:450
+#: includes/Admin/CourseEditor.php:490
 #: includes/Admin/CourseList.php:76
 msgid "Running"
 msgstr ""
@@ -1499,7 +1513,7 @@ msgstr ""
 msgid "Runs"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:255
+#: includes/Admin/CourseEditor.php:295
 msgid "Runs from"
 msgstr ""
 
@@ -1507,7 +1521,7 @@ msgstr ""
 msgid "Runs from and to"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:256
+#: includes/Admin/CourseEditor.php:296
 msgid "Runs to"
 msgstr ""
 
@@ -1556,7 +1570,7 @@ msgstr ""
 msgid "Scheduled synchronisation is paused. Nothing is being retrieved on its own; the buttons below still work."
 msgstr ""
 
-#: includes/Data/PostType.php:73
+#: includes/Data/PostType.php:78
 msgid "Search courses"
 msgstr ""
 
@@ -1639,7 +1653,7 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:131
+#: includes/Admin/CourseEditor.php:171
 msgid "Some courses take no bookings through iSport at all, and a visitor who wants one needs a person to ask. Anything filled in here is shown on the course, and nothing here is ever overwritten by a synchronisation."
 msgstr ""
 
@@ -1674,7 +1688,7 @@ msgstr ""
 msgid "Starting the scheduled jobs again…"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:253
+#: includes/Admin/CourseEditor.php:293
 #: includes/Admin/CourseList.php:54
 msgid "State"
 msgstr ""
@@ -1707,11 +1721,11 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:258
+#: includes/Admin/CourseEditor.php:298
 msgid "Taken"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:147
+#: includes/Admin/CourseEditor.php:187
 msgid "Telephone"
 msgstr ""
 
@@ -1851,7 +1865,7 @@ msgstr ""
 msgid "The whole term"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:188
+#: includes/Admin/CourseEditor.php:228
 msgid "The wording follows the group: a course for girls is worded differently from a mixed one, and the choice made here is the same either way."
 msgstr ""
 
@@ -1941,10 +1955,10 @@ msgstr ""
 msgid "To:"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:436
+#: includes/Admin/CourseEditor.php:476
 #: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Admin/Screen/UnmatchedPage.php:167
-#: includes/Data/PostType.php:175
+#: includes/Data/PostType.php:218
 #: includes/Data/TrainerType.php:93
 #: includes/Render/CourseDetail.php:109
 #: includes/Render/CourseDetail.php:194
@@ -1966,7 +1980,7 @@ msgstr ""
 #: includes/Admin/Menu.php:138
 #: includes/Admin/Menu.php:139
 #: includes/Admin/Screen/DisplaySetsPage.php:243
-#: includes/Data/PostType.php:174
+#: includes/Data/PostType.php:217
 #: includes/Data/TrainerType.php:92
 #: includes/Data/TrainerType.php:94
 msgid "Trainers"
@@ -2151,7 +2165,7 @@ msgstr ""
 msgid "Who to ask"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:136
+#: includes/Admin/CourseEditor.php:176
 msgid "Who to contact"
 msgstr ""
 
@@ -2232,7 +2246,7 @@ msgstr ""
 msgid "iSport"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:176
+#: includes/Admin/CourseEditor.php:216
 msgid "iSport has no field for this: it is read from the course name. Choosing something here overrules the reading, and no synchronisation will change it back."
 msgstr ""
 
@@ -2306,8 +2320,8 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: includes/Admin/CourseEditor.php:171
-#: includes/Admin/CourseEditor.php:183
+#: includes/Admin/CourseEditor.php:211
+#: includes/Admin/CourseEditor.php:223
 msgid "— as the name says —"
 msgstr ""
 

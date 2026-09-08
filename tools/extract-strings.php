@@ -1,5 +1,5 @@
 <?php
-$funcs = array('__'=>1,'_e'=>1,'esc_html__'=>1,'esc_html_e'=>1,'esc_attr__'=>1,'esc_attr_e'=>1,'_x'=>2,'_n'=>3,'_nx'=>4);
+$funcs = array('__'=>1,'_e'=>1,'esc_html__'=>1,'esc_html_e'=>1,'esc_attr__'=>1,'esc_attr_e'=>1,'_x'=>2,'_n'=>3,'_nx'=>4,'_n_noop'=>3,'_nx_noop'=>4);
 $strings = array();
 $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator( dirname( __DIR__ ) ));
 foreach ($rii as $file) {
@@ -38,8 +38,11 @@ foreach ($rii as $file) {
         // of one English word, and without the context they collapse into one.
         $context = null;
         if ($fn === '_x') { $context = $args[1] ?? null; }
-        if ($fn === '_n') { $plural = $args[1] ?? null; }
-        if ($fn === '_nx') { $plural = $args[1] ?? null; $context = $args[3] ?? null; }
+        // `_n_noop()` registers a pair for gettext without translating it there
+        // and then; the catalogue needs it all the same, or the count beside a
+        // status in the admin list is the only English left on the screen.
+        if ($fn === '_n' || $fn === '_n_noop') { $plural = $args[1] ?? null; }
+        if ($fn === '_nx' || $fn === '_nx_noop') { $plural = $args[1] ?? null; $context = $args[3] ?? null; }
         if ($singular === null) continue;
         $key = $singular . "\x00" . (string) $plural . "\x00" . (string) $context;
         if (!isset($strings[$key])) $strings[$key] = array('singular'=>$singular,'plural'=>$plural,'context'=>$context,'refs'=>array());

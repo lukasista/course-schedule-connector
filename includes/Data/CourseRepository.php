@@ -40,6 +40,19 @@ final class CourseRepository {
 	public const META_STATUS = '_cscs_status';
 
 	/**
+	 * Whether a synchronisation is writing at this moment.
+	 *
+	 * Read by the guard that stops an editor's Update quietly republishing a
+	 * course iSport has withdrawn. The synchronisation is the one writer
+	 * allowed to move a course out of that state, and it does so by writing the
+	 * new state after the post, so the guard would otherwise judge it on the
+	 * old one.
+	 *
+	 * @var bool
+	 */
+	private static bool $writing = false;
+
+	/**
 	 * Meta key holding who the course is for.
 	 */
 	public const META_GENDER = '_cscs_gender';
@@ -142,6 +155,31 @@ final class CourseRepository {
 	 * @return int Post id, or 0 when the write failed.
 	 */
 	public function save( Course $course ): int {
+		self::$writing = true;
+
+		try {
+			return $this->write( $course );
+		} finally {
+			self::$writing = false;
+		}
+	}
+
+	/**
+	 * Says whether the plugin itself is writing a course right now.
+	 *
+	 * @return bool
+	 */
+	public static function is_writing(): bool {
+		return self::$writing;
+	}
+
+	/**
+	 * Writes one course, the synchronisation's own business.
+	 *
+	 * @param Course $course Course record.
+	 * @return int Post id, or 0 when the write failed.
+	 */
+	private function write( Course $course ): int {
 		$post_id = $this->find( $course->id );
 		$locked  = 0 === $post_id ? array() : $this->locked_fields( $post_id );
 
@@ -373,7 +411,7 @@ final class CourseRepository {
 		$found = get_posts(
 			array(
 				'post_type'        => PostType::COURSE,
-				'post_status'      => 'any',
+				'post_status'      => self::every_status(),
 				'numberposts'      => 1,
 				'fields'           => 'ids',
 				'meta_key'         => self::META_ID, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Indexed lookup on a small post type; the alternative is a second table.
@@ -394,7 +432,7 @@ final class CourseRepository {
 		$posts = get_posts(
 			array(
 				'post_type'        => PostType::COURSE,
-				'post_status'      => 'any',
+				'post_status'      => self::every_status(),
 				'numberposts'      => -1,
 				'fields'           => 'ids',
 				'suppress_filters' => false,
@@ -531,7 +569,7 @@ final class CourseRepository {
 		$posts = get_posts(
 			array(
 				'post_type'        => PostType::COURSE,
-				'post_status'      => 'any',
+				'post_status'      => self::every_status(),
 				'numberposts'      => -1,
 				'orderby'          => 'title',
 				'order'            => 'ASC',
@@ -562,24 +600,76 @@ final class CourseRepository {
 	 * @return int Number of courses archived.
 	 */
 	public function archive_missing( array $seen ): int {
-		$archived = 0;
+		$archived      = 0;
+		self::$writing = true;
 
-		foreach ( $this->all_ids() as $remote_id => $post_id ) {
-			// A hand-made course was never in the remote list and its absence
-			// from it means nothing.
-			if ( self::is_manual( (int) $remote_id ) || in_array( $remote_id, $seen, true ) ) {
-				continue;
+		try {
+			foreach ( $this->all_ids() as $remote_id => $post_id ) {
+				// A hand-made course was never in the remote list and its absence
+				// from it means nothing.
+				if ( self::is_manual( (int) $remote_id ) || in_array( $remote_id, $seen, true ) ) {
+					continue;
+				}
+
+				$already = self::STATUS_ARCHIVED === get_post_meta( $post_id, self::META_STATUS, true );
+
+				if ( ! $already ) {
+					update_post_meta( $post_id, self::META_STATUS, self::STATUS_ARCHIVED );
+					++$archived;
+				}
+
+				// Written every run rather than only on the run that archives,
+				// because a course archived by an earlier version is still
+				// published, and because a page put back by hand should not
+				// stay back.
+				$this->withdraw( (int) $post_id );
 			}
-
-			if ( self::STATUS_ARCHIVED === get_post_meta( $post_id, self::META_STATUS, true ) ) {
-				continue;
-			}
-
-			update_post_meta( $post_id, self::META_STATUS, self::STATUS_ARCHIVED );
-			++$archived;
+		} finally {
+			self::$writing = false;
 		}
 
 		return $archived;
+	}
+
+	/**
+	 * Every state a course post of ours can be in.
+	 *
+	 * Written out rather than asked for as "any", which quietly means "any
+	 * state that is not excluded from search" — and the withdrawn state is. A
+	 * course that cannot be found is a course the next synchronisation makes a
+	 * second copy of.
+	 *
+	 * @return array<int, string>
+	 */
+	public static function every_status(): array {
+		return array( 'publish', 'future', 'draft', 'pending', 'private', PostType::CANCELLED );
+	}
+
+	/**
+	 * Takes a withdrawn course's page out of service.
+	 *
+	 * Trashing it would take the description somebody wrote with it, and a
+	 * draft would file it among the pages people are still working on. It goes
+	 * into a state of its own instead: off the site, in the list of courses
+	 * under its own tab, and one press from being published again.
+	 *
+	 * A course a person has trashed, or has deliberately left as a draft, is
+	 * left where they put it.
+	 *
+	 * @param int $post_id Course id.
+	 * @return void
+	 */
+	private function withdraw( int $post_id ): void {
+		if ( 'publish' !== get_post_status( $post_id ) ) {
+			return;
+		}
+
+		wp_update_post(
+			array(
+				'ID'          => $post_id,
+				'post_status' => PostType::CANCELLED,
+			)
+		);
 	}
 
 	/**
