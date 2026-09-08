@@ -443,6 +443,7 @@ undocumented one somebody has to look for.
 | `cscs_fields` | The catalogue a block and a Divi module are generated from — one entry here is one of each |
 | `cscs_listing_rows` | The rows about to be rendered, after the query and before the table |
 | `cscs_template_directories` | Where a theme's overrides are looked for |
+| `cscs_course_lookback_days` | How many days before the configured term start the course listing is asked for (31). The remote system reads its `date` argument as the earliest course start it should report, so a listing asked for from the term start alone misses the courses that opened earlier in the first week |
 | `cscs_course_lesson_tags` | Tag labels that mark an occurrence as part of a course |
 | `cscs_course_kind_patterns` | Where a course's name stops being the kind of course it is |
 | `cscs_course_gender_terms` | Words in a course name that say who it is for |
@@ -479,6 +480,8 @@ wp cscs makeup link <term-id> <course-id>             # 0 or omitted clears it
 wp cscs sync audience [--dry-run]                     # re-read gender and level from every course name
 wp cscs sync assign <term> <course>                   # permanent manual assignment
 wp cscs sync retention
+wp cscs sync descriptions [--overwrite]                # fill in kind pages that have nothing written on them
+wp cscs sync pause [on|off]                           # stop or start the scheduled jobs; bare, it reports which
 
 wp cscs settings list                                 # every setting and its value
 wp cscs settings set api_base_url https://example.com # validated the way the admin screens will

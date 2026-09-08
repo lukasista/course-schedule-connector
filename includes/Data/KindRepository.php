@@ -186,6 +186,61 @@ final class KindRepository {
 	}
 
 	/**
+	 * Fills in every kind page that has nothing written on it.
+	 *
+	 * The button beside a single kind is for the page in front of you; this is
+	 * for the twenty-six of them after a term has been set up, and it obeys the
+	 * same rule: a page with words on it is left exactly as it is.
+	 *
+	 * @param bool $overwrite Replace what is written, rather than only filling blanks.
+	 * @return array{written: int, kept: int, empty: int} Counts by outcome.
+	 */
+	public function fill_descriptions( bool $overwrite = false ): array {
+		$outcome = array(
+			'written' => 0,
+			'kept'    => 0,
+			'empty'   => 0,
+		);
+
+		$pages = get_posts(
+			array(
+				'post_type'              => KindType::KIND,
+				'post_status'            => 'any',
+				'posts_per_page'         => -1,
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_term_cache' => false,
+			)
+		);
+
+		foreach ( $pages as $page_id ) {
+			$page_id = (int) $page_id;
+
+			if ( ! $overwrite && '' !== trim( (string) get_post_field( 'post_content', $page_id ) ) ) {
+				++$outcome['kept'];
+
+				continue;
+			}
+
+			$description = $this->prevailing_description( $page_id );
+
+			if ( '' === $description ) {
+				++$outcome['empty'];
+
+				continue;
+			}
+
+			if ( $this->write_description( $page_id, $description ) ) {
+				++$outcome['written'];
+			} else {
+				++$outcome['empty'];
+			}
+		}
+
+		return $outcome;
+	}
+
+	/**
 	 * Writes a description onto a kind's page, whatever is there.
 	 *
 	 * For the button on the editing screen: somebody asked for this text, in so

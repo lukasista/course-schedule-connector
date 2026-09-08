@@ -170,15 +170,41 @@ final class Overview {
 
 			<?php if ( Capabilities::can_manage_design() ) : ?>
 				<h2><?php esc_html_e( 'Actions', 'course-schedule-connector' ); ?></h2>
-				<form method="post">
+
+				<?php if ( $this->plugin->scheduler()->is_paused() ) : ?>
+					<div class="notice notice-warning inline">
+						<p><?php esc_html_e( 'Scheduled synchronisation is paused. Nothing is being retrieved on its own; the buttons below still work.', 'course-schedule-connector' ); ?></p>
+					</div>
+				<?php endif; ?>
+
+				<form method="post" class="cscs-actions">
 					<?php wp_nonce_field( 'cscs_overview' ); ?>
 					<p>
 						<button type="submit" name="cscs_action" value="sync" class="button button-primary">
 							<?php esc_html_e( 'Synchronise now', 'course-schedule-connector' ); ?>
 						</button>
+						<?php if ( $this->plugin->scheduler()->is_paused() ) : ?>
+							<button type="submit" name="cscs_action" value="resume" class="button">
+								<?php esc_html_e( 'Resume synchronisation', 'course-schedule-connector' ); ?>
+							</button>
+						<?php else : ?>
+							<button type="submit" name="cscs_action" value="pause" class="button">
+								<?php esc_html_e( 'Pause synchronisation', 'course-schedule-connector' ); ?>
+							</button>
+						<?php endif; ?>
+						<button type="submit" name="cscs_action" value="descriptions" class="button">
+							<?php esc_html_e( 'Fetch every missing description', 'course-schedule-connector' ); ?>
+						</button>
 						<button type="submit" name="cscs_action" value="reset" class="button">
 							<?php esc_html_e( 'Resume paused requests', 'course-schedule-connector' ); ?>
 						</button>
+						<span class="cscs-progress" hidden>
+							<span class="spinner is-active" style="float:none;margin:0 .3em 0 0"></span>
+							<span class="cscs-progress__text" role="status"></span>
+						</span>
+					</p>
+					<p class="description">
+						<?php esc_html_e( 'Pausing stops the scheduled jobs until you resume them. Fetching descriptions only fills kind pages that have nothing written on them.', 'course-schedule-connector' ); ?>
 					</p>
 				</form>
 			<?php endif; ?>
@@ -231,6 +257,30 @@ final class Overview {
 			$this->plugin->reset_connection_state();
 
 			return __( 'Requests resumed and cached responses dropped.', 'course-schedule-connector' );
+		}
+
+		if ( 'pause' === $action ) {
+			$this->plugin->scheduler()->pause();
+
+			return __( 'Scheduled synchronisation is paused.', 'course-schedule-connector' );
+		}
+
+		if ( 'resume' === $action ) {
+			$this->plugin->scheduler()->resume();
+
+			return __( 'Scheduled synchronisation has started again.', 'course-schedule-connector' );
+		}
+
+		if ( 'descriptions' === $action ) {
+			$outcome = $this->plugin->kinds()->fill_descriptions();
+
+			return sprintf(
+				/* translators: 1: number of pages written, 2: number left alone, 3: number with nothing to fetch */
+				__( '%1$d kind pages filled in, %2$d left as they were written, %3$d have no description in iSport to take.', 'course-schedule-connector' ),
+				$outcome['written'],
+				$outcome['kept'],
+				$outcome['empty']
+			);
 		}
 
 		if ( 'sync' !== $action ) {

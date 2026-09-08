@@ -10,9 +10,17 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : ((n>=2 && n<=4) ? 1 : 2);\n"
 
 
-#: includes/Admin/Screen/Overview.php:253
+#: includes/Admin/Screen/Overview.php:303
 msgid "%1$d courses and %2$d occurrences retrieved."
 msgstr "Staženo %1$d kurzů a %2$d termínů."
+
+#: includes/Admin/Screen/Overview.php:279
+msgid "%1$d kind pages filled in, %2$d left as they were written, %3$d have no description in iSport to take."
+msgstr "Doplněno %1$d stránek druhů kurzů, %2$d ponecháno tak, jak byly napsané, %3$d nemá v iSportu žádný popis, který by šlo převzít."
+
+#: includes/Admin/SettingsTransfer.php:201
+msgid "%1$d settings imported, %2$d refused."
+msgstr "Naimportováno %1$d nastavení, %2$d odmítnuto."
 
 #: includes/Admin/Screen/UnmatchedPage.php:411
 msgid "%d class assigned and the matching re-run. Assignments are in the \"Assigned by hand\" list, where they can be undone."
@@ -21,7 +29,7 @@ msgstr[0] "Přiřazena %d lekce a párování spuštěno znovu. Přiřazení naj
 msgstr[1] "Přiřazeny %d lekce a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit."
 msgstr[2] "Přiřazeno %d lekcí a párování spuštěno znovu. Přiřazení najdete ve výpisu „Přiřazené ručně“, kde se dají zrušit."
 
-#: includes/Admin/Screen/MakeupPage.php:420
+#: includes/Admin/Screen/MakeupPage.php:422
 msgid "%d make-up lesson saved. Assigned ones are in the Assigned list, where any of them can be undone."
 msgid_plural "%d make-up lessons saved. Assigned ones are in the Assigned list, where any of them can be undone."
 msgstr[0] "Uložena %d náhradní lekce. Přiřazené najdete ve výpisu Přiřazené, kde jde přiřazení zrušit."
@@ -39,7 +47,7 @@ msgstr[2] "%d minut"
 msgid "%d occurrences should belong to a course and do not. Everything else is either matched or a recognised rental."
 msgstr "%d termínů mělo patřit ke kurzu a nepatří. Všechno ostatní je buď spárované, nebo rozpoznaný pronájem."
 
-#: includes/Admin/Screen/MakeupPage.php:473
+#: includes/Admin/Screen/MakeupPage.php:475
 msgid "%d repeat assigned like its series."
 msgid_plural "%d repeats assigned like their series."
 msgstr[0] "Přiřazen %d opakující se termín podle řady."
@@ -60,11 +68,11 @@ msgstr[0] "%d řádek"
 msgstr[1] "%d řádky"
 msgstr[2] "%d řádků"
 
-#: includes/Admin/Screen/SettingsPage.php:71
+#: includes/Admin/Screen/SettingsPage.php:74
 msgid "%d setting(s) saved."
 msgstr "Uloženo nastavení: %d."
 
-#: includes/Admin/Screen/MakeupPage.php:511
+#: includes/Admin/Screen/MakeupPage.php:513
 msgid "%d suggestion applied. Check it before relying on it."
 msgid_plural "%d suggestions applied. Check them before relying on them."
 msgstr[0] "Doplněn %d návrh. Než se na něj spolehnete, zkontrolujte ho."
@@ -75,19 +83,19 @@ msgstr[2] "Doplněno %d návrhů. Než se na ně spolehnete, zkontrolujte je."
 msgid "%d — created here, not in iSport"
 msgstr "%d — založeno tady, v iSportu není"
 
-#: includes/Admin/KindEditor.php:140
+#: includes/Admin/KindEditor.php:175
 msgid "%s (copy)"
 msgstr "%s (kopie)"
 
-#: includes/Admin/Screen/SettingsPage.php:91
+#: includes/Admin/Screen/SettingsPage.php:94
 msgid "A ceiling the scheduled jobs can never exceed, whatever the intervals say."
 msgstr "Strop, který naplánované úlohy nikdy nepřekročí, ať intervaly říkají cokoli."
 
-#: includes/Admin/Screen/SettingsPage.php:114
+#: includes/Admin/Screen/SettingsPage.php:117
 msgid "A class with no price shows"
 msgstr "Lekce bez ceny se zobrazí jako"
 
-#: templates/single-course.php:101
+#: templates/single-course.php:102
 msgid "A class you can attend instead of one you missed."
 msgstr "Lekce, kterou můžete navštívit místo té, kterou jste zmeškali."
 
@@ -95,11 +103,11 @@ msgstr "Lekce, kterou můžete navštívit místo té, kterou jste zmeškali."
 msgid "A colon, a dash — printed right after the heading."
 msgstr "Dvojtečka, pomlčka — vypíše se hned za nadpisem."
 
-#: includes/Admin/KindEditor.php:275
+#: includes/Admin/KindEditor.php:309
 msgid "A course whose name says nothing about this is never shown by a setting that asks."
 msgstr "Kurz, jehož název o tom nic neříká, se pod nastavením, které se ptá, nikdy neukáže."
 
-#: includes/Admin/Screen/SettingsPage.php:120
+#: includes/Admin/Screen/SettingsPage.php:123
 msgid "A course with no price always shows as free. This is about hall rentals and open sessions, where \"free\" would be misleading."
 msgstr "Kurz bez ceny se vždy zobrazí jako zdarma. Tohle se týká pronájmů sálů a open lekcí, kde by „zdarma“ bylo zavádějící."
 
@@ -156,12 +164,12 @@ msgstr "Akce"
 msgid "Activities"
 msgstr "Aktivity"
 
-#: includes/Admin/Screen/SettingsPage.php:130
+#: includes/Admin/Screen/SettingsPage.php:133
 msgid "Activities that occupy a slot in the timetable but accept no payments or registrations: courses run by outside lecturers, make-up lessons, individual training. Nothing in the remote data marks them, so they are listed here, one per line. A name is matched loosely, so \"Zdravé cvičení\" also covers \"Zdravé cvičení s overbaly\". A course that genuinely matches always wins over this list."
 msgstr "Aktivity, které zabírají místo v rozvrhu, ale nepřijímají platby ani přihlášky: kurzy externích lektorů, náhradní lekce, individuální tréninky. V datech z iSportu je nic neoznačuje, proto se vypisují tady, jedna na řádek. Název se porovnává volně, takže „Zdravé cvičení“ pokryje i „Zdravé cvičení s overbaly“. Kurz, který se opravdu spáruje, má vždy přednost před tímto seznamem."
 
-#: includes/Admin/Screen/Overview.php:270
-#: includes/Admin/Screen/SettingsPage.php:128
+#: includes/Admin/Screen/Overview.php:320
+#: includes/Admin/Screen/SettingsPage.php:131
 #: includes/Admin/Screen/UnmatchedPage.php:136
 msgid "Activities that take no bookings"
 msgstr "Aktivity, na které se nepřihlašuje"
@@ -190,7 +198,7 @@ msgstr "Přidat trenéra"
 msgid "Address"
 msgstr "Adresa"
 
-#: includes/Admin/Screen/SettingsPage.php:87
+#: includes/Admin/Screen/SettingsPage.php:90
 msgid "Address of the iSport System"
 msgstr "Adresa iSport systému"
 
@@ -209,7 +217,7 @@ msgid "After the heading"
 msgstr "Za nadpisem"
 
 #: includes/Admin/CourseEditor.php:158
-#: includes/Admin/KindEditor.php:290
+#: includes/Admin/KindEditor.php:324
 #: includes/Admin/Screen/DisplaySetsPage.php:439
 #: includes/Render/CourseDetail.php:105
 #: includes/Render/Fields.php:129
@@ -268,12 +276,12 @@ msgstr "Rozvržení"
 msgid "As the settings say"
 msgstr "Podle nastavení"
 
-#: includes/Admin/KindEditor.php:331
+#: includes/Admin/KindEditor.php:365
 #: includes/Divi/FieldModules.php:342
 msgid "As they are filed"
 msgstr "Jak jsou zařazené"
 
-#: includes/Admin/KindEditor.php:308
+#: includes/Admin/KindEditor.php:342
 #: includes/Admin/Screen/DisplaySetsPage.php:320
 #: includes/Divi/FieldModules.php:353
 msgid "Ascending"
@@ -299,11 +307,11 @@ msgstr "Přiřazené"
 msgid "Assigned by hand"
 msgstr "Přiřazené ručně"
 
-#: includes/Admin/Screen/MakeupPage.php:441
+#: includes/Admin/Screen/MakeupPage.php:443
 msgid "Assignment undone. The occurrence is unassigned again."
 msgstr "Přiřazení zrušeno. Termín je zase nepřiřazený."
 
-#: includes/Admin/KindEditor.php:314
+#: includes/Admin/KindEditor.php:348
 #: includes/Divi/FieldModules.php:358
 msgid "At most"
 msgstr "Nejvýš"
@@ -312,7 +320,7 @@ msgstr "Nejvýš"
 msgid "At or below this many free places the listing says so. Zero switches the warning off."
 msgstr "Při tomto počtu volných míst a méně na to výpis upozorní. Nula upozornění vypne."
 
-#: includes/Admin/KindEditor.php:279
+#: includes/Admin/KindEditor.php:313
 #: includes/Divi/FieldModules.php:326
 msgid "At what level"
 msgstr "Na jaké úrovni"
@@ -388,7 +396,7 @@ msgstr "Odrážky"
 msgid "Button text"
 msgstr "Text tlačítka"
 
-#: includes/Admin/Screen/Overview.php:273
+#: includes/Admin/Screen/Overview.php:323
 #: includes/Render/Fields.php:742
 #: includes/Render/Listing.php:494
 msgid "Cancelled"
@@ -410,11 +418,11 @@ msgstr "V nastavení bloku vyberte zobrazovací sadu."
 msgid "Choose a display set in the module settings."
 msgstr "V nastavení modulu vyberte zobrazovací sadu."
 
-#: includes/Admin/Screen/Overview.php:267
+#: includes/Admin/Screen/Overview.php:317
 msgid "Class occurrences stored"
 msgstr "Uložených termínů lekcí"
 
-#: includes/Sync/Scheduler.php:111
+#: includes/Sync/Scheduler.php:116
 msgid "Class synchronisation interval"
 msgstr "Interval synchronizace lekcí"
 
@@ -426,11 +434,11 @@ msgstr "Interval synchronizace lekcí"
 msgid "Classes"
 msgstr "Lekce"
 
-#: includes/Admin/Screen/Overview.php:202
+#: includes/Admin/Screen/Overview.php:228
 msgid "Classes further out"
 msgstr "Vzdálenější lekce"
 
-#: includes/Admin/Screen/Overview.php:201
+#: includes/Admin/Screen/Overview.php:227
 msgid "Classes in the near term"
 msgstr "Nejbližší lekce"
 
@@ -438,9 +446,13 @@ msgstr "Nejbližší lekce"
 msgid "Classes that stand in for one somebody missed."
 msgstr "Lekce, které zastupují tu, kterou někdo zmeškal."
 
-#: includes/Admin/Screen/Overview.php:203
+#: includes/Admin/Screen/Overview.php:229
 msgid "Clearing out what is past"
 msgstr "Úklid toho, co je za námi"
+
+#: includes/Admin/Menu.php:93
+msgid "Clearing the failure state…"
+msgstr "Ruším stav po chybách…"
 
 #: includes/Admin/Screen/RoomsPage.php:87
 msgid "Colour"
@@ -470,7 +482,7 @@ msgid "Competitive training"
 msgstr "Závodní průprava"
 
 #: includes/Admin/Screen/Overview.php:111
-#: includes/Admin/Screen/SettingsPage.php:82
+#: includes/Admin/Screen/SettingsPage.php:85
 msgid "Connection"
 msgstr "Připojení"
 
@@ -486,7 +498,7 @@ msgstr "Kontakt"
 msgid "Contact and booking"
 msgstr "Kontakt a přihlašování"
 
-#: includes/Admin/KindEditor.php:108
+#: includes/Admin/KindEditor.php:143
 msgid "Copy"
 msgstr "Kopírovat"
 
@@ -525,11 +537,11 @@ msgstr "Název kurzu"
 msgid "Course picture"
 msgstr "Obrázek kurzu"
 
-#: includes/Admin/Screen/SettingsPage.php:102
+#: includes/Admin/Screen/SettingsPage.php:105
 msgid "Course refresh interval (seconds)"
 msgstr "Jak často stahovat kurzy (sekundy)"
 
-#: includes/Sync/Scheduler.php:106
+#: includes/Sync/Scheduler.php:111
 msgid "Course synchronisation interval"
 msgstr "Interval synchronizace kurzů"
 
@@ -549,15 +561,16 @@ msgstr "Kurz, ke kterému lekce patří"
 msgid "Course this lesson stands in for"
 msgstr "Kurz, který tato lekce zastupuje"
 
-#: includes/Admin/KindEditor.php:486
+#: includes/Admin/KindEditor.php:520
 msgid "Course to take the description from"
 msgstr "Kurz, ze kterého popis vzít"
 
-#: includes/Admin/Menu.php:94
-#: includes/Admin/Menu.php:95
+#: includes/Admin/KindList.php:73
+#: includes/Admin/Menu.php:130
+#: includes/Admin/Menu.php:131
 #: includes/Admin/Screen/DisplaySetsPage.php:135
 #: includes/Admin/Screen/DisplaySetsPage.php:197
-#: includes/Admin/Screen/Overview.php:200
+#: includes/Admin/Screen/Overview.php:226
 #: includes/Data/PostType.php:70
 #: includes/Data/PostType.php:72
 msgid "Courses"
@@ -575,7 +588,7 @@ msgstr "Kurzy tohoto druhu"
 #: includes/Admin/TrainerEditor.php:82
 #: includes/Render/Fields.php:321
 #: includes/Render/Fields.php:322
-#: templates/single-trainer.php:79
+#: templates/single-trainer.php:80
 msgid "Courses this trainer runs"
 msgstr "Kurzy, které trenér vede"
 
@@ -612,11 +625,11 @@ msgstr "Den"
 msgid "Days and times"
 msgstr "Dny a časy"
 
-#: includes/Admin/Screen/SettingsPage.php:104
+#: includes/Admin/Screen/SettingsPage.php:107
 msgid "Days kept closely up to date"
 msgstr "Kolik dní držet přesně aktuální"
 
-#: includes/Admin/Screen/SettingsPage.php:105
+#: includes/Admin/Screen/SettingsPage.php:108
 msgid "Days of past timetable to keep"
 msgstr "Kolik dní minulého rozvrhu uchovávat"
 
@@ -624,7 +637,7 @@ msgstr "Kolik dní minulého rozvrhu uchovávat"
 msgid "Days:"
 msgstr "Dnů:"
 
-#: includes/Admin/Screen/SettingsPage.php:101
+#: includes/Admin/Screen/SettingsPage.php:104
 msgid "Decides how far ahead the timetable is retrieved."
 msgstr "Určuje, jak daleko dopředu se rozvrh stahuje."
 
@@ -632,17 +645,21 @@ msgstr "Určuje, jak daleko dopředu se rozvrh stahuje."
 msgid "Delete"
 msgstr "Smazat"
 
-#: includes/Admin/Screen/SettingsPage.php:157
+#: includes/Admin/Screen/SettingsPage.php:160
 msgid "Delete all data when the plugin is deleted"
 msgstr "Při smazání pluginu smazat všechna data"
 
-#: includes/Admin/KindEditor.php:309
+#: includes/Admin/KindEditor.php:343
 #: includes/Admin/Screen/DisplaySetsPage.php:321
 #: includes/Divi/FieldModules.php:354
 msgid "Descending"
 msgstr "Sestupně"
 
-#: includes/Admin/KindEditor.php:195
+#: includes/Admin/KindList.php:74
+msgid "Description"
+msgstr "Popis"
+
+#: includes/Admin/KindEditor.php:230
 msgid "Description from a course"
 msgstr "Popis z kurzu"
 
@@ -651,11 +668,11 @@ msgstr "Popis z kurzu"
 msgid "Description from iSport"
 msgstr "Popis z iSportu"
 
-#: includes/Admin/Screen/Overview.php:299
+#: includes/Admin/Screen/Overview.php:349
 msgid "Detail"
 msgstr "Detail"
 
-#: includes/Admin/Screen/SettingsPage.php:109
+#: includes/Admin/Screen/SettingsPage.php:112
 msgid "Display"
 msgstr "Zobrazení"
 
@@ -663,11 +680,15 @@ msgstr "Zobrazení"
 msgid "Display set"
 msgstr "Zobrazovací sada"
 
-#: includes/Admin/Menu.php:120
-#: includes/Admin/Menu.php:121
+#: includes/Admin/Menu.php:156
+#: includes/Admin/Menu.php:157
 #: includes/Admin/Screen/DisplaySetsPage.php:75
 msgid "Display sets"
 msgstr "Zobrazovací sady"
+
+#: includes/Admin/SettingsTransfer.php:152
+msgid "Download the settings"
+msgstr "Stáhnout nastavení"
 
 #: includes/Admin/CourseEditor.php:143
 msgid "E-mail"
@@ -709,7 +730,7 @@ msgstr "Všechny kurzy zařazené pod tento druh jako tabulka — nebo jen ty, n
 msgid "Every course paired with this trainer, as a table."
 msgstr "Všechny kurzy spárované s tímto trenérem, jako tabulka."
 
-#: includes/Admin/KindEditor.php:282
+#: includes/Admin/KindEditor.php:316
 #: includes/Divi/FieldModules.php:328
 msgid "Every level"
 msgstr "Všechny úrovně"
@@ -718,12 +739,12 @@ msgstr "Všechny úrovně"
 msgid "Every qualification, in the order they were entered."
 msgstr "Všechny kvalifikace v pořadí, v jakém byly zadány."
 
-#: includes/Admin/KindEditor.php:270
+#: includes/Admin/KindEditor.php:304
 #: includes/Divi/FieldModules.php:323
 msgid "Everybody"
 msgstr "Pro všechny"
 
-#: includes/Admin/KindEditor.php:236
+#: includes/Admin/KindEditor.php:270
 msgid "Everything below decides which courses the timetable on this page lists — and the blocks and modules on it, wherever they are used, including a design made once for every page of this type. Leave it all alone and the page shows every course of its kind, which is what a page made by the synchronisation does."
 msgstr "Všechno níž rozhoduje o tom, které kurzy vypíše rozvrh na této stránce — a bloky i moduly na ní, ať jsou použité kdekoli, včetně designu udělaného jednou pro všechny stránky tohoto typu. Když se toho nedotknete, ukáže stránka všechny kurzy svého druhu, jako to dělá stránka založená synchronizací."
 
@@ -731,9 +752,21 @@ msgstr "Všechno níž rozhoduje o tom, které kurzy vypíše rozvrh na této st
 msgid "Everything somebody tied to a course by hand, whatever the matching would have decided. Choosing \"belongs to no course\" here gives the class back to the matching, which is how an assignment made by mistake is undone."
 msgstr "Všechno, co někdo ručně přiřadil ke kurzu, bez ohledu na to, jak by rozhodlo párování. Volbou „nepatří k žádnému kurzu“ lekci vrátíte zpět párování — tak se ruší omylem udělané přiřazení."
 
-#: includes/Admin/KindEditor.php:496
+#: includes/Admin/SettingsTransfer.php:147
+msgid "Export and import"
+msgstr "Export a import"
+
+#: includes/Admin/Screen/Overview.php:196
+msgid "Fetch every missing description"
+msgstr "Načíst všechny chybějící popisy"
+
+#: includes/Admin/KindEditor.php:530
 msgid "Fetch the description"
 msgstr "Načíst popis"
+
+#: includes/Admin/Menu.php:90
+msgid "Fetching descriptions for every kind of course…"
+msgstr "Načítám popisy všech druhů kurzů…"
 
 #: includes/Admin/Screen/DisplaySetsPage.php:333
 msgid "Few places left at"
@@ -760,7 +793,7 @@ msgstr "Například „Kurzy pro děti — domovská stránka“. Z názvu vznik
 msgid "For example \"Sign up in iSport\"."
 msgstr "Například „Přihlásit v iSport systému“."
 
-#: includes/Admin/Screen/SettingsPage.php:89
+#: includes/Admin/Screen/SettingsPage.php:92
 msgid "For example https://example.isportsystem.cz — https only. An address inside a private network is refused."
 msgstr "Například https://example.isportsystem.cz — jen https. Adresa uvnitř privátní sítě je odmítnuta."
 
@@ -769,7 +802,7 @@ msgid "For example when to ring, or that places are arranged individually."
 msgstr "Například kdy volat nebo že se termíny domlouvají individuálně."
 
 #: includes/Admin/CourseEditor.php:466
-#: includes/Admin/Screen/SettingsPage.php:118
+#: includes/Admin/Screen/SettingsPage.php:121
 #: includes/Render/CourseDetail.php:495
 #: includes/Render/Listing.php:628
 #: includes/Render/Listing.php:632
@@ -855,10 +888,14 @@ msgstr "Kolik má kurz lekcí."
 msgid "How many places are still free."
 msgstr "Kolik míst je ještě volných."
 
-#: includes/Admin/KindEditor.php:317
+#: includes/Admin/KindEditor.php:351
 #: includes/Divi/FieldModules.php:359
 msgid "How many rows to print. Empty or zero means all of them."
 msgstr "Kolik řádků vypsat. Prázdné nebo nula znamená všechny."
+
+#: includes/Admin/SettingsTransfer.php:160
+msgid "Import the settings"
+msgstr "Importovat nastavení"
 
 #: includes/Data/Audience.php:229
 msgctxt "level of a course for a mixed or male group"
@@ -874,7 +911,7 @@ msgstr "Mírně pokročilé"
 msgid "In iSport"
 msgstr "V iSportu"
 
-#: includes/Admin/Screen/SettingsPage.php:100
+#: includes/Admin/Screen/SettingsPage.php:103
 msgid "In the form 2026-09-11. Applies to every course at once."
 msgstr "Ve tvaru 2026-09-11. Platí pro všechny kurzy najednou."
 
@@ -882,14 +919,14 @@ msgstr "Ve tvaru 2026-09-11. Platí pro všechny kurzy najednou."
 msgid "Include them"
 msgstr "Zahrnout"
 
-#: includes/Admin/Screen/SettingsPage.php:123
+#: includes/Admin/Screen/SettingsPage.php:126
 msgid "Individual courses can override this."
 msgstr "U jednotlivých kurzů to jde nastavit jinak."
 
 #: includes/Admin/TrainerEditor.php:150
 #: includes/Render/Fields.php:283
 #: includes/Render/Fields.php:284
-#: templates/single-trainer.php:68
+#: templates/single-trainer.php:69
 msgid "Interests"
 msgstr "Záliby"
 
@@ -901,7 +938,7 @@ msgstr "Položek na stránku"
 msgid "Its own page"
 msgstr "Vlastní stránku"
 
-#: includes/Admin/Screen/Overview.php:296
+#: includes/Admin/Screen/Overview.php:346
 msgid "Job"
 msgstr "Úloha"
 
@@ -914,14 +951,14 @@ msgid "Kind description"
 msgstr "Popis druhu kurzu"
 
 #: includes/Admin/CourseEditor.php:434
-#: includes/Admin/KindEditor.php:241
+#: includes/Admin/KindEditor.php:275
 #: includes/Data/KindType.php:70
 #: includes/Data/PostType.php:183
 msgid "Kind of course"
 msgstr "Druh kurzu"
 
-#: includes/Admin/Menu.php:110
-#: includes/Admin/Menu.php:111
+#: includes/Admin/Menu.php:146
+#: includes/Admin/Menu.php:147
 #: includes/Admin/Screen/DisplaySetsPage.php:247
 #: includes/Data/KindType.php:69
 #: includes/Data/KindType.php:71
@@ -949,7 +986,7 @@ msgstr "Nechte prázdné, pokud se má zobrazit lektor uvedený v iSportu."
 msgid "Leave them out"
 msgstr "Vynechat"
 
-#: includes/Admin/KindEditor.php:296
+#: includes/Admin/KindEditor.php:330
 msgid "Leaves out courses that finish below the floor or start above the ceiling. Either may be left empty."
 msgstr "Vynechá kurzy, které končí pod dolní hranicí nebo začínají nad horní. Obě se dají nechat prázdné."
 
@@ -1011,19 +1048,19 @@ msgid "Make-up classes"
 msgstr "Náhradní lekce"
 
 #: includes/Render/Fields.php:242
-#: templates/single-course.php:100
+#: templates/single-course.php:101
 msgid "Make-up classes for this course"
 msgstr "Náhradní lekce k tomuto kurzu"
 
-#: includes/Admin/Menu.php:142
-#: includes/Admin/Menu.php:143
+#: includes/Admin/Menu.php:178
+#: includes/Admin/Menu.php:179
 #: includes/Admin/Screen/MakeupPage.php:100
-#: includes/Admin/Screen/Overview.php:271
-#: includes/Admin/Screen/SettingsPage.php:136
+#: includes/Admin/Screen/Overview.php:321
+#: includes/Admin/Screen/SettingsPage.php:139
 msgid "Make-up lessons"
 msgstr "Náhradní lekce"
 
-#: includes/Admin/Screen/SettingsPage.php:91
+#: includes/Admin/Screen/SettingsPage.php:94
 msgid "Maximum requests per hour"
 msgstr "Maximum požadavků za hodinu"
 
@@ -1040,7 +1077,7 @@ msgstr "Mix"
 msgid "Motto"
 msgstr "Motto"
 
-#: includes/Admin/KindEditor.php:332
+#: includes/Admin/KindEditor.php:366
 #: includes/Admin/Screen/DisplaySetsPage.php:110
 #: includes/Admin/Screen/DisplaySetsPage.php:175
 #: includes/Admin/Screen/DisplaySetsPage.php:588
@@ -1053,7 +1090,7 @@ msgstr "Název"
 msgid "Name on the website"
 msgstr "Název na webu"
 
-#: includes/Admin/Screen/SettingsPage.php:138
+#: includes/Admin/Screen/SettingsPage.php:141
 msgid "Names that mark a class as a replacement for one somebody missed, one per line, matched the same loose way. These are counted and shown separately from activities that take no bookings, because a make-up lesson belongs to a course — which one is recorded under iSport → Make-up lessons."
 msgstr "Názvy, které označují lekci jako náhradu za zmeškanou, jeden na řádek, porovnávané stejně volně. Počítají se a zobrazují zvlášť od aktivit, na které se nepřihlašuje, protože náhradní lekce patří ke kurzu — ke kterému, se zaznamenává v iSport → Náhradní lekce."
 
@@ -1093,7 +1130,7 @@ msgstr "Další →"
 msgid "No"
 msgstr "Ne"
 
-#: includes/Admin/KindEditor.php:467
+#: includes/Admin/KindEditor.php:501
 msgid "No course is filed under this kind yet, so there is no description to fetch."
 msgstr "Pod tento druh zatím nespadá žádný kurz, takže není odkud popis vzít."
 
@@ -1113,6 +1150,10 @@ msgstr "Žádné kurzy nenalezeny."
 msgid "No courses name this trainer yet. Pairing is by name: a course is tied to this page when the trainer iSport names on it matches the title above, ignoring spacing and capitals."
 msgstr "Zatím tohoto trenéra nejmenuje žádný kurz. Páruje se podle jména: kurz patří k této stránce, když se trenér, kterého u něj iSport uvádí, shoduje s názvem výše — bez ohledu na mezery a velikost písmen."
 
+#: includes/Admin/SettingsTransfer.php:217
+msgid "No file arrived. Choose a file and try again."
+msgstr "Žádný soubor nedorazil. Vyberte soubor a zkuste to znovu."
+
 #: includes/Data/KindType.php:77
 msgid "No kinds of course found."
 msgstr "Žádné druhy kurzů nenalezeny."
@@ -1121,7 +1162,7 @@ msgstr "Žádné druhy kurzů nenalezeny."
 msgid "No kinds of course in the bin."
 msgstr "V koši nejsou žádné druhy kurzů."
 
-#: includes/Admin/Screen/MakeupPage.php:506
+#: includes/Admin/Screen/MakeupPage.php:508
 msgid "No lesson names a course clearly enough to suggest one."
 msgstr "Žádná lekce nejmenuje kurz dost jasně na to, aby šel navrhnout."
 
@@ -1171,7 +1212,7 @@ msgstr "Poznámka"
 msgid "Nothing changed."
 msgstr "Nic se nezměnilo."
 
-#: includes/Admin/Screen/Overview.php:286
+#: includes/Admin/Screen/Overview.php:336
 msgid "Nothing has run yet."
 msgstr "Zatím nic neproběhlo."
 
@@ -1206,13 +1247,17 @@ msgstr "Zatím není z čeho vybírat. Nejdřív spusťte synchronizaci."
 msgid "Nothing to show here."
 msgstr "Tady není co zobrazit."
 
-#: includes/Admin/Screen/MakeupPage.php:438
+#: includes/Admin/Screen/MakeupPage.php:440
 msgid "Nothing to undo."
 msgstr "Není co vracet."
 
-#: includes/Admin/Screen/MakeupPage.php:468
+#: includes/Admin/Screen/MakeupPage.php:470
 msgid "Nothing was assigned: the series either disagrees about its course or has no assignment to copy."
 msgstr "Nic se nepřiřadilo: řada se buď neshoduje na kurzu, nebo v ní není co zkopírovat."
+
+#: includes/Admin/KindList.php:104
+msgid "Nothing written yet"
+msgstr "Zatím nic nenapsáno"
 
 #: includes/Divi/FieldModules.php:378
 msgid "Nowhere"
@@ -1226,7 +1271,7 @@ msgstr "Počet lekcí"
 msgid "Numbered"
 msgstr "Číslované"
 
-#: includes/Admin/Screen/SettingsPage.php:159
+#: includes/Admin/Screen/SettingsPage.php:162
 msgid "Off by default. Deleting a plugin is not the same as wanting the course pages and everything written on them to disappear."
 msgstr "Ve výchozím stavu vypnuto. Smazat plugin není totéž jako chtít přijít o stránky kurzů a o všechno, co je na nich napsané."
 
@@ -1235,7 +1280,7 @@ msgstr "Ve výchozím stavu vypnuto. Smazat plugin není totéž jako chtít př
 msgid "Oldest age"
 msgstr "Horní hranice věku"
 
-#: includes/Admin/Screen/SettingsPage.php:117
+#: includes/Admin/Screen/SettingsPage.php:120
 #: includes/Render/Listing.php:633
 msgid "On request"
 msgstr "Na dotaz"
@@ -1265,17 +1310,17 @@ msgstr "Pořadí"
 msgid "Order and size"
 msgstr "Řazení a rozsah"
 
-#: includes/Admin/KindEditor.php:300
+#: includes/Admin/KindEditor.php:334
 #: includes/Divi/FieldModules.php:339
 msgid "Order by"
 msgstr "Řadit podle"
 
-#: includes/Admin/Screen/Overview.php:298
+#: includes/Admin/Screen/Overview.php:348
 msgid "Outcome"
 msgstr "Výsledek"
 
-#: includes/Admin/Menu.php:85
-#: includes/Admin/Menu.php:86
+#: includes/Admin/Menu.php:121
+#: includes/Admin/Menu.php:122
 msgid "Overview"
 msgstr "Přehled"
 
@@ -1292,9 +1337,21 @@ msgstr "Stránkování"
 msgid "Paired automatically. The trainer’s page shows the same list to visitors."
 msgstr "Spárováno automaticky. Stránka trenéra ukazuje návštěvníkům týž seznam."
 
-#: includes/Admin/Screen/SettingsPage.php:105
+#: includes/Admin/Screen/SettingsPage.php:108
 msgid "Past occurrences older than this are removed. Courses are never deleted."
 msgstr "Termíny starší než tohle se odstraní. Kurzy se nemažou nikdy."
+
+#: includes/Admin/Screen/Overview.php:192
+msgid "Pause synchronisation"
+msgstr "Pozastavit synchronizaci"
+
+#: includes/Admin/Screen/Overview.php:207
+msgid "Pausing stops the scheduled jobs until you resume them. Fetching descriptions only fills kind pages that have nothing written on them."
+msgstr "Pozastavení zastaví naplánované úlohy, dokud je znovu nespustíte. Načtení popisů doplní jen ty stránky druhů kurzů, na kterých zatím nic není."
+
+#: includes/Admin/Menu.php:91
+msgid "Pausing…"
+msgstr "Pozastavuji…"
 
 #: includes/Admin/TrainerEditor.php:90
 #: includes/Render/Fields.php:263
@@ -1305,7 +1362,7 @@ msgstr "Fotografie"
 msgid "Picture"
 msgstr "Obrázek"
 
-#: includes/Admin/KindEditor.php:335
+#: includes/Admin/KindEditor.php:369
 #: includes/Divi/FieldModules.php:346
 msgid "Places free"
 msgstr "Volná místa"
@@ -1318,9 +1375,13 @@ msgstr "Volná místa"
 msgid "Places left"
 msgstr "Volná místa"
 
+#: includes/Admin/Menu.php:94
+msgid "Preparing the file…"
+msgstr "Připravuji soubor…"
+
 #: includes/Admin/CourseEditor.php:254
 #: includes/Admin/CourseEditor.php:438
-#: includes/Admin/KindEditor.php:334
+#: includes/Admin/KindEditor.php:368
 #: includes/Admin/Screen/DisplaySetsPage.php:590
 #: includes/Divi/FieldModules.php:345
 #: includes/Render/CourseDetail.php:100
@@ -1338,15 +1399,19 @@ msgstr "Ceny tohoto druhu"
 #: includes/Admin/TrainerEditor.php:143
 #: includes/Render/Fields.php:273
 #: includes/Render/Fields.php:274
-#: templates/single-trainer.php:57
+#: templates/single-trainer.php:58
 msgid "Qualifications"
 msgstr "Kvalifikace"
 
-#: includes/Admin/Screen/Overview.php:186
+#: includes/Admin/Menu.php:95
+msgid "Reading the file…"
+msgstr "Čtu soubor…"
+
+#: includes/Admin/Screen/Overview.php:212
 msgid "Recent runs"
 msgstr "Poslední běhy"
 
-#: includes/Admin/Screen/Overview.php:297
+#: includes/Admin/Screen/Overview.php:347
 msgid "Records"
 msgstr "Záznamů"
 
@@ -1354,7 +1419,7 @@ msgstr "Záznamů"
 msgid "Referred to as \"%s\", which stays as it is so that pages using it keep working."
 msgstr "Odkazuje se na ni jako „%s“ a to zůstává, aby stránky, které ji používají, dál fungovaly."
 
-#: includes/Admin/Screen/SettingsPage.php:152
+#: includes/Admin/Screen/SettingsPage.php:155
 msgid "Removal"
 msgstr "Odstranění"
 
@@ -1362,7 +1427,7 @@ msgstr "Odstranění"
 msgid "Remove"
 msgstr "Odebrat"
 
-#: includes/Admin/Screen/Overview.php:269
+#: includes/Admin/Screen/Overview.php:319
 #: includes/Admin/Screen/UnmatchedPage.php:135
 msgid "Rentals and open sessions"
 msgstr "Pronájmy a open lekce"
@@ -1371,11 +1436,11 @@ msgstr "Pronájmy a open lekce"
 msgid "Rentals and outside clubs"
 msgstr "Pronájmy a cizí oddíly"
 
-#: includes/Admin/KindEditor.php:500
+#: includes/Admin/KindEditor.php:534
 msgid "Replaces everything written in the editor with the description iSport holds for that course. Save any wording of your own first — this cannot be undone from here."
 msgstr "Nahradí všechno, co je v editoru, popisem, který k tomu kurzu drží iSport. Vlastní text si napřed uložte — odtud se to vrátit nedá."
 
-#: includes/Admin/Screen/SettingsPage.php:92
+#: includes/Admin/Screen/SettingsPage.php:95
 msgid "Request timeout (seconds)"
 msgstr "Časový limit požadavku (sekundy)"
 
@@ -1383,7 +1448,7 @@ msgstr "Časový limit požadavku (sekundy)"
 msgid "Requests paused"
 msgstr "Požadavky pozastaveny"
 
-#: includes/Admin/Screen/Overview.php:233
+#: includes/Admin/Screen/Overview.php:259
 msgid "Requests resumed and cached responses dropped."
 msgstr "Požadavky obnoveny a uložené odpovědi zahozeny."
 
@@ -1391,13 +1456,21 @@ msgstr "Požadavky obnoveny a uložené odpovědi zahozeny."
 msgid "Requests this hour"
 msgstr "Požadavků za tuto hodinu"
 
-#: includes/Admin/Screen/Overview.php:180
+#: includes/Admin/Screen/Overview.php:199
 msgid "Resume paused requests"
 msgstr "Obnovit pozastavené požadavky"
 
-#: includes/Admin/Screen/SettingsPage.php:93
+#: includes/Admin/Screen/Overview.php:188
+msgid "Resume synchronisation"
+msgstr "Obnovit synchronizaci"
+
+#: includes/Admin/Screen/SettingsPage.php:96
 msgid "Retries"
 msgstr "Počet opakování"
+
+#: includes/Admin/Menu.php:89
+msgid "Retrieving courses and classes from iSport. This can take a minute."
+msgstr "Stahuji kurzy a lekce z iSportu. Může to chvíli trvat."
 
 #: includes/Admin/CourseEditor.php:437
 #: includes/Admin/Screen/DisplaySetsPage.php:592
@@ -1412,8 +1485,8 @@ msgstr "Počet opakování"
 msgid "Room"
 msgstr "Sál"
 
-#: includes/Admin/Menu.php:153
-#: includes/Admin/Menu.php:154
+#: includes/Admin/Menu.php:189
+#: includes/Admin/Menu.php:190
 #: includes/Admin/Screen/DisplaySetsPage.php:379
 #: includes/Admin/Screen/RoomsPage.php:68
 #: includes/Data/PostType.php:170
@@ -1468,7 +1541,7 @@ msgstr "Uloženo, ale párování se nepodařilo spustit znovu: %s"
 msgid "Saving re-runs the matching over everything already stored, so an assignment takes effect at once and without a request to iSport."
 msgstr "Uložením se párování spustí znovu nad už uloženými daty, takže se přiřazení projeví hned a bez dotazu do iSportu."
 
-#: includes/Admin/KindEditor.php:263
+#: includes/Admin/KindEditor.php:297
 msgid "Say it outright when the page is called something the kind is not — a page named “Gymnastika dívky” pairs with no kind by itself."
 msgstr "Uveďte ho výslovně, když se stránka jmenuje jinak než druh — stránka „Gymnastika dívky“ se sama s žádným druhem nespáruje."
 
@@ -1479,6 +1552,18 @@ msgstr "Rozvrh"
 #: includes/Admin/Screen/Overview.php:141
 msgid "Scheduled jobs"
 msgstr "Naplánované úlohy"
+
+#: includes/Admin/Screen/Overview.php:271
+msgid "Scheduled synchronisation has started again."
+msgstr "Naplánovaná synchronizace zase běží."
+
+#: includes/Admin/Screen/Overview.php:265
+msgid "Scheduled synchronisation is paused."
+msgstr "Naplánovaná synchronizace je pozastavená."
+
+#: includes/Admin/Screen/Overview.php:176
+msgid "Scheduled synchronisation is paused. Nothing is being retrieved on its own; the buttons below still work."
+msgstr "Naplánovaná synchronizace je pozastavená. Samo se nic nestahuje; tlačítka níž fungují dál."
 
 #: includes/Data/PostType.php:73
 msgid "Search courses"
@@ -1508,10 +1593,14 @@ msgstr "Sada uložena."
 msgid "Sets"
 msgstr "Sady"
 
-#: includes/Admin/Menu.php:164
-#: includes/Admin/Menu.php:165
+#: includes/Admin/Menu.php:200
+#: includes/Admin/Menu.php:201
 msgid "Settings"
 msgstr "Nastavení"
+
+#: includes/Admin/SettingsTransfer.php:158
+msgid "Settings file"
+msgstr "Soubor s nastavením"
 
 #: includes/Admin/Screen/DisplaySetsPage.php:112
 msgid "Shortcode"
@@ -1525,11 +1614,11 @@ msgstr "Zobrazit"
 msgid "Show a heading"
 msgstr "Zobrazit nadpis"
 
-#: includes/Admin/Screen/SettingsPage.php:122
+#: includes/Admin/Screen/SettingsPage.php:125
 msgid "Show cancelled classes"
 msgstr "Zobrazovat zrušené lekce"
 
-#: includes/Admin/Screen/SettingsPage.php:123
+#: includes/Admin/Screen/SettingsPage.php:126
 msgid "Show the booking button by default"
 msgstr "Ve výchozím stavu zobrazovat tlačítko pro přihlášení"
 
@@ -1566,7 +1655,7 @@ msgstr "Na některé kurzy se přes iSport nepřihlašuje vůbec a návštěvní
 #: includes/Admin/TrainerEditor.php:161
 #: includes/Render/Fields.php:293
 #: includes/Render/Fields.php:294
-#: templates/single-trainer.php:50
+#: templates/single-trainer.php:51
 msgid "Something worth knowing"
 msgstr "Zajímavost"
 
@@ -1590,6 +1679,10 @@ msgstr "Zastupuje kurz"
 msgid "Start a new one"
 msgstr "Založit novou"
 
+#: includes/Admin/Menu.php:92
+msgid "Starting the scheduled jobs again…"
+msgstr "Spouštím naplánované úlohy znovu…"
+
 #: includes/Admin/CourseEditor.php:253
 #: includes/Admin/CourseList.php:54
 msgid "State"
@@ -1599,11 +1692,11 @@ msgstr "Stav"
 msgid "Suggested by the name: %s"
 msgstr "Návrh podle názvu: %s"
 
-#: includes/Admin/Screen/Overview.php:246
+#: includes/Admin/Screen/Overview.php:296
 msgid "Synchronisation failed: %s"
 msgstr "Synchronizace selhala: %s"
 
-#: includes/Admin/Screen/Overview.php:177
+#: includes/Admin/Screen/Overview.php:184
 msgid "Synchronise now"
 msgstr "Synchronizovat hned"
 
@@ -1631,21 +1724,29 @@ msgstr "Obsazeno"
 msgid "Telephone"
 msgstr "Telefon"
 
-#: includes/Admin/Screen/SettingsPage.php:97
+#: includes/Admin/Screen/SettingsPage.php:100
 msgid "Term and synchronisation"
 msgstr "Pololetí a synchronizace"
 
-#: includes/Admin/Screen/SettingsPage.php:101
+#: includes/Admin/Screen/SettingsPage.php:104
 msgid "Term ends"
 msgstr "Konec pololetí"
 
-#: includes/Admin/Screen/SettingsPage.php:100
+#: includes/Admin/Screen/SettingsPage.php:103
 msgid "Term starts"
 msgstr "Začátek pololetí"
 
 #: includes/Admin/Screen/UnmatchedPage.php:213
 msgid "That class is no longer stored."
 msgstr "Tahle lekce už uložená není."
+
+#: includes/Admin/SettingsTransfer.php:218
+msgid "That file is larger than a settings file could be."
+msgstr "Ten soubor je větší, než jak velký může soubor s nastavením být."
+
+#: includes/Admin/SettingsTransfer.php:221
+msgid "That is not a settings file exported from this plugin."
+msgstr "To není soubor s nastavením vyexportovaný z tohoto pluginu."
 
 #: includes/Render/Fields.php:133
 msgid "The ages the course is for. Read from the course name, and can be set by hand on the course."
@@ -1659,6 +1760,10 @@ msgstr "Kurz se nepodařilo založit."
 msgid "The description the booking system holds for the course, which is a different text from the one written in WordPress."
 msgstr "Popis, který ke kurzu drží rezervační systém — je to jiný text než ten napsaný ve WordPressu."
 
+#: includes/Admin/KindEditor.php:103
+msgid "The description was taken from iSport and now stands in the editor."
+msgstr "Popis byl převzat z iSportu a je teď v editoru."
+
 #: includes/Render/Fields.php:196
 msgid "The featured image of the course."
 msgstr "Náhledový obrázek kurzu."
@@ -1666,6 +1771,22 @@ msgstr "Náhledový obrázek kurzu."
 #: includes/Divi/FieldModules.php:244
 msgid "The field could not be loaded."
 msgstr "Pole se nepodařilo načíst."
+
+#: includes/Admin/SettingsTransfer.php:224
+msgid "The file could not be imported."
+msgstr "Soubor se nepodařilo naimportovat."
+
+#: includes/Admin/SettingsTransfer.php:219
+msgid "The file could not be read."
+msgstr "Soubor se nepodařilo přečíst."
+
+#: includes/Admin/SettingsTransfer.php:149
+msgid "The file holds every setting on this screen, including the activity lists and the tag rules. Importing replaces the settings it names and leaves the rest alone; anything the plugin would refuse to store is reported and not written. Courses, pages and timetable data are not touched either way."
+msgstr "Soubor obsahuje všechna nastavení z této obrazovky včetně seznamů aktivit a pravidel pro štítky. Import přepíše ta nastavení, která soubor uvádí, ostatních se nedotkne; co by plugin odmítl uložit, se ohlásí a nezapíše. Kurzy, stránky ani data rozvrhu se nemění tak ani tak."
+
+#: includes/Admin/SettingsTransfer.php:220
+msgid "The file is not valid JSON."
+msgstr "Soubor není platný JSON."
 
 #: includes/Render/Fields.php:115
 msgid "The first and last day of the course."
@@ -1695,7 +1816,7 @@ msgstr "Nejbližší dny"
 msgid "The one this page is about"
 msgstr "Ten, o kterém tahle stránka je"
 
-#: includes/Admin/KindEditor.php:148
+#: includes/Admin/KindEditor.php:183
 msgid "The page could not be copied."
 msgstr "Stránku se nepodařilo zkopírovat."
 
@@ -1707,13 +1828,17 @@ msgstr "Osoba, na kterou se obrátit u kurzu, na který se přes iSport nepřihl
 msgid "The picture at full size"
 msgstr "Obrázek v plné velikosti"
 
-#: includes/Admin/Screen/SettingsPage.php:146
+#: includes/Admin/Screen/SettingsPage.php:149
 msgid "The remote system tags every class, and a tag maintained there stays right for everyone, so it is asked before the list above. One rule per line, in the form label = category. Categories are course, external_course, makeup and rental. A label that is not listed here simply falls through to the list above."
 msgstr "Každou lekci štítkuje iSport systém a štítek udržovaný tam zůstává správný pro všechny, proto se plugin ptá na něj dřív než na seznam výše. Jedno pravidlo na řádek, ve tvaru štítek = kategorie. Kategorie jsou course, external_course, makeup a rental. Štítek, který tu není uvedený, prostě propadne na seznam výše."
 
 #: includes/Render/Fields.php:297
 msgid "The sentence or two that makes this a person."
 msgstr "Věta nebo dvě, díky kterým je z tohoto člověk."
+
+#: includes/Admin/SettingsTransfer.php:96
+msgid "The settings could not be written out."
+msgstr "Nastavení se nepodařilo vypsat."
 
 #: includes/Render/Fields.php:306
 msgid "The trainer’s motto."
@@ -1763,7 +1888,7 @@ msgstr "Tyhle se nezobrazí nikdy, ať ostatní nastavení říká cokoli."
 msgid "These are shown whatever the filters above say. This is how several courses go under one heading — tick them here and give the set a heading below."
 msgstr "Tyhle se zobrazí bez ohledu na filtry výše. Právě takhle se dá dát víc kurzů pod jeden nadpis — zaškrtněte je tady a sadě níže dejte nadpis."
 
-#: includes/Admin/Screen/SettingsPage.php:122
+#: includes/Admin/Screen/SettingsPage.php:125
 msgid "They appear struck through and labelled. Unticking hides them entirely."
 msgstr "Zobrazí se přeškrtnuté a označené. Odškrtnutím je skryjete úplně."
 
@@ -1800,7 +1925,7 @@ msgstr "Tento týden"
 msgid "Tick what to show and number the order. A column left unticked is not rendered at all; a label left empty uses the built-in one. On a narrow screen every table folds so that these headings run down the left and the values down the right, which is why a short label is worth the trouble."
 msgstr "Zaškrtněte, co se má zobrazit, a čísly určete pořadí. Nezaškrtnutý sloupec se vůbec nevykreslí; prázdný popisek použije ten vestavěný. Na úzké obrazovce se tabulka překlopí tak, že tyhle popisky jdou v levém sloupci a hodnoty v pravém — proto se krátký popisek vyplatí."
 
-#: includes/Admin/Screen/Overview.php:268
+#: includes/Admin/Screen/Overview.php:318
 msgid "Tied to a course"
 msgstr "Spárováno s kurzem"
 
@@ -1817,7 +1942,7 @@ msgstr "Čas"
 msgid "Time from and to"
 msgstr "Čas od–do"
 
-#: includes/Admin/Screen/SettingsPage.php:103
+#: includes/Admin/Screen/SettingsPage.php:106
 msgid "Timetable refresh interval (seconds)"
 msgstr "Jak často stahovat rozvrh (sekundy)"
 
@@ -1847,8 +1972,8 @@ msgstr "Popis trenéra"
 msgid "Trainer name"
 msgstr "Jméno trenéra"
 
-#: includes/Admin/Menu.php:102
-#: includes/Admin/Menu.php:103
+#: includes/Admin/Menu.php:138
+#: includes/Admin/Menu.php:139
 #: includes/Admin/Screen/DisplaySetsPage.php:243
 #: includes/Data/PostType.php:174
 #: includes/Data/TrainerType.php:92
@@ -1864,13 +1989,13 @@ msgstr "Nepřiřazené"
 msgid "Undo this assignment"
 msgstr "Zrušit přiřazení"
 
-#: includes/Admin/Menu.php:131
-#: includes/Admin/Menu.php:132
+#: includes/Admin/Menu.php:167
+#: includes/Admin/Menu.php:168
 #: includes/Admin/Screen/UnmatchedPage.php:114
 msgid "Unmatched lessons"
 msgstr "Nespárované lekce"
 
-#: includes/Admin/Screen/Overview.php:272
+#: includes/Admin/Screen/Overview.php:322
 #: includes/Admin/Screen/UnmatchedPage.php:134
 msgid "Unresolved"
 msgstr "Nespárované"
@@ -1881,7 +2006,7 @@ msgstr "Nahoru, nebo dolů."
 
 #: includes/Render/Fields.php:231
 #: includes/Render/Fields.php:232
-#: templates/single-course.php:90
+#: templates/single-course.php:91
 msgid "Upcoming classes"
 msgstr "Nejbližší lekce"
 
@@ -1913,7 +2038,7 @@ msgstr "Zobrazit trenéra"
 msgid "Week of %s"
 msgstr "Týden %s"
 
-#: includes/Admin/Screen/SettingsPage.php:144
+#: includes/Admin/Screen/SettingsPage.php:147
 msgid "What each tag means"
 msgstr "Co který štítek znamená"
 
@@ -1953,7 +2078,7 @@ msgstr "Jak tohle pole pojmenovat. Prázdné znamená jméno, se kterým přich�
 msgid "What to include"
 msgstr "Co zahrnout"
 
-#: includes/Admin/Screen/Overview.php:295
+#: includes/Admin/Screen/Overview.php:345
 msgid "When"
 msgstr "Kdy"
 
@@ -1961,7 +2086,7 @@ msgstr "Kdy"
 msgid "When a course is full"
 msgstr "Když je kurz plný"
 
-#: includes/Admin/KindEditor.php:333
+#: includes/Admin/KindEditor.php:367
 #: includes/Admin/Screen/DisplaySetsPage.php:589
 #: includes/Divi/FieldModules.php:344
 msgid "When it starts"
@@ -1996,7 +2121,7 @@ msgstr "Který kurz nebo kterého trenéra to ukazuje. Když to necháte být, �
 msgid "Which courses"
 msgstr "Které kurzy"
 
-#: includes/Admin/KindEditor.php:186
+#: includes/Admin/KindEditor.php:221
 msgid "Which courses this page is about"
 msgstr "Které kurzy tato stránka ukazuje"
 
@@ -2020,7 +2145,7 @@ msgstr "Který týden"
 msgid "Who runs the course, linked to their own page where they have one."
 msgstr "Kdo kurz vede, s odkazem na jeho stránku, pokud ji má."
 
-#: includes/Admin/KindEditor.php:267
+#: includes/Admin/KindEditor.php:301
 #: includes/Divi/FieldModules.php:321
 msgid "Who the course is for"
 msgstr "Pro koho kurz je"
@@ -2031,7 +2156,7 @@ msgstr "Pro koho kurz je — dívky, kluci, mix, ženy, muži. Čte se z názvu 
 
 #: includes/Render/Fields.php:222
 #: includes/Render/Fields.php:223
-#: templates/single-course.php:67
+#: templates/single-course.php:68
 msgid "Who to ask"
 msgstr "Na koho se obrátit"
 
@@ -2039,7 +2164,7 @@ msgstr "Na koho se obrátit"
 msgid "Who to contact"
 msgstr "Kontaktní osoba"
 
-#: includes/Admin/Screen/SettingsPage.php:124
+#: includes/Admin/Screen/SettingsPage.php:127
 msgid "Width at which tables fold (pixels)"
 msgstr "Šířka, při které se tabulky zalomí (pixely)"
 
@@ -2051,7 +2176,11 @@ msgstr "Ženy"
 msgid "Wording"
 msgstr "Texty"
 
-#: includes/Admin/Screen/SettingsPage.php:294
+#: includes/Admin/Menu.php:88
+msgid "Working…"
+msgstr "Pracuji…"
+
+#: includes/Admin/Screen/SettingsPage.php:299
 msgid "Yes"
 msgstr "Ano"
 
@@ -2059,17 +2188,19 @@ msgstr "Ano"
 msgid "Yes, until %s"
 msgstr "Ano, do %s"
 
-#: includes/Admin/Screen/SettingsPage.php:190
-#: includes/Admin/Screen/SettingsPage.php:51
+#: includes/Admin/Screen/SettingsPage.php:195
+#: includes/Admin/Screen/SettingsPage.php:52
 msgid "You are not allowed to change these settings."
 msgstr "Tohle nastavení nemáte oprávnění měnit."
 
-#: includes/Admin/KindEditor.php:131
-#: includes/Admin/KindEditor.php:516
+#: includes/Admin/KindEditor.php:166
+#: includes/Admin/KindEditor.php:550
+#: includes/Admin/SettingsTransfer.php:120
+#: includes/Admin/SettingsTransfer.php:82
 msgid "You are not allowed to do that."
 msgstr "K tomuhle nemáte oprávnění."
 
-#: includes/Admin/Screen/Overview.php:223
+#: includes/Admin/Screen/Overview.php:249
 msgid "You are not allowed to run that."
 msgstr "Tohle nemáte oprávnění spustit."
 
@@ -2095,7 +2226,7 @@ msgstr "lekce"
 msgid "courses"
 msgstr "kurzy"
 
-#: includes/Admin/KindEditor.php:292
+#: includes/Admin/KindEditor.php:326
 msgid "from"
 msgstr "od"
 
@@ -2103,8 +2234,8 @@ msgstr "od"
 msgid "from %s"
 msgstr "od %s"
 
-#: includes/Admin/Menu.php:74
-#: includes/Admin/Menu.php:75
+#: includes/Admin/Menu.php:110
+#: includes/Admin/Menu.php:111
 #: includes/Divi/ModuleFolder.php:58
 #: includes/Render/BlockCategory.php:78
 msgid "iSport"
@@ -2113,6 +2244,10 @@ msgstr "iSport"
 #: includes/Admin/CourseEditor.php:176
 msgid "iSport has no field for this: it is read from the course name. Choosing something here overrules the reading, and no synchronisation will change it back."
 msgstr "iSport pro tohle nemá pole: čte se to z názvu kurzu. Když tady něco vyberete, přebije to čtení z názvu a žádná synchronizace to nevrátí zpátky."
+
+#: includes/Admin/KindEditor.php:104
+msgid "iSport holds no description for that course, so nothing was changed. Descriptions are written in iSport itself; a course with an empty one there has nothing to fetch."
+msgstr "iSport pro ten kurz žádný popis nemá, takže se nic nezměnilo. Popisy se píšou přímo v iSportu; u kurzu, který ho tam má prázdný, není co načíst."
 
 #: includes/Divi/DisplayModule.php:210
 msgid "iSport listing"
@@ -2138,7 +2273,7 @@ msgstr "Přehled iSport"
 msgid "iSport publishes no link between a course and the classes that make it up, so the plugin works it out from the name and the time. Anything it could not place with confidence is here, together with the classes it decided belong to nobody — hall rentals, open sessions, and activities that take no bookings. Choosing a course records the answer for good: no later synchronisation will decide otherwise."
 msgstr "iSport nezveřejňuje vazbu mezi kurzem a jeho jednotlivými lekcemi, plugin ji proto odvozuje z názvu a času. Co nedokázal s jistotou zařadit, je tady — spolu s lekcemi, o kterých rozhodl, že nepatří nikomu: pronájmy sálů, open lekce a aktivity, na které se nepřihlašuje. Výběrem kurzu odpověď zaznamenáte natrvalo: žádná další synchronizace ji nepřepíše."
 
-#: includes/Admin/Screen/SettingsPage.php:59
+#: includes/Admin/Screen/SettingsPage.php:60
 msgid "iSport settings"
 msgstr "Nastavení iSport"
 
@@ -2177,7 +2312,7 @@ msgstr "hlavičky tabulky"
 msgid "of the value"
 msgstr "hodnoty"
 
-#: includes/Admin/KindEditor.php:294
+#: includes/Admin/KindEditor.php:328
 msgid "to"
 msgstr "do"
 
@@ -2206,15 +2341,15 @@ msgstr "— všude skrytý"
 msgid "— not assigned —"
 msgstr "— nepřiřazeno —"
 
-#: includes/Admin/KindEditor.php:488
+#: includes/Admin/KindEditor.php:522
 msgid "— the one most courses share —"
 msgstr "— ten, který sdílí nejvíc kurzů —"
 
-#: includes/Admin/KindEditor.php:250
+#: includes/Admin/KindEditor.php:284
 msgid "— the one this page is named after (%s) —"
 msgstr "— ten, po kterém se stránka jmenuje (%s) —"
 
-#: includes/Admin/KindEditor.php:253
+#: includes/Admin/KindEditor.php:287
 msgid "— the one this page is named after —"
 msgstr "— ten, po kterém se stránka jmenuje —"
 

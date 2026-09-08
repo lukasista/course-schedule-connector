@@ -95,7 +95,50 @@ final class ClientTest extends TestCase {
 	}
 
 	/**
-	 * A second call inside the freshness window must not hit the network.
+	 * The listing is asked for from before the term, not from today.
+	 *
+	 * @return void
+	 */
+	public function test_the_course_listing_starts_before_the_term(): void {
+		update_option(
+			Settings::OPTION,
+			array(
+				'api_base_url'  => 'https://jojogym.isportsystem.cz',
+				'semester_from' => '2026-09-11',
+			)
+		);
+
+		$http = new FakeHttp( array( $this->courses_response() ) );
+
+		$this->client( $http )->get_courses();
+
+		// Thirty-one days before the eleventh of September.
+		$this->assertStringContainsString( 'date=20260811', $http->urls[0] );
+	}
+
+	/**
+	 * A date given by the caller wins over the configured term.
+	 *
+	 * @return void
+	 */
+	public function test_an_explicit_date_is_used_as_given(): void {
+		update_option(
+			Settings::OPTION,
+			array(
+				'api_base_url'  => 'https://jojogym.isportsystem.cz',
+				'semester_from' => '2026-09-11',
+			)
+		);
+
+		$http = new FakeHttp( array( $this->courses_response() ) );
+
+		$this->client( $http )->get_courses( '20260101' );
+
+		$this->assertStringContainsString( 'date=20260101', $http->urls[0] );
+	}
+
+	/**
+	 * A fresh cache entry is served without touching the network.
 	 *
 	 * @return void
 	 */

@@ -47,6 +47,11 @@ final class Scheduler {
 	public const HOOK_RETENTION = 'cscs_retention';
 
 	/**
+	 * Option holding whether scheduled synchronisation is paused.
+	 */
+	public const PAUSED = 'cscs_sync_paused';
+
+	/**
 	 * Plugin instance, used to build services lazily.
 	 *
 	 * @var Plugin
@@ -149,6 +154,10 @@ final class Scheduler {
 	 * @return void
 	 */
 	public function schedule(): void {
+		if ( $this->is_paused() ) {
+			return;
+		}
+
 		if ( ! has_filter( 'cron_schedules', array( $this, 'add_intervals' ) ) ) {
 			add_filter( 'cron_schedules', array( $this, 'add_intervals' ) ); // phpcs:ignore WordPress.WP.CronInterval.ChangeDetected -- Intervals are administrator-configurable and capped by the hourly request ceiling.
 		}
@@ -197,6 +206,41 @@ final class Scheduler {
 		foreach ( array( self::HOOK_COURSES, self::HOOK_NEAR, self::HOOK_FAR, self::HOOK_RETENTION ) as $hook ) {
 			wp_clear_scheduled_hook( $hook );
 		}
+	}
+
+	/**
+	 * Says whether scheduled synchronisation is paused.
+	 *
+	 * @return bool
+	 */
+	public function is_paused(): bool {
+		return (bool) get_option( self::PAUSED, false );
+	}
+
+	/**
+	 * Stops the scheduled jobs until somebody says otherwise.
+	 *
+	 * The events are cleared rather than left in place: a paused plugin that
+	 * still holds four cron entries reads, to anyone looking at the schedule,
+	 * exactly like a running one. Synchronising by hand still works, which is
+	 * the point of pausing - to take the automatic requests out of the way
+	 * while the term is being set up, without going offline.
+	 *
+	 * @return void
+	 */
+	public function pause(): void {
+		update_option( self::PAUSED, true, false );
+		$this->unschedule();
+	}
+
+	/**
+	 * Puts the jobs back on their intervals.
+	 *
+	 * @return void
+	 */
+	public function resume(): void {
+		delete_option( self::PAUSED );
+		$this->schedule();
 	}
 
 	/**
@@ -278,7 +322,7 @@ final class Scheduler {
 	 * @return bool
 	 */
 	private function ready(): bool {
-		return $this->settings->is_configured();
+		return ! $this->is_paused() && $this->settings->is_configured();
 	}
 
 	/**

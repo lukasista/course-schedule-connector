@@ -59,6 +59,42 @@ final class Menu {
 	 */
 	public function register(): void {
 		add_action( 'admin_menu', array( $this, 'add_pages' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
+	}
+
+	/**
+	 * Loads the progress script on the plugin's own screens.
+	 *
+	 * @param string $hook Screen.
+	 * @return void
+	 */
+	public function assets( string $hook ): void {
+		if ( ! str_contains( $hook, self::SLUG ) ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'cscs-admin',
+			CSCS_URL . 'assets/js/cscs-admin.js',
+			array(),
+			CSCS_VERSION,
+			true
+		);
+
+		wp_localize_script(
+			'cscs-admin',
+			'cscsAdminText',
+			array(
+				'working'      => __( 'Working…', 'course-schedule-connector' ),
+				'sync'         => __( 'Retrieving courses and classes from iSport. This can take a minute.', 'course-schedule-connector' ),
+				'descriptions' => __( 'Fetching descriptions for every kind of course…', 'course-schedule-connector' ),
+				'pause'        => __( 'Pausing…', 'course-schedule-connector' ),
+				'resume'       => __( 'Starting the scheduled jobs again…', 'course-schedule-connector' ),
+				'reset'        => __( 'Clearing the failure state…', 'course-schedule-connector' ),
+				'export'       => __( 'Preparing the file…', 'course-schedule-connector' ),
+				'import'       => __( 'Reading the file…', 'course-schedule-connector' ),
+			)
+		);
 	}
 
 	/**

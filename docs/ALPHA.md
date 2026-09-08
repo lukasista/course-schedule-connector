@@ -1,4 +1,4 @@
-# Course & Schedule Connector for iSport — alfa 1.0.0-alpha.1
+# Course & Schedule Connector for iSport — alfa 1.0.0-alpha.2
 
 **Tenhle soubor je jediné, co je potřeba přečíst, než se začne pracovat.** Je
 psaný tak, aby se do něj dalo vstoupit bez znalosti předchozích rozhovorů: co
@@ -24,7 +24,7 @@ na iSport; všechno se kreslí z lokální databáze.
 | Slug | `course-schedule-connector` |
 | Prefix / namespace | `cscs` / `CSCS\` |
 | Text domain | `course-schedule-connector` |
-| Verze | `1.0.0-alpha.1` |
+| Verze | `1.0.0-alpha.2` |
 | Požaduje | WordPress 6.7, PHP 8.1 |
 | Licence | GPL-2.0-or-later |
 | Repozitář | `github.com/lukasista/course-schedule-connector` (veřejný) |
@@ -169,8 +169,9 @@ s lekcí přes **název + časové razítko**. Na ostrých datech: 113 kurzů, 5
 | F10 | Plugin Check: **0 chyb, 0 varování**; čistá instalace i Divi | ✅ |
 | F11 | Dokumentace, verze, buildy, snímky | ✅ |
 | F12 | Akceptační brána `RELEASE-CHECKLIST.md` | ⏸ odloženo |
+| T1 | Testovací kolo alfa 1 — datum kurzů, pauza, export/import, popisy | ✅ |
 
-Čísla, která stojí za zapamatování: **249 testů**, **31 bloků**, **31 Divi
+Čísla, která stojí za zapamatování: **251 testů**, **31 bloků**, **31 Divi
 modulů**, **575 přeložených řetězců**, **25 druhů kurzů**, výpis 113 kurzů za
 **7 dotazů / 51 ms**, frontend dělá **0 odchozích požadavků**.
 
@@ -182,6 +183,13 @@ modulů**, **575 přeložených řetězců**, **25 druhů kurzů**, výpis 113 k
 - **Plánovač se nikdy nenaplánoval.** `wp_schedule_event()` odmítne interval,
   který WordPress v tu chvíli nezná, a při aktivaci ho nezná. Frontend o tom
   neřekne nic — stránky se kreslí dál a čísla stojí.
+- **Seznam kurzů se stahoval bez data.** iSport pak vrátí jen kurzy, jejichž
+  nejbližší lekce je teprve před námi — 73 ze 113. Ten neúplný seznam pak brala
+  archivace (40 kurzů zmizelo z webu), párování (219 nespárovaných lekcí)
+  i načítání popisů (6 druhů nemělo z čeho brát). Tři různá hlášení, jedna
+  příčina. Opraveno: `Client::get_courses()` bere výchozí datum z **Term
+  starts** minus měsíc rezervy (filtr `cscs_course_lookback_days`), protože
+  pololetí nezačíná v jeden den — kurzy se otevírají celý první týden.
 
 Poučení, které platí dál: **co se neověří na živých datech nebo na obrázku, to se
 neví.** Obě chyby v tabulce níž našel snímek obrazovky, ne čtení kódu.
@@ -199,6 +207,9 @@ Nic z toho neblokuje provoz. Seřazeno podle toho, jak moc to bije do očí.
 | A3 | Široká tabulka | `:focus-visible` kreslí kolem celé oblasti silný černý rám. Funkčně správně, opticky těžké. | `screenshot-5.png` |
 | A4 | Přehled → Poslední běhy | Datum se píše `29.8. 15:23` napevno česky i na anglickém webu. `wp_date('j.n. H:i')` v `Admin\Screen\Overview.php:275`. | `screenshot-7.png` |
 | A5 | Seznam kurzů v administraci | Hromadné akce z F3b nikdy nevznikly. | — |
+| A8 | Párování lekcí | 57 lekcí zůstává nespárovaných. 8 z 9 názvů jsou kurzy, které iSport ve výpisu kurzů nemá vůbec, na žádné datum — na naší straně už není co opravit. Devátý (`Funkční kruhový trénink`) má lekci bez čísla kurzu a tři kandidáty, takže se nedá rozhodnout. | `wp cscs sync unmatched` |
+| A9 | Popisy druhů | Dva kurzy (`108-Gymnastika pro dospělé`, `83-Vzdušná akrobacie … s hlídáním dětí`) mají popis prázdný přímo v iSportu. Tlačítko to teď říká, ale napravit se to dá jen v iSportu. | — |
+| A10 | Archivovaný kurz | Z výpisů zmizí, ale jeho vlastní stránka zůstane veřejná. Zvoleno vědomě („nechat archivovat jako teď"). | — |
 | A6 | `.wordpress-org` | Snímky 1 a 3 jsou tentýž obrázek; chybí snímek výpisu kurzů na desktopu. | — |
 | A7 | Adresář | Bannery a ikony (`banner-*.png`, `icon-*.png`) neexistují. | — |
 

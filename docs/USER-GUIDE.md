@@ -183,6 +183,10 @@ aktivita — je to její jméno, které říká, kam kurz patří. Takových kur
 (*Gymnastika 4-6 let dívky pokročilé* × *Jojo přípravka 4-6 let dívky
 pokročilé*) a patří k Jojo přípravce, přesně jako na dosavadním webu.
 
+V seznamu **Druhy kurzů** je sloupec **Popis** (prvních pár vět) a **Kurzy**
+(kolik jich pod druh spadá) — hned je vidět, které stránky jsou ještě prázdné.
+Když je nechcete vidět, odškrtnete je nahoře v **Nastavení zobrazení**.
+
 Stránka druhu se při založení rovnou vyplní **popisem, který sdílí nejvíc kurzů
 toho druhu** — máte tedy co ukazovat, aniž byste psal 25 textů. Pak už do ní
 synchronizace nikdy nesáhne. Když chcete jiný, v editaci stránky je panel
@@ -350,7 +354,30 @@ Další lekce k takovému kurzu přiřadíte na obrazovce *Nespárované lekce* 
 - kolik procent lekcí se podařilo spárovat s kurzy,
 - případné chyby.
 
-Tlačítko **Synchronizovat nyní** vynutí okamžité načtení. Používejte ho, když jste právě v iSportu něco změnili a chcete to hned vidět na webu.
+Tlačítko **Synchronizovat nyní** vynutí okamžité načtení. Používejte ho, když jste právě v iSportu něco změnili a chcete to hned vidět na webu. Než doběhne, tlačítka zešednou a vedle nich se točí kolečko — synchronizace sáhne do iSportu několikrát a může trvat skoro minutu.
+
+**Pozastavit synchronizaci** zastaví naplánované úlohy. Web běží dál a čísla na něm zůstanou taková, jaká byla; samo se nic nenačítá, dokud nezmáčknete **Obnovit synchronizaci**. Ruční synchronizace funguje i během pauzy. Hodí se, když se v iSportu zrovna zakládá nové pololetí a nechcete, aby se rozdělaná data průběžně objevovala na webu.
+
+**Načíst všechny chybějící popisy** projde všechny stránky druhů kurzů a doplní popis z iSportu tam, kde ještě žádný není. Stránku, na které už něco napsaného je, nechá být — na to je tlačítko přímo v editoru druhu kurzu. Na konci řekne, kolik stránek doplnil, kolik nechal a u kolika iSport žádný popis nemá.
+
+### Pololetí a to, které kurzy se vůbec načtou
+
+V **iSport → Nastavení** jsou pole **Začátek pololetí** a **Konec pololetí**.
+Začátek pololetí neurčuje jen rozvrh — plugin se podle něj ptá iSportu, které
+kurzy má vůbec poslat. Ptá se s měsíční rezervou dopředu, protože pololetí
+nezačíná v jeden den (kurzy se otevírají celý první týden), ale pokud by tam
+bylo datum o celé měsíce vedle, část kurzů by v odpovědi chyběla a plugin by je
+považoval za zrušené. Když se po synchronizaci ztratí kurzy, tohle pole je první
+místo, kam se podívat.
+
+### Export a import nastavení
+
+Dole na stránce nastavení jsou **Stáhnout nastavení** a **Importovat nastavení**.
+Soubor obsahuje všechno z té obrazovky včetně seznamů aktivit a pravidel pro
+štítky — hodí se při stěhování webu nebo při zakládání testovací kopie. Import
+přepíše jen ta nastavení, která soubor uvádí; hodnotu, kterou by plugin
+neuložil ani ve formuláři, odmítne a spočítá. Kurzy, stránky ani rozvrh se
+importem nemění.
 
 ## Procházení výpisu
 
@@ -404,7 +431,13 @@ téhle stránky plánuje sama.
 Zkontrolujte, že modul nebo zkrácený kód má vybranou Zobrazovací sadu a že filtry sady nejsou tak úzké, že jim nic neodpovídá. Zkuste dočasně zrušit filtr sálu.
 
 **Kurz na webu chybí.**
-Podívejte se na Přehled, kdy proběhla poslední synchronizace, a spusťte **Synchronizovat nyní**. Pokud kurz stále chybí, ověřte, že je v iSportu skutečně publikovaný a že spadá do nastaveného pololetí.
+Podívejte se na Přehled, kdy proběhla poslední synchronizace, a spusťte **Synchronizovat nyní**. Pokud kurz stále chybí, ověřte, že je v iSportu skutečně publikovaný, a hlavně zkontrolujte **Začátek pololetí** v nastavení: plugin se podle něj ptá, které kurzy má iSport poslat, a datum posunuté dopředu nechá část kurzů mimo odpověď. V *iSport → Kurzy* poznáte takový kurz podle stavu **iSport ho už nenabízí**.
+
+**U některých kurzů chybí věk, pohlaví nebo úroveň.**
+Plugin je čte z názvu kurzu. Když v názvu nejsou, nemá je odkud vzít — doplní se ručně na stránce kurzu a synchronizace je pak už nepřepíše.
+
+**Tlačítko „Načíst popis“ u druhu kurzu nic neudělá.**
+Od alfy 2 vždycky napíše, co se stalo. Hláška *„iSport pro ten kurz žádný popis nemá“* znamená, že popis je prázdný přímo v iSportu — napravit se to dá jen tam, plugin nemá co načíst.
 
 **Volná místa nesedí.**
 Údaje se obnovují řádově v minutách, takže krátké zpoždění je normální. Trvá-li rozdíl déle než čtvrt hodiny, zkontrolujte na Přehledu, jestli synchronizace nehlásí chybu.

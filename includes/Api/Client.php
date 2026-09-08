@@ -100,7 +100,24 @@ final class Client {
 	}
 
 	/**
+	 * Number of days requested before the term starts.
+	 *
+	 * A term rarely begins on one single day: courses open across the whole
+	 * first week, and some of them a little before the date the office calls
+	 * the start. The listing is asked for from far enough back that none of
+	 * them is missed, yet not so far back that the previous term returns.
+	 */
+	private const COURSE_LOOKBACK_DAYS = 31;
+
+	/**
 	 * Retrieves courses.
+	 *
+	 * The remote system reads its date argument as the earliest course start it
+	 * should report, and answers a bare request as if that date were this very
+	 * moment. Courses that began earlier in the term are then simply absent,
+	 * and everything downstream - archiving, matching, descriptions - treats
+	 * that partial list as the whole truth. So the default is the configured
+	 * term start, with a margin, rather than today.
 	 *
 	 * @param string|null $date_from Optional Ymd date limiting the listing.
 	 * @param bool        $force     Bypass the cache.
@@ -110,11 +127,37 @@ final class Client {
 	public function get_courses( ?string $date_from = null, bool $force = false ): array {
 		$payload = $this->request(
 			'courses.php',
-			array( 'date' => $this->compact_date( $date_from ) ),
+			array( 'date' => $this->compact_date( $date_from ?? $this->courses_from() ) ),
 			$force
 		);
 
 		return $this->mapper->map_courses( $payload );
+	}
+
+	/**
+	 * The earliest course start worth asking for, in the form the API expects.
+	 *
+	 * @return string|null Null when the date cannot be worked out.
+	 */
+	private function courses_from(): ?string {
+		$configured = (string) $this->settings->get( 'semester_from' );
+		$stamp      = '' === $configured ? time() : strtotime( $configured . ' 00:00:00' );
+
+		if ( false === $stamp ) {
+			return null;
+		}
+
+		/**
+		 * Filters how many days before the term start the course listing begins.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $days Number of days.
+		 */
+		$days = (int) apply_filters( 'cscs_course_lookback_days', self::COURSE_LOOKBACK_DAYS );
+		$days = max( 0, min( 365, $days ) );
+
+		return gmdate( 'Ymd', $stamp - ( $days * DAY_IN_SECONDS ) );
 	}
 
 	/**

@@ -73,6 +73,41 @@ final class KindEditor {
 		add_action( 'save_post_' . KindType::KIND, array( $this, 'save' ), 10, 2 );
 		add_action( 'admin_post_' . self::DUPLICATE, array( $this, 'duplicate' ) );
 		add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
+		add_action( 'admin_notices', array( $this, 'notice' ) );
+	}
+
+	/**
+	 * Says what the fetch button did.
+	 *
+	 * Without this the button was silent: a kind whose courses carry no
+	 * description in iSport looked exactly like a button that does nothing,
+	 * which is what it was reported as.
+	 *
+	 * @return void
+	 */
+	public function notice(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading a redirect marker to phrase a message, no action taken.
+		$outcome = isset( $_GET['cscs-description'] ) ? sanitize_key( wp_unslash( $_GET['cscs-description'] ) ) : '';
+
+		if ( ! in_array( $outcome, array( 'written', 'empty' ), true ) ) {
+			return;
+		}
+
+		$screen = get_current_screen();
+
+		if ( ! $screen instanceof \WP_Screen || KindType::KIND !== $screen->post_type ) {
+			return;
+		}
+
+		$message = 'written' === $outcome
+			? __( 'The description was taken from iSport and now stands in the editor.', 'course-schedule-connector' )
+			: __( 'iSport holds no description for that course, so nothing was changed. Descriptions are written in iSport itself; a course with an empty one there has nothing to fetch.', 'course-schedule-connector' );
+
+		printf(
+			'<div class="notice notice-%s is-dismissible"><p>%s</p></div>',
+			'written' === $outcome ? 'success' : 'warning',
+			esc_html( $message )
+		);
 	}
 
 	/**

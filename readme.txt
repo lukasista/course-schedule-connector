@@ -4,7 +4,7 @@ Tags: courses, schedule, timetable, booking, sports
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.0-alpha.1
+Stable tag: 1.0.0-alpha.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,15 @@ Yes. A kind's page carries its own answer to "which of these courses" — who th
 
 == Changelog ==
 
+= 1.0.0-alpha.2 =
+* Courses that began earlier in the term were missing: the remote system was asked for its listing without a date, which it answers as "courses starting from this moment". Forty of a hundred and thirteen courses had been archived as though iSport had stopped offering them, two hundred and nineteen class occurrences could not be tied to a course, and six kinds of course had nothing to take a description from. The listing now starts a month before the configured term start.
+* Overview: **Pause synchronisation**, which stops the scheduled jobs until you resume them and leaves synchronising by hand working; and **Fetch every missing description**, which fills in the kind pages that have nothing written on them.
+* Both long-running buttons now say what they are doing while they do it, instead of leaving the page sitting there.
+* The button that fetches a kind's description says what happened. A course with no description in iSport now says so, rather than looking like a button that does nothing.
+* Settings can be exported to a file and imported back. Every value goes through the same validation the form uses, so a file cannot store anything that could not be typed in.
+* The list of kinds of course has a **Description** column and a **Courses** count, both switchable under Screen Options.
+* `wp cscs sync descriptions` and `wp cscs sync pause on|off`.
+
 = 1.0.0-alpha.1 =
 * First alpha. Feature-complete and in testing on the site it was built for; not yet submitted to the directory.
 * Courses and class timetables from an iSport System installation, synchronised on a schedule and served from your own database.
@@ -100,6 +109,9 @@ Yes. A kind's page carries its own answer to "which of these courses" — who th
 * Czech translation included.
 
 == Upgrade Notice ==
+
+= 1.0.0-alpha.2 =
+Fixes courses and class occurrences going missing when the term had already begun. Run a synchronisation after updating.
 
 = 1.0.0-alpha.1 =
 First alpha.

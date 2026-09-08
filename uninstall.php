@@ -53,6 +53,7 @@ $cscs_options = array(
 	\CSCS\Data\LessonRepository::MAKEUP_OPTION,
 	\CSCS\Data\DisplaySetRepository::OPTION,
 	\CSCS\Data\RoomMap::OPTION,
+	\CSCS\Sync\Scheduler::PAUSED,
 );
 
 foreach ( $cscs_options as $cscs_option ) {

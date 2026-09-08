@@ -328,6 +328,86 @@ final class SyncCommand {
 	}
 
 	/**
+	 * Fills in the description of every kind page that has none.
+	 *
+	 * The same thing the button on the overview screen does, for the sites that
+	 * are set up from a terminal.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--overwrite]
+	 * : Replace what is written on a page too, rather than only filling blanks.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp cscs sync descriptions
+	 *     wp cscs sync descriptions --overwrite
+	 *
+	 * @param array<int, string>    $args       Positional arguments.
+	 * @param array<string, string> $assoc_args Options.
+	 * @return void
+	 */
+	public function descriptions( array $args, array $assoc_args ): void {
+		unset( $args );
+
+		$outcome = $this->plugin->kinds()->fill_descriptions( isset( $assoc_args['overwrite'] ) );
+
+		\WP_CLI::success(
+			sprintf(
+				'%d written, %d left as they were, %d with nothing in iSport to take.',
+				$outcome['written'],
+				$outcome['kept'],
+				$outcome['empty']
+			)
+		);
+	}
+
+	/**
+	 * Stops the scheduled jobs, or starts them again.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [<state>]
+	 * : on to pause, off to resume. Omitted, it reports which it is.
+	 * ---
+	 * options:
+	 *   - on
+	 *   - off
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp cscs sync pause
+	 *     wp cscs sync pause on
+	 *     wp cscs sync pause off
+	 *
+	 * @param array<int, string> $args Positional arguments.
+	 * @return void
+	 */
+	public function pause( array $args ): void {
+		$scheduler = $this->plugin->scheduler();
+		$state     = isset( $args[0] ) ? strtolower( (string) $args[0] ) : '';
+
+		if ( 'on' === $state ) {
+			$scheduler->pause();
+
+			\WP_CLI::success( 'Scheduled synchronisation is paused.' );
+
+			return;
+		}
+
+		if ( 'off' === $state ) {
+			$scheduler->resume();
+
+			\WP_CLI::success( 'Scheduled synchronisation has started again.' );
+
+			return;
+		}
+
+		\WP_CLI::line( $scheduler->is_paused() ? 'paused' : 'running' );
+	}
+
+	/**
 	 * Files every stored course under the kind of course its name says it is.
 	 *
 	 * The next synchronisation would do this on its own, one course at a time.

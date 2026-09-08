@@ -12,6 +12,7 @@ namespace CSCS\Admin\Screen;
 defined( 'ABSPATH' ) || exit;
 
 use CSCS\Admin\Capabilities;
+use CSCS\Admin\SettingsTransfer;
 use CSCS\Plugin;
 use CSCS\Settings;
 
@@ -57,6 +58,8 @@ final class SettingsPage {
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'iSport settings', 'course-schedule-connector' ); ?></h1>
+
+			<?php SettingsTransfer::notice(); ?>
 
 			<?php foreach ( $messages['errors'] as $message ) : ?>
 				<div class="notice notice-error"><p><?php echo esc_html( $message ); ?></p></div>
@@ -163,6 +166,8 @@ final class SettingsPage {
 
 				<?php submit_button(); ?>
 			</form>
+
+			<?php ( new SettingsTransfer( $this->plugin ) )->panel(); ?>
 		</div>
 		<?php
 	}

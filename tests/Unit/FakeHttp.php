@@ -33,6 +33,13 @@ final class FakeHttp implements Http {
 	public int $calls = 0;
 
 	/**
+	 * Every URL asked for, in order.
+	 *
+	 * @var array<int, string>
+	 */
+	public array $urls = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array<int, Response|ApiException> $queue Outcomes to return in order.
@@ -51,6 +58,8 @@ final class FakeHttp implements Http {
 	 */
 	public function get( string $url, int $timeout ): Response {
 		++$this->calls;
+
+		$this->urls[] = $url;
 
 		$outcome = array_shift( $this->queue );
 

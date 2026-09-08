@@ -19,8 +19,10 @@ use CSCS\Api\WpHttp;
 use CSCS\Admin\Capabilities;
 use CSCS\Admin\CourseEditor;
 use CSCS\Admin\CourseList;
-use CSCS\Admin\Menu;
 use CSCS\Admin\KindEditor;
+use CSCS\Admin\KindList;
+use CSCS\Admin\Menu;
+use CSCS\Admin\SettingsTransfer;
 use CSCS\Admin\TrainerEditor;
 use CSCS\Cache\Store;
 use CSCS\Cli\ApiCommand;
@@ -155,6 +157,8 @@ final class Plugin {
 			( new TrainerEditor( $this ) )->register();
 			( new KindEditor( $this ) )->register();
 			( new CourseList() )->register();
+			( new KindList( $this ) )->register();
+			( new SettingsTransfer( $this ) )->register();
 		}
 		( new Assets( $this ) )->register();
 		( new Shortcodes( $this ) )->register();
