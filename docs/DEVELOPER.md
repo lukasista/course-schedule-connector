@@ -499,6 +499,7 @@ wp cscs sets get <id>
 wp cscs caps list                                     # who holds the plugin's two capabilities
 wp cscs caps install
 wp cscs trainers backfill [--dry-run] [--photographs]
+wp cscs trainers tidy [--dry-run]                     # remove duplicate trainer photographs
 wp cscs divi status                                   # whether Divi is present and what it registered
 ```
 

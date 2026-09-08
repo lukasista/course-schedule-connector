@@ -80,6 +80,22 @@ final class TrainerType {
 	public const META_PHOTO_SOURCE = '_cscs_photo_source';
 
 	/**
+	 * Every address a photograph has already been fetched from, one row each.
+	 *
+	 * iSport holds more than one trainer record under the same name — eleven of
+	 * this gym's twenty-two names have two or three, each with a photograph of
+	 * its own — and a course names whichever record it was booked against. A
+	 * single "last address" therefore flipped between two values as the courses
+	 * were walked, and each flip fetched the picture again.
+	 */
+	public const META_PHOTO_SEEN = '_cscs_photo_seen';
+
+	/**
+	 * Written on the attachment: the address it was made from.
+	 */
+	public const META_ATTACHMENT_SOURCE = '_cscs_photo_source_url';
+
+	/**
 	 * Registers the post type and the fields a person fills in.
 	 *
 	 * @return void

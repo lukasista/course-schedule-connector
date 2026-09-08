@@ -239,12 +239,36 @@ final class TrainerRepository {
 	}
 
 	/**
+	 * Trainers whose photograph has already been considered in this run.
+	 *
+	 * @var array<int, bool>
+	 */
+	private static array $touched = array();
+
+	/**
 	 * Brings the photograph iSport holds into the media library, once.
 	 *
 	 * Fetched on the server at synchronisation time and stored here, so that a
 	 * visitor's browser never asks iSport for anything. Hot-linking the remote
 	 * address would have told the remote system who is reading the site, which
 	 * is precisely the thing this plugin promises not to do.
+	 *
+	 * "Once" was the intention and not what happened. The guard compared the
+	 * incoming address with the last one fetched — and iSport keeps more than
+	 * one trainer record under the same name, eleven of this gym's twenty-two
+	 * names having two or three, each with its own photograph. A course names
+	 * whichever record it was booked against, so walking a hundred courses made
+	 * the address flip back and forth, and every flip was a download and a new
+	 * attachment. The media library reached 2 116 pictures of twenty-two
+	 * people: 309 of one of them.
+	 *
+	 * So the question is no longer "is this the address I fetched last time"
+	 * but "is this an address I have ever fetched", which the flipping cannot
+	 * defeat. A photograph genuinely new to iSport still arrives, because its
+	 * address is one nobody has seen. Two further guards sit behind that: an
+	 * attachment already made from this exact address is reused rather than
+	 * made again, and no trainer is fetched more than once in a single run
+	 * whatever the courses say.
 	 *
 	 * @param int    $post_id Trainer post id.
 	 * @param string $url     Photograph address.
@@ -258,12 +282,28 @@ final class TrainerRepository {
 		}
 
 		$existing = (int) get_post_meta( $post_id, TrainerType::META_PHOTO_ID, true );
-		$source   = (string) get_post_meta( $post_id, TrainerType::META_PHOTO_SOURCE, true );
+		$has      = 0 !== $existing && null !== get_post( $existing );
 
-		// The same address, already fetched, and the attachment still there:
-		// nothing to do. A photograph does not change often enough to justify a
-		// download on every synchronisation.
-		if ( $source === $url && 0 !== $existing && null !== get_post( $existing ) ) {
+		if ( $has && in_array( $url, $this->fetched_from( $post_id ), true ) ) {
+			return;
+		}
+
+		// One trainer, one fetch per run. Belt to the braces above, and the
+		// thing that would have kept the damage to twenty-two pictures rather
+		// than two thousand had it been here from the start.
+		if ( isset( self::$touched[ $post_id ] ) ) {
+			return;
+		}
+
+		self::$touched[ $post_id ] = true;
+
+		// The picture may already be in the library under another trainer's
+		// name, or from before this meta existed. Pointing at it is free.
+		$already = $this->attachment_for( $url );
+
+		if ( 0 !== $already ) {
+			$this->remember( $post_id, $already, $url );
+
 			return;
 		}
 
@@ -303,7 +343,76 @@ final class TrainerRepository {
 			return;
 		}
 
-		update_post_meta( $post_id, TrainerType::META_PHOTO_ID, (int) $attachment );
+		update_post_meta( (int) $attachment, TrainerType::META_ATTACHMENT_SOURCE, $url );
+
+		$this->remember( $post_id, (int) $attachment, $url );
+	}
+
+	/**
+	 * Records which picture a trainer now shows, and that this address is done with.
+	 *
+	 * @param int    $post_id       Trainer post id.
+	 * @param int    $attachment_id Attachment id.
+	 * @param string $url           Address it was made from.
+	 * @return void
+	 */
+	private function remember( int $post_id, int $attachment_id, string $url ): void {
+		// The list is written before the last-fetched address, not after. The
+		// other way round it never grew: the address had just been written as
+		// the last one, `fetched_from()` counts that as seen, and so the row
+		// was never added — leaving the picture to change hands between the
+		// same two attachments on every synchronisation, for ever.
+		$seen = array_map( 'strval', (array) get_post_meta( $post_id, TrainerType::META_PHOTO_SEEN ) );
+
+		if ( ! in_array( $url, $seen, true ) ) {
+			add_post_meta( $post_id, TrainerType::META_PHOTO_SEEN, $url );
+		}
+
+		update_post_meta( $post_id, TrainerType::META_PHOTO_ID, $attachment_id );
 		update_post_meta( $post_id, TrainerType::META_PHOTO_SOURCE, $url );
+	}
+
+	/**
+	 * Every address a trainer's photograph has been fetched from.
+	 *
+	 * The address last fetched counts as seen even where the list does not
+	 * mention it, so that a site upgrading to this does not fetch everything
+	 * one more time to find that out.
+	 *
+	 * @param int $post_id Trainer post id.
+	 * @return array<int, string>
+	 */
+	private function fetched_from( int $post_id ): array {
+		$seen = array_map( 'strval', (array) get_post_meta( $post_id, TrainerType::META_PHOTO_SEEN ) );
+		$last = (string) get_post_meta( $post_id, TrainerType::META_PHOTO_SOURCE, true );
+
+		if ( '' !== $last && ! in_array( $last, $seen, true ) ) {
+			$seen[] = $last;
+		}
+
+		return $seen;
+	}
+
+	/**
+	 * Returns an attachment already made from an address, if there is one.
+	 *
+	 * @param string $url Address.
+	 * @return int Attachment id, or 0.
+	 */
+	private function attachment_for( string $url ): int {
+		$found = get_posts(
+			array(
+				'post_type'        => 'attachment',
+				'post_status'      => 'inherit',
+				'posts_per_page'   => 1,
+				'fields'           => 'ids',
+				'no_found_rows'    => true,
+				'suppress_filters' => false,
+				'meta_key'         => TrainerType::META_ATTACHMENT_SOURCE, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- The address is the only thing that identifies a fetched picture.
+				'meta_value'       => $url, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- See above.
+			)
+		);
+
+		return array() === $found ? 0 : (int) $found[0];
 	}
 }

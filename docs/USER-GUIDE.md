@@ -290,6 +290,18 @@ Na stránce trenéra doplníte to, co iSport nemá kam uložit:
 
 Text, který napíšete do editoru, se na stránce zobrazí jako u kurzu. Synchronizace se dotýká jen jména a fotografie — nic z toho, co napíšete, nikdy nepřepíše.
 
+**iSport vede pod jedním jménem víc záznamů trenéra** — u Jojo Gymu jedenáct
+z dvaadvaceti jmen má dva nebo tři, každý s vlastní fotkou — a kurz jmenuje ten
+záznam, na který byl založen. Plugin páruje podle jména, takže si všechny ty
+fotky pamatuje jako fotky jednoho člověka a stáhne každou právě jednou. Kterou
+z nich ukáže, neřešte: chcete-li konkrétní, nastavte **náhledový obrázek**, ten
+má přednost vždycky.
+
+Kdybyste v knihovně médií našel stovky kopií týchž fotek, jsou z verze před
+alfou 2, kdy se fotka stahovala znovu při každém přepnutí adresy. Uklidí je
+administrátor příkazem `wp cscs trainers tidy` (nejdřív s `--dry-run`); fotku,
+kterou stránka ukazuje, i každý náhledový obrázek nechá být.
+
 ## Bloky a moduly pro vlastní design
 
 Když vám výchozí stránka kurzu nebo trenéra nestačí, postavíte si vlastní. Každý údaj má svůj **blok** (Gutenberg) i **modul** (Divi 5) pod vlastním jménem: *Cena, Den, Čas, Věk, Pohlaví, Úroveň, Termín, Lekce, Sál, Trenér, Volná místa, Tlačítko přihlášení, Nejbližší lekce, Náhradní lekce, Obrázek kurzu, Popis kurzu, Popis z iSportu, Na koho se obrátit, Název kurzu* — a u trenéra *Fotografie, Kvalifikace, Záliby, Zajímavost, Motto, Popis, Kurzy které trenér vede*.
