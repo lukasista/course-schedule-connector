@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Tests\Unit;
 
+use CSCS\Data\KindRepository;
 use CSCS\Render\KindDetail;
 use PHPUnit\Framework\TestCase;
 
@@ -23,6 +24,63 @@ use PHPUnit\Framework\TestCase;
  * @covers \CSCS\Render\KindDetail
  */
 final class KindFilterTest extends TestCase {
+
+	/**
+	 * The rule the listing filters by is the rule the page is found by.
+	 *
+	 * Both are asked of the same catalogue and must agree: a course a page
+	 * would list is a course that page is about, and a course it would not is
+	 * not. Two implementations of that rule would be two answers, and the one
+	 * that goes wrong is the silent one — a module on a theme builder template
+	 * showing a course under the heading of a kind it is not.
+	 *
+	 * @return void
+	 */
+	public function test_the_listing_and_the_lookup_share_one_rule(): void {
+		$girls = array( 'filterGenders' => 'girls' );
+		$rows  = array(
+			array(
+				'gender'   => 'girls',
+				'level'    => 'beginner',
+				'age_from' => '6',
+				'age_to'   => '9',
+			),
+			array(
+				'gender'   => 'mixed',
+				'level'    => 'beginner',
+				'age_from' => '6',
+				'age_to'   => '9',
+			),
+		);
+
+		$kept = $this->call( 'filtered', $rows, $girls );
+
+		$this->assertCount( 1, $kept );
+		$this->assertSame( 'girls', $kept[0]['gender'] );
+
+		// The same question, asked one course at a time.
+		$this->assertTrue( KindRepository::matches( $girls, $rows[0] ) );
+		$this->assertFalse( KindRepository::matches( $girls, $rows[1] ) );
+	}
+
+	/**
+	 * A setting nobody recognises is not asked, rather than matching nothing.
+	 *
+	 * @return void
+	 */
+	public function test_a_word_the_plugin_does_not_know_is_dropped(): void {
+		$row = array(
+			'gender'   => 'girls',
+			'level'    => 'beginner',
+			'age_from' => '',
+			'age_to'   => '',
+		);
+
+		// Held to the vocabulary: an unknown key would otherwise match no
+		// course at all and silently empty the listing.
+		$this->assertTrue( KindRepository::matches( array( 'filterGenders' => 'nonsense' ), $row ) );
+		$this->assertFalse( KindRepository::matches( array( 'filterGenders' => 'boys' ), $row ) );
+	}
 
 	/**
 	 * Calls one of the private helpers.

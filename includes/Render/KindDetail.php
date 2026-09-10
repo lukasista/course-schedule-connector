@@ -11,7 +11,6 @@ namespace CSCS\Render;
 
 defined( 'ABSPATH' ) || exit;
 
-use CSCS\Data\Audience;
 use CSCS\Data\DisplaySet;
 use CSCS\Data\KindRepository;
 use CSCS\Data\KindType;
@@ -317,43 +316,28 @@ final class KindDetail {
 	 * @return array<int, array<string, mixed>>
 	 */
 	private static function filtered( array $rows, array $settings ): array {
-		$genders = self::keys( $settings['filterGenders'] ?? '' );
-		$levels  = self::keys( $settings['filterLevels'] ?? '' );
-		$min     = trim( (string) ( $settings['filterAgeMin'] ?? '' ) );
-		$max     = trim( (string) ( $settings['filterAgeMax'] ?? '' ) );
+		$asked = array(
+			'filterGenders' => $settings['filterGenders'] ?? '',
+			'filterLevels'  => $settings['filterLevels'] ?? '',
+			'filterAgeMin'  => $settings['filterAgeMin'] ?? '',
+			'filterAgeMax'  => $settings['filterAgeMax'] ?? '',
+		);
 
-		if ( array() === $genders && array() === $levels && '' === $min && '' === $max ) {
+		if ( '' === trim( implode( '', array_map( 'strval', $asked ) ) ) ) {
 			return $rows;
 		}
 
-		$kept = array();
-
-		foreach ( $rows as $row ) {
-			if ( array() !== $genders && ! in_array( (string) ( $row['gender'] ?? '' ), $genders, true ) ) {
-				continue;
-			}
-
-			if ( array() !== $levels && ! in_array( (string) ( $row['level'] ?? '' ), $levels, true ) ) {
-				continue;
-			}
-
-			$from = (string) ( $row['age_from'] ?? '' );
-			$to   = (string) ( $row['age_to'] ?? '' );
-
-			// An age nobody knows is not an age that matches. A course with no
-			// ceiling runs "and upwards", so it is only ever cut by the floor.
-			if ( '' !== $min && ( '' === $to || (float) $to < (float) $min ) ) {
-				continue;
-			}
-
-			if ( '' !== $max && ( '' === $from || (float) $from > (float) $max ) ) {
-				continue;
-			}
-
-			$kept[] = $row;
-		}
-
-		return $kept;
+		// The rule itself lives with the pages, because it is asked in two
+		// directions: of every course a page is about to list, and of one
+		// course against every page, when a design made for all courses has to
+		// work out which kind the course on the screen belongs to. Two copies
+		// would be two answers to one question.
+		return array_values(
+			array_filter(
+				$rows,
+				static fn( array $row ): bool => KindRepository::matches( $asked, $row )
+			)
+		);
 	}
 
 	/**
@@ -395,21 +379,6 @@ final class KindDetail {
 		);
 
 		return 'desc' === (string) ( $settings['filterOrder'] ?? 'asc' ) ? array_reverse( $rows ) : $rows;
-	}
-
-	/**
-	 * Reduces a stored list of keys to the ones that mean something.
-	 *
-	 * @param mixed $value Comma-separated keys, or a list of them.
-	 * @return array<int, string>
-	 */
-	private static function keys( $value ): array {
-		$list = is_array( $value ) ? $value : explode( ',', (string) $value );
-		$list = array_filter( array_map( 'sanitize_key', array_map( 'strval', $list ) ) );
-
-		return array_values(
-			array_intersect( $list, array_merge( Audience::gender_keys(), Audience::level_keys() ) )
-		);
 	}
 
 	/**

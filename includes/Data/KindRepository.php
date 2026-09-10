@@ -123,6 +123,164 @@ final class KindRepository {
 	}
 
 	/**
+	 * Returns the page that is about the kind a given course belongs to.
+	 *
+	 * This is what lets one design serve every course. A theme builder template
+	 * is about no particular course, so a module on it that wants the kind —
+	 * its description, its other courses, its prices — has to be told which
+	 * kind at render time, and the course on the page is the one thing that
+	 * knows.
+	 *
+	 * A course has exactly one kind, but a kind can have more than one page:
+	 * this gym publishes "Gymnastika dívky" and "Gymnastika kluci", both about
+	 * the term Gymnastika and told apart by the audience each asks for. So the
+	 * candidates are narrowed by that same filter, and a girls' course finds
+	 * the girls' page. Where two pages would both take the course — a mixed
+	 * course, which neither the girls' page nor the boys' page is about — the
+	 * answer is none, because there is no page to send it to and picking one
+	 * would put a boy's course under a heading that says girls.
+	 *
+	 * On this gym's catalogue: 103 of 105 courses land on exactly one page, and
+	 * the two that do not are the two mixed gymnastics courses.
+	 *
+	 * @param int $course_id Course post id.
+	 * @return int Kind page id, or 0.
+	 */
+	public function page_for_course( int $course_id ): int {
+		$terms = get_the_terms( $course_id, PostType::KIND );
+
+		if ( ! is_array( $terms ) || array() === $terms ) {
+			return 0;
+		}
+
+		$term  = $terms[0];
+		$facts = self::facts( $course_id );
+		$found = array();
+
+		foreach ( $this->pages() as $page_id ) {
+			$about = $this->term_for( $page_id );
+
+			if ( ! $about instanceof \WP_Term || (int) $about->term_id !== (int) $term->term_id ) {
+				continue;
+			}
+
+			if ( self::matches( $this->filter( $page_id ), $facts ) ) {
+				$found[] = $page_id;
+			}
+		}
+
+		return 1 === count( $found ) ? (int) $found[0] : 0;
+	}
+
+	/**
+	 * Returns every kind page, by id.
+	 *
+	 * @return array<int, int>
+	 */
+	private function pages(): array {
+		$found = get_posts(
+			array(
+				'post_type'        => KindType::KIND,
+				'post_status'      => 'publish',
+				'posts_per_page'   => 200,
+				'fields'           => 'ids',
+				'no_found_rows'    => true,
+				'suppress_filters' => false,
+			)
+		);
+
+		return array_map( 'intval', $found );
+	}
+
+	/**
+	 * Returns what a course says about who it is for.
+	 *
+	 * @param int $course_id Course post id.
+	 * @return array<string, string>
+	 */
+	private static function facts( int $course_id ): array {
+		return array(
+			'gender'   => (string) get_post_meta( $course_id, '_cscs_gender', true ),
+			'level'    => (string) get_post_meta( $course_id, '_cscs_level', true ),
+			'age_from' => (string) get_post_meta( $course_id, '_cscs_age_from', true ),
+			'age_to'   => (string) get_post_meta( $course_id, '_cscs_age_to', true ),
+		);
+	}
+
+	/**
+	 * Says whether a filter admits a course.
+	 *
+	 * The one implementation of the rule. `Render\KindDetail` asks it of every
+	 * row it is about to print, and `page_for_course()` asks it of one course
+	 * against every page — and a listing that admitted a course the page did
+	 * not, or the other way round, would be two answers to one question.
+	 *
+	 * @param array<string, mixed>  $filter What the page or module asks for.
+	 * @param array<string, string> $facts  What the course says about itself.
+	 * @return bool
+	 */
+	public static function matches( array $filter, array $facts ): bool {
+		$genders = self::listed( $filter['filterGenders'] ?? '' );
+		$levels  = self::listed( $filter['filterLevels'] ?? '' );
+		$min     = trim( (string) ( $filter['filterAgeMin'] ?? '' ) );
+		$max     = trim( (string) ( $filter['filterAgeMax'] ?? '' ) );
+
+		if ( array() !== $genders && ! in_array( (string) ( $facts['gender'] ?? '' ), $genders, true ) ) {
+			return false;
+		}
+
+		if ( array() !== $levels && ! in_array( (string) ( $facts['level'] ?? '' ), $levels, true ) ) {
+			return false;
+		}
+
+		$from = (string) ( $facts['age_from'] ?? '' );
+		$to   = (string) ( $facts['age_to'] ?? '' );
+
+		// An age nobody knows is not an age that matches. A course with no
+		// ceiling runs "and upwards", so it is only ever cut by the floor.
+		if ( '' !== $min && ( '' === $to || (float) $to < (float) $min ) ) {
+			return false;
+		}
+
+		if ( '' !== $max && ( '' === $from || (float) $from > (float) $max ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Splits a comma-separated setting into the keys it names.
+	 *
+	 * @param mixed $value Stored value.
+	 * @return array<int, string>
+	 */
+	private static function listed( $value ): array {
+		if ( is_array( $value ) ) {
+			$parts = $value;
+		} else {
+			$parts = explode( ',', (string) $value );
+		}
+
+		$keys = array();
+
+		foreach ( $parts as $part ) {
+			$part = sanitize_key( trim( (string) $part ) );
+
+			if ( '' !== $part ) {
+				$keys[] = $part;
+			}
+		}
+
+		// Held to the vocabulary the plugin knows. A stored value nobody
+		// recognises would otherwise match no course at all and empty the
+		// listing, where dropping it means the setting is simply not asked.
+		return array_values(
+			array_intersect( $keys, array_merge( Audience::gender_keys(), Audience::level_keys() ) )
+		);
+	}
+
+	/**
 	 * Returns the description most of a kind's courses share.
 	 *
 	 * Every course of a kind carries the same paragraph often enough that the

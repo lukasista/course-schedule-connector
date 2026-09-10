@@ -352,6 +352,30 @@ Každý z nich umí:
 
 Pole, které nemá co říct, se **vynechá celé** — nadpis nad prázdným místem vypadá jako rozbitá stránka, ne jako odpověď „žádné“. Chcete-li místo toho něco napsat, vyplňte *Když není co zobrazit*.
 
+### Co blok ukáže na globální šabloně
+
+Necháte-li v nastavení bloku pole *Zdroj* prázdné, ukáže blok to, o čem je
+stránka — a právě to dělá jednu šablonu použitelnou pro všechny kurzy.
+
+Na **šabloně kurzu** fungují i bloky, které o kurzu nejsou:
+
+- **bloky trenéra** (fotka, kvalifikace, motto, …) ukážou trenéra, který ten
+  kurz vede,
+- **bloky druhu kurzu** (*Popis druhu*, *Kurzy tohoto druhu*, *Ceny tohoto
+  druhu*) ukážou druh, do kterého kurz patří.
+
+Dál než o tenhle jeden krok se nejde a je to schválně: kurz má právě jednoho
+trenéra a právě jeden druh, kdežto trenér vede kurzů víc a druh taky — vybrat
+z nich jeden by byl odhad.
+
+Jedna výjimka, na kterou u vás narazíte: druh může mít víc stránek. *Gymnastika
+dívky* a *Gymnastika kluci* jsou dvě stránky o jednom druhu, rozlišené tím,
+pro koho je kurz. Dívčí kurz proto najde dívčí stránku a klukovský klukovskou —
+ale **smíšený kurz nenajde ani jednu**, protože o něm žádná z nich není. Ze 105
+kurzů se to týká dvou (*45-Gymnastika 6-9 let mix* a *481-Gymnastika 7-9 let
+mix*). Pokud na nich chcete bloky druhu mít, založte pro mix vlastní stránku
+druhu, nebo na těch dvou kurzech nastavte *Zdroj* ručně.
+
 **Zdroj**: pokud nic nevyberete, blok ukáže ten kurz nebo toho trenéra, o kterém stránka je. Právě proto z nich jde postavit jednu šablonu v Divi Theme Builderu nebo v editoru šablon, která poslouží všem kurzům. Konkrétní kurz vyberete jen tam, kde blok stojí na běžné stránce.
 
 ### Kde bloky a moduly najdete

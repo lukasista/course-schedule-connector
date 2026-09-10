@@ -11,6 +11,10 @@ namespace CSCS\Render;
 
 defined( 'ABSPATH' ) || exit;
 
+use CSCS\Data\KindType;
+use CSCS\Data\PostType;
+use CSCS\Data\TrainerRepository;
+use CSCS\Data\TrainerType;
 use CSCS\Plugin;
 
 /**
@@ -575,7 +579,71 @@ final class FieldRenderer {
 			}
 		}
 
+		$borrowed = self::borrowed( $type );
+
+		if ( $borrowed instanceof \WP_Post ) {
+			return $borrowed;
+		}
+
 		return self::sample( $type );
+	}
+
+	/**
+	 * Returns the post a field can reach from the course the page is about.
+	 *
+	 * The whole point of a theme builder template is one design for every
+	 * course, and a design of a course is not only the course: it is the person
+	 * who runs it and the kind of thing it is. Those modules used to answer
+	 * "this page is neither a course nor a trainer" on a page that was plainly
+	 * a course — true of the module and useless to the reader, and the reason a
+	 * global template could not be built.
+	 *
+	 * Only from a course, and only where the answer is one thing. A course has
+	 * exactly one trainer. It has exactly one kind, though a kind may have
+	 * several pages — this gym publishes the girls' gymnastics and the boys'
+	 * apart — so the pages are narrowed by the audience each asks for, and
+	 * where two would still both take the course the answer is none. Guessing
+	 * would put a boy's course under a heading that says girls.
+	 *
+	 * The other directions are deliberately not travelled: a trainer has many
+	 * courses and a kind has many of both, so there is nothing to borrow that
+	 * would not be a choice made on somebody's behalf.
+	 *
+	 * @param string $type Post type the field is about.
+	 * @return \WP_Post|null
+	 */
+	private static function borrowed( string $type ): ?\WP_Post {
+		if ( PostType::COURSE === $type ) {
+			return null;
+		}
+
+		foreach ( self::candidates() as $candidate ) {
+			if ( ! $candidate instanceof \WP_Post || PostType::COURSE !== $candidate->post_type ) {
+				continue;
+			}
+
+			$found = 0;
+
+			if ( TrainerType::TRAINER === $type ) {
+				$found = ( new TrainerRepository() )->for_course( (int) $candidate->ID );
+			}
+
+			if ( KindType::KIND === $type ) {
+				$found = Plugin::instance()->kinds()->page_for_course( (int) $candidate->ID );
+			}
+
+			if ( 0 === $found ) {
+				continue;
+			}
+
+			$post = get_post( $found );
+
+			if ( $post instanceof \WP_Post ) {
+				return $post;
+			}
+		}
+
+		return null;
 	}
 
 	/**

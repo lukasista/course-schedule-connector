@@ -301,6 +301,36 @@ The photograph is fetched with `download_url()` and `media_handle_sideload()` at
 
 "Fetched once" was the intention, and comparing the incoming address with the last one fetched is not how you get it. **iSport keeps more than one trainer record under the same name** — eleven of this gym's twenty-two names have two or three, each with a photograph of its own — and a course names whichever record it was booked against. Walking a hundred courses therefore flipped the address back and forth, and every flip was a download and a new attachment: 2 116 pictures of twenty-two people, 309 of one of them. The question asked now is whether the address is one that has **ever** been fetched, which the flipping cannot defeat, and a photograph genuinely new to iSport still arrives because nobody has seen its address. `TrainerType::META_PHOTO_SEEN` holds those addresses, one meta row each; `META_ATTACHMENT_SOURCE` is written on the attachment so an existing one is reused rather than made again; and a static guard in `TrainerRepository` fetches each trainer at most once per run. `wp cscs trainers tidy [--dry-run]` clears out what the old behaviour left behind, keeping the picture a page shows and anything used as a featured image, and recording the addresses of the copies it removes so the next run does not fetch them straight back.
 
+## What a field is about
+
+`FieldRenderer::post()` answers "which course, trainer or kind is this field
+about". A `postId` names one outright. Otherwise the answer is the page, taken
+from `get_queried_object()` rather than `get_post()` — inside a Divi theme
+builder template the global post while the layout renders is the template, so
+`get_post()` there reports that the page is neither a course nor a trainer on a
+page that plainly is one.
+
+Where the page is not of the field's own type, `borrowed()` reaches one step
+from the course: a trainer field takes the course's trainer, a kind field takes
+the page of the course's kind. Without it a template of a course could show only
+the course, which is not what a course page is — and eleven of the thirty-two
+modules printed a notice instead.
+
+Only that one step, and only where it lands on one thing. A course has one
+trainer. A course has one kind, but a kind may have several pages — the girls'
+gymnastics and the boys' are two pages about one term — so the candidates are
+narrowed by `KindRepository::matches()`, the same rule `KindDetail` filters a
+listing by; where two pages would still both take the course, the answer is
+none. The reverse directions are not travelled at all: a trainer has many
+courses, a kind has many of both, and borrowing there would be choosing on
+somebody's behalf.
+
+`sample()` is the last resort and fires only in a REST request from somebody who
+may edit posts — a template is about no particular course, so every field on it
+would otherwise preview as "this page is neither", and you cannot lay out a page
+whose every element refuses to appear. A visitor's request is not a REST request,
+so no front end can borrow a record it was not pointed at.
+
 ## Fields, blocks and field modules
 
 `Render\Fields` is the catalogue: one list of what a course and a trainer are made of, each entry naming its context, its kind (`text`, `list`, `html`), its title, its default heading and its icon. `Fields::value()` works out what a field says about a given post. Everything else is generated from it, so a field added there appears in the block inserter, in Divi's module list and in the tests at once.
