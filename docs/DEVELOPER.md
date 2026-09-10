@@ -821,6 +821,32 @@ block and declares `bulletItem` / `bulletMarker` as styled elements for Divi.
 The mark is styled through `::marker`, which is what it is: colouring the item
 would colour the words with it.
 
+## The sign-up link
+
+`CourseDetail::button( array $asked = array() )` reads two settings, both of
+them content and both of them on the block's Settings tab and the module's
+content panel: `linkStyle` (`button` or `link`) and `linkText`. The style
+decides one class — `cscs-button` or `cscs-signup-link` — and nothing else,
+which is the argument for one module rather than two: a link and a button are
+the same element pointing at the same address, and everything a designer reaches
+for is on the same panel for both. `Fields` marks the field `'link' => true`,
+which is what `FieldRenderer`, `FieldBlocks`, `build-divi-modules.php` and
+`DesignGuard` each key off, in the same way they key off `image`, `bullets` and
+`filters`.
+
+The wording falls back to `Settings::button_text()` — the `isport_button_text`
+setting, or the translated default when it is empty. `Listing::cta()` falls back
+to the same place, so a display set that has been given no wording of its own
+follows the site rather than the source. Before this the wording could be
+changed on a display set and nowhere else.
+
+A label is a string and a string is shared: the control was first labelled
+*Wording*, which the display-set screen already uses as a section heading and
+which Czech translates there as "Texty" — so the Divi panel came out reading
+"Texty" over a box for the words on a link. gettext has no context to tell two
+identical English strings apart unless one is asked for with `_x()`, so where a
+word is going to mean two things, give it two strings.
+
 ## Two descriptions
 
 A course has two texts and neither is a fallback for the other inside one

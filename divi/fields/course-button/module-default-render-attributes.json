@@ -54,6 +54,16 @@
                 "desktop": {
                     "value": ""
                 }
+            },
+            "linkStyle": {
+                "desktop": {
+                    "value": "button"
+                }
+            },
+            "linkText": {
+                "desktop": {
+                    "value": ""
+                }
             }
         }
     }

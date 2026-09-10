@@ -55,7 +55,10 @@ final class DesignGuard {
 	 * the save. Which course this shows, what to say when there is nothing,
 	 * which of a kind's courses to list, and the picture — the picture because
 	 * choosing a size and writing what it says to somebody who cannot see it is
-	 * describing the content, not designing it.
+	 * describing the content, not designing it. The sign-up link belongs here
+	 * for the same reason: what it says is words, and whether it says them as
+	 * a button or as a plain link decides which element a reader meets, not
+	 * what colour it is.
 	 */
 	private const FIELD_KEYS = array(
 		'postId',
@@ -67,6 +70,8 @@ final class DesignGuard {
 		'filterSort',
 		'filterOrder',
 		'filterLimit',
+		'linkStyle',
+		'linkText',
 		'imageSize',
 		'imageAlt',
 		'imageLink',

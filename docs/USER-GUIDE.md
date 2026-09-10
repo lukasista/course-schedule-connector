@@ -110,6 +110,29 @@ Tlačítko vedoucí do iSportu můžete řídit ve třech úrovních:
 
 Tlačítko se navíc **samo skryje**, když je kurz plný nebo když iSport hlásí, že přihlašování není povolené.
 
+### Co tlačítko říká
+
+V **iSport → Nastavení**, pole *Co říká přihlašovací odkaz*, se znění nastaví
+pro celý web najednou. Použije se všude, kde není řečeno jinak — na stránce
+kurzu, v bloku i v Divi modulu. Necháte-li ho prázdné, píše se „Přihlásit
+v iSport systému“.
+
+Přepsat to jde na dvou místech: v **zobrazovací sadě** (pole *Text tlačítka*,
+platí pro výpis) a přímo v **bloku nebo modulu** *Tlačítko pro přihlášení*
+(pole *Text odkazu*). Prázdné pole vždycky znamená „použij to, co je nad tebou“,
+takže změna v nastavení se propíše všude, kde jste to nepřebil ručně.
+
+### Tlačítko, nebo odkaz
+
+Tentýž blok i modul umí obojí — v obsahu je přepínač *Zobrazit jako* s volbami
+**Tlačítko** a **Prostý odkaz**. Je to pořád jeden a týž odkaz na totéž místo;
+liší se jen tím, jestli se použije vzhled tlačítka, který nese plugin (a který
+si dobarvuje téma), nebo jestli odkaz vypadá jako kterýkoli odkaz v textu.
+
+Vzhled si v obou případech nastavíte stejně — barva, pozadí, odsazení, rámeček
+i typografie jsou v panelu Design u obou stejné. Proto to nejsou dva moduly:
+odkaz s pozadím a odsazením *je* tlačítko, jen se tak nejmenuje.
+
 ## Nespárované lekce
 
 iSport systém bohužel neposkytuje přímou vazbu mezi kurzem a jeho jednotlivými termíny, takže je plugin spáruje podle názvu a času. Ve většině případů to funguje samo — u dat Jojo Gymu vychází párování na 100 %.

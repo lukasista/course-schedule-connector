@@ -342,7 +342,7 @@ final class DisplaySetsPage {
 			<table class="form-table" role="presentation">
 				<?php
 				$this->text_row( 'heading', __( 'Heading', 'course-schedule-connector' ), $set->heading, __( 'Left empty, no heading is printed.', 'course-schedule-connector' ) );
-				$this->text_row( 'cta', __( 'Button text', 'course-schedule-connector' ), $set->cta, __( 'For example "Sign up in iSport".', 'course-schedule-connector' ) );
+				$this->text_row( 'cta', __( 'Button text', 'course-schedule-connector' ), $set->cta, __( 'Left empty, the wording set in iSport → Settings is used.', 'course-schedule-connector' ) );
 				$this->text_row( 'empty_text', __( 'When there is nothing to show', 'course-schedule-connector' ), $set->empty_text );
 				$this->text_row( 'full_text', __( 'When a course is full', 'course-schedule-connector' ), $set->full_text );
 				?>

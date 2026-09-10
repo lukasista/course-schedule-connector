@@ -205,6 +205,20 @@ final class FieldRenderer {
 			);
 		}
 
+		if ( ! empty( $field['link'] ) ) {
+			// Words and shape, both of them content: what the link says, and
+			// whether it says it as a button or as a plain link. The look of
+			// either is the design panel's business and is the same panel.
+			$attributes['linkStyle'] = array(
+				'type'    => 'string',
+				'default' => 'button',
+			);
+			$attributes['linkText']  = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+		}
+
 		if ( ! empty( $field['filters'] ) ) {
 			// Which of the courses under this heading to show. Stored as
 			// comma-separated keys rather than as arrays, because Divi's

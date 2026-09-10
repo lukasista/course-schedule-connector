@@ -124,6 +124,7 @@ final class SettingsPage {
 					);
 					$this->checkbox_row( 'show_canceled_lessons', __( 'Show cancelled classes', 'course-schedule-connector' ), (bool) $settings->get( 'show_canceled_lessons' ), __( 'They appear struck through and labelled. Unticking hides them entirely.', 'course-schedule-connector' ) );
 					$this->checkbox_row( 'show_isport_button', __( 'Show the booking button by default', 'course-schedule-connector' ), (bool) $settings->get( 'show_isport_button' ), __( 'Individual courses can override this.', 'course-schedule-connector' ) );
+					$this->text_row( 'isport_button_text', __( 'What the booking link says', 'course-schedule-connector' ), (string) $settings->get( 'isport_button_text' ), __( 'Used wherever nothing else is said — on a course page, in a block, in a Divi module. A display set or a single module can still word it differently. Left empty: "Sign up in iSport".', 'course-schedule-connector' ) );
 					$this->number_row( 'table_breakpoint', __( 'Width at which tables fold (pixels)', 'course-schedule-connector' ), (int) $settings->get( 'table_breakpoint' ) );
 					?>
 				</table>

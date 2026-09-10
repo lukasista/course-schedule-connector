@@ -5,6 +5,14 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **The sign-up control can be a button or a plain link, and can say what you want it to say.** It was a button with one wording, and that wording could be changed on a display set and nowhere else — so a course page, a block and a Divi module all said whatever the plugin said, and a gym that words it differently could not word it differently. Two settings on the module and the block now: *Show as* (button or plain link) and *Link text*. Both sit in the content panel, because what a link says is words and which element a reader meets is not a colour.
+- One module rather than two, deliberately. A link and a button are the same element pointing at the same address; what differs is whether the plugin's own button look is applied on top. Everything a designer reaches for — background, padding, border, typography — is on the same panel for both either way, so a second module would have been a second thing to maintain for a difference of one class name.
+- **iSport → Settings gains "What the booking link says"**, which is what everything falls back to: the module, the block, the course page and any display set that has not been given wording of its own. The wording of the whole site is now one field, which is what was actually being asked for.
+- A collision found on the way: the new control was labelled *Wording*, which the display-set screen already uses as a section heading and which Czech translates there as "Texty" — so the Divi panel came out reading "Texty" over a text box for the words on a link. gettext has no context to tell the two apart, so the label is *Link text* and the two strings are two strings.
+
 ## [1.0.0-alpha.2] - 2026-09-08
 
 ### Fixed

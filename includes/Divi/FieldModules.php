@@ -335,6 +335,18 @@ final class FieldModules {
 				'label'       => __( 'Age to', 'course-schedule-connector' ),
 				'description' => __( 'Leaves out courses that start above this age. Empty means no ceiling.', 'course-schedule-connector' ),
 			),
+			'linkStyle'       => array(
+				'label'       => __( 'Show as', 'course-schedule-connector' ),
+				'description' => __( 'A button carries the plugin\'s own button look; a plain link carries none. Colour, background, spacing and border are available to both either way.', 'course-schedule-connector' ),
+				'options'     => array(
+					'button' => array( 'label' => __( 'Button', 'course-schedule-connector' ) ),
+					'link'   => array( 'label' => __( 'Plain link', 'course-schedule-connector' ) ),
+				),
+			),
+			'linkText'        => array(
+				'label'       => __( 'Link text', 'course-schedule-connector' ),
+				'description' => __( 'What the link says. Left empty, the wording set in iSport → Settings is used.', 'course-schedule-connector' ),
+			),
 			'filterSort'      => array(
 				'label'       => __( 'Order by', 'course-schedule-connector' ),
 				'description' => __( 'Left as it is, the order the courses are filed in.', 'course-schedule-connector' ),
@@ -410,6 +422,7 @@ final class FieldModules {
 			'contentCourses'     => __( 'Which courses', 'course-schedule-connector' ),
 			'contentPicture'     => __( 'Picture', 'course-schedule-connector' ),
 			'contentPictureLink' => __( 'Link', 'course-schedule-connector' ),
+			'contentLink'        => __( 'Link', 'course-schedule-connector' ),
 		);
 	}
 

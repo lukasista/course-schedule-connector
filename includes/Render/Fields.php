@@ -184,8 +184,9 @@ final class Fields {
 				'label'       => '',
 				'icon'        => 'external',
 				'moduleIcon'  => 'divi/module-button',
-				'description' => __( 'The link into iSport. It hides itself when the course is full or takes no bookings.', 'course-schedule-connector' ),
+				'description' => __( 'The link into iSport, as a button or as a plain link, in your own words. It hides itself when the course is full or takes no bookings.', 'course-schedule-connector' ),
 				'heading'     => false,
+				'link'        => true,
 			),
 			'image'   => array(
 				'kind'        => self::HTML,
@@ -423,6 +424,7 @@ final class Fields {
 			'image'      => false,
 			'bullets'    => false,
 			'filters'    => false,
+			'link'       => false,
 			'columns'    => array(),
 			'moduleIcon' => 'divi/module-text',
 		);
@@ -539,7 +541,7 @@ final class Fields {
 				);
 
 			case 'button':
-				return array( 'html' => $detail->button() );
+				return array( 'html' => $detail->button( $settings ) );
 
 			case 'image':
 				return array( 'html' => self::picture( (int) get_post_thumbnail_id( $post ), $post, $settings ) );

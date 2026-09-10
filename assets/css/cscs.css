@@ -118,6 +118,17 @@
 	white-space: nowrap;
 }
 
+/*
+ * The same link, asked to look like a link rather than like a button. Kept to
+ * what the theme would do with any link in the text — the plugin owns the
+ * shape, the theme owns the look — so that the two shapes really are two
+ * shapes and not two designs the plugin has opinions about.
+ */
+.cscs-signup-link {
+	display: inline;
+	text-decoration: underline;
+}
+
 .cscs-empty,
 .cscs-notice {
 	color: var(--cscs-muted);

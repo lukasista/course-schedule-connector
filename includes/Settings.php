@@ -84,6 +84,7 @@ final class Settings {
 			),
 			'lesson_retention_days'    => 30,
 			'show_isport_button'       => true,
+			'isport_button_text'       => '',
 			'show_canceled_lessons'    => true,
 			'table_breakpoint'         => 768,
 			'delete_data_on_uninstall' => false,
@@ -115,6 +116,24 @@ final class Settings {
 		}
 
 		return $this->values;
+	}
+
+	/**
+	 * Returns the words on the link into iSport.
+	 *
+	 * One place the wording is decided for the whole site, which is what was
+	 * missing: it could be overridden on a display set and nowhere else, so a
+	 * gym that says "Zapsat se" rather than "Přihlásit" had to say so on every
+	 * set and could not say it at all on a course page. A display set and a
+	 * single module both still override this; they simply now override
+	 * something rather than a string in the source.
+	 *
+	 * @return string
+	 */
+	public function button_text(): string {
+		$configured = trim( (string) $this->get( 'isport_button_text' ) );
+
+		return '' !== $configured ? $configured : __( 'Sign up in iSport', 'course-schedule-connector' );
 	}
 
 	/**

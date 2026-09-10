@@ -174,6 +174,18 @@ function module_metadata( string $name, array $field ): array {
 						'props' => array( 'groupLabel' => 'Which courses' ),
 					),
 				),
+				// The sign-up control's own group: what it says and what shape
+				// it says it in. Both content — the look of either shape is the
+				// design panel's business and is the same panel for both.
+				'contentLink'       => empty( $field['link'] ) ? null : array(
+					'panel'     => 'content',
+					'priority'  => 20,
+					'groupName' => 'link',
+					'component' => array(
+						'name'  => 'divi/composite',
+						'props' => array( 'groupLabel' => 'Link' ),
+					),
+				),
 				'contentPictureLink' => empty( $field['image'] ) ? null : array(
 					'panel'     => 'content',
 					'priority'  => 30,
@@ -773,6 +785,40 @@ function field_attribute( array $field ): array {
 		);
 	}
 
+	if ( ! empty( $field['link'] ) ) {
+		$add(
+			'linkStyle',
+			array(
+				'label'       => 'Show as',
+				'description' => 'A button carries the plugin\'s own button look; a plain link carries none. Colour, background, spacing and border are available to both either way.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array(
+						'options' => array(
+							'button' => array( 'label' => 'Button' ),
+							'link'   => array( 'label' => 'Plain link' ),
+						),
+					),
+				),
+			),
+			'contentLink'
+		);
+
+		$add(
+			'linkText',
+			array(
+				'label'       => 'Link text',
+				'description' => 'What the link says. Left empty, the wording set in iSport → Settings is used.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentLink'
+		);
+	}
+
 	if ( ! empty( $field['filters'] ) ) {
 		$add(
 			'filterGenders',
@@ -1007,6 +1053,11 @@ function module_defaults( array $field ): array {
 
 	if ( ! empty( $field['bullets'] ) ) {
 		$advanced['bulletStyle'] = '';
+	}
+
+	if ( ! empty( $field['link'] ) ) {
+		$advanced['linkStyle'] = 'button';
+		$advanced['linkText']  = '';
 	}
 
 	if ( ! empty( $field['filters'] ) ) {

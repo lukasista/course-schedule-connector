@@ -341,7 +341,7 @@ final class Listing {
 	public function cta(): string {
 		return '' !== $this->set->cta
 			? $this->set->cta
-			: __( 'Sign up in iSport', 'course-schedule-connector' );
+			: $this->settings->button_text();
 	}
 
 	/**
