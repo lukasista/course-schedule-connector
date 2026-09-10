@@ -363,6 +363,28 @@ The blocks cannot do it the same way. The heading and the value are one element 
 
 Custom properties with defaults in the stylesheet would have been tidier and are wrong: a rule like `.cscs-table a { color: var(--…) }` exists whether or not anybody set the property, and an unset custom property does not fall back to the theme's own rule. It falls back to nothing, and every link in every table loses the colour the theme gave it.
 
+### The arrangement of a field
+
+Whether the heading sits above the value or beside it used to be a dropdown in the content panel with two answers in it, drawn by the plugin. It is Divi's own Layout group now, first in the Design tab: flex or grid, direction, alignment, wrapping and gaps, per breakpoint, and reachable by a layout preset — which is what "follow Divi" means and what two hard-coded arrangements never could.
+
+The declaration is Divi's Icon List, copied. `module.settings.decoration.layout` is a `group-item` whose component is `divi/layout`, filed under a `designLayout` group of priority 5 whose `presetGroup` is `divi/layout`. An empty object would also have generated the group — that is what Text, Heading, Button and Group do — but the long form is what names it *Layout*, puts it at the top of the panel and lets a preset saved elsewhere reach it.
+
+`module.styleProps.layout.selector` is `{{selector}} .cscs-field`. A flex container arranges its own children, and the module's only child is the field: pointed at the module every control in the group would work and none of them would show. Divi has the same problem in its own Blurb and solves it the same way — `"layout": { "selector": "{{selector}}, {{selector}} .et_pb_blurb_content" }`. Ours names only the inner element, so a grid of two columns puts the heading and the value in them rather than squeezing the whole field into half a row.
+
+#### What Divi writes, and what the stylesheet has to add
+
+Read off the style array by rendering a module server-side with a layout set. Three things are not what you would guess, and each of them is a control that would otherwise take a value and do nothing.
+
+**Divi never writes `display`** — not for flex, and not for grid, where it writes `grid-template-columns: repeat(var(--column-count), minmax(0, 1fr))` and stops. The display mode is a class on the module instead: `et_flex_module`, or `et_grid_module` when the panel says grid. Divi's own modules are already flex containers by that class; ours has to turn both into a display one element further down, on the element the rest of the group is written at.
+
+**A gap is written as `--horizontal-gap` and `--vertical-gap`**, custom properties Divi's own flex classes read as `column-gap`/`row-gap`. `.cscs-field` is not one of those classes, so it reads them itself — and re-declares them first, because both inherit from the module wrapper where they mean the gutter *between* modules. Without that, a field nobody has set a gap on takes the gutter.
+
+**Specificity is two classes, without an id prefix.** The layout lands at `.cscs_divi_field_course_price_0 .cscs-field`, and the Heading spacing group at `.cscs_divi_field_course_price_0 .cscs-field__label` — the same weight as the plugin's own `.cscs-field--stack .cscs-field__label`. So the container rules are wrapped in `:where()` and weigh nothing, and the margin reset is deliberately *not*: two classes, later in this file than the arrangement it has to beat, and earlier than Divi's, which the page prints seventeen stylesheets further down. Anything lighter and the heading keeps a margin nobody asked for on top of the gap; anything heavier and the Heading spacing control stops working.
+
+Confirmed by computed style in the browser, on the page's own stylesheet, against the declarations Divi actually emits: nothing set gives a flex column at the field's own gap; a flex row gives direction, `space-between`, `center` and wrapping; grid gives `display: grid` and two equal tracks at 16px and 8px; a heading margin set in the panel still wins at 12px; and a page saved with *side by side* still comes out a wrapped baseline row.
+
+Pages saved before this are unchanged — `field.advanced.layout` is still read and still puts `cscs-field--inline` on the field, which under Divi means `flex-direction: row`, overridden the moment the panel says otherwise. The blocks keep *Arrangement* as a setting: Gutenberg has no layout group to defer to.
+
 ### Making the builder show the design
 
 A module can register, open, offer every design setting, store every value and render every one of them correctly on the page while the builder's canvas never changes. Nothing errors; there is simply no CSS. Two things cause it, and both are silent.

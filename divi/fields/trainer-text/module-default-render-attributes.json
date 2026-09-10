@@ -35,11 +35,6 @@
                     "value": "div"
                 }
             },
-            "layout": {
-                "desktop": {
-                    "value": "stack"
-                }
-            },
             "separator": {
                 "desktop": {
                     "value": ""

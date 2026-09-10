@@ -21,6 +21,21 @@
                     "html": []
                 },
                 "decoration": {
+                    "layout": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designLayout",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/layout",
+                                "props": {
+                                    "grouped": false
+                                }
+                            }
+                        }
+                    },
                     "background": [],
                     "filters": [],
                     "spacing": [],
@@ -34,6 +49,11 @@
                     "sticky": [],
                     "transition": [],
                     "zIndex": []
+                }
+            },
+            "styleProps": {
+                "layout": {
+                    "selector": "{{selector}} .cscs-field"
                 }
             }
         },
@@ -324,45 +344,13 @@
                             }
                         }
                     },
-                    "layout": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "content",
-                            "attrName": "field.advanced.layout",
-                            "category": "configuration",
-                            "priority": 60,
-                            "render": true,
-                            "features": {
-                                "sticky": false,
-                                "responsive": false,
-                                "hover": false,
-                                "preset": "content"
-                            },
-                            "label": "Arrangement",
-                            "description": "Heading above the value, or beside it.",
-                            "component": {
-                                "name": "divi/select",
-                                "type": "field",
-                                "props": {
-                                    "options": {
-                                        "stack": {
-                                            "label": "Heading above"
-                                        },
-                                        "inline": {
-                                            "label": "Side by side"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
                     "separator": {
                         "groupType": "group-item",
                         "item": {
                             "groupSlug": "content",
                             "attrName": "field.advanced.separator",
                             "category": "configuration",
-                            "priority": 70,
+                            "priority": 60,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -384,7 +372,7 @@
                             "groupSlug": "content",
                             "attrName": "field.advanced.gap",
                             "category": "configuration",
-                            "priority": 80,
+                            "priority": 70,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -406,7 +394,7 @@
                             "groupSlug": "contentPicture",
                             "attrName": "field.advanced.imageSize",
                             "category": "configuration",
-                            "priority": 90,
+                            "priority": 80,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -431,7 +419,7 @@
                             "groupSlug": "contentPicture",
                             "attrName": "field.advanced.imageAlt",
                             "category": "configuration",
-                            "priority": 100,
+                            "priority": 90,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -453,7 +441,7 @@
                             "groupSlug": "contentPictureLink",
                             "attrName": "field.advanced.imageLink",
                             "category": "configuration",
-                            "priority": 110,
+                            "priority": 100,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -491,7 +479,7 @@
                             "groupSlug": "contentPictureLink",
                             "attrName": "field.advanced.imageLinkUrl",
                             "category": "configuration",
-                            "priority": 120,
+                            "priority": 110,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -513,7 +501,7 @@
                             "groupSlug": "contentPictureLink",
                             "attrName": "field.advanced.imageLinkTarget",
                             "category": "configuration",
-                            "priority": 130,
+                            "priority": 120,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -535,7 +523,7 @@
                             "groupSlug": "content",
                             "attrName": "field.advanced.emptyText",
                             "category": "configuration",
-                            "priority": 140,
+                            "priority": 130,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -593,6 +581,19 @@
                     "name": "divi/composite",
                     "props": {
                         "groupLabel": "Link"
+                    }
+                }
+            },
+            "designLayout": {
+                "panel": "design",
+                "priority": 5,
+                "groupName": "designLayout",
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Layout",
+                        "clipboardCategory": "style",
+                        "presetGroup": "divi/layout"
                     }
                 }
             },

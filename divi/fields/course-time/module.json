@@ -22,6 +22,21 @@
                     "html": []
                 },
                 "decoration": {
+                    "layout": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designLayout",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/layout",
+                                "props": {
+                                    "grouped": false
+                                }
+                            }
+                        }
+                    },
                     "background": [],
                     "border": [],
                     "boxShadow": [],
@@ -37,6 +52,11 @@
                     "sticky": [],
                     "transition": [],
                     "zIndex": []
+                }
+            },
+            "styleProps": {
+                "layout": {
+                    "selector": "{{selector}} .cscs-field"
                 }
             }
         },
@@ -303,45 +323,13 @@
                             }
                         }
                     },
-                    "layout": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "content",
-                            "attrName": "field.advanced.layout",
-                            "category": "configuration",
-                            "priority": 60,
-                            "render": true,
-                            "features": {
-                                "sticky": false,
-                                "responsive": false,
-                                "hover": false,
-                                "preset": "content"
-                            },
-                            "label": "Arrangement",
-                            "description": "Heading above the value, or beside it.",
-                            "component": {
-                                "name": "divi/select",
-                                "type": "field",
-                                "props": {
-                                    "options": {
-                                        "stack": {
-                                            "label": "Heading above"
-                                        },
-                                        "inline": {
-                                            "label": "Side by side"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
                     "separator": {
                         "groupType": "group-item",
                         "item": {
                             "groupSlug": "content",
                             "attrName": "field.advanced.separator",
                             "category": "configuration",
-                            "priority": 70,
+                            "priority": 60,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -363,7 +351,7 @@
                             "groupSlug": "content",
                             "attrName": "field.advanced.gap",
                             "category": "configuration",
-                            "priority": 80,
+                            "priority": 70,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -385,7 +373,7 @@
                             "groupSlug": "content",
                             "attrName": "field.advanced.emptyText",
                             "category": "configuration",
-                            "priority": 90,
+                            "priority": 80,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -421,6 +409,19 @@
                     "name": "divi/composite",
                     "props": {
                         "groupLabel": "iSport"
+                    }
+                }
+            },
+            "designLayout": {
+                "panel": "design",
+                "priority": 5,
+                "groupName": "designLayout",
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Layout",
+                        "clipboardCategory": "style",
+                        "presetGroup": "divi/layout"
                     }
                 }
             },

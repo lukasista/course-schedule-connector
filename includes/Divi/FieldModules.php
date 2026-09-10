@@ -290,14 +290,6 @@ final class FieldModules {
 				'label'       => __( 'Value element', 'course-schedule-connector' ),
 				'description' => __( 'Which HTML element the value is.', 'course-schedule-connector' ),
 			),
-			'layout'          => array(
-				'label'       => __( 'Arrangement', 'course-schedule-connector' ),
-				'description' => __( 'Heading above the value, or beside it.', 'course-schedule-connector' ),
-				'options'     => array(
-					'stack'  => array( 'label' => __( 'Heading above', 'course-schedule-connector' ) ),
-					'inline' => array( 'label' => __( 'Side by side', 'course-schedule-connector' ) ),
-				),
-			),
 			'separator'       => array(
 				'label'       => __( 'After the heading', 'course-schedule-connector' ),
 				'description' => __( 'A colon, a dash — printed right after the heading.', 'course-schedule-connector' ),
@@ -413,6 +405,7 @@ final class FieldModules {
 	 */
 	private static function group_labels(): array {
 		return array(
+			'designLayout'       => __( 'Layout', 'course-schedule-connector' ),
 			'designHeadingText'  => __( 'Heading text', 'course-schedule-connector' ),
 			'designValueText'    => __( 'Value text', 'course-schedule-connector' ),
 			'designTableHead'    => __( 'Table heading', 'course-schedule-connector' ),

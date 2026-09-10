@@ -135,6 +135,47 @@ final class FieldModulesTest extends TestCase {
 	}
 
 	/**
+	 * The arrangement of a field is Divi's Layout group, on the field itself.
+	 *
+	 * Two halves of one thing. `decoration.layout` is what makes Divi generate
+	 * its own Layout group in the Design tab — flex, grid, direction,
+	 * alignment, wrapping, gaps — instead of the smaller version the plugin
+	 * used to draw in the content panel. And the style prop is what points that
+	 * group's CSS at the element with two children in it: a flex container
+	 * arranges what is inside it, and inside the module there is only the
+	 * field. Without the first the group is not offered; without the second
+	 * every control in it works and none of them shows.
+	 *
+	 * @return void
+	 */
+	public function test_the_layout_group_is_offered_and_reaches_the_field(): void {
+		foreach ( array_keys( Fields::all() ) as $name ) {
+			$attributes = $this->read( 'divi/fields/' . $name . '/module.json' )['attributes'] ?? array();
+
+			$this->assertSame(
+				'divi/layout',
+				$attributes['module']['settings']['decoration']['layout']['item']['component']['name'] ?? '',
+				$name
+			);
+			$this->assertSame(
+				'divi/layout',
+				$this->read( 'divi/fields/' . $name . '/module.json' )['settings']['groups']['designLayout']['component']['props']['presetGroup'] ?? '',
+				$name
+			);
+			$this->assertSame(
+				'{{selector}} .cscs-field',
+				$attributes['module']['styleProps']['layout']['selector'] ?? '',
+				$name
+			);
+			$this->assertArrayNotHasKey(
+				'layout',
+				$attributes['field']['settings']['advanced'] ?? array(),
+				$name
+			);
+		}
+	}
+
+	/**
 	 * Every styled element says what kind of element it is.
 	 *
 	 * Divi's builder decides from `elementType` which style components an

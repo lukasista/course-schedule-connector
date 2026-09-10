@@ -202,6 +202,7 @@ CS = {
 "Kč": "Kč",
 "Label": "Popisek",
 "Last retrieved": "Naposledy staženo",
+"Layout": "Rozvržení",
 "Leave empty to show the trainer iSport names.": "Nechte prázdné, pokud se má zobrazit lektor uvedený v iSportu.",
 "Leave them out": "Vynechat",
 "Leaves out courses that finish below the floor or start above the ceiling. Either may be left empty.": "Vynechá kurzy, které končí pod dolní hranicí nebo začínají nad horní. Obě se dají nechat prázdné.",

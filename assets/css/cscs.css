@@ -309,6 +309,76 @@
 	margin: 0;
 }
 
+/*
+ * A field inside Divi. Divi's Layout group writes its CSS at this element —
+ * `.cscs_divi_field_course_price_0 .cscs-field`, read off the stylesheet the
+ * page emits — because the module's only child is this element, and a flex
+ * container arranges what is inside it.
+ *
+ * What it writes is not quite a whole rule, and these three declarations are
+ * what make up the difference.
+ *
+ * It never writes `display` — not for flex and not for grid, where it writes
+ * `grid-template-columns` and leaves it at that. Divi says the display mode in
+ * a class on the module instead: `et_flex_module`, or `et_grid_module` when the
+ * panel says grid. The rules below are the only place those two are turned into
+ * a display, one element further down, on the element the rest of the group is
+ * written at.
+ *
+ * It writes a gap as `--horizontal-gap` and `--vertical-gap`, which Divi's own
+ * flex classes read. This element is not one of them, so it reads them itself.
+ * They are re-declared here first because both inherit from the module wrapper,
+ * where they are the gutter between modules — without that, a field nobody has
+ * set a gap on would take the gutter.
+ *
+ * And it writes at two classes' worth of specificity, so everything here is
+ * wrapped in `:where()` and weighs nothing. Whatever the panel says wins, in
+ * either order the two stylesheets happen to arrive.
+ */
+.cscs_divi_field :where(.cscs-field) {
+	--horizontal-gap: var(--cscs-field-gap);
+	--vertical-gap: var(--cscs-field-gap);
+
+	display: flex;
+	flex-direction: var(--flex-direction, column);
+	column-gap: var(--horizontal-gap);
+	row-gap: var(--vertical-gap);
+}
+
+.cscs_divi_field:where(.et_grid_module) :where(.cscs-field) {
+	display: grid;
+}
+
+/*
+ * What a page saved before the Layout group existed still asks for: the same
+ * picture it had, overridden the moment the panel says otherwise.
+ */
+.cscs_divi_field :where(.cscs-field--inline) {
+	--flex-direction: row;
+
+	flex-wrap: wrap;
+	align-items: baseline;
+}
+
+/*
+ * Two opinions about the space between a heading and a value, one of them in a
+ * panel and one of them not, is what makes a gap setting look broken. Under
+ * Divi the gap is the panel's, so the arrangement above keeps its margins to
+ * itself.
+ *
+ * This one is not wrapped in `:where()`, and the two classes are the point.
+ * Divi writes the heading's own spacing at `.cscs_divi_field_course_price_0
+ * .cscs-field__label` — two classes, exactly what the arrangement above weighs
+ * — so anything lighter would lose to it and the margin would come back. Two
+ * classes here ties with both and is settled by order: later than the
+ * arrangement in this file, earlier than Divi's, which the page prints
+ * seventeen stylesheets further down.
+ */
+.cscs_divi_field .cscs-field__label,
+.cscs_divi_field .cscs-field__value {
+	margin: 0;
+}
+
 .cscs-field__list {
 	margin: 0;
 	padding-left: 1.25rem;

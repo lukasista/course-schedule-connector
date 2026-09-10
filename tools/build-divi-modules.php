@@ -238,6 +238,23 @@ function module_metadata( string $name, array $field ): array {
 						'props' => array( 'groupLabel' => 'Link' ),
 					),
 				),
+				// Where the heading and the value stand relative to each
+				// other. First in the panel, as it is in Divi's own Icon List,
+				// because it is the question somebody opens the Design tab
+				// with.
+				'designLayout'      => array(
+					'panel'     => 'design',
+					'priority'  => 5,
+					'groupName' => 'designLayout',
+					'component' => array(
+						'name'  => 'divi/composite',
+						'props' => array(
+							'groupLabel'        => 'Layout',
+							'clipboardCategory' => 'style',
+							'presetGroup'       => 'divi/layout',
+						),
+					),
+				),
 				// Two design groups, named apart. Left to Divi's own naming
 				// both typography groups come out called "Module Text", and a
 				// panel with two identically named groups in it is a panel
@@ -281,6 +298,32 @@ function module_metadata( string $name, array $field ): array {
  */
 function module_attribute( bool $picture = false ): array {
 	$decoration = array(
+		// What the two halves of a field do relative to each other, in the
+		// place a Divi user already looks for it: Divi's own Layout group —
+		// flex, grid, direction, alignment, wrapping, gaps, per breakpoint —
+		// rather than the smaller version the plugin used to draw in the
+		// content panel, which is where this lived and where nobody designing
+		// a page thinks to look.
+		//
+		// Declared the long way rather than as an empty object, which would
+		// also work. The long way is Divi's own Icon List, and it buys three
+		// things the short way does not: the group is called Layout rather
+		// than whatever Divi would have named it, it sits at the top of the
+		// Design panel where that module puts it, and `presetGroup` is what
+		// lets a layout preset saved elsewhere apply here.
+		'layout'     => array(
+			'groupType' => 'group-item',
+			'item'      => array(
+				'groupSlug' => 'designLayout',
+				'priority'  => 10,
+				'render'    => true,
+				'component' => array(
+					'type'  => 'group',
+					'name'  => 'divi/layout',
+					'props' => array( 'grouped' => false ),
+				),
+			),
+		),
 		'background' => array(),
 		'border'     => array(),
 		'boxShadow'  => array(),
@@ -323,12 +366,22 @@ function module_attribute( bool $picture = false ): array {
 	}
 
 	return array(
-		'type'     => 'object',
-		'selector' => '{{selector}}',
-		'settings' => array(
+		'type'       => 'object',
+		'selector'   => '{{selector}}',
+		'settings'   => array(
 			'meta'       => array( 'meta' => array() ),
 			'advanced'   => $advanced,
 			'decoration' => $decoration,
+		),
+		// Everything else on the module belongs on the module: a background, a
+		// border and a margin are drawn around the whole of it. The layout is
+		// the exception, because a flex container arranges its own children and
+		// the module's only child is the field. Pointed at the module the
+		// controls would all work and none of them would show. Pointed here
+		// they arrange the heading and the value, which is what somebody
+		// opening a group called Layout is trying to do.
+		'styleProps' => array(
+			'layout' => array( 'selector' => '{{selector}} .cscs-field' ),
 		),
 	);
 }
@@ -812,24 +865,6 @@ function field_attribute( array $field ): array {
 	);
 
 	$add(
-		'layout',
-		array(
-			'label'       => 'Arrangement',
-			'description' => 'Heading above the value, or beside it.',
-			'component'   => array(
-				'name'  => 'divi/select',
-				'type'  => 'field',
-				'props' => array(
-					'options' => array(
-						'stack'  => array( 'label' => 'Heading above' ),
-						'inline' => array( 'label' => 'Side by side' ),
-					),
-				),
-			),
-		)
-	);
-
-	$add(
 		'separator',
 		array(
 			'label'       => 'After the heading',
@@ -1138,7 +1173,6 @@ function module_defaults( array $field ): array {
 		'label'     => '',
 		'labelTag'  => 'h3',
 		'valueTag'  => 'div',
-		'layout'    => 'stack',
 		'separator' => '',
 		'gap'       => '',
 		'emptyText' => '',
