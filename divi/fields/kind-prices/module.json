@@ -7,7 +7,7 @@
     "moduleOrderClassName": "cscs_divi_field_kind_prices",
     "moduleIcon": "divi/module-pricing-tables",
     "category": "module",
-    "folder": "cscs-modules/kinds",
+    "folder": "cscs-kinds",
     "attributes": {
         "module": {
             "type": "object",

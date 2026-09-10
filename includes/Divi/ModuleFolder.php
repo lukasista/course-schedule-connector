@@ -12,7 +12,7 @@ namespace CSCS\Divi;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * One shelf, and three drawers in it.
+ * Three shelves, one for each thing somebody designs.
  *
  * Divi's module list is alphabetical and long. Thirty-two modules scattered
  * through it — Price between Portfolio and Pricing Tables, Room between Row and
@@ -24,25 +24,36 @@ defined( 'ABSPATH' ) || exit;
  * One folder was the first step and not enough of one. Thirty-two entries under
  * one heading is a shorter list to scroll and still the wrong question to ask
  * of it: somebody in the builder is designing a trainer's page, or a kind of
- * course, or a course, and wants the fields of that one thing. Divi keeps its
- * folders as a tree — the store files them under `path/name` and the list asks
- * for the children of a path — so the three drawers below are subfolders of the
- * one shelf, and every module names the drawer it belongs in.
+ * course, or a course, and wants the fields of that one thing. So: three.
  *
- * The definition lives here rather than in either module registrar because both
- * of them hand it over — whichever of the two scripts the builder loads first
- * registers the folders, and registering the same folder twice registers the
- * same folder.
+ * Three side by side rather than three inside an "iSport" one, which was tried
+ * and which empties the list. Divi's folders do take a `path` and the store
+ * does file them as a tree — but the selector that lists them keeps a folder
+ * only if that folder directly holds a module:
+ *
+ *     pickBy( folders, folder => some( getChildModules( { moduleFolder: … } ) ) )
+ *
+ * A folder holding nothing but subfolders holds no modules, so it is dropped —
+ * and everything beneath it goes with it. The names carry the prefix instead,
+ * which sorts them together and reads as one set, exactly as the three sections
+ * in the block editor do.
  */
 final class ModuleFolder {
 
 	/**
-	 * The shelf everything of the plugin's stands on.
-	 *
-	 * This string is written into every generated `module.json` as the first
-	 * part of `folder`, so changing it means regenerating them.
+	 * The folder a course's modules stand in.
 	 */
-	public const NAME = 'cscs-modules';
+	public const COURSES = 'cscs-courses';
+
+	/**
+	 * The folder a kind of course's modules stand in.
+	 */
+	public const KINDS = 'cscs-kinds';
+
+	/**
+	 * The folder a trainer's modules stand in.
+	 */
+	public const TRAINERS = 'cscs-trainers';
 
 	/**
 	 * The name of the global the builder reads the folders from.
@@ -50,19 +61,22 @@ final class ModuleFolder {
 	public const GLOBAL = 'cscsDiviFolder';
 
 	/**
-	 * Returns the folder a field of a given context belongs in.
+	 * Returns the folder a module of a given context belongs in.
+	 *
+	 * This string is written into every generated `module.json` as `folder`,
+	 * so changing one means regenerating them.
 	 *
 	 * @param string $context Field context — `course`, `trainer`, `kind`.
-	 * @return string Folder path, as Divi files it.
+	 * @return string
 	 */
 	public static function path( string $context ): string {
-		$drawers = array(
-			'course'  => 'courses',
-			'kind'    => 'kinds',
-			'trainer' => 'trainers',
+		$folders = array(
+			'course'  => self::COURSES,
+			'kind'    => self::KINDS,
+			'trainer' => self::TRAINERS,
 		);
 
-		return self::NAME . '/' . ( $drawers[ $context ] ?? 'courses' );
+		return $folders[ $context ] ?? self::COURSES;
 	}
 
 	/**
@@ -78,30 +92,26 @@ final class ModuleFolder {
 	public static function definitions(): array {
 		return array(
 			array(
-				'name'     => self::NAME,
+				'name'     => self::COURSES,
 				'path'     => '',
-				'title'    => __( 'iSport', 'course-schedule-connector' ),
+				/* translators: a folder of modules in the page builder */
+				'title'    => __( 'iSport: courses', 'course-schedule-connector' ),
 				'icon'     => 'divi/module-table-of-contents',
 				'category' => 'module',
 			),
 			array(
-				'name'     => 'courses',
-				'path'     => self::NAME,
-				'title'    => __( 'Courses', 'course-schedule-connector' ),
-				'icon'     => 'divi/module-blog',
-				'category' => 'module',
-			),
-			array(
-				'name'     => 'kinds',
-				'path'     => self::NAME,
-				'title'    => __( 'Kinds of course', 'course-schedule-connector' ),
+				'name'     => self::KINDS,
+				'path'     => '',
+				/* translators: a folder of modules in the page builder */
+				'title'    => __( 'iSport: kinds of course', 'course-schedule-connector' ),
 				'icon'     => 'divi/module-filterable-portfolio',
 				'category' => 'module',
 			),
 			array(
-				'name'     => 'trainers',
-				'path'     => self::NAME,
-				'title'    => __( 'Trainers', 'course-schedule-connector' ),
+				'name'     => self::TRAINERS,
+				'path'     => '',
+				/* translators: a folder of modules in the page builder */
+				'title'    => __( 'iSport: trainers', 'course-schedule-connector' ),
 				'icon'     => 'divi/module-person',
 				'category' => 'module',
 			),

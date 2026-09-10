@@ -7,7 +7,7 @@
     "moduleOrderClassName": "cscs_divi_field_course_schedule",
     "moduleIcon": "divi/module-table-of-contents",
     "category": "module",
-    "folder": "cscs-modules/courses",
+    "folder": "cscs-courses",
     "attributes": {
         "module": {
             "type": "object",

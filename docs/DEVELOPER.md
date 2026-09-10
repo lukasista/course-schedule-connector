@@ -741,18 +741,30 @@ because WordPress's categories are flat: a block belongs to exactly one and none
 of them nest, so they are named "iSport: courses" and so on to sort together and
 read as a set.
 
-The Divi modules do nest. Divi keeps folders as a tree — the store files each
-under `path/name`, `getFolders( $path )` returns the children of one, and the
-list recurses through both folders and modules — so `ModuleFolder::definitions()`
-hands the builder the shelf `cscs-modules` and three drawers inside it, and each
-generated `module.json` carries `folder: cscs-modules/courses` or its siblings.
-The shelf is registered first, because a drawer whose shelf does not exist is a
-drawer nobody can open. `ModuleFolder::path()` and `folder_for()` in
+The Divi modules are three flat folders too, and the reason is worth knowing
+before anybody tries to tidy them into a tree. Divi's folders **do** take a
+`path`, and the store **does** file them as a tree — `ADD_FOLDER` keys each
+under `path/name`, and `getFolders( state, path )` returns the folders whose
+`path` matches. But the same selector then throws away any folder that does not
+directly hold a module:
+
+```js
+pickBy( folders, folder => some( getChildModules( { moduleFolder: `${path}/${name}` } ) ) )
+```
+
+An "iSport" folder holding nothing but three subfolders holds no modules of its
+own, so it is dropped — and everything underneath it disappears with it. That is
+not a theory: it was shipped, and every module vanished from the builder.
+`DiviModuleTest` now refuses a definition with a `path`.
+
+So `ModuleFolder::definitions()` hands the builder three sibling folders, and
+each generated `module.json` carries `folder: cscs-courses` or one of its two
+siblings. `ModuleFolder::path()` and `folder_for()` in
 `tools/build-divi-modules.php` hold the same three-line map twice, because the
-build script runs with none of the plugin loaded; `DiviModuleTest` refuses a
-module filed under a folder nobody registered, which would take it out of the
-list altogether rather than merely putting it in the wrong drawer. The modules
-stay on `category: module` — they are the builder's blocks, not the inserter's.
+build script runs with none of the plugin loaded; a second test refuses a module
+filed under a folder nobody registered, which would take it out of the list
+altogether rather than merely putting it in the wrong place. The modules stay on
+`category: module` — they are the builder's blocks, not the inserter's.
 
 ## Queries per page
 

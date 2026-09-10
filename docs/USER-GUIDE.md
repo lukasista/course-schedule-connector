@@ -360,12 +360,16 @@ Jsou rozdělené podle toho, co zrovna navrhujete — na **Kurzy**, **Druhy kurz
 a **Trenéři**. Když děláte šablonu stránky trenéra, otevřete Trenéře a máte
 jeho pole pohromadě; nemusíte je hledat mezi dvaatřiceti položkami.
 
-- **V Divi** je v seznamu modulů složka **iSport** a v ní tři podsložky:
-  *Kurzy* (21 modulů), *Druhy kurzů* (3) a *Trenéři* (8).
-- **V Gutenbergu** má vkladač tři oddíly vedle sebe: **iSport: kurzy**,
-  **iSport: druhy kurzů** a **iSport: trenéři**. Vnořené oddíly WordPress
-  neumí, proto jsou tři a jmenují se tak, aby stály v seznamu u sebe. Stejně to
-  dělá WooCommerce.
+- **V Divi** jsou v seznamu modulů (*Vložit modul* → *Nový modul*) tři složky
+  vedle sebe, hned u složky *Woo Modules*: **iSport: kurzy** (21 modulů),
+  **iSport: druhy kurzů** (3) a **iSport: trenéři** (8). Kliknutím se složka
+  otevře, šipkou zpět se vrátíte.
+- **V Gutenbergu** má vkladač tři oddíly se stejnými názvy.
+
+V obou případech jsou tři vedle sebe a ne vnořené do jedné „iSport" — WordPress
+vnořené oddíly neumí a Divi sice umí, ale složku, ve které nejsou přímo žádné
+moduly, ze seznamu vyhodí i s obsahem. Názvy proto nesou předponu, aby stály
+v seznamu u sebe. Stejně to dělá WooCommerce.
 
 Každý modul má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe — mezi
 padesáti bloky, které nabízí WordPress a šablona, by *Cena* nebo *Název* samy

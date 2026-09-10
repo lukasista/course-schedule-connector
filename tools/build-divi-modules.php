@@ -107,13 +107,13 @@ echo "Wrote {$written} module(s).\n";
  * @return string
  */
 function folder_for( string $context ): string {
-	$drawers = array(
-		'course'  => 'courses',
-		'kind'    => 'kinds',
-		'trainer' => 'trainers',
+	$folders = array(
+		'course'  => 'cscs-courses',
+		'kind'    => 'cscs-kinds',
+		'trainer' => 'cscs-trainers',
 	);
 
-	return 'cscs-modules/' . ( $drawers[ $context ] ?? 'courses' );
+	return $folders[ $context ] ?? 'cscs-courses';
 }
 
 /**
@@ -137,10 +137,12 @@ function module_metadata( string $name, array $field ): array {
 		'category'             => 'module',
 		// Divi's module list is alphabetical and long; thirty-two modules
 		// spread through it are not a set anybody can find. This is the same
-		// key WooCommerce's modules carry to get their own shelf — and one
-		// drawer deeper, because somebody in the builder is designing a
-		// trainer's page, or a kind of course, or a course, and wants the
-		// fields of that one thing rather than all of them.
+		// key WooCommerce's modules carry to get their own shelf — three of
+		// them, because somebody in the builder is designing a trainer's page,
+		// or a kind of course, or a course, and wants the fields of that one
+		// thing rather than all of them. Three side by side and not three
+		// inside one: Divi drops a folder that holds only subfolders, and
+		// everything under it goes with it.
 		'folder'               => folder_for( (string) $field['context'] ),
 		'attributes'           => array_filter(
 			array_merge(

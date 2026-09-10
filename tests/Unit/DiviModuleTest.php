@@ -42,8 +42,7 @@ final class DiviModuleTest extends TestCase {
 		$folders = array();
 
 		foreach ( ModuleFolder::definitions() as $folder ) {
-			$path      = '' === $folder['path'] ? $folder['name'] : $folder['path'] . '/' . $folder['name'];
-			$folders[] = $path;
+			$folders[] = '' === $folder['path'] ? $folder['name'] : $folder['path'] . '/' . $folder['name'];
 		}
 
 		$root  = dirname( __DIR__, 2 );
@@ -71,26 +70,27 @@ final class DiviModuleTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_every_context_names_a_drawer(): void {
-		$this->assertSame( ModuleFolder::NAME . '/courses', ModuleFolder::path( 'course' ) );
-		$this->assertSame( ModuleFolder::NAME . '/kinds', ModuleFolder::path( 'kind' ) );
-		$this->assertSame( ModuleFolder::NAME . '/trainers', ModuleFolder::path( 'trainer' ) );
-		$this->assertSame( ModuleFolder::NAME . '/courses', ModuleFolder::path( 'nobody-has-added-this-yet' ) );
+	public function test_every_context_names_a_folder(): void {
+		$this->assertSame( ModuleFolder::COURSES, ModuleFolder::path( 'course' ) );
+		$this->assertSame( ModuleFolder::KINDS, ModuleFolder::path( 'kind' ) );
+		$this->assertSame( ModuleFolder::TRAINERS, ModuleFolder::path( 'trainer' ) );
+		$this->assertSame( ModuleFolder::COURSES, ModuleFolder::path( 'nobody-has-added-this-yet' ) );
 	}
 
 	/**
-	 * The shelf is registered before the drawers that sit in it.
+	 * No folder is nested inside another, and this is not tidiness.
+	 *
+	 * Divi's folder list keeps a folder only where that folder directly holds a
+	 * module — `pickBy( folders, f => some( getChildModules( … ) ) )` — so a
+	 * folder holding nothing but subfolders is dropped, and everything beneath
+	 * it goes with it. Which is what happened: the modules disappeared from the
+	 * builder entirely. A `path` here would do it again.
 	 *
 	 * @return void
 	 */
-	public function test_the_shelf_comes_before_its_drawers(): void {
-		$definitions = ModuleFolder::definitions();
-
-		$this->assertSame( '', $definitions[0]['path'] );
-		$this->assertSame( ModuleFolder::NAME, $definitions[0]['name'] );
-
-		foreach ( array_slice( $definitions, 1 ) as $drawer ) {
-			$this->assertSame( ModuleFolder::NAME, $drawer['path'] );
+	public function test_no_folder_is_nested_inside_another(): void {
+		foreach ( ModuleFolder::definitions() as $folder ) {
+			$this->assertSame( '', $folder['path'], $folder['name'] . ' is nested, which empties the module list' );
 		}
 	}
 
