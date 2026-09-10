@@ -7,7 +7,7 @@
     "moduleOrderClassName": "cscs_divi_field_course_places",
     "moduleIcon": "divi/module-circle-counter",
     "category": "module",
-    "folder": "cscs-modules",
+    "folder": "cscs-modules/courses",
     "attributes": {
         "module": {
             "type": "object",

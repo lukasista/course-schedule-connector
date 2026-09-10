@@ -7,7 +7,7 @@
     "moduleOrderClassName": "cscs_divi_field_course_api",
     "moduleIcon": "divi/module-sidebar",
     "category": "module",
-    "folder": "cscs-modules",
+    "folder": "cscs-modules/courses",
     "attributes": {
         "module": {
             "type": "object",

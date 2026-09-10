@@ -7,7 +7,7 @@
     "moduleOrderClassName": "cscs_divi_field_course_makeup",
     "moduleIcon": "divi/module-tabs",
     "category": "module",
-    "folder": "cscs-modules",
+    "folder": "cscs-modules/courses",
     "attributes": {
         "module": {
             "type": "object",

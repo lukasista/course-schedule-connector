@@ -11,6 +11,7 @@ namespace CSCS\Tests\Unit;
 
 use CSCS\Data\DisplaySet;
 use CSCS\Render\BlockCategory;
+use CSCS\Render\Fields;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -46,29 +47,49 @@ final class BlockMetadataTest extends TestCase {
 	}
 
 	/**
-	 * Every block of this plugin stands on the plugin's own shelf.
+	 * Every block of this plugin stands in the section its context belongs to.
 	 *
-	 * Thirty-one blocks scattered through "Widgets" are not a set anybody can
-	 * find, and one of them is called "Price". The category is registered in
-	 * one place and named in two — the metadata file and the field registration
-	 * — which is exactly the sort of pair that comes apart quietly.
+	 * Thirty-two blocks scattered through "Widgets" are not a set anybody can
+	 * find, and one of them is called "Price"; thirty-two under one heading is
+	 * a shorter list and still not the question somebody is asking, which is
+	 * "the fields of a trainer". The section is decided in one place and read
+	 * in two — the metadata file and the field registration — which is exactly
+	 * the sort of pair that comes apart quietly.
 	 *
 	 * @return void
 	 */
-	public function test_every_block_stands_in_the_plugins_own_category(): void {
-		$this->assertSame( BlockCategory::SLUG, (string) ( $this->metadata()['category'] ?? '' ) );
+	public function test_every_block_stands_in_the_section_of_its_context(): void {
+		$this->assertSame( BlockCategory::COURSES, (string) ( $this->metadata()['category'] ?? '' ) );
 		$this->assertStringContainsString(
-			"'category'              => BlockCategory::SLUG,",
+			"'category'              => BlockCategory::of( (string) \$field['context'] ),",
 			$this->source( 'includes/Render/FieldBlocks.php' )
 		);
 	}
 
 	/**
-	 * The shelf is put where somebody can find it, and only once.
+	 * Every context has a section, and an unknown one still has somewhere to go.
 	 *
 	 * @return void
 	 */
-	public function test_the_category_lands_after_the_ones_wordpress_ships(): void {
+	public function test_every_context_names_a_section(): void {
+		$this->assertSame( BlockCategory::COURSES, BlockCategory::of( 'course' ) );
+		$this->assertSame( BlockCategory::KINDS, BlockCategory::of( 'kind' ) );
+		$this->assertSame( BlockCategory::TRAINERS, BlockCategory::of( 'trainer' ) );
+		$this->assertSame( BlockCategory::COURSES, BlockCategory::of( 'something-nobody-has-added-yet' ) );
+
+		$sections = array_column( ( new BlockCategory() )->add( array() ), 'slug' );
+
+		foreach ( Fields::all() as $field ) {
+			$this->assertContains( BlockCategory::of( (string) $field['context'] ), $sections );
+		}
+	}
+
+	/**
+	 * The sections are put where somebody can find them, and only once.
+	 *
+	 * @return void
+	 */
+	public function test_the_sections_land_after_the_ones_wordpress_ships(): void {
 		$core = array(
 			array( 'slug' => 'text' ),
 			array( 'slug' => 'media' ),
@@ -80,7 +101,10 @@ final class BlockMetadataTest extends TestCase {
 		$added = ( new BlockCategory() )->add( $core );
 		$slugs = array_column( $added, 'slug' );
 
-		$this->assertSame( array( 'text', 'media', 'widgets', 'embed', BlockCategory::SLUG, 'woocommerce' ), $slugs );
+		$this->assertSame(
+			array( 'text', 'media', 'widgets', 'embed', BlockCategory::COURSES, BlockCategory::KINDS, BlockCategory::TRAINERS, 'woocommerce' ),
+			$slugs
+		);
 
 		// Called twice — which WordPress does when a filter is added twice, and
 		// two identical categories is a duplicated heading in the inserter.
@@ -93,7 +117,10 @@ final class BlockMetadataTest extends TestCase {
 	 * @return void
 	 */
 	public function test_the_filter_survives_being_handed_nonsense(): void {
-		$this->assertSame( array( BlockCategory::SLUG ), array_column( ( new BlockCategory() )->add( null ), 'slug' ) );
+		$this->assertSame(
+			array( BlockCategory::COURSES, BlockCategory::KINDS, BlockCategory::TRAINERS ),
+			array_column( ( new BlockCategory() )->add( null ), 'slug' )
+		);
 	}
 
 	/**

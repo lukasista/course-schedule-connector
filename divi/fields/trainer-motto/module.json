@@ -7,7 +7,7 @@
     "moduleOrderClassName": "cscs_divi_field_trainer_motto",
     "moduleIcon": "divi/module-testimonial",
     "category": "module",
-    "folder": "cscs-modules",
+    "folder": "cscs-modules/trainers",
     "attributes": {
         "module": {
             "type": "object",

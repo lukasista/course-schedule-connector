@@ -7,7 +7,7 @@
     "moduleOrderClassName": "cscs_divi_field_trainer_text",
     "moduleIcon": "divi/module-text",
     "category": "module",
-    "folder": "cscs-modules",
+    "folder": "cscs-modules/trainers",
     "attributes": {
         "module": {
             "type": "object",

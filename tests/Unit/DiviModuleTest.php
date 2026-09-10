@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace CSCS\Tests\Unit;
 
+use CSCS\Divi\ModuleFolder;
 use CSCS\Divi\ModuleRenderer;
 use PHPUnit\Framework\TestCase;
 
@@ -30,6 +31,67 @@ final class DiviModuleTest extends TestCase {
 		$decoded = json_decode( (string) file_get_contents( dirname( __DIR__, 2 ) . '/divi/cscs-display/module.json' ), true );
 
 		return is_array( $decoded ) ? $decoded : array();
+	}
+
+	/**
+	 * Every module is filed in a folder somebody registered.
+	 *
+	 * @return void
+	 */
+	public function test_every_module_is_filed_in_a_folder_that_exists(): void {
+		$folders = array();
+
+		foreach ( ModuleFolder::definitions() as $folder ) {
+			$path      = '' === $folder['path'] ? $folder['name'] : $folder['path'] . '/' . $folder['name'];
+			$folders[] = $path;
+		}
+
+		$root  = dirname( __DIR__, 2 );
+		$files = glob( $root . '/divi/*/module.json' ) ?: array();
+		$files = array_merge( $files, glob( $root . '/divi/fields/*/module.json' ) ?: array() );
+
+		$this->assertNotEmpty( $files );
+
+		foreach ( $files as $file ) {
+			$json = json_decode( (string) file_get_contents( $file ), true );
+
+			// A module filed under a folder nobody registered is a module that
+			// disappears from the list entirely, which is worse than one in the
+			// wrong drawer.
+			$this->assertContains(
+				(string) ( $json['folder'] ?? '' ),
+				$folders,
+				basename( dirname( $file ) ) . ' names a folder that is not registered'
+			);
+		}
+	}
+
+	/**
+	 * Each context has a drawer of its own, and an unknown one still lands.
+	 *
+	 * @return void
+	 */
+	public function test_every_context_names_a_drawer(): void {
+		$this->assertSame( ModuleFolder::NAME . '/courses', ModuleFolder::path( 'course' ) );
+		$this->assertSame( ModuleFolder::NAME . '/kinds', ModuleFolder::path( 'kind' ) );
+		$this->assertSame( ModuleFolder::NAME . '/trainers', ModuleFolder::path( 'trainer' ) );
+		$this->assertSame( ModuleFolder::NAME . '/courses', ModuleFolder::path( 'nobody-has-added-this-yet' ) );
+	}
+
+	/**
+	 * The shelf is registered before the drawers that sit in it.
+	 *
+	 * @return void
+	 */
+	public function test_the_shelf_comes_before_its_drawers(): void {
+		$definitions = ModuleFolder::definitions();
+
+		$this->assertSame( '', $definitions[0]['path'] );
+		$this->assertSame( ModuleFolder::NAME, $definitions[0]['name'] );
+
+		foreach ( array_slice( $definitions, 1 ) as $drawer ) {
+			$this->assertSame( ModuleFolder::NAME, $drawer['path'] );
+		}
 	}
 
 	/**

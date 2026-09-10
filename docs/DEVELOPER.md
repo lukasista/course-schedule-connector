@@ -726,14 +726,33 @@ is the guard.
 
 ## Where the blocks and the modules live
 
-`Render\BlockCategory` registers one inserter category, `cscs`, on
-`block_categories_all`, and both registrations name it: `FieldBlocks` through
-`BlockCategory::SLUG` and `blocks/display/block.json` as a literal, which
-`BlockMetadataTest` keeps in step. It is spliced in after the last category
-WordPress ships rather than appended, because the end of that list is wherever
-the last plugin to be activated left it. The Divi modules are a separate
-arrangement and stay on `category: module` with `folder: cscs-modules` — they
-are the builder's blocks, not the inserter's.
+Three sections rather than one, keyed off the context each field already
+declares: somebody in either editor is building a trainer's page, or a kind of
+course, or a course, and wants the fields of that one thing.
+
+`Render\BlockCategory` registers three inserter categories on
+`block_categories_all` — `cscs-courses`, `cscs-kinds`, `cscs-trainers` — and
+`BlockCategory::of( $context )` is what `FieldBlocks` asks for each block;
+`blocks/display/block.json` names `cscs-courses` as a literal, which
+`BlockMetadataTest` keeps in step with the rest. They are spliced in after the
+last category WordPress ships rather than appended, because the end of that list
+is wherever the last plugin to be activated left it. Three and not a tree
+because WordPress's categories are flat: a block belongs to exactly one and none
+of them nest, so they are named "iSport: courses" and so on to sort together and
+read as a set.
+
+The Divi modules do nest. Divi keeps folders as a tree — the store files each
+under `path/name`, `getFolders( $path )` returns the children of one, and the
+list recurses through both folders and modules — so `ModuleFolder::definitions()`
+hands the builder the shelf `cscs-modules` and three drawers inside it, and each
+generated `module.json` carries `folder: cscs-modules/courses` or its siblings.
+The shelf is registered first, because a drawer whose shelf does not exist is a
+drawer nobody can open. `ModuleFolder::path()` and `folder_for()` in
+`tools/build-divi-modules.php` hold the same three-line map twice, because the
+build script runs with none of the plugin loaded; `DiviModuleTest` refuses a
+module filed under a folder nobody registered, which would take it out of the
+list altogether rather than merely putting it in the wrong drawer. The modules
+stay on `category: module` — they are the builder's blocks, not the inserter's.
 
 ## Queries per page
 

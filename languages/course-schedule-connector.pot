@@ -583,6 +583,7 @@ msgstr ""
 #: includes/Admin/Screen/Overview.php:226
 #: includes/Data/PostType.php:75
 #: includes/Data/PostType.php:77
+#: includes/Divi/ModuleFolder.php:90
 msgid "Courses"
 msgstr ""
 
@@ -969,6 +970,7 @@ msgstr ""
 #: includes/Data/KindType.php:69
 #: includes/Data/KindType.php:71
 #: includes/Data/PostType.php:225
+#: includes/Divi/ModuleFolder.php:97
 msgid "Kinds of course"
 msgstr ""
 
@@ -2011,6 +2013,7 @@ msgstr ""
 #: includes/Data/PostType.php:217
 #: includes/Data/TrainerType.php:108
 #: includes/Data/TrainerType.php:110
+#: includes/Divi/ModuleFolder.php:104
 msgid "Trainers"
 msgstr ""
 
@@ -2281,8 +2284,7 @@ msgstr ""
 
 #: includes/Admin/Menu.php:110
 #: includes/Admin/Menu.php:111
-#: includes/Divi/ModuleFolder.php:58
-#: includes/Render/BlockCategory.php:78
+#: includes/Divi/ModuleFolder.php:83
 msgid "iSport"
 msgstr ""
 
@@ -2320,6 +2322,18 @@ msgstr ""
 
 #: includes/Admin/Screen/SettingsPage.php:60
 msgid "iSport settings"
+msgstr ""
+
+#: includes/Render/BlockCategory.php:88
+msgid "iSport: courses"
+msgstr ""
+
+#: includes/Render/BlockCategory.php:94
+msgid "iSport: kinds of course"
+msgstr ""
+
+#: includes/Render/BlockCategory.php:100
+msgid "iSport: trainers"
 msgstr ""
 
 #: includes/Render/Listing.php:653

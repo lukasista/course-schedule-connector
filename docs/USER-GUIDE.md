@@ -356,12 +356,20 @@ Pole, které nemá co říct, se **vynechá celé** — nadpis nad prázdným m�
 
 ### Kde bloky a moduly najdete
 
-Všechny jsou pohromadě, v obou editorech. V Divi je v seznamu modulů jedna
-položka **iSport** a v ní všech jedenatřicet; v Gutenbergu má vkladač bloků oddíl
-**iSport** a v něm také jedenatřicet. Stejně to dělá WooCommerce. Každý modul
-má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe — mezi padesáti
-bloky, které nabízí WordPress a šablona, by *Cena* nebo *Název* samy o sobě
-neřekly nic.
+Jsou rozdělené podle toho, co zrovna navrhujete — na **Kurzy**, **Druhy kurzů**
+a **Trenéři**. Když děláte šablonu stránky trenéra, otevřete Trenéře a máte
+jeho pole pohromadě; nemusíte je hledat mezi dvaatřiceti položkami.
+
+- **V Divi** je v seznamu modulů složka **iSport** a v ní tři podsložky:
+  *Kurzy* (21 modulů), *Druhy kurzů* (3) a *Trenéři* (8).
+- **V Gutenbergu** má vkladač tři oddíly vedle sebe: **iSport: kurzy**,
+  **iSport: druhy kurzů** a **iSport: trenéři**. Vnořené oddíly WordPress
+  neumí, proto jsou tři a jmenují se tak, aby stály v seznamu u sebe. Stejně to
+  dělá WooCommerce.
+
+Každý modul má navíc svou ikonu, aby se v seznamu daly rozeznat od sebe — mezi
+padesáti bloky, které nabízí WordPress a šablona, by *Cena* nebo *Název* samy
+o sobě neřekly nic.
 
 ### Tabulky
 

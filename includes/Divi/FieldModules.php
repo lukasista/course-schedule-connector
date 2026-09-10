@@ -111,7 +111,7 @@ final class FieldModules {
 			return;
 		}
 
-		wp_localize_script( self::PACKAGE, ModuleFolder::GLOBAL, ModuleFolder::definition() );
+		wp_localize_script( self::PACKAGE, ModuleFolder::GLOBAL, ModuleFolder::definitions() );
 		wp_localize_script( self::PACKAGE, 'cscsDiviFields', $this->metadata() );
 		wp_set_script_translations( self::PACKAGE, 'course-schedule-connector', CSCS_DIR . 'languages' );
 

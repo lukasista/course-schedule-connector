@@ -211,14 +211,21 @@
 	 * @return {void}
 	 */
 	function registerOwnFolder() {
-		var folder = window.cscsDiviFolder;
+		var folders = window.cscsDiviFolder;
 		var register = divi.moduleLibrary ? divi.moduleLibrary.registerFolder : null;
+		var i;
 
-		if ( ! folder || ! folder.name || 'function' !== typeof register ) {
+		if ( ! folders || 'function' !== typeof register ) {
 			return;
 		}
 
-		register( folder );
+		// One shelf and three drawers: the shelf first, because a drawer whose
+		// shelf does not exist yet is a drawer nobody can open.
+		for ( i = 0; i < folders.length; i++ ) {
+			if ( folders[ i ] && folders[ i ].name ) {
+				register( folders[ i ] );
+			}
+		}
 	}
 
 	/**

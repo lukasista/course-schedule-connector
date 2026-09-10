@@ -7,7 +7,7 @@
     "moduleOrderClassName": "cscs_divi_field_kind_text",
     "moduleIcon": "divi/module-text",
     "category": "module",
-    "folder": "cscs-modules",
+    "folder": "cscs-modules/kinds",
     "attributes": {
         "module": {
             "type": "object",

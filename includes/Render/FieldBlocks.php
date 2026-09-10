@@ -102,7 +102,7 @@ final class FieldBlocks {
 					'api_version'           => 3,
 					'title'                 => (string) $field['title'],
 					'description'           => (string) $field['description'],
-					'category'              => BlockCategory::SLUG,
+					'category'              => BlockCategory::of( (string) $field['context'] ),
 					'icon'                  => (string) $field['icon'],
 					'keywords'              => array( 'isport', 'course', 'trainer' ),
 					'textdomain'            => 'course-schedule-connector',

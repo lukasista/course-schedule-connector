@@ -7,7 +7,7 @@
 	"moduleOrderClassName": "cscs_divi_display",
 	"moduleIcon": "divi/module-filterable-portfolio",
 	"category": "module",
-	"folder": "cscs-modules",
+	"folder": "cscs-modules/courses",
 	"attributes": {
 		"module": {
 			"type": "object",

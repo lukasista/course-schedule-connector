@@ -593,6 +593,7 @@ msgstr "Kurz, ze kterého popis vzít"
 #: includes/Admin/Screen/Overview.php:226
 #: includes/Data/PostType.php:75
 #: includes/Data/PostType.php:77
+#: includes/Divi/ModuleFolder.php:90
 msgid "Courses"
 msgstr "Kurzy"
 
@@ -979,6 +980,7 @@ msgstr "Druh kurzu"
 #: includes/Data/KindType.php:69
 #: includes/Data/KindType.php:71
 #: includes/Data/PostType.php:225
+#: includes/Divi/ModuleFolder.php:97
 msgid "Kinds of course"
 msgstr "Druhy kurzů"
 
@@ -2021,6 +2023,7 @@ msgstr "Jméno trenéra"
 #: includes/Data/PostType.php:217
 #: includes/Data/TrainerType.php:108
 #: includes/Data/TrainerType.php:110
+#: includes/Divi/ModuleFolder.php:104
 msgid "Trainers"
 msgstr "Trenéři"
 
@@ -2291,8 +2294,7 @@ msgstr "od %s"
 
 #: includes/Admin/Menu.php:110
 #: includes/Admin/Menu.php:111
-#: includes/Divi/ModuleFolder.php:58
-#: includes/Render/BlockCategory.php:78
+#: includes/Divi/ModuleFolder.php:83
 msgid "iSport"
 msgstr "iSport"
 
@@ -2331,6 +2333,18 @@ msgstr "iSport nezveřejňuje vazbu mezi kurzem a jeho jednotlivými lekcemi, pl
 #: includes/Admin/Screen/SettingsPage.php:60
 msgid "iSport settings"
 msgstr "Nastavení iSport"
+
+#: includes/Render/BlockCategory.php:88
+msgid "iSport: courses"
+msgstr "iSport: kurzy"
+
+#: includes/Render/BlockCategory.php:94
+msgid "iSport: kinds of course"
+msgstr "iSport: druhy kurzů"
+
+#: includes/Render/BlockCategory.php:100
+msgid "iSport: trainers"
+msgstr "iSport: trenéři"
 
 #: includes/Render/Listing.php:653
 msgid "last %d place"

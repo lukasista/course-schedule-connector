@@ -96,6 +96,27 @@ foreach ( $fields as $name => $field ) {
 echo "Wrote {$written} module(s).\n";
 
 /**
+ * Returns the folder a field of a given context belongs in.
+ *
+ * The same map `CSCS\Divi\ModuleFolder::path()` holds, restated here because
+ * this script runs on its own with nothing of the plugin loaded. Two copies of
+ * three strings, and the alternative is bootstrapping WordPress to build a
+ * JSON file.
+ *
+ * @param string $context Field context.
+ * @return string
+ */
+function folder_for( string $context ): string {
+	$drawers = array(
+		'course'  => 'courses',
+		'kind'    => 'kinds',
+		'trainer' => 'trainers',
+	);
+
+	return 'cscs-modules/' . ( $drawers[ $context ] ?? 'courses' );
+}
+
+/**
  * Builds one module's metadata.
  *
  * @param string               $name  Field name.
@@ -114,10 +135,13 @@ function module_metadata( string $name, array $field ): array {
 		'moduleOrderClassName' => 'cscs_divi_field_' . $slug,
 		'moduleIcon'           => $field['moduleIcon'],
 		'category'             => 'module',
-		// Divi's module list is alphabetical and long; twenty-four modules
+		// Divi's module list is alphabetical and long; thirty-two modules
 		// spread through it are not a set anybody can find. This is the same
-		// key WooCommerce's modules carry to get their own shelf.
-		'folder'               => 'cscs-modules',
+		// key WooCommerce's modules carry to get their own shelf — and one
+		// drawer deeper, because somebody in the builder is designing a
+		// trainer's page, or a kind of course, or a course, and wants the
+		// fields of that one thing rather than all of them.
+		'folder'               => folder_for( (string) $field['context'] ),
 		'attributes'           => array_filter(
 			array_merge(
 				array(
