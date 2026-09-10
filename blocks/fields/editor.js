@@ -562,9 +562,8 @@
 	/**
 	 * Builds the link panel.
 	 *
-	 * A link and a button are the same element and the same address; what
-	 * differs is whether the plugin's own button look is applied on top of it.
-	 * Both are content: what the link says, and what shape it says it in.
+	 * The shape is the block: one for a button, one for a link. All that is
+	 * left to say here is what it says.
 	 *
 	 * @param {Object} props Block props.
 	 * @return {Object} The panel.
@@ -573,10 +572,6 @@
 		return el(
 			components.PanelBody,
 			{ title: __( 'Link', 'course-schedule-connector' ), initialOpen: true },
-			select( props, 'linkStyle', __( 'Show as', 'course-schedule-connector' ), [
-				{ label: __( 'Button', 'course-schedule-connector' ), value: 'button' },
-				{ label: __( 'Plain link', 'course-schedule-connector' ), value: 'link' },
-			] ),
 			text(
 				props,
 				'linkText',
@@ -677,7 +672,7 @@
 						{},
 						sourcePanel( props, postType ),
 						field.filters ? coursesPanel( props ) : null,
-						field.link ? linkPanel( props ) : null,
+						field.signup ? linkPanel( props ) : null,
 						field.image ? picturePanel( props ) : null,
 						el(
 							components.PanelBody,

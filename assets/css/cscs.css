@@ -119,14 +119,12 @@
 }
 
 /*
- * The same link, asked to look like a link rather than like a button. Kept to
- * what the theme would do with any link in the text — the plugin owns the
- * shape, the theme owns the look — so that the two shapes really are two
- * shapes and not two designs the plugin has opinions about.
+ * The same way in, as a link in the text rather than a button. Deliberately
+ * almost nothing: a link should look like the theme's links, and a theme that
+ * has an opinion about `a` already has one about this.
  */
 .cscs-signup-link {
 	display: inline;
-	text-decoration: underline;
 }
 
 .cscs-empty,

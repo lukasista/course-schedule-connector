@@ -205,15 +205,12 @@ final class FieldRenderer {
 			);
 		}
 
-		if ( ! empty( $field['link'] ) ) {
-			// Words and shape, both of them content: what the link says, and
-			// whether it says it as a button or as a plain link. The look of
-			// either is the design panel's business and is the same panel.
-			$attributes['linkStyle'] = array(
-				'type'    => 'string',
-				'default' => 'button',
-			);
-			$attributes['linkText']  = array(
+		if ( '' !== (string) ( $field['signup'] ?? '' ) ) {
+			// What the way into iSport says. Which shape it takes is the field
+			// itself — a button and a link are two modules, because a page
+			// builder styles the two through different panels and remembers
+			// them through different presets.
+			$attributes['linkText'] = array(
 				'type'    => 'string',
 				'default' => '',
 			);

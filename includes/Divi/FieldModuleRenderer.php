@@ -102,8 +102,27 @@ final class FieldModuleRenderer {
 		return FieldRenderer::render(
 			\CSCS\Plugin::instance(),
 			$name,
-			self::settings( $attrs )
+			self::settings( $attrs, $name )
 		);
+	}
+
+	/**
+	 * The classes Divi needs on the field's own markup.
+	 *
+	 * A button that does not carry `et_pb_button` is a button Divi will not
+	 * style: the Button panel writes its CSS against that class, and so does
+	 * the button styling set for the site as a whole. Adding it here rather
+	 * than in the renderer keeps it where it belongs — this class is the only
+	 * one in the plugin that is allowed to know Divi's class names, and a site
+	 * without Divi never sees it.
+	 *
+	 * @param string $name Field name.
+	 * @return string
+	 */
+	private static function extra_class( string $name ): string {
+		$field = Fields::get( $name ) ?? array();
+
+		return 'button' === (string) ( $field['signup'] ?? '' ) ? 'et_pb_button' : '';
 	}
 
 	/**
@@ -123,7 +142,7 @@ final class FieldModuleRenderer {
 	 * @param array<string, mixed> $attrs Module attributes.
 	 * @return array<string, mixed>
 	 */
-	private static function settings( array $attrs ): array {
+	private static function settings( array $attrs, string $name = '' ): array {
 		$read = static function ( string $key, string $fallback = '' ) use ( $attrs ): string {
 			$value = $attrs['field']['advanced'][ $key ]['desktop']['value'] ?? null;
 
@@ -161,6 +180,8 @@ final class FieldModuleRenderer {
 			'filterSort'      => $read( 'filterSort' ),
 			'filterOrder'     => $read( 'filterOrder', 'asc' ),
 			'filterLimit'     => (int) $read( 'filterLimit', '0' ),
+			'linkText'        => $read( 'linkText' ),
+			'extraClass'      => self::extra_class( $name ),
 		);
 	}
 

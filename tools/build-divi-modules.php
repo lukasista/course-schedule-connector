@@ -127,6 +127,7 @@ function module_metadata( string $name, array $field ): array {
 					'image'  => empty( $field['image'] ) ? array() : image_attribute(),
 				),
 				bullet_attributes( $field ),
+				signup_attributes( $field ),
 				table_attributes( $field ),
 				array(
 					'field' => field_attribute( $field ),
@@ -174,10 +175,10 @@ function module_metadata( string $name, array $field ): array {
 						'props' => array( 'groupLabel' => 'Which courses' ),
 					),
 				),
-				// The sign-up control's own group: what it says and what shape
-				// it says it in. Both content — the look of either shape is the
-				// design panel's business and is the same panel for both.
-				'contentLink'       => empty( $field['link'] ) ? null : array(
+				// What the way into iSport says. The address is the course's
+				// and is not offered: a field somebody can type into and
+				// nothing reads is worse than no field.
+				'contentLink'       => empty( $field['signup'] ) ? null : array(
 					'panel'     => 'content',
 					'priority'  => 20,
 					'groupName' => 'link',
@@ -186,6 +187,22 @@ function module_metadata( string $name, array $field ): array {
 						'props' => array( 'groupLabel' => 'Link' ),
 					),
 				),
+				// A plain link is styled as text; a button is styled by Divi's
+				// own Button group, which the attribute below brings with it
+				// and which needs no group declared here.
+				'designSignupLink'  => 'link' === ( $field['signup'] ?? '' ) ? array(
+					'panel'         => 'design',
+					'priority'      => 15,
+					'groupName'     => 'signupLink',
+					'multiElements' => true,
+					'component'     => array(
+						'name'  => 'divi/composite',
+						'props' => array(
+							'groupLabel'        => 'Link',
+							'clipboardCategory' => 'style',
+						),
+					),
+				) : null,
 				'contentPictureLink' => empty( $field['image'] ) ? null : array(
 					'panel'     => 'content',
 					'priority'  => 30,
@@ -389,6 +406,79 @@ function element_attribute( string $selector, string $attr, string $group, strin
 		'selector'    => $selector,
 		'settings'    => array( 'decoration' => $decoration ),
 	);
+}
+
+/**
+ * The way into iSport, as the thing a page builder already knows how to style.
+ *
+ * This is the second attempt and the first one was wrong. It was one module
+ * with a switch on it reading "button or plain link", and the switch changed a
+ * class name and nothing else: the design panel went on offering the groups a
+ * text module offers, there was no Button group to reach, and Divi's button
+ * presets had nothing to attach to. A switch that appears to do nothing is a
+ * switch that does nothing, whatever the markup says.
+ *
+ * So there are two modules, and each is the shape it claims to be. The button
+ * declares `elementType: button` with Divi's own `decoration.button`, exactly
+ * as Divi's Call To Action declares the button inside itself — which is what
+ * summons the whole Button panel: text, background, border, icon, hover, and
+ * the presets that go with it. It also carries `et_pb_button`, so the button
+ * styling set for the site as a whole reaches it without anybody restating it.
+ *
+ * The link declares nothing of the sort, and that is the point: it is an
+ * anchor in the text, styled by the theme's link styling, with a font group of
+ * its own for a designer who wants to say otherwise.
+ *
+ * @param array<string, mixed> $field Field definition.
+ * @return array<string, mixed>
+ */
+function signup_attributes( array $field ): array {
+	$shape = (string) ( $field['signup'] ?? '' );
+
+	if ( 'button' === $shape ) {
+		return array(
+			'button' => array(
+				'type'        => 'object',
+				'selector'    => 'body #page-container {{selector}} .cscs-button.et_pb_button',
+				'elementType' => 'button',
+				'settings'    => array(
+					'decoration' => array(
+						'background' => array(),
+						'border'     => array(),
+						'boxShadow'  => array(),
+						'button'     => array(
+							'component' => array(
+								'props' => array( 'dynamicSubgroupHost' => true ),
+							),
+						),
+						'font'       => array(),
+						'sizing'     => array(),
+						'spacing'    => array(),
+					),
+				),
+			),
+		);
+	}
+
+	if ( 'link' === $shape ) {
+		return array(
+			'signupLink' => element_attribute(
+				'{{selector}} .cscs-signup-link',
+				'signupLink',
+				'designSignupLink',
+				'Link',
+				'content',
+				array(
+					'font'      => 'divi/font',
+					'spacing'   => 'divi/spacing',
+					'border'    => 'divi/border',
+					'boxShadow' => 'divi/box-shadow',
+				)
+			),
+		);
+	}
+
+	return array();
 }
 
 /**
@@ -785,26 +875,7 @@ function field_attribute( array $field ): array {
 		);
 	}
 
-	if ( ! empty( $field['link'] ) ) {
-		$add(
-			'linkStyle',
-			array(
-				'label'       => 'Show as',
-				'description' => 'A button carries the plugin\'s own button look; a plain link carries none. Colour, background, spacing and border are available to both either way.',
-				'component'   => array(
-					'name'  => 'divi/select',
-					'type'  => 'field',
-					'props' => array(
-						'options' => array(
-							'button' => array( 'label' => 'Button' ),
-							'link'   => array( 'label' => 'Plain link' ),
-						),
-					),
-				),
-			),
-			'contentLink'
-		);
-
+	if ( ! empty( $field['signup'] ) ) {
 		$add(
 			'linkText',
 			array(
@@ -1055,9 +1126,8 @@ function module_defaults( array $field ): array {
 		$advanced['bulletStyle'] = '';
 	}
 
-	if ( ! empty( $field['link'] ) ) {
-		$advanced['linkStyle'] = 'button';
-		$advanced['linkText']  = '';
+	if ( ! empty( $field['signup'] ) ) {
+		$advanced['linkText'] = '';
 	}
 
 	if ( ! empty( $field['filters'] ) ) {

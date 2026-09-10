@@ -224,7 +224,7 @@ final class FieldBlocks {
 				'image'   => (bool) $field['image'],
 				'bullets' => (bool) $field['bullets'],
 				'filters' => (bool) $field['filters'],
-				'link'    => (bool) $field['link'],
+				'signup'  => (string) $field['signup'],
 				'columns' => $columns,
 			);
 		}

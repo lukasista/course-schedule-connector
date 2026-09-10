@@ -823,16 +823,39 @@ would colour the words with it.
 
 ## The sign-up link
 
-`CourseDetail::button( array $asked = array() )` reads two settings, both of
-them content and both of them on the block's Settings tab and the module's
-content panel: `linkStyle` (`button` or `link`) and `linkText`. The style
-decides one class — `cscs-button` or `cscs-signup-link` — and nothing else,
-which is the argument for one module rather than two: a link and a button are
-the same element pointing at the same address, and everything a designer reaches
-for is on the same panel for both. `Fields` marks the field `'link' => true`,
-which is what `FieldRenderer`, `FieldBlocks`, `build-divi-modules.php` and
-`DesignGuard` each key off, in the same way they key off `image`, `bullets` and
-`filters`.
+Two fields, `course-button` and `course-link`, marked in the catalogue with
+`'signup' => 'button'` and `'signup' => 'link'` — the key `FieldRenderer`,
+`FieldBlocks`, `build-divi-modules.php` and `DesignGuard` each read, in the same
+way they read `image`, `bullets` and `filters`. `CourseDetail::button()` takes
+`shape` (which class), `linkText` (what it says) and `extraClass` (what Divi
+needs), and is the only thing either field renders.
+
+Two rather than one, and the first attempt was one. It was a module with a
+switch on it reading "button or plain link", and the switch changed a class name
+and nothing else: these modules are generated from a single catalogue, so the
+Design panel was the one a text field gets. No Button group, nothing for button
+presets to attach to, and a switch that appeared to do nothing — because it did.
+The reasoning behind it, that a link and a button are the same element and the
+design panel is the same for both, was true of the markup and false of the
+builder, which is the only place the difference was ever going to show.
+
+What makes the button a button is `elementType: 'button'` on an attribute whose
+`settings.decoration` carries Divi's own `button` entry, declared the way Divi's
+Call To Action declares the button inside itself. Divi then generates the whole
+Button panel for it. The rendered anchor carries `et_pb_button` alongside
+`cscs-button` — added by `FieldModuleRenderer::extra_class()`, the one place in
+the plugin allowed to know Divi's class names — so the module's selector matches
+and the button styling set for the site as a whole applies. The link declares an
+ordinary `content` element with font, spacing, border and shadow groups.
+
+Both were verified by reading the stylesheet the page emits rather than by
+looking at the panel: `body #page-container .cscs_divi_field_course_button_0
+.cscs-button.et_pb_button{background-color:…}` from the Button group, and
+`.cscs_divi_field_course_link_0 .cscs-signup-link{color:…;font-size:…}` from the
+link's font group. One caveat worth knowing: a Divi preset belongs to a module
+name, so these modules have their own presets and cannot inherit the ones saved
+for Divi's Button module. What they do inherit is the site-wide button styling,
+through `et_pb_button`.
 
 The wording falls back to `Settings::button_text()` — the `isport_button_text`
 setting, or the translated default when it is empty. `Listing::cta()` falls back

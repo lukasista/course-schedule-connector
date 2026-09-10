@@ -275,16 +275,24 @@ final class CourseDetail {
 		$words = trim( (string) ( $asked['linkText'] ?? '' ) );
 		$words = '' !== $words ? $words : $settings->button_text();
 
-		// A link and a button are the same element and the same address; what
-		// differs is whether the plugin's own button look is applied on top.
-		// Everything a designer would reach for — background, padding, border,
-		// typography — is available to both either way, so this is one setting
-		// and not two modules.
-		$plain = 'link' === (string) ( $asked['linkStyle'] ?? 'button' );
+		// A button and a link are two shapes, and they are two modules rather
+		// than one with a switch on it, because the difference is not one the
+		// plugin can express: a button is the thing a page builder already has
+		// a Button panel and button presets for, and a link is the thing a
+		// theme already styles as a link. A switch that changed a class name
+		// and left the design panel saying the same thing was a switch that
+		// appeared to do nothing, which is what it was reported as.
+		$plain   = 'link' === (string) ( $asked['shape'] ?? 'button' );
+		$classes = $plain ? 'cscs-signup-link' : 'cscs-button';
+		$extra   = trim( (string) ( $asked['extraClass'] ?? '' ) );
+
+		if ( '' !== $extra ) {
+			$classes .= ' ' . $extra;
+		}
 
 		return sprintf(
 			'<a class="%s" href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-			esc_attr( $plain ? 'cscs-signup-link' : 'cscs-button' ),
+			esc_attr( $classes ),
 			esc_url( $url ),
 			esc_html( $words )
 		);

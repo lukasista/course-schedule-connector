@@ -1,11 +1,11 @@
 {
-    "name": "cscs/divi-course-button",
-    "d4Shortcode": "cscs_divi_course_button",
-    "title": "Sign-up button",
-    "titles": "Sign-up button",
+    "name": "cscs/divi-course-link",
+    "d4Shortcode": "cscs_divi_course_link",
+    "title": "Sign-up link",
+    "titles": "Sign-up link",
     "moduleClassName": "cscs_divi_field",
-    "moduleOrderClassName": "cscs_divi_field_course_button",
-    "moduleIcon": "divi/module-button",
+    "moduleOrderClassName": "cscs_divi_field_course_link",
+    "moduleIcon": "divi/module-link",
     "category": "module",
     "folder": "cscs-modules",
     "attributes": {
@@ -126,25 +126,80 @@
                 }
             }
         },
-        "button": {
+        "signupLink": {
             "type": "object",
-            "selector": "body #page-container {{selector}} .cscs-button.et_pb_button",
-            "elementType": "button",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-signup-link",
             "settings": {
                 "decoration": {
-                    "background": [],
-                    "border": [],
-                    "boxShadow": [],
-                    "button": {
-                        "component": {
-                            "props": {
-                                "dynamicSubgroupHost": true
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designSignupLink",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "signupLink.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Link"
+                                }
                             }
                         }
                     },
-                    "font": [],
-                    "sizing": [],
-                    "spacing": []
+                    "spacing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designSignupLink",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/spacing",
+                                "props": {
+                                    "attrName": "signupLink.decoration.spacing",
+                                    "grouped": true,
+                                    "fieldLabel": "Link"
+                                }
+                            }
+                        }
+                    },
+                    "border": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designSignupLink",
+                            "priority": 30,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/border",
+                                "props": {
+                                    "attrName": "signupLink.decoration.border",
+                                    "grouped": true,
+                                    "fieldLabel": "Link"
+                                }
+                            }
+                        }
+                    },
+                    "boxShadow": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designSignupLink",
+                            "priority": 40,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/box-shadow",
+                                "props": {
+                                    "attrName": "signupLink.decoration.boxShadow",
+                                    "grouped": true,
+                                    "fieldLabel": "Link"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         },
@@ -476,6 +531,19 @@
                     "name": "divi/composite",
                     "props": {
                         "groupLabel": "Link"
+                    }
+                }
+            },
+            "designSignupLink": {
+                "panel": "design",
+                "priority": 15,
+                "groupName": "signupLink",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Link",
+                        "clipboardCategory": "style"
                     }
                 }
             },

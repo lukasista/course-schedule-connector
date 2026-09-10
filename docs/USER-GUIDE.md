@@ -124,14 +124,22 @@ takže změna v nastavení se propíše všude, kde jste to nepřebil ručně.
 
 ### Tlačítko, nebo odkaz
 
-Tentýž blok i modul umí obojí — v obsahu je přepínač *Zobrazit jako* s volbami
-**Tlačítko** a **Prostý odkaz**. Je to pořád jeden a týž odkaz na totéž místo;
-liší se jen tím, jestli se použije vzhled tlačítka, který nese plugin (a který
-si dobarvuje téma), nebo jestli odkaz vypadá jako kterýkoli odkaz v textu.
+Jsou to **dva samostatné bloky a moduly**:
 
-Vzhled si v obou případech nastavíte stejně — barva, pozadí, odsazení, rámeček
-i typografie jsou v panelu Design u obou stejné. Proto to nejsou dva moduly:
-odkaz s pozadím a odsazením *je* tlačítko, jen se tak nejmenuje.
+- **Tlačítko přihlášení** je skutečné Divi tlačítko. V panelu Návrh má celou
+  Diviho skupinu *Tlačítko* — text, pozadí, rámeček, ikonu, stav po najetí — a
+  přebírá nastavení tlačítek, které máte pro web jako celek.
+- **Přihlašovací odkaz** je odkaz v textu. Vypadá jako kterýkoli jiný odkaz na
+  webu a v panelu Návrh má vlastní skupinu *Odkaz* s písmem, odsazením
+  a rámečkem.
+
+Obojí vede na totéž místo a obojí se samo skryje, když je kurz plný. Liší se
+tím, jak se to navrhuje — a to je celý důvod, proč jsou to dva moduly a ne
+jeden s přepínačem.
+
+Jedna věc, kterou je dobré vědět: **Divi předvolba (preset) patří ke konkrétnímu
+modulu.** Předvolby uložené pro Diviho vlastní modul Tlačítko se tedy na tenhle
+modul nepřenesou — má svoje. Co se přenáší, je nastavení tlačítek pro celý web.
 
 ## Nespárované lekce
 

@@ -184,9 +184,19 @@ final class Fields {
 				'label'       => '',
 				'icon'        => 'external',
 				'moduleIcon'  => 'divi/module-button',
-				'description' => __( 'The link into iSport, as a button or as a plain link, in your own words. It hides itself when the course is full or takes no bookings.', 'course-schedule-connector' ),
+				'description' => __( 'The way into iSport as a button, in your own words. It hides itself when the course is full or takes no bookings.', 'course-schedule-connector' ),
 				'heading'     => false,
-				'link'        => true,
+				'signup'      => 'button',
+			),
+			'link'    => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Sign-up link', 'course-schedule-connector' ),
+				'label'       => '',
+				'icon'        => 'admin-links',
+				'moduleIcon'  => 'divi/module-link',
+				'description' => __( 'The same way into iSport, as a link in the text rather than a button.', 'course-schedule-connector' ),
+				'heading'     => false,
+				'signup'      => 'link',
 			),
 			'image'   => array(
 				'kind'        => self::HTML,
@@ -424,7 +434,7 @@ final class Fields {
 			'image'      => false,
 			'bullets'    => false,
 			'filters'    => false,
-			'link'       => false,
+			'signup'     => '',
 			'columns'    => array(),
 			'moduleIcon' => 'divi/module-text',
 		);
@@ -541,7 +551,12 @@ final class Fields {
 				);
 
 			case 'button':
-				return array( 'html' => $detail->button( $settings ) );
+			case 'link':
+				return array(
+					'html' => $detail->button(
+						array_merge( $settings, array( 'shape' => 'link' === $key ? 'link' : 'button' ) )
+					),
+				);
 
 			case 'image':
 				return array( 'html' => self::picture( (int) get_post_thumbnail_id( $post ), $post, $settings ) );
@@ -778,6 +793,18 @@ final class Fields {
 
 		if ( ! empty( $field['image'] ) ) {
 			$elements['image'] = '{{selector}} .cscs-field__image';
+		}
+
+		// The button is Divi's own kind of element and carries its own panel;
+		// the link is an anchor with a font group on it. Either way the styles
+		// have to be emitted, or the panel accepts settings and the page
+		// ignores them.
+		if ( 'button' === (string) ( $field['signup'] ?? '' ) ) {
+			$elements['button'] = '{{selector}} .cscs-button';
+		}
+
+		if ( 'link' === (string) ( $field['signup'] ?? '' ) ) {
+			$elements['signupLink'] = '{{selector}} .cscs-signup-link';
 		}
 
 		// A list is two things a designer means separately: the words of an
