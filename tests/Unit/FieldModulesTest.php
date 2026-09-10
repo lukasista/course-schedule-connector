@@ -119,6 +119,17 @@ final class FieldModulesTest extends TestCase {
 		foreach ( Fields::all() as $name => $field ) {
 			$attributes = $this->read( 'divi/fields/' . $name . '/module.json' )['attributes'] ?? array();
 
+			// A button is styled as a button. The box it is printed in is not a
+			// second set of text settings, and offering it as one is how a
+			// panel comes to hold two of them, only one of which reaches the
+			// button.
+			if ( 'button' === (string) ( $field['signup'] ?? '' ) ) {
+				$this->assertArrayNotHasKey( 'value', $attributes, $name );
+				$this->assertArrayNotHasKey( 'designValueText', $this->read( 'divi/fields/' . $name . '/module.json' )['settings']['groups'] ?? array(), $name );
+
+				continue;
+			}
+
 			$this->assertSame(
 				'{{selector}} .cscs-field__value',
 				$attributes['value']['selector'] ?? '',
@@ -218,7 +229,11 @@ final class FieldModulesTest extends TestCase {
 				);
 			}
 
-			$this->assertArrayNotHasKey( 'designHeadingText', $metadata['settings']['groups'] ?? array(), $name );
+			// The group survives on a field whose value *is* the heading — it
+			// is the value's typography under the name that describes it.
+			if ( empty( $field['headline'] ) ) {
+				$this->assertArrayNotHasKey( 'designHeadingText', $metadata['settings']['groups'] ?? array(), $name );
+			}
 		}
 
 		// A guard that guards nothing is worse than none: it passes for ever
@@ -280,7 +295,16 @@ final class FieldModulesTest extends TestCase {
 		foreach ( Fields::all() as $name => $field ) {
 			$attributes = $this->read( 'divi/fields/' . $name . '/module.json' )['attributes'] ?? array();
 
-			$this->assertSame( 'content', $attributes['value']['elementType'] ?? '', $name );
+			if ( 'button' !== (string) ( $field['signup'] ?? '' ) ) {
+				// A field that is itself a heading says so: the value is
+				// declared a heading, not a body of text, and the panel calls
+				// its typography what it is.
+				$this->assertSame(
+					empty( $field['headline'] ) ? 'content' : 'heading',
+					$attributes['value']['elementType'] ?? '',
+					$name
+				);
+			}
 
 			if ( Fields::heads( $field ) ) {
 				$this->assertSame( 'heading', $attributes['title']['elementType'] ?? '', $name );

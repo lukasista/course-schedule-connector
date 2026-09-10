@@ -66,7 +66,7 @@ final class Fields {
 	/**
 	 * Returns every field, keyed by the name its block and module carry.
 	 *
-	 * @return array<string, array{context: string, kind: string, title: string, label: ?string, icon: string, moduleIcon: string, columns: array<int, string>, description: string, heading: bool}>
+	 * @return array<string, array{context: string, kind: string, title: string, label: ?string, icon: string, moduleIcon: string, columns: array<int, string>, description: string, heading: bool, headline: bool}>
 	 */
 	public static function all(): array {
 		$course = array(
@@ -74,6 +74,7 @@ final class Fields {
 				'kind'        => self::TEXT,
 				'title'       => __( 'Course name', 'course-schedule-connector' ),
 				'label'       => null,
+				'headline'    => true,
 				'icon'        => 'editor-textcolor',
 				'moduleIcon'  => 'divi/module-post-title',
 				'description' => __( 'The name of the course, as a heading you can style.', 'course-schedule-connector' ),
@@ -264,6 +265,7 @@ final class Fields {
 				'kind'        => self::TEXT,
 				'title'       => __( 'Trainer name', 'course-schedule-connector' ),
 				'label'       => null,
+				'headline'    => true,
 				'icon'        => 'editor-textcolor',
 				'moduleIcon'  => 'divi/module-heading',
 				'description' => __( 'The trainer’s name, as a heading you can style.', 'course-schedule-connector' ),
@@ -432,6 +434,7 @@ final class Fields {
 	private static function defaults(): array {
 		return array(
 			'image'      => false,
+			'headline'   => false,
 			'bullets'    => false,
 			'filters'    => false,
 			'signup'     => '',
@@ -817,12 +820,19 @@ final class Fields {
 	}
 
 	public static function style_elements( array $field ): array {
-		$elements = self::heads( $field )
-			? array(
-				'title' => '{{selector}} .cscs-field__label',
-				'value' => '{{selector}} .cscs-field__value',
-			)
-			: array( 'value' => '{{selector}} .cscs-field__value' );
+		$elements = array();
+
+		if ( self::heads( $field ) ) {
+			$elements['title'] = '{{selector}} .cscs-field__label';
+		}
+
+		// A button is styled as a button and nowhere else. The box the plugin
+		// prints it in is not a second thing to design, and offering it as one
+		// is how a panel comes to hold two sets of text settings, one of which
+		// the reader has to discover does nothing to the button.
+		if ( 'button' !== (string) ( $field['signup'] ?? '' ) ) {
+			$elements['value'] = '{{selector}} .cscs-field__value';
+		}
 
 		if ( ! empty( $field['image'] ) ) {
 			$elements['image'] = '{{selector}} .cscs-field__image';

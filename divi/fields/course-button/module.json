@@ -60,55 +60,22 @@
                 }
             }
         },
-        "value": {
-            "type": "object",
-            "elementType": "content",
-            "selector": "{{selector}} .cscs-field__value",
-            "settings": {
-                "decoration": {
-                    "font": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "designValueText",
-                            "priority": 10,
-                            "render": true,
-                            "component": {
-                                "type": "group",
-                                "name": "divi/font",
-                                "props": {
-                                    "attrName": "value.decoration.font",
-                                    "grouped": true,
-                                    "fieldLabel": "Value"
-                                }
-                            }
-                        }
-                    },
-                    "spacing": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "designValueText",
-                            "priority": 20,
-                            "render": true,
-                            "component": {
-                                "type": "group",
-                                "name": "divi/spacing",
-                                "props": {
-                                    "attrName": "value.decoration.spacing",
-                                    "grouped": true,
-                                    "fieldLabel": "Value"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "button": {
             "type": "object",
             "selector": "body #page-container {{selector}} .cscs-button.et_pb_button",
             "elementType": "button",
             "styleProps": {
-                "selector": "body #page-container {{selector}} .cscs-button.et_pb_button"
+                "selector": "body #page-container {{selector}} .cscs-button.et_pb_button",
+                "customPostTypeSelector": "body.et-db #page-container #et-boc .et-l {{baseSelector}} .cscs-button.et_pb_button",
+                "button": {
+                    "propertySelectors": {
+                        "desktop": {
+                            "value": {
+                                "text-align": "{{selector}} .cscs-field__value"
+                            }
+                        }
+                    }
+                }
             },
             "settings": {
                 "decoration": {
@@ -293,19 +260,6 @@
                         "groupLabel": "Layout",
                         "clipboardCategory": "style",
                         "presetGroup": "divi/layout"
-                    }
-                }
-            },
-            "designValueText": {
-                "panel": "design",
-                "priority": 30,
-                "groupName": "valueText",
-                "multiElements": true,
-                "component": {
-                    "name": "divi/composite",
-                    "props": {
-                        "groupLabel": "Value text",
-                        "clipboardCategory": "style"
                     }
                 }
             }

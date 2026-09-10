@@ -665,6 +665,9 @@
 				// not things a heading sits above. None of the settings that
 				// describe one are drawn for those.
 				var heads = false !== field.heads;
+				// The name of a course is a heading, not a value with a name
+				// over it. The panel calls it one.
+				var headline = !! field.headline;
 				var palette = useThemeSetting( 'color.palette' );
 				var families = useThemeSetting( 'typography.fontFamilies' );
 				var blockProps = blockEditor.useBlockProps();
@@ -736,7 +739,14 @@
 									__( 'A colon, a dash — printed right after the heading. Useful side by side.', 'course-schedule-connector' )
 							  )
 							: null,
-						select( props, 'valueTag', __( 'Value element', 'course-schedule-connector' ), TAGS ),
+						select(
+							props,
+							'valueTag',
+							headline
+								? __( 'Heading element', 'course-schedule-connector' )
+								: __( 'Value element', 'course-schedule-connector' ),
+							TAGS
+						),
 						heads
 							? select( props, 'layout', __( 'Arrangement', 'course-schedule-connector' ), [
 									{ label: __( 'Heading above', 'course-schedule-connector' ), value: 'stack' },
@@ -773,7 +783,9 @@
 					elementPanel(
 						props,
 						'value',
-						__( 'Value text', 'course-schedule-connector' ),
+						headline
+							? __( 'Heading text', 'course-schedule-connector' )
+							: __( 'Value text', 'course-schedule-connector' ),
 						palette,
 						families
 					),

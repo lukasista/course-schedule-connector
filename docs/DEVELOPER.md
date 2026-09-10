@@ -409,7 +409,13 @@ It is the trap the source field fell into, in a place nobody thought to look for
 "button": { "decoration": { "button": { "desktop": { "value": { "icon": { "enable": "on" } } } } } }
 ```
 
-Ours is now the same, character for character, so the icon behaves as it does on a Divi button. `styleProps.selector` was added alongside it for the same reason — Divi's own buttons carry both.
+Ours is now the same, character for character, so the icon behaves as it does on a Divi button. That fixed the writing. It did not fix the showing, and the second half took longer.
+
+**Inside a theme builder template Divi does not use the attribute's selector.** It uses `styleProps.customPostTypeSelector`, and where a module does not give it one, it makes one by splicing its own wrapper classes into the plain selector. The splice puts `.et-db` *inside* `#page-container`, and `.et-db` is on the `body` — so the rule came out as `body #page-container .et-db #et-boc .et-l …` and matched nothing on any page. The CSS was on the page, correct in every declaration, and selected no element. It is also why the value's text settings went on working throughout: their selector carries no prefix for Divi to splice into.
+
+Naming that second selector is half of it. The other half is that it takes **`{{baseSelector}}`**, not `{{selector}}` — inside a template `{{selector}}` has already had the wrapper chain spliced into it, so writing the chain again produces `body.et-db #page-container #et-boc .et-l .et-db #et-boc .et-l …`, which matches nothing all over again. Divi's own Call To Action names both, in exactly this shape, and both were needed.
+
+Confirmed on a course page built from a template: the module the settings were made on computes a 12px radius and a 492 weight against a site default of 8px and 400, and the second, unstyled instance of the same module beside it keeps the site default. The Button group's own alignment is routed to the box around the button through `styleProps.button.propertySelectors`, the way Divi routes its own to the button's wrapper.
 
 The rendering was never the problem, which is what made this hard to see. Handed the values directly, the module emits all of them correctly, at `body #page-container .cscs_divi_field_course_button_0 .cscs-button.et_pb_button`: background, font colour and size, padding, width, all four corner radii, border width, colour and style, and the shadow. The earlier check that pronounced this working read that stylesheet and never opened the panel — the CSS was right and the panel could not reach it.
 

@@ -155,7 +155,15 @@ function module_metadata( string $name, array $field ): array {
 					'title'  => \CSCS\Render\Fields::heads( $field )
 						? element_attribute( '{{selector}} .cscs-field__label', 'title', 'designHeadingText', 'Heading', 'heading' )
 						: array(),
-					'value'  => element_attribute( '{{selector}} .cscs-field__value', 'value', 'designValueText', 'Value', 'content' ),
+					// Three ways for the value to be a thing a designer styles.
+					// On most fields it is the value, and it is called that. On
+					// a field that *is* a heading — the name of a course, the
+					// name of a trainer — it is the heading, and calling it the
+					// value in the panel is asking somebody to translate. And
+					// on a button there is no such thing: the button is styled
+					// as a button, and the box it sits in is not a second set
+					// of text settings to go looking through.
+					'value'  => value_attribute( $field ),
 					'image'  => empty( $field['image'] ) ? array() : image_attribute(),
 				),
 				bullet_attributes( $field ),
@@ -265,7 +273,7 @@ function module_metadata( string $name, array $field ): array {
 				// both typography groups come out called "Module Text", and a
 				// panel with two identically named groups in it is a panel
 				// nobody can use.
-				'designHeadingText' => ! \CSCS\Render\Fields::heads( $field ) ? null : array(
+				'designHeadingText' => ( ! \CSCS\Render\Fields::heads( $field ) && empty( $field['headline'] ) ) ? null : array(
 					'panel'         => 'design',
 					'priority'      => 20,
 					'groupName'     => 'headingText',
@@ -278,7 +286,7 @@ function module_metadata( string $name, array $field ): array {
 						),
 					),
 				),
-				'designValueText'   => array(
+				'designValueText'   => 'content' !== ( value_attribute( $field )['elementType'] ?? '' ) ? null : array(
 					'panel'         => 'design',
 					'priority'      => 30,
 					'groupName'     => 'valueText',
@@ -494,6 +502,26 @@ function element_attribute( string $selector, string $attr, string $group, strin
 }
 
 /**
+ * The value, as whatever kind of thing this field's value is.
+ *
+ * @param array<string, mixed> $field Field definition.
+ * @return array<string, mixed>
+ */
+function value_attribute( array $field ): array {
+	$selector = '{{selector}} .cscs-field__value';
+
+	if ( 'button' === (string) ( $field['signup'] ?? '' ) ) {
+		return array();
+	}
+
+	if ( ! empty( $field['headline'] ) ) {
+		return element_attribute( $selector, 'value', 'designHeadingText', 'Heading', 'heading' );
+	}
+
+	return element_attribute( $selector, 'value', 'designValueText', 'Value', 'content' );
+}
+
+/**
  * The way into iSport, as the thing a page builder already knows how to style.
  *
  * This is the second attempt and the first one was wrong. It was one module
@@ -528,13 +556,41 @@ function signup_attributes( array $field ): array {
 				'type'        => 'object',
 				'selector'    => $selector,
 				'elementType' => 'button',
-				// Said twice, as Divi says it twice on its own buttons: the
-				// selector places the element, the style props place the CSS.
-				// Verified emitted at
-				// `body #page-container .cscs_divi_field_course_button_0
-				// .cscs-button.et_pb_button` — background, font, spacing,
-				// sizing, all four radii, border and shadow together.
-				'styleProps'  => array( 'selector' => $selector ),
+				'styleProps'  => array(
+					'selector' => $selector,
+					// The one that mattered. Inside a theme builder template
+					// Divi does not use the selector above — it uses this one,
+					// and where a module does not give it, it makes one by
+					// splicing its own wrapper classes into the plain selector.
+					// That splice puts `.et-db` *inside* `#page-container`,
+					// and `.et-db` is on the `body`: the rule came out as
+					// `body #page-container .et-db #et-boc .et-l …`, which
+					// matches nothing on any page. The CSS was on the page,
+					// correct in every declaration, and selected no element —
+					// which is why the panel looked like it saved nothing, and
+					// why the value's text settings, whose selector carries no
+					// prefix to splice into, went on working throughout.
+					//
+					// Divi's own Call To Action names this second selector for
+					// exactly this reason, and it is `{{baseSelector}}` there
+					// rather than `{{selector}}` — which is the second half of
+					// the lesson. Inside a template `{{selector}}` has already
+					// had the wrapper chain spliced into it, so naming it here
+					// writes the chain twice and matches nothing all over
+					// again. `{{baseSelector}}` is the bare order class.
+					'customPostTypeSelector' => 'body.et-db #page-container #et-boc .et-l {{baseSelector}} .cscs-button.et_pb_button',
+					// And the Button group's own alignment, which belongs on
+					// the box around the button rather than on the button, the
+					// way Divi routes its own to the button's wrapper. It is
+					// what the value's text settings were being used for.
+					'button'   => array(
+						'propertySelectors' => array(
+							'desktop' => array(
+								'value' => array( 'text-align' => '{{selector}} .cscs-field__value' ),
+							),
+						),
+					),
+				),
 				'settings'    => array(
 					'decoration' => array(
 						'background' => array(),
@@ -865,25 +921,42 @@ function field_attribute( array $field ): array {
 		);
 	}
 
+	// A field that is itself a heading is the one place H1 belongs, and the one
+	// place it was missing: the name of a course is the title of the page it is
+	// on, and a page's title is an H1. The rest keep the shorter list, because
+	// an H1 over a price is not a thing anybody meant to ask for.
+	$tags = ! empty( $field['headline'] )
+		? array(
+			'h1'     => array( 'label' => 'H1' ),
+			'h2'     => array( 'label' => 'H2' ),
+			'h3'     => array( 'label' => 'H3' ),
+			'h4'     => array( 'label' => 'H4' ),
+			'h5'     => array( 'label' => 'H5' ),
+			'h6'     => array( 'label' => 'H6' ),
+			'p'      => array( 'label' => 'P' ),
+			'div'    => array( 'label' => 'DIV' ),
+			'span'   => array( 'label' => 'SPAN' ),
+			'strong' => array( 'label' => 'STRONG' ),
+		)
+		: array(
+			'div'    => array( 'label' => 'DIV' ),
+			'p'      => array( 'label' => 'P' ),
+			'span'   => array( 'label' => 'SPAN' ),
+			'strong' => array( 'label' => 'STRONG' ),
+			'h2'     => array( 'label' => 'H2' ),
+			'h3'     => array( 'label' => 'H3' ),
+			'h4'     => array( 'label' => 'H4' ),
+		);
+
 	$add(
 		'valueTag',
 		array(
-			'label'       => 'Value element',
+			'label'       => ! empty( $field['headline'] ) ? 'Heading element' : 'Value element',
 			'description' => 'Which HTML element the value is.',
 			'component'   => array(
 				'name'  => 'divi/select',
 				'type'  => 'field',
-				'props' => array(
-					'options' => array(
-						'div'    => array( 'label' => 'DIV' ),
-						'p'      => array( 'label' => 'P' ),
-						'span'   => array( 'label' => 'SPAN' ),
-						'strong' => array( 'label' => 'STRONG' ),
-						'h2'     => array( 'label' => 'H2' ),
-						'h3'     => array( 'label' => 'H3' ),
-						'h4'     => array( 'label' => 'H4' ),
-					),
-				),
+				'props' => array( 'options' => $tags ),
 			),
 		)
 	);

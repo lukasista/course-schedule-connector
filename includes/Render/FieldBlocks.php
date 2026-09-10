@@ -224,6 +224,10 @@ final class FieldBlocks {
 				// question from whether one is shown by default. The editor
 				// draws no heading settings for a field that has none.
 				'heads'   => Fields::heads( $field ),
+				// Whether the value of this field is itself a heading — the
+				// name of a course, the name of a trainer — so the editor can
+				// call its element and its typography what they are.
+				'headline' => (bool) $field['headline'],
 				'heading' => (bool) $field['heading'],
 				'image'   => (bool) $field['image'],
 				'bullets' => (bool) $field['bullets'],

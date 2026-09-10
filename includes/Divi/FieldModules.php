@@ -206,6 +206,16 @@ final class FieldModules {
 				}
 			}
 
+			// The one label that depends on the field rather than the key. On a
+			// field that is itself a heading the value *is* the heading, and
+			// the panel says so — same wording the heading of every other field
+			// uses, so it is the same string and needs no translation of its
+			// own.
+			if ( ! empty( $field['headline'] ) && isset( $metadata['attributes']['field']['settings']['advanced']['valueTag'] ) ) {
+				$metadata['attributes']['field']['settings']['advanced']['valueTag']['item']['label'] =
+					__( 'Heading element', 'course-schedule-connector' );
+			}
+
 			$groups = self::group_labels();
 
 			foreach ( (array) $field['columns'] as $column ) {
