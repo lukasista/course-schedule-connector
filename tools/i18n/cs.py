@@ -643,6 +643,7 @@ JS_FIELDS = {
 "Heading element": "Prvek nadpisu",
 "After the heading": "Za nadpisem",
 "A colon, a dash — printed right after the heading. Useful side by side.": "Dvojtečka, pomlčka — vypíše se hned za nadpisem. Hodí se, když jsou vedle sebe.",
+"Value": "Hodnota",
 "Value element": "Prvek hodnoty",
 "Arrangement": "Rozvržení",
 "Heading above": "Nadpis nad",

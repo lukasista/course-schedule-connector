@@ -116,21 +116,31 @@ final class FieldModulesTest extends TestCase {
 	 * @return void
 	 */
 	public function test_the_heading_and_the_value_have_their_own_typography(): void {
-		foreach ( array_keys( Fields::all() ) as $name ) {
+		foreach ( Fields::all() as $name => $field ) {
 			$attributes = $this->read( 'divi/fields/' . $name . '/module.json' )['attributes'] ?? array();
+
+			$this->assertSame(
+				'{{selector}} .cscs-field__value',
+				$attributes['value']['selector'] ?? '',
+				$name
+			);
+			$this->assertArrayHasKey( 'font', $attributes['value']['settings']['decoration'] ?? array(), $name );
+
+			// A field with no heading has no attribute for one, and so no
+			// typography group either — the panel says nothing about a thing
+			// the page never prints.
+			if ( ! Fields::heads( $field ) ) {
+				$this->assertArrayNotHasKey( 'title', $attributes, $name );
+
+				continue;
+			}
 
 			$this->assertSame(
 				'{{selector}} .cscs-field__label',
 				$attributes['title']['selector'] ?? '',
 				$name
 			);
-			$this->assertSame(
-				'{{selector}} .cscs-field__value',
-				$attributes['value']['selector'] ?? '',
-				$name
-			);
 			$this->assertArrayHasKey( 'font', $attributes['title']['settings']['decoration'] ?? array(), $name );
-			$this->assertArrayHasKey( 'font', $attributes['value']['settings']['decoration'] ?? array(), $name );
 		}
 	}
 
@@ -176,6 +186,86 @@ final class FieldModulesTest extends TestCase {
 	}
 
 	/**
+	 * A field with no heading offers nothing that describes one.
+	 *
+	 * The name of a course is already a heading; a photograph and a sign-up
+	 * button are not things a heading sits above. For those the panel says
+	 * nothing about one — no switch, no wording, no element, no separator, and
+	 * no arrangement or gap, both of which are about where a heading sits.
+	 *
+	 * @return void
+	 */
+	public function test_a_field_with_no_heading_says_nothing_about_one(): void {
+		$headless = 0;
+
+		foreach ( Fields::all() as $name => $field ) {
+			if ( Fields::heads( $field ) ) {
+				continue;
+			}
+
+			++$headless;
+
+			$metadata = $this->read( 'divi/fields/' . $name . '/module.json' );
+			$content  = $metadata['attributes']['field']['settings']['advanced'] ?? array();
+			$defaults = $this->read( 'divi/fields/' . $name . '/module-default-render-attributes.json' );
+
+			foreach ( array( 'showLabel', 'label', 'labelTag', 'separator', 'gap' ) as $setting ) {
+				$this->assertArrayNotHasKey( $setting, $content, $name . ' ' . $setting );
+				$this->assertArrayNotHasKey(
+					$setting,
+					$defaults['field']['advanced'] ?? array(),
+					$name . ' ' . $setting
+				);
+			}
+
+			$this->assertArrayNotHasKey( 'designHeadingText', $metadata['settings']['groups'] ?? array(), $name );
+		}
+
+		// A guard that guards nothing is worse than none: it passes for ever
+		// the day the flag stops being read.
+		$this->assertSame( 6, $headless );
+	}
+
+	/**
+	 * A button has somewhere to write what the Button panel is told.
+	 *
+	 * The panel appeared, took every setting offered and saved none of them:
+	 * the page it was tried on carried no `button` key at all. Divi writes a
+	 * chosen value into the structure the defaults describe, and there was no
+	 * structure — the same trap the source field fell into, and the same fix.
+	 * Every module in Divi's own library that declares `elementType: button`
+	 * ships this default, without exception.
+	 *
+	 * @return void
+	 */
+	public function test_a_button_has_somewhere_to_write(): void {
+		$buttons = 0;
+
+		foreach ( Fields::all() as $name => $field ) {
+			if ( 'button' !== (string) ( $field['signup'] ?? '' ) ) {
+				continue;
+			}
+
+			++$buttons;
+
+			$defaults  = $this->read( 'divi/fields/' . $name . '/module-default-render-attributes.json' );
+			$attribute = $this->read( 'divi/fields/' . $name . '/module.json' )['attributes']['button'] ?? array();
+
+			$this->assertIsArray(
+				$defaults['button']['decoration']['button']['desktop']['value'] ?? null,
+				$name
+			);
+			$this->assertSame(
+				'body #page-container {{selector}} .cscs-button.et_pb_button',
+				$attribute['styleProps']['selector'] ?? '',
+				$name
+			);
+		}
+
+		$this->assertSame( 1, $buttons );
+	}
+
+	/**
 	 * Every styled element says what kind of element it is.
 	 *
 	 * Divi's builder decides from `elementType` which style components an
@@ -190,8 +280,11 @@ final class FieldModulesTest extends TestCase {
 		foreach ( Fields::all() as $name => $field ) {
 			$attributes = $this->read( 'divi/fields/' . $name . '/module.json' )['attributes'] ?? array();
 
-			$this->assertSame( 'heading', $attributes['title']['elementType'] ?? '', $name );
 			$this->assertSame( 'content', $attributes['value']['elementType'] ?? '', $name );
+
+			if ( Fields::heads( $field ) ) {
+				$this->assertSame( 'heading', $attributes['title']['elementType'] ?? '', $name );
+			}
 
 			if ( empty( $field['image'] ) ) {
 				continue;

@@ -15,34 +15,9 @@
                     "value": ""
                 }
             },
-            "showLabel": {
-                "desktop": {
-                    "value": "off"
-                }
-            },
-            "label": {
-                "desktop": {
-                    "value": ""
-                }
-            },
-            "labelTag": {
-                "desktop": {
-                    "value": "h3"
-                }
-            },
             "valueTag": {
                 "desktop": {
                     "value": "div"
-                }
-            },
-            "separator": {
-                "desktop": {
-                    "value": ""
-                }
-            },
-            "gap": {
-                "desktop": {
-                    "value": ""
                 }
             },
             "emptyText": {

@@ -66,14 +66,14 @@ final class Fields {
 	/**
 	 * Returns every field, keyed by the name its block and module carry.
 	 *
-	 * @return array<string, array{context: string, kind: string, title: string, label: string, icon: string, moduleIcon: string, columns: array<int, string>, description: string, heading: bool}>
+	 * @return array<string, array{context: string, kind: string, title: string, label: ?string, icon: string, moduleIcon: string, columns: array<int, string>, description: string, heading: bool}>
 	 */
 	public static function all(): array {
 		$course = array(
 			'name'    => array(
 				'kind'        => self::TEXT,
 				'title'       => __( 'Course name', 'course-schedule-connector' ),
-				'label'       => '',
+				'label'       => null,
 				'icon'        => 'editor-textcolor',
 				'moduleIcon'  => 'divi/module-post-title',
 				'description' => __( 'The name of the course, as a heading you can style.', 'course-schedule-connector' ),
@@ -181,7 +181,7 @@ final class Fields {
 			'button'  => array(
 				'kind'        => self::HTML,
 				'title'       => __( 'Sign-up button', 'course-schedule-connector' ),
-				'label'       => '',
+				'label'       => null,
 				'icon'        => 'external',
 				'moduleIcon'  => 'divi/module-button',
 				'description' => __( 'The way into iSport as a button, in your own words. It hides itself when the course is full or takes no bookings.', 'course-schedule-connector' ),
@@ -191,7 +191,7 @@ final class Fields {
 			'link'    => array(
 				'kind'        => self::HTML,
 				'title'       => __( 'Sign-up link', 'course-schedule-connector' ),
-				'label'       => '',
+				'label'       => null,
 				'icon'        => 'admin-links',
 				'moduleIcon'  => 'divi/module-link',
 				'description' => __( 'The same way into iSport, as a link in the text rather than a button.', 'course-schedule-connector' ),
@@ -201,7 +201,7 @@ final class Fields {
 			'image'   => array(
 				'kind'        => self::HTML,
 				'title'       => __( 'Course picture', 'course-schedule-connector' ),
-				'label'       => '',
+				'label'       => null,
 				'icon'        => 'format-image',
 				'moduleIcon'  => 'divi/module-image',
 				'description' => __( 'The featured image of the course.', 'course-schedule-connector' ),
@@ -263,7 +263,7 @@ final class Fields {
 			'name'           => array(
 				'kind'        => self::TEXT,
 				'title'       => __( 'Trainer name', 'course-schedule-connector' ),
-				'label'       => '',
+				'label'       => null,
 				'icon'        => 'editor-textcolor',
 				'moduleIcon'  => 'divi/module-heading',
 				'description' => __( 'The trainer’s name, as a heading you can style.', 'course-schedule-connector' ),
@@ -272,7 +272,7 @@ final class Fields {
 			'photo'          => array(
 				'kind'        => self::HTML,
 				'title'       => __( 'Photograph', 'course-schedule-connector' ),
-				'label'       => '',
+				'label'       => null,
 				'icon'        => 'format-image',
 				'moduleIcon'  => 'divi/module-team-member',
 				'description' => __( 'The trainer’s picture: your own where you set one, otherwise the one from iSport.', 'course-schedule-connector' ),
@@ -785,11 +785,44 @@ final class Fields {
 	 * @param array<string, mixed> $field Field definition.
 	 * @return array<string, string> Attribute name to the selector it styles.
 	 */
+	/**
+	 * Whether a field has a heading at all.
+	 *
+	 * Three answers live in one key, because the heading a field prints is its
+	 * label and nothing else. A label is the name of the field — *Price*,
+	 * *Trainer* — and it is printed above or beside the value. An empty label
+	 * is a field with no name of its own that will still take one somebody
+	 * types: a description is the obvious case, where *Description* over it is
+	 * a reasonable thing to want.
+	 *
+	 * And `null` is a field that is not that kind of thing. The name of a
+	 * course is already a heading; a photograph and a sign-up button are not
+	 * things a heading sits above. For those there is no heading, no setting
+	 * that mentions one, and no typography group for it — rather than a row of
+	 * controls that do nothing but take up the panel a designer is reading.
+	 *
+	 * @param array<string, mixed> $field Field definition.
+	 * @return bool
+	 */
+	public static function heads( array $field ): bool {
+		// Not `?? ''`. Null coalescing cannot tell a key holding null from a
+		// key that is not there, and null is the whole answer here — written
+		// the short way this returns true for every field, which is exactly how
+		// it read the first time.
+		if ( ! array_key_exists( 'label', $field ) ) {
+			return true;
+		}
+
+		return null !== $field['label'];
+	}
+
 	public static function style_elements( array $field ): array {
-		$elements = array(
-			'title' => '{{selector}} .cscs-field__label',
-			'value' => '{{selector}} .cscs-field__value',
-		);
+		$elements = self::heads( $field )
+			? array(
+				'title' => '{{selector}} .cscs-field__label',
+				'value' => '{{selector}} .cscs-field__value',
+			)
+			: array( 'value' => '{{selector}} .cscs-field__value' );
 
 		if ( ! empty( $field['image'] ) ) {
 			$elements['image'] = '{{selector}} .cscs-field__image';

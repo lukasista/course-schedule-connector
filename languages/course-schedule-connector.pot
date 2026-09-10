@@ -1913,7 +1913,7 @@ msgstr ""
 msgid "They appear struck through and labelled. Unticking hides them entirely."
 msgstr ""
 
-#: includes/Render/FieldRenderer.php:336
+#: includes/Render/FieldRenderer.php:346
 msgid "This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings."
 msgstr ""
 
@@ -2634,6 +2634,10 @@ msgstr ""
 
 #: blocks/fields/editor.js
 msgid "A colon, a dash — printed right after the heading. Useful side by side."
+msgstr ""
+
+#: blocks/fields/editor.js
+msgid "Value"
 msgstr ""
 
 #: blocks/fields/editor.js

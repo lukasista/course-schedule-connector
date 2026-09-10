@@ -110,33 +110,9 @@ final class FieldRenderer {
 				'type'    => 'number',
 				'default' => 0,
 			),
-			'showLabel'         => array(
-				'type'    => 'boolean',
-				'default' => (bool) ( $field['heading'] ?? false ),
-			),
-			'label'             => array(
-				'type'    => 'string',
-				'default' => '',
-			),
-			'labelTag'          => array(
-				'type'    => 'string',
-				'default' => 'h3',
-			),
 			'valueTag'          => array(
 				'type'    => 'string',
 				'default' => 'div',
-			),
-			'layout'            => array(
-				'type'    => 'string',
-				'default' => 'stack',
-			),
-			'separator'         => array(
-				'type'    => 'string',
-				'default' => '',
-			),
-			'gap'               => array(
-				'type'    => 'string',
-				'default' => '',
 			),
 			'listStyle'         => array(
 				'type'    => 'string',
@@ -159,6 +135,40 @@ final class FieldRenderer {
 				'default' => 0,
 			),
 		);
+
+		// Everything a heading needs, and only where there is one. A field
+		// whose label is `null` has no heading — so no switch to show one, no
+		// wording for it, no element to render it as, nothing to print after
+		// it, and no arrangement or gap, both of which describe where the
+		// heading sits relative to the value. A setting that cannot change
+		// anything is worse than a missing one: it is read, tried, and
+		// disbelieved.
+		if ( Fields::heads( $field ) ) {
+			$attributes['showLabel'] = array(
+				'type'    => 'boolean',
+				'default' => (bool) ( $field['heading'] ?? false ),
+			);
+			$attributes['label']     = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['labelTag']  = array(
+				'type'    => 'string',
+				'default' => 'h3',
+			);
+			$attributes['layout']    = array(
+				'type'    => 'string',
+				'default' => 'stack',
+			);
+			$attributes['separator'] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['gap']       = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+		}
 
 		if ( ! empty( $field['image'] ) ) {
 			// A field showing a picture is a different shape from one showing a
@@ -708,7 +718,10 @@ final class FieldRenderer {
 	 * @return string
 	 */
 	private static function label( array $field, array $attributes ): string {
-		if ( empty( $attributes['showLabel'] ) ) {
+		// The catalogue has the last word, not the stored attributes: a page
+		// saved while the field still offered a heading must not go on printing
+		// one after the field stopped being that kind of thing.
+		if ( ! Fields::heads( $field ) || empty( $attributes['showLabel'] ) ) {
 			return '';
 		}
 

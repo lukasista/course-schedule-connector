@@ -220,6 +220,10 @@ final class FieldBlocks {
 				'title'   => (string) $field['title'],
 				'label'   => (string) $field['label'],
 				'icon'    => (string) $field['icon'],
+				// Whether the field has a heading at all, which is a different
+				// question from whether one is shown by default. The editor
+				// draws no heading settings for a field that has none.
+				'heads'   => Fields::heads( $field ),
 				'heading' => (bool) $field['heading'],
 				'image'   => (bool) $field['image'],
 				'bullets' => (bool) $field['bullets'],

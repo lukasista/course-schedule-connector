@@ -363,6 +363,20 @@ The blocks cannot do it the same way. The heading and the value are one element 
 
 Custom properties with defaults in the stylesheet would have been tidier and are wrong: a rule like `.cscs-table a { color: var(--…) }` exists whether or not anybody set the property, and an unset custom property does not fall back to the theme's own rule. It falls back to nothing, and every link in every table loses the colour the theme gave it.
 
+### A field with no heading
+
+A heading is the field's label, and the label is the field's name — *Price*, *Trainer* — printed above or beside the value. `Fields::heads()` reads one key for three answers. A label with wording is a field that names itself. An empty label is a field with no name of its own that will still take one somebody types: a description is the obvious case, where *Description* over it is a reasonable thing to want. And `null` is a field that is not that kind of thing at all — the name of a course is already a heading, and a photograph and a sign-up button are not things a heading sits above.
+
+Six fields are `null`: a course's name, its picture, its sign-up button and its sign-up link, and a trainer's name and photograph. For those there is no heading in the markup and nothing about one in either editor — no switch, no wording, no element to render it as, nothing to print after it, and no arrangement or gap, both of which describe where a heading sits relative to a value. The typography group for it goes too, so the Design panel has one set of text settings rather than two, one of which could never reach anything.
+
+`Fields::heads()` does not use `??`. Null coalescing cannot tell a key holding `null` from a key that is not there, and `null` is the entire answer — written the short way the function returns true for every field, which is how it read the first time.
+
+Nothing is lost on a page saved before this. The catalogue has the last word in `label()`, so a stored `showLabel` cannot bring back a heading the field no longer has; and across every page and template on the site the heading had been switched on for none of the six, because it was off by default and there was never a reason to turn it on.
+
+### Why Divi's own Heading module cannot see the data
+
+It can see more than it looks like. A course's post title *is* the course name, and so is a kind page's — Divi's dynamic content offers **Post Title**, and on a theme builder template for a course that is the whole of what a heading module needs. What Divi cannot offer is any of the rest: all twenty-nine meta keys a course carries begin with an underscore, which makes them protected, and WordPress leaves protected meta out of the custom-field lists that dynamic content is built from. That is deliberate — this meta is synchronised from iSport and is not a custom field anybody should be editing by hand — and it is the reason these modules exist at all.
+
 ### The arrangement of a field
 
 Whether the heading sits above the value or beside it used to be a dropdown in the content panel with two answers in it, drawn by the plugin. It is Divi's own Layout group now, first in the Design tab: flex or grid, direction, alignment, wrapping and gaps, per breakpoint, and reachable by a layout preset — which is what "follow Divi" means and what two hard-coded arrangements never could.
@@ -384,6 +398,22 @@ Read off the style array by rendering a module server-side with a layout set. Th
 Confirmed by computed style in the browser, on the page's own stylesheet, against the declarations Divi actually emits: nothing set gives a flex column at the field's own gap; a flex row gives direction, `space-between`, `center` and wrapping; grid gives `display: grid` and two equal tracks at 16px and 8px; a heading margin set in the panel still wins at 12px; and a page saved with *side by side* still comes out a wrapped baseline row.
 
 Pages saved before this are unchanged — `field.advanced.layout` is still read and still puts `cscs-field--inline` on the field, which under Divi means `flex-direction: row`, overridden the moment the panel says otherwise. The blocks keep *Arrangement* as a setting: Gutenberg has no layout group to defer to.
+
+### A button needs somewhere to write
+
+The Button group appeared in the Design panel, offered everything a Divi button offers, took every setting given to it and saved none of them. Not one page or template on the site had a `button` key in any module it had been tried on.
+
+It is the trap the source field fell into, in a place nobody thought to look for it again: Divi writes a chosen value into the structure the defaults describe, and `module-default-render-attributes.json` had no `button` branch to write into. Every module in Divi's own library that declares `elementType: button` — Button, Call To Action, Contact Form, Signup, and the rest — ships exactly this default, and not one of them goes without it:
+
+```json
+"button": { "decoration": { "button": { "desktop": { "value": { "icon": { "enable": "on" } } } } } }
+```
+
+Ours is now the same, character for character, so the icon behaves as it does on a Divi button. `styleProps.selector` was added alongside it for the same reason — Divi's own buttons carry both.
+
+The rendering was never the problem, which is what made this hard to see. Handed the values directly, the module emits all of them correctly, at `body #page-container .cscs_divi_field_course_button_0 .cscs-button.et_pb_button`: background, font colour and size, padding, width, all four corner radii, border width, colour and style, and the shadow. The earlier check that pronounced this working read that stylesheet and never opened the panel — the CSS was right and the panel could not reach it.
+
+Two shapes worth writing down, because guessing them wrong looks exactly like a broken module. A border radius is four corners and a `sync` flag, not `all`. And a font is nested one level deeper than everything else — `font.font.desktop.value`, where background is `background.desktop.value`.
 
 ### Making the builder show the design
 

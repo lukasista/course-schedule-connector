@@ -1923,7 +1923,7 @@ msgstr "Tyhle se zobrazí bez ohledu na filtry výše. Právě takhle se dá dá
 msgid "They appear struck through and labelled. Unticking hides them entirely."
 msgstr "Zobrazí se přeškrtnuté a označené. Odškrtnutím je skryjete úplně."
 
-#: includes/Render/FieldRenderer.php:336
+#: includes/Render/FieldRenderer.php:346
 msgid "This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings."
 msgstr "Tenhle blok zobrazuje pole kurzu nebo trenéra a tahle stránka není ani jedno. Vyberte je v nastavení bloku."
 
@@ -2646,6 +2646,10 @@ msgstr "Jak tohle pole pojmenovat."
 #: blocks/fields/editor.js
 msgid "A colon, a dash — printed right after the heading. Useful side by side."
 msgstr "Dvojtečka, pomlčka — vypíše se hned za nadpisem. Hodí se, když jsou vedle sebe."
+
+#: blocks/fields/editor.js
+msgid "Value"
+msgstr "Hodnota"
 
 #: blocks/fields/editor.js
 msgid "Left empty, the block disappears rather than printing a heading over a blank space."

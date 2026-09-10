@@ -660,6 +660,11 @@
 
 		blocks.registerBlockType( field.name, {
 			edit: function ( props ) {
+				// A field whose label is null has no heading at all — the name
+				// of a course is already one, and a photograph and a button are
+				// not things a heading sits above. None of the settings that
+				// describe one are drawn for those.
+				var heads = false !== field.heads;
 				var palette = useThemeSetting( 'color.palette' );
 				var families = useThemeSetting( 'typography.fontFamilies' );
 				var blockProps = blockEditor.useBlockProps();
@@ -690,16 +695,23 @@
 					{ group: 'styles' },
 					el(
 						components.PanelBody,
-						{ title: __( 'Heading and layout', 'course-schedule-connector' ), initialOpen: false },
-						el( components.ToggleControl, {
-							label: __( 'Show a heading', 'course-schedule-connector' ),
-							checked: !! props.attributes.showLabel,
-							__nextHasNoMarginBottom: true,
-							onChange: function ( value ) {
-								props.setAttributes( { showLabel: value } );
-							},
-						} ),
-						props.attributes.showLabel
+						{
+							title: heads
+								? __( 'Heading and layout', 'course-schedule-connector' )
+								: __( 'Value', 'course-schedule-connector' ),
+							initialOpen: false,
+						},
+						heads
+							? el( components.ToggleControl, {
+									label: __( 'Show a heading', 'course-schedule-connector' ),
+									checked: !! props.attributes.showLabel,
+									__nextHasNoMarginBottom: true,
+									onChange: function ( value ) {
+										props.setAttributes( { showLabel: value } );
+									},
+							  } )
+							: null,
+						heads && props.attributes.showLabel
 							? text(
 									props,
 									'label',
@@ -713,10 +725,10 @@
 										: __( 'What to call this field.', 'course-schedule-connector' )
 							  )
 							: null,
-						props.attributes.showLabel
+						heads && props.attributes.showLabel
 							? select( props, 'labelTag', __( 'Heading element', 'course-schedule-connector' ), TAGS )
 							: null,
-						props.attributes.showLabel
+						heads && props.attributes.showLabel
 							? text(
 									props,
 									'separator',
@@ -725,16 +737,20 @@
 							  )
 							: null,
 						select( props, 'valueTag', __( 'Value element', 'course-schedule-connector' ), TAGS ),
-						select( props, 'layout', __( 'Arrangement', 'course-schedule-connector' ), [
-							{ label: __( 'Heading above', 'course-schedule-connector' ), value: 'stack' },
-							{ label: __( 'Side by side', 'course-schedule-connector' ), value: 'inline' },
-						] ),
-						text(
-							props,
-							'gap',
-							__( 'Gap', 'course-schedule-connector' ),
-							__( 'Between the heading and the value.', 'course-schedule-connector' )
-						),
+						heads
+							? select( props, 'layout', __( 'Arrangement', 'course-schedule-connector' ), [
+									{ label: __( 'Heading above', 'course-schedule-connector' ), value: 'stack' },
+									{ label: __( 'Side by side', 'course-schedule-connector' ), value: 'inline' },
+							  ] )
+							: null,
+						heads
+							? text(
+									props,
+									'gap',
+									__( 'Gap', 'course-schedule-connector' ),
+									__( 'Between the heading and the value.', 'course-schedule-connector' )
+							  )
+							: null,
 						'list' === field.kind
 							? select( props, 'listStyle', __( 'Bullets', 'course-schedule-connector' ), [
 									{ label: __( 'Round', 'course-schedule-connector' ), value: 'disc' },
@@ -745,13 +761,15 @@
 							  ] )
 							: null,
 					),
-					elementPanel(
-						props,
-						'label',
-						__( 'Heading text', 'course-schedule-connector' ),
-						palette,
-						families
-					),
+					heads
+						? elementPanel(
+								props,
+								'label',
+								__( 'Heading text', 'course-schedule-connector' ),
+								palette,
+								families
+						  )
+						: null,
 					elementPanel(
 						props,
 						'value',

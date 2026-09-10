@@ -148,7 +148,13 @@ function module_metadata( string $name, array $field ): array {
 			array_merge(
 				array(
 					'module' => module_attribute( ! empty( $field['image'] ) ),
-					'title'  => element_attribute( '{{selector}} .cscs-field__label', 'title', 'designHeadingText', 'Heading', 'heading' ),
+					// No heading, no attribute for one. The order matters as
+					// well as the presence: a test holds the styled attributes
+					// against `Fields::style_elements()`, which answers the
+					// same question in the same order.
+					'title'  => \CSCS\Render\Fields::heads( $field )
+						? element_attribute( '{{selector}} .cscs-field__label', 'title', 'designHeadingText', 'Heading', 'heading' )
+						: array(),
 					'value'  => element_attribute( '{{selector}} .cscs-field__value', 'value', 'designValueText', 'Value', 'content' ),
 					'image'  => empty( $field['image'] ) ? array() : image_attribute(),
 				),
@@ -259,7 +265,7 @@ function module_metadata( string $name, array $field ): array {
 				// both typography groups come out called "Module Text", and a
 				// panel with two identically named groups in it is a panel
 				// nobody can use.
-				'designHeadingText' => array(
+				'designHeadingText' => ! \CSCS\Render\Fields::heads( $field ) ? null : array(
 					'panel'         => 'design',
 					'priority'      => 20,
 					'groupName'     => 'headingText',
@@ -515,11 +521,20 @@ function signup_attributes( array $field ): array {
 	$shape = (string) ( $field['signup'] ?? '' );
 
 	if ( 'button' === $shape ) {
+		$selector = 'body #page-container {{selector}} .cscs-button.et_pb_button';
+
 		return array(
 			'button' => array(
 				'type'        => 'object',
-				'selector'    => 'body #page-container {{selector}} .cscs-button.et_pb_button',
+				'selector'    => $selector,
 				'elementType' => 'button',
+				// Said twice, as Divi says it twice on its own buttons: the
+				// selector places the element, the style props place the CSS.
+				// Verified emitted at
+				// `body #page-container .cscs_divi_field_course_button_0
+				// .cscs-button.et_pb_button` — background, font, spacing,
+				// sizing, all four radii, border and shadow together.
+				'styleProps'  => array( 'selector' => $selector ),
 				'settings'    => array(
 					'decoration' => array(
 						'background' => array(),
@@ -778,6 +793,13 @@ function field_attribute( array $field ): array {
 		$priority += 10;
 	};
 
+	// Every setting here describes a heading — whether to show one, what it
+	// says, what element it is, what follows it, and how far it sits from the
+	// value. A field with no heading gets none of them: a control that cannot
+	// change anything is read, tried and disbelieved, and the panel it sits in
+	// is one somebody is trying to work in.
+	$heads = \CSCS\Render\Fields::heads( $field );
+
 	$add(
 		'source',
 		array(
@@ -791,55 +813,57 @@ function field_attribute( array $field ): array {
 		)
 	);
 
-	$add(
-		'showLabel',
-		array(
-			'label'       => 'Show a heading',
-			'description' => 'Whether the field prints its name above or beside the value.',
-			'component'   => array(
-				'name' => 'divi/toggle',
-				'type' => 'field',
-			),
-		)
-	);
+	if ( $heads ) {
+		$add(
+			'showLabel',
+			array(
+				'label'       => 'Show a heading',
+				'description' => 'Whether the field prints its name above or beside the value.',
+				'component'   => array(
+					'name' => 'divi/toggle',
+					'type' => 'field',
+				),
+			)
+		);
 
-	$add(
-		'label',
-		array(
-			'label'       => 'Heading',
-			'description' => 'What to call this field. Empty means the name it comes with.',
-			'component'   => array(
-				'name' => 'divi/text',
-				'type' => 'field',
-			),
-		)
-	);
+		$add(
+			'label',
+			array(
+				'label'       => 'Heading',
+				'description' => 'What to call this field. Empty means the name it comes with.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			)
+		);
 
-	$add(
-		'labelTag',
-		array(
-			'label'       => 'Heading element',
-			'description' => 'Which HTML element the heading is.',
-			'component'   => array(
-				'name'  => 'divi/select',
-				'type'  => 'field',
-				'props' => array(
-					'options' => array(
-						'h1'     => array( 'label' => 'H1' ),
-						'h2'     => array( 'label' => 'H2' ),
-						'h3'     => array( 'label' => 'H3' ),
-						'h4'     => array( 'label' => 'H4' ),
-						'h5'     => array( 'label' => 'H5' ),
-						'h6'     => array( 'label' => 'H6' ),
-						'p'      => array( 'label' => 'P' ),
-						'div'    => array( 'label' => 'DIV' ),
-						'span'   => array( 'label' => 'SPAN' ),
-						'strong' => array( 'label' => 'STRONG' ),
+		$add(
+			'labelTag',
+			array(
+				'label'       => 'Heading element',
+				'description' => 'Which HTML element the heading is.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array(
+						'options' => array(
+							'h1'     => array( 'label' => 'H1' ),
+							'h2'     => array( 'label' => 'H2' ),
+							'h3'     => array( 'label' => 'H3' ),
+							'h4'     => array( 'label' => 'H4' ),
+							'h5'     => array( 'label' => 'H5' ),
+							'h6'     => array( 'label' => 'H6' ),
+							'p'      => array( 'label' => 'P' ),
+							'div'    => array( 'label' => 'DIV' ),
+							'span'   => array( 'label' => 'SPAN' ),
+							'strong' => array( 'label' => 'STRONG' ),
+						),
 					),
 				),
-			),
-		)
-	);
+			)
+		);
+	}
 
 	$add(
 		'valueTag',
@@ -864,29 +888,31 @@ function field_attribute( array $field ): array {
 		)
 	);
 
-	$add(
-		'separator',
-		array(
-			'label'       => 'After the heading',
-			'description' => 'A colon, a dash — printed right after the heading.',
-			'component'   => array(
-				'name' => 'divi/text',
-				'type' => 'field',
-			),
-		)
-	);
+	if ( $heads ) {
+		$add(
+			'separator',
+			array(
+				'label'       => 'After the heading',
+				'description' => 'A colon, a dash — printed right after the heading.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			)
+		);
 
-	$add(
-		'gap',
-		array(
-			'label'       => 'Gap',
-			'description' => 'Between the heading and the value.',
-			'component'   => array(
-				'name' => 'divi/text',
-				'type' => 'field',
-			),
-		)
-	);
+		$add(
+			'gap',
+			array(
+				'label'       => 'Gap',
+				'description' => 'Between the heading and the value.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			)
+		);
+	}
 
 	if ( ! empty( $field['bullets'] ) ) {
 		$add(
@@ -1169,14 +1195,22 @@ function field_attribute( array $field ): array {
 function module_defaults( array $field ): array {
 	$advanced = array(
 		'source'    => '',
-		'showLabel' => $field['heading'] ? 'on' : 'off',
-		'label'     => '',
-		'labelTag'  => 'h3',
 		'valueTag'  => 'div',
-		'separator' => '',
-		'gap'       => '',
 		'emptyText' => '',
 	);
+
+	if ( \CSCS\Render\Fields::heads( $field ) ) {
+		$advanced = array(
+			'source'    => '',
+			'showLabel' => $field['heading'] ? 'on' : 'off',
+			'label'     => '',
+			'labelTag'  => 'h3',
+			'valueTag'  => 'div',
+			'separator' => '',
+			'gap'       => '',
+			'emptyText' => '',
+		);
+	}
 
 	if ( 'list' === $field['kind'] ) {
 		$advanced['listStyle'] = 'disc';
@@ -1218,6 +1252,26 @@ function module_defaults( array $field ): array {
 		),
 		'field'  => array( 'advanced' => array() ),
 	);
+
+	// The Button panel needs somewhere to write. Every module in Divi's own
+	// library that declares `elementType: button` ships this default and not
+	// one of them goes without it — which is the whole of the evidence, and
+	// enough of it: the panel appeared, took settings, and saved none of them,
+	// and the page this was tested on had no `button` key in any of the modules
+	// it had been tried on. It is the same trap the source field fell into and
+	// the same fix. The value is Divi's, character for character, so the icon
+	// behaves the way it does on a Divi button.
+	if ( 'button' === (string) ( $field['signup'] ?? '' ) ) {
+		$defaults['button'] = array(
+			'decoration' => array(
+				'button' => array(
+					'desktop' => array(
+						'value' => array( 'icon' => array( 'enable' => 'on' ) ),
+					),
+				),
+			),
+		);
+	}
 
 	foreach ( $advanced as $key => $value ) {
 		$defaults['field']['advanced'][ $key ] = array(
