@@ -216,6 +216,20 @@ final class FieldModules {
 					__( 'Heading element', 'course-schedule-connector' );
 			}
 
+			// One label per column, and the column's own name is it: the
+			// setting is that column's place in the table.
+			foreach ( (array) $field['columns'] as $column ) {
+				$key = Fields::column_order_attribute( (string) $column );
+
+				if ( ! isset( $metadata['attributes']['field']['settings']['advanced'][ $key ] ) ) {
+					continue;
+				}
+
+				$metadata['attributes']['field']['settings']['advanced'][ $key ]['item']['label']       = Fields::column_label( (string) $column );
+				$metadata['attributes']['field']['settings']['advanced'][ $key ]['item']['description'] =
+					__( 'Where this column sits, counting from one. Nought leaves it out.', 'course-schedule-connector' );
+			}
+
 			$groups = self::group_labels();
 
 			foreach ( (array) $field['columns'] as $column ) {
@@ -419,6 +433,7 @@ final class FieldModules {
 	 */
 	private static function group_labels(): array {
 		return array(
+			'contentColumns'     => __( 'Columns', 'course-schedule-connector' ),
 			'designLayout'       => __( 'Layout', 'course-schedule-connector' ),
 			'designHeadingText'  => __( 'Heading text', 'course-schedule-connector' ),
 			'designValueText'    => __( 'Value text', 'course-schedule-connector' ),

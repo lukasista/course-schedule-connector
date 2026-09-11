@@ -505,6 +505,28 @@
 	 * @param {Object} props Block props.
 	 * @return {Object} The panel.
 	 */
+	/**
+	 * Builds the panel that says where each column of a table sits.
+	 *
+	 * @param {Object} props   Block props.
+	 * @param {Array}  columns The field's columns.
+	 * @return {Object} The panel.
+	 */
+	function columnsPanel( props, columns ) {
+		return el(
+			components.PanelBody,
+			{ title: __( 'Columns', 'course-schedule-connector' ), initialOpen: false },
+			columns.map( function ( column ) {
+				return text(
+					props,
+					column.order,
+					column.label,
+					__( 'Where this column sits, counting from one. Nought leaves it out.', 'course-schedule-connector' )
+				);
+			} )
+		);
+	}
+
 	function coursesPanel( props, detail ) {
 		return el(
 			components.PanelBody,
@@ -695,6 +717,7 @@
 						blockEditor.InspectorControls,
 						{},
 						sourcePanel( props, postType ),
+						( field.columns || [] ).length ? columnsPanel( props, field.columns ) : null,
 						field.filters ? coursesPanel( props, detail ) : null,
 						field.signup ? linkPanel( props ) : null,
 						field.image ? picturePanel( props ) : null,

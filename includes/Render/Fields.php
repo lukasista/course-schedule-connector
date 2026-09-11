@@ -578,10 +578,10 @@ final class Fields {
 				return array( 'html' => self::contact( $detail ) );
 
 			case 'schedule':
-				return array( 'html' => self::table( $detail->schedule() ) );
+				return array( 'html' => self::table( $detail->schedule( $settings ) ) );
 
 			case 'makeup':
-				return array( 'html' => self::table( $detail->makeup() ) );
+				return array( 'html' => self::table( $detail->makeup( $settings ) ) );
 		}
 
 		return array();
@@ -647,7 +647,7 @@ final class Fields {
 				return array( 'html' => self::written_text( $post ) );
 
 			case 'courses':
-				return array( 'html' => self::table( $detail->course_listing() ) );
+				return array( 'html' => self::table( $detail->course_listing( $settings ) ) );
 		}
 
 		return array();
@@ -767,6 +767,77 @@ final class Fields {
 			'detail'   => __( 'Details', 'course-schedule-connector' ),
 			'button'   => __( 'Booking button', 'course-schedule-connector' ),
 		);
+	}
+
+	/**
+	 * Returns the setting name a column's place in the table lives under.
+	 *
+	 * @param string $column Column key.
+	 * @return string
+	 */
+	public static function column_order_attribute( string $column ): string {
+		return 'order' . ucfirst( (string) preg_replace( '/[^a-z0-9]/', '', strtolower( $column ) ) );
+	}
+
+	/**
+	 * Returns a table's columns in the order the settings ask for.
+	 *
+	 * Every column has a place, counting from one, and the catalogue's own
+	 * order is what those places start as — so a table nobody has rearranged
+	 * comes out exactly as it did before this existed. A place of nought leaves
+	 * the column out altogether, which is the same answer as "do not show it"
+	 * and one control rather than two.
+	 *
+	 * Two columns asking for the same place keep the order the catalogue gave
+	 * them, so a half-finished rearrangement is still a table rather than a
+	 * shuffle. And a set of numbers that hides every column is refused: an
+	 * empty table looks like a broken plugin, not like a choice.
+	 *
+	 * @param string               $name     Field name.
+	 * @param array<string, mixed> $settings Block or module settings.
+	 * @return array<int, string>
+	 */
+	public static function ordered_columns( string $name, array $settings = array() ): array {
+		$field   = self::get( $name );
+		$columns = array_values( (array) ( $field['columns'] ?? array() ) );
+
+		if ( array() === $columns || array() === $settings ) {
+			return $columns;
+		}
+
+		$ranked = array();
+
+		foreach ( $columns as $index => $column ) {
+			$asked = trim( (string) ( $settings[ self::column_order_attribute( (string) $column ) ] ?? '' ) );
+
+			// Only a whole number is an answer. Anything else — a decimal, a
+			// word, a stray space — leaves the column where the catalogue put
+			// it, rather than being read as nought and quietly taking it out of
+			// the table: "0.5" to mean "first" is a reasonable thing to try, and
+			// losing a column for it is not a reasonable thing to get.
+			$place = ctype_digit( $asked ) ? (int) $asked : $index + 1;
+
+			if ( 0 === $place ) {
+				continue;
+			}
+
+			$ranked[] = array(
+				'column' => (string) $column,
+				'place'  => $place,
+				'index'  => $index,
+			);
+		}
+
+		usort(
+			$ranked,
+			static function ( array $a, array $b ): int {
+				return $a['place'] === $b['place'] ? $a['index'] <=> $b['index'] : $a['place'] <=> $b['place'];
+			}
+		);
+
+		$kept = array_column( $ranked, 'column' );
+
+		return array() === $kept ? $columns : $kept;
 	}
 
 	/**

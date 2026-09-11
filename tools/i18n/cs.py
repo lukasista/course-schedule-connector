@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 CS = {
+"Where this column sits, counting from one. Nought leaves it out.": "Kolikátý je tenhle sloupec, počítáno od jedné. Nula ho vynechá.",
 "Details": "Detaily",
 "Wording of the details link": "Text odkazu na detail",
 "What the column is called and what each link says. Left empty, the name the column comes with.": "Jak se sloupec jmenuje a co říká každý odkaz. Když necháte prázdné, název, se kterým sloupec přichází.",
@@ -590,6 +591,8 @@ JS_DIVI = {
 
 
 JS_FIELDS = {
+"Where this column sits, counting from one. Nought leaves it out.": "Kolikátý je tenhle sloupec, počítáno od jedné. Nula ho vynechá.",
+"Columns": "Sloupce",
 "Wording of the details link": "Text odkazu na detail",
 "What the column is called and what each link says. Left empty, the name the column comes with.": "Jak se sloupec jmenuje a co říká každý odkaz. Když necháte prázdné, název, se kterým sloupec přichází.",
 "Details": "Detaily",
@@ -709,6 +712,8 @@ JS_FIELDS = {
 }
 
 JS_DIVI_FIELDS = {
+"Where this column sits, counting from one. Nought leaves it out.": "Kolikátý je tenhle sloupec, počítáno od jedné. Nula ho vynechá.",
+"Columns": "Sloupce",
 "Wording of the details link": "Text odkazu na detail",
 "Details": "Detaily",
 "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the module settings.": "Zatím není co zobrazit. Na stránce kurzu nebo trenéra se to doplní samo; jinde je vyberte v nastavení modulu.",

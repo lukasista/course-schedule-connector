@@ -917,13 +917,189 @@
                             }
                         }
                     },
+                    "orderDay": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderDay",
+                            "category": "configuration",
+                            "priority": 80,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Day",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderHours": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderHours",
+                            "category": "configuration",
+                            "priority": 90,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Time from and to",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderAge": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderAge",
+                            "category": "configuration",
+                            "priority": 100,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Age",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderGender": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderGender",
+                            "category": "configuration",
+                            "priority": 110,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Gender",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderLevel": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderLevel",
+                            "category": "configuration",
+                            "priority": 120,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Level",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderPlaces": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderPlaces",
+                            "category": "configuration",
+                            "priority": 130,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Places left",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderDetail": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderDetail",
+                            "category": "configuration",
+                            "priority": 140,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Details",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderButton": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderButton",
+                            "category": "configuration",
+                            "priority": 150,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Booking button",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
                     "detailText": {
                         "groupType": "group-item",
                         "item": {
                             "groupSlug": "contentCourses",
                             "attrName": "field.advanced.detailText",
                             "category": "configuration",
-                            "priority": 80,
+                            "priority": 160,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -945,7 +1121,7 @@
                             "groupSlug": "contentCourses",
                             "attrName": "field.advanced.filterGenders",
                             "category": "configuration",
-                            "priority": 90,
+                            "priority": 170,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -970,7 +1146,7 @@
                             "groupSlug": "contentCourses",
                             "attrName": "field.advanced.filterLevels",
                             "category": "configuration",
-                            "priority": 100,
+                            "priority": 180,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -995,7 +1171,7 @@
                             "groupSlug": "contentCourses",
                             "attrName": "field.advanced.filterAgeMin",
                             "category": "configuration",
-                            "priority": 110,
+                            "priority": 190,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -1017,7 +1193,7 @@
                             "groupSlug": "contentCourses",
                             "attrName": "field.advanced.filterAgeMax",
                             "category": "configuration",
-                            "priority": 120,
+                            "priority": 200,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -1039,7 +1215,7 @@
                             "groupSlug": "contentCourses",
                             "attrName": "field.advanced.filterSort",
                             "category": "configuration",
-                            "priority": 130,
+                            "priority": 210,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -1080,7 +1256,7 @@
                             "groupSlug": "contentCourses",
                             "attrName": "field.advanced.filterOrder",
                             "category": "configuration",
-                            "priority": 140,
+                            "priority": 220,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -1112,7 +1288,7 @@
                             "groupSlug": "contentCourses",
                             "attrName": "field.advanced.filterLimit",
                             "category": "configuration",
-                            "priority": 150,
+                            "priority": 230,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -1134,7 +1310,7 @@
                             "groupSlug": "content",
                             "attrName": "field.advanced.emptyText",
                             "category": "configuration",
-                            "priority": 160,
+                            "priority": 240,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -1170,6 +1346,17 @@
                     "name": "divi/composite",
                     "props": {
                         "groupLabel": "iSport"
+                    }
+                }
+            },
+            "contentColumns": {
+                "panel": "content",
+                "priority": 25,
+                "groupName": "columns",
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Columns"
                     }
                 }
             },

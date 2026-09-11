@@ -55,6 +55,46 @@
                     "value": ""
                 }
             },
+            "orderDay": {
+                "desktop": {
+                    "value": "1"
+                }
+            },
+            "orderHours": {
+                "desktop": {
+                    "value": "2"
+                }
+            },
+            "orderAge": {
+                "desktop": {
+                    "value": "3"
+                }
+            },
+            "orderGender": {
+                "desktop": {
+                    "value": "4"
+                }
+            },
+            "orderLevel": {
+                "desktop": {
+                    "value": "5"
+                }
+            },
+            "orderPlaces": {
+                "desktop": {
+                    "value": "6"
+                }
+            },
+            "orderDetail": {
+                "desktop": {
+                    "value": "7"
+                }
+            },
+            "orderButton": {
+                "desktop": {
+                    "value": "8"
+                }
+            },
             "filterGenders": {
                 "desktop": {
                     "value": ""

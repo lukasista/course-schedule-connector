@@ -95,6 +95,7 @@ final class KindDetail {
 	public function course_listing( array $settings = array() ): ?Listing {
 		// Read before the merge below, which keeps only the keys that narrow
 		// the table and throws the rest away.
+		$asked   = $settings;
 		$wording = trim( (string) ( $settings['detailText'] ?? '' ) );
 
 		$settings = array_merge( $this->plugin->kinds()->filter( $this->post->ID ), self::asked( $settings ) );
@@ -125,7 +126,7 @@ final class KindDetail {
 		$set = DisplaySet::from_array(
 			array(
 				'type'    => DisplaySet::TYPE_COURSES,
-				'columns' => array( 'day', 'hours', 'age', 'gender', 'level', 'places', 'detail', 'button' ),
+				'columns' => Fields::ordered_columns( 'kind-courses', $asked ),
 				'labels'  => '' === $wording ? array() : array( 'detail' => $wording ),
 			)
 		);
@@ -176,6 +177,10 @@ final class KindDetail {
 	 * @return Listing|null
 	 */
 	public function price_listing( array $settings = array() ): ?Listing {
+		// Kept before the merge below, which keeps only the keys that narrow the
+		// table; the places of the columns are not among them.
+		$asked = $settings;
+
 		$settings = array_merge( $this->plugin->kinds()->filter( $this->post->ID ), self::asked( $settings ) );
 
 		$ids = $this->plugin->kinds()->courses( $this->post->ID );
@@ -276,7 +281,7 @@ final class KindDetail {
 		$set = DisplaySet::from_array(
 			array(
 				'type'    => DisplaySet::TYPE_COURSES,
-				'columns' => array( 'duration', 'price' ),
+				'columns' => Fields::ordered_columns( 'kind-prices', $asked ),
 			)
 		);
 

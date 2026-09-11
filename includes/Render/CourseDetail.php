@@ -303,10 +303,10 @@ final class CourseDetail {
 	 *
 	 * @return Listing|null
 	 */
-	public function schedule(): ?Listing {
+	public function schedule( array $settings = array() ): ?Listing {
 		$rows = ( new Query( $this->plugin ) )->course_schedule( (int) ( $this->course['course_id'] ?? 0 ) );
 
-		return $this->listing( $rows, array( 'date', 'time', 'room', 'trainer', 'state' ) );
+		return $this->listing( $rows, Fields::ordered_columns( 'course-schedule', $settings ) );
 	}
 
 	/**
@@ -318,10 +318,10 @@ final class CourseDetail {
 	 *
 	 * @return Listing|null
 	 */
-	public function makeup(): ?Listing {
+	public function makeup( array $settings = array() ): ?Listing {
 		$rows = ( new Query( $this->plugin ) )->course_makeup( (int) ( $this->course['course_id'] ?? 0 ) );
 
-		return $this->listing( $rows, array( 'date', 'time', 'room', 'trainer' ) );
+		return $this->listing( $rows, Fields::ordered_columns( 'course-makeup', $settings ) );
 	}
 
 	/**

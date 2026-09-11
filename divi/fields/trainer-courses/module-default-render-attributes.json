@@ -49,6 +49,36 @@
                 "desktop": {
                     "value": ""
                 }
+            },
+            "orderName": {
+                "desktop": {
+                    "value": "1"
+                }
+            },
+            "orderDay": {
+                "desktop": {
+                    "value": "2"
+                }
+            },
+            "orderHours": {
+                "desktop": {
+                    "value": "3"
+                }
+            },
+            "orderPeriod": {
+                "desktop": {
+                    "value": "4"
+                }
+            },
+            "orderPrice": {
+                "desktop": {
+                    "value": "5"
+                }
+            },
+            "orderPlaces": {
+                "desktop": {
+                    "value": "6"
+                }
             }
         }
     }

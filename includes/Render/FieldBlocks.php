@@ -209,6 +209,8 @@ final class FieldBlocks {
 					'key'       => (string) $column,
 					'label'     => Fields::column_label( (string) $column ),
 					'attribute' => Fields::column_attribute( (string) $column ),
+					// Where this column sits, which is a setting of its own.
+					'order'     => Fields::column_order_attribute( (string) $column ),
 				);
 			}
 

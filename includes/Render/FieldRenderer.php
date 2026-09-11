@@ -170,6 +170,15 @@ final class FieldRenderer {
 			);
 		}
 
+		// Where each column of a table sits, counting from one; nought leaves it
+		// out. The catalogue's order is what the places start as.
+		foreach ( array_values( (array) ( $field['columns'] ?? array() ) ) as $index => $column ) {
+			$attributes[ Fields::column_order_attribute( (string) $column ) ] = array(
+				'type'    => 'string',
+				'default' => (string) ( $index + 1 ),
+			);
+		}
+
 		// The wording of the way into a course, where the table offers one.
 		if ( in_array( 'detail', (array) ( $field['columns'] ?? array() ), true ) ) {
 			$attributes['detailText'] = array(

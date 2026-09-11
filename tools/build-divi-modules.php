@@ -202,6 +202,18 @@ function module_metadata( string $name, array $field ): array {
 						'props' => array( 'groupLabel' => 'Picture' ),
 					),
 				),
+				// Where the columns of a table sit. Its own group for the same
+				// reason the filters have one: the order of the columns and
+				// what the module is pointed at are two questions.
+				'contentColumns'    => array() === (array) ( $field['columns'] ?? array() ) ? null : array(
+					'panel'     => 'content',
+					'priority'  => 25,
+					'groupName' => 'columns',
+					'component' => array(
+						'name'  => 'divi/composite',
+						'props' => array( 'groupLabel' => 'Columns' ),
+					),
+				),
 				// Which of the courses under this heading to show. Its own
 				// group, because "what this module is pointed at" and "which of
 				// what it found to print" are two questions, and running them
@@ -1050,6 +1062,25 @@ function field_attribute( array $field ): array {
 		);
 	}
 
+	// Where each column sits. The catalogue's order is what the places start
+	// as, so a table nobody has rearranged comes out as it always did; nought
+	// leaves a column out, which is the same answer as "do not show it" and one
+	// control rather than two.
+	foreach ( (array) ( $field['columns'] ?? array() ) as $index => $column ) {
+		$add(
+			\CSCS\Render\Fields::column_order_attribute( (string) $column ),
+			array(
+				'label'       => \CSCS\Render\Fields::column_label( (string) $column ),
+				'description' => 'Where this column sits, counting from one. Nought leaves it out.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentColumns'
+		);
+	}
+
 	// The wording of the way into a course, for a table that offers one. It
 	// names the column and the link alike, because a column headed "Details"
 	// whose cells said something else would be two names for one thing.
@@ -1317,6 +1348,10 @@ function module_defaults( array $field ): array {
 
 	if ( in_array( 'detail', (array) ( $field['columns'] ?? array() ), true ) ) {
 		$advanced['detailText'] = '';
+	}
+
+	foreach ( array_values( (array) ( $field['columns'] ?? array() ) ) as $index => $column ) {
+		$advanced[ \CSCS\Render\Fields::column_order_attribute( (string) $column ) ] = (string) ( $index + 1 );
 	}
 
 	if ( ! empty( $field['filters'] ) ) {

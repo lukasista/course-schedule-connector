@@ -172,7 +172,7 @@ final class TrainerDetail {
 	 *
 	 * @return Listing|null
 	 */
-	public function course_listing(): ?Listing {
+	public function course_listing( array $settings = array() ): ?Listing {
 		$ids = array_map(
 			static function ( array $course ): int {
 				return $course['id'];
@@ -206,8 +206,8 @@ final class TrainerDetail {
 				'type'    => \CSCS\Data\DisplaySet::TYPE_COURSES,
 				// Day and time apart, the way the course's own page says them:
 				// "Po 15:30" is two facts in the one shape nobody can read a
-				// timetable out of.
-				'columns' => array( 'name', 'day', 'hours', 'period', 'price', 'places' ),
+				// timetable out of. In whatever order the module asks for.
+				'columns' => Fields::ordered_columns( 'trainer-courses', $settings ),
 			)
 		);
 

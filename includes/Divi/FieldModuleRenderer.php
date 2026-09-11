@@ -157,7 +157,14 @@ final class FieldModuleRenderer {
 			return (string) $value;
 		};
 
-		return array(
+		$columns = array();
+
+		foreach ( (array) ( Fields::get( $name )['columns'] ?? array() ) as $column ) {
+			$key             = Fields::column_order_attribute( (string) $column );
+			$columns[ $key ] = $read( $key );
+		}
+
+		return $columns + array(
 			'postId'          => (int) $read( 'source', '0' ),
 			'showLabel'       => 'on' === $read( 'showLabel', 'off' ),
 			'label'           => $read( 'label' ),

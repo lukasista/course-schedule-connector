@@ -79,7 +79,7 @@ msgstr ""
 msgid "%s (copy)"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:346
+#: includes/Divi/FieldModules.php:360
 msgid "A button carries the plugin's own button look; a plain link carries none. Colour, background, spacing and border are available to both either way."
 msgstr ""
 
@@ -95,7 +95,7 @@ msgstr ""
 msgid "A class you can attend instead of one you missed."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:305
+#: includes/Divi/FieldModules.php:319
 msgid "A colon, a dash — printed right after the heading."
 msgstr ""
 
@@ -127,7 +127,7 @@ msgstr ""
 msgid "A make-up slot usually repeats: the same name, the same weekday, the same hour, the same room. Where you have already assigned one of a series, the others can be assigned like it in one press, and each row offers the same button on its own. Where two occurrences of one series were assigned to two different courses, nothing is offered — the series is not a series. The trainer is not part of the comparison, because the timetable fills it in some weeks and leaves it blank others; it is on screen for you to weigh."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:408
+#: includes/Divi/FieldModules.php:422
 msgid "A new window is a surprise, so it is off unless somebody asks for it."
 msgstr ""
 
@@ -190,7 +190,7 @@ msgstr ""
 msgid "Add trainer"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:403
+#: includes/Divi/FieldModules.php:417
 msgid "Address"
 msgstr ""
 
@@ -208,7 +208,7 @@ msgctxt "level of a course for girls or women"
 msgid "Advanced"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:304
+#: includes/Divi/FieldModules.php:318
 msgid "After the heading"
 msgstr ""
 
@@ -222,11 +222,11 @@ msgstr ""
 msgid "Age"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:337
+#: includes/Divi/FieldModules.php:351
 msgid "Age from"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:341
+#: includes/Divi/FieldModules.php:355
 msgid "Age to"
 msgstr ""
 
@@ -242,7 +242,7 @@ msgstr ""
 msgid "Also read from the course name — \"9-11 let\", \"od 10 let\". Fill either box in to overrule the reading; leave the second empty for a course with no upper age. Empty both to go back to reading the name."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:389
+#: includes/Divi/FieldModules.php:403
 msgid "Alternative text"
 msgstr ""
 
@@ -254,7 +254,7 @@ msgstr ""
 msgid "Always shown"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:399
+#: includes/Divi/FieldModules.php:413
 msgid "An address of your own"
 msgstr ""
 
@@ -269,13 +269,13 @@ msgid "As the settings say"
 msgstr ""
 
 #: includes/Admin/KindEditor.php:370
-#: includes/Divi/FieldModules.php:360
+#: includes/Divi/FieldModules.php:374
 msgid "As they are filed"
 msgstr ""
 
 #: includes/Admin/KindEditor.php:347
 #: includes/Admin/Screen/DisplaySetsPage.php:320
-#: includes/Divi/FieldModules.php:371
+#: includes/Divi/FieldModules.php:385
 msgid "Ascending"
 msgstr ""
 
@@ -304,7 +304,7 @@ msgid "Assignment undone. The occurrence is unassigned again."
 msgstr ""
 
 #: includes/Admin/KindEditor.php:353
-#: includes/Divi/FieldModules.php:376
+#: includes/Divi/FieldModules.php:390
 msgid "At most"
 msgstr ""
 
@@ -313,11 +313,11 @@ msgid "At or below this many free places the listing says so. Zero switches the 
 msgstr ""
 
 #: includes/Admin/KindEditor.php:318
-#: includes/Divi/FieldModules.php:332
+#: includes/Divi/FieldModules.php:346
 msgid "At what level"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:428
+#: includes/Divi/FieldModules.php:443
 msgid "Banded row"
 msgstr ""
 
@@ -339,7 +339,7 @@ msgstr ""
 msgid "Belongs to"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:309
+#: includes/Divi/FieldModules.php:323
 msgid "Between the heading and the value."
 msgstr ""
 
@@ -379,11 +379,11 @@ msgstr ""
 msgid "Brought in from iSport and stored in the media library. To use another, set a featured image — it wins, and this one stays where it is."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:316
+#: includes/Divi/FieldModules.php:330
 msgid "Bullets"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:348
+#: includes/Divi/FieldModules.php:362
 msgid "Button"
 msgstr ""
 
@@ -468,12 +468,13 @@ msgstr ""
 msgid "Column"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:223
+#: includes/Divi/FieldModules.php:237
 msgid "Column: %s"
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:113
 #: includes/Admin/Screen/DisplaySetsPage.php:205
+#: includes/Divi/FieldModules.php:436
 msgid "Columns"
 msgstr ""
 
@@ -657,7 +658,7 @@ msgstr ""
 
 #: includes/Admin/KindEditor.php:348
 #: includes/Admin/Screen/DisplaySetsPage.php:321
-#: includes/Divi/FieldModules.php:372
+#: includes/Divi/FieldModules.php:386
 msgid "Descending"
 msgstr ""
 
@@ -741,7 +742,7 @@ msgid "Every course paired with this trainer, as a table."
 msgstr ""
 
 #: includes/Admin/KindEditor.php:321
-#: includes/Divi/FieldModules.php:334
+#: includes/Divi/FieldModules.php:348
 msgid "Every level"
 msgstr ""
 
@@ -750,7 +751,7 @@ msgid "Every qualification, in the order they were entered."
 msgstr ""
 
 #: includes/Admin/KindEditor.php:309
-#: includes/Divi/FieldModules.php:329
+#: includes/Divi/FieldModules.php:343
 msgid "Everybody"
 msgstr ""
 
@@ -828,7 +829,7 @@ msgstr ""
 msgid "Full"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:308
+#: includes/Divi/FieldModules.php:322
 msgid "Gap"
 msgstr ""
 
@@ -846,16 +847,16 @@ msgid "Girls"
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:344
-#: includes/Divi/FieldModules.php:292
+#: includes/Divi/FieldModules.php:306
 msgid "Heading"
 msgstr ""
 
 #: includes/Divi/FieldModules.php:216
-#: includes/Divi/FieldModules.php:296
+#: includes/Divi/FieldModules.php:310
 msgid "Heading element"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:423
+#: includes/Divi/FieldModules.php:438
 msgid "Heading text"
 msgstr ""
 
@@ -871,7 +872,7 @@ msgstr ""
 msgid "Hide them"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:320
+#: includes/Divi/FieldModules.php:334
 msgid "Hollow"
 msgstr ""
 
@@ -888,7 +889,7 @@ msgid "How many places are still free."
 msgstr ""
 
 #: includes/Admin/KindEditor.php:356
-#: includes/Divi/FieldModules.php:377
+#: includes/Divi/FieldModules.php:391
 msgid "How many rows to print. Empty or zero means all of them."
 msgstr ""
 
@@ -933,7 +934,7 @@ msgstr ""
 msgid "Items per page"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:397
+#: includes/Divi/FieldModules.php:411
 msgid "Its own page"
 msgstr ""
 
@@ -977,7 +978,7 @@ msgstr ""
 msgid "Last retrieved"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:422
+#: includes/Divi/FieldModules.php:437
 msgid "Layout"
 msgstr ""
 
@@ -993,23 +994,23 @@ msgstr ""
 msgid "Leaves out courses that finish below the floor or start above the ceiling. Either may be left empty."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:338
+#: includes/Divi/FieldModules.php:352
 msgid "Leaves out courses that finish below this age. Empty means no floor."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:342
+#: includes/Divi/FieldModules.php:356
 msgid "Leaves out courses that start above this age. Empty means no ceiling."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:333
+#: includes/Divi/FieldModules.php:347
 msgid "Left as it is, every level."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:328
+#: includes/Divi/FieldModules.php:342
 msgid "Left as it is, everybody. A course whose name says nothing about this is never shown by a setting that asks."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:358
+#: includes/Divi/FieldModules.php:372
 msgid "Left as it is, the order the courses are filed in."
 msgstr ""
 
@@ -1017,7 +1018,7 @@ msgstr ""
 msgid "Left empty, no heading is printed."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:381
+#: includes/Divi/FieldModules.php:395
 msgid "Left empty, the module disappears rather than printing a heading over a blank space."
 msgstr ""
 
@@ -1038,16 +1039,16 @@ msgstr ""
 msgid "Level"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:431
-#: includes/Divi/FieldModules.php:432
+#: includes/Divi/FieldModules.php:446
+#: includes/Divi/FieldModules.php:447
 msgid "Link"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:353
+#: includes/Divi/FieldModules.php:367
 msgid "Link text"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:393
+#: includes/Divi/FieldModules.php:407
 msgid "Links to"
 msgstr ""
 
@@ -1093,7 +1094,7 @@ msgstr ""
 #: includes/Admin/Screen/DisplaySetsPage.php:110
 #: includes/Admin/Screen/DisplaySetsPage.php:175
 #: includes/Admin/Screen/DisplaySetsPage.php:588
-#: includes/Divi/FieldModules.php:361
+#: includes/Divi/FieldModules.php:375
 msgid "Name"
 msgstr ""
 
@@ -1210,7 +1211,7 @@ msgstr ""
 msgid "No usable address of an iSport System installation is configured, so nothing is being retrieved."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:323
+#: includes/Divi/FieldModules.php:337
 msgid "None"
 msgstr ""
 
@@ -1274,7 +1275,7 @@ msgstr ""
 msgid "Nothing written yet"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:396
+#: includes/Divi/FieldModules.php:410
 msgid "Nowhere"
 msgstr ""
 
@@ -1282,7 +1283,7 @@ msgstr ""
 msgid "Number of classes"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:322
+#: includes/Divi/FieldModules.php:336
 msgid "Numbered"
 msgstr ""
 
@@ -1304,7 +1305,7 @@ msgstr ""
 msgid "One qualification to a line — a coaching licence, a course completed, a degree. They are printed in the order they are in here."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:407
+#: includes/Divi/FieldModules.php:421
 msgid "Open in a new window"
 msgstr ""
 
@@ -1326,7 +1327,7 @@ msgid "Order and size"
 msgstr ""
 
 #: includes/Admin/KindEditor.php:339
-#: includes/Divi/FieldModules.php:357
+#: includes/Divi/FieldModules.php:371
 msgid "Order by"
 msgstr ""
 
@@ -1373,12 +1374,12 @@ msgstr ""
 msgid "Photograph"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:430
+#: includes/Divi/FieldModules.php:445
 msgid "Picture"
 msgstr ""
 
 #: includes/Admin/KindEditor.php:374
-#: includes/Divi/FieldModules.php:364
+#: includes/Divi/FieldModules.php:378
 msgid "Places free"
 msgstr ""
 
@@ -1390,7 +1391,7 @@ msgstr ""
 msgid "Places left"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:349
+#: includes/Divi/FieldModules.php:363
 msgid "Plain link"
 msgstr ""
 
@@ -1402,7 +1403,7 @@ msgstr ""
 #: includes/Admin/CourseEditor.php:478
 #: includes/Admin/KindEditor.php:373
 #: includes/Admin/Screen/DisplaySetsPage.php:590
-#: includes/Divi/FieldModules.php:363
+#: includes/Divi/FieldModules.php:377
 #: includes/Render/CourseDetail.php:100
 #: includes/Render/Fields.php:365
 #: includes/Render/Fields.php:764
@@ -1512,7 +1513,7 @@ msgstr ""
 msgid "Rooms"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:319
+#: includes/Divi/FieldModules.php:333
 msgid "Round"
 msgstr ""
 
@@ -1629,11 +1630,11 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:288
+#: includes/Divi/FieldModules.php:302
 msgid "Show a heading"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:345
+#: includes/Divi/FieldModules.php:359
 msgid "Show as"
 msgstr ""
 
@@ -1666,7 +1667,7 @@ msgstr ""
 msgid "Sign-up link"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:384
+#: includes/Divi/FieldModules.php:398
 msgid "Size"
 msgstr ""
 
@@ -1685,11 +1686,11 @@ msgstr ""
 msgid "Sort by"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:284
+#: includes/Divi/FieldModules.php:298
 msgid "Source"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:321
+#: includes/Divi/FieldModules.php:335
 msgid "Square"
 msgstr ""
 
@@ -1722,15 +1723,15 @@ msgstr ""
 msgid "Synchronise now"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:426
+#: includes/Divi/FieldModules.php:441
 msgid "Table cell"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:425
+#: includes/Divi/FieldModules.php:440
 msgid "Table heading"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:427
+#: includes/Divi/FieldModules.php:442
 msgid "Table link"
 msgstr ""
 
@@ -1790,7 +1791,7 @@ msgstr ""
 msgid "The featured image of the course."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:254
+#: includes/Divi/FieldModules.php:268
 msgid "The field could not be loaded."
 msgstr ""
 
@@ -1830,7 +1831,7 @@ msgstr ""
 msgid "The next few days"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:466
+#: includes/Divi/FieldModules.php:481
 msgid "The one this page is about"
 msgstr ""
 
@@ -1842,7 +1843,7 @@ msgstr ""
 msgid "The person to contact about a course nobody books through iSport."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:398
+#: includes/Divi/FieldModules.php:412
 msgid "The picture at full size"
 msgstr ""
 
@@ -1918,7 +1919,7 @@ msgstr ""
 msgid "They appear struck through and labelled. Unticking hides them entirely."
 msgstr ""
 
-#: includes/Render/FieldRenderer.php:354
+#: includes/Render/FieldRenderer.php:363
 msgid "This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings."
 msgstr ""
 
@@ -1926,7 +1927,7 @@ msgstr ""
 msgid "This course’s own timetable, as a table."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:253
+#: includes/Divi/FieldModules.php:267
 msgid "This field is empty for this record, so it will not appear on the page."
 msgstr ""
 
@@ -2026,7 +2027,7 @@ msgstr ""
 msgid "Unresolved"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:369
+#: includes/Divi/FieldModules.php:383
 msgid "Up or down."
 msgstr ""
 
@@ -2040,7 +2041,7 @@ msgstr ""
 msgid "Use"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:404
+#: includes/Divi/FieldModules.php:418
 msgid "Used when the picture links to an address of your own."
 msgstr ""
 
@@ -2048,11 +2049,11 @@ msgstr ""
 msgid "Used wherever nothing else is said — on a course page, in a block, in a Divi module. A display set or a single module can still word it differently. Left empty: \"Sign up in iSport\"."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:300
+#: includes/Divi/FieldModules.php:314
 msgid "Value element"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:424
+#: includes/Divi/FieldModules.php:439
 msgid "Value text"
 msgstr ""
 
@@ -2080,7 +2081,7 @@ msgstr ""
 msgid "What the booking link says"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:313
+#: includes/Divi/FieldModules.php:327
 msgid "What the column is called and what each link says. Left empty, the name the column comes with."
 msgstr ""
 
@@ -2092,15 +2093,15 @@ msgstr ""
 msgid "What the courses of this kind cost, as a table of two columns: one row per length of lesson and price actually on offer, however many courses share it."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:354
+#: includes/Divi/FieldModules.php:368
 msgid "What the link says. Left empty, the wording set in iSport → Settings is used."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:317
+#: includes/Divi/FieldModules.php:331
 msgid "What the list is marked with."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:390
+#: includes/Divi/FieldModules.php:404
 msgid "What the picture says to somebody who cannot see it. Empty means the name of the course or trainer, which is usually right."
 msgstr ""
 
@@ -2112,7 +2113,7 @@ msgstr ""
 msgid "What this trainer does when they are not in the hall."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:293
+#: includes/Divi/FieldModules.php:307
 msgid "What to call this field. Empty means the name it comes with."
 msgstr ""
 
@@ -2130,36 +2131,40 @@ msgstr ""
 
 #: includes/Admin/KindEditor.php:372
 #: includes/Admin/Screen/DisplaySetsPage.php:589
-#: includes/Divi/FieldModules.php:362
+#: includes/Divi/FieldModules.php:376
 msgid "When it starts"
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:346
-#: includes/Divi/FieldModules.php:380
+#: includes/Divi/FieldModules.php:394
 msgid "When there is nothing to show"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:394
+#: includes/Divi/FieldModules.php:408
 msgid "Where the picture takes a visitor who clicks it."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:289
+#: includes/Divi/FieldModules.php:230
+msgid "Where this column sits, counting from one. Nought leaves it out."
+msgstr ""
+
+#: includes/Divi/FieldModules.php:303
 msgid "Whether the field prints its name above or beside the value."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:297
+#: includes/Divi/FieldModules.php:311
 msgid "Which HTML element the heading is."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:301
+#: includes/Divi/FieldModules.php:315
 msgid "Which HTML element the value is."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:285
+#: includes/Divi/FieldModules.php:299
 msgid "Which course or trainer this shows. Left as it is, it follows the page — which is what a theme builder template wants."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:429
+#: includes/Divi/FieldModules.php:444
 msgid "Which courses"
 msgstr ""
 
@@ -2171,11 +2176,11 @@ msgstr ""
 msgid "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:385
+#: includes/Divi/FieldModules.php:399
 msgid "Which of the sizes WordPress made of this picture to serve. Larger is not better: a portrait shown at 300 pixels costs the visitor nothing extra if 300 pixels is what is sent."
 msgstr ""
 
-#: includes/Divi/FieldModules.php:368
+#: includes/Divi/FieldModules.php:382
 msgid "Which way"
 msgstr ""
 
@@ -2188,7 +2193,7 @@ msgid "Who runs the course, linked to their own page where they have one."
 msgstr ""
 
 #: includes/Admin/KindEditor.php:306
-#: includes/Divi/FieldModules.php:327
+#: includes/Divi/FieldModules.php:341
 msgid "Who the course is for"
 msgstr ""
 
@@ -2218,7 +2223,7 @@ msgstr ""
 msgid "Wording"
 msgstr ""
 
-#: includes/Divi/FieldModules.php:312
+#: includes/Divi/FieldModules.php:326
 msgid "Wording of the details link"
 msgstr ""
 

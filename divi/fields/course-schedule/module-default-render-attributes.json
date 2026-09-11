@@ -49,6 +49,31 @@
                 "desktop": {
                     "value": ""
                 }
+            },
+            "orderDate": {
+                "desktop": {
+                    "value": "1"
+                }
+            },
+            "orderTime": {
+                "desktop": {
+                    "value": "2"
+                }
+            },
+            "orderRoom": {
+                "desktop": {
+                    "value": "3"
+                }
+            },
+            "orderTrainer": {
+                "desktop": {
+                    "value": "4"
+                }
+            },
+            "orderState": {
+                "desktop": {
+                    "value": "5"
+                }
             }
         }
     }

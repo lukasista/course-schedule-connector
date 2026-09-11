@@ -365,6 +365,16 @@ The module and the block offer it as *Wording of the details link*, under **Whic
 
 It is in the courses catalogue, so a display set could offer it too; no existing set or table gains it, because a set stores its own column list and none of them mention it. The one table that shows it by default is the kind page's, which is the one that asked.
 
+### Where the columns sit
+
+Every column of a table has a place, counting from one, and the catalogue's own order is what those places start as — so a table nobody has rearranged comes out exactly as it did before the setting existed. A place of nought leaves the column out, which is the same answer as "do not show it" and one control rather than two.
+
+`Fields::ordered_columns( $field, $settings )` is the whole of it, and it is what the four tables ask for their columns now instead of repeating a list the catalogue already holds: the kind page's timetable and its prices, a trainer's courses, and a course's classes and make-ups. Three rules earn their keep. Only a whole number is an answer — a decimal, a word or a stray space leaves the column where it was, because "0.5" to mean "first" is a reasonable thing to try and losing a column for it is not a reasonable thing to get. Two columns asking for the same place keep the order the catalogue gave them, so a half-finished rearrangement is a table rather than a shuffle. And numbers that would hide every column are refused: an empty table looks like a broken plugin, not like a choice.
+
+The settings are named `order` plus the column — `orderDay`, `orderDetail` — and both editors draw one per column in a group called **Columns**, labelled with the column's own name. `KindDetail` reads them from the settings it was handed before the merge that keeps only the keys which narrow the table; that merge is the one thing easy to get wrong there, and it is why both the wording of the details link and the places of the columns are taken off the top.
+
+This is a stopgap and worth saying so: columns as child modules, dragged into order in the layers panel with a Content, Design and Advanced tab each, is the shape this wants and the shape Divi already has for an accordion or an icon list. The mechanism is a `childrenName` on the parent and `category: "child-module"` on the child. What it needs beyond that is a parent that composes its table from its children, each child's design landing on its own cells, and the same again through InnerBlocks for the block — which is why it is not this commit.
+
 ### The parts of a table
 
 A field that draws a table declares its columns in the catalogue, and everything follows from that list. `Fields::style_elements()` answers what parts the field has — the heading and the value always, the picture where there is one, and for a table its heading row, its cells, its links, its banding and one attribute per column. That one answer is used by the generator to declare the attributes, by `FieldModuleRenderer::module_styles()` to emit their CSS, and by the builder script, which reads it back off the metadata as "every attribute that declares an `elementType`". A test asserts the three agree.

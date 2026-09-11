@@ -50,6 +50,16 @@
                     "value": ""
                 }
             },
+            "orderDuration": {
+                "desktop": {
+                    "value": "1"
+                }
+            },
+            "orderPrice": {
+                "desktop": {
+                    "value": "2"
+                }
+            },
             "filterGenders": {
                 "desktop": {
                     "value": ""

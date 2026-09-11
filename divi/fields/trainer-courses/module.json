@@ -831,13 +831,145 @@
                             }
                         }
                     },
+                    "orderName": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderName",
+                            "category": "configuration",
+                            "priority": 80,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Course",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderDay": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderDay",
+                            "category": "configuration",
+                            "priority": 90,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Day",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderHours": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderHours",
+                            "category": "configuration",
+                            "priority": 100,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Time from and to",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderPeriod": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderPeriod",
+                            "category": "configuration",
+                            "priority": 110,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Runs from and to",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderPrice": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderPrice",
+                            "category": "configuration",
+                            "priority": 120,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Price",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
+                    "orderPlaces": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "contentColumns",
+                            "attrName": "field.advanced.orderPlaces",
+                            "category": "configuration",
+                            "priority": 130,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Places left",
+                            "description": "Where this column sits, counting from one. Nought leaves it out.",
+                            "component": {
+                                "name": "divi/text",
+                                "type": "field"
+                            }
+                        }
+                    },
                     "emptyText": {
                         "groupType": "group-item",
                         "item": {
                             "groupSlug": "content",
                             "attrName": "field.advanced.emptyText",
                             "category": "configuration",
-                            "priority": 80,
+                            "priority": 140,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -873,6 +1005,17 @@
                     "name": "divi/composite",
                     "props": {
                         "groupLabel": "iSport"
+                    }
+                }
+            },
+            "contentColumns": {
+                "panel": "content",
+                "priority": 25,
+                "groupName": "columns",
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Columns"
                     }
                 }
             },
