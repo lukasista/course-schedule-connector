@@ -270,21 +270,18 @@ final class FieldModulesTest extends TestCase {
 				$defaults['button']['decoration']['button']['desktop']['value'] ?? null,
 				$name
 			);
-			// The prefix earns its keep and the measurement says so: Divi writes
-			// the site's own button styling at `body.et-db #et-boc .et-l
-			// .et_pb_button` wherever a theme builder template is involved, and
-			// one id with three classes beats a bare order class. Both selectors
-			// are needed — the second is the one Divi uses inside a template.
+			// Begins at `{{selector}}` and nothing in front of it. Divi splices
+			// its own wrapper chain onto that and the result outranks the
+			// site's button styling on its own; a prefix of ours breaks the
+			// splice, and naming `customPostTypeSelector` to repair it only
+			// moves the problem to `{{baseSelector}}`, which the builder's
+			// canvas resolves to a class no element carries.
 			$this->assertSame(
-				'body #page-container {{selector}} .cscs-button.et_pb_button',
+				'{{selector}} .cscs-button.et_pb_button',
 				$attribute['styleProps']['selector'] ?? '',
 				$name
 			);
-			$this->assertSame(
-				'body.et-db #page-container #et-boc .et-l {{baseSelector}} .cscs-button.et_pb_button',
-				$attribute['styleProps']['customPostTypeSelector'] ?? '',
-				$name
-			);
+			$this->assertArrayNotHasKey( 'customPostTypeSelector', $attribute['styleProps'] ?? array(), $name );
 		}
 
 		$this->assertSame( 1, $buttons );
