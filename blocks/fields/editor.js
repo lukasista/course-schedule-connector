@@ -505,10 +505,20 @@
 	 * @param {Object} props Block props.
 	 * @return {Object} The panel.
 	 */
-	function coursesPanel( props ) {
+	function coursesPanel( props, detail ) {
 		return el(
 			components.PanelBody,
 			{ title: __( 'Which courses', 'course-schedule-connector' ), initialOpen: false },
+			// The wording of the way into a course, where the table offers one.
+			// It names the column and the link alike.
+			detail
+				? text(
+						props,
+						'detailText',
+						__( 'Wording of the details link', 'course-schedule-connector' ),
+						__( 'What the column is called and what each link says. Left empty, the name the column comes with.', 'course-schedule-connector' )
+				  )
+				: null,
 			select(
 				props,
 				'filterGenders',
@@ -668,6 +678,12 @@
 				// The name of a course is a heading, not a value with a name
 				// over it. The panel calls it one.
 				var headline = !! field.headline;
+				// Whether this field's table offers a way into the course. The
+				// columns arrive as objects, not keys — each one carries what it
+				// is called and which attribute its design lives under.
+				var detail = ( field.columns || [] ).some( function ( column ) {
+					return 'detail' === column.key;
+				} );
 				var palette = useThemeSetting( 'color.palette' );
 				var families = useThemeSetting( 'typography.fontFamilies' );
 				var blockProps = blockEditor.useBlockProps();
@@ -679,7 +695,7 @@
 						blockEditor.InspectorControls,
 						{},
 						sourcePanel( props, postType ),
-						field.filters ? coursesPanel( props ) : null,
+						field.filters ? coursesPanel( props, detail ) : null,
 						field.signup ? linkPanel( props ) : null,
 						field.image ? picturePanel( props ) : null,
 						el(

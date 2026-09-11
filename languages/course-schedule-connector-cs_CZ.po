@@ -87,7 +87,7 @@ msgstr "%d — založeno tady, v iSportu není"
 msgid "%s (copy)"
 msgstr "%s (kopie)"
 
-#: includes/Divi/FieldModules.php:342
+#: includes/Divi/FieldModules.php:346
 msgid "A button carries the plugin's own button look; a plain link carries none. Colour, background, spacing and border are available to both either way."
 msgstr "Tlačítko nese vlastní vzhled tlačítka z pluginu, prostý odkaz žádný. Barva, pozadí, odsazení i rámeček jsou tak jako tak k dispozici u obojího."
 
@@ -135,7 +135,7 @@ msgstr "Náhradní lekce zastupuje lekci právě v jednom kurzu, ale z rozvrhu s
 msgid "A make-up slot usually repeats: the same name, the same weekday, the same hour, the same room. Where you have already assigned one of a series, the others can be assigned like it in one press, and each row offers the same button on its own. Where two occurrences of one series were assigned to two different courses, nothing is offered — the series is not a series. The trainer is not part of the comparison, because the timetable fills it in some weeks and leaves it blank others; it is on screen for you to weigh."
 msgstr "Náhradní termín se obvykle opakuje: stejný název, stejný den v týdnu, stejná hodina, stejný sál. Kde už jste jeden termín takové řady přiřadil, jde zbytek přiřadit jedním stiskem — a stejné tlačítko nabízí i každý řádek zvlášť. Pokud byly dva termíny jedné řady přiřazeny ke dvěma různým kurzům, nenabídne se nic: taková řada žádná řada není. Lektor se do porovnání nepočítá, protože rozvrh ho někdy vyplní a jindy nechá prázdný; je vidět na obrazovce, abyste ho mohl zvážit."
 
-#: includes/Divi/FieldModules.php:404
+#: includes/Divi/FieldModules.php:408
 msgid "A new window is a surprise, so it is off unless somebody asks for it."
 msgstr "Nové okno je pro návštěvníka překvapení, takže je vypnuté, dokud si ho někdo nevyžádá."
 
@@ -182,7 +182,7 @@ msgstr "Aktivity, na které se nepřihlašuje"
 #: includes/Admin/Screen/MakeupPage.php:130
 #: includes/Admin/Screen/UnmatchedPage.php:165
 #: includes/Data/PostType.php:222
-#: includes/Render/Fields.php:746
+#: includes/Render/Fields.php:750
 msgid "Activity"
 msgstr "Aktivita"
 
@@ -198,7 +198,7 @@ msgstr "Přidat řádek"
 msgid "Add trainer"
 msgstr "Přidat trenéra"
 
-#: includes/Divi/FieldModules.php:399
+#: includes/Divi/FieldModules.php:403
 msgid "Address"
 msgstr "Adresa"
 
@@ -226,15 +226,15 @@ msgstr "Za nadpisem"
 #: includes/Render/CourseDetail.php:105
 #: includes/Render/Fields.php:130
 #: includes/Render/Fields.php:131
-#: includes/Render/Fields.php:749
+#: includes/Render/Fields.php:753
 msgid "Age"
 msgstr "Věk"
 
-#: includes/Divi/FieldModules.php:333
+#: includes/Divi/FieldModules.php:337
 msgid "Age from"
 msgstr "Věk od"
 
-#: includes/Divi/FieldModules.php:337
+#: includes/Divi/FieldModules.php:341
 msgid "Age to"
 msgstr "Věk do"
 
@@ -250,7 +250,7 @@ msgstr "Všechny sály"
 msgid "Also read from the course name — \"9-11 let\", \"od 10 let\". Fill either box in to overrule the reading; leave the second empty for a course with no upper age. Empty both to go back to reading the name."
 msgstr "Také se čte z názvu kurzu — „9-11 let“, „od 10 let“. Vyplněním kteréhokoli pole čtení přebijete; druhé nechte prázdné u kurzu bez horní hranice. Prázdná obě pole znamenají „podle názvu“."
 
-#: includes/Divi/FieldModules.php:385
+#: includes/Divi/FieldModules.php:389
 msgid "Alternative text"
 msgstr "Alternativní text"
 
@@ -262,7 +262,7 @@ msgstr "Vždy zobrazit"
 msgid "Always shown"
 msgstr "Vždy zobrazeno"
 
-#: includes/Divi/FieldModules.php:395
+#: includes/Divi/FieldModules.php:399
 msgid "An address of your own"
 msgstr "Vlastní adresa"
 
@@ -277,13 +277,13 @@ msgid "As the settings say"
 msgstr "Podle nastavení"
 
 #: includes/Admin/KindEditor.php:370
-#: includes/Divi/FieldModules.php:356
+#: includes/Divi/FieldModules.php:360
 msgid "As they are filed"
 msgstr "Jak jsou zařazené"
 
 #: includes/Admin/KindEditor.php:347
 #: includes/Admin/Screen/DisplaySetsPage.php:320
-#: includes/Divi/FieldModules.php:367
+#: includes/Divi/FieldModules.php:371
 msgid "Ascending"
 msgstr "Vzestupně"
 
@@ -312,7 +312,7 @@ msgid "Assignment undone. The occurrence is unassigned again."
 msgstr "Přiřazení zrušeno. Termín je zase nepřiřazený."
 
 #: includes/Admin/KindEditor.php:353
-#: includes/Divi/FieldModules.php:372
+#: includes/Divi/FieldModules.php:376
 msgid "At most"
 msgstr "Nejvýš"
 
@@ -321,11 +321,11 @@ msgid "At or below this many free places the listing says so. Zero switches the 
 msgstr "Při tomto počtu volných míst a méně na to výpis upozorní. Nula upozornění vypne."
 
 #: includes/Admin/KindEditor.php:318
-#: includes/Divi/FieldModules.php:328
+#: includes/Divi/FieldModules.php:332
 msgid "At what level"
 msgstr "Na jaké úrovni"
 
-#: includes/Divi/FieldModules.php:424
+#: includes/Divi/FieldModules.php:428
 msgid "Banded row"
 msgstr "Pruhovaný řádek"
 
@@ -357,7 +357,7 @@ msgstr "Mezi dvěma daty"
 
 #: includes/Admin/CourseEditor.php:232
 #: includes/Admin/CourseList.php:55
-#: includes/Render/Fields.php:763
+#: includes/Render/Fields.php:768
 msgid "Booking button"
 msgstr "Tlačítko pro přihlášení"
 
@@ -388,11 +388,11 @@ msgstr "Kluci"
 msgid "Brought in from iSport and stored in the media library. To use another, set a featured image — it wins, and this one stays where it is."
 msgstr "Staženo z iSportu a uloženo do knihovny médií. Chcete-li jinou, nastavte náhledový obrázek — má přednost a tahle zůstane, kde je."
 
-#: includes/Divi/FieldModules.php:312
+#: includes/Divi/FieldModules.php:316
 msgid "Bullets"
 msgstr "Odrážky"
 
-#: includes/Divi/FieldModules.php:344
+#: includes/Divi/FieldModules.php:348
 msgid "Button"
 msgstr "Tlačítko"
 
@@ -401,8 +401,8 @@ msgid "Button text"
 msgstr "Text tlačítka"
 
 #: includes/Admin/Screen/Overview.php:323
-#: includes/Render/Fields.php:762
-#: includes/Render/Listing.php:494
+#: includes/Render/Fields.php:766
+#: includes/Render/Listing.php:516
 msgid "Cancelled"
 msgstr "Zrušené"
 
@@ -519,8 +519,8 @@ msgid "Copy"
 msgstr "Kopírovat"
 
 #: includes/Data/PostType.php:76
-#: includes/Render/Fields.php:744
-#: includes/Render/Fields.php:745
+#: includes/Render/Fields.php:748
+#: includes/Render/Fields.php:749
 msgid "Course"
 msgstr "Kurz"
 
@@ -626,18 +626,18 @@ msgstr "Vytvořit sadu"
 
 #: includes/Admin/Screen/MakeupPage.php:128
 #: includes/Admin/Screen/UnmatchedPage.php:163
-#: includes/Render/Fields.php:754
+#: includes/Render/Fields.php:758
 msgid "Date"
 msgstr "Datum"
 
 #: includes/Render/CourseDetail.php:101
-#: includes/Render/Fields.php:752
+#: includes/Render/Fields.php:756
 #: includes/Render/Fields.php:94
 #: includes/Render/Fields.php:95
 msgid "Day"
 msgstr "Den"
 
-#: includes/Render/Fields.php:747
+#: includes/Render/Fields.php:751
 msgid "Days and times"
 msgstr "Dny a časy"
 
@@ -667,7 +667,7 @@ msgstr "Při smazání pluginu smazat všechna data"
 
 #: includes/Admin/KindEditor.php:348
 #: includes/Admin/Screen/DisplaySetsPage.php:321
-#: includes/Divi/FieldModules.php:368
+#: includes/Divi/FieldModules.php:372
 msgid "Descending"
 msgstr "Sestupně"
 
@@ -687,6 +687,10 @@ msgstr "Popis z iSportu"
 #: includes/Admin/Screen/Overview.php:349
 msgid "Detail"
 msgstr "Detail"
+
+#: includes/Render/Fields.php:767
+msgid "Details"
+msgstr "Detaily"
 
 #: includes/Admin/Screen/SettingsPage.php:112
 msgid "Display"
@@ -738,7 +742,7 @@ msgstr "Upravit trenéra"
 msgid "Even when shown, the button hides itself while the course is full or iSport reports that it takes no registrations."
 msgstr "I když je zapnuté, tlačítko se samo skryje, když je kurz plný nebo když iSport hlásí, že se na kurz nepřihlašuje."
 
-#: includes/Render/Fields.php:380
+#: includes/Render/Fields.php:384
 msgid "Every course filed under this kind, as a table — or only the ones the settings ask for."
 msgstr "Všechny kurzy zařazené pod tento druh jako tabulka — nebo jen ty, na které se nastavení ptá."
 
@@ -747,7 +751,7 @@ msgid "Every course paired with this trainer, as a table."
 msgstr "Všechny kurzy spárované s tímto trenérem, jako tabulka."
 
 #: includes/Admin/KindEditor.php:321
-#: includes/Divi/FieldModules.php:330
+#: includes/Divi/FieldModules.php:334
 msgid "Every level"
 msgstr "Všechny úrovně"
 
@@ -756,7 +760,7 @@ msgid "Every qualification, in the order they were entered."
 msgstr "Všechny kvalifikace v pořadí, v jakém byly zadány."
 
 #: includes/Admin/KindEditor.php:309
-#: includes/Divi/FieldModules.php:325
+#: includes/Divi/FieldModules.php:329
 msgid "Everybody"
 msgstr "Pro všechny"
 
@@ -816,8 +820,8 @@ msgstr "Například kdy volat nebo že se termíny domlouvají individuálně."
 #: includes/Admin/CourseEditor.php:506
 #: includes/Admin/Screen/SettingsPage.php:121
 #: includes/Render/CourseDetail.php:514
-#: includes/Render/Listing.php:628
-#: includes/Render/Listing.php:632
+#: includes/Render/Listing.php:650
+#: includes/Render/Listing.php:654
 msgid "Free"
 msgstr "Zdarma"
 
@@ -843,7 +847,7 @@ msgstr "Mezera"
 #: includes/Render/CourseDetail.php:106
 #: includes/Render/Fields.php:139
 #: includes/Render/Fields.php:140
-#: includes/Render/Fields.php:750
+#: includes/Render/Fields.php:754
 msgid "Gender"
 msgstr "Pohlaví"
 
@@ -861,7 +865,7 @@ msgstr "Nadpis"
 msgid "Heading element"
 msgstr "Prvek nadpisu"
 
-#: includes/Divi/FieldModules.php:419
+#: includes/Divi/FieldModules.php:423
 msgid "Heading text"
 msgstr "Text nadpisu"
 
@@ -877,7 +881,7 @@ msgstr "Skrýt"
 msgid "Hide them"
 msgstr "Skrýt"
 
-#: includes/Divi/FieldModules.php:316
+#: includes/Divi/FieldModules.php:320
 msgid "Hollow"
 msgstr "Duté"
 
@@ -894,7 +898,7 @@ msgid "How many places are still free."
 msgstr "Kolik míst je ještě volných."
 
 #: includes/Admin/KindEditor.php:356
-#: includes/Divi/FieldModules.php:373
+#: includes/Divi/FieldModules.php:377
 msgid "How many rows to print. Empty or zero means all of them."
 msgstr "Kolik řádků vypsat. Prázdné nebo nula znamená všechny."
 
@@ -939,7 +943,7 @@ msgstr "Záliby"
 msgid "Items per page"
 msgstr "Položek na stránku"
 
-#: includes/Divi/FieldModules.php:393
+#: includes/Divi/FieldModules.php:397
 msgid "Its own page"
 msgstr "Vlastní stránku"
 
@@ -983,7 +987,7 @@ msgstr "Popisek"
 msgid "Last retrieved"
 msgstr "Naposledy staženo"
 
-#: includes/Divi/FieldModules.php:418
+#: includes/Divi/FieldModules.php:422
 msgid "Layout"
 msgstr "Rozvržení"
 
@@ -999,23 +1003,23 @@ msgstr "Vynechat"
 msgid "Leaves out courses that finish below the floor or start above the ceiling. Either may be left empty."
 msgstr "Vynechá kurzy, které končí pod dolní hranicí nebo začínají nad horní. Obě se dají nechat prázdné."
 
-#: includes/Divi/FieldModules.php:334
+#: includes/Divi/FieldModules.php:338
 msgid "Leaves out courses that finish below this age. Empty means no floor."
 msgstr "Vynechá kurzy, které končí pod touto hranicí. Prázdné znamená bez dolní hranice."
 
-#: includes/Divi/FieldModules.php:338
+#: includes/Divi/FieldModules.php:342
 msgid "Leaves out courses that start above this age. Empty means no ceiling."
 msgstr "Vynechá kurzy, které začínají nad touto hranicí. Prázdné znamená bez horní hranice."
 
-#: includes/Divi/FieldModules.php:329
+#: includes/Divi/FieldModules.php:333
 msgid "Left as it is, every level."
 msgstr "Když se nechá být, všechny úrovně."
 
-#: includes/Divi/FieldModules.php:324
+#: includes/Divi/FieldModules.php:328
 msgid "Left as it is, everybody. A course whose name says nothing about this is never shown by a setting that asks."
 msgstr "Když se nechá být, všichni. Kurz, jehož název o tom nic neříká, se pod nastavením, které se ptá, nikdy neukáže."
 
-#: includes/Divi/FieldModules.php:354
+#: includes/Divi/FieldModules.php:358
 msgid "Left as it is, the order the courses are filed in."
 msgstr "Když se nechá být, v pořadí, v jakém jsou kurzy zařazené."
 
@@ -1023,7 +1027,7 @@ msgstr "Když se nechá být, v pořadí, v jakém jsou kurzy zařazené."
 msgid "Left empty, no heading is printed."
 msgstr "Když necháte prázdné, nadpis se nevypíše."
 
-#: includes/Divi/FieldModules.php:377
+#: includes/Divi/FieldModules.php:381
 msgid "Left empty, the module disappears rather than printing a heading over a blank space."
 msgstr "Když necháte prázdné, modul zmizí, místo aby tiskl nadpis nad prázdným místem."
 
@@ -1031,7 +1035,7 @@ msgstr "Když necháte prázdné, modul zmizí, místo aby tiskl nadpis nad prá
 msgid "Left empty, the wording set in iSport → Settings is used."
 msgstr "Necháte-li prázdné, použije se znění z iSport → Nastavení."
 
-#: includes/Render/Fields.php:748
+#: includes/Render/Fields.php:752
 msgid "Length"
 msgstr "Délka"
 
@@ -1040,20 +1044,20 @@ msgstr "Délka"
 #: includes/Render/CourseDetail.php:107
 #: includes/Render/Fields.php:148
 #: includes/Render/Fields.php:149
-#: includes/Render/Fields.php:751
+#: includes/Render/Fields.php:755
 msgid "Level"
 msgstr "Úroveň"
 
-#: includes/Divi/FieldModules.php:427
-#: includes/Divi/FieldModules.php:428
+#: includes/Divi/FieldModules.php:431
+#: includes/Divi/FieldModules.php:432
 msgid "Link"
 msgstr "Odkaz"
 
-#: includes/Divi/FieldModules.php:349
+#: includes/Divi/FieldModules.php:353
 msgid "Link text"
 msgstr "Text odkazu"
 
-#: includes/Divi/FieldModules.php:389
+#: includes/Divi/FieldModules.php:393
 msgid "Links to"
 msgstr "Odkazuje na"
 
@@ -1099,7 +1103,7 @@ msgstr "Motto"
 #: includes/Admin/Screen/DisplaySetsPage.php:110
 #: includes/Admin/Screen/DisplaySetsPage.php:175
 #: includes/Admin/Screen/DisplaySetsPage.php:588
-#: includes/Divi/FieldModules.php:357
+#: includes/Divi/FieldModules.php:361
 msgid "Name"
 msgstr "Název"
 
@@ -1216,7 +1220,7 @@ msgstr "V koši nejsou žádní trenéři."
 msgid "No usable address of an iSport System installation is configured, so nothing is being retrieved."
 msgstr "Není nastavená použitelná adresa iSport systému, takže se nic nestahuje."
 
-#: includes/Divi/FieldModules.php:319
+#: includes/Divi/FieldModules.php:323
 msgid "None"
 msgstr "Žádné"
 
@@ -1280,15 +1284,15 @@ msgstr "Nic se nepřiřadilo: řada se buď neshoduje na kurzu, nebo v ní není
 msgid "Nothing written yet"
 msgstr "Zatím nic nenapsáno"
 
-#: includes/Divi/FieldModules.php:392
+#: includes/Divi/FieldModules.php:396
 msgid "Nowhere"
 msgstr "Nikam"
 
-#: includes/Render/Fields.php:759
+#: includes/Render/Fields.php:763
 msgid "Number of classes"
 msgstr "Počet lekcí"
 
-#: includes/Divi/FieldModules.php:318
+#: includes/Divi/FieldModules.php:322
 msgid "Numbered"
 msgstr "Číslované"
 
@@ -1302,7 +1306,7 @@ msgid "Oldest age"
 msgstr "Horní hranice věku"
 
 #: includes/Admin/Screen/SettingsPage.php:120
-#: includes/Render/Listing.php:633
+#: includes/Render/Listing.php:655
 msgid "On request"
 msgstr "Na dotaz"
 
@@ -1310,7 +1314,7 @@ msgstr "Na dotaz"
 msgid "One qualification to a line — a coaching licence, a course completed, a degree. They are printed in the order they are in here."
 msgstr "Jedna kvalifikace na řádek — trenérská licence, absolvovaný kurz, titul. Vypíšou se v pořadí, v jakém jsou tady."
 
-#: includes/Divi/FieldModules.php:403
+#: includes/Divi/FieldModules.php:407
 msgid "Open in a new window"
 msgstr "Otevřít v novém okně"
 
@@ -1332,7 +1336,7 @@ msgid "Order and size"
 msgstr "Řazení a rozsah"
 
 #: includes/Admin/KindEditor.php:339
-#: includes/Divi/FieldModules.php:353
+#: includes/Divi/FieldModules.php:357
 msgid "Order by"
 msgstr "Řadit podle"
 
@@ -1379,12 +1383,12 @@ msgstr "Pozastavuji…"
 msgid "Photograph"
 msgstr "Fotografie"
 
-#: includes/Divi/FieldModules.php:426
+#: includes/Divi/FieldModules.php:430
 msgid "Picture"
 msgstr "Obrázek"
 
 #: includes/Admin/KindEditor.php:374
-#: includes/Divi/FieldModules.php:360
+#: includes/Divi/FieldModules.php:364
 msgid "Places free"
 msgstr "Volná místa"
 
@@ -1392,11 +1396,11 @@ msgstr "Volná místa"
 #: includes/Render/CourseDetail.php:110
 #: includes/Render/Fields.php:175
 #: includes/Render/Fields.php:176
-#: includes/Render/Fields.php:761
+#: includes/Render/Fields.php:765
 msgid "Places left"
 msgstr "Volná místa"
 
-#: includes/Divi/FieldModules.php:345
+#: includes/Divi/FieldModules.php:349
 msgid "Plain link"
 msgstr "Prostý odkaz"
 
@@ -1408,10 +1412,10 @@ msgstr "Připravuji soubor…"
 #: includes/Admin/CourseEditor.php:478
 #: includes/Admin/KindEditor.php:373
 #: includes/Admin/Screen/DisplaySetsPage.php:590
-#: includes/Divi/FieldModules.php:359
+#: includes/Divi/FieldModules.php:363
 #: includes/Render/CourseDetail.php:100
 #: includes/Render/Fields.php:365
-#: includes/Render/Fields.php:760
+#: includes/Render/Fields.php:764
 #: includes/Render/Fields.php:85
 #: includes/Render/Fields.php:86
 msgid "Price"
@@ -1505,7 +1509,7 @@ msgstr "Stahuji kurzy a lekce z iSportu. Může to chvíli trvat."
 #: includes/Render/CourseDetail.php:108
 #: includes/Render/Fields.php:157
 #: includes/Render/Fields.php:158
-#: includes/Render/Fields.php:756
+#: includes/Render/Fields.php:760
 #: templates/partials/controls.php:54
 msgid "Room"
 msgstr "Sál"
@@ -1518,7 +1522,7 @@ msgstr "Sál"
 msgid "Rooms"
 msgstr "Sály"
 
-#: includes/Divi/FieldModules.php:315
+#: includes/Divi/FieldModules.php:319
 msgid "Round"
 msgstr "Kulaté"
 
@@ -1537,7 +1541,7 @@ msgstr "Termín"
 msgid "Runs from"
 msgstr "Od"
 
-#: includes/Render/Fields.php:758
+#: includes/Render/Fields.php:762
 msgid "Runs from and to"
 msgstr "Termín od–do"
 
@@ -1639,7 +1643,7 @@ msgstr "Zobrazit"
 msgid "Show a heading"
 msgstr "Zobrazit nadpis"
 
-#: includes/Divi/FieldModules.php:341
+#: includes/Divi/FieldModules.php:345
 msgid "Show as"
 msgstr "Zobrazit jako"
 
@@ -1672,7 +1676,7 @@ msgstr "Tlačítko přihlášení"
 msgid "Sign-up link"
 msgstr "Přihlašovací odkaz"
 
-#: includes/Divi/FieldModules.php:380
+#: includes/Divi/FieldModules.php:384
 msgid "Size"
 msgstr "Velikost"
 
@@ -1695,7 +1699,7 @@ msgstr "Řadit podle"
 msgid "Source"
 msgstr "Zdroj"
 
-#: includes/Divi/FieldModules.php:317
+#: includes/Divi/FieldModules.php:321
 msgid "Square"
 msgstr "Čtvercové"
 
@@ -1728,15 +1732,15 @@ msgstr "Synchronizace selhala: %s"
 msgid "Synchronise now"
 msgstr "Synchronizovat hned"
 
-#: includes/Divi/FieldModules.php:422
+#: includes/Divi/FieldModules.php:426
 msgid "Table cell"
 msgstr "Buňka tabulky"
 
-#: includes/Divi/FieldModules.php:421
+#: includes/Divi/FieldModules.php:425
 msgid "Table heading"
 msgstr "Hlavička tabulky"
 
-#: includes/Divi/FieldModules.php:423
+#: includes/Divi/FieldModules.php:427
 msgid "Table link"
 msgstr "Odkaz v tabulce"
 
@@ -1836,7 +1840,7 @@ msgstr "Název kurzu jako nadpis, kterému můžete dát vlastní vzhled."
 msgid "The next few days"
 msgstr "Nejbližší dny"
 
-#: includes/Divi/FieldModules.php:462
+#: includes/Divi/FieldModules.php:466
 msgid "The one this page is about"
 msgstr "Ten, o kterém tahle stránka je"
 
@@ -1848,7 +1852,7 @@ msgstr "Stránku se nepodařilo zkopírovat."
 msgid "The person to contact about a course nobody books through iSport."
 msgstr "Osoba, na kterou se obrátit u kurzu, na který se přes iSport nepřihlašuje."
 
-#: includes/Divi/FieldModules.php:394
+#: includes/Divi/FieldModules.php:398
 msgid "The picture at full size"
 msgstr "Obrázek v plné velikosti"
 
@@ -1924,7 +1928,7 @@ msgstr "Tyhle se zobrazí bez ohledu na filtry výše. Právě takhle se dá dá
 msgid "They appear struck through and labelled. Unticking hides them entirely."
 msgstr "Zobrazí se přeškrtnuté a označené. Odškrtnutím je skryjete úplně."
 
-#: includes/Render/FieldRenderer.php:346
+#: includes/Render/FieldRenderer.php:354
 msgid "This block shows a field of a course or a trainer, and this page is neither. Choose one in the block settings."
 msgstr "Tenhle blok zobrazuje pole kurzu nebo trenéra a tahle stránka není ani jedno. Vyberte je v nastavení bloku."
 
@@ -1966,11 +1970,11 @@ msgstr "Spárováno s kurzem"
 #: includes/Render/CourseDetail.php:102
 #: includes/Render/Fields.php:103
 #: includes/Render/Fields.php:104
-#: includes/Render/Fields.php:755
+#: includes/Render/Fields.php:759
 msgid "Time"
 msgstr "Čas"
 
-#: includes/Render/Fields.php:753
+#: includes/Render/Fields.php:757
 msgid "Time from and to"
 msgstr "Čas od–do"
 
@@ -1991,7 +1995,7 @@ msgstr "Do:"
 #: includes/Render/CourseDetail.php:194
 #: includes/Render/Fields.php:166
 #: includes/Render/Fields.php:167
-#: includes/Render/Fields.php:757
+#: includes/Render/Fields.php:761
 #: includes/Render/TrainerDetail.php:244
 msgid "Trainer"
 msgstr "Trenér"
@@ -2032,7 +2036,7 @@ msgstr "Nespárované lekce"
 msgid "Unresolved"
 msgstr "Nespárované"
 
-#: includes/Divi/FieldModules.php:365
+#: includes/Divi/FieldModules.php:369
 msgid "Up or down."
 msgstr "Nahoru, nebo dolů."
 
@@ -2046,7 +2050,7 @@ msgstr "Nejbližší lekce"
 msgid "Use"
 msgstr "Použít"
 
-#: includes/Divi/FieldModules.php:400
+#: includes/Divi/FieldModules.php:404
 msgid "Used when the picture links to an address of your own."
 msgstr "Použije se, když obrázek odkazuje na vlastní adresu."
 
@@ -2058,7 +2062,7 @@ msgstr "Použije se všude, kde není řečeno jinak — na stránce kurzu, v bl
 msgid "Value element"
 msgstr "Prvek hodnoty"
 
-#: includes/Divi/FieldModules.php:420
+#: includes/Divi/FieldModules.php:424
 msgid "Value text"
 msgstr "Text hodnoty"
 
@@ -2086,6 +2090,10 @@ msgstr "Co je uložené"
 msgid "What the booking link says"
 msgstr "Co říká přihlašovací odkaz"
 
+#: includes/Divi/FieldModules.php:313
+msgid "What the column is called and what each link says. Left empty, the name the column comes with."
+msgstr "Jak se sloupec jmenuje a co říká každý odkaz. Když necháte prázdné, název, se kterým sloupec přichází."
+
 #: includes/Render/Fields.php:89
 msgid "What the course costs. A course with no price shows as free."
 msgstr "Kolik kurz stojí. Kurz bez ceny se zobrazí jako zdarma."
@@ -2094,15 +2102,15 @@ msgstr "Kolik kurz stojí. Kurz bez ceny se zobrazí jako zdarma."
 msgid "What the courses of this kind cost, as a table of two columns: one row per length of lesson and price actually on offer, however many courses share it."
 msgstr "Kolik kurzy tohoto druhu stojí, jako tabulka o dvou sloupcích: jeden řádek pro každou dvojici délky a ceny, která se u druhu vyskytuje, ať ji sdílí kolik chce kurzů."
 
-#: includes/Divi/FieldModules.php:350
+#: includes/Divi/FieldModules.php:354
 msgid "What the link says. Left empty, the wording set in iSport → Settings is used."
 msgstr "Co odkaz říká. Necháte-li prázdné, použije se znění z iSport → Nastavení."
 
-#: includes/Divi/FieldModules.php:313
+#: includes/Divi/FieldModules.php:317
 msgid "What the list is marked with."
 msgstr "Čím je seznam odrážkovaný."
 
-#: includes/Divi/FieldModules.php:386
+#: includes/Divi/FieldModules.php:390
 msgid "What the picture says to somebody who cannot see it. Empty means the name of the course or trainer, which is usually right."
 msgstr "Co obrázek říká tomu, kdo ho nevidí. Prázdné znamená název kurzu nebo jméno trenéra, což bývá správně."
 
@@ -2132,16 +2140,16 @@ msgstr "Když je kurz plný"
 
 #: includes/Admin/KindEditor.php:372
 #: includes/Admin/Screen/DisplaySetsPage.php:589
-#: includes/Divi/FieldModules.php:358
+#: includes/Divi/FieldModules.php:362
 msgid "When it starts"
 msgstr "Podle začátku"
 
 #: includes/Admin/Screen/DisplaySetsPage.php:346
-#: includes/Divi/FieldModules.php:376
+#: includes/Divi/FieldModules.php:380
 msgid "When there is nothing to show"
 msgstr "Když není co zobrazit"
 
-#: includes/Divi/FieldModules.php:390
+#: includes/Divi/FieldModules.php:394
 msgid "Where the picture takes a visitor who clicks it."
 msgstr "Kam obrázek zavede návštěvníka, který na něj klikne."
 
@@ -2161,7 +2169,7 @@ msgstr "Jakým HTML prvkem je hodnota."
 msgid "Which course or trainer this shows. Left as it is, it follows the page — which is what a theme builder template wants."
 msgstr "Který kurz nebo kterého trenéra to ukazuje. Když to necháte být, řídí se stránkou — což je přesně to, co potřebuje šablona v Theme Builderu."
 
-#: includes/Divi/FieldModules.php:425
+#: includes/Divi/FieldModules.php:429
 msgid "Which courses"
 msgstr "Které kurzy"
 
@@ -2173,11 +2181,11 @@ msgstr "Které kurzy tato stránka ukazuje"
 msgid "Which named configuration this listing follows. What it shows is changed under iSport, Display sets, and every page using the set follows."
 msgstr "Kterou pojmenovanou konfigurací se výpis řídí. Co ukazuje, se mění v iSport → Zobrazovací sady a přizpůsobí se každá stránka, která sadu používá."
 
-#: includes/Divi/FieldModules.php:381
+#: includes/Divi/FieldModules.php:385
 msgid "Which of the sizes WordPress made of this picture to serve. Larger is not better: a portrait shown at 300 pixels costs the visitor nothing extra if 300 pixels is what is sent."
 msgstr "Kterou z velikostí, jež WordPress z obrázku vyrobil, poslat. Větší není lepší: portrét zobrazený na 300 pixelech nestojí návštěvníka nic navíc, pokud se pošle právě 300 pixelů."
 
-#: includes/Divi/FieldModules.php:364
+#: includes/Divi/FieldModules.php:368
 msgid "Which way"
 msgstr "Kterým směrem"
 
@@ -2190,7 +2198,7 @@ msgid "Who runs the course, linked to their own page where they have one."
 msgstr "Kdo kurz vede, s odkazem na jeho stránku, pokud ji má."
 
 #: includes/Admin/KindEditor.php:306
-#: includes/Divi/FieldModules.php:323
+#: includes/Divi/FieldModules.php:327
 msgid "Who the course is for"
 msgstr "Pro koho kurz je"
 
@@ -2219,6 +2227,10 @@ msgstr "Ženy"
 #: includes/Admin/Screen/DisplaySetsPage.php:341
 msgid "Wording"
 msgstr "Texty"
+
+#: includes/Divi/FieldModules.php:312
+msgid "Wording of the details link"
+msgstr "Text odkazu na detail"
 
 #: includes/Admin/Menu.php:88
 msgid "Working…"
@@ -2334,7 +2346,7 @@ msgstr "iSport: druhy kurzů"
 msgid "iSport: trainers"
 msgstr "iSport: trenéři"
 
-#: includes/Render/Listing.php:653
+#: includes/Render/Listing.php:675
 msgid "last %d place"
 msgid_plural "last %d places"
 msgstr[0] "poslední %d místo"

@@ -355,6 +355,16 @@ Every generated module carries `folder: "cscs-modules"`, the same key WooCommerc
 
 The icon of each module is `moduleIcon` in the catalogue, and the names are Divi's own — `divi/module-pricing-table`, `divi/module-countdown-timer`, and so on. There is no public way to add an icon to Divi's set: `divi.iconLibrary` exposes no registration, so a drawing of our own would mean reaching into the theme's internals for a picture. The registered modules' `moduleIcon` values are the list of what is available, readable from the builder with `divi.data.select( 'divi/module-library' ).getModules()`.
 
+### The way into a course
+
+A table of courses is a table of facts *about* courses and, until now, never a way to one. The kind page's table is the case that made it obvious: it carries the day, the hours, the age, who it is for, the level and the places left, and not the course's name — so a reader who wanted the detail of one row had nowhere to click.
+
+`detail` is a column like any other, and unlike any other its value is the same in every row: it is a way in rather than a fact. What it says is what the column is called — the label, wherever that has been set — so one field names the heading and the link alike. A column headed *Details* whose cells said something else would be two names for one thing, and the label is already editable in every place a table is configured, which is where somebody would go looking for the wording.
+
+The module and the block offer it as *Wording of the details link*, under **Which courses**, and pass it into the set as the `detail` column's label. `KindDetail::course_listing()` reads it before the merge that keeps only the keys which narrow the table, which is the one thing easy to get wrong there.
+
+It is in the courses catalogue, so a display set could offer it too; no existing set or table gains it, because a set stores its own column list and none of them mention it. The one table that shows it by default is the kind page's, which is the one that asked.
+
 ### The parts of a table
 
 A field that draws a table declares its columns in the catalogue, and everything follows from that list. `Fields::style_elements()` answers what parts the field has — the heading and the value always, the picture where there is one, and for a table its heading row, its cells, its links, its banding and one attribute per column. That one answer is used by the generator to declare the attributes, by `FieldModuleRenderer::module_styles()` to emit their CSS, and by the builder script, which reads it back off the metadata as "every attribute that declares an `elementType`". A test asserts the three agree.

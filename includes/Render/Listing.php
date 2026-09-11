@@ -399,6 +399,22 @@ final class Listing {
 			$text = wp_strip_all_tags( $html );
 		}
 
+		// The way to the course itself, worded by the column's own label. One
+		// word for both, because a column headed *Details* whose cells said
+		// something else would be two names for one thing — and because the
+		// label is already editable everywhere a table is configured, which is
+		// the wording somebody would go looking for.
+		if ( 'detail' === $column ) {
+			$link = (string) ( $row['permalink'] ?? '' );
+			$html = '' === $link
+				? ''
+				: sprintf(
+					'<a class="cscs-detail" href="%s">%s</a>',
+					esc_url( $link ),
+					esc_html( $text )
+				);
+		}
+
 		// A course that meets twice a week has two days and two times, and they
 		// are read in step. Joined into a sentence they stop being readable,
 		// which is the whole reason these are two columns rather than one.
@@ -427,6 +443,12 @@ final class Listing {
 		switch ( $column ) {
 			case 'name':
 				return (string) ( $row['name'] ?? '' );
+
+			// The only column whose value is the same in every row: it is a way
+			// in rather than a fact, and what it says is what the column is
+			// called — the label, wherever that has been set.
+			case 'detail':
+				return (string) ( $this->columns['detail'] ?? Fields::column_label( 'detail' ) );
 
 			case 'course':
 				return '' !== (string) ( $row['course'] ?? '' ) ? (string) $row['course'] : (string) ( $row['name'] ?? '' );

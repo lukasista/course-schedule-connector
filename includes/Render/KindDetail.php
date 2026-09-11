@@ -93,6 +93,10 @@ final class KindDetail {
 	 * @return Listing|null
 	 */
 	public function course_listing( array $settings = array() ): ?Listing {
+		// Read before the merge below, which keeps only the keys that narrow
+		// the table and throws the rest away.
+		$wording = trim( (string) ( $settings['detailText'] ?? '' ) );
+
 		$settings = array_merge( $this->plugin->kinds()->filter( $this->post->ID ), self::asked( $settings ) );
 
 		$ids = $this->plugin->kinds()->courses( $this->post->ID );
@@ -114,10 +118,15 @@ final class KindDetail {
 			}
 		}
 
+		// The wording of the way in is one field and it names the column and the
+		// link alike: a column headed *Details* whose cells said something else
+		// would be two names for one thing. Left empty it is whatever the
+		// column is called in the site's language.
 		$set = DisplaySet::from_array(
 			array(
 				'type'    => DisplaySet::TYPE_COURSES,
-				'columns' => array( 'day', 'hours', 'age', 'gender', 'level', 'places', 'button' ),
+				'columns' => array( 'day', 'hours', 'age', 'gender', 'level', 'places', 'detail', 'button' ),
+				'labels'  => '' === $wording ? array() : array( 'detail' => $wording ),
 			)
 		);
 

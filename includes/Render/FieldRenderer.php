@@ -170,6 +170,14 @@ final class FieldRenderer {
 			);
 		}
 
+		// The wording of the way into a course, where the table offers one.
+		if ( in_array( 'detail', (array) ( $field['columns'] ?? array() ), true ) ) {
+			$attributes['detailText'] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+		}
+
 		if ( ! empty( $field['image'] ) ) {
 			// A field showing a picture is a different shape from one showing a
 			// price, and giving both the same settings is what left the

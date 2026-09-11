@@ -376,7 +376,11 @@ final class Fields {
 				'label'       => __( 'Courses of this kind', 'course-schedule-connector' ),
 				'icon'        => 'calendar-alt',
 				'moduleIcon'  => 'divi/module-post-slider',
-				'columns'     => array( 'day', 'hours', 'age', 'gender', 'level', 'places', 'button' ),
+				// The way to the course itself. Every other column here says
+				// something *about* a course and none of them was a way in:
+				// this table has no course name in it, so until now a reader
+				// who wanted the detail of one row had nowhere to click.
+				'columns'     => array( 'day', 'hours', 'age', 'gender', 'level', 'places', 'detail', 'button' ),
 				'description' => __( 'Every course filed under this kind, as a table — or only the ones the settings ask for.', 'course-schedule-connector' ),
 				'heading'     => true,
 				'filters'     => true,
@@ -760,6 +764,7 @@ final class Fields {
 			'price'    => __( 'Price', 'course-schedule-connector' ),
 			'places'   => __( 'Places left', 'course-schedule-connector' ),
 			'state'    => __( 'Cancelled', 'course-schedule-connector' ),
+			'detail'   => __( 'Details', 'course-schedule-connector' ),
 			'button'   => __( 'Booking button', 'course-schedule-connector' ),
 		);
 	}

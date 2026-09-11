@@ -392,7 +392,7 @@ final class DisplaySet {
 			return array( 'date', 'time', 'activity', 'course', 'room', 'trainer', 'price', 'places', 'state', 'button' );
 		}
 
-		return array( 'name', 'activity', 'days', 'day', 'hours', 'duration', 'age', 'gender', 'level', 'room', 'trainer', 'period', 'lessons', 'price', 'places', 'button' );
+		return array( 'name', 'activity', 'days', 'day', 'hours', 'duration', 'age', 'gender', 'level', 'room', 'trainer', 'period', 'lessons', 'price', 'places', 'detail', 'button' );
 	}
 
 	/**

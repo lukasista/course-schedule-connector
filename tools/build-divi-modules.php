@@ -1050,6 +1050,24 @@ function field_attribute( array $field ): array {
 		);
 	}
 
+	// The wording of the way into a course, for a table that offers one. It
+	// names the column and the link alike, because a column headed "Details"
+	// whose cells said something else would be two names for one thing.
+	if ( in_array( 'detail', (array) ( $field['columns'] ?? array() ), true ) ) {
+		$add(
+			'detailText',
+			array(
+				'label'       => 'Wording of the details link',
+				'description' => 'What the column is called and what each link says. Left empty, "Details".',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentCourses'
+		);
+	}
+
 	if ( ! empty( $field['filters'] ) ) {
 		$add(
 			'filterGenders',
@@ -1295,6 +1313,10 @@ function module_defaults( array $field ): array {
 
 	if ( ! empty( $field['signup'] ) ) {
 		$advanced['linkText'] = '';
+	}
+
+	if ( in_array( 'detail', (array) ( $field['columns'] ?? array() ), true ) ) {
+		$advanced['detailText'] = '';
 	}
 
 	if ( ! empty( $field['filters'] ) ) {

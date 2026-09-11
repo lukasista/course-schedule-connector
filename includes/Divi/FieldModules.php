@@ -308,6 +308,10 @@ final class FieldModules {
 				'label'       => __( 'Gap', 'course-schedule-connector' ),
 				'description' => __( 'Between the heading and the value.', 'course-schedule-connector' ),
 			),
+			'detailText'      => array(
+				'label'       => __( 'Wording of the details link', 'course-schedule-connector' ),
+				'description' => __( 'What the column is called and what each link says. Left empty, the name the column comes with.', 'course-schedule-connector' ),
+			),
 			'listStyle'       => array(
 				'label'       => __( 'Bullets', 'course-schedule-connector' ),
 				'description' => __( 'What the list is marked with.', 'course-schedule-connector' ),

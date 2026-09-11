@@ -181,6 +181,7 @@ final class FieldModuleRenderer {
 			'filterOrder'     => $read( 'filterOrder', 'asc' ),
 			'filterLimit'     => (int) $read( 'filterLimit', '0' ),
 			'linkText'        => $read( 'linkText' ),
+			'detailText'      => $read( 'detailText' ),
 			'extraClass'      => self::extra_class( $name ),
 		);
 	}

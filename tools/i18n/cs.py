@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 CS = {
+"Details": "Detaily",
+"Wording of the details link": "Text odkazu na detail",
+"What the column is called and what each link says. Left empty, the name the column comes with.": "Jak se sloupec jmenuje a co říká každý odkaz. Když necháte prázdné, název, se kterým sloupec přichází.",
 "%1$d courses and %2$d occurrences retrieved.": "Staženo %1$d kurzů a %2$d termínů.",
 "%1$d kind pages filled in, %2$d left as they were written, %3$d have no description in iSport to take.": "Doplněno %1$d stránek druhů kurzů, %2$d ponecháno tak, jak byly napsané, %3$d nemá v iSportu žádný popis, který by šlo převzít.",
 "%1$d settings imported, %2$d refused.": "Naimportováno %1$d nastavení, %2$d odmítnuto.",
@@ -587,6 +590,9 @@ JS_DIVI = {
 
 
 JS_FIELDS = {
+"Wording of the details link": "Text odkazu na detail",
+"What the column is called and what each link says. Left empty, the name the column comes with.": "Jak se sloupec jmenuje a co říká každý odkaz. Když necháte prázdné, název, se kterým sloupec přichází.",
+"Details": "Detaily",
 "As the theme says": "Podle šablony webu",
 "Between items": "Mezi položkami",
 "Content": "Obsah",
@@ -703,6 +709,8 @@ JS_FIELDS = {
 }
 
 JS_DIVI_FIELDS = {
+"Wording of the details link": "Text odkazu na detail",
+"Details": "Detaily",
 "Nothing to show here yet. On a course or trainer page this fills itself in; elsewhere, choose one in the module settings.": "Zatím není co zobrazit. Na stránce kurzu nebo trenéra se to doplní samo; jinde je vyberte v nastavení modulu.",
 "The field could not be loaded.": "Pole se nepodařilo načíst.",
 }
