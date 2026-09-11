@@ -116,10 +116,18 @@ final class FieldModuleRenderer {
 	 * one in the plugin that is allowed to know Divi's class names, and a site
 	 * without Divi never sees it.
 	 *
+	 * It is public because the builder's canvas does not go through this class
+	 * at all: it draws a module by asking `/cscs/v1/field` for the markup, and
+	 * that route renders the field with the plugin's own renderer. Without this
+	 * the anchor there carries `cscs-button` and not `et_pb_button` — so the
+	 * Button panel's CSS, which names both, matched nothing on the canvas while
+	 * matching perfectly on the page. Settings that appeared to do nothing, one
+	 * class away.
+	 *
 	 * @param string $name Field name.
 	 * @return string
 	 */
-	private static function extra_class( string $name ): string {
+	public static function extra_class( string $name ): string {
 		$field = Fields::get( $name ) ?? array();
 
 		return 'button' === (string) ( $field['signup'] ?? '' ) ? 'et_pb_button' : '';

@@ -561,22 +561,26 @@ function signup_attributes( array $field ): array {
 	$shape = (string) ( $field['signup'] ?? '' );
 
 	if ( 'button' === $shape ) {
-		// No `body #page-container` in front of it, and that absence is the
-		// point. The prefix was put there to outrank the button styling Divi
-		// writes for the site as a whole, and it cost more than it bought:
-		// inside a theme builder template Divi splices its own wrapper classes
-		// into a selector it did not write, and spliced into this one it
-		// produced `body #page-container .et-db #et-boc .et-l …`, which matches
-		// nothing; and in the visual builder's canvas the prefix does not
-		// describe the markup either, which is why the panel took settings the
-		// page obeyed and the canvas ignored.
+		// Both of these are measured, not guessed, and the measurement is the
+		// only reason they look like this.
 		//
-		// It was not buying much. The rule it has to beat is `body
-		// .et_pb_button` — one class and one element — and an order class with
-		// two classes after it beats that with room to spare. Every other part
-		// of these modules is named this way, and those are the parts that have
-		// worked in all three places all along.
-		$selector = '{{selector}} .cscs-button.et_pb_button';
+		// The rule to beat is Divi's own button styling for the site, and it is
+		// not one selector but two: `body .et_pb_button` on an ordinary page,
+		// and `body.et-db #et-boc .et-l .et_pb_button` — one id and three
+		// classes — everywhere a theme builder template is involved, which is
+		// most of this site. A bare order class weighs three classes and loses
+		// to the second one. That is what `body #page-container` is for, and
+		// taking it off to make the selector tidier put the button straight
+		// back to the site's red.
+		//
+		// The second selector is what Divi uses inside a template instead of
+		// the first, and where a module does not name one it makes one by
+		// splicing its wrappers into the plain selector — which puts `.et-db`
+		// inside `#page-container`, where nothing matches, since `.et-db` is on
+		// the body. It takes `{{baseSelector}}` and not `{{selector}}`: inside a
+		// template the latter has already been spliced, so naming it writes the
+		// wrapper chain twice and matches nothing all over again.
+		$selector = 'body #page-container {{selector}} .cscs-button.et_pb_button';
 
 		return array(
 			'button' => array(
@@ -584,11 +588,12 @@ function signup_attributes( array $field ): array {
 				'selector'    => $selector,
 				'elementType' => 'button',
 				'styleProps'  => array(
-					'selector' => $selector,
+					'selector'               => $selector,
+					'customPostTypeSelector' => 'body.et-db #page-container #et-boc .et-l {{baseSelector}} .cscs-button.et_pb_button',
 					// The Button group's own alignment, which belongs on the box
 					// around the button rather than on the button, the way Divi
 					// routes its own to the button's wrapper.
-					'button'   => array(
+					'button'                 => array(
 						'propertySelectors' => array(
 							'desktop' => array(
 								'value' => array( 'text-align' => '{{selector}} .cscs-field__value' ),

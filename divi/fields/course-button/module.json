@@ -62,10 +62,11 @@
         },
         "button": {
             "type": "object",
-            "selector": "{{selector}} .cscs-button.et_pb_button",
+            "selector": "body #page-container {{selector}} .cscs-button.et_pb_button",
             "elementType": "button",
             "styleProps": {
-                "selector": "{{selector}} .cscs-button.et_pb_button",
+                "selector": "body #page-container {{selector}} .cscs-button.et_pb_button",
+                "customPostTypeSelector": "body.et-db #page-container #et-boc .et-l {{baseSelector}} .cscs-button.et_pb_button",
                 "button": {
                     "propertySelectors": {
                         "desktop": {

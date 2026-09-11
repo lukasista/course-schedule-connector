@@ -176,6 +176,16 @@ final class RestPreview {
 			);
 		}
 
+		// The canvas is Divi's, so the markup it gets has to be the markup Divi
+		// gets. The only difference the front end makes is a class name, and
+		// leaving it off here is what made the Button panel look broken: its CSS
+		// names `.cscs-button.et_pb_button`, and the canvas had only the first
+		// half of that. The class comes from the one place allowed to know
+		// Divi's names, rather than being spelled a second time here.
+		if ( class_exists( '\\CSCS\\Divi\\FieldModuleRenderer' ) ) {
+			$settings['extraClass'] = \CSCS\Divi\FieldModuleRenderer::extra_class( $name );
+		}
+
 		return new \WP_REST_Response(
 			array(
 				'found' => true,
