@@ -270,11 +270,18 @@ final class FieldModulesTest extends TestCase {
 				$defaults['button']['decoration']['button']['desktop']['value'] ?? null,
 				$name
 			);
+			// No `body #page-container` in front of it. The prefix was bought to
+			// outrank the site's own button styling and cost two contexts: a
+			// theme builder template, where Divi splices its wrappers into a
+			// selector it did not write and produced one that matched nothing,
+			// and the builder canvas, where the prefix does not describe the
+			// markup either.
 			$this->assertSame(
-				'body #page-container {{selector}} .cscs-button.et_pb_button',
+				'{{selector}} .cscs-button.et_pb_button',
 				$attribute['styleProps']['selector'] ?? '',
 				$name
 			);
+			$this->assertArrayNotHasKey( 'customPostTypeSelector', $attribute['styleProps'] ?? array(), $name );
 		}
 
 		$this->assertSame( 1, $buttons );

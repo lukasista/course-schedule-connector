@@ -561,7 +561,22 @@ function signup_attributes( array $field ): array {
 	$shape = (string) ( $field['signup'] ?? '' );
 
 	if ( 'button' === $shape ) {
-		$selector = 'body #page-container {{selector}} .cscs-button.et_pb_button';
+		// No `body #page-container` in front of it, and that absence is the
+		// point. The prefix was put there to outrank the button styling Divi
+		// writes for the site as a whole, and it cost more than it bought:
+		// inside a theme builder template Divi splices its own wrapper classes
+		// into a selector it did not write, and spliced into this one it
+		// produced `body #page-container .et-db #et-boc .et-l …`, which matches
+		// nothing; and in the visual builder's canvas the prefix does not
+		// describe the markup either, which is why the panel took settings the
+		// page obeyed and the canvas ignored.
+		//
+		// It was not buying much. The rule it has to beat is `body
+		// .et_pb_button` — one class and one element — and an order class with
+		// two classes after it beats that with room to spare. Every other part
+		// of these modules is named this way, and those are the parts that have
+		// worked in all three places all along.
+		$selector = '{{selector}} .cscs-button.et_pb_button';
 
 		return array(
 			'button' => array(
@@ -570,31 +585,9 @@ function signup_attributes( array $field ): array {
 				'elementType' => 'button',
 				'styleProps'  => array(
 					'selector' => $selector,
-					// The one that mattered. Inside a theme builder template
-					// Divi does not use the selector above — it uses this one,
-					// and where a module does not give it, it makes one by
-					// splicing its own wrapper classes into the plain selector.
-					// That splice puts `.et-db` *inside* `#page-container`,
-					// and `.et-db` is on the `body`: the rule came out as
-					// `body #page-container .et-db #et-boc .et-l …`, which
-					// matches nothing on any page. The CSS was on the page,
-					// correct in every declaration, and selected no element —
-					// which is why the panel looked like it saved nothing, and
-					// why the value's text settings, whose selector carries no
-					// prefix to splice into, went on working throughout.
-					//
-					// Divi's own Call To Action names this second selector for
-					// exactly this reason, and it is `{{baseSelector}}` there
-					// rather than `{{selector}}` — which is the second half of
-					// the lesson. Inside a template `{{selector}}` has already
-					// had the wrapper chain spliced into it, so naming it here
-					// writes the chain twice and matches nothing all over
-					// again. `{{baseSelector}}` is the bare order class.
-					'customPostTypeSelector' => 'body.et-db #page-container #et-boc .et-l {{baseSelector}} .cscs-button.et_pb_button',
-					// And the Button group's own alignment, which belongs on
-					// the box around the button rather than on the button, the
-					// way Divi routes its own to the button's wrapper. It is
-					// what the value's text settings were being used for.
+					// The Button group's own alignment, which belongs on the box
+					// around the button rather than on the button, the way Divi
+					// routes its own to the button's wrapper.
 					'button'   => array(
 						'propertySelectors' => array(
 							'desktop' => array(
