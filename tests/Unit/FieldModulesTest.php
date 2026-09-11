@@ -282,6 +282,19 @@ final class FieldModulesTest extends TestCase {
 				$name
 			);
 			$this->assertArrayNotHasKey( 'customPostTypeSelector', $attribute['styleProps'] ?? array(), $name );
+
+			// Every group the site's own button styling also writes is marked
+			// important. In the builder's canvas Divi splices no wrapper chain
+			// onto our selector, so it stands at three classes and no id against
+			// that rule's id — and loses the background, the radius, the weight
+			// and the size. A gradient showed there and a colour did not,
+			// because nothing competes for `background-image`.
+			foreach ( array( 'background', 'border', 'font', 'spacing' ) as $group ) {
+				$this->assertTrue(
+					$attribute['styleProps'][ $group ]['important'] ?? false,
+					$name . ' ' . $group
+				);
+			}
 		}
 
 		$this->assertSame( 1, $buttons );

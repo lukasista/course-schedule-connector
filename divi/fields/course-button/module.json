@@ -66,6 +66,18 @@
             "elementType": "button",
             "styleProps": {
                 "selector": "{{selector}} .cscs-button.et_pb_button",
+                "background": {
+                    "important": true
+                },
+                "border": {
+                    "important": true
+                },
+                "font": {
+                    "important": true
+                },
+                "spacing": {
+                    "important": true
+                },
                 "button": {
                     "propertySelectors": {
                         "desktop": {

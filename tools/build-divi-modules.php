@@ -588,11 +588,34 @@ function signup_attributes( array $field ): array {
 				'selector'    => $selector,
 				'elementType' => 'button',
 				'styleProps'  => array(
-					'selector' => $selector,
+					'selector'   => $selector,
+					// Marked important, and the reason is a specificity our
+					// selector cannot reach. Divi writes the site's button
+					// styling at `body.et-db #et-boc .et-l .et_pb_button` — one
+					// id, three classes and an element — and on the page it
+					// splices the same wrapper chain onto ours, which then wins
+					// on class count. In the builder's canvas it splices nothing,
+					// so ours stands at three classes and no id and loses every
+					// property that rule also sets: the background, the radius,
+					// the weight, the size.
+					//
+					// That is why a gradient or an image showed in the canvas
+					// while a plain colour did not — nothing competes for
+					// `background-image`, and `background-color` was being
+					// beaten. An id of our own is not the way out: the one place
+					// to put it is in front, and a prefix there is what breaks
+					// the splice on the page.
+					//
+					// Divi's own Button marks its spacing important and four of
+					// its font properties, for the same kind of reason.
+					'background' => array( 'important' => true ),
+					'border'     => array( 'important' => true ),
+					'font'       => array( 'important' => true ),
+					'spacing'    => array( 'important' => true ),
 					// The Button group's own alignment, which belongs on the box
 					// around the button rather than on the button, the way Divi
 					// routes its own to the button's wrapper.
-					'button'   => array(
+					'button'     => array(
 						'propertySelectors' => array(
 							'desktop' => array(
 								'value' => array( 'text-align' => '{{selector}} .cscs-field__value' ),
