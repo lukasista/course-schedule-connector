@@ -5,7 +5,7 @@
 > potřeba vědět *proč* něco vypadá, jak vypadá. Do vydaného pluginu se
 > nedistribuuje.
 
-## Stav k 8. 9. 2026
+## Stav k 11. 9. 2026
 
 Tenhle soubor je most mezi pracovními dny. Je psaný tak, aby se do něj dalo
 vstoupit bez znalosti předchozího rozhovoru: co je hotové, jak se to spouští,
@@ -28,6 +28,19 @@ Poslední commity:
 
 | commit | co přinesl |
 |---|---|
+| `28e0e69` | barva pozadí tlačítka se propíše i v plátně builderu (`important`) |
+| `9dd4aa3` | tlačítko v plátně: chybějící třída v náhledu + selektor bez předpony |
+| `ff590f5` | náhled `/cscs/v1/field` dostává tytéž třídy jako frontend |
+| `6b7a51c` | pořadí sloupců v tabulce, nula sloupec vynechá |
+| `ec43921` | sloupec **Detaily** — odkaz z tabulky na stránku kurzu |
+| `2912588` | název kurzu je nadpis (H1, Text nadpisu); tlačítko bez Textu hodnoty |
+| `ced62c1` | šest polí bez nadpisu; Button panel má kam zapisovat |
+| `d6c5910` | Rozvržení pole je Divi skupina **Rozvržení** v záložce Návrh |
+| `2a8b0dd` | pole si na šabloně kurzu dojdou pro trenéra a pro druh kurzu |
+| `86d5b09` | složky modulů vedle sebe — vnořená se z Diviho seznamu ztratí |
+| `37fadfb` | bloky a moduly rozdělené na Kurzy / Druhy kurzů / Trenéři |
+| `1cf5bad` | tlačítko a odkaz jsou dva moduly, tlačítko je skutečné Divi tlačítko |
+| `8cef1c2` | editovatelný text odkazu; `isport_button_text` v nastavení |
 | `b90e32e` | popis druhu z kurzů, ceny podle délky lekce, sloupec Délka |
 | `bcbb77f` | druh kurzu má vlastní stránku a modul s rozvrhem svých kurzů |
 | `41249c4` | jedna úroveň odrážek a jejich nastavení; panely bloku do karty Styly |
@@ -47,14 +60,98 @@ Poslední commity:
 | `ba734c1` | Den a Čas místo „Kdy“; trenéři jako typ příspěvku |
 | `49cde06` | předchozí předání práce |
 
-Testy: **225 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
+Testy: **260 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
 repozitáře.
 
-**Nepushnuté commity** na Macu — viz problém s portem 443 níže.
+Vše je **pushnuté**; pracovní strom je čistý.
 
 ---
 
 ## 2. Co přibylo naposledy
+
+### Prohlídka v builderu (10.–11. 9.) — moduly z pohledu člověka, který navrhuje
+
+Celé tohle kolo vzešlo z toho, že si Lukáš sedl do Divi builderu a zkoušel
+s moduly opravdu pracovat. Nic z toho nebyla chyba v datech; všechno to byla
+chyba v tom, co panel nabízí a co z nabízeného skutečně funguje.
+
+**Bloky a moduly jsou rozdělené podle toho, co se zrovna navrhuje** — Kurzy,
+Druhy kurzů, Trenéři. Dvaatřicet položek pod jednou hlavičkou „iSport“ byl
+kratší seznam, ale pořád špatná otázka: člověk v builderu dělá stránku trenéra,
+nebo druhu, nebo kurzu. Past, která to stála jeden pokus: **Divi zahodí složku,
+která přímo nedrží žádný modul** — `getFolders` nechá jen ty, pod kterými
+`getChildModules` něco najde. Složka „iSport“ se třemi podsložkami tedy zmizela
+i se vším pod sebou. Tři složky vedle sebe, ne vnořené. Test to hlídá.
+
+**Přihlašovací odkaz jsou dva moduly, tlačítko a odkaz.** První pokus byl jeden
+modul s přepínačem, který měnil název třídy a nic víc — panel Návrhu zůstal ten,
+jaký dostane textové pole. Tlačítko teď deklaruje `elementType: button`
+s Divi vlastním `decoration.button`, což přivolá celý Button panel; odkaz je
+kotva v textu s vlastní skupinou písma. Text obojího se dá psát, a `Nastavení →
+Co říká odkaz na přihlášení` je to, na co se všechno ostatní odvolává.
+
+**Pole si na šabloně kurzu dojdou pro trenéra a pro druh.** Jedenáct z dvaatřiceti
+modulů hlásilo na stránce kurzu „tahle stránka není ani jedno“. Pole teď dosáhne
+o krok dál, jen z kurzu a jen tam, kde je odpověď jedna věc. Pravidlo, kterým se
+zužují kandidátní stránky druhu, má jednu implementaci — `KindRepository::matches()`.
+
+**Rozvržení pole je Divi vlastní skupina Rozvržení v záložce Návrh**, ne rozbalovák
+pluginu v Obsahu. Deklarované tak, jak to má Divi Icon List. Tři věci se zjistily
+vyrenderováním a přečtením stylopisu, ne úvahou: Divi **nikdy nevypisuje `display`**
+(režim říká třídou `et_flex_module` / `et_grid_module` na modulu), mezeru píše jako
+`--horizontal-gap` / `--vertical-gap`, a všechno to má váhu dvou tříd bez id.
+Proto je náš stylopis v `:where()` a reset okrajů záměrně přesně na dvě třídy.
+
+**Šest polí nemá nadpis**, protože nikdy nebyla věc, nad kterou nadpis sedí: název
+kurzu, obrázek kurzu, tlačítko a odkaz přihlášení, jméno trenéra a fotografie.
+Nese to jeden klíč — popisek `null` znamená „tenhle druh věci to není“ (prázdný
+popisek pořád znamená „nemá vlastní jméno, ale přijme napsané“). A **pole, které
+samo je nadpisem** (název kurzu, jméno trenéra), to říká: hodnota je deklarovaná
+jako nadpis, panel jí říká *Text nadpisu*, prvek *Prvek nadpisu* a seznam začíná
+na **H1**.
+
+**Sloupec Detaily** je cesta z tabulky do kurzu. Tabulka kurzů byla tabulka údajů
+*o* kurzech a nikdy cesta k jednomu z nich — na stránce druhu chybí i název kurzu.
+Hodnota sloupce je v každém řádku stejná, protože je to cesta dovnitř, ne údaj, a
+co říká, je to, jak se sloupec jmenuje.
+
+**Pořadí sloupců** se nastavuje číslem u každého sloupce, nula ho vynechá.
+`Fields::ordered_columns()` je jediná implementace a ptají se jí čtyři tabulky.
+Je to **mezikrok**: cílový tvar jsou sloupce jako child prvky, tažené myší
+v panelu vrstev — viz Otevřené body.
+
+### Tlačítko ve visual builderu — čtyři kola a co je stálo
+
+Stojí za zapsání celé, protože každé kolo vypadalo jako táž chyba a pokaždé to
+byla jiná.
+
+1. **Panel neukládal.** V `module-default-render-attributes.json` chyběla větev
+   `button`, takže nebylo kam zapsat. Táž past jako u výběru zdroje. Každý modul
+   v knihovně Divi s `elementType: button` ten výchozí atribut má.
+2. **Ukládal, ale nezobrazoval se v Theme Builderu.** Uvnitř šablony Divi
+   nepoužívá selektor atributu, ale `customPostTypeSelector`; kde ho modul
+   nepojmenuje, vyrobí si ho vložením vlastních obalů do našeho selektoru —
+   a vložilo `.et-db` dovnitř `#page-containeru`, kde `.et-db` není.
+3. **V plátně builderu chyběla kotvě třída `et_pb_button`.** Plátno tyhle moduly
+   nevykresluje přes `FieldModuleRenderer`, ale ptá se routy `/cscs/v1/field`,
+   která renderovala pluginem, jenž o Divi neví nic.
+4. **Barva pozadí se v plátně pořád neprojevila, přechod ano.** Ten rozdíl
+   pojmenoval příčinu: o `background-image` se nikdo nepere, kdežto
+   `background-color` přebíjelo `body.et-db #et-boc .et-l .et_pb_button` — jedno
+   id, tři třídy a prvek. Na stránce Divi týž řetěz doplní i před náš selektor;
+   v plátně nedoplní nic. Skupiny, se kterými se to pravidlo pere, jsou proto
+   označené `important`, což je idiom, jaký Divi používá na vlastním tlačítku.
+
+> **Varování, které stálo dvě kola: `getComputedStyle` se v plátně builderu
+> nedá věřit.** Inline `background-color` s `!important`, zapsaný na živou kotvu,
+> viditelný v jejím atributu `style`, na připojeném a vykresleném prvku, se
+> přečetl jako stará hodnota. Spolehlivé jsou **shoda selektorů (`matches()`),
+> pravidla ve `styleSheets` a screenshot**. Jednou kvůli tomu byla vrácena
+> správná oprava.
+
+Plátno builderu se otevírá na `?post_type=et_body_layout&p=<id>&et_fb=1` a jeho
+obsah je v iframu `#et-vb-app-frame` — stejný původ, takže se do něj dá číst
+i zapisovat.
 
 ### Alfa 2 (8. 9.) — devět hlášení z provozu, tři z nich jedna chyba
 
@@ -536,6 +633,22 @@ ne modulu.
 
 ## 5. Otevřené body
 
+- **Sloupce jako child prvky** — dohodnuté vylepšení na později. Sloupce tabulky
+  mají být child moduly, tažené myší v panelu vrstev, každý s vlastní záložkou
+  Obsah / Návrh / Pokročilé. Mechanismus je ověřený ve zdrojáku Divi:
+  `childrenName` na rodiči, `category: "child-module"` na potomkovi (tak to má
+  harmonika i seznam s ikonami). Práce navíc: rodič musí tabulku z potomků
+  skládat, návrh každého potomka musí dopadnout na jeho vlastní buňky, a totéž
+  se musí udělat přes InnerBlocks pro Gutenberg blok. Stránky bez potomků musí
+  dál fungovat. Dnešní číslování sloupců je mezikrok, který tím zanikne.
+- **Tlačítko má skupiny označené `important`.** Přebít barvu tlačítka z vlastního
+  stylopisu proto chce `!important`. Dá se to zúžit jen na vlastnosti, o které se
+  Divi opravdu pere, kdyby to vadilo.
+- **Zbytky po testování na webu.** Na šabloně *Rozvržení Všechny Druhy Kurzů
+  Hlavní Text* je tlačítko obarvené namodro s rádiusem 28 px a stínem — bylo to
+  kvůli ověření a dá se to smazat nebo přenastavit. Na stránce *Isport system
+  integration test* jsou dva zkušební moduly. `isport_button_text` je na webu
+  nastavené na „Registrovat se“.
 - **Testovací data na webu.** Na trenérovi *Pavlína Mládková* jsou vyplněné
   zkušební kvalifikace, zajímavost a motto; na stránce *Isport system
   integration test* je pod výpisem modul **Cena** namířený na kurz
