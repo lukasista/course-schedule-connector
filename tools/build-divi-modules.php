@@ -135,6 +135,12 @@ function module_metadata( string $name, array $field ): array {
 		'moduleOrderClassName' => 'cscs_divi_field_' . $slug,
 		'moduleIcon'           => $field['moduleIcon'],
 		'category'             => 'module',
+		// A table field piloting the column-children mechanism names its one
+		// child module here; every other field allows none, the same as Divi's
+		// own modules that are not a Contact Form or an Accordion. See
+		// `CSCS\Render\Fields::columns_from_children()` for the PHP side and
+		// `divi/course-schedule-column/module.json` for the child itself.
+		'childrenName'         => empty( $field['columns_as_children'] ) ? array() : array( 'cscs/divi-' . $name . '-column' ),
 		// Divi's module list is alphabetical and long; thirty-two modules
 		// spread through it are not a set anybody can find. This is the same
 		// key WooCommerce's modules carry to get their own shelf — three of

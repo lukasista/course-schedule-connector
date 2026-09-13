@@ -36,6 +36,7 @@
 	var elementClassnames = divi.module ? divi.module.elementClassnames : null;
 	var StyleContainer = divi.module ? divi.module.StyleContainer : null;
 	var CssStyle = divi.module ? divi.module.CssStyle : null;
+	var ChildModulesContainer = divi.module ? divi.module.ChildModulesContainer : null;
 	var registerModule = divi.moduleLibrary ? divi.moduleLibrary.registerModule : null;
 
 	if ( ! React || ! hooks || ! ModuleContainer || ! registerModule ) {
@@ -362,6 +363,33 @@
 						},
 					} );
 
+					var children = [ styles( props ), preview ];
+
+					// A field that names a child module (`course-schedule` today)
+					// builds its table from whichever of those children are
+					// present, in the order they were dragged into — the exact
+					// order `Fields::columns_from_children()` reads on the server.
+					// Divi does not draw a module's children on its own; a parent
+					// has to ask for them by id, the same way its own Contact Form
+					// asks for its Contact Fields.
+					if (
+						ChildModulesContainer &&
+						metadata.childrenName &&
+						metadata.childrenName.length &&
+						props.childrenIds &&
+						props.childrenIds.length
+					) {
+						children.push(
+							React.createElement( ChildModulesContainer, {
+								key: 'cscs-columns',
+								ids: props.childrenIds,
+								isLooped: props.isLooped,
+								loopIndex: props.loopIndex,
+								canvasId: props.canvasId,
+							} )
+						);
+					}
+
 					return React.createElement(
 						ModuleContainer,
 						{
@@ -372,7 +400,7 @@
 							name: props.name,
 							classnamesFunction: moduleClassnames,
 						},
-						[ styles( props ), preview ]
+						children
 					);
 				},
 

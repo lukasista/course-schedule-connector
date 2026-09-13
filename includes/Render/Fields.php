@@ -239,14 +239,20 @@ final class Fields {
 				'heading'     => true,
 			),
 			'schedule' => array(
-				'kind'        => self::HTML,
-				'title'       => __( 'Upcoming classes', 'course-schedule-connector' ),
-				'label'       => __( 'Upcoming classes', 'course-schedule-connector' ),
-				'icon'        => 'calendar-alt',
-				'moduleIcon'  => 'divi/module-table-of-contents',
-				'columns'     => array( 'date', 'time', 'room', 'trainer', 'state' ),
-				'description' => __( 'This course’s own timetable, as a table.', 'course-schedule-connector' ),
-				'heading'     => true,
+				'kind'                => self::HTML,
+				'title'               => __( 'Upcoming classes', 'course-schedule-connector' ),
+				'label'               => __( 'Upcoming classes', 'course-schedule-connector' ),
+				'icon'                => 'calendar-alt',
+				'moduleIcon'          => 'divi/module-table-of-contents',
+				'columns'             => array( 'date', 'time', 'room', 'trainer', 'state' ),
+				'description'         => __( 'This course’s own timetable, as a table.', 'course-schedule-connector' ),
+				'heading'             => true,
+				// Piloting the replacement for the numbered column settings:
+				// this table's columns and their order may instead come from
+				// `cscs/divi-course-schedule-column` children in Divi, or
+				// `cscs/course-schedule-column` inner blocks in Gutenberg. See
+				// `Fields::columns_from_children()`.
+				'columns_as_children' => true,
 			),
 			'makeup'  => array(
 				'kind'        => self::HTML,
@@ -838,6 +844,88 @@ final class Fields {
 		$kept = array_column( $ranked, 'column' );
 
 		return array() === $kept ? $columns : $kept;
+	}
+
+	/**
+	 * Returns the columns a set of child "column" blocks choose, in the order
+	 * they were placed.
+	 *
+	 * A block or module keeps its children as parsed blocks of its own — the
+	 * same shape whether Divi or Gutenberg parsed them — and this reads the
+	 * field each one names, keeping only the ones this table actually has and
+	 * only the first mention of each. An instance with none of these children
+	 * yet, or none that name a column that exists, answers with an empty list
+	 * on purpose: that is the signal the caller uses to fall back to the
+	 * numbered settings instead, so a page saved before this existed keeps
+	 * working exactly as it did, and a table with every child deleted does
+	 * too rather than losing its columns outright.
+	 *
+	 * @param string                           $name         Field name.
+	 * @param array<int, array<string, mixed>> $inner_blocks Parsed child blocks.
+	 * @param string                           $child_block  Block or module name a column child registers as.
+	 * @return array<int, string>
+	 */
+	public static function columns_from_children( string $name, array $inner_blocks, string $child_block ): array {
+		$catalogue = array_values( (array) ( self::get( $name )['columns'] ?? array() ) );
+
+		if ( array() === $catalogue || array() === $inner_blocks || '' === $child_block ) {
+			return array();
+		}
+
+		$chosen = array();
+
+		foreach ( $inner_blocks as $child ) {
+			if ( ! is_array( $child ) || $child_block !== (string) ( $child['blockName'] ?? '' ) ) {
+				continue;
+			}
+
+			$attrs = (array) ( $child['attrs'] ?? array() );
+
+			// Divi keeps the value by breakpoint and state even where there is
+			// neither; Gutenberg keeps it flat. Both are read so the one helper
+			// serves both editors.
+			$field = $attrs['column']['advanced']['field']['desktop']['value'] ?? ( $attrs['field'] ?? '' );
+
+			if ( is_array( $field ) ) {
+				$field = $field['field'] ?? '';
+			}
+
+			$field = sanitize_key( (string) $field );
+
+			if ( in_array( $field, $catalogue, true ) && ! in_array( $field, $chosen, true ) ) {
+				$chosen[] = $field;
+			}
+		}
+
+		return $chosen;
+	}
+
+	/**
+	 * Writes a chosen list of columns into the settings `ordered_columns()`
+	 * already knows how to read, so that nothing downstream has to learn a
+	 * second way a table's columns can be decided.
+	 *
+	 * An empty list changes nothing — the settings already read from the
+	 * module or block attributes are left exactly as they were, which is what
+	 * keeps an instance with no column children behaving as it always has.
+	 *
+	 * @param string               $name     Field name.
+	 * @param array<string, mixed> $settings Settings read so far.
+	 * @param array<int, string>   $chosen   Columns chosen by children, in order.
+	 * @return array<string, mixed>
+	 */
+	public static function apply_children_columns( string $name, array $settings, array $chosen ): array {
+		if ( array() === $chosen ) {
+			return $settings;
+		}
+
+		foreach ( (array) ( self::get( $name )['columns'] ?? array() ) as $column ) {
+			$position = array_search( (string) $column, $chosen, true );
+
+			$settings[ self::column_order_attribute( (string) $column ) ] = false === $position ? '0' : (string) ( $position + 1 );
+		}
+
+		return $settings;
 	}
 
 	/**

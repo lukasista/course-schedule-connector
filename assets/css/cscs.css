@@ -132,6 +132,16 @@
 	color: var(--cscs-muted);
 }
 
+/*
+ * The area a table piloting the column-children mechanism builds its columns
+ * from, in the block editor's own canvas. Never seen on the page itself: a
+ * column child renders nothing there, so nothing here reaches the front end
+ * either.
+ */
+.cscs-columns-editor {
+	margin-bottom: 1em;
+}
+
 @media (prefers-color-scheme: dark) {
 	.cscs {
 		--cscs-border: #3a3a3a;

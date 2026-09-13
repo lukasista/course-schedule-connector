@@ -457,4 +457,208 @@ final class FieldModulesTest extends TestCase {
 		// standing in for a missing case looks like from here.
 		$this->assertSame( count( $seen ), count( array_unique( $seen ) ) );
 	}
+
+	/**
+	 * One field pilots the column-children mechanism, and names its child.
+	 *
+	 * Every other field names none — a table nobody has touched offers no
+	 * child to drag in at all, rather than one that would do nothing if used.
+	 *
+	 * @return void
+	 */
+	public function test_a_table_piloting_column_children_names_its_child(): void {
+		$piloting = 0;
+
+		foreach ( Fields::all() as $name => $field ) {
+			$children = $this->read( 'divi/fields/' . $name . '/module.json' )['childrenName'] ?? null;
+
+			if ( empty( $field['columns_as_children'] ) ) {
+				$this->assertSame( array(), $children, $name );
+
+				continue;
+			}
+
+			++$piloting;
+
+			$this->assertSame( array( 'cscs/divi-' . $name . '-column' ), $children, $name );
+		}
+
+		// A guard that guards nothing is worse than none: it passes for ever
+		// the day the flag stops being read.
+		$this->assertSame( 1, $piloting );
+	}
+
+	/**
+	 * The column child itself exists, agrees with what its parent names, and
+	 * has no columns — or children — of its own.
+	 *
+	 * @return void
+	 */
+	public function test_the_column_child_module_exists_and_agrees_with_its_parent(): void {
+		$parent = $this->read( 'divi/fields/course-schedule/module.json' );
+		$child  = $this->read( 'divi/course-schedule-column/module.json' );
+
+		$this->assertNotSame( array(), $child, 'divi/course-schedule-column/module.json is missing.' );
+		$this->assertSame( $parent['childrenName'][0] ?? '', $child['name'] ?? '' );
+		$this->assertSame( 'child-module', $child['category'] ?? '' );
+		$this->assertSame( array(), $child['childrenName'] ?? null );
+	}
+
+	/**
+	 * Reads the columns a set of children choose, the way either editor hands
+	 * them over.
+	 *
+	 * Divi keeps a child's attribute by breakpoint and state even where there
+	 * is neither; Gutenberg keeps it flat. The same helper serves both, so
+	 * `FieldModuleRenderer` and `FieldBlocks` need not each know the other
+	 * editor's shape.
+	 *
+	 * @return void
+	 */
+	public function test_columns_from_children_reads_both_editors_shapes(): void {
+		$divi_child = static function ( string $field ): array {
+			return array(
+				'blockName' => 'cscs/divi-course-schedule-column',
+				'attrs'     => array(
+					'column' => array(
+						'advanced' => array(
+							'field' => array( 'desktop' => array( 'value' => $field ) ),
+						),
+					),
+				),
+			);
+		};
+
+		$gutenberg_child = static function ( string $field ): array {
+			return array(
+				'blockName' => 'cscs/course-schedule-column',
+				'attrs'     => array( 'field' => $field ),
+			);
+		};
+
+		$this->assertSame(
+			array( 'trainer', 'date' ),
+			Fields::columns_from_children(
+				'course-schedule',
+				array( $divi_child( 'trainer' ), $divi_child( 'date' ) ),
+				'cscs/divi-course-schedule-column'
+			)
+		);
+
+		$this->assertSame(
+			array( 'trainer', 'date' ),
+			Fields::columns_from_children(
+				'course-schedule',
+				array( $gutenberg_child( 'trainer' ), $gutenberg_child( 'date' ) ),
+				'cscs/course-schedule-column'
+			)
+		);
+
+		// A child naming a block this table has no such column for, a child
+		// belonging to a different block entirely, and a second child naming a
+		// column already chosen: none of them earn the column a second place,
+		// or any place at all.
+		$this->assertSame(
+			array( 'date' ),
+			Fields::columns_from_children(
+				'course-schedule',
+				array(
+					$divi_child( 'not-a-real-column' ),
+					array( 'blockName' => 'cscs/divi-some-other-module', 'attrs' => array() ),
+					$divi_child( 'date' ),
+					$divi_child( 'date' ),
+				),
+				'cscs/divi-course-schedule-column'
+			)
+		);
+	}
+
+	/**
+	 * No children at all is the signal the caller falls back on.
+	 *
+	 * A table saved before this mechanism existed has none, and a table with
+	 * every child since deleted has none either — both have to answer exactly
+	 * as `apply_children_columns()` expects: nothing to override with.
+	 *
+	 * @return void
+	 */
+	public function test_columns_from_children_is_the_fallback_signal_when_there_are_none(): void {
+		$this->assertSame(
+			array(),
+			Fields::columns_from_children( 'course-schedule', array(), 'cscs/divi-course-schedule-column' )
+		);
+
+		// A field that draws no table at all — asking it for columns is not a
+		// mistake worth a warning, just an empty answer.
+		$this->assertSame(
+			array(),
+			Fields::columns_from_children( 'course-price', array(), 'cscs/divi-course-price-column' )
+		);
+	}
+
+	/**
+	 * An empty choice leaves the settings exactly as they were.
+	 *
+	 * This is the whole of what keeps a page with no column children behaving
+	 * as it always has: the numbered settings it already carries reach
+	 * `ordered_columns()` untouched.
+	 *
+	 * @return void
+	 */
+	public function test_apply_children_columns_leaves_settings_alone_when_nothing_was_chosen(): void {
+		$settings = array( 'orderDate' => '3', 'label' => 'Kept as it was' );
+
+		$this->assertSame( $settings, Fields::apply_children_columns( 'course-schedule', $settings, array() ) );
+	}
+
+	/**
+	 * A choice writes every candidate column's place, in the numbered shape
+	 * `ordered_columns()` already reads — the chosen ones counting from one,
+	 * and the rest sent to nought, which is that function's own way of saying
+	 * "leave this out".
+	 *
+	 * @return void
+	 */
+	public function test_apply_children_columns_writes_the_numbered_settings_children_imply(): void {
+		$settings = Fields::apply_children_columns(
+			'course-schedule',
+			array( 'label' => 'Untouched by any of this' ),
+			array( 'trainer', 'date' )
+		);
+
+		$this->assertSame( 'Untouched by any of this', $settings['label'] );
+		$this->assertSame( '2', $settings['orderDate'] );
+		$this->assertSame( '1', $settings['orderTrainer'] );
+
+		foreach ( array( 'orderTime', 'orderRoom', 'orderState' ) as $hidden ) {
+			$this->assertSame( '0', $settings[ $hidden ], $hidden );
+		}
+	}
+
+	/**
+	 * The two new helpers together reproduce, from a set of children, exactly
+	 * the table `ordered_columns()` already knew how to build from numbers —
+	 * which is the entire point: nothing downstream had to change to read a
+	 * table built the new way.
+	 *
+	 * @return void
+	 */
+	public function test_children_reorder_and_narrow_the_table_ordered_columns_returns(): void {
+		$children = array(
+			array( 'blockName' => 'cscs/course-schedule-column', 'attrs' => array( 'field' => 'trainer' ) ),
+			array( 'blockName' => 'cscs/course-schedule-column', 'attrs' => array( 'field' => 'date' ) ),
+			array( 'blockName' => 'cscs/course-schedule-column', 'attrs' => array( 'field' => 'room' ) ),
+		);
+
+		$settings = Fields::apply_children_columns(
+			'course-schedule',
+			array(),
+			Fields::columns_from_children( 'course-schedule', $children, 'cscs/course-schedule-column' )
+		);
+
+		$this->assertSame(
+			array( 'trainer', 'date', 'room' ),
+			Fields::ordered_columns( 'course-schedule', $settings )
+		);
+	}
 }

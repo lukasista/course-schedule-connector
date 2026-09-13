@@ -7,6 +7,7 @@
     "moduleOrderClassName": "cscs_divi_field_trainer_hobbies",
     "moduleIcon": "divi/module-icon-list-item",
     "category": "module",
+    "childrenName": [],
     "folder": "cscs-trainers",
     "attributes": {
         "module": {

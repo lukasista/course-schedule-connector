@@ -51,8 +51,9 @@ final class FieldModuleRenderer {
 	public static function render( string $name, array $attrs, string $content, WP_Block $block, ModuleElements $elements ): string {
 		unset( $content );
 
-		$parent = BlockParserStore::get_parent( $block->parsed_block['id'], $block->parsed_block['storeInstance'] );
-		$field  = self::field( $name, $attrs );
+		$parent   = BlockParserStore::get_parent( $block->parsed_block['id'], $block->parsed_block['storeInstance'] );
+		$children = (array) ( $block->parsed_block['innerBlocks'] ?? array() );
+		$field    = self::field( $name, $attrs, $children );
 
 		// A field with nothing to say leaves the page entirely, wrapper and
 		// all. Returning an empty module instead is not the same thing: a Divi
@@ -94,15 +95,16 @@ final class FieldModuleRenderer {
 	/**
 	 * Renders the field the module's settings describe.
 	 *
-	 * @param string               $name  Field name.
-	 * @param array<string, mixed> $attrs Module attributes.
+	 * @param string               $name     Field name.
+	 * @param array<string, mixed> $attrs    Module attributes.
+	 * @param array<int, mixed>    $children The module's child blocks, if any.
 	 * @return string
 	 */
-	public static function field( string $name, array $attrs ): string {
+	public static function field( string $name, array $attrs, array $children = array() ): string {
 		return FieldRenderer::render(
 			\CSCS\Plugin::instance(),
 			$name,
-			self::settings( $attrs, $name )
+			self::settings( $attrs, $name, $children )
 		);
 	}
 
@@ -147,10 +149,17 @@ final class FieldModuleRenderer {
 	 * `.cscs-field__label` and `.cscs-field__value` — so the renderer is handed
 	 * no inline styles to fight with.
 	 *
-	 * @param array<string, mixed> $attrs Module attributes.
+	 * A field piloting the column-children mechanism has its numbered column
+	 * settings overridden by whatever children are actually present: a table
+	 * with no children falls back to the numbers above, unchanged, exactly as
+	 * it always has.
+	 *
+	 * @param array<string, mixed> $attrs    Module attributes.
+	 * @param string               $name     Field name.
+	 * @param array<int, mixed>    $children The module's child blocks, if any.
 	 * @return array<string, mixed>
 	 */
-	private static function settings( array $attrs, string $name = '' ): array {
+	private static function settings( array $attrs, string $name = '', array $children = array() ): array {
 		$read = static function ( string $key, string $fallback = '' ) use ( $attrs ): string {
 			$value = $attrs['field']['advanced'][ $key ]['desktop']['value'] ?? null;
 
@@ -171,6 +180,12 @@ final class FieldModuleRenderer {
 			$key             = Fields::column_order_attribute( (string) $column );
 			$columns[ $key ] = $read( $key );
 		}
+
+		$columns = Fields::apply_children_columns(
+			$name,
+			$columns,
+			Fields::columns_from_children( $name, $children, 'cscs/divi-' . $name . '-column' )
+		);
 
 		return $columns + array(
 			'postId'          => (int) $read( 'source', '0' ),

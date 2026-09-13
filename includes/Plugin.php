@@ -51,6 +51,7 @@ use CSCS\Render\FieldBlocks;
 use CSCS\Divi\DesignGuard;
 use CSCS\Divi\DisplayModule;
 use CSCS\Divi\FieldModules;
+use CSCS\Divi\TableColumnModule;
 use CSCS\Render\Renderer;
 use CSCS\Render\RestPreview;
 use CSCS\Render\Shortcodes;
@@ -173,6 +174,7 @@ final class Plugin {
 		( new RestPreview( $this ) )->register();
 		( new DisplayModule( $this ) )->register();
 		( new FieldModules( $this ) )->register();
+		( new TableColumnModule() )->register();
 		( new DesignGuard() )->register();
 
 		add_action( 'cscs_setting_changed', array( $this, 'on_setting_changed' ) );

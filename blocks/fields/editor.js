@@ -682,6 +682,195 @@
 	}
 
 	/**
+	 * The area a table piloting the column-children mechanism builds its
+	 * columns from: an `InnerBlocks` list of `field.columnBlock` children,
+	 * dragged into whatever order the table should show them in.
+	 *
+	 * Present here, these children decide the table, through
+	 * `Fields::columns_from_children()`; empty, the numbered settings in the
+	 * Columns panel above still do, exactly as they always have. Neither
+	 * replaces the other — a page built before this mechanism existed has no
+	 * children and keeps working unchanged.
+	 *
+	 * @param {Object} field Field description from the server.
+	 * @return {Object} The area.
+	 */
+	function columnsEditor( field ) {
+		return el(
+			'div',
+			{ className: 'cscs-columns-editor' },
+			el(
+				'p',
+				{ className: 'components-base-control__help' },
+				__(
+					'Columns — drag to reorder. Present here, they decide the table; empty, the numbered settings above still do.',
+					'course-schedule-connector'
+				)
+			),
+			el( blockEditor.InnerBlocks, {
+				allowedBlocks: [ field.columnBlock ],
+				templateLock: false,
+				template: ( field.columns || [] ).map( function ( column ) {
+					return [ field.columnBlock, { field: column.key } ];
+				} ),
+			} )
+		);
+	}
+
+	/**
+	 * Fetches and shows the table a field's own live children describe.
+	 *
+	 * `ServerSideRender` cannot be used for this, the way it is for every other
+	 * field: WordPress's own block-renderer route builds the block it renders
+	 * with `'innerBlocks' => array()` unconditionally
+	 * (`WP_REST_Block_Renderer_Controller::get_item()`), so a preview asked of
+	 * it would never reflect a column that was just dragged in. This asks the
+	 * plugin's own preview route instead — the one Divi's canvas already
+	 * uses — and, alongside the settings, sends the children this block
+	 * actually has right now.
+	 *
+	 * @param {Object} props Block props.
+	 * @param {Object} field Field description from the server.
+	 * @return {Object} The preview.
+	 */
+	function columnsPreview( props, field ) {
+		var clientId = props.clientId;
+
+		var children = data.useSelect(
+			function ( pick ) {
+				return pick( blockEditor.store ).getBlocks( clientId );
+			},
+			[ clientId ]
+		);
+
+		var mapped = ( children || [] ).map( function ( child ) {
+			return { blockName: child.name, attrs: child.attributes };
+		} );
+
+		var query = JSON.stringify( props.attributes ) + '|' + JSON.stringify( mapped );
+
+		var state = element.useState( { query: '', found: true, html: '' } );
+		var current = state[ 0 ];
+		var setCurrent = state[ 1 ];
+
+		element.useEffect(
+			function () {
+				var cancelled = false;
+
+				window
+					.fetch(
+						catalogue.preview +
+							'?name=' +
+							encodeURIComponent( field.field ) +
+							'&settings=' +
+							encodeURIComponent( JSON.stringify( props.attributes ) ) +
+							'&children=' +
+							encodeURIComponent( JSON.stringify( mapped ) ),
+						{
+							credentials: 'same-origin',
+							headers: { 'X-WP-Nonce': catalogue.nonce },
+						}
+					)
+					.then( function ( response ) {
+						return response.json();
+					} )
+					.then( function ( body ) {
+						if ( cancelled ) {
+							return;
+						}
+
+						setCurrent( {
+							query: query,
+							found: !! ( body && body.found ),
+							html: body && body.html ? body.html : '',
+						} );
+					} )
+					.catch( function () {
+						if ( ! cancelled ) {
+							setCurrent( { query: query, found: false, html: '' } );
+						}
+					} );
+
+				return function () {
+					cancelled = true;
+				};
+			},
+			[ query ]
+		);
+
+		// A reply arriving after the block moved on to a different question is
+		// not shown — the same guard the Divi canvas keeps by hand, on a ref,
+		// here kept by React's own state instead.
+		if ( current.query !== query ) {
+			return el( components.Spinner );
+		}
+
+		if ( ! current.found ) {
+			return el( components.Placeholder, {
+				icon: field.icon,
+				label: field.title,
+				instructions: __(
+					'This field is empty for this record, so it will not appear on the page.',
+					'course-schedule-connector'
+				),
+			} );
+		}
+
+		return el( 'div', { dangerouslySetInnerHTML: { __html: current.html } } );
+	}
+
+	/**
+	 * Registers the child block that names one column of a table piloting the
+	 * column-children mechanism.
+	 *
+	 * There is one of these today — `course-schedule`'s — and it is read from
+	 * the field rather than named here, so a second field opting into the
+	 * mechanism registers its own child without this function changing.
+	 *
+	 * @param {Object} field Field description from the server.
+	 * @return {void}
+	 */
+	function registerColumnBlock( field ) {
+		if ( ! field.columnsAsChildren || ! field.columnBlock || blocks.getBlockType( field.columnBlock ) ) {
+			return;
+		}
+
+		var options = ( field.columns || [] ).map( function ( column ) {
+			return { label: column.label, value: column.key };
+		} );
+
+		blocks.registerBlockType( field.columnBlock, {
+			edit: function ( props ) {
+				var blockProps = blockEditor.useBlockProps();
+
+				return el(
+					'div',
+					blockProps,
+					el( components.SelectControl, {
+						label: __( 'Which column', 'course-schedule-connector' ),
+						value: props.attributes.field || '',
+						options: options,
+						__nextHasNoMarginBottom: true,
+						__next40pxDefaultSize: true,
+						onChange: function ( value ) {
+							props.setAttributes( { field: value } );
+						},
+					} )
+				);
+			},
+
+			// A column child renders nothing on its own, on the page or in the
+			// saved post: it exists to be read by its parent's own render,
+			// above, the way Divi's reads `BlockParserStore::get()`. Only its
+			// attribute is saved — `InnerBlocks.Content`, in the parent's own
+			// `save`, is what keeps this comment in the post at all.
+			save: function () {
+				return null;
+			},
+		} );
+	}
+
+	/**
 	 * Registers one field block.
 	 *
 	 * @param {Object} field Field description from the server.
@@ -889,42 +1078,53 @@
 					el(
 						'div',
 						blockProps,
-						el( serverSideRender, {
-							block: field.name,
-							attributes: props.attributes,
-							// An empty answer is not a failure: it is the field
-							// saying it has nothing to print, and on the page it
-							// will simply not be there. The editor still has to
-							// show something, or the block could not be selected
-							// again.
-							EmptyResponsePlaceholder: function () {
-								return el(
-									components.Placeholder,
-									{
-										icon: field.icon,
-										label: field.title,
-										instructions: __(
-											'This field is empty for this record, so it will not appear on the page.',
-											'course-schedule-connector'
-										),
-									}
-								);
-							},
-						} )
+						field.columnsAsChildren
+							? el( Fragment, {}, columnsEditor( field ), columnsPreview( props, field ) )
+							: el( serverSideRender, {
+									block: field.name,
+									attributes: props.attributes,
+									// An empty answer is not a failure: it is the
+									// field saying it has nothing to print, and on
+									// the page it will simply not be there. The
+									// editor still has to show something, or the
+									// block could not be selected again.
+									EmptyResponsePlaceholder: function () {
+										return el(
+											components.Placeholder,
+											{
+												icon: field.icon,
+												label: field.title,
+												instructions: __(
+													'This field is empty for this record, so it will not appear on the page.',
+													'course-schedule-connector'
+												),
+											}
+										);
+									},
+							  } )
 					)
 				);
 			},
 
 			// Rendered on the server, so nothing is saved into the post but the
-			// settings themselves. A change to the markup then reaches every
-			// page that was ever built with the block, rather than only the
-			// ones edited since.
-			save: function () {
-				return null;
-			},
+			// settings themselves — except a table piloting the column-children
+			// mechanism, whose children are its own nested blocks and have to be
+			// serialised as exactly that, or there would be nothing in the post
+			// for `parse_blocks()` to hand back as `innerBlocks` next time the
+			// page loads. `InnerBlocks.Content` is what asks the serialiser to
+			// place them here; the wrapper around it is thrown away regardless,
+			// since the block is rendered dynamically, so none is written.
+			save: field.columnsAsChildren
+				? function () {
+						return el( blockEditor.InnerBlocks.Content );
+				  }
+				: function () {
+						return null;
+				  },
 		} );
 	}
 
+	fields.forEach( registerColumnBlock );
 	fields.forEach( registerField );
 } )(
 	window.wp.blocks,

@@ -7,6 +7,7 @@
     "moduleOrderClassName": "cscs_divi_field_course_link",
     "moduleIcon": "divi/module-link",
     "category": "module",
+    "childrenName": [],
     "folder": "cscs-courses",
     "attributes": {
         "module": {

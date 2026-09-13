@@ -126,6 +126,12 @@ final class RestPreview {
 						'sanitize_callback' => 'sanitize_key',
 					),
 					'settings' => array( 'type' => 'string' ),
+					// A field piloting the column-children mechanism sends its
+					// live children here, JSON-encoded the way `parse_blocks()`
+					// shapes one: `{ "blockName": ..., "attrs": ... }`. Divi's
+					// canvas has no children to send yet and simply omits this;
+					// see `Fields::columns_from_children()`.
+					'children' => array( 'type' => 'string' ),
 				),
 			)
 		);
@@ -159,6 +165,24 @@ final class RestPreview {
 
 		$settings = json_decode( (string) $request->get_param( 'settings' ), true );
 		$settings = is_array( $settings ) ? $settings : array();
+
+		// A block editor cannot ask WordPress's own preview route for this:
+		// that route renders a block as though it had no children at all, so a
+		// table built from column children would never show what was just
+		// dragged in. This route can, because the children are handed over
+		// explicitly rather than reconstructed from a saved post — and a field
+		// not piloting the mechanism, or a canvas with nothing to send yet,
+		// simply sends none.
+		if ( ! empty( $field['columns_as_children'] ) ) {
+			$children = json_decode( (string) $request->get_param( 'children' ), true );
+			$children = is_array( $children ) ? $children : array();
+
+			$settings = Fields::apply_children_columns(
+				$name,
+				$settings,
+				Fields::columns_from_children( $name, $children, 'cscs/' . $name . '-column' )
+			);
+		}
 
 		// The route is for drawing a preview of what a page will show, and
 		// `edit_posts` is a low bar — an author of one post has it. A course

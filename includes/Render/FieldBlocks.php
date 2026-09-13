@@ -111,8 +111,26 @@ final class FieldBlocks {
 					'editor_script_handles' => array( self::SCRIPT ),
 					'style_handles'         => array( Assets::HANDLE ),
 					'view_script_handles'   => array( self::MOTION ),
-					'render_callback'       => function ( array $attributes, string $content, $block ) use ( $name ): string {
-						unset( $content, $block );
+					'render_callback'       => function ( array $attributes, string $content, $block ) use ( $name, $field ): string {
+						unset( $content );
+
+						// A table piloting the column-children mechanism builds its
+						// numbered column settings from whichever children are
+						// present, in the order they were dragged into — the same
+						// override `FieldModuleRenderer` applies for Divi, from the
+						// same pure helper. A block with no children (every one
+						// saved before this existed) is unaffected: `$block` may
+						// even not be the `WP_Block` instance this expects, in a
+						// shortcode or REST context, which is exactly when nothing
+						// here should run.
+						if ( ! empty( $field['columns_as_children'] ) && $block instanceof \WP_Block ) {
+							$children   = (array) ( $block->parsed_block['innerBlocks'] ?? array() );
+							$attributes = Fields::apply_children_columns(
+								$name,
+								$attributes,
+								Fields::columns_from_children( $name, $children, 'cscs/' . $name . '-column' )
+							);
+						}
 
 						return FieldRenderer::render(
 							$this->plugin,
@@ -124,6 +142,54 @@ final class FieldBlocks {
 				)
 			);
 		}
+
+		$this->register_column_blocks();
+	}
+
+	/**
+	 * Registers the child block a piloting table's columns are built from.
+	 *
+	 * There is one of these today, for `course-schedule`, the Gutenberg side of
+	 * the same mechanism {@see \CSCS\Divi\TableColumnModule} gives Divi: a
+	 * block that carries one setting, which column it is, and renders nothing
+	 * of its own — it exists to be read by its parent's own render, above. Its
+	 * place among its siblings, in `InnerBlocks`, is its place in the table.
+	 *
+	 * Hand-written rather than looped, the same as the Divi module.json it
+	 * mirrors: there is exactly one field piloting this today, and a second one
+	 * is a reason to generalise both sides together, not a reason to guess the
+	 * shape now.
+	 *
+	 * @return void
+	 */
+	private function register_column_blocks(): void {
+		register_block_type(
+			'cscs/course-schedule-column',
+			array(
+				'api_version'     => 3,
+				'title'           => __( 'Table column', 'course-schedule-connector' ),
+				'description'     => __( 'One column of the course’s own timetable. Its place among the other column children is its place in the table.', 'course-schedule-connector' ),
+				'category'        => BlockCategory::of( (string) ( Fields::get( 'course-schedule' )['context'] ?? 'course' ) ),
+				'icon'            => 'columns',
+				'parent'          => array( 'cscs/course-schedule' ),
+				'textdomain'      => 'course-schedule-connector',
+				'attributes'      => array(
+					'field' => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+				),
+				'supports'        => array(
+					'html'            => false,
+					'className'       => false,
+					'customClassName' => false,
+					'reusable'        => false,
+				),
+				'render_callback' => static function (): string {
+					return '';
+				},
+			)
+		);
 	}
 
 	/**
@@ -236,6 +302,13 @@ final class FieldBlocks {
 				'filters' => (bool) $field['filters'],
 				'signup'  => (string) $field['signup'],
 				'columns' => $columns,
+				// Whether this table's columns and their order may come from
+				// `cscs/{name}-column` children instead of the numbered settings
+				// above — and if so, that child's own block name, so the editor
+				// need not spell the naming convention out for itself. See
+				// `Fields::columns_from_children()`.
+				'columnsAsChildren' => ! empty( $field['columns_as_children'] ),
+				'columnBlock'       => empty( $field['columns_as_children'] ) ? '' : 'cscs/' . $name . '-column',
 			);
 		}
 
@@ -262,6 +335,15 @@ final class FieldBlocks {
 			// them, and a list written here would refuse the one somebody added
 			// for exactly this picture.
 			'sizes'     => Fields::sizes(),
+			// A field piloting the column-children mechanism cannot be shown
+			// with `ServerSideRender`: the block-renderer route WordPress
+			// itself offers always renders as though a block had no children at
+			// all, so a preview built from it would never reflect a column that
+			// was just dragged in. This is the same route Divi's own canvas
+			// already asks, with the same settings and, additionally, whichever
+			// children the block actually has right now.
+			'preview'   => rest_url( RestPreview::NAMESPACE . '/field' ),
+			'nonce'     => wp_create_nonce( 'wp_rest' ),
 		);
 	}
 }

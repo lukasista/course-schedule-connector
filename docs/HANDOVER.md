@@ -69,6 +69,57 @@ Vše je **pushnuté**; pracovní strom je čistý.
 
 ## 2. Co přibylo naposledy
 
+### Sloupce jako child moduly — pilot na `course-schedule` (13. 9.)
+
+Otevřený bod z minula: sloupce tabulky jako child prvky místo číslování.
+Hotovo jako pilot na jednom poli, `course-schedule` (vlastní rozvrh kurzu) —
+zbylé čtyři tabulky (`course-makeup`, `trainer-courses`, `kind-courses`,
+`kind-prices`) zůstávají zatím jen na číslech.
+
+Mechanismus ověřený ve zdrojáku Divi (`elegantthemes/d5-example-core-modules`
+— Accordion, Contact Form): `childrenName` na rodiči, `category:
+"child-module"` na potomkovi, rodič si dítě čte přes `BlockParserStore::get()`
+/ `$block->parsed_block['innerBlocks']`. Nový modul
+`cscs/divi-course-schedule-column` (`Divi\TableColumnModule`) leží mimo
+`divi/fields/`, stejně jako `divi/cscs-display` — nese jedno nastavení (který
+sloupec) a nekreslí nic, čte ho rodič. Design sloupce nepotřeboval nic nového:
+každý kandidát má už dnes svůj pevný selektor podle jména, bez ohledu na
+pořadí či viditelnost.
+
+Obě strany (Divi i Gutenberg) píšou do těch samých číslovaných nastavení,
+která `Fields::ordered_columns()` už uměl číst — `Fields::columns_from_children()`
+a `Fields::apply_children_columns()` jsou nové čisté funkce v `Fields.php`,
+beze změny čehokoliv po proudu. Prázdný seznam dětí nastavení nezmění vůbec,
+takže stránka bez potomků (úplně každá dnes) jede beze změny.
+
+Gutenberg stranou vznikla i jedna vynucená architektonická odbočka:
+`ServerSideRender`, kterým se dnes kreslí náhled všech 31 bloků, neumí
+zobrazit živé potomky — `WP_REST_Block_Renderer_Controller::get_item()`
+vždycky skládá blok s `innerBlocks => []`, bez výjimky, natvrdo v jádru
+WordPressu. `course-schedule` proto v editoru místo toho volá `/cscs/v1/field`
+(stejná cesta, kterou už používá Divi canvas), teď navíc s parametrem
+`children`. Ostatních 31 bloků se to netýká, žádný z nich neztratil
+`ServerSideRender`.
+
+**Neověřeno naživo.** Studio (`jojogym 2`, port 8888) bylo celou session
+nedostupné (`Connection refused`, `site_start` spadl na „Cannot read
+properties of undefined"), takže nic z tohohle nikdo neviděl v opravdovém
+Visual Builderu ani v Gutenbergu. Testy (267, samé PHP) pokrývají jen čistou
+logiku — `FieldModuleRenderer`, `FieldBlocks` a REST vrstva jsou mimo dosah
+shimu stejně jako všechno ostatní, co se dotýká živých WP/Divi tříd. Než se
+tomu bude věřit, chce to ruční průchod: přidat/přetáhnout sloupec v obou
+builderech, smazat ho, otevřít starou stránku bez potomků, a v Gutenbergu
+zkontrolovat, že existující `course-schedule` blok nehlásí „neplatný obsah"
+— `save()` mu teď místo `null` píše `InnerBlocks.Content`, což je jiná
+serializace i pro blok bez jediného dítěte, a validátor na to může, ale
+nemusí být citlivý.
+
+Nové soubory: `includes/Divi/TableColumnModule.php`,
+`includes/Divi/TableColumnModuleDependency.php`, `divi/course-schedule-column/`,
+`visual-builder/cscs-divi-course-schedule-column.js`. Podrobný technický popis
+je teď v `DEVELOPER.md` pod „Columns as children, piloted on one table"; tenhle
+zápis je jen shrnutí pro deník.
+
 ### Prohlídka v builderu (10.–11. 9.) — moduly z pohledu člověka, který navrhuje
 
 Celé tohle kolo vzešlo z toho, že si Lukáš sedl do Divi builderu a zkoušel
@@ -633,14 +684,14 @@ ne modulu.
 
 ## 5. Otevřené body
 
-- **Sloupce jako child prvky** — dohodnuté vylepšení na později. Sloupce tabulky
-  mají být child moduly, tažené myší v panelu vrstev, každý s vlastní záložkou
-  Obsah / Návrh / Pokročilé. Mechanismus je ověřený ve zdrojáku Divi:
-  `childrenName` na rodiči, `category: "child-module"` na potomkovi (tak to má
-  harmonika i seznam s ikonami). Práce navíc: rodič musí tabulku z potomků
-  skládat, návrh každého potomka musí dopadnout na jeho vlastní buňky, a totéž
-  se musí udělat přes InnerBlocks pro Gutenberg blok. Stránky bez potomků musí
-  dál fungovat. Dnešní číslování sloupců je mezikrok, který tím zanikne.
+- **Sloupce jako child prvky** — pilot hotový na `course-schedule` (13. 9.,
+  viz sekce 2 a `DEVELOPER.md`), zbylé čtyři tabulky (`course-makeup`,
+  `trainer-courses`, `kind-courses`, `kind-prices`) čekají na totéž — je to teď
+  jen přidání `columns_as_children` do katalogu plus vygenerovaný/napsaný
+  potomek na každou, ne nový mechanismus. Hlavní zbytek: ruční ověření v obou
+  builderech (Studio bylo celou session nedostupné) a rozhodnutí, jestli
+  číslovaný panel na `course-schedule` má časem zmizet, nebo zůstat napořád
+  vedle potomků jako záloha.
 - **Tlačítko má skupiny označené `important`.** Přebít barvu tlačítka z vlastního
   stylopisu proto chce `!important`. Dá se to zúžit jen na vlastnosti, o které se
   Divi opravdu pere, kdyby to vadilo.
