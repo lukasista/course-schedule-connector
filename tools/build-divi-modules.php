@@ -182,7 +182,7 @@ function module_metadata( string $name, array $field ): array {
 						'{{selector}} .cscs-card__name',
 						'cardName',
 						'designCardName',
-						'Name',
+						'Trainer name',
 						'content',
 						array(
 							'font'    => 'divi/font',
@@ -319,19 +319,25 @@ function module_metadata( string $name, array $field ): array {
 						),
 					),
 				),
-				// Row or column for the grid of cards. Divi's own Layout group
-				// answers this everywhere else on the module, but only once:
-				// Divi writes the flex/grid class its generated CSS depends
-				// on from exactly one decoration key on the module root
+				// Row, column, and everything Divi's own Layout group offers
+				// besides — justify, align, wrap, gap, even a CSS grid. Divi
+				// writes the flex/grid class its own generated CSS depends on
+				// from exactly one decoration key on the module root
 				// (`Module.php`, `_get_layout_module_classname`) and quietly
-				// ignores any other same-shaped key, so a second copy of
-				// that group here would take a value and change nothing a
-				// visitor sees — confirmed both by reading that source and
-				// by Lukas trying it in the builder. A plain select in the
-				// same tab, reusing the field's own cross-editor
-				// `cardsLayout` setting — {@see `FieldRenderer::card_rules()`}
-				// — asks the same question and actually answers it; see the
-				// `designCardsLayout` group in `field_attribute()`.
+				// ignores any other same-shaped key, so a second copy of that
+				// group here saves a value Divi's own CSS pipeline will never
+				// read — confirmed both by reading that source and by Lukas
+				// trying an earlier attempt at this in the builder. So this
+				// group carries Divi's real `divi/layout` widget — the exact
+				// one the module's own Layout group uses, same options, same
+				// icons, same translations — but the value it writes is read
+				// and turned into CSS by this plugin's own code, not Divi's:
+				// {@see `FieldRenderer::card_rules()`}, which calls Divi's own
+				// `Layout::style_declaration()` to do it, so the CSS this
+				// produces is the CSS Divi itself would have written, one
+				// call away from the source that already works for the
+				// module. See the `designCardsLayout` group in
+				// `field_attribute()`.
 				'designCardsLayout' => empty( $field['cards'] ) ? null : array(
 					'panel'     => 'design',
 					'priority'  => 6,
@@ -346,11 +352,10 @@ function module_metadata( string $name, array $field ): array {
 				),
 				// The same question a second time, for what one card itself
 				// contains: a photograph and a name, which want their own
-				// choice of row or column independent of how the cards
-				// holding them are arranged. "Cards" above answers how many
-				// of them sit in a row; this answers what sits in one — and
-				// for the reason above, it is the same plain select, not a
-				// second native Layout group either.
+				// arrangement independent of how the cards holding them are
+				// arranged. "Cards" above answers how many of them sit in a
+				// row; this answers what sits in one — the same native Layout
+				// widget again, for the reason above.
 				'designCardLayout'  => empty( $field['cards'] ) ? null : array(
 					'panel'     => 'design',
 					'priority'  => 7,
@@ -366,7 +371,12 @@ function module_metadata( string $name, array $field ): array {
 				// A card's name, styled the same shape as a course's sign-up
 				// link: a plain anchor, styled as text, with a font and
 				// spacing group of its own for a designer who wants to say
-				// something the theme's own link styling does not.
+				// something the theme's own link styling does not. Called
+				// "Trainer name" rather than the bare "Name" this group used
+				// to carry — Lukáš read that beside "Text nadpisu" (the
+				// field's own "Trenéři" heading) and could not tell which was
+				// which without opening both, and a group whose own name
+				// answers the question does not need a reader to check.
 				'designCardName'    => empty( $field['cards'] ) ? null : array(
 					'panel'         => 'design',
 					'priority'      => 25,
@@ -375,7 +385,7 @@ function module_metadata( string $name, array $field ): array {
 					'component'     => array(
 						'name'  => 'divi/composite',
 						'props' => array(
-							'groupLabel'        => 'Name',
+							'groupLabel'        => 'Trainer name',
 							'clipboardCategory' => 'style',
 						),
 					),
@@ -1519,20 +1529,26 @@ function field_attribute( array $field ): array {
 			'contentCards'
 		);
 
+		// Divi's own Layout widget, the exact component the module's own
+		// working Layout group uses — {@see the `module.decoration.layout`
+		// group-item in Divi's own `section` module, read from
+		// `includes/builder-5/.../section/module.json` in a live install}.
+		// No `label` or `description`: a `group`-type composite draws its own
+		// labels for every control it holds, the same way `designCardName`'s
+		// Font and Spacing groups do below. The value this writes is never
+		// read by Divi's own CSS generator — {@see the comment on
+		// `designCardsLayout` in `module_metadata()` for why — so nothing
+		// here asks Divi to render it as CSS; `FieldRenderer::card_rules()`
+		// reads the raw value this saves and turns it into CSS itself, by
+		// calling the same `Layout::style_declaration()` Divi's own module
+		// decoration calls.
 		$add(
 			'cardsLayout',
 			array(
-				'label'       => 'Layout',
-				'description' => 'How the cards themselves are arranged: side by side in a row, or stacked in a column.',
-				'component'   => array(
-					'name'  => 'divi/select',
-					'type'  => 'field',
-					'props' => array(
-						'options' => array(
-							'row'    => array( 'label' => 'Row' ),
-							'column' => array( 'label' => 'Column' ),
-						),
-					),
+				'component' => array(
+					'type'  => 'group',
+					'name'  => 'divi/layout',
+					'props' => array( 'grouped' => false ),
 				),
 			),
 			'designCardsLayout'
@@ -1541,17 +1557,10 @@ function field_attribute( array $field ): array {
 		$add(
 			'cardLayout',
 			array(
-				'label'       => 'Layout',
-				'description' => 'How the photograph and the name are arranged inside one card: side by side in a row, or stacked in a column.',
-				'component'   => array(
-					'name'  => 'divi/select',
-					'type'  => 'field',
-					'props' => array(
-						'options' => array(
-							'row'    => array( 'label' => 'Row' ),
-							'column' => array( 'label' => 'Column' ),
-						),
-					),
+				'component' => array(
+					'type'  => 'group',
+					'name'  => 'divi/layout',
+					'props' => array( 'grouped' => false ),
 				),
 			),
 			'designCardLayout'
@@ -1648,8 +1657,14 @@ function module_defaults( array $field ): array {
 	if ( ! empty( $field['cards'] ) ) {
 		$advanced['imageSize']      = 'large';
 		$advanced['cardImageRatio'] = '';
-		$advanced['cardsLayout']    = 'column';
-		$advanced['cardLayout']     = 'column';
+		// No default for cardsLayout/cardLayout, on purpose — the same
+		// absence as `module.decoration.layout` in Divi's own defaults file
+		// for every module Divi ships. A `divi/layout` composite does not
+		// need a placeholder to write into the way a plain select does, and
+		// an empty value already means the right thing on its own: nothing
+		// configured, so `card_rules()` emits no override and the stylesheet's
+		// own `.cscs-cards`/`.cscs-card` rules (column, wrapped, gapped) stand
+		// exactly as they did before this field could be changed at all.
 	}
 
 	$defaults = array(

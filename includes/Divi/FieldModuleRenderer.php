@@ -174,6 +174,39 @@ final class FieldModuleRenderer {
 			return (string) $value;
 		};
 
+		// `cardsLayout` and `cardLayout` are the one setting here Divi's own
+		// native Layout widget writes, not a plain select — a small object of
+		// its own keys (`display`, `flexDirection`, `justifyContent`, …), the
+		// same shape `module.decoration.layout` holds for the module itself.
+		// `$read()` above exists for scalars: handed an array, it takes the
+		// array's first VALUE with `reset()` and throws the rest away, which
+		// for a decoration setting like `showLabel` recovers the one thing a
+		// responsive/hover wrapper was hiding it behind — and for this object
+		// would keep only `display` and lose direction, alignment, gap, and
+		// everything else that makes the widget worth having. This reads the
+		// object whole and leaves turning it into CSS to
+		// `FieldRenderer::card_rules()`, the one place that already knows how.
+		//
+		// A page built before the widget existed still has the plain
+		// 'row'/'column' string the old select wrote, and nothing will ever
+		// resave it just by being viewed. Coercing anything non-array to an
+		// empty array — as if only the object shape ever existed — silently
+		// threw that string away and left `card_rules()` nothing to draw,
+		// which is exactly the page-render gap that shipping this without a
+		// live check on an untouched saved module would have missed. The
+		// string is passed through instead, unexamined here: validating it is
+		// `FieldRenderer::layout_value()`'s job, and it already does that for
+		// both shapes.
+		$read_layout = static function ( string $key ) use ( $attrs ) {
+			$value = $attrs['field']['advanced'][ $key ]['desktop']['value'] ?? null;
+
+			if ( is_array( $value ) ) {
+				return $value;
+			}
+
+			return is_string( $value ) ? $value : array();
+		};
+
 		$columns = array();
 
 		foreach ( (array) ( Fields::get( $name )['columns'] ?? array() ) as $column ) {
@@ -212,8 +245,8 @@ final class FieldModuleRenderer {
 			'filterLimit'     => (int) $read( 'filterLimit', '0' ),
 			'linkText'        => $read( 'linkText' ),
 			'detailText'      => $read( 'detailText' ),
-			'cardsLayout'     => $read( 'cardsLayout' ),
-			'cardLayout'      => $read( 'cardLayout' ),
+			'cardsLayout'     => $read_layout( 'cardsLayout' ),
+			'cardLayout'      => $read_layout( 'cardLayout' ),
 			'cardsGap'        => $read( 'cardsGap' ),
 			'cardImageRatio'  => $read( 'cardImageRatio' ),
 			'cardImageMargin' => $read( 'cardImageMargin' ),

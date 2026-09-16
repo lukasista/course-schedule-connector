@@ -61,6 +61,46 @@
 	}
 
 	/**
+	 * Reads one stored setting as a raw object, the way `setting()` below
+	 * reads one as a string.
+	 *
+	 * `cardsLayout` and `cardLayout` are the one setting here Divi's own
+	 * native Layout widget writes, not a plain string — a small object of
+	 * its own keys (`display`, `flexDirection`, `justifyContent`, …), the
+	 * same shape `module.decoration.layout` holds for the module itself.
+	 * `setting()` exists for scalars: its own object-unwrapping expects a
+	 * single value keyed by the setting's own name, which this object never
+	 * is, so handing it a layout object would reduce it to nothing. This
+	 * reads the object whole and leaves turning it into CSS to the server,
+	 * exactly as the PHP settings-reader does for the same two keys.
+	 *
+	 * A module built before the widget existed still carries the plain
+	 * 'row'/'column' string the old select wrote, and opening it in the
+	 * canvas does not resave it. Returning `{}` for anything that is not
+	 * already an object — as a first version of this did — sent the server
+	 * nothing for that string and previewed an unstyled grid regardless of
+	 * what was saved. The string is passed through instead, exactly as
+	 * stored; the server's own `layout_value()` already knows how to read
+	 * either shape.
+	 *
+	 * @param {Object} attrs Module attributes.
+	 * @param {string} key   Setting name.
+	 * @return {Object|string} The raw value, or an empty object when there
+	 *                         is truly nothing stored.
+	 */
+	function settingObject( attrs, key ) {
+		var holder =
+			attrs && attrs.field && attrs.field.advanced ? attrs.field.advanced[ key ] : null;
+		var value = holder && holder.desktop ? holder.desktop.value : null;
+
+		if ( value && 'object' === typeof value ) {
+			return value;
+		}
+
+		return 'string' === typeof value && value ? value : {};
+	}
+
+	/**
 	 * Reads one stored setting, the way the server does.
 	 *
 	 * Divi stores every attribute by breakpoint and state, even one that has
@@ -90,10 +130,15 @@
 	/**
 	 * Gathers the settings the preview needs, in the renderer's own shape.
 	 *
-	 * The first ten are named by hand because three of them are not the
-	 * server's own key (`source` becomes `postId`) or not its own shape
-	 * (`showLabel` is `"on"`/`"off"` in Divi and a boolean in the renderer) —
-	 * a generic pass cannot know either of those on its own.
+	 * Twelve are named by hand. Ten are not the server's own key (`source`
+	 * becomes `postId`) or not its own shape (`showLabel` is `"on"`/`"off"`
+	 * in Divi and a boolean in the renderer) — a generic pass cannot know
+	 * either of those on its own. The other two, `cardsLayout` and
+	 * `cardLayout`, are read with `settingObject()` rather than `setting()`
+	 * because they are not a scalar at all: Divi's own native Layout widget
+	 * writes a small object of its own keys, and `setting()`'s own
+	 * object-unwrapping — meant for a responsive/hover wrapper around a
+	 * single value — would reduce that object to nothing.
 	 *
 	 * Everything past them is read generically, from the same schema the
 	 * panel itself is built from (`metadata.attributes.field.settings.advanced`),
@@ -134,6 +179,8 @@
 			emptyText: setting( attrs, 'emptyText', '' ),
 			imageLinkTarget: 'on' === setting( attrs, 'imageLinkTarget', 'off' ),
 			filterLimit: parseInt( setting( attrs, 'filterLimit', '0' ), 10 ) || 0,
+			cardsLayout: settingObject( attrs, 'cardsLayout' ),
+			cardLayout: settingObject( attrs, 'cardLayout' ),
 		};
 		// Named above, under a different key, in a different shape, or not a
 		// plain per-field setting at all — a generic pass must not repeat
@@ -151,6 +198,8 @@
 			emptyText: true,
 			imageLinkTarget: true,
 			filterLimit: true,
+			cardsLayout: true,
+			cardLayout: true,
 		};
 		var key;
 

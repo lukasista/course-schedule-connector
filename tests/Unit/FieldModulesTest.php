@@ -731,13 +731,24 @@ final class FieldModulesTest extends TestCase {
 			$this->assertArrayNotHasKey( 'presetGroup', $groups['designCardsLayout']['component']['props'] ?? array(), $name );
 			$this->assertArrayNotHasKey( 'presetGroup', $groups['designCardLayout']['component']['props'] ?? array(), $name );
 
-			// What answers "row, or column" instead: a plain select, still in
-			// the Design tab — still called Cards, and Photo & name — but
-			// feeding the same `cardsLayout`/`cardLayout` settings
-			// `FieldRenderer::card_rules()` already turns into CSS for
-			// Gutenberg, rather than a group nothing reads.
+			// What answers "row, or column" instead: Divi's own native Layout
+			// widget, the same `divi/layout` component the module's own
+			// `module.decoration.layout` group already uses — every control
+			// it offers, not a hand-picked subset of it — still in the
+			// Design tab, still called Cards, and Photo & name, but writing
+			// to `field.advanced.cardsLayout`/`cardLayout` rather than to
+			// `module.decoration.*`. `FieldRenderer::card_rules()` reads it
+			// from there and calls Divi's own
+			// `Layout::style_declaration()` to turn it into CSS, exactly as
+			// `module.decoration.layout` itself would have. A `divi/select`
+			// here would be the very dropdown this replaced.
 			$this->assertSame(
-				'divi/select',
+				'group',
+				$attributes['field']['settings']['advanced']['cardsLayout']['item']['component']['type'] ?? '',
+				$name
+			);
+			$this->assertSame(
+				'divi/layout',
 				$attributes['field']['settings']['advanced']['cardsLayout']['item']['component']['name'] ?? '',
 				$name
 			);
@@ -752,7 +763,12 @@ final class FieldModulesTest extends TestCase {
 			// neither setting can be the other's or setting one would move
 			// both.
 			$this->assertSame(
-				'divi/select',
+				'group',
+				$attributes['field']['settings']['advanced']['cardLayout']['item']['component']['type'] ?? '',
+				$name
+			);
+			$this->assertSame(
+				'divi/layout',
 				$attributes['field']['settings']['advanced']['cardLayout']['item']['component']['name'] ?? '',
 				$name
 			);
@@ -792,11 +808,12 @@ final class FieldModulesTest extends TestCase {
 				$name
 			);
 
-			// The gap and the photograph's margin stay unanswered in Divi —
-			// what was asked for is row or column, not the rest of the panel
-			// a working native Layout group would have offered. `cardsLayout`
-			// itself is the one setting from this list the Design tab does
-			// answer now, asserted above rather than here.
+			// The grid's own gap and the photograph's margin stay unanswered
+			// in Divi's panel — the native Layout widget asserted above
+			// covers direction, alignment and its own gap, but these two are
+			// separate settings it was never asked to speak for, and reading
+			// them is still down to whatever wrote them (Gutenberg, or the
+			// REST/canvas preview path), not a Divi control.
 			foreach ( array( 'cardsGap', 'cardImageMargin' ) as $setting ) {
 				$this->assertArrayNotHasKey(
 					$setting,

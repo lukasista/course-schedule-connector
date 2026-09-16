@@ -1162,14 +1162,52 @@ final class Fields {
 			);
 		}
 
-		$cscs_layout      = 'row' === (string) ( $settings['cardsLayout'] ?? '' ) ? 'row' : 'column';
-		$cscs_card_layout = 'row' === (string) ( $settings['cardLayout'] ?? '' ) ? 'row' : 'column';
+		$cscs_layout      = self::card_layout_fallback( $settings['cardsLayout'] ?? '' );
+		$cscs_card_layout = self::card_layout_fallback( $settings['cardLayout'] ?? '' );
 
 		ob_start();
 
 		require $file;
 
 		return (string) ob_get_clean();
+	}
+
+	/**
+	 * Reduces a `cardsLayout`/`cardLayout` setting to the one thing this
+	 * template still asks of it: whether the static `cscs-cards--row` /
+	 * `cscs-cards--column` fallback in `cscs.css` should draw a row or a
+	 * column. The real, detailed layout — alignment, gap, grid, all of it —
+	 * is drawn by {@see \CSCS\Render\FieldRenderer::card_rules()}'s own
+	 * scoped `<style>`, which outranks this class in the cascade whenever it
+	 * has something to say; this is only what shows before that finishes,
+	 * or on a site where `FieldRenderer` never ran at all.
+	 *
+	 * The setting is a plain 'row'/'column' string on every page Gutenberg
+	 * ever wrote and on any Divi page nobody has reopened since this plugin
+	 * grew a native Layout widget, and the widget's own rich object —
+	 * `display`, `flexDirection`, and the rest — on a page saved since.
+	 * Casting the object to a string here, the way a lone `(string)` cast
+	 * once did, reads as the literal word "Array" on every request: never
+	 * equal to 'row', always falling to 'column' regardless of what was
+	 * actually chosen, and a PHP warning besides. This looks at
+	 * `flexDirection` instead when the value is an object, and only falls
+	 * back to 'column' when there is truly nothing usable in either shape.
+	 *
+	 * @param mixed $value Whatever the settings array holds for the key.
+	 * @return string 'row' or 'column'.
+	 */
+	private static function card_layout_fallback( $value ): string {
+		if ( is_string( $value ) ) {
+			return 'row' === $value ? 'row' : 'column';
+		}
+
+		if ( is_array( $value ) ) {
+			$direction = (string) ( $value['flexDirection'] ?? '' );
+
+			return in_array( $direction, array( 'row', 'row-reverse' ), true ) ? 'row' : 'column';
+		}
+
+		return 'column';
 	}
 
 	/**

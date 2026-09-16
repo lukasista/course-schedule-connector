@@ -162,7 +162,7 @@
                                 "props": {
                                     "attrName": "cardName.decoration.font",
                                     "grouped": true,
-                                    "fieldLabel": "Name"
+                                    "fieldLabel": "Trainer name"
                                 }
                             }
                         }
@@ -179,7 +179,7 @@
                                 "props": {
                                     "attrName": "cardName.decoration.spacing",
                                     "grouped": true,
-                                    "fieldLabel": "Name"
+                                    "fieldLabel": "Trainer name"
                                 }
                             }
                         }
@@ -478,20 +478,11 @@
                                 "hover": false,
                                 "preset": "content"
                             },
-                            "label": "Layout",
-                            "description": "How the cards themselves are arranged: side by side in a row, or stacked in a column.",
                             "component": {
-                                "name": "divi/select",
-                                "type": "field",
+                                "type": "group",
+                                "name": "divi/layout",
                                 "props": {
-                                    "options": {
-                                        "row": {
-                                            "label": "Row"
-                                        },
-                                        "column": {
-                                            "label": "Column"
-                                        }
-                                    }
+                                    "grouped": false
                                 }
                             }
                         }
@@ -510,20 +501,11 @@
                                 "hover": false,
                                 "preset": "content"
                             },
-                            "label": "Layout",
-                            "description": "How the photograph and the name are arranged inside one card: side by side in a row, or stacked in a column.",
                             "component": {
-                                "name": "divi/select",
-                                "type": "field",
+                                "type": "group",
+                                "name": "divi/layout",
                                 "props": {
-                                    "options": {
-                                        "row": {
-                                            "label": "Row"
-                                        },
-                                        "column": {
-                                            "label": "Column"
-                                        }
-                                    }
+                                    "grouped": false
                                 }
                             }
                         }
@@ -629,7 +611,7 @@
                 "component": {
                     "name": "divi/composite",
                     "props": {
-                        "groupLabel": "Name",
+                        "groupLabel": "Trainer name",
                         "clipboardCategory": "style"
                     }
                 }

@@ -611,16 +611,16 @@ final class FieldRenderer {
 	 * Returns the rules a grid of trainer cards needs, or nothing where
 	 * nothing was asked for.
 	 *
-	 * The same shape {@see self::bullet_rules()} uses: a handful of settings
-	 * that mean one thing regardless of which editor stored them, read by one
-	 * method and turned into scoped CSS. Divi was meant to get a richer native
-	 * panel on top of this, the way bullets have both, but its own Layout
-	 * group only ever answers for the module as a whole — a second copy of it
-	 * for the grid, and a third for one card, take a value and style nothing
-	 * — so `cardsLayout` and `cardLayout` are what Divi's own panel writes
-	 * to as well, through a plain select rather than that richer group. This
-	 * is the part that has to exist either way, because it is the only part
-	 * Gutenberg can ever have.
+	 * `cardsLayout` and `cardLayout` carry Divi's own native Layout value now
+	 * — {@see self::layout_value()} for the two shapes that can mean — turned
+	 * into CSS by calling the exact function Divi's own module decoration
+	 * calls, `Layout::style_declaration()`, so a row, a centred row, a
+	 * wrapped grid or a manual CSS grid all come out exactly the way Divi's
+	 * own Layout group would have drawn them, on `.cscs-cards` for how the
+	 * cards sit next to each other and on `.cscs-card` for how the photograph
+	 * and the name sit inside one. Gutenberg, which has no such widget, still
+	 * reaches the same rules through a bare `"row"` or `"column"` string —
+	 * the other shape {@see self::layout_value()} accepts.
 	 *
 	 * @param array<string, mixed> $attributes Settings.
 	 * @return array<string, string>
@@ -631,14 +631,8 @@ final class FieldRenderer {
 		};
 
 		$rules = array();
-		$cards = '';
-
-		$layout = self::one_of( $read( 'cardsLayout' ), array( 'row', 'column' ) );
-		$gap    = self::length( $read( 'cardsGap' ) );
-
-		if ( '' !== $layout ) {
-			$cards .= 'flex-direction:' . $layout . ';';
-		}
+		$cards = self::layout_declaration( $attributes['cardsLayout'] ?? '' );
+		$gap   = self::length( $read( 'cardsGap' ) );
 
 		if ( '' !== $gap ) {
 			$cards .= 'gap:' . $gap . ';';
@@ -648,10 +642,10 @@ final class FieldRenderer {
 			$rules['{{scope}} .cscs-cards'] = $cards;
 		}
 
-		$card_layout = self::one_of( $read( 'cardLayout' ), array( 'row', 'column' ) );
+		$card = self::layout_declaration( $attributes['cardLayout'] ?? '' );
 
-		if ( '' !== $card_layout ) {
-			$rules['{{scope}} .cscs-card'] = 'flex-direction:' . $card_layout . ';';
+		if ( '' !== $card ) {
+			$rules['{{scope}} .cscs-card'] = $card;
 		}
 
 		$ratio  = self::aspect_ratio( $read( 'cardImageRatio' ) );
@@ -671,6 +665,160 @@ final class FieldRenderer {
 		}
 
 		return $rules;
+	}
+
+	/**
+	 * Turns a `cardsLayout`/`cardLayout` value into a CSS declaration
+	 * string, or nothing where nothing was asked for.
+	 *
+	 * @param mixed $value Raw stored value.
+	 * @return string
+	 */
+	private static function layout_declaration( $value ): string {
+		$clean = self::layout_value( $value );
+
+		if ( array() === $clean ) {
+			return '';
+		}
+
+		$declaration      = '';
+		$declaration_class = '\ET\Builder\Packages\StyleLibrary\Declarations\Layout\Layout';
+
+		if ( class_exists( $declaration_class ) ) {
+			$declaration = (string) $declaration_class::style_declaration(
+				array(
+					'attrValue'  => $clean,
+					'returnType' => 'string',
+					'render'     => array( 'display' => true ),
+				)
+			);
+		} elseif ( isset( $clean['flexDirection'] ) ) {
+			// Divi is not active to ask — a page can still be rendered by
+			// Gutenberg alone, or by Divi mid-upgrade. Direction is the one
+			// part of this worth keeping without it: the rest (alignment,
+			// wrap, grid) is Divi's own panel drawing a value nothing here
+			// can safely turn into CSS on its own.
+			$declaration = 'display:flex;flex-direction:' . $clean['flexDirection'] . ';';
+		}
+
+		// Divi's own declaration only ever sets the custom properties its own
+		// base stylesheet reads a gap from (`--horizontal-gap`,
+		// `--vertical-gap`), never `row-gap`/`column-gap` themselves. Setting
+		// them directly here — independently of each other, so choosing one
+		// does not silently zero the other — means a visible gap does not
+		// depend on that stylesheet being the one currently loaded.
+		if ( isset( $clean['rowGap'] ) ) {
+			$declaration .= 'row-gap:' . $clean['rowGap'] . ';';
+		}
+
+		if ( isset( $clean['columnGap'] ) ) {
+			$declaration .= 'column-gap:' . $clean['columnGap'] . ';';
+		}
+
+		return $declaration;
+	}
+
+	/**
+	 * Turns a stored `cardsLayout`/`cardLayout` value into the shape Divi's
+	 * own `Layout::style_declaration()` expects, checking every part of it
+	 * against what that part is allowed to be.
+	 *
+	 * The value arrives in one of two shapes. Divi's own native Layout widget
+	 * — {@see the `designCardsLayout`/`designCardLayout` groups in
+	 * `tools/build-divi-modules.php`} — writes a small object of its own
+	 * named keys (`display`, `flexDirection`, `justifyContent`, …), the same
+	 * object `module.decoration.layout` holds for the module itself.
+	 * Gutenberg, which has no such widget, writes a bare `"row"` or
+	 * `"column"` string, and a page saved before this change still has one
+	 * stored that way. Both mean something; only the shape differs.
+	 *
+	 * @param mixed $value Raw stored value.
+	 * @return array<string, string>
+	 */
+	private static function layout_value( $value ): array {
+		if ( is_string( $value ) ) {
+			$direction = self::one_of( $value, array( 'row', 'column' ) );
+
+			return '' === $direction ? array() : array(
+				'display'       => 'flex',
+				'flexDirection' => $direction,
+			);
+		}
+
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+
+		$raw = static function ( string $key ) use ( $value ): string {
+			return trim( (string) ( $value[ $key ] ?? '' ) );
+		};
+
+		$pairs = array(
+			'display'              => self::one_of( $raw( 'display' ), array( 'flex', 'grid', 'block' ) ),
+			'flexDirection'        => self::one_of( $raw( 'flexDirection' ), array( 'row', 'column', 'row-reverse', 'column-reverse' ) ),
+			'justifyContent'       => self::one_of( $raw( 'justifyContent' ), array( 'flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly' ) ),
+			'alignItems'           => self::one_of( $raw( 'alignItems' ), array( 'flex-start', 'flex-end', 'center', 'stretch', 'baseline' ) ),
+			'flexWrap'             => self::one_of( $raw( 'flexWrap' ), array( 'nowrap', 'wrap', 'wrap-reverse' ) ),
+			'alignContent'         => self::one_of( $raw( 'alignContent' ), array( 'flex-start', 'flex-end', 'center', 'stretch', 'space-between', 'space-around', 'space-evenly' ) ),
+			'columnGap'            => self::length( $raw( 'columnGap' ) ),
+			'rowGap'               => self::length( $raw( 'rowGap' ) ),
+			'gridColumnWidths'     => self::one_of( $raw( 'gridColumnWidths' ), array( 'equal', 'equalMinimum', 'equalFixed', 'auto', 'manual' ) ),
+			'gridColumnCount'      => self::grid_count( $raw( 'gridColumnCount' ) ),
+			'gridColumnMinWidth'   => self::length( $raw( 'gridColumnMinWidth' ) ),
+			'gridColumnWidth'      => self::length( $raw( 'gridColumnWidth' ) ),
+			'gridTemplateColumns'  => self::track_list( $raw( 'gridTemplateColumns' ) ),
+			'gridAutoColumns'      => self::track_list( $raw( 'gridAutoColumns' ) ),
+			'collapseEmptyColumns' => self::one_of( $raw( 'collapseEmptyColumns' ), array( 'on', 'off' ) ),
+			'gridRowHeights'       => self::one_of( $raw( 'gridRowHeights' ), array( 'auto', 'equal', 'minimum', 'fixed', 'manual' ) ),
+			'gridRowCount'         => self::grid_count( $raw( 'gridRowCount' ) ),
+			'gridRowMinHeight'     => self::length( $raw( 'gridRowMinHeight' ) ),
+			'gridRowHeight'        => self::length( $raw( 'gridRowHeight' ) ),
+			'gridTemplateRows'     => self::track_list( $raw( 'gridTemplateRows' ) ),
+			'gridAutoRows'         => self::track_list( $raw( 'gridAutoRows' ) ),
+			'gridAutoFlow'         => self::one_of( $raw( 'gridAutoFlow' ), array( 'row', 'column' ) ),
+			'gridDensity'          => self::one_of( $raw( 'gridDensity' ), array( 'dense', 'sparse' ) ),
+			'gridJustifyItems'     => self::one_of( $raw( 'gridJustifyItems' ), array( 'start', 'end', 'center', 'stretch' ) ),
+		);
+
+		$clean = array();
+
+		foreach ( $pairs as $key => $one_pair ) {
+			if ( '' !== $one_pair ) {
+				$clean[ $key ] = $one_pair;
+			}
+		}
+
+		return $clean;
+	}
+
+	/**
+	 * Returns a small positive count — a grid's column or row count — or
+	 * nothing.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private static function grid_count( string $value ): string {
+		return 1 === preg_match( '/^[1-9]\d{0,2}$/', $value ) ? $value : '';
+	}
+
+	/**
+	 * Returns a raw CSS track-list value — a "manual" grid's own
+	 * `grid-template-columns`/`-rows` or `grid-auto-columns`/`-rows` — or
+	 * nothing.
+	 *
+	 * Divi lets a manual grid take genuinely open-ended CSS here — "1fr
+	 * 2fr", "repeat(3, minmax(100px, 1fr))" — so this cannot be an
+	 * allow-list the way a direction or an alignment can be. What it can do
+	 * is refuse anything built from characters a track list never needs: no
+	 * `;`, `{`, `}`, `<` or quote can end this declaration and start
+	 * another one.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private static function track_list( string $value ): string {
+		return 1 === preg_match( '/^[A-Za-z0-9 .,%()\/-]{1,200}$/', $value ) ? $value : '';
 	}
 
 	/**

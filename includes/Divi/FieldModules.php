@@ -425,22 +425,20 @@ final class FieldModules {
 				'label'       => __( 'Photograph ratio', 'course-schedule-connector' ),
 				'description' => __( 'Width divided by height — "1/1" for a square, "4/3" or "3/4" for a portrait. Empty leaves it its natural shape.', 'course-schedule-connector' ),
 			),
-			'cardsLayout'     => array(
-				'label'       => __( 'Layout', 'course-schedule-connector' ),
-				'description' => __( 'How the cards themselves are arranged: side by side in a row, or stacked in a column.', 'course-schedule-connector' ),
-				'options'     => array(
-					'row'    => array( 'label' => __( 'Row', 'course-schedule-connector' ) ),
-					'column' => array( 'label' => __( 'Column', 'course-schedule-connector' ) ),
-				),
-			),
-			'cardLayout'      => array(
-				'label'       => __( 'Layout', 'course-schedule-connector' ),
-				'description' => __( 'How the photograph and the name are arranged inside one card: side by side in a row, or stacked in a column.', 'course-schedule-connector' ),
-				'options'     => array(
-					'row'    => array( 'label' => __( 'Row', 'course-schedule-connector' ) ),
-					'column' => array( 'label' => __( 'Column', 'course-schedule-connector' ) ),
-				),
-			),
+
+			// `cardsLayout` and `cardLayout` are deliberately not listed here
+			// any more. Both used to be a plain row/column select and got a
+			// label, a description and two hard-coded options exactly like
+			// every other setting in this list — but they are Divi's own
+			// native `divi/layout` widget now {@see FieldRenderer::card_rules()},
+			// the same component `module.decoration.layout` uses for the
+			// module itself, and that component carries no label, no
+			// description and no `options` prop of its own; Divi draws its
+			// own controls for it. Leaving the old entries here would still
+			// overwrite `item.label`, `item.description` and
+			// `item.component.props.options` on the new component below —
+			// props a `divi/layout` group never reads, but wrong and
+			// misleading to keep writing regardless.
 		);
 
 		return $labels;
@@ -457,7 +455,14 @@ final class FieldModules {
 			'designLayout'       => __( 'Layout', 'course-schedule-connector' ),
 			'designCardsLayout'  => __( 'Cards', 'course-schedule-connector' ),
 			'designCardLayout'   => __( 'Photo & name', 'course-schedule-connector' ),
-			'designCardName'     => __( 'Name', 'course-schedule-connector' ),
+			// Not the bare "Name" this group used to carry: a trainer card has
+			// exactly one thing called a name on it, but the panel lists this
+			// group among a heading's "Text nadpisu" and a dozen others with no
+			// picture of the card beside them, and "Name" alone never said
+			// whose. Kept as the same string {@see Fields::value()}'s own
+			// field title already uses, in `includes/Render/Fields.php`, so
+			// one translation serves both.
+			'designCardName'     => __( 'Trainer name', 'course-schedule-connector' ),
 			'designHeadingText'  => __( 'Heading text', 'course-schedule-connector' ),
 			'designValueText'    => __( 'Value text', 'course-schedule-connector' ),
 			'designTableHead'    => __( 'Table heading', 'course-schedule-connector' ),
