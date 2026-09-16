@@ -225,6 +225,10 @@ final class FieldRenderer {
 				'type'    => 'string',
 				'default' => '',
 			);
+			$attributes['cardLayout']      = array(
+				'type'    => 'string',
+				'default' => '',
+			);
 			$attributes['cardsGap']        = array(
 				'type'    => 'string',
 				'default' => '',
@@ -609,10 +613,14 @@ final class FieldRenderer {
 	 *
 	 * The same shape {@see self::bullet_rules()} uses: a handful of settings
 	 * that mean one thing regardless of which editor stored them, read by one
-	 * method and turned into scoped CSS. Divi could later be given a native
-	 * panel on top of this, the way bullets have both — this is the part that
-	 * has to exist either way, because it is the only part Gutenberg can ever
-	 * have.
+	 * method and turned into scoped CSS. Divi was meant to get a richer native
+	 * panel on top of this, the way bullets have both, but its own Layout
+	 * group only ever answers for the module as a whole — a second copy of it
+	 * for the grid, and a third for one card, take a value and style nothing
+	 * — so `cardsLayout` and `cardLayout` are what Divi's own panel writes
+	 * to as well, through a plain select rather than that richer group. This
+	 * is the part that has to exist either way, because it is the only part
+	 * Gutenberg can ever have.
 	 *
 	 * @param array<string, mixed> $attributes Settings.
 	 * @return array<string, string>
@@ -638,6 +646,12 @@ final class FieldRenderer {
 
 		if ( '' !== $cards ) {
 			$rules['{{scope}} .cscs-cards'] = $cards;
+		}
+
+		$card_layout = self::one_of( $read( 'cardLayout' ), array( 'row', 'column' ) );
+
+		if ( '' !== $card_layout ) {
+			$rules['{{scope}} .cscs-card'] = 'flex-direction:' . $card_layout . ';';
 		}
 
 		$ratio  = self::aspect_ratio( $read( 'cardImageRatio' ) );

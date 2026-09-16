@@ -319,10 +319,19 @@ function module_metadata( string $name, array $field ): array {
 						),
 					),
 				),
-				// The same group a second time, for the grid of cards rather
-				// than the field as a whole — named apart from the one above
-				// for the reason the two text groups below are: one panel
-				// with two groups called Layout is a panel nobody can use.
+				// Row or column for the grid of cards. Divi's own Layout group
+				// answers this everywhere else on the module, but only once:
+				// Divi writes the flex/grid class its generated CSS depends
+				// on from exactly one decoration key on the module root
+				// (`Module.php`, `_get_layout_module_classname`) and quietly
+				// ignores any other same-shaped key, so a second copy of
+				// that group here would take a value and change nothing a
+				// visitor sees — confirmed both by reading that source and
+				// by Lukas trying it in the builder. A plain select in the
+				// same tab, reusing the field's own cross-editor
+				// `cardsLayout` setting — {@see `FieldRenderer::card_rules()`}
+				// — asks the same question and actually answers it; see the
+				// `designCardsLayout` group in `field_attribute()`.
 				'designCardsLayout' => empty( $field['cards'] ) ? null : array(
 					'panel'     => 'design',
 					'priority'  => 6,
@@ -332,15 +341,16 @@ function module_metadata( string $name, array $field ): array {
 						'props' => array(
 							'groupLabel'        => 'Cards',
 							'clipboardCategory' => 'style',
-							'presetGroup'       => 'divi/layout',
 						),
 					),
 				),
-				// The same group a third time, for what one card itself
+				// The same question a second time, for what one card itself
 				// contains: a photograph and a name, which want their own
 				// choice of row or column independent of how the cards
 				// holding them are arranged. "Cards" above answers how many
-				// of them sit in a row; this answers what sits in one.
+				// of them sit in a row; this answers what sits in one — and
+				// for the reason above, it is the same plain select, not a
+				// second native Layout group either.
 				'designCardLayout'  => empty( $field['cards'] ) ? null : array(
 					'panel'     => 'design',
 					'priority'  => 7,
@@ -350,7 +360,6 @@ function module_metadata( string $name, array $field ): array {
 						'props' => array(
 							'groupLabel'        => 'Photo & name',
 							'clipboardCategory' => 'style',
-							'presetGroup'       => 'divi/layout',
 						),
 					),
 				),
@@ -469,47 +478,19 @@ function module_attribute( bool $picture = false, bool $cards = false ): array {
 		unset( $decoration['border'], $decoration['boxShadow'] );
 	}
 
-	// The same reasoning as the Layout group above, twice more: a grid of
-	// cards arranges its own children, and one card arranges its own two —
-	// neither is the field's only child, so neither can be the same
-	// group-item pointed at a second or third selector. Each needs its own
-	// name, its own panel entry, and its own place to write CSS, or setting
-	// one would move the others.
+	// A grid of cards, and the photograph-and-name inside one of them, each
+	// want their own row-or-column choice — but neither can be a second or
+	// third `divi/layout` group-item the way the reasoning above might
+	// suggest: Divi writes the flex/grid class its generated CSS depends on
+	// from exactly one decoration key on the module root and quietly
+	// ignores any other same-shaped key, so a repeat of this group renders
+	// controls that take a value and change nothing a visitor sees. Both
+	// questions are answered instead by a plain select declared in
+	// `field_attribute()`, living in the same two Design-tab groups these
+	// would have used, feeding the cross-editor `cardsLayout`/`cardLayout`
+	// settings {@see `FieldRenderer::card_rules()`} that already work in
+	// Gutenberg.
 	if ( $cards ) {
-		$decoration['cardsLayout'] = array(
-			'groupType' => 'group-item',
-			'item'      => array(
-				'groupSlug' => 'designCardsLayout',
-				'priority'  => 10,
-				'render'    => true,
-				'component' => array(
-					'type'  => 'group',
-					'name'  => 'divi/layout',
-					'props' => array(
-						'attrName' => 'module.decoration.cardsLayout',
-						'grouped'  => false,
-					),
-				),
-			),
-		);
-
-		$decoration['cardLayout'] = array(
-			'groupType' => 'group-item',
-			'item'      => array(
-				'groupSlug' => 'designCardLayout',
-				'priority'  => 10,
-				'render'    => true,
-				'component' => array(
-					'type'  => 'group',
-					'name'  => 'divi/layout',
-					'props' => array(
-						'attrName' => 'module.decoration.cardLayout',
-						'grouped'  => false,
-					),
-				),
-			),
-		);
-
 		// The module's own Sizing would be a second group by that name next
 		// to the photograph's own, added below — the same collision the
 		// picture fields avoid for Border and Shadow, for the same reason:
@@ -535,11 +516,6 @@ function module_attribute( bool $picture = false, bool $cards = false ): array {
 	$style_props = array(
 		'layout' => array( 'selector' => '{{selector}} .cscs-field' ),
 	);
-
-	if ( $cards ) {
-		$style_props['cardsLayout'] = array( 'selector' => '{{selector}} .cscs-cards' );
-		$style_props['cardLayout']  = array( 'selector' => '{{selector}} .cscs-card' );
-	}
 
 	return array(
 		'type'       => 'object',
@@ -1500,14 +1476,21 @@ function field_attribute( array $field ): array {
 	// cards look rather than which cards there are. `imageSize` and
 	// `cardImageRatio` stay plain content settings — which rendition to
 	// fetch, and what to crop it to, are not things Divi's own Image
-	// treatment offers either. Arrangement, gap and margin are not asked
-	// here at all: the grid gets Divi's own Layout group and the photograph
-	// gets Divi's own Image treatment, both declared on the module itself
-	// — see `module_attribute()` and `image_attribute()` — the same
-	// controls asked of any other photograph or any other module's layout,
-	// rather than a smaller version of them living in the content panel.
-	// Gutenberg has no such native panel to give way to, so the block keeps
-	// its own equivalent settings unchanged.
+	// treatment offers either. The photograph itself gets Divi's own Image
+	// treatment, declared on the module — see `image_attribute()` — the
+	// same controls asked of any other photograph. Gutenberg has no such
+	// native panel to give way to, so the block keeps its own equivalent
+	// setting unchanged.
+	//
+	// Row or column, for the grid and for one card, are asked here too,
+	// even though both are answered in the Design tab: Divi has no working
+	// native control for either — a second and third Layout group there is
+	// declared and inert, {@see `module_attribute()`} — so a plain select
+	// is the one that actually works, feeding the same
+	// `cardsLayout`/`cardLayout` settings {@see `FieldRenderer::card_rules()`}
+	// Gutenberg already answers this way. Gap and the photograph's margin
+	// stay unanswered here: what was asked for is row or column, not the
+	// rest of the panel the native group would have offered had it worked.
 	if ( ! empty( $field['cards'] ) ) {
 		$add(
 			'imageSize',
@@ -1534,6 +1517,44 @@ function field_attribute( array $field ): array {
 				),
 			),
 			'contentCards'
+		);
+
+		$add(
+			'cardsLayout',
+			array(
+				'label'       => 'Layout',
+				'description' => 'How the cards themselves are arranged: side by side in a row, or stacked in a column.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array(
+						'options' => array(
+							'row'    => array( 'label' => 'Row' ),
+							'column' => array( 'label' => 'Column' ),
+						),
+					),
+				),
+			),
+			'designCardsLayout'
+		);
+
+		$add(
+			'cardLayout',
+			array(
+				'label'       => 'Layout',
+				'description' => 'How the photograph and the name are arranged inside one card: side by side in a row, or stacked in a column.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array(
+						'options' => array(
+							'row'    => array( 'label' => 'Row' ),
+							'column' => array( 'label' => 'Column' ),
+						),
+					),
+				),
+			),
+			'designCardLayout'
 		);
 	}
 
@@ -1627,6 +1648,8 @@ function module_defaults( array $field ): array {
 	if ( ! empty( $field['cards'] ) ) {
 		$advanced['imageSize']      = 'large';
 		$advanced['cardImageRatio'] = '';
+		$advanced['cardsLayout']    = 'column';
+		$advanced['cardLayout']     = 'column';
 	}
 
 	$defaults = array(

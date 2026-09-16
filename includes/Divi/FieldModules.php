@@ -425,6 +425,22 @@ final class FieldModules {
 				'label'       => __( 'Photograph ratio', 'course-schedule-connector' ),
 				'description' => __( 'Width divided by height — "1/1" for a square, "4/3" or "3/4" for a portrait. Empty leaves it its natural shape.', 'course-schedule-connector' ),
 			),
+			'cardsLayout'     => array(
+				'label'       => __( 'Layout', 'course-schedule-connector' ),
+				'description' => __( 'How the cards themselves are arranged: side by side in a row, or stacked in a column.', 'course-schedule-connector' ),
+				'options'     => array(
+					'row'    => array( 'label' => __( 'Row', 'course-schedule-connector' ) ),
+					'column' => array( 'label' => __( 'Column', 'course-schedule-connector' ) ),
+				),
+			),
+			'cardLayout'      => array(
+				'label'       => __( 'Layout', 'course-schedule-connector' ),
+				'description' => __( 'How the photograph and the name are arranged inside one card: side by side in a row, or stacked in a column.', 'course-schedule-connector' ),
+				'options'     => array(
+					'row'    => array( 'label' => __( 'Row', 'course-schedule-connector' ) ),
+					'column' => array( 'label' => __( 'Column', 'course-schedule-connector' ) ),
+				),
+			),
 		);
 
 		return $labels;

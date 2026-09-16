@@ -687,8 +687,9 @@
 	 * Which trainers appear is never asked here — that is the relationship
 	 * kept current by the synchroniser, already narrowed to this one page —
 	 * so everything in this panel is about how the cards look: row or
-	 * column, the space between them, and the photograph's size, ratio and
-	 * margin.
+	 * column for the grid and, independently, for the photograph and the
+	 * name inside one card, the space between one card and the next, and
+	 * the photograph's size, ratio and margin.
 	 *
 	 * @param {Object} props Block props.
 	 * @return {Object} The panel.
@@ -698,6 +699,10 @@
 			components.PanelBody,
 			{ title: __( 'Cards', 'course-schedule-connector' ), initialOpen: false },
 			select( props, 'cardsLayout', __( 'Arrangement', 'course-schedule-connector' ), [
+				{ label: __( 'Column', 'course-schedule-connector' ), value: '' },
+				{ label: __( 'Row', 'course-schedule-connector' ), value: 'row' },
+			] ),
+			select( props, 'cardLayout', __( 'Photo & name arrangement', 'course-schedule-connector' ), [
 				{ label: __( 'Column', 'course-schedule-connector' ), value: '' },
 				{ label: __( 'Row', 'course-schedule-connector' ), value: 'row' },
 			] ),

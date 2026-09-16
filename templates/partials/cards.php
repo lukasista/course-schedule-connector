@@ -8,7 +8,8 @@
  *
  * @package CourseScheduleConnector
  * @var array<int, array{name: string, permalink: string, image: string}> $cscs_cards
- * @var string $cscs_layout 'row' or 'column'.
+ * @var string $cscs_layout 'row' or 'column', for the grid of cards.
+ * @var string $cscs_card_layout 'row' or 'column', for what sits inside one card.
  */
 
 declare( strict_types=1 );
@@ -18,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <div class="cscs-cards cscs-cards--<?php echo esc_attr( $cscs_layout ); ?>">
 	<?php foreach ( $cscs_cards as $cscs_card ) : ?>
-		<div class="cscs-card">
+		<div class="cscs-card cscs-card--<?php echo esc_attr( $cscs_card_layout ); ?>">
 			<?php if ( '' !== $cscs_card['image'] ) : ?>
 				<?php if ( '' !== $cscs_card['permalink'] ) : ?>
 					<a class="cscs-card__image-link" href="<?php echo esc_url( $cscs_card['permalink'] ); ?>"><?php echo wp_kses_post( $cscs_card['image'] ); ?></a>

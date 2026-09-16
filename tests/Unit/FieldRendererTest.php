@@ -82,6 +82,60 @@ final class FieldRendererTest extends TestCase {
 	}
 
 	/**
+	 * The photograph and the name inside one card get their own rule, kept
+	 * apart from the grid's — the same independence Divi's panel offers
+	 * through two separate groups, "Cards" and "Photo & name".
+	 *
+	 * @return void
+	 */
+	public function test_the_card_gets_its_own_layout_rule(): void {
+		$rules = $this->card_rules( array( 'cardLayout' => 'row' ) );
+
+		self::assertSame( 'flex-direction:row;', $rules['{{scope}} .cscs-card'] );
+		self::assertArrayNotHasKey( '{{scope}} .cscs-cards', $rules );
+	}
+
+	/**
+	 * "column" is the other half of the same choice as "row", for the card
+	 * exactly as it is for the grid.
+	 *
+	 * @return void
+	 */
+	public function test_the_card_accepts_column_too(): void {
+		$rules = $this->card_rules( array( 'cardLayout' => 'column' ) );
+
+		self::assertSame( 'flex-direction:column;', $rules['{{scope}} .cscs-card'] );
+	}
+
+	/**
+	 * An unrecognised value is dropped for the card the same way it is for
+	 * the grid.
+	 *
+	 * @return void
+	 */
+	public function test_an_unrecognised_card_layout_is_dropped(): void {
+		self::assertSame( array(), $this->card_rules( array( 'cardLayout' => 'diagonal' ) ) );
+	}
+
+	/**
+	 * The grid and the card answer independently: setting one is not
+	 * setting the other, and both rules can exist at once.
+	 *
+	 * @return void
+	 */
+	public function test_the_grid_and_the_card_can_differ(): void {
+		$rules = $this->card_rules(
+			array(
+				'cardsLayout' => 'row',
+				'cardLayout'  => 'column',
+			)
+		);
+
+		self::assertSame( 'flex-direction:row;', $rules['{{scope}} .cscs-cards'] );
+		self::assertSame( 'flex-direction:column;', $rules['{{scope}} .cscs-card'] );
+	}
+
+	/**
 	 * The ratio and the margin become one rule on the photograph, kept apart
 	 * from the rule on the grid because they style different elements.
 	 *

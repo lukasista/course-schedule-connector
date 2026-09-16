@@ -213,6 +213,7 @@ final class FieldModuleRenderer {
 			'linkText'        => $read( 'linkText' ),
 			'detailText'      => $read( 'detailText' ),
 			'cardsLayout'     => $read( 'cardsLayout' ),
+			'cardLayout'      => $read( 'cardLayout' ),
 			'cardsGap'        => $read( 'cardsGap' ),
 			'cardImageRatio'  => $read( 'cardImageRatio' ),
 			'cardImageMargin' => $read( 'cardImageMargin' ),

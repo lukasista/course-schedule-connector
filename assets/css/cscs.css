@@ -508,6 +508,10 @@
 	gap: 0.5rem;
 }
 
+.cscs-card--row {
+	flex-direction: row;
+}
+
 .cscs-card__image {
 	display: block;
 	max-width: 100%;
@@ -524,48 +528,16 @@
 }
 
 /*
- * A grid of cards inside Divi, and one card inside it, each with a Layout
- * group of its own — {@see designCardsLayout and designCardLayout in
- * `tools/build-divi-modules.php`} — so the cards can be a row or a column
- * independently of the card, and the card independently of them.
- *
- * Only two of the three declarations {@see the field's own version above}
- * gets carry over. Divi reads which module class to write — `et_flex_module`
- * or `et_grid_module` — from exactly one attribute, the module's own
- * canonical Layout group, and no other: read off Divi's own module-classname
- * source (`Module.php`, `_get_layout_module_classname`), not guessed from how
- * the field's copy above behaves. A second or third Layout group elsewhere on
- * the same module gets everything else Divi generates for what it draws —
- * direction, alignment, wrap, both gap custom properties — but not a class
- * this element can tell apart from the field's own, so Grid here would move
- * `.cscs-field` if it moved anything at all. Both stay flex until Divi gives
- * a named Layout group a signal of its own; Flex, with a direction, is what
- * "row, or column" in the panel actually needs.
+ * Unlike `.cscs-field` above, a grid of cards and one card inside it need
+ * nothing Divi-specific here. Both are asked through a plain select now —
+ * {@see `designCardsLayout` and `designCardLayout` in
+ * `tools/build-divi-modules.php`} — because Divi's own Layout group answers
+ * for the module as a whole and no other attribute reaches it: read off
+ * Divi's own module-classname source (`Module.php`,
+ * `_get_layout_module_classname`), a second or third copy of that group
+ * elsewhere on the same module is read, generates nothing, and styles
+ * nothing. So the choice arrives the same way it always has for Gutenberg —
+ * as the `cscs-cards--row` and `cscs-card--row` classes above, written by
+ * `FieldRenderer::card_rules()` — and this stylesheet needs no separate,
+ * higher-specificity copy of those rules to make Divi agree with itself.
  */
-.cscs_divi_field :where(.cscs-cards) {
-	--horizontal-gap: 1.5rem;
-	--vertical-gap: 1.5rem;
-
-	display: flex;
-	flex-direction: var(--flex-direction, column);
-	column-gap: var(--horizontal-gap);
-	row-gap: var(--vertical-gap);
-}
-
-/*
- * What a page saved before the Cards group existed still asks for: the same
- * picture it had, overridden the moment the panel says otherwise.
- */
-.cscs_divi_field :where(.cscs-cards--row) {
-	--flex-direction: row;
-}
-
-.cscs_divi_field :where(.cscs-card) {
-	--horizontal-gap: 0.5rem;
-	--vertical-gap: 0.5rem;
-
-	display: flex;
-	flex-direction: column;
-	column-gap: var(--horizontal-gap);
-	row-gap: var(--vertical-gap);
-}

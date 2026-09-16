@@ -51,50 +51,12 @@
                     "scroll": [],
                     "sticky": [],
                     "transition": [],
-                    "zIndex": [],
-                    "cardsLayout": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "designCardsLayout",
-                            "priority": 10,
-                            "render": true,
-                            "component": {
-                                "type": "group",
-                                "name": "divi/layout",
-                                "props": {
-                                    "attrName": "module.decoration.cardsLayout",
-                                    "grouped": false
-                                }
-                            }
-                        }
-                    },
-                    "cardLayout": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "designCardLayout",
-                            "priority": 10,
-                            "render": true,
-                            "component": {
-                                "type": "group",
-                                "name": "divi/layout",
-                                "props": {
-                                    "attrName": "module.decoration.cardLayout",
-                                    "grouped": false
-                                }
-                            }
-                        }
-                    }
+                    "zIndex": []
                 }
             },
             "styleProps": {
                 "layout": {
                     "selector": "{{selector}} .cscs-field"
-                },
-                "cardsLayout": {
-                    "selector": "{{selector}} .cscs-cards"
-                },
-                "cardLayout": {
-                    "selector": "{{selector}} .cscs-card"
                 }
             }
         },
@@ -502,13 +464,77 @@
                             }
                         }
                     },
+                    "cardsLayout": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardsLayout",
+                            "attrName": "field.advanced.cardsLayout",
+                            "category": "configuration",
+                            "priority": 100,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Layout",
+                            "description": "How the cards themselves are arranged: side by side in a row, or stacked in a column.",
+                            "component": {
+                                "name": "divi/select",
+                                "type": "field",
+                                "props": {
+                                    "options": {
+                                        "row": {
+                                            "label": "Row"
+                                        },
+                                        "column": {
+                                            "label": "Column"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "cardLayout": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardLayout",
+                            "attrName": "field.advanced.cardLayout",
+                            "category": "configuration",
+                            "priority": 110,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Layout",
+                            "description": "How the photograph and the name are arranged inside one card: side by side in a row, or stacked in a column.",
+                            "component": {
+                                "name": "divi/select",
+                                "type": "field",
+                                "props": {
+                                    "options": {
+                                        "row": {
+                                            "label": "Row"
+                                        },
+                                        "column": {
+                                            "label": "Column"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "emptyText": {
                         "groupType": "group-item",
                         "item": {
                             "groupSlug": "content",
                             "attrName": "field.advanced.emptyText",
                             "category": "configuration",
-                            "priority": 100,
+                            "priority": 120,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -579,8 +605,7 @@
                     "name": "divi/composite",
                     "props": {
                         "groupLabel": "Cards",
-                        "clipboardCategory": "style",
-                        "presetGroup": "divi/layout"
+                        "clipboardCategory": "style"
                     }
                 }
             },
@@ -592,8 +617,7 @@
                     "name": "divi/composite",
                     "props": {
                         "groupLabel": "Photo & name",
-                        "clipboardCategory": "style",
-                        "presetGroup": "divi/layout"
+                        "clipboardCategory": "style"
                     }
                 }
             },

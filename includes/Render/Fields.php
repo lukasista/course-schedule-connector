@@ -1162,7 +1162,8 @@ final class Fields {
 			);
 		}
 
-		$cscs_layout = 'row' === (string) ( $settings['cardsLayout'] ?? '' ) ? 'row' : 'column';
+		$cscs_layout      = 'row' === (string) ( $settings['cardsLayout'] ?? '' ) ? 'row' : 'column';
+		$cscs_card_layout = 'row' === (string) ( $settings['cardLayout'] ?? '' ) ? 'row' : 'column';
 
 		ob_start();
 

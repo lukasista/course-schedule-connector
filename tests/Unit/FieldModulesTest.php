@@ -716,38 +716,49 @@ final class FieldModulesTest extends TestCase {
 			$attributes = $metadata['attributes'] ?? array();
 			$groups     = $metadata['settings']['groups'] ?? array();
 
+			// Not a native Layout group, a second or third time: Divi writes
+			// the flex/grid class its generated CSS depends on from exactly
+			// one decoration key on the module root and quietly ignores any
+			// other same-shaped key, so a repeat of the module's own Layout
+			// group here would be read, generate nothing, and style nothing
+			// — confirmed live, in the actual builder. Neither key is on the
+			// module's decoration at all any more, and neither group claims
+			// to be a layout preset it no longer holds.
+			$this->assertArrayNotHasKey( 'cardsLayout', $attributes['module']['settings']['decoration'] ?? array(), $name );
+			$this->assertArrayNotHasKey( 'cardLayout', $attributes['module']['settings']['decoration'] ?? array(), $name );
+			$this->assertArrayNotHasKey( 'cardsLayout', $attributes['module']['styleProps'] ?? array(), $name );
+			$this->assertArrayNotHasKey( 'cardLayout', $attributes['module']['styleProps'] ?? array(), $name );
+			$this->assertArrayNotHasKey( 'presetGroup', $groups['designCardsLayout']['component']['props'] ?? array(), $name );
+			$this->assertArrayNotHasKey( 'presetGroup', $groups['designCardLayout']['component']['props'] ?? array(), $name );
+
+			// What answers "row, or column" instead: a plain select, still in
+			// the Design tab — still called Cards, and Photo & name — but
+			// feeding the same `cardsLayout`/`cardLayout` settings
+			// `FieldRenderer::card_rules()` already turns into CSS for
+			// Gutenberg, rather than a group nothing reads.
 			$this->assertSame(
-				'divi/layout',
-				$attributes['module']['settings']['decoration']['cardsLayout']['item']['component']['name'] ?? '',
+				'divi/select',
+				$attributes['field']['settings']['advanced']['cardsLayout']['item']['component']['name'] ?? '',
 				$name
 			);
 			$this->assertSame(
-				'divi/layout',
-				$groups['designCardsLayout']['component']['props']['presetGroup'] ?? '',
-				$name
-			);
-			$this->assertSame(
-				'{{selector}} .cscs-cards',
-				$attributes['module']['styleProps']['cardsLayout']['selector'] ?? '',
+				'designCardsLayout',
+				$attributes['field']['settings']['advanced']['cardsLayout']['item']['groupSlug'] ?? '',
 				$name
 			);
 
-			// One card, the same shape asked a third time: the grid arranges the
-			// cards, the card arranges its own photograph and name, and neither
-			// group can be the other's or setting one would move both.
+			// One card, the same question a second time: the grid arranges
+			// the cards, the card arranges its own photograph and name, and
+			// neither setting can be the other's or setting one would move
+			// both.
 			$this->assertSame(
-				'divi/layout',
-				$attributes['module']['settings']['decoration']['cardLayout']['item']['component']['name'] ?? '',
+				'divi/select',
+				$attributes['field']['settings']['advanced']['cardLayout']['item']['component']['name'] ?? '',
 				$name
 			);
 			$this->assertSame(
-				'divi/layout',
-				$groups['designCardLayout']['component']['props']['presetGroup'] ?? '',
-				$name
-			);
-			$this->assertSame(
-				'{{selector}} .cscs-card',
-				$attributes['module']['styleProps']['cardLayout']['selector'] ?? '',
+				'designCardLayout',
+				$attributes['field']['settings']['advanced']['cardLayout']['item']['groupSlug'] ?? '',
 				$name
 			);
 
@@ -781,10 +792,12 @@ final class FieldModulesTest extends TestCase {
 				$name
 			);
 
-			// Arrangement, gap and margin moved to the native groups above —
-			// asking for them a second time in the content panel is the
-			// smaller version this replaced, not an addition to it.
-			foreach ( array( 'cardsLayout', 'cardsGap', 'cardImageMargin' ) as $setting ) {
+			// The gap and the photograph's margin stay unanswered in Divi —
+			// what was asked for is row or column, not the rest of the panel
+			// a working native Layout group would have offered. `cardsLayout`
+			// itself is the one setting from this list the Design tab does
+			// answer now, asserted above rather than here.
+			foreach ( array( 'cardsGap', 'cardImageMargin' ) as $setting ) {
 				$this->assertArrayNotHasKey(
 					$setting,
 					$attributes['field']['settings']['advanced'] ?? array(),

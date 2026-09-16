@@ -59,6 +59,16 @@
                 "desktop": {
                     "value": ""
                 }
+            },
+            "cardsLayout": {
+                "desktop": {
+                    "value": "column"
+                }
+            },
+            "cardLayout": {
+                "desktop": {
+                    "value": "column"
+                }
             }
         }
     }
