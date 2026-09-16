@@ -90,11 +90,38 @@
 	/**
 	 * Gathers the settings the preview needs, in the renderer's own shape.
 	 *
-	 * @param {Object} attrs Module attributes.
+	 * The first ten are named by hand because three of them are not the
+	 * server's own key (`source` becomes `postId`) or not its own shape
+	 * (`showLabel` is `"on"`/`"off"` in Divi and a boolean in the renderer) —
+	 * a generic pass cannot know either of those on its own.
+	 *
+	 * Everything past them is read generically, from the same schema the
+	 * panel itself is built from (`metadata.attributes.field.settings.advanced`),
+	 * with its fallback read from the same defaults Divi writes a chosen
+	 * value into (`metadata.defaults`). This is not a style choice: a
+	 * hand-written list here is a second place PHP's own
+	 * `FieldModuleRenderer::settings()` has to be kept in sync with by hand,
+	 * and it already fell behind once — `imageSize`, every filter, and both
+	 * `cardsLayout` and `cardLayout` were never in it, so the canvas always
+	 * previewed a field of cards, a photograph, or a filtered listing with
+	 * nothing but their built-in defaults, however the panel was actually
+	 * set. A setting the panel offers is now a setting this asks about,
+	 * without anyone having to remember to add it here too.
+	 *
+	 * @param {Object} attrs    Module attributes.
+	 * @param {Object} metadata Module metadata from the server.
 	 * @return {Object} Settings.
 	 */
-	function settings( attrs ) {
-		return {
+	function settings( attrs, metadata ) {
+		var advanced =
+			( metadata.attributes &&
+				metadata.attributes.field &&
+				metadata.attributes.field.settings &&
+				metadata.attributes.field.settings.advanced ) ||
+			{};
+		var defaults =
+			( metadata.defaults && metadata.defaults.field && metadata.defaults.field.advanced ) || {};
+		var result = {
 			postId: parseInt( setting( attrs, 'source', '0' ), 10 ) || 0,
 			showLabel: 'on' === setting( attrs, 'showLabel', 'off' ),
 			label: setting( attrs, 'label', '' ),
@@ -105,7 +132,41 @@
 			gap: setting( attrs, 'gap', '' ),
 			listStyle: setting( attrs, 'listStyle', 'disc' ),
 			emptyText: setting( attrs, 'emptyText', '' ),
+			imageLinkTarget: 'on' === setting( attrs, 'imageLinkTarget', 'off' ),
+			filterLimit: parseInt( setting( attrs, 'filterLimit', '0' ), 10 ) || 0,
 		};
+		// Named above, under a different key, in a different shape, or not a
+		// plain per-field setting at all — a generic pass must not repeat
+		// any of these under their own name.
+		var handled = {
+			source: true,
+			showLabel: true,
+			label: true,
+			labelTag: true,
+			valueTag: true,
+			layout: true,
+			separator: true,
+			gap: true,
+			listStyle: true,
+			emptyText: true,
+			imageLinkTarget: true,
+			filterLimit: true,
+		};
+		var key;
+
+		for ( key in advanced ) {
+			if ( ! Object.prototype.hasOwnProperty.call( advanced, key ) || handled[ key ] ) {
+				continue;
+			}
+
+			result[ key ] = setting(
+				attrs,
+				key,
+				defaults[ key ] && defaults[ key ].desktop ? String( defaults[ key ].desktop.value ) : ''
+			);
+		}
+
+		return result;
 	}
 
 	/**
@@ -354,7 +415,7 @@
 			defaultAttrs: metadata.defaults || {},
 			renderers: {
 				edit: function ( props ) {
-					var args = settings( props.attrs );
+					var args = settings( props.attrs, metadata );
 
 					var preview = React.createElement( 'div', {
 						className: 'cscs-notice',
