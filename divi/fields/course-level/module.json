@@ -102,6 +102,15 @@
                         }
                     }
                 }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__label",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__label"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-field__label"
+                }
             }
         },
         "value": {
@@ -144,6 +153,15 @@
                             }
                         }
                     }
+                }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__value",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__value"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-field__value"
                 }
             }
         },

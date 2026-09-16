@@ -524,12 +524,23 @@
 }
 
 /*
- * A grid of cards inside Divi. The same difference between what Divi's own
- * Layout group writes and a whole rule that {@see the field's own version
- * above} explains, written again for `.cscs-cards` rather than `.cscs-field`
- * — a second grid, with its own children, needs its own copy of exactly the
- * same three declarations, or setting one grid's arrangement would move
- * the other's.
+ * A grid of cards inside Divi, and one card inside it, each with a Layout
+ * group of its own — {@see designCardsLayout and designCardLayout in
+ * `tools/build-divi-modules.php`} — so the cards can be a row or a column
+ * independently of the card, and the card independently of them.
+ *
+ * Only two of the three declarations {@see the field's own version above}
+ * gets carry over. Divi reads which module class to write — `et_flex_module`
+ * or `et_grid_module` — from exactly one attribute, the module's own
+ * canonical Layout group, and no other: read off Divi's own module-classname
+ * source (`Module.php`, `_get_layout_module_classname`), not guessed from how
+ * the field's copy above behaves. A second or third Layout group elsewhere on
+ * the same module gets everything else Divi generates for what it draws —
+ * direction, alignment, wrap, both gap custom properties — but not a class
+ * this element can tell apart from the field's own, so Grid here would move
+ * `.cscs-field` if it moved anything at all. Both stay flex until Divi gives
+ * a named Layout group a signal of its own; Flex, with a direction, is what
+ * "row, or column" in the panel actually needs.
  */
 .cscs_divi_field :where(.cscs-cards) {
 	--horizontal-gap: 1.5rem;
@@ -541,14 +552,20 @@
 	row-gap: var(--vertical-gap);
 }
 
-.cscs_divi_field:where(.et_grid_module) :where(.cscs-cards) {
-	display: grid;
-}
-
 /*
  * What a page saved before the Cards group existed still asks for: the same
  * picture it had, overridden the moment the panel says otherwise.
  */
 .cscs_divi_field :where(.cscs-cards--row) {
 	--flex-direction: row;
+}
+
+.cscs_divi_field :where(.cscs-card) {
+	--horizontal-gap: 0.5rem;
+	--vertical-gap: 0.5rem;
+
+	display: flex;
+	flex-direction: column;
+	column-gap: var(--horizontal-gap);
+	row-gap: var(--vertical-gap);
 }

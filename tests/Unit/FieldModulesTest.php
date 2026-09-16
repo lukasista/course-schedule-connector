@@ -117,25 +117,42 @@ final class FieldModulesTest extends TestCase {
 	 */
 	public function test_the_heading_and_the_value_have_their_own_typography(): void {
 		foreach ( Fields::all() as $name => $field ) {
-			$attributes = $this->read( 'divi/fields/' . $name . '/module.json' )['attributes'] ?? array();
+			$metadata   = $this->read( 'divi/fields/' . $name . '/module.json' );
+			$attributes = $metadata['attributes'] ?? array();
 
-			// A button is styled as a button. The box it is printed in is not a
-			// second set of text settings, and offering it as one is how a
-			// panel comes to hold two of them, only one of which reaches the
-			// button.
-			if ( 'button' === (string) ( $field['signup'] ?? '' ) ) {
+			// A button is styled as a button, and a grid of cards is styled
+			// card by card: neither has one piece of text a "Value text"
+			// group would reach, and offering one anyway is how a panel
+			// comes to hold two sets of text settings, only one of which
+			// does anything.
+			$no_value = 'button' === (string) ( $field['signup'] ?? '' ) || ! empty( $field['cards'] );
+
+			if ( $no_value ) {
 				$this->assertArrayNotHasKey( 'value', $attributes, $name );
-				$this->assertArrayNotHasKey( 'designValueText', $this->read( 'divi/fields/' . $name . '/module.json' )['settings']['groups'] ?? array(), $name );
+				$this->assertArrayNotHasKey( 'designValueText', $metadata['settings']['groups'] ?? array(), $name );
+			} else {
+				$this->assertSame(
+					'{{selector}} .cscs-field__value',
+					$attributes['value']['selector'] ?? '',
+					$name
+				);
+				$this->assertArrayHasKey( 'font', $attributes['value']['settings']['decoration'] ?? array(), $name );
 
-				continue;
+				// The panel and the page it writes to: a font group with nowhere
+				// declared to put what it collects styles nothing, the same way a
+				// picture with no `styleProps` of its own would not either.
+				$this->assertSame(
+					'{{selector}} .cscs-field__value',
+					$attributes['value']['styleProps']['font']['selector'] ?? '',
+					$name
+				);
 			}
 
-			$this->assertSame(
-				'{{selector}} .cscs-field__value',
-				$attributes['value']['selector'] ?? '',
-				$name
-			);
-			$this->assertArrayHasKey( 'font', $attributes['value']['settings']['decoration'] ?? array(), $name );
+			// A button has no heading either, and falls out here the same
+			// way a headless field does.
+			if ( 'button' === (string) ( $field['signup'] ?? '' ) ) {
+				continue;
+			}
 
 			// A field with no heading has no attribute for one, and so no
 			// typography group either — the panel says nothing about a thing
@@ -152,6 +169,11 @@ final class FieldModulesTest extends TestCase {
 				$name
 			);
 			$this->assertArrayHasKey( 'font', $attributes['title']['settings']['decoration'] ?? array(), $name );
+			$this->assertSame(
+				'{{selector}} .cscs-field__label',
+				$attributes['title']['styleProps']['font']['selector'] ?? '',
+				$name
+			);
 		}
 	}
 
@@ -315,7 +337,7 @@ final class FieldModulesTest extends TestCase {
 		foreach ( Fields::all() as $name => $field ) {
 			$attributes = $this->read( 'divi/fields/' . $name . '/module.json' )['attributes'] ?? array();
 
-			if ( 'button' !== (string) ( $field['signup'] ?? '' ) ) {
+			if ( 'button' !== (string) ( $field['signup'] ?? '' ) && empty( $field['cards'] ) ) {
 				// A field that is itself a heading says so: the value is
 				// declared a heading, not a body of text, and the panel calls
 				// its typography what it is.
@@ -328,6 +350,11 @@ final class FieldModulesTest extends TestCase {
 
 			if ( Fields::heads( $field ) ) {
 				$this->assertSame( 'heading', $attributes['title']['elementType'] ?? '', $name );
+			}
+
+			if ( ! empty( $field['cards'] ) ) {
+				$this->assertSame( 'image', $attributes['cardImage']['elementType'] ?? '', $name );
+				$this->assertSame( 'content', $attributes['cardName']['elementType'] ?? '', $name );
 			}
 
 			if ( empty( $field['image'] ) ) {
@@ -705,8 +732,29 @@ final class FieldModulesTest extends TestCase {
 				$name
 			);
 
+			// One card, the same shape asked a third time: the grid arranges the
+			// cards, the card arranges its own photograph and name, and neither
+			// group can be the other's or setting one would move both.
+			$this->assertSame(
+				'divi/layout',
+				$attributes['module']['settings']['decoration']['cardLayout']['item']['component']['name'] ?? '',
+				$name
+			);
+			$this->assertSame(
+				'divi/layout',
+				$groups['designCardLayout']['component']['props']['presetGroup'] ?? '',
+				$name
+			);
+			$this->assertSame(
+				'{{selector}} .cscs-card',
+				$attributes['module']['styleProps']['cardLayout']['selector'] ?? '',
+				$name
+			);
+
 			// The photograph: Divi's own Image treatment, at the photograph's
-			// own selector rather than the single-picture fields' one.
+			// own selector rather than the single-picture fields' one, sized
+			// there too — the module's own Sizing group is the grid's box, not
+			// the photograph's, so it moves here rather than being offered twice.
 			$this->assertSame( 'image', $attributes['cardImage']['elementType'] ?? '', $name );
 			$this->assertSame(
 				'{{selector}} .cscs-card__image',
@@ -714,9 +762,12 @@ final class FieldModulesTest extends TestCase {
 				$name
 			);
 			$this->assertArrayHasKey( 'spacing', $attributes['cardImage']['settings']['decoration'] ?? array(), $name );
+			$this->assertArrayHasKey( 'sizing', $attributes['cardImage']['settings']['decoration'] ?? array(), $name );
+			$this->assertArrayNotHasKey( 'sizing', $attributes['module']['settings']['decoration'] ?? array(), $name );
 
 			// The name: a plain link styled as text, the same shape as a
-			// course's sign-up link.
+			// course's sign-up link, with somewhere of its own to write what
+			// its Font group collects.
 			$this->assertSame( 'content', $attributes['cardName']['elementType'] ?? '', $name );
 			$this->assertSame(
 				'{{selector}} .cscs-card__name',
@@ -724,6 +775,11 @@ final class FieldModulesTest extends TestCase {
 				$name
 			);
 			$this->assertArrayHasKey( 'font', $attributes['cardName']['settings']['decoration'] ?? array(), $name );
+			$this->assertSame(
+				'{{selector}} .cscs-card__name',
+				$attributes['cardName']['styleProps']['font']['selector'] ?? '',
+				$name
+			);
 
 			// Arrangement, gap and margin moved to the native groups above —
 			// asking for them a second time in the content panel is the

@@ -102,6 +102,15 @@
                         }
                     }
                 }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__value",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__value"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-field__value"
+                }
             }
         },
         "signupLink": {
@@ -178,6 +187,21 @@
                             }
                         }
                     }
+                }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-signup-link",
+                "font": {
+                    "selector": "{{selector}} .cscs-signup-link"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-signup-link"
+                },
+                "border": {
+                    "selector": "{{selector}} .cscs-signup-link"
+                },
+                "boxShadow": {
+                    "selector": "{{selector}} .cscs-signup-link"
                 }
             }
         },

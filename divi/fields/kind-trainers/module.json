@@ -43,7 +43,6 @@
                     "boxShadow": [],
                     "filters": [],
                     "spacing": [],
-                    "sizing": [],
                     "transform": [],
                     "animation": [],
                     "disabledOn": [],
@@ -63,6 +62,23 @@
                                 "type": "group",
                                 "name": "divi/layout",
                                 "props": {
+                                    "attrName": "module.decoration.cardsLayout",
+                                    "grouped": false
+                                }
+                            }
+                        }
+                    },
+                    "cardLayout": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardLayout",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/layout",
+                                "props": {
+                                    "attrName": "module.decoration.cardLayout",
                                     "grouped": false
                                 }
                             }
@@ -76,6 +92,9 @@
                 },
                 "cardsLayout": {
                     "selector": "{{selector}} .cscs-cards"
+                },
+                "cardLayout": {
+                    "selector": "{{selector}} .cscs-card"
                 }
             }
         },
@@ -120,48 +139,14 @@
                         }
                     }
                 }
-            }
-        },
-        "value": {
-            "type": "object",
-            "elementType": "content",
-            "selector": "{{selector}} .cscs-field__value",
-            "settings": {
-                "decoration": {
-                    "font": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "designValueText",
-                            "priority": 10,
-                            "render": true,
-                            "component": {
-                                "type": "group",
-                                "name": "divi/font",
-                                "props": {
-                                    "attrName": "value.decoration.font",
-                                    "grouped": true,
-                                    "fieldLabel": "Value"
-                                }
-                            }
-                        }
-                    },
-                    "spacing": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "designValueText",
-                            "priority": 20,
-                            "render": true,
-                            "component": {
-                                "type": "group",
-                                "name": "divi/spacing",
-                                "props": {
-                                    "attrName": "value.decoration.spacing",
-                                    "grouped": true,
-                                    "fieldLabel": "Value"
-                                }
-                            }
-                        }
-                    }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__label",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__label"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-field__label"
                 }
             }
         },
@@ -174,7 +159,8 @@
                     "fit": [],
                     "border": [],
                     "boxShadow": [],
-                    "spacing": []
+                    "spacing": [],
+                    "sizing": []
                 }
             },
             "styleProps": {
@@ -189,6 +175,9 @@
                     "selector": "{{selector}} .cscs-card__image"
                 },
                 "spacing": {
+                    "selector": "{{selector}} .cscs-card__image"
+                },
+                "sizing": {
                     "selector": "{{selector}} .cscs-card__image"
                 }
             }
@@ -233,6 +222,15 @@
                             }
                         }
                     }
+                }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-card__name",
+                "font": {
+                    "selector": "{{selector}} .cscs-card__name"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-card__name"
                 }
             }
         },
@@ -586,6 +584,19 @@
                     }
                 }
             },
+            "designCardLayout": {
+                "panel": "design",
+                "priority": 7,
+                "groupName": "designCardLayout",
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Photo & name",
+                        "clipboardCategory": "style",
+                        "presetGroup": "divi/layout"
+                    }
+                }
+            },
             "designCardName": {
                 "panel": "design",
                 "priority": 25,
@@ -608,19 +619,6 @@
                     "name": "divi/composite",
                     "props": {
                         "groupLabel": "Heading text",
-                        "clipboardCategory": "style"
-                    }
-                }
-            },
-            "designValueText": {
-                "panel": "design",
-                "priority": 30,
-                "groupName": "valueText",
-                "multiElements": true,
-                "component": {
-                    "name": "divi/composite",
-                    "props": {
-                        "groupLabel": "Value text",
                         "clipboardCategory": "style"
                     }
                 }

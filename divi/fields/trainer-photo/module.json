@@ -99,6 +99,15 @@
                         }
                     }
                 }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__value",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__value"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-field__value"
+                }
             }
         },
         "image": {

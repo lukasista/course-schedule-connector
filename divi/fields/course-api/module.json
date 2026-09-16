@@ -102,6 +102,15 @@
                         }
                     }
                 }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__label",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__label"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-field__label"
+                }
             }
         },
         "value": {
@@ -144,6 +153,15 @@
                             }
                         }
                     }
+                }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__value",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__value"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-field__value"
                 }
             }
         },
@@ -188,6 +206,15 @@
                         }
                     }
                 }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__value li",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__value li"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-field__value li"
+                }
             }
         },
         "bulletMarker": {
@@ -213,6 +240,12 @@
                             }
                         }
                     }
+                }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__value li::marker",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__value li::marker"
                 }
             }
         },

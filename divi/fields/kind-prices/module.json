@@ -102,6 +102,15 @@
                         }
                     }
                 }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__label",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__label"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-field__label"
+                }
             }
         },
         "value": {
@@ -144,6 +153,15 @@
                             }
                         }
                     }
+                }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-field__value",
+                "font": {
+                    "selector": "{{selector}} .cscs-field__value"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-field__value"
                 }
             }
         },
@@ -222,6 +240,21 @@
                         }
                     }
                 }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-table thead th",
+                "font": {
+                    "selector": "{{selector}} .cscs-table thead th"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-table thead th"
+                },
+                "background": {
+                    "selector": "{{selector}} .cscs-table thead th"
+                },
+                "border": {
+                    "selector": "{{selector}} .cscs-table thead th"
+                }
             }
         },
         "tableCell": {
@@ -299,6 +332,21 @@
                         }
                     }
                 }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-table tbody td",
+                "font": {
+                    "selector": "{{selector}} .cscs-table tbody td"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-table tbody td"
+                },
+                "background": {
+                    "selector": "{{selector}} .cscs-table tbody td"
+                },
+                "border": {
+                    "selector": "{{selector}} .cscs-table tbody td"
+                }
             }
         },
         "tableLink": {
@@ -325,6 +373,12 @@
                         }
                     }
                 }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-table tbody a",
+                "font": {
+                    "selector": "{{selector}} .cscs-table tbody a"
+                }
             }
         },
         "tableStripe": {
@@ -350,6 +404,12 @@
                             }
                         }
                     }
+                }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-table tbody tr:nth-child(even)",
+                "background": {
+                    "selector": "{{selector}} .cscs-table tbody tr:nth-child(even)"
                 }
             }
         },
@@ -394,6 +454,15 @@
                         }
                     }
                 }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-table .cscs-col-duration",
+                "font": {
+                    "selector": "{{selector}} .cscs-table .cscs-col-duration"
+                },
+                "sizing": {
+                    "selector": "{{selector}} .cscs-table .cscs-col-duration"
+                }
             }
         },
         "colPrice": {
@@ -436,6 +505,15 @@
                             }
                         }
                     }
+                }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-table .cscs-col-price",
+                "font": {
+                    "selector": "{{selector}} .cscs-table .cscs-col-price"
+                },
+                "sizing": {
+                    "selector": "{{selector}} .cscs-table .cscs-col-price"
                 }
             }
         },

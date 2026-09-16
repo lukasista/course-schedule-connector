@@ -1010,11 +1010,12 @@ final class Fields {
 			$elements['title'] = '{{selector}} .cscs-field__label';
 		}
 
-		// A button is styled as a button and nowhere else. The box the plugin
-		// prints it in is not a second thing to design, and offering it as one
-		// is how a panel comes to hold two sets of text settings, one of which
-		// the reader has to discover does nothing to the button.
-		if ( 'button' !== (string) ( $field['signup'] ?? '' ) ) {
+		// A button is styled as a button and nowhere else, and a grid of
+		// cards is the same trap: the box the plugin prints either in is not
+		// a second thing to design, and offering it as one is how a panel
+		// comes to hold two sets of text settings, one of which the reader
+		// has to discover does nothing.
+		if ( 'button' !== (string) ( $field['signup'] ?? '' ) && empty( $field['cards'] ) ) {
 			$elements['value'] = '{{selector}} .cscs-field__value';
 		}
 

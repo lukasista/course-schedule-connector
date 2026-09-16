@@ -177,7 +177,7 @@ function module_metadata( string $name, array $field ): array {
 					// selector and with a Spacing group the single-picture
 					// fields have never needed; the name is a plain link styled
 					// as text, the same shape as a course's sign-up link.
-					'cardImage' => empty( $field['cards'] ) ? array() : image_attribute( '{{selector}} .cscs-card__image', true ),
+					'cardImage' => empty( $field['cards'] ) ? array() : image_attribute( '{{selector}} .cscs-card__image', true, true ),
 					'cardName'  => empty( $field['cards'] ) ? array() : element_attribute(
 						'{{selector}} .cscs-card__name',
 						'cardName',
@@ -336,6 +336,24 @@ function module_metadata( string $name, array $field ): array {
 						),
 					),
 				),
+				// The same group a third time, for what one card itself
+				// contains: a photograph and a name, which want their own
+				// choice of row or column independent of how the cards
+				// holding them are arranged. "Cards" above answers how many
+				// of them sit in a row; this answers what sits in one.
+				'designCardLayout'  => empty( $field['cards'] ) ? null : array(
+					'panel'     => 'design',
+					'priority'  => 7,
+					'groupName' => 'designCardLayout',
+					'component' => array(
+						'name'  => 'divi/composite',
+						'props' => array(
+							'groupLabel'        => 'Photo & name',
+							'clipboardCategory' => 'style',
+							'presetGroup'       => 'divi/layout',
+						),
+					),
+				),
 				// A card's name, styled the same shape as a course's sign-up
 				// link: a plain anchor, styled as text, with a font and
 				// spacing group of its own for a designer who wants to say
@@ -451,11 +469,12 @@ function module_attribute( bool $picture = false, bool $cards = false ): array {
 		unset( $decoration['border'], $decoration['boxShadow'] );
 	}
 
-	// The same reasoning as the Layout group above, a second time: a grid of
-	// cards arranges its own children too, and they are not the field's only
-	// child, so this cannot be the same group-item pointed at a second
-	// selector — it needs its own name, its own panel entry, and its own
-	// place to write CSS, or setting one would move the other.
+	// The same reasoning as the Layout group above, twice more: a grid of
+	// cards arranges its own children, and one card arranges its own two —
+	// neither is the field's only child, so neither can be the same
+	// group-item pointed at a second or third selector. Each needs its own
+	// name, its own panel entry, and its own place to write CSS, or setting
+	// one would move the others.
 	if ( $cards ) {
 		$decoration['cardsLayout'] = array(
 			'groupType' => 'group-item',
@@ -466,10 +485,37 @@ function module_attribute( bool $picture = false, bool $cards = false ): array {
 				'component' => array(
 					'type'  => 'group',
 					'name'  => 'divi/layout',
-					'props' => array( 'grouped' => false ),
+					'props' => array(
+						'attrName' => 'module.decoration.cardsLayout',
+						'grouped'  => false,
+					),
 				),
 			),
 		);
+
+		$decoration['cardLayout'] = array(
+			'groupType' => 'group-item',
+			'item'      => array(
+				'groupSlug' => 'designCardLayout',
+				'priority'  => 10,
+				'render'    => true,
+				'component' => array(
+					'type'  => 'group',
+					'name'  => 'divi/layout',
+					'props' => array(
+						'attrName' => 'module.decoration.cardLayout',
+						'grouped'  => false,
+					),
+				),
+			),
+		);
+
+		// The module's own Sizing would be a second group by that name next
+		// to the photograph's own, added below — the same collision the
+		// picture fields avoid for Border and Shadow, for the same reason:
+		// the size a designer means here is the photograph's, not the
+		// invisible box around the whole grid.
+		unset( $decoration['sizing'] );
 	}
 
 	$advanced = array(
@@ -492,6 +538,7 @@ function module_attribute( bool $picture = false, bool $cards = false ): array {
 
 	if ( $cards ) {
 		$style_props['cardsLayout'] = array( 'selector' => '{{selector}} .cscs-cards' );
+		$style_props['cardLayout']  = array( 'selector' => '{{selector}} .cscs-card' );
 	}
 
 	return array(
@@ -522,17 +569,21 @@ function module_attribute( bool $picture = false, bool $cards = false ): array {
  * generates the groups exactly as it does for its own. None of these names
  * collide with anything left on the module, so they need no naming of their own.
  *
- * Two things beyond the single picture fields still need: a selector of its
- * own, because a card's photograph is `.cscs-card__image`, not
- * `.cscs-field__image`; and, for that same photograph, a `spacing` decoration
- * the single picture fields have never asked for. Both default to what course
- * and trainer photographs already had, so neither changes for them.
+ * Three things beyond the single picture fields still need: a selector of
+ * its own, because a card's photograph is `.cscs-card__image`, not
+ * `.cscs-field__image`; a `spacing` decoration the single picture fields
+ * have never asked for; and a `sizing` decoration to change the photograph's
+ * own width, which lives on the module for them — an image among many is not
+ * the whole module's box, so it needs the width control the module's own
+ * Sizing group cannot give it. All three default to what course and trainer
+ * photographs already had, so nothing changes for them.
  *
  * @param string $selector Where the styles land.
  * @param bool   $spacing  Whether to also offer a Spacing group.
+ * @param bool   $sizing   Whether to also offer a Sizing group.
  * @return array<string, mixed>
  */
-function image_attribute( string $selector = '{{selector}} .cscs-field__image', bool $spacing = false ): array {
+function image_attribute( string $selector = '{{selector}} .cscs-field__image', bool $spacing = false, bool $sizing = false ): array {
 	$decoration = array(
 		'fit'       => array(),
 		'border'    => array(),
@@ -555,6 +606,11 @@ function image_attribute( string $selector = '{{selector}} .cscs-field__image', 
 	if ( $spacing ) {
 		$decoration['spacing'] = array();
 		$style['spacing']      = array( 'selector' => $selector );
+	}
+
+	if ( $sizing ) {
+		$decoration['sizing'] = array();
+		$style['sizing']      = array( 'selector' => $selector );
 	}
 
 	return array(
@@ -613,18 +669,27 @@ function element_attribute( string $selector, string $attr, string $group, strin
 	};
 
 	$decoration = array();
+	$style      = array( 'selector' => $selector );
 	$priority   = 10;
 
 	foreach ( $groups as $property => $component ) {
 		$decoration[ $property ] = $item( $component, $property, $priority );
+		$style[ $property ]      = array( 'selector' => $selector );
 		$priority               += 10;
 	}
 
+	// Declaring the settings is only half of it, the same way it is for a
+	// picture: without `styleProps` Divi knows the panel and has nowhere to
+	// write what it collects, so every control in it accepts a value and
+	// colors nothing. One selector for the whole element, because unlike the
+	// module's own decoration none of these properties has ever needed a
+	// second one.
 	return array(
 		'type'        => 'object',
 		'elementType' => $type,
 		'selector'    => $selector,
 		'settings'    => array( 'decoration' => $decoration ),
+		'styleProps'  => $style,
 	);
 }
 
@@ -638,6 +703,16 @@ function value_attribute( array $field ): array {
 	$selector = '{{selector}} .cscs-field__value';
 
 	if ( 'button' === (string) ( $field['signup'] ?? '' ) ) {
+		return array();
+	}
+
+	// A grid of cards is the same trap a button is: "the value" is not one
+	// piece of text a designer means when they open a group called Value
+	// text, it is a wrapper around a photograph and a name that each have a
+	// typography group of their own. Offering it as well is how a panel
+	// comes to hold two font groups over the name, one of which does
+	// nothing — the exact shape the button comment above describes.
+	if ( ! empty( $field['cards'] ) ) {
 		return array();
 	}
 

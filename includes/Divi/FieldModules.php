@@ -440,6 +440,7 @@ final class FieldModules {
 			'contentColumns'     => __( 'Columns', 'course-schedule-connector' ),
 			'designLayout'       => __( 'Layout', 'course-schedule-connector' ),
 			'designCardsLayout'  => __( 'Cards', 'course-schedule-connector' ),
+			'designCardLayout'   => __( 'Photo & name', 'course-schedule-connector' ),
 			'designCardName'     => __( 'Name', 'course-schedule-connector' ),
 			'designHeadingText'  => __( 'Heading text', 'course-schedule-connector' ),
 			'designValueText'    => __( 'Value text', 'course-schedule-connector' ),
