@@ -213,6 +213,36 @@ final class FieldRenderer {
 			);
 		}
 
+		if ( ! empty( $field['cards'] ) ) {
+			// A grid of trainer cards is not a heading and a value, and not a
+			// table either — the same handful of settings mean the same thing
+			// in Divi and in Gutenberg, read by `card_rules()` below rather
+			// than through a native panel only one editor could ever have
+			// offered. `imageSize` is deliberately spelled the same as the
+			// single-picture fields' own: it is the same choice, WordPress's
+			// registered sizes, just asked once per card instead of once.
+			$attributes['cardsLayout']     = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['cardsGap']        = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['imageSize']       = array(
+				'type'    => 'string',
+				'default' => 'large',
+			);
+			$attributes['cardImageRatio']  = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+			$attributes['cardImageMargin'] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+		}
+
 		if ( ! empty( $field['bullets'] ) ) {
 			// A value that can hold a list is a value somebody will want the
 			// marks of that list to obey. The words are already covered by the
@@ -428,7 +458,8 @@ final class FieldRenderer {
 	private static function scoped_style( array $field, array $attributes ): array {
 		$rules = array_merge(
 			self::table_rules( (array) ( $field['columns'] ?? array() ), $attributes ),
-			empty( $field['bullets'] ) ? array() : self::bullet_rules( $attributes )
+			empty( $field['bullets'] ) ? array() : self::bullet_rules( $attributes ),
+			empty( $field['cards'] ) ? array() : self::card_rules( $attributes )
 		);
 
 		if ( array() === $rules ) {
@@ -570,6 +601,74 @@ final class FieldRenderer {
 		}
 
 		return $rules;
+	}
+
+	/**
+	 * Returns the rules a grid of trainer cards needs, or nothing where
+	 * nothing was asked for.
+	 *
+	 * The same shape {@see self::bullet_rules()} uses: a handful of settings
+	 * that mean one thing regardless of which editor stored them, read by one
+	 * method and turned into scoped CSS. Divi could later be given a native
+	 * panel on top of this, the way bullets have both — this is the part that
+	 * has to exist either way, because it is the only part Gutenberg can ever
+	 * have.
+	 *
+	 * @param array<string, mixed> $attributes Settings.
+	 * @return array<string, string>
+	 */
+	private static function card_rules( array $attributes ): array {
+		$read = static function ( string $key ) use ( $attributes ): string {
+			return trim( (string) ( $attributes[ $key ] ?? '' ) );
+		};
+
+		$rules = array();
+		$cards = '';
+
+		$layout = self::one_of( $read( 'cardsLayout' ), array( 'row', 'column' ) );
+		$gap    = self::length( $read( 'cardsGap' ) );
+
+		if ( '' !== $layout ) {
+			$cards .= 'flex-direction:' . $layout . ';';
+		}
+
+		if ( '' !== $gap ) {
+			$cards .= 'gap:' . $gap . ';';
+		}
+
+		if ( '' !== $cards ) {
+			$rules['{{scope}} .cscs-cards'] = $cards;
+		}
+
+		$ratio  = self::aspect_ratio( $read( 'cardImageRatio' ) );
+		$margin = self::spacing( $read( 'cardImageMargin' ) );
+		$image  = '';
+
+		if ( '' !== $ratio ) {
+			$image .= 'aspect-ratio:' . $ratio . ';object-fit:cover;width:100%;';
+		}
+
+		if ( '' !== $margin ) {
+			$image .= 'margin:' . $margin . ';';
+		}
+
+		if ( '' !== $image ) {
+			$rules['{{scope}} .cscs-card__image'] = $image;
+		}
+
+		return $rules;
+	}
+
+	/**
+	 * Returns a CSS aspect ratio, or nothing.
+	 *
+	 * @param string $value Value, "4/3" or "4 / 3".
+	 * @return string
+	 */
+	private static function aspect_ratio( string $value ): string {
+		$value = str_replace( ' ', '', $value );
+
+		return 1 === preg_match( '/^\d+(\.\d+)?\/\d+(\.\d+)?$/', $value ) ? $value : '';
 	}
 
 	/**
@@ -1057,6 +1156,10 @@ final class FieldRenderer {
 	/**
 	 * Returns up to four lengths, as a margin.
 	 *
+	 * "auto" is accepted as its own keyword alongside a length, because
+	 * `margin: 0 auto` — centring a fixed-width photograph — is the one thing
+	 * somebody filling in an image margin is most likely to actually want.
+	 *
 	 * @param string $value Value.
 	 * @return string
 	 */
@@ -1070,7 +1173,12 @@ final class FieldRenderer {
 		$clean = array();
 
 		foreach ( $parts as $part ) {
-			$length = '0' === $part ? '0' : self::length( (string) $part );
+			if ( '0' === $part || 'auto' === $part ) {
+				$clean[] = $part;
+				continue;
+			}
+
+			$length = self::length( (string) $part );
 
 			if ( '' === $length ) {
 				return '';

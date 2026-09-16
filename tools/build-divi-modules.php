@@ -208,6 +208,20 @@ function module_metadata( string $name, array $field ): array {
 						'props' => array( 'groupLabel' => 'Picture' ),
 					),
 				),
+				// A grid of trainer cards is neither a heading-and-value
+				// nor a table, so it gets a content group of its own — which
+				// card touches which course is not asked here at all: the
+				// relationship is already narrowed to this page before the
+				// module ever renders.
+				'contentCards'      => empty( $field['cards'] ) ? null : array(
+					'panel'     => 'content',
+					'priority'  => 20,
+					'groupName' => 'cards',
+					'component' => array(
+						'name'  => 'divi/composite',
+						'props' => array( 'groupLabel' => 'Cards' ),
+					),
+				),
 				// Where the columns of a table sit. Its own group for the same
 				// reason the filters have one: the order of the columns and
 				// what the module is pointed at are two questions.
@@ -1311,6 +1325,87 @@ function field_attribute( array $field ): array {
 		);
 	}
 
+	// A grid of trainer cards: which trainers is answered by the
+	// relationship, not by a setting, so everything here is about how the
+	// cards look rather than which cards there are. Deliberately the same
+	// handful of settings Gutenberg gets, read by `FieldRenderer::card_rules()`
+	// — the part that has to exist either way, because it is the only part
+	// Gutenberg can ever have. A native Divi panel on top of this, the way
+	// bullets have both, is a later addition rather than a missing one.
+	if ( ! empty( $field['cards'] ) ) {
+		$add(
+			'cardsLayout',
+			array(
+				'label'       => 'Arrangement',
+				'description' => 'Cards in a row, or stacked in a column.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array(
+						'options' => array(
+							''    => array( 'label' => 'Column' ),
+							'row' => array( 'label' => 'Row' ),
+						),
+					),
+				),
+			),
+			'contentCards'
+		);
+
+		$add(
+			'cardsGap',
+			array(
+				'label'       => 'Gap',
+				'description' => 'Space between one card and the next. A length — 1rem, 16px.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentCards'
+		);
+
+		$add(
+			'imageSize',
+			array(
+				'label'       => 'Photograph size',
+				'description' => 'Which of the sizes WordPress made of each photograph to serve.',
+				'component'   => array(
+					'name'  => 'divi/select',
+					'type'  => 'field',
+					'props' => array( 'options' => new stdClass() ),
+				),
+			),
+			'contentCards'
+		);
+
+		$add(
+			'cardImageRatio',
+			array(
+				'label'       => 'Photograph ratio',
+				'description' => 'Width divided by height — "1/1" for a square, "4/3" or "3/4" for a portrait. Empty leaves it its natural shape.',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentCards'
+		);
+
+		$add(
+			'cardImageMargin',
+			array(
+				'label'       => 'Photograph margin',
+				'description' => 'Up to four lengths, the CSS way: "0 0 8px 0".',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
+				),
+			),
+			'contentCards'
+		);
+	}
+
 	$add(
 		'emptyText',
 		array(
@@ -1396,6 +1491,14 @@ function module_defaults( array $field ): array {
 		$advanced['imageLink']       = 'none';
 		$advanced['imageLinkUrl']    = '';
 		$advanced['imageLinkTarget'] = 'off';
+	}
+
+	if ( ! empty( $field['cards'] ) ) {
+		$advanced['cardsLayout']     = '';
+		$advanced['cardsGap']        = '';
+		$advanced['imageSize']       = 'large';
+		$advanced['cardImageRatio']  = '';
+		$advanced['cardImageMargin'] = '';
 	}
 
 	$defaults = array(

@@ -212,6 +212,10 @@ final class FieldModuleRenderer {
 			'filterLimit'     => (int) $read( 'filterLimit', '0' ),
 			'linkText'        => $read( 'linkText' ),
 			'detailText'      => $read( 'detailText' ),
+			'cardsLayout'     => $read( 'cardsLayout' ),
+			'cardsGap'        => $read( 'cardsGap' ),
+			'cardImageRatio'  => $read( 'cardImageRatio' ),
+			'cardImageMargin' => $read( 'cardImageMargin' ),
 			'extraClass'      => self::extra_class( $name ),
 		);
 	}

@@ -1,0 +1,80 @@
+{
+    "module": {
+        "meta": {
+            "adminLabel": {
+                "desktop": {
+                    "value": "Trainers of this kind"
+                }
+            }
+        }
+    },
+    "field": {
+        "advanced": {
+            "source": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "showLabel": {
+                "desktop": {
+                    "value": "on"
+                }
+            },
+            "label": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "labelTag": {
+                "desktop": {
+                    "value": "h3"
+                }
+            },
+            "valueTag": {
+                "desktop": {
+                    "value": "div"
+                }
+            },
+            "separator": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "gap": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "emptyText": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardsLayout": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardsGap": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "imageSize": {
+                "desktop": {
+                    "value": "large"
+                }
+            },
+            "cardImageRatio": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardImageMargin": {
+                "desktop": {
+                    "value": ""
+                }
+            }
+        }
+    }
+}

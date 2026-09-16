@@ -682,6 +682,55 @@
 	}
 
 	/**
+	 * The settings a grid of trainer cards has and nothing else does.
+	 *
+	 * Which trainers appear is never asked here — that is the relationship
+	 * kept current by the synchroniser, already narrowed to this one page —
+	 * so everything in this panel is about how the cards look: row or
+	 * column, the space between them, and the photograph's size, ratio and
+	 * margin.
+	 *
+	 * @param {Object} props Block props.
+	 * @return {Object} The panel.
+	 */
+	function cardsPanel( props ) {
+		return el(
+			components.PanelBody,
+			{ title: __( 'Cards', 'course-schedule-connector' ), initialOpen: false },
+			select( props, 'cardsLayout', __( 'Arrangement', 'course-schedule-connector' ), [
+				{ label: __( 'Column', 'course-schedule-connector' ), value: '' },
+				{ label: __( 'Row', 'course-schedule-connector' ), value: 'row' },
+			] ),
+			text(
+				props,
+				'cardsGap',
+				__( 'Gap', 'course-schedule-connector' ),
+				__( 'Space between one card and the next. A length — 1rem, 16px.', 'course-schedule-connector' )
+			),
+			select(
+				props,
+				'imageSize',
+				__( 'Photograph size', 'course-schedule-connector' ),
+				sizes.map( function ( size ) {
+					return { label: size, value: size };
+				} )
+			),
+			text(
+				props,
+				'cardImageRatio',
+				__( 'Photograph ratio', 'course-schedule-connector' ),
+				__( 'Width divided by height — "1/1" for a square, "4/3" or "3/4" for a portrait. Empty leaves it its natural shape.', 'course-schedule-connector' )
+			),
+			text(
+				props,
+				'cardImageMargin',
+				__( 'Photograph margin', 'course-schedule-connector' ),
+				__( 'Up to four lengths, the CSS way: "0 0 8px 0".', 'course-schedule-connector' )
+			)
+		);
+	}
+
+	/**
 	 * The area a table piloting the column-children mechanism builds its
 	 * columns from: an `InnerBlocks` list of `field.columnBlock` children,
 	 * dragged into whatever order the table should show them in.
@@ -1018,6 +1067,7 @@
 						families
 					),
 					field.bullets ? bulletPanel( props, palette ) : null,
+					field.cards ? cardsPanel( props ) : null,
 					tablePanels( props, field, palette, families ),
 					el(
 						components.PanelBody,

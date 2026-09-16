@@ -391,6 +391,22 @@ final class Fields {
 				'heading'     => true,
 				'filters'     => true,
 			),
+			'trainers' => array(
+				'kind'        => self::HTML,
+				'title'       => __( 'Trainers of this kind', 'course-schedule-connector' ),
+				'label'       => __( 'Trainers', 'course-schedule-connector' ),
+				'icon'        => 'groups',
+				'moduleIcon'  => 'divi/module-team-member',
+				// One card per trainer currently teaching a shown course of
+				// this page — kept current by
+				// `KindRepository::refresh_trainer_relationships()`, which is
+				// page-scoped rather than term-scoped precisely so that
+				// Gymnastika dívky and Gymnastika kluci, which share one
+				// term but not one roster, each get only their own.
+				'description' => __( 'Who currently teaches this kind of course: a photograph and a name, each linked to that trainer’s own page.', 'course-schedule-connector' ),
+				'heading'     => true,
+				'cards'       => true,
+			),
 		);
 
 		$fields = array();
@@ -447,6 +463,7 @@ final class Fields {
 			'headline'   => false,
 			'bullets'    => false,
 			'filters'    => false,
+			'cards'      => false,
 			'signup'     => '',
 			'columns'    => array(),
 			'moduleIcon' => 'divi/module-text',
@@ -614,6 +631,9 @@ final class Fields {
 
 			case 'prices':
 				return array( 'html' => self::table( $detail->price_listing( $settings ) ) );
+
+			case 'trainers':
+				return array( 'html' => self::cards( $detail->trainer_listing(), $settings ) );
 		}
 
 		return array();
@@ -1092,6 +1112,79 @@ final class Fields {
 		$content = do_shortcode( $content );
 
 		return wp_kses_post( $content );
+	}
+
+	/**
+	 * Renders a grid of trainer cards: a photograph, a name, each linked to
+	 * that trainer's own page.
+	 *
+	 * Not a `Listing`. A trainer card has no columns to choose and no width
+	 * to set — it is not a row of a table — so the table machinery has
+	 * nothing to offer a shape it was never asked to draw, and this is
+	 * deliberately its own small path rather than a forced fit.
+	 *
+	 * @param array<int, \WP_Post> $trainers Trainers, in the order to show them.
+	 * @param array<string, mixed> $settings Block or module settings.
+	 * @return string
+	 */
+	private static function cards( array $trainers, array $settings ): string {
+		if ( array() === $trainers ) {
+			return '';
+		}
+
+		$file = Renderer::locate( 'partials/cards' );
+
+		if ( '' === $file ) {
+			return '';
+		}
+
+		$size = (string) ( $settings['imageSize'] ?? 'large' );
+		$size = in_array( $size, self::sizes(), true ) ? $size : 'large';
+
+		// The name the partial reads them under — see `table()` above for why
+		// every template variable here carries the plugin's prefix.
+		$cscs_cards = array();
+
+		foreach ( $trainers as $trainer ) {
+			$cscs_cards[] = array(
+				'name'      => (string) get_the_title( $trainer ),
+				'permalink' => (string) get_permalink( $trainer ),
+				'image'     => self::card_picture( $trainer, $size ),
+			);
+		}
+
+		$cscs_layout = 'row' === (string) ( $settings['cardsLayout'] ?? '' ) ? 'row' : 'column';
+
+		ob_start();
+
+		require $file;
+
+		return (string) ob_get_clean();
+	}
+
+	/**
+	 * Renders one trainer's photograph, at the size the settings ask for.
+	 *
+	 * @param \WP_Post $trainer Trainer.
+	 * @param string   $size    Registered image size, already checked against {@see self::sizes()}.
+	 * @return string
+	 */
+	private static function card_picture( \WP_Post $trainer, string $size ): string {
+		$attachment = (int) get_post_meta( $trainer->ID, TrainerType::META_PHOTO_ID, true );
+
+		if ( 0 === $attachment ) {
+			return '';
+		}
+
+		return (string) wp_get_attachment_image(
+			$attachment,
+			$size,
+			false,
+			array(
+				'class' => 'cscs-card__image',
+				'alt'   => (string) get_the_title( $trainer ),
+			)
+		);
 	}
 
 	/**

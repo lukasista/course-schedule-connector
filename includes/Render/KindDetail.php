@@ -396,6 +396,31 @@ final class KindDetail {
 	}
 
 	/**
+	 * Returns the trainers currently teaching this kind of course, as posts.
+	 *
+	 * Not a `Listing`, unlike {@see self::course_listing()}: a trainer card is
+	 * a photograph and a name, not a row of a table, and the relationship it
+	 * reads — {@see \CSCS\Data\KindRepository::refresh_trainer_relationships()}
+	 * — is already narrowed to this page, so there is nothing left to filter
+	 * or sort here.
+	 *
+	 * @return array<int, \WP_Post>
+	 */
+	public function trainer_listing(): array {
+		$trainers = array();
+
+		foreach ( $this->plugin->kinds()->trainers( $this->post->ID ) as $id ) {
+			$post = get_post( $id );
+
+			if ( $post instanceof \WP_Post ) {
+				$trainers[] = $post;
+			}
+		}
+
+		return $trainers;
+	}
+
+	/**
 	 * Returns the term this page is paired with, if any.
 	 *
 	 * @return \WP_Term|null

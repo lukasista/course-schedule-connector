@@ -558,6 +558,42 @@ final class KindRepository {
 	}
 
 	/**
+	 * Returns the trainers currently paired with a kind's page, ready to render.
+	 *
+	 * Reads back exactly what {@see self::refresh_trainer_relationships()}
+	 * keeps current: one trainer per row they teach a shown course of, so a
+	 * page with courses split across eight people gets eight cards and a
+	 * page with two gets two — never the whole term's roster, because the
+	 * relationship itself was built page by page, not term by term.
+	 *
+	 * @param int $post_id Kind page id.
+	 * @return array<int, int> Trainer post ids.
+	 */
+	public function trainers( int $post_id ): array {
+		$found = get_posts(
+			array(
+				'post_type'        => TrainerType::TRAINER,
+				'post_status'      => 'publish',
+				'posts_per_page'   => 200,
+				'fields'           => 'ids',
+				'orderby'          => 'title',
+				'order'            => 'ASC',
+				'no_found_rows'    => true,
+				'suppress_filters' => false,
+				'meta_query'       => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- The point of the relationship is to be asked this.
+					array(
+						'key'     => TrainerType::META_KIND_PAGE,
+						'value'   => $post_id,
+						'compare' => '=',
+					),
+				),
+			)
+		);
+
+		return array_map( 'intval', $found );
+	}
+
+	/**
 	 * Recomputes which kind pages each trainer currently belongs to, and
 	 * writes the answer onto their own post.
 	 *

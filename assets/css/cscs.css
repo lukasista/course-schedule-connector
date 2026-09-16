@@ -479,3 +479,43 @@
 	display: inline-block;
 	max-width: 100%;
 }
+
+/*
+ * A grid of trainer cards.
+ *
+ * The photograph fills its box and the name sits under it, both linked to
+ * the trainer's own page. Row or column, the gap, the photograph's ratio
+ * and its margin are all settings — see `FieldRenderer::card_rules()` —
+ * so what is here is only the shape nobody has designed yet.
+ */
+.cscs-cards {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 1.5rem;
+}
+
+.cscs-cards--row {
+	flex-direction: row;
+}
+
+.cscs-card {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.cscs-card__image {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+.cscs-card__image-link {
+	display: inline-block;
+	max-width: 100%;
+}
+
+.cscs-card__name {
+	font-weight: 600;
+}
