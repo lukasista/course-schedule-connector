@@ -1022,6 +1022,14 @@ final class Fields {
 			$elements['image'] = '{{selector}} .cscs-field__image';
 		}
 
+		// A card's photograph and its name, in the order `module_metadata()`
+		// declares them: the photograph first, styled the way any other
+		// picture is, then the name, a plain link styled as text.
+		if ( ! empty( $field['cards'] ) ) {
+			$elements['cardImage'] = '{{selector}} .cscs-card__image';
+			$elements['cardName']  = '{{selector}} .cscs-card__name';
+		}
+
 		// The button is Divi's own kind of element and carries its own panel;
 		// the link is an anchor with a font group on it. Either way the styles
 		// have to be emitted, or the panel accepts settings and the page

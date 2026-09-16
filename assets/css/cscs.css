@@ -484,9 +484,12 @@
  * A grid of trainer cards.
  *
  * The photograph fills its box and the name sits under it, both linked to
- * the trainer's own page. Row or column, the gap, the photograph's ratio
- * and its margin are all settings — see `FieldRenderer::card_rules()` —
- * so what is here is only the shape nobody has designed yet.
+ * the trainer's own page. Row or column and the gap are Gutenberg's own
+ * settings — see `FieldRenderer::card_rules()` — and under Divi they are
+ * this shape's fallback, overridden by Divi's own Layout group below the
+ * moment it says otherwise. The photograph's ratio and its margin work the
+ * same way, one field's worth of margin aside — Divi's own Spacing group
+ * on the photograph replaces it there, and Gutenberg keeps the setting.
  */
 .cscs-cards {
 	display: flex;
@@ -518,4 +521,34 @@
 
 .cscs-card__name {
 	font-weight: 600;
+}
+
+/*
+ * A grid of cards inside Divi. The same difference between what Divi's own
+ * Layout group writes and a whole rule that {@see the field's own version
+ * above} explains, written again for `.cscs-cards` rather than `.cscs-field`
+ * — a second grid, with its own children, needs its own copy of exactly the
+ * same three declarations, or setting one grid's arrangement would move
+ * the other's.
+ */
+.cscs_divi_field :where(.cscs-cards) {
+	--horizontal-gap: 1.5rem;
+	--vertical-gap: 1.5rem;
+
+	display: flex;
+	flex-direction: var(--flex-direction, column);
+	column-gap: var(--horizontal-gap);
+	row-gap: var(--vertical-gap);
+}
+
+.cscs_divi_field:where(.et_grid_module) :where(.cscs-cards) {
+	display: grid;
+}
+
+/*
+ * What a page saved before the Cards group existed still asks for: the same
+ * picture it had, overridden the moment the panel says otherwise.
+ */
+.cscs_divi_field :where(.cscs-cards--row) {
+	--flex-direction: row;
 }

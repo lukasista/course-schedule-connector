@@ -661,4 +661,84 @@ final class FieldModulesTest extends TestCase {
 			Fields::ordered_columns( 'course-schedule', $settings )
 		);
 	}
+
+	/**
+	 * A grid of cards gets Divi's own Layout group a second time, on the grid
+	 * rather than on the field, and its photograph and name get the same
+	 * native treatment any other picture and any other plain link already
+	 * have — not a smaller version of any of it living in the content panel.
+	 *
+	 * The same two-halves shape {@see self::test_the_layout_group_is_offered_and_reaches_the_field()}
+	 * checks for the field's own arrangement, asked a second time of the
+	 * grid: without the decoration the group is not offered, and without the
+	 * style prop every control in it works and none of them shows.
+	 *
+	 * @return void
+	 */
+	public function test_a_grid_of_cards_gets_its_own_layout_group(): void {
+		$seen = 0;
+
+		foreach ( Fields::all() as $name => $field ) {
+			if ( empty( $field['cards'] ) ) {
+				continue;
+			}
+
+			++$seen;
+
+			$metadata   = $this->read( 'divi/fields/' . $name . '/module.json' );
+			$attributes = $metadata['attributes'] ?? array();
+			$groups     = $metadata['settings']['groups'] ?? array();
+
+			$this->assertSame(
+				'divi/layout',
+				$attributes['module']['settings']['decoration']['cardsLayout']['item']['component']['name'] ?? '',
+				$name
+			);
+			$this->assertSame(
+				'divi/layout',
+				$groups['designCardsLayout']['component']['props']['presetGroup'] ?? '',
+				$name
+			);
+			$this->assertSame(
+				'{{selector}} .cscs-cards',
+				$attributes['module']['styleProps']['cardsLayout']['selector'] ?? '',
+				$name
+			);
+
+			// The photograph: Divi's own Image treatment, at the photograph's
+			// own selector rather than the single-picture fields' one.
+			$this->assertSame( 'image', $attributes['cardImage']['elementType'] ?? '', $name );
+			$this->assertSame(
+				'{{selector}} .cscs-card__image',
+				$attributes['cardImage']['selector'] ?? '',
+				$name
+			);
+			$this->assertArrayHasKey( 'spacing', $attributes['cardImage']['settings']['decoration'] ?? array(), $name );
+
+			// The name: a plain link styled as text, the same shape as a
+			// course's sign-up link.
+			$this->assertSame( 'content', $attributes['cardName']['elementType'] ?? '', $name );
+			$this->assertSame(
+				'{{selector}} .cscs-card__name',
+				$attributes['cardName']['selector'] ?? '',
+				$name
+			);
+			$this->assertArrayHasKey( 'font', $attributes['cardName']['settings']['decoration'] ?? array(), $name );
+
+			// Arrangement, gap and margin moved to the native groups above —
+			// asking for them a second time in the content panel is the
+			// smaller version this replaced, not an addition to it.
+			foreach ( array( 'cardsLayout', 'cardsGap', 'cardImageMargin' ) as $setting ) {
+				$this->assertArrayNotHasKey(
+					$setting,
+					$attributes['field']['settings']['advanced'] ?? array(),
+					$name . ' ' . $setting
+				);
+			}
+		}
+
+		// A guard that guards nothing is worse than none: it passes for ever
+		// the day the flag stops being read.
+		$this->assertSame( 1, $seen );
+	}
 }

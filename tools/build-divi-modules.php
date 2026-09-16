@@ -153,12 +153,12 @@ function module_metadata( string $name, array $field ): array {
 		'attributes'           => array_filter(
 			array_merge(
 				array(
-					'module' => module_attribute( ! empty( $field['image'] ) ),
+					'module'    => module_attribute( ! empty( $field['image'] ), ! empty( $field['cards'] ) ),
 					// No heading, no attribute for one. The order matters as
 					// well as the presence: a test holds the styled attributes
 					// against `Fields::style_elements()`, which answers the
 					// same question in the same order.
-					'title'  => \CSCS\Render\Fields::heads( $field )
+					'title'     => \CSCS\Render\Fields::heads( $field )
 						? element_attribute( '{{selector}} .cscs-field__label', 'title', 'designHeadingText', 'Heading', 'heading' )
 						: array(),
 					// Three ways for the value to be a thing a designer styles.
@@ -169,8 +169,26 @@ function module_metadata( string $name, array $field ): array {
 					// on a button there is no such thing: the button is styled
 					// as a button, and the box it sits in is not a second set
 					// of text settings to go looking through.
-					'value'  => value_attribute( $field ),
-					'image'  => empty( $field['image'] ) ? array() : image_attribute(),
+					'value'     => value_attribute( $field ),
+					'image'     => empty( $field['image'] ) ? array() : image_attribute(),
+					// A card's photograph and name, styled the way any other
+					// picture and any other plain link already are: the
+					// photograph gets Divi's own Image treatment, at its own
+					// selector and with a Spacing group the single-picture
+					// fields have never needed; the name is a plain link styled
+					// as text, the same shape as a course's sign-up link.
+					'cardImage' => empty( $field['cards'] ) ? array() : image_attribute( '{{selector}} .cscs-card__image', true ),
+					'cardName'  => empty( $field['cards'] ) ? array() : element_attribute(
+						'{{selector}} .cscs-card__name',
+						'cardName',
+						'designCardName',
+						'Name',
+						'content',
+						array(
+							'font'    => 'divi/font',
+							'spacing' => 'divi/spacing',
+						)
+					),
 				),
 				bullet_attributes( $field ),
 				signup_attributes( $field ),
@@ -301,6 +319,40 @@ function module_metadata( string $name, array $field ): array {
 						),
 					),
 				),
+				// The same group a second time, for the grid of cards rather
+				// than the field as a whole — named apart from the one above
+				// for the reason the two text groups below are: one panel
+				// with two groups called Layout is a panel nobody can use.
+				'designCardsLayout' => empty( $field['cards'] ) ? null : array(
+					'panel'     => 'design',
+					'priority'  => 6,
+					'groupName' => 'designCardsLayout',
+					'component' => array(
+						'name'  => 'divi/composite',
+						'props' => array(
+							'groupLabel'        => 'Cards',
+							'clipboardCategory' => 'style',
+							'presetGroup'       => 'divi/layout',
+						),
+					),
+				),
+				// A card's name, styled the same shape as a course's sign-up
+				// link: a plain anchor, styled as text, with a font and
+				// spacing group of its own for a designer who wants to say
+				// something the theme's own link styling does not.
+				'designCardName'    => empty( $field['cards'] ) ? null : array(
+					'panel'         => 'design',
+					'priority'      => 25,
+					'groupName'     => 'cardName',
+					'multiElements' => true,
+					'component'     => array(
+						'name'  => 'divi/composite',
+						'props' => array(
+							'groupLabel'        => 'Name',
+							'clipboardCategory' => 'style',
+						),
+					),
+				),
 				// Two design groups, named apart. Left to Divi's own naming
 				// both typography groups come out called "Module Text", and a
 				// panel with two identically named groups in it is a panel
@@ -340,9 +392,11 @@ function module_metadata( string $name, array $field ): array {
 /**
  * The decoration groups every module gets.
  *
+ * @param bool $picture Whether this field's module carries a single picture.
+ * @param bool $cards   Whether this field's module draws a grid of cards.
  * @return array<string, mixed>
  */
-function module_attribute( bool $picture = false ): array {
+function module_attribute( bool $picture = false, bool $cards = false ): array {
 	$decoration = array(
 		// What the two halves of a field do relative to each other, in the
 		// place a Divi user already looks for it: Divi's own Layout group —
@@ -397,6 +451,27 @@ function module_attribute( bool $picture = false ): array {
 		unset( $decoration['border'], $decoration['boxShadow'] );
 	}
 
+	// The same reasoning as the Layout group above, a second time: a grid of
+	// cards arranges its own children too, and they are not the field's only
+	// child, so this cannot be the same group-item pointed at a second
+	// selector — it needs its own name, its own panel entry, and its own
+	// place to write CSS, or setting one would move the other.
+	if ( $cards ) {
+		$decoration['cardsLayout'] = array(
+			'groupType' => 'group-item',
+			'item'      => array(
+				'groupSlug' => 'designCardsLayout',
+				'priority'  => 10,
+				'render'    => true,
+				'component' => array(
+					'type'  => 'group',
+					'name'  => 'divi/layout',
+					'props' => array( 'grouped' => false ),
+				),
+			),
+		);
+	}
+
 	$advanced = array(
 		'text' => array(),
 		'link' => array(),
@@ -411,6 +486,14 @@ function module_attribute( bool $picture = false ): array {
 		unset( $advanced['link'] );
 	}
 
+	$style_props = array(
+		'layout' => array( 'selector' => '{{selector}} .cscs-field' ),
+	);
+
+	if ( $cards ) {
+		$style_props['cardsLayout'] = array( 'selector' => '{{selector}} .cscs-cards' );
+	}
+
 	return array(
 		'type'       => 'object',
 		'selector'   => '{{selector}}',
@@ -422,13 +505,12 @@ function module_attribute( bool $picture = false ): array {
 		// Everything else on the module belongs on the module: a background, a
 		// border and a margin are drawn around the whole of it. The layout is
 		// the exception, because a flex container arranges its own children and
-		// the module's only child is the field. Pointed at the module the
-		// controls would all work and none of them would show. Pointed here
-		// they arrange the heading and the value, which is what somebody
-		// opening a group called Layout is trying to do.
-		'styleProps' => array(
-			'layout' => array( 'selector' => '{{selector}} .cscs-field' ),
-		),
+		// the module's only child is the field — or, for a field of cards, the
+		// grid of them. Pointed at the module the controls would all work and
+		// none of them would show. Pointed here they arrange what is actually
+		// inside, which is what somebody opening a group called Layout is
+		// trying to do.
+		'styleProps' => $style_props,
 	);
 }
 
@@ -440,34 +522,47 @@ function module_attribute( bool $picture = false ): array {
  * generates the groups exactly as it does for its own. None of these names
  * collide with anything left on the module, so they need no naming of their own.
  *
+ * Two things beyond the single picture fields still need: a selector of its
+ * own, because a card's photograph is `.cscs-card__image`, not
+ * `.cscs-field__image`; and, for that same photograph, a `spacing` decoration
+ * the single picture fields have never asked for. Both default to what course
+ * and trainer photographs already had, so neither changes for them.
+ *
+ * @param string $selector Where the styles land.
+ * @param bool   $spacing  Whether to also offer a Spacing group.
  * @return array<string, mixed>
  */
-function image_attribute(): array {
-	$image = '{{selector}} .cscs-field__image';
+function image_attribute( string $selector = '{{selector}} .cscs-field__image', bool $spacing = false ): array {
+	$decoration = array(
+		'fit'       => array(),
+		'border'    => array(),
+		'boxShadow' => array(),
+	);
+
+	// Declaring the settings is only half of it: without `styleProps` Divi
+	// knows the fields belong to the picture and still has nowhere to write
+	// their CSS, so every one of them accepts a value and does nothing. The
+	// selectors are named rather than left to the default for the same
+	// reason Divi names its own — a border on a picture belongs on the
+	// picture, not on whatever happens to wrap it.
+	$style = array(
+		'selector'  => $selector,
+		'fit'       => array( 'selector' => $selector ),
+		'border'    => array( 'selector' => $selector ),
+		'boxShadow' => array( 'selector' => $selector ),
+	);
+
+	if ( $spacing ) {
+		$decoration['spacing'] = array();
+		$style['spacing']      = array( 'selector' => $selector );
+	}
 
 	return array(
 		'type'        => 'object',
 		'elementType' => 'image',
-		'selector'    => $image,
-		'settings'    => array(
-			'decoration' => array(
-				'fit'       => array(),
-				'border'    => array(),
-				'boxShadow' => array(),
-			),
-		),
-		// Declaring the settings is only half of it: without `styleProps` Divi
-		// knows the fields belong to the picture and still has nowhere to write
-		// their CSS, so every one of them accepts a value and does nothing. The
-		// selectors are named rather than left to the default for the same
-		// reason Divi names its own — a border on a picture belongs on the
-		// picture, not on whatever happens to wrap it.
-		'styleProps'  => array(
-			'selector'  => $image,
-			'fit'       => array( 'selector' => $image ),
-			'border'    => array( 'selector' => $image ),
-			'boxShadow' => array( 'selector' => $image ),
-		),
+		'selector'    => $selector,
+		'settings'    => array( 'decoration' => $decoration ),
+		'styleProps'  => $style,
 	);
 }
 
@@ -1327,44 +1422,18 @@ function field_attribute( array $field ): array {
 
 	// A grid of trainer cards: which trainers is answered by the
 	// relationship, not by a setting, so everything here is about how the
-	// cards look rather than which cards there are. Deliberately the same
-	// handful of settings Gutenberg gets, read by `FieldRenderer::card_rules()`
-	// — the part that has to exist either way, because it is the only part
-	// Gutenberg can ever have. A native Divi panel on top of this, the way
-	// bullets have both, is a later addition rather than a missing one.
+	// cards look rather than which cards there are. `imageSize` and
+	// `cardImageRatio` stay plain content settings — which rendition to
+	// fetch, and what to crop it to, are not things Divi's own Image
+	// treatment offers either. Arrangement, gap and margin are not asked
+	// here at all: the grid gets Divi's own Layout group and the photograph
+	// gets Divi's own Image treatment, both declared on the module itself
+	// — see `module_attribute()` and `image_attribute()` — the same
+	// controls asked of any other photograph or any other module's layout,
+	// rather than a smaller version of them living in the content panel.
+	// Gutenberg has no such native panel to give way to, so the block keeps
+	// its own equivalent settings unchanged.
 	if ( ! empty( $field['cards'] ) ) {
-		$add(
-			'cardsLayout',
-			array(
-				'label'       => 'Arrangement',
-				'description' => 'Cards in a row, or stacked in a column.',
-				'component'   => array(
-					'name'  => 'divi/select',
-					'type'  => 'field',
-					'props' => array(
-						'options' => array(
-							''    => array( 'label' => 'Column' ),
-							'row' => array( 'label' => 'Row' ),
-						),
-					),
-				),
-			),
-			'contentCards'
-		);
-
-		$add(
-			'cardsGap',
-			array(
-				'label'       => 'Gap',
-				'description' => 'Space between one card and the next. A length — 1rem, 16px.',
-				'component'   => array(
-					'name' => 'divi/text',
-					'type' => 'field',
-				),
-			),
-			'contentCards'
-		);
-
 		$add(
 			'imageSize',
 			array(
@@ -1384,19 +1453,6 @@ function field_attribute( array $field ): array {
 			array(
 				'label'       => 'Photograph ratio',
 				'description' => 'Width divided by height — "1/1" for a square, "4/3" or "3/4" for a portrait. Empty leaves it its natural shape.',
-				'component'   => array(
-					'name' => 'divi/text',
-					'type' => 'field',
-				),
-			),
-			'contentCards'
-		);
-
-		$add(
-			'cardImageMargin',
-			array(
-				'label'       => 'Photograph margin',
-				'description' => 'Up to four lengths, the CSS way: "0 0 8px 0".',
 				'component'   => array(
 					'name' => 'divi/text',
 					'type' => 'field',
@@ -1494,11 +1550,8 @@ function module_defaults( array $field ): array {
 	}
 
 	if ( ! empty( $field['cards'] ) ) {
-		$advanced['cardsLayout']     = '';
-		$advanced['cardsGap']        = '';
-		$advanced['imageSize']       = 'large';
-		$advanced['cardImageRatio']  = '';
-		$advanced['cardImageMargin'] = '';
+		$advanced['imageSize']      = 'large';
+		$advanced['cardImageRatio'] = '';
 	}
 
 	$defaults = array(

@@ -50,27 +50,12 @@
                     "value": ""
                 }
             },
-            "cardsLayout": {
-                "desktop": {
-                    "value": ""
-                }
-            },
-            "cardsGap": {
-                "desktop": {
-                    "value": ""
-                }
-            },
             "imageSize": {
                 "desktop": {
                     "value": "large"
                 }
             },
             "cardImageRatio": {
-                "desktop": {
-                    "value": ""
-                }
-            },
-            "cardImageMargin": {
                 "desktop": {
                     "value": ""
                 }

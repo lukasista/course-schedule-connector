@@ -421,25 +421,9 @@ final class FieldModules {
 				'label'       => __( 'Open in a new window', 'course-schedule-connector' ),
 				'description' => __( 'A new window is a surprise, so it is off unless somebody asks for it.', 'course-schedule-connector' ),
 			),
-			'cardsLayout'     => array(
-				'label'       => __( 'Arrangement', 'course-schedule-connector' ),
-				'description' => __( 'Cards in a row, or stacked in a column.', 'course-schedule-connector' ),
-				'options'     => array(
-					''    => array( 'label' => __( 'Column', 'course-schedule-connector' ) ),
-					'row' => array( 'label' => __( 'Row', 'course-schedule-connector' ) ),
-				),
-			),
-			'cardsGap'        => array(
-				'label'       => __( 'Gap', 'course-schedule-connector' ),
-				'description' => __( 'Space between one card and the next. A length — 1rem, 16px.', 'course-schedule-connector' ),
-			),
 			'cardImageRatio'  => array(
 				'label'       => __( 'Photograph ratio', 'course-schedule-connector' ),
 				'description' => __( 'Width divided by height — "1/1" for a square, "4/3" or "3/4" for a portrait. Empty leaves it its natural shape.', 'course-schedule-connector' ),
-			),
-			'cardImageMargin' => array(
-				'label'       => __( 'Photograph margin', 'course-schedule-connector' ),
-				'description' => __( 'Up to four lengths, the CSS way: "0 0 8px 0".', 'course-schedule-connector' ),
 			),
 		);
 
@@ -455,6 +439,8 @@ final class FieldModules {
 		return array(
 			'contentColumns'     => __( 'Columns', 'course-schedule-connector' ),
 			'designLayout'       => __( 'Layout', 'course-schedule-connector' ),
+			'designCardsLayout'  => __( 'Cards', 'course-schedule-connector' ),
+			'designCardName'     => __( 'Name', 'course-schedule-connector' ),
 			'designHeadingText'  => __( 'Heading text', 'course-schedule-connector' ),
 			'designValueText'    => __( 'Value text', 'course-schedule-connector' ),
 			'designTableHead'    => __( 'Table heading', 'course-schedule-connector' ),
@@ -465,6 +451,7 @@ final class FieldModules {
 			'contentPicture'     => __( 'Picture', 'course-schedule-connector' ),
 			'contentPictureLink' => __( 'Link', 'course-schedule-connector' ),
 			'contentLink'        => __( 'Link', 'course-schedule-connector' ),
+			'contentCards'       => __( 'Cards', 'course-schedule-connector' ),
 		);
 	}
 

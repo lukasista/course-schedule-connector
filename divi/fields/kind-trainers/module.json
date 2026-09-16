@@ -52,12 +52,30 @@
                     "scroll": [],
                     "sticky": [],
                     "transition": [],
-                    "zIndex": []
+                    "zIndex": [],
+                    "cardsLayout": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardsLayout",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/layout",
+                                "props": {
+                                    "grouped": false
+                                }
+                            }
+                        }
+                    }
                 }
             },
             "styleProps": {
                 "layout": {
                     "selector": "{{selector}} .cscs-field"
+                },
+                "cardsLayout": {
+                    "selector": "{{selector}} .cscs-cards"
                 }
             }
         },
@@ -140,6 +158,77 @@
                                     "attrName": "value.decoration.spacing",
                                     "grouped": true,
                                     "fieldLabel": "Value"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "cardImage": {
+            "type": "object",
+            "elementType": "image",
+            "selector": "{{selector}} .cscs-card__image",
+            "settings": {
+                "decoration": {
+                    "fit": [],
+                    "border": [],
+                    "boxShadow": [],
+                    "spacing": []
+                }
+            },
+            "styleProps": {
+                "selector": "{{selector}} .cscs-card__image",
+                "fit": {
+                    "selector": "{{selector}} .cscs-card__image"
+                },
+                "border": {
+                    "selector": "{{selector}} .cscs-card__image"
+                },
+                "boxShadow": {
+                    "selector": "{{selector}} .cscs-card__image"
+                },
+                "spacing": {
+                    "selector": "{{selector}} .cscs-card__image"
+                }
+            }
+        },
+        "cardName": {
+            "type": "object",
+            "elementType": "content",
+            "selector": "{{selector}} .cscs-card__name",
+            "settings": {
+                "decoration": {
+                    "font": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardName",
+                            "priority": 10,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/font",
+                                "props": {
+                                    "attrName": "cardName.decoration.font",
+                                    "grouped": true,
+                                    "fieldLabel": "Name"
+                                }
+                            }
+                        }
+                    },
+                    "spacing": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardName",
+                            "priority": 20,
+                            "render": true,
+                            "component": {
+                                "type": "group",
+                                "name": "divi/spacing",
+                                "props": {
+                                    "attrName": "cardName.decoration.spacing",
+                                    "grouped": true,
+                                    "fieldLabel": "Name"
                                 }
                             }
                         }
@@ -368,67 +457,13 @@
                             }
                         }
                     },
-                    "cardsLayout": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "contentCards",
-                            "attrName": "field.advanced.cardsLayout",
-                            "category": "configuration",
-                            "priority": 80,
-                            "render": true,
-                            "features": {
-                                "sticky": false,
-                                "responsive": false,
-                                "hover": false,
-                                "preset": "content"
-                            },
-                            "label": "Arrangement",
-                            "description": "Cards in a row, or stacked in a column.",
-                            "component": {
-                                "name": "divi/select",
-                                "type": "field",
-                                "props": {
-                                    "options": {
-                                        "": {
-                                            "label": "Column"
-                                        },
-                                        "row": {
-                                            "label": "Row"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "cardsGap": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "contentCards",
-                            "attrName": "field.advanced.cardsGap",
-                            "category": "configuration",
-                            "priority": 90,
-                            "render": true,
-                            "features": {
-                                "sticky": false,
-                                "responsive": false,
-                                "hover": false,
-                                "preset": "content"
-                            },
-                            "label": "Gap",
-                            "description": "Space between one card and the next. A length — 1rem, 16px.",
-                            "component": {
-                                "name": "divi/text",
-                                "type": "field"
-                            }
-                        }
-                    },
                     "imageSize": {
                         "groupType": "group-item",
                         "item": {
                             "groupSlug": "contentCards",
                             "attrName": "field.advanced.imageSize",
                             "category": "configuration",
-                            "priority": 100,
+                            "priority": 80,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -453,7 +488,7 @@
                             "groupSlug": "contentCards",
                             "attrName": "field.advanced.cardImageRatio",
                             "category": "configuration",
-                            "priority": 110,
+                            "priority": 90,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -469,35 +504,13 @@
                             }
                         }
                     },
-                    "cardImageMargin": {
-                        "groupType": "group-item",
-                        "item": {
-                            "groupSlug": "contentCards",
-                            "attrName": "field.advanced.cardImageMargin",
-                            "category": "configuration",
-                            "priority": 120,
-                            "render": true,
-                            "features": {
-                                "sticky": false,
-                                "responsive": false,
-                                "hover": false,
-                                "preset": "content"
-                            },
-                            "label": "Photograph margin",
-                            "description": "Up to four lengths, the CSS way: \"0 0 8px 0\".",
-                            "component": {
-                                "name": "divi/text",
-                                "type": "field"
-                            }
-                        }
-                    },
                     "emptyText": {
                         "groupType": "group-item",
                         "item": {
                             "groupSlug": "content",
                             "attrName": "field.advanced.emptyText",
                             "category": "configuration",
-                            "priority": 130,
+                            "priority": 100,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -557,6 +570,32 @@
                         "groupLabel": "Layout",
                         "clipboardCategory": "style",
                         "presetGroup": "divi/layout"
+                    }
+                }
+            },
+            "designCardsLayout": {
+                "panel": "design",
+                "priority": 6,
+                "groupName": "designCardsLayout",
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Cards",
+                        "clipboardCategory": "style",
+                        "presetGroup": "divi/layout"
+                    }
+                }
+            },
+            "designCardName": {
+                "panel": "design",
+                "priority": 25,
+                "groupName": "cardName",
+                "multiElements": true,
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Name",
+                        "clipboardCategory": "style"
                     }
                 }
             },
