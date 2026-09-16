@@ -96,6 +96,18 @@ final class TrainerType {
 	public const META_ATTACHMENT_SOURCE = '_cscs_photo_source_url';
 
 	/**
+	 * A page of a kind of course this trainer currently teaches under.
+	 *
+	 * One row per page, not one value: a kind's courses do not always share a
+	 * trainer — Gymnastika dívky's fifteen shown courses split across eight
+	 * people — and a kind can have more than one page for the same term, each
+	 * wanting only the trainers of the courses it actually shows. Kept in
+	 * step by {@see \CSCS\Data\KindRepository::refresh_trainer_relationships()};
+	 * nothing here is written by hand.
+	 */
+	public const META_KIND_PAGE = '_cscs_trainer_kind_page';
+
+	/**
 	 * Registers the post type and the fields a person fills in.
 	 *
 	 * @return void
@@ -197,6 +209,20 @@ final class TrainerType {
 				)
 			);
 		}
+
+		// Repeatable rather than the single-value shape above: a trainer can
+		// belong to more than one kind page, and one meta row cannot hold that.
+		register_post_meta(
+			self::TRAINER,
+			self::META_KIND_PAGE,
+			array(
+				'type'              => 'integer',
+				'single'            => false,
+				'show_in_rest'      => true,
+				'sanitize_callback' => 'absint',
+				'auth_callback'     => $editable,
+			)
+		);
 
 		foreach ( array( self::META_QUALIFICATIONS, self::META_HOBBIES ) as $key ) {
 			register_post_meta(

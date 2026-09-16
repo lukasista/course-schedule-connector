@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
 use CSCS\Api\ApiException;
 use CSCS\Api\Client;
 use CSCS\Data\CourseRepository;
+use CSCS\Data\KindRepository;
 use CSCS\Data\LessonRepository;
 
 /**
@@ -119,6 +120,12 @@ final class Synchroniser {
 			}
 
 			$archived = $this->courses->archive_missing( array_keys( $courses ) );
+
+			// Every course is current now, which is the only moment this is
+			// worth doing: which trainers belong to which kind page is a
+			// question about all of a page's courses at once, not one any
+			// single course's own save() could answer on its way past.
+			( new KindRepository() )->refresh_trainer_relationships();
 
 			$this->logger->record( 'courses', $started, $written, 'success' );
 

@@ -12,6 +12,7 @@ namespace CSCS\Cli;
 defined( 'ABSPATH' ) || exit;
 
 use CSCS\Data\CourseRepository;
+use CSCS\Data\KindRepository;
 use CSCS\Data\PostType;
 use CSCS\Data\TrainerRepository;
 use CSCS\Data\TrainerType;
@@ -317,5 +318,25 @@ final class TrainerCommand {
 				$dry ? 'would be made' : 'made'
 			)
 		);
+	}
+
+	/**
+	 * Recomputes which kind pages each trainer belongs to.
+	 *
+	 * The synchroniser keeps this current after every refresh; this is for
+	 * running it once by hand — the first time, before any course has synced
+	 * again, or after a kind page's own filter changes and its trainers need
+	 * to catch up without waiting for iSport.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp cscs trainers relate-kinds
+	 *
+	 * @return void
+	 */
+	public function relate_kinds(): void {
+		( new KindRepository() )->refresh_trainer_relationships();
+
+		\WP_CLI::success( 'Trainer/kind-page relationships rebuilt.' );
 	}
 }

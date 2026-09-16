@@ -556,4 +556,118 @@ final class KindRepository {
 
 		return array_map( 'intval', $found );
 	}
+
+	/**
+	 * Recomputes which kind pages each trainer currently belongs to, and
+	 * writes the answer onto their own post.
+	 *
+	 * A trainer field has nowhere to reach from on a kind's own template:
+	 * the template is neither a course nor a trainer, and unlike a course's
+	 * kind, a kind page's trainer is not even one thing to reach for —
+	 * Gymnastika dívky's fifteen shown courses split across eight different
+	 * people, and twelve of this gym's twenty-seven pages split some way or
+	 * other. So nothing here resolves to a single trainer; the relationship
+	 * is written as what it actually is, one page to as many trainers as
+	 * teach under it, for a Theme Builder template to draw as a loop instead
+	 * of a field with nothing correct to show.
+	 *
+	 * Kept by page rather than by term, for the same reason a course's own
+	 * kind is: two pages can share a term and still mean different
+	 * audiences — the girls' and boys' gymnastics pages both draw on
+	 * "Gymnastika", each narrowed by its own stored {@see self::filter()}. A
+	 * relationship kept by term could not tell them apart; kept by page,
+	 * each gets only the trainers of the courses it actually shows.
+	 *
+	 * Run after every synchronisation, and by hand with
+	 * `wp cscs trainers relate-kinds` for a catch-up or a page whose filter
+	 * just changed.
+	 *
+	 * @return void
+	 */
+	public function refresh_trainer_relationships(): void {
+		$trainers = new TrainerRepository();
+		$wanted   = array();
+
+		foreach ( $this->pages() as $page_id ) {
+			$filter = $this->filter( $page_id );
+
+			foreach ( $this->courses( $page_id ) as $course_id ) {
+				if ( ! self::matches( $filter, self::facts( $course_id ) ) ) {
+					continue;
+				}
+
+				$trainer_id = $trainers->for_course( $course_id );
+
+				if ( 0 !== $trainer_id ) {
+					$wanted[ $trainer_id ][ $page_id ] = true;
+				}
+			}
+		}
+
+		foreach ( self::trainer_ids() as $trainer_id ) {
+			$this->reconcile_trainer_relationships(
+				$trainer_id,
+				array_keys( $wanted[ $trainer_id ] ?? array() )
+			);
+		}
+	}
+
+	/**
+	 * Every trainer page, by id.
+	 *
+	 * @return array<int, int>
+	 */
+	private static function trainer_ids(): array {
+		$found = get_posts(
+			array(
+				'post_type'        => TrainerType::TRAINER,
+				'post_status'      => 'any',
+				'posts_per_page'   => -1,
+				'fields'           => 'ids',
+				'no_found_rows'    => true,
+				'suppress_filters' => false,
+			)
+		);
+
+		return array_map( 'intval', $found );
+	}
+
+	/**
+	 * Writes one trainer's relationships, adding and removing only what
+	 * changed.
+	 *
+	 * @param int             $trainer_id Trainer post id.
+	 * @param array<int, int> $should     Kind page ids that should be stored.
+	 * @return void
+	 */
+	private function reconcile_trainer_relationships( int $trainer_id, array $should ): void {
+		$have = array_map( 'intval', get_post_meta( $trainer_id, TrainerType::META_KIND_PAGE ) );
+		$diff = self::diff_trainer_relationships( $have, $should );
+
+		foreach ( $diff['remove'] as $page_id ) {
+			delete_post_meta( $trainer_id, TrainerType::META_KIND_PAGE, $page_id );
+		}
+
+		foreach ( $diff['add'] as $page_id ) {
+			add_post_meta( $trainer_id, TrainerType::META_KIND_PAGE, $page_id, false );
+		}
+	}
+
+	/**
+	 * Works out which stored relationships to add and which to drop.
+	 *
+	 * Kept apart from the reading and writing around it so the arithmetic —
+	 * the one part actually worth getting wrong — can be checked without a
+	 * database.
+	 *
+	 * @param array<int, int> $have   Page ids currently stored.
+	 * @param array<int, int> $should Page ids that should be stored.
+	 * @return array{add: array<int, int>, remove: array<int, int>}
+	 */
+	private static function diff_trainer_relationships( array $have, array $should ): array {
+		return array(
+			'add'    => array_values( array_diff( $should, $have ) ),
+			'remove' => array_values( array_diff( $have, $should ) ),
+		);
+	}
 }
