@@ -690,15 +690,26 @@ final class FieldModulesTest extends TestCase {
 	}
 
 	/**
-	 * A grid of cards gets Divi's own Layout group a second time, on the grid
-	 * rather than on the field, and its photograph and name get the same
-	 * native treatment any other picture and any other plain link already
-	 * have — not a smaller version of any of it living in the content panel.
+	 * A grid of cards answers "row, or column" — for the grid and for one
+	 * card — with four plain `divi/select` fields apiece, not Divi's own
+	 * native Layout widget a second and third time. That widget was tried
+	 * twice: once as a repeat of the module's own `module.decoration.layout`
+	 * group-item, which Divi's generated CSS ignores by design {@see the
+	 * comment on `designCardsLayout` in `build-divi-modules.php`'s
+	 * `module_metadata()`}; once more after `FieldRenderer::card_rules()`
+	 * was written to read the raw value itself, which sidestepped that
+	 * problem but not a second one a live check on a saved page caught: two
+	 * `divi/layout` widgets on one module do not hold two independent values
+	 * in Divi's own builder, and both came back labelled with the same wrong
+	 * word, in Divi's own hand. Eight ordinary selects do not have that
+	 * failure mode, and `FieldModuleRenderer::settings()` reassembles each
+	 * set of four back into the one shape `card_rules()` always expected.
 	 *
-	 * The same two-halves shape {@see self::test_the_layout_group_is_offered_and_reaches_the_field()}
-	 * checks for the field's own arrangement, asked a second time of the
-	 * grid: without the decoration the group is not offered, and without the
-	 * style prop every control in it works and none of them shows.
+	 * Its photograph and name get the same native treatment any other
+	 * picture and any other plain link already have — not a smaller version
+	 * of any of it living in the content panel — and the photograph's own
+	 * margin, which Divi's auto-generated Border/Box-Shadow/Sizing/Fit
+	 * cannot offer, is a plain field with a Design group of its own.
 	 *
 	 * @return void
 	 */
@@ -715,82 +726,83 @@ final class FieldModulesTest extends TestCase {
 			$metadata   = $this->read( 'divi/fields/' . $name . '/module.json' );
 			$attributes = $metadata['attributes'] ?? array();
 			$groups     = $metadata['settings']['groups'] ?? array();
+			$items      = $attributes['field']['settings']['advanced'] ?? array();
 
-			// Not a native Layout group, a second or third time: Divi writes
-			// the flex/grid class its generated CSS depends on from exactly
-			// one decoration key on the module root and quietly ignores any
-			// other same-shaped key, so a repeat of the module's own Layout
-			// group here would be read, generate nothing, and style nothing
-			// — confirmed live, in the actual builder. Neither key is on the
-			// module's decoration at all any more, and neither group claims
-			// to be a layout preset it no longer holds.
+			// Not a native Layout group: Divi writes the flex/grid class its
+			// generated CSS depends on from exactly one decoration key on
+			// the module root and quietly ignores any other same-shaped key,
+			// so a repeat of the module's own Layout group here would be
+			// read, generate nothing, and style nothing — confirmed live, in
+			// the actual builder. Neither `cardsLayout` nor `cardLayout` is
+			// on the module's decoration at all, and the module's own
+			// Border and Box Shadow are unset too, for a reason `cardImage`
+			// checks below.
 			$this->assertArrayNotHasKey( 'cardsLayout', $attributes['module']['settings']['decoration'] ?? array(), $name );
 			$this->assertArrayNotHasKey( 'cardLayout', $attributes['module']['settings']['decoration'] ?? array(), $name );
-			$this->assertArrayNotHasKey( 'cardsLayout', $attributes['module']['styleProps'] ?? array(), $name );
-			$this->assertArrayNotHasKey( 'cardLayout', $attributes['module']['styleProps'] ?? array(), $name );
-			$this->assertArrayNotHasKey( 'presetGroup', $groups['designCardsLayout']['component']['props'] ?? array(), $name );
-			$this->assertArrayNotHasKey( 'presetGroup', $groups['designCardLayout']['component']['props'] ?? array(), $name );
+			$this->assertArrayNotHasKey( 'sizing', $attributes['module']['settings']['decoration'] ?? array(), $name );
+			$this->assertArrayNotHasKey( 'border', $attributes['module']['settings']['decoration'] ?? array(), $name );
+			$this->assertArrayNotHasKey( 'boxShadow', $attributes['module']['settings']['decoration'] ?? array(), $name );
+			// The module still wants its own margin, around the grid as a
+			// whole — unlike Border and Box Shadow, nothing clears it.
+			$this->assertArrayHasKey( 'spacing', $attributes['module']['settings']['decoration'] ?? array(), $name );
 
-			// What answers "row, or column" instead: Divi's own native Layout
-			// widget, the same `divi/layout` component the module's own
-			// `module.decoration.layout` group already uses — every control
-			// it offers, not a hand-picked subset of it — still in the
-			// Design tab, still called Cards, and Photo & name, but writing
-			// to `field.advanced.cardsLayout`/`cardLayout` rather than to
-			// `module.decoration.*`. `FieldRenderer::card_rules()` reads it
-			// from there and calls Divi's own
-			// `Layout::style_declaration()` to turn it into CSS, exactly as
-			// `module.decoration.layout` itself would have. A `divi/select`
-			// here would be the very dropdown this replaced.
-			$this->assertSame(
-				'group',
-				$attributes['field']['settings']['advanced']['cardsLayout']['item']['component']['type'] ?? '',
-				$name
-			);
-			$this->assertSame(
-				'divi/layout',
-				$attributes['field']['settings']['advanced']['cardsLayout']['item']['component']['name'] ?? '',
-				$name
-			);
-			$this->assertSame(
-				'designCardsLayout',
-				$attributes['field']['settings']['advanced']['cardsLayout']['item']['groupSlug'] ?? '',
-				$name
-			);
+			// Four plain selects per scope, each a `divi/select` field item
+			// living in the Design tab group named for that scope — not
+			// repeated flat under their own name once `settings()`
+			// reassembles them {@see FieldModuleRendererTest, if the PHP
+			// reassembly itself needs covering}.
+			foreach ( array(
+				'cards' => 'designCardsLayout',
+				'card'  => 'designCardLayout',
+			) as $prefix => $group_slug ) {
+				foreach ( array( 'Direction', 'Justify', 'Align', 'Wrap' ) as $suffix ) {
+					$key  = $prefix . $suffix;
+					$item = $items[ $key ]['item'] ?? array();
 
-			// One card, the same question a second time: the grid arranges
-			// the cards, the card arranges its own photograph and name, and
-			// neither setting can be the other's or setting one would move
-			// both.
-			$this->assertSame(
-				'group',
-				$attributes['field']['settings']['advanced']['cardLayout']['item']['component']['type'] ?? '',
-				$name
-			);
-			$this->assertSame(
-				'divi/layout',
-				$attributes['field']['settings']['advanced']['cardLayout']['item']['component']['name'] ?? '',
-				$name
-			);
-			$this->assertSame(
-				'designCardLayout',
-				$attributes['field']['settings']['advanced']['cardLayout']['item']['groupSlug'] ?? '',
-				$name
-			);
+					$this->assertSame( 'field', $item['component']['type'] ?? '', $name . ' ' . $key );
+					$this->assertSame( 'divi/select', $item['component']['name'] ?? '', $name . ' ' . $key );
+					$this->assertSame( $group_slug, $item['groupSlug'] ?? '', $name . ' ' . $key );
+					$this->assertNotSame( array(), $item['component']['props']['options'] ?? array(), $name . ' ' . $key );
+				}
+			}
 
 			// The photograph: Divi's own Image treatment, at the photograph's
 			// own selector rather than the single-picture fields' one, sized
 			// there too — the module's own Sizing group is the grid's box, not
-			// the photograph's, so it moves here rather than being offered twice.
+			// the photograph's, so it moves here rather than being offered
+			// twice. Border and Box Shadow move the same way, for the same
+			// reason, which is why the module's own copies are unset above.
+			// Margin does not: a `spacing` decoration here would be the same
+			// collision one more time, so it stays a plain field instead
+			// {@see `cardImageMargin` below}.
 			$this->assertSame( 'image', $attributes['cardImage']['elementType'] ?? '', $name );
 			$this->assertSame(
 				'{{selector}} .cscs-card__image',
 				$attributes['cardImage']['selector'] ?? '',
 				$name
 			);
-			$this->assertArrayHasKey( 'spacing', $attributes['cardImage']['settings']['decoration'] ?? array(), $name );
 			$this->assertArrayHasKey( 'sizing', $attributes['cardImage']['settings']['decoration'] ?? array(), $name );
-			$this->assertArrayNotHasKey( 'sizing', $attributes['module']['settings']['decoration'] ?? array(), $name );
+			$this->assertArrayHasKey( 'border', $attributes['cardImage']['settings']['decoration'] ?? array(), $name );
+			$this->assertArrayHasKey( 'boxShadow', $attributes['cardImage']['settings']['decoration'] ?? array(), $name );
+			$this->assertArrayNotHasKey( 'spacing', $attributes['cardImage']['settings']['decoration'] ?? array(), $name );
+
+			// The photograph's margin: a plain text field, read by
+			// `card_rules()` exactly as `cardImageRatio` is, but in the
+			// Design tab rather than the Content tab — it changes how the
+			// photograph looks, not which photograph or which crop — and in
+			// a group of its own rather than the grid's `contentCards`, so
+			// it cannot be mistaken for the module's own Spacing group.
+			$this->assertSame(
+				'divi/text',
+				$items['cardImageMargin']['item']['component']['name'] ?? '',
+				$name
+			);
+			$this->assertSame(
+				'designCardImage',
+				$items['cardImageMargin']['item']['groupSlug'] ?? '',
+				$name
+			);
+			$this->assertSame( 'design', $groups['designCardImage']['panel'] ?? '', $name );
 
 			// The name: a plain link styled as text, the same shape as a
 			// course's sign-up link, with somewhere of its own to write what
@@ -808,19 +820,26 @@ final class FieldModulesTest extends TestCase {
 				$name
 			);
 
-			// The grid's own gap and the photograph's margin stay unanswered
-			// in Divi's panel — the native Layout widget asserted above
-			// covers direction, alignment and its own gap, but these two are
-			// separate settings it was never asked to speak for, and reading
-			// them is still down to whatever wrote them (Gutenberg, or the
-			// REST/canvas preview path), not a Divi control.
-			foreach ( array( 'cardsGap', 'cardImageMargin' ) as $setting ) {
-				$this->assertArrayNotHasKey(
-					$setting,
-					$attributes['field']['settings']['advanced'] ?? array(),
-					$name . ' ' . $setting
-				);
+			// Every Design group this field turns on is named apart from
+			// every other — the whole reason for the eight plain selects and
+			// the dedicated photograph group above was two groups sharing
+			// one wrong label in Divi's own hand.
+			$labels = array();
+
+			foreach ( array( 'designCardsLayout', 'designCardLayout', 'designCardImage', 'designCardName' ) as $slug ) {
+				$label = $groups[ $slug ]['component']['props']['groupLabel'] ?? null;
+				$this->assertNotNull( $label, $name . ' ' . $slug );
+				$labels[] = $label;
 			}
+
+			$this->assertSame( $labels, array_unique( $labels ), $name . ' group labels collide' );
+
+			// The grid's own gap stays unanswered in Divi's panel: the eight
+			// selects above cover direction, alignment and wrap, but gap is
+			// a separate setting none of them was asked to speak for, and
+			// reading it is still down to whatever wrote it (Gutenberg, or
+			// the REST/canvas preview path), not a Divi control.
+			$this->assertArrayNotHasKey( 'cardsGap', $items, $name );
 		}
 
 		// A guard that guards nothing is worse than none: it passes for ever

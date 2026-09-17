@@ -39,8 +39,6 @@
                         }
                     },
                     "background": [],
-                    "border": [],
-                    "boxShadow": [],
                     "filters": [],
                     "spacing": [],
                     "transform": [],
@@ -121,7 +119,6 @@
                     "fit": [],
                     "border": [],
                     "boxShadow": [],
-                    "spacing": [],
                     "sizing": []
                 }
             },
@@ -134,9 +131,6 @@
                     "selector": "{{selector}} .cscs-card__image"
                 },
                 "boxShadow": {
-                    "selector": "{{selector}} .cscs-card__image"
-                },
-                "spacing": {
                     "selector": "{{selector}} .cscs-card__image"
                 },
                 "sizing": {
@@ -464,11 +458,11 @@
                             }
                         }
                     },
-                    "cardsLayout": {
+                    "cardImageMargin": {
                         "groupType": "group-item",
                         "item": {
-                            "groupSlug": "designCardsLayout",
-                            "attrName": "field.advanced.cardsLayout",
+                            "groupSlug": "designCardImage",
+                            "attrName": "field.advanced.cardImageMargin",
                             "category": "configuration",
                             "priority": 100,
                             "render": true,
@@ -478,20 +472,19 @@
                                 "hover": false,
                                 "preset": "content"
                             },
+                            "label": "Photograph margin",
+                            "description": "Space around each photograph — up to four lengths, the CSS way: \"0 0 8px 0\".",
                             "component": {
-                                "type": "group",
-                                "name": "divi/layout",
-                                "props": {
-                                    "grouped": false
-                                }
+                                "name": "divi/text",
+                                "type": "field"
                             }
                         }
                     },
-                    "cardLayout": {
+                    "cardsDirection": {
                         "groupType": "group-item",
                         "item": {
-                            "groupSlug": "designCardLayout",
-                            "attrName": "field.advanced.cardLayout",
+                            "groupSlug": "designCardsLayout",
+                            "attrName": "field.advanced.cardsDirection",
                             "category": "configuration",
                             "priority": 110,
                             "render": true,
@@ -501,11 +494,328 @@
                                 "hover": false,
                                 "preset": "content"
                             },
+                            "label": "Direction",
+                            "description": "Row or column.",
                             "component": {
-                                "type": "group",
-                                "name": "divi/layout",
+                                "name": "divi/select",
+                                "type": "field",
                                 "props": {
-                                    "grouped": false
+                                    "options": {
+                                        "": {
+                                            "label": "As it is"
+                                        },
+                                        "row": {
+                                            "label": "Row"
+                                        },
+                                        "column": {
+                                            "label": "Column"
+                                        },
+                                        "row-reverse": {
+                                            "label": "Row, reversed"
+                                        },
+                                        "column-reverse": {
+                                            "label": "Column, reversed"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "cardsJustify": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardsLayout",
+                            "attrName": "field.advanced.cardsJustify",
+                            "category": "configuration",
+                            "priority": 120,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Alignment, along its own direction",
+                            "description": "Where this sits along its own direction, if there is room to spare — centred, for instance.",
+                            "component": {
+                                "name": "divi/select",
+                                "type": "field",
+                                "props": {
+                                    "options": {
+                                        "": {
+                                            "label": "As it is"
+                                        },
+                                        "flex-start": {
+                                            "label": "Start"
+                                        },
+                                        "flex-end": {
+                                            "label": "End"
+                                        },
+                                        "center": {
+                                            "label": "Centre"
+                                        },
+                                        "space-between": {
+                                            "label": "Space between"
+                                        },
+                                        "space-around": {
+                                            "label": "Space around"
+                                        },
+                                        "space-evenly": {
+                                            "label": "Space evenly"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "cardsAlign": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardsLayout",
+                            "attrName": "field.advanced.cardsAlign",
+                            "category": "configuration",
+                            "priority": 130,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Alignment, across its own direction",
+                            "description": "Where this sits across its own direction — centred, for instance.",
+                            "component": {
+                                "name": "divi/select",
+                                "type": "field",
+                                "props": {
+                                    "options": {
+                                        "": {
+                                            "label": "As it is"
+                                        },
+                                        "flex-start": {
+                                            "label": "Start"
+                                        },
+                                        "flex-end": {
+                                            "label": "End"
+                                        },
+                                        "center": {
+                                            "label": "Centre"
+                                        },
+                                        "stretch": {
+                                            "label": "Stretch"
+                                        },
+                                        "baseline": {
+                                            "label": "Baseline"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "cardsWrap": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardsLayout",
+                            "attrName": "field.advanced.cardsWrap",
+                            "category": "configuration",
+                            "priority": 140,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Wrapping",
+                            "description": "Whether this continues on a line of its own once it runs out of room.",
+                            "component": {
+                                "name": "divi/select",
+                                "type": "field",
+                                "props": {
+                                    "options": {
+                                        "": {
+                                            "label": "As it is"
+                                        },
+                                        "nowrap": {
+                                            "label": "Never"
+                                        },
+                                        "wrap": {
+                                            "label": "Wraps"
+                                        },
+                                        "wrap-reverse": {
+                                            "label": "Wraps, reversed"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "cardDirection": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardLayout",
+                            "attrName": "field.advanced.cardDirection",
+                            "category": "configuration",
+                            "priority": 150,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Direction",
+                            "description": "Row or column.",
+                            "component": {
+                                "name": "divi/select",
+                                "type": "field",
+                                "props": {
+                                    "options": {
+                                        "": {
+                                            "label": "As it is"
+                                        },
+                                        "row": {
+                                            "label": "Row"
+                                        },
+                                        "column": {
+                                            "label": "Column"
+                                        },
+                                        "row-reverse": {
+                                            "label": "Row, reversed"
+                                        },
+                                        "column-reverse": {
+                                            "label": "Column, reversed"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "cardJustify": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardLayout",
+                            "attrName": "field.advanced.cardJustify",
+                            "category": "configuration",
+                            "priority": 160,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Alignment, along its own direction",
+                            "description": "Where this sits along its own direction, if there is room to spare — centred, for instance.",
+                            "component": {
+                                "name": "divi/select",
+                                "type": "field",
+                                "props": {
+                                    "options": {
+                                        "": {
+                                            "label": "As it is"
+                                        },
+                                        "flex-start": {
+                                            "label": "Start"
+                                        },
+                                        "flex-end": {
+                                            "label": "End"
+                                        },
+                                        "center": {
+                                            "label": "Centre"
+                                        },
+                                        "space-between": {
+                                            "label": "Space between"
+                                        },
+                                        "space-around": {
+                                            "label": "Space around"
+                                        },
+                                        "space-evenly": {
+                                            "label": "Space evenly"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "cardAlign": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardLayout",
+                            "attrName": "field.advanced.cardAlign",
+                            "category": "configuration",
+                            "priority": 170,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Alignment, across its own direction",
+                            "description": "Where this sits across its own direction — centred, for instance.",
+                            "component": {
+                                "name": "divi/select",
+                                "type": "field",
+                                "props": {
+                                    "options": {
+                                        "": {
+                                            "label": "As it is"
+                                        },
+                                        "flex-start": {
+                                            "label": "Start"
+                                        },
+                                        "flex-end": {
+                                            "label": "End"
+                                        },
+                                        "center": {
+                                            "label": "Centre"
+                                        },
+                                        "stretch": {
+                                            "label": "Stretch"
+                                        },
+                                        "baseline": {
+                                            "label": "Baseline"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "cardWrap": {
+                        "groupType": "group-item",
+                        "item": {
+                            "groupSlug": "designCardLayout",
+                            "attrName": "field.advanced.cardWrap",
+                            "category": "configuration",
+                            "priority": 180,
+                            "render": true,
+                            "features": {
+                                "sticky": false,
+                                "responsive": false,
+                                "hover": false,
+                                "preset": "content"
+                            },
+                            "label": "Wrapping",
+                            "description": "Whether this continues on a line of its own once it runs out of room.",
+                            "component": {
+                                "name": "divi/select",
+                                "type": "field",
+                                "props": {
+                                    "options": {
+                                        "": {
+                                            "label": "As it is"
+                                        },
+                                        "nowrap": {
+                                            "label": "Never"
+                                        },
+                                        "wrap": {
+                                            "label": "Wraps"
+                                        },
+                                        "wrap-reverse": {
+                                            "label": "Wraps, reversed"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -516,7 +826,7 @@
                             "groupSlug": "content",
                             "attrName": "field.advanced.emptyText",
                             "category": "configuration",
-                            "priority": 120,
+                            "priority": 190,
                             "render": true,
                             "features": {
                                 "sticky": false,
@@ -586,7 +896,7 @@
                 "component": {
                     "name": "divi/composite",
                     "props": {
-                        "groupLabel": "Cards",
+                        "groupLabel": "Cards layout",
                         "clipboardCategory": "style"
                     }
                 }
@@ -598,7 +908,19 @@
                 "component": {
                     "name": "divi/composite",
                     "props": {
-                        "groupLabel": "Photo & name",
+                        "groupLabel": "Photo & name layout",
+                        "clipboardCategory": "style"
+                    }
+                }
+            },
+            "designCardImage": {
+                "panel": "design",
+                "priority": 10,
+                "groupName": "cardImage",
+                "component": {
+                    "name": "divi/composite",
+                    "props": {
+                        "groupLabel": "Photograph",
                         "clipboardCategory": "style"
                     }
                 }

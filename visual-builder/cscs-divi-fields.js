@@ -61,46 +61,6 @@
 	}
 
 	/**
-	 * Reads one stored setting as a raw object, the way `setting()` below
-	 * reads one as a string.
-	 *
-	 * `cardsLayout` and `cardLayout` are the one setting here Divi's own
-	 * native Layout widget writes, not a plain string — a small object of
-	 * its own keys (`display`, `flexDirection`, `justifyContent`, …), the
-	 * same shape `module.decoration.layout` holds for the module itself.
-	 * `setting()` exists for scalars: its own object-unwrapping expects a
-	 * single value keyed by the setting's own name, which this object never
-	 * is, so handing it a layout object would reduce it to nothing. This
-	 * reads the object whole and leaves turning it into CSS to the server,
-	 * exactly as the PHP settings-reader does for the same two keys.
-	 *
-	 * A module built before the widget existed still carries the plain
-	 * 'row'/'column' string the old select wrote, and opening it in the
-	 * canvas does not resave it. Returning `{}` for anything that is not
-	 * already an object — as a first version of this did — sent the server
-	 * nothing for that string and previewed an unstyled grid regardless of
-	 * what was saved. The string is passed through instead, exactly as
-	 * stored; the server's own `layout_value()` already knows how to read
-	 * either shape.
-	 *
-	 * @param {Object} attrs Module attributes.
-	 * @param {string} key   Setting name.
-	 * @return {Object|string} The raw value, or an empty object when there
-	 *                         is truly nothing stored.
-	 */
-	function settingObject( attrs, key ) {
-		var holder =
-			attrs && attrs.field && attrs.field.advanced ? attrs.field.advanced[ key ] : null;
-		var value = holder && holder.desktop ? holder.desktop.value : null;
-
-		if ( value && 'object' === typeof value ) {
-			return value;
-		}
-
-		return 'string' === typeof value && value ? value : {};
-	}
-
-	/**
 	 * Reads one stored setting, the way the server does.
 	 *
 	 * Divi stores every attribute by breakpoint and state, even one that has
@@ -128,17 +88,66 @@
 	}
 
 	/**
+	 * Reassembles four plain `divi/select` settings into the one layout
+	 * object `FieldRenderer::layout_value()` (and this same file's
+	 * `card_rules()` counterpart, in PHP) expects.
+	 *
+	 * `cardsLayout`/`cardLayout` used to be written directly by Divi's own
+	 * native Layout widget, duplicated onto this module a second and third
+	 * time. That widget cannot be trusted when duplicated this way — it has
+	 * shown the wrong group label for a duplicate, and failed to persist a
+	 * chosen value — so the panel now offers four ordinary `divi/select`
+	 * fields per scope (`{prefix}Direction`, `{prefix}Justify`,
+	 * `{prefix}Align`, `{prefix}Wrap`) instead, each a plain setting like any
+	 * other in this module. This is the JS mirror of the `$assemble_layout`
+	 * closure in `FieldModuleRenderer::settings()`, so that the preview
+	 * fetched here and the page rendered by PHP are built from the same
+	 * shape.
+	 *
+	 * @param {Object} attrs  Module attributes.
+	 * @param {string} prefix Which scope: `cards` or `card`.
+	 * @return {Object} `{}` if nothing is set, otherwise `display: 'flex'`
+	 *                   plus whichever of `flexDirection`, `justifyContent`,
+	 *                   `alignItems`, `flexWrap` were chosen.
+	 */
+	function assembleLayout( attrs, prefix ) {
+		var pairs = {
+			flexDirection: setting( attrs, prefix + 'Direction', '' ),
+			justifyContent: setting( attrs, prefix + 'Justify', '' ),
+			alignItems: setting( attrs, prefix + 'Align', '' ),
+			flexWrap: setting( attrs, prefix + 'Wrap', '' ),
+		};
+		var result = {};
+		var key;
+		var any = false;
+
+		for ( key in pairs ) {
+			if ( Object.prototype.hasOwnProperty.call( pairs, key ) && pairs[ key ] ) {
+				result[ key ] = pairs[ key ];
+				any = true;
+			}
+		}
+
+		if ( ! any ) {
+			return {};
+		}
+
+		result.display = 'flex';
+
+		return result;
+	}
+
+	/**
 	 * Gathers the settings the preview needs, in the renderer's own shape.
 	 *
 	 * Twelve are named by hand. Ten are not the server's own key (`source`
 	 * becomes `postId`) or not its own shape (`showLabel` is `"on"`/`"off"`
 	 * in Divi and a boolean in the renderer) — a generic pass cannot know
 	 * either of those on its own. The other two, `cardsLayout` and
-	 * `cardLayout`, are read with `settingObject()` rather than `setting()`
-	 * because they are not a scalar at all: Divi's own native Layout widget
-	 * writes a small object of its own keys, and `setting()`'s own
-	 * object-unwrapping — meant for a responsive/hover wrapper around a
-	 * single value — would reduce that object to nothing.
+	 * `cardLayout`, are reassembled with `assembleLayout()` from four plain
+	 * settings each, rather than read with `setting()` directly, because
+	 * they are not themselves a stored setting: nothing in the panel is
+	 * named `cardsLayout` any more (see `assembleLayout()`'s own docblock).
 	 *
 	 * Everything past them is read generically, from the same schema the
 	 * panel itself is built from (`metadata.attributes.field.settings.advanced`),
@@ -179,12 +188,15 @@
 			emptyText: setting( attrs, 'emptyText', '' ),
 			imageLinkTarget: 'on' === setting( attrs, 'imageLinkTarget', 'off' ),
 			filterLimit: parseInt( setting( attrs, 'filterLimit', '0' ), 10 ) || 0,
-			cardsLayout: settingObject( attrs, 'cardsLayout' ),
-			cardLayout: settingObject( attrs, 'cardLayout' ),
+			cardsLayout: assembleLayout( attrs, 'cards' ),
+			cardLayout: assembleLayout( attrs, 'card' ),
 		};
 		// Named above, under a different key, in a different shape, or not a
 		// plain per-field setting at all — a generic pass must not repeat
-		// any of these under their own name.
+		// any of these under their own name. The eight `{prefix}Direction`
+		// / `Justify` / `Align` / `Wrap` settings feed `cardsLayout` and
+		// `cardLayout` above (via `assembleLayout()`) and must not also be
+		// sent again individually under their own names.
 		var handled = {
 			source: true,
 			showLabel: true,
@@ -200,6 +212,14 @@
 			filterLimit: true,
 			cardsLayout: true,
 			cardLayout: true,
+			cardsDirection: true,
+			cardsJustify: true,
+			cardsAlign: true,
+			cardsWrap: true,
+			cardDirection: true,
+			cardJustify: true,
+			cardAlign: true,
+			cardWrap: true,
 		};
 		var key;
 

@@ -59,6 +59,51 @@
                 "desktop": {
                     "value": ""
                 }
+            },
+            "cardImageMargin": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardsDirection": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardsJustify": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardsAlign": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardsWrap": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardDirection": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardJustify": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardAlign": {
+                "desktop": {
+                    "value": ""
+                }
+            },
+            "cardWrap": {
+                "desktop": {
+                    "value": ""
+                }
             }
         }
     }

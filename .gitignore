@@ -38,3 +38,6 @@ auth.json
 
 # Left behind by the translation build importing its own dictionary
 __pycache__/
+
+# Scratch diagnostics written during a debugging session, run via wp eval-file
+/.cscs-scratch/

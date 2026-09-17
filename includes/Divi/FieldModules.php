@@ -425,21 +425,75 @@ final class FieldModules {
 				'label'       => __( 'Photograph ratio', 'course-schedule-connector' ),
 				'description' => __( 'Width divided by height — "1/1" for a square, "4/3" or "3/4" for a portrait. Empty leaves it its natural shape.', 'course-schedule-connector' ),
 			),
-
-			// `cardsLayout` and `cardLayout` are deliberately not listed here
-			// any more. Both used to be a plain row/column select and got a
-			// label, a description and two hard-coded options exactly like
-			// every other setting in this list — but they are Divi's own
-			// native `divi/layout` widget now {@see FieldRenderer::card_rules()},
-			// the same component `module.decoration.layout` uses for the
-			// module itself, and that component carries no label, no
-			// description and no `options` prop of its own; Divi draws its
-			// own controls for it. Leaving the old entries here would still
-			// overwrite `item.label`, `item.description` and
-			// `item.component.props.options` on the new component below —
-			// props a `divi/layout` group never reads, but wrong and
-			// misleading to keep writing regardless.
+			'cardImageMargin' => array(
+				'label'       => __( 'Photograph margin', 'course-schedule-connector' ),
+				'description' => __( 'Space around each photograph — up to four lengths, the CSS way: "0 0 8px 0".', 'course-schedule-connector' ),
+			),
 		);
+
+		// Direction, and both axes of alignment, and wrapping — four plain
+		// selects apiece for the grid of cards and for one card, in place of
+		// Divi's own native Layout widget a second and third time
+		// {@see the comment on this same setting in
+		// `tools/build-divi-modules.php`'s `field_attribute()` for why}.
+		// `cardsDirection`/`cardDirection` and so on all share one set of
+		// options and wording, translated once rather than four times.
+		$direction = array(
+			'label'       => __( 'Direction', 'course-schedule-connector' ),
+			'description' => __( 'Row or column.', 'course-schedule-connector' ),
+			'options'     => array(
+				''               => array( 'label' => __( 'As it is', 'course-schedule-connector' ) ),
+				'row'            => array( 'label' => __( 'Row', 'course-schedule-connector' ) ),
+				'column'         => array( 'label' => __( 'Column', 'course-schedule-connector' ) ),
+				'row-reverse'    => array( 'label' => __( 'Row, reversed', 'course-schedule-connector' ) ),
+				'column-reverse' => array( 'label' => __( 'Column, reversed', 'course-schedule-connector' ) ),
+			),
+		);
+
+		$justify = array(
+			'label'       => __( 'Alignment, along its own direction', 'course-schedule-connector' ),
+			'description' => __( 'Where this sits along its own direction, if there is room to spare — centred, for instance.', 'course-schedule-connector' ),
+			'options'     => array(
+				''              => array( 'label' => __( 'As it is', 'course-schedule-connector' ) ),
+				'flex-start'    => array( 'label' => __( 'Start', 'course-schedule-connector' ) ),
+				'flex-end'      => array( 'label' => __( 'End', 'course-schedule-connector' ) ),
+				'center'        => array( 'label' => __( 'Centre', 'course-schedule-connector' ) ),
+				'space-between' => array( 'label' => __( 'Space between', 'course-schedule-connector' ) ),
+				'space-around'  => array( 'label' => __( 'Space around', 'course-schedule-connector' ) ),
+				'space-evenly'  => array( 'label' => __( 'Space evenly', 'course-schedule-connector' ) ),
+			),
+		);
+
+		$align = array(
+			'label'       => __( 'Alignment, across its own direction', 'course-schedule-connector' ),
+			'description' => __( 'Where this sits across its own direction — centred, for instance.', 'course-schedule-connector' ),
+			'options'     => array(
+				''           => array( 'label' => __( 'As it is', 'course-schedule-connector' ) ),
+				'flex-start' => array( 'label' => __( 'Start', 'course-schedule-connector' ) ),
+				'flex-end'   => array( 'label' => __( 'End', 'course-schedule-connector' ) ),
+				'center'     => array( 'label' => __( 'Centre', 'course-schedule-connector' ) ),
+				'stretch'    => array( 'label' => __( 'Stretch', 'course-schedule-connector' ) ),
+				'baseline'   => array( 'label' => __( 'Baseline', 'course-schedule-connector' ) ),
+			),
+		);
+
+		$wrap = array(
+			'label'       => __( 'Wrapping', 'course-schedule-connector' ),
+			'description' => __( 'Whether this continues on a line of its own once it runs out of room.', 'course-schedule-connector' ),
+			'options'     => array(
+				''             => array( 'label' => __( 'As it is', 'course-schedule-connector' ) ),
+				'nowrap'       => array( 'label' => __( 'Never', 'course-schedule-connector' ) ),
+				'wrap'         => array( 'label' => __( 'Wraps', 'course-schedule-connector' ) ),
+				'wrap-reverse' => array( 'label' => __( 'Wraps, reversed', 'course-schedule-connector' ) ),
+			),
+		);
+
+		foreach ( array( 'cards', 'card' ) as $prefix ) {
+			$labels[ $prefix . 'Direction' ] = $direction;
+			$labels[ $prefix . 'Justify' ]   = $justify;
+			$labels[ $prefix . 'Align' ]     = $align;
+			$labels[ $prefix . 'Wrap' ]      = $wrap;
+		}
 
 		return $labels;
 	}
@@ -453,8 +507,9 @@ final class FieldModules {
 		return array(
 			'contentColumns'     => __( 'Columns', 'course-schedule-connector' ),
 			'designLayout'       => __( 'Layout', 'course-schedule-connector' ),
-			'designCardsLayout'  => __( 'Cards', 'course-schedule-connector' ),
-			'designCardLayout'   => __( 'Photo & name', 'course-schedule-connector' ),
+			'designCardsLayout'  => __( 'Cards layout', 'course-schedule-connector' ),
+			'designCardLayout'   => __( 'Photo & name layout', 'course-schedule-connector' ),
+			'designCardImage'    => __( 'Photograph', 'course-schedule-connector' ),
 			// Not the bare "Name" this group used to carry: a trainer card has
 			// exactly one thing called a name on it, but the panel lists this
 			// group among a heading's "Text nadpisu" and a dozen others with no

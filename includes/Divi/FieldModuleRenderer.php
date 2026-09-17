@@ -174,37 +174,38 @@ final class FieldModuleRenderer {
 			return (string) $value;
 		};
 
-		// `cardsLayout` and `cardLayout` are the one setting here Divi's own
-		// native Layout widget writes, not a plain select — a small object of
-		// its own keys (`display`, `flexDirection`, `justifyContent`, …), the
-		// same shape `module.decoration.layout` holds for the module itself.
-		// `$read()` above exists for scalars: handed an array, it takes the
-		// array's first VALUE with `reset()` and throws the rest away, which
-		// for a decoration setting like `showLabel` recovers the one thing a
-		// responsive/hover wrapper was hiding it behind — and for this object
-		// would keep only `display` and lose direction, alignment, gap, and
-		// everything else that makes the widget worth having. This reads the
-		// object whole and leaves turning it into CSS to
-		// `FieldRenderer::card_rules()`, the one place that already knows how.
+		// `cardsLayout` and `cardLayout` are not settings Divi's builder
+		// writes directly. They used to be — first a plain select, then
+		// Divi's own native Layout widget, used a second and third time on
+		// one module — but a live check on a saved page caught the widget
+		// saving the wrong control's alignment onto the other one, with both
+		// labelled identically and wrongly by Divi's own hand. So Divi's
+		// builder instead writes eight small, ordinary settings —
+		// `cardsDirection`, `cardsJustify`, `cardsAlign`, `cardsWrap` for the
+		// grid, and the same four again prefixed `card` for one card — and
+		// this reassembles each set of four into the one shape
+		// `FieldRenderer::layout_value()` already parses, the same shape
+		// Divi's own widget would have written. `card_rules()` and
+		// `layout_value()` did not have to change at all: from their side, a
+		// value arrives exactly as it did when the widget wrote it, just
+		// assembled here instead of read there whole.
 		//
-		// A page built before the widget existed still has the plain
-		// 'row'/'column' string the old select wrote, and nothing will ever
-		// resave it just by being viewed. Coercing anything non-array to an
-		// empty array — as if only the object shape ever existed — silently
-		// threw that string away and left `card_rules()` nothing to draw,
-		// which is exactly the page-render gap that shipping this without a
-		// live check on an untouched saved module would have missed. The
-		// string is passed through instead, unexamined here: validating it is
-		// `FieldRenderer::layout_value()`'s job, and it already does that for
-		// both shapes.
-		$read_layout = static function ( string $key ) use ( $attrs ) {
-			$value = $attrs['field']['advanced'][ $key ]['desktop']['value'] ?? null;
+		// Gutenberg keeps its own plain `cardsLayout`/`cardLayout` block
+		// attribute unchanged — a bare 'row'/'column' string, the other shape
+		// `layout_value()` accepts — so a page built there, or before any of
+		// this existed, still renders exactly as it always has.
+		$assemble_layout = static function ( string $prefix ) use ( $read ): array {
+			$pairs = array_filter(
+				array(
+					'flexDirection'  => $read( $prefix . 'Direction' ),
+					'justifyContent' => $read( $prefix . 'Justify' ),
+					'alignItems'     => $read( $prefix . 'Align' ),
+					'flexWrap'       => $read( $prefix . 'Wrap' ),
+				),
+				static fn( string $value ): bool => '' !== $value
+			);
 
-			if ( is_array( $value ) ) {
-				return $value;
-			}
-
-			return is_string( $value ) ? $value : array();
+			return array() === $pairs ? array() : array( 'display' => 'flex' ) + $pairs;
 		};
 
 		$columns = array();
@@ -245,8 +246,8 @@ final class FieldModuleRenderer {
 			'filterLimit'     => (int) $read( 'filterLimit', '0' ),
 			'linkText'        => $read( 'linkText' ),
 			'detailText'      => $read( 'detailText' ),
-			'cardsLayout'     => $read_layout( 'cardsLayout' ),
-			'cardLayout'      => $read_layout( 'cardLayout' ),
+			'cardsLayout'     => $assemble_layout( 'cards' ),
+			'cardLayout'      => $assemble_layout( 'card' ),
 			'cardsGap'        => $read( 'cardsGap' ),
 			'cardImageRatio'  => $read( 'cardImageRatio' ),
 			'cardImageMargin' => $read( 'cardImageMargin' ),

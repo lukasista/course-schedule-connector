@@ -174,10 +174,13 @@ function module_metadata( string $name, array $field ): array {
 					// A card's photograph and name, styled the way any other
 					// picture and any other plain link already are: the
 					// photograph gets Divi's own Image treatment, at its own
-					// selector and with a Spacing group the single-picture
-					// fields have never needed; the name is a plain link styled
-					// as text, the same shape as a course's sign-up link.
-					'cardImage' => empty( $field['cards'] ) ? array() : image_attribute( '{{selector}} .cscs-card__image', true, true ),
+					// selector and with its own Sizing, the same as any other
+					// picture field that asks for one; its margin is
+					// `cardImageMargin` instead of a Spacing group {@see the
+					// comment on `image_attribute()` for why}. The name is a
+					// plain link styled as text, the same shape as a course's
+					// sign-up link.
+					'cardImage' => empty( $field['cards'] ) ? array() : image_attribute( '{{selector}} .cscs-card__image', true ),
 					'cardName'  => empty( $field['cards'] ) ? array() : element_attribute(
 						'{{selector}} .cscs-card__name',
 						'cardName',
@@ -345,7 +348,13 @@ function module_metadata( string $name, array $field ): array {
 					'component' => array(
 						'name'  => 'divi/composite',
 						'props' => array(
-							'groupLabel'        => 'Cards',
+							// "Cards layout" and not the bare "Cards" the
+							// Content tab's own group already carries: the
+							// two are translated separately, and one word
+							// for two different questions — which cards
+							// show, and how they are arranged — is the same
+							// ambiguity a bare "Name" once was.
+							'groupLabel'        => 'Cards layout',
 							'clipboardCategory' => 'style',
 						),
 					),
@@ -363,7 +372,30 @@ function module_metadata( string $name, array $field ): array {
 					'component' => array(
 						'name'  => 'divi/composite',
 						'props' => array(
-							'groupLabel'        => 'Photo & name',
+							'groupLabel'        => 'Photo & name layout',
+							'clipboardCategory' => 'style',
+						),
+					),
+				),
+				// The photograph's own margin. Its Border, Box Shadow, Sizing
+				// and Fit need no group of their own — {@see `image_attribute()`}
+				// — Divi draws those itself, the same way it draws them for
+				// its own Image module, the moment the module's own same-named
+				// keys stop colliding with them {@see `module_attribute()`}.
+				// Margin is the one thing that collision fix could not simply
+				// uncollide: a field of cards still wants its own module
+				// margin, around the grid as a whole, so `cardImageMargin`
+				// stays a plain field instead, and a plain field needs
+				// somewhere of its own to be — Divi has nowhere already
+				// waiting for it the way it does for Border and Sizing.
+				'designCardImage'   => empty( $field['cards'] ) ? null : array(
+					'panel'     => 'design',
+					'priority'  => 10,
+					'groupName' => 'cardImage',
+					'component' => array(
+						'name'  => 'divi/composite',
+						'props' => array(
+							'groupLabel'        => 'Photograph',
 							'clipboardCategory' => 'style',
 						),
 					),
@@ -495,18 +527,23 @@ function module_attribute( bool $picture = false, bool $cards = false ): array {
 	// from exactly one decoration key on the module root and quietly
 	// ignores any other same-shaped key, so a repeat of this group renders
 	// controls that take a value and change nothing a visitor sees. Both
-	// questions are answered instead by a plain select declared in
-	// `field_attribute()`, living in the same two Design-tab groups these
-	// would have used, feeding the cross-editor `cardsLayout`/`cardLayout`
-	// settings {@see `FieldRenderer::card_rules()`} that already work in
-	// Gutenberg.
+	// questions are answered instead by four plain selects each — one for
+	// direction, one for each axis of alignment, one for wrapping — declared
+	// in `field_attribute()`, living in the same two Design-tab groups a
+	// repeated `divi/layout` would have used. Read on there for why plain
+	// selects and not a second `divi/layout` group-item: that was tried
+	// first.
 	if ( $cards ) {
-		// The module's own Sizing would be a second group by that name next
-		// to the photograph's own, added below — the same collision the
-		// picture fields avoid for Border and Shadow, for the same reason:
-		// the size a designer means here is the photograph's, not the
-		// invisible box around the whole grid.
-		unset( $decoration['sizing'] );
+		// The module's own Sizing, Border and Box Shadow would each be a
+		// second group by that name next to the photograph's own, added
+		// below — the same collision the picture fields avoid, for the same
+		// reason: the size, the frame and the shadow a designer means here
+		// are the photograph's, not the invisible box around the whole grid.
+		// Left uncleared, Divi does not show two groups called "Border" so
+		// much as pick one of the two colliding attributes to draw the panel
+		// for — which is how a real border option went missing rather than
+		// duplicated, on a field with a border to give it.
+		unset( $decoration['sizing'], $decoration['border'], $decoration['boxShadow'] );
 	}
 
 	$advanced = array(
@@ -553,23 +590,35 @@ function module_attribute( bool $picture = false, bool $cards = false ): array {
  * Copied in shape from Divi's own Image module: `fit`, `border` and `boxShadow`
  * on a selector that reaches the `img`, declared as empty objects so that Divi
  * generates the groups exactly as it does for its own. None of these names
- * collide with anything left on the module, so they need no naming of their own.
+ * collide with anything left on the module for a single-picture field, so they
+ * need no naming of their own there — but a card's photograph shares its
+ * module with the grid as a whole, which is why `module_attribute()` clears
+ * the module's own Border and Box Shadow for a field of cards: uncleared,
+ * two attributes both asking Divi for a plain "Border" group is how the
+ * photograph's own went missing rather than doubled.
  *
- * Three things beyond the single picture fields still need: a selector of
+ * Margin is deliberately not one of these. A `spacing` decoration here would
+ * be the same collision one more time — the module already carries one, and
+ * unlike Border and Box Shadow a field of cards still wants its own module
+ * margin, around the grid as a whole, so this one cannot simply be cleared to
+ * make room. The photograph's own margin is `cardImageMargin` instead, a
+ * plain field declared in `field_attribute()` and already read by
+ * {@see `FieldRenderer::card_rules()`} — one control, one label, nothing to
+ * confuse it with.
+ *
+ * Beyond the single picture fields' own needs this also takes a selector of
  * its own, because a card's photograph is `.cscs-card__image`, not
- * `.cscs-field__image`; a `spacing` decoration the single picture fields
- * have never asked for; and a `sizing` decoration to change the photograph's
+ * `.cscs-field__image`; and a `sizing` decoration to change the photograph's
  * own width, which lives on the module for them — an image among many is not
  * the whole module's box, so it needs the width control the module's own
- * Sizing group cannot give it. All three default to what course and trainer
- * photographs already had, so nothing changes for them.
+ * Sizing group cannot give it, and `module_attribute()` clears the module's
+ * copy for a field of cards so the two cannot collide either.
  *
  * @param string $selector Where the styles land.
- * @param bool   $spacing  Whether to also offer a Spacing group.
  * @param bool   $sizing   Whether to also offer a Sizing group.
  * @return array<string, mixed>
  */
-function image_attribute( string $selector = '{{selector}} .cscs-field__image', bool $spacing = false, bool $sizing = false ): array {
+function image_attribute( string $selector = '{{selector}} .cscs-field__image', bool $sizing = false ): array {
 	$decoration = array(
 		'fit'       => array(),
 		'border'    => array(),
@@ -588,11 +637,6 @@ function image_attribute( string $selector = '{{selector}} .cscs-field__image', 
 		'border'    => array( 'selector' => $selector ),
 		'boxShadow' => array( 'selector' => $selector ),
 	);
-
-	if ( $spacing ) {
-		$decoration['spacing'] = array();
-		$style['spacing']      = array( 'selector' => $selector );
-	}
 
 	if ( $sizing ) {
 		$decoration['sizing'] = array();
@@ -1484,23 +1528,17 @@ function field_attribute( array $field ): array {
 	// A grid of trainer cards: which trainers is answered by the
 	// relationship, not by a setting, so everything here is about how the
 	// cards look rather than which cards there are. `imageSize` and
-	// `cardImageRatio` stay plain content settings — which rendition to
-	// fetch, and what to crop it to, are not things Divi's own Image
-	// treatment offers either. The photograph itself gets Divi's own Image
-	// treatment, declared on the module — see `image_attribute()` — the
-	// same controls asked of any other photograph. Gutenberg has no such
-	// native panel to give way to, so the block keeps its own equivalent
-	// setting unchanged.
-	//
-	// Row or column, for the grid and for one card, are asked here too,
-	// even though both are answered in the Design tab: Divi has no working
-	// native control for either — a second and third Layout group there is
-	// declared and inert, {@see `module_attribute()`} — so a plain select
-	// is the one that actually works, feeding the same
-	// `cardsLayout`/`cardLayout` settings {@see `FieldRenderer::card_rules()`}
-	// Gutenberg already answers this way. Gap and the photograph's margin
-	// stay unanswered here: what was asked for is row or column, not the
-	// rest of the panel the native group would have offered had it worked.
+	// `cardImageRatio` stay plain Content-tab settings, in `contentCards` —
+	// which rendition to fetch, and what to crop it to, are not things
+	// Divi's own Image treatment offers either, and both questions belong
+	// beside "which trainers", not beside how anything looks. Everything
+	// past them is a Design-tab question instead: the photograph's own
+	// margin (`designCardImage`, just below — Border, Box Shadow, Sizing
+	// and Fit need no field of their own, {@see `image_attribute()`}), and
+	// direction, alignment and wrapping for the grid and for one card
+	// (`designCardsLayout`/`designCardLayout`, in the `foreach` below).
+	// Gutenberg has none of this to give way to — no Design tab of its own —
+	// so the block keeps its own plain row/column setting unchanged.
 	if ( ! empty( $field['cards'] ) ) {
 		$add(
 			'imageSize',
@@ -1529,42 +1567,149 @@ function field_attribute( array $field ): array {
 			'contentCards'
 		);
 
-		// Divi's own Layout widget, the exact component the module's own
-		// working Layout group uses — {@see the `module.decoration.layout`
-		// group-item in Divi's own `section` module, read from
-		// `includes/builder-5/.../section/module.json` in a live install}.
-		// No `label` or `description`: a `group`-type composite draws its own
-		// labels for every control it holds, the same way `designCardName`'s
-		// Font and Spacing groups do below. The value this writes is never
-		// read by Divi's own CSS generator — {@see the comment on
-		// `designCardsLayout` in `module_metadata()` for why — so nothing
-		// here asks Divi to render it as CSS; `FieldRenderer::card_rules()`
-		// reads the raw value this saves and turns it into CSS itself, by
-		// calling the same `Layout::style_declaration()` Divi's own module
-		// decoration calls.
+		// The photograph's own margin, read by
+		// {@see `FieldRenderer::card_rules()`} — see the comment on
+		// `image_attribute()` for why this is a plain field rather than a
+		// `spacing` decoration on the photograph itself, and the comment on
+		// `designCardImage` in `module_metadata()` for why it has a Design
+		// group of its own rather than joining `contentCards` above: a
+		// margin is what this changes, not which photograph or which crop.
 		$add(
-			'cardsLayout',
+			'cardImageMargin',
 			array(
-				'component' => array(
-					'type'  => 'group',
-					'name'  => 'divi/layout',
-					'props' => array( 'grouped' => false ),
+				'label'       => 'Photograph margin',
+				'description' => 'Space around each photograph — up to four lengths, the CSS way: "0 0 8px 0".',
+				'component'   => array(
+					'name' => 'divi/text',
+					'type' => 'field',
 				),
 			),
-			'designCardsLayout'
+			'designCardImage'
 		);
 
-		$add(
-			'cardLayout',
-			array(
-				'component' => array(
-					'type'  => 'group',
-					'name'  => 'divi/layout',
-					'props' => array( 'grouped' => false ),
-				),
-			),
-			'designCardLayout'
+		// Row or column, and everything besides — both axes of alignment and
+		// whether a full row wraps — for the grid and for one card, each as
+		// four plain selects rather than Divi's own native Layout widget a
+		// second and third time.
+		//
+		// The native widget was tried first, twice: once as a repeat of the
+		// module's own `module.decoration.layout` group-item — the one this
+		// comment used to describe — which Divi's generated CSS ignores by
+		// design, reading that class from exactly one decoration key on the
+		// module root (`Module.php`, `_get_layout_module_classname`); and
+		// once more, after `FieldRenderer::card_rules()` was written to read
+		// the raw value itself and turn it into CSS by calling Divi's own
+		// `Layout::style_declaration()` — which sidesteps that first problem
+		// but not a second one only a live check on a saved page caught: two
+		// `divi/layout` widgets on one module do not hold two independent
+		// values in Divi's own builder. One of a pair tried live came back
+		// with the wrong alignment saved against it, and both came back
+		// labelled with the same wrong word, in Divi's own hand, not this
+		// plugin's — evidence the mix-up sits in Divi's widget, not just in
+		// the reading of it. So this asks four separate, ordinary questions
+		// instead: plain selects are what every other setting in this file
+		// already relies on, and nothing about this module gives Divi a
+		// reason to confuse two of those the way it confuses two Layout
+		// widgets.
+		//
+		// `FieldModuleRenderer::settings()` reassembles the four answers
+		// into the one shape `FieldRenderer::layout_value()` already parses
+		// — the same object Divi's own widget would have written — so
+		// `card_rules()` itself did not have to change at all.
+		$direction_options = array(
+			''               => array( 'label' => 'As it is' ),
+			'row'            => array( 'label' => 'Row' ),
+			'column'         => array( 'label' => 'Column' ),
+			'row-reverse'    => array( 'label' => 'Row, reversed' ),
+			'column-reverse' => array( 'label' => 'Column, reversed' ),
 		);
+
+		$justify_options = array(
+			''              => array( 'label' => 'As it is' ),
+			'flex-start'    => array( 'label' => 'Start' ),
+			'flex-end'      => array( 'label' => 'End' ),
+			'center'        => array( 'label' => 'Centre' ),
+			'space-between' => array( 'label' => 'Space between' ),
+			'space-around'  => array( 'label' => 'Space around' ),
+			'space-evenly'  => array( 'label' => 'Space evenly' ),
+		);
+
+		$align_options = array(
+			''           => array( 'label' => 'As it is' ),
+			'flex-start' => array( 'label' => 'Start' ),
+			'flex-end'   => array( 'label' => 'End' ),
+			'center'     => array( 'label' => 'Centre' ),
+			'stretch'    => array( 'label' => 'Stretch' ),
+			'baseline'   => array( 'label' => 'Baseline' ),
+		);
+
+		$wrap_options = array(
+			''             => array( 'label' => 'As it is' ),
+			'nowrap'       => array( 'label' => 'Never' ),
+			'wrap'         => array( 'label' => 'Wraps' ),
+			'wrap-reverse' => array( 'label' => 'Wraps, reversed' ),
+		);
+
+		foreach ( array(
+			'cards' => 'designCardsLayout',
+			'card'  => 'designCardLayout',
+		) as $prefix => $group ) {
+			$add(
+				$prefix . 'Direction',
+				array(
+					'label'       => 'Direction',
+					'description' => 'Row or column.',
+					'component'   => array(
+						'name'  => 'divi/select',
+						'type'  => 'field',
+						'props' => array( 'options' => $direction_options ),
+					),
+				),
+				$group
+			);
+
+			$add(
+				$prefix . 'Justify',
+				array(
+					'label'       => 'Alignment, along its own direction',
+					'description' => 'Where this sits along its own direction, if there is room to spare — centred, for instance.',
+					'component'   => array(
+						'name'  => 'divi/select',
+						'type'  => 'field',
+						'props' => array( 'options' => $justify_options ),
+					),
+				),
+				$group
+			);
+
+			$add(
+				$prefix . 'Align',
+				array(
+					'label'       => 'Alignment, across its own direction',
+					'description' => 'Where this sits across its own direction — centred, for instance.',
+					'component'   => array(
+						'name'  => 'divi/select',
+						'type'  => 'field',
+						'props' => array( 'options' => $align_options ),
+					),
+				),
+				$group
+			);
+
+			$add(
+				$prefix . 'Wrap',
+				array(
+					'label'       => 'Wrapping',
+					'description' => 'Whether this continues on a line of its own once it runs out of room.',
+					'component'   => array(
+						'name'  => 'divi/select',
+						'type'  => 'field',
+						'props' => array( 'options' => $wrap_options ),
+					),
+				),
+				$group
+			);
+		}
 	}
 
 	$add(
@@ -1655,16 +1800,23 @@ function module_defaults( array $field ): array {
 	}
 
 	if ( ! empty( $field['cards'] ) ) {
-		$advanced['imageSize']      = 'large';
-		$advanced['cardImageRatio'] = '';
-		// No default for cardsLayout/cardLayout, on purpose — the same
-		// absence as `module.decoration.layout` in Divi's own defaults file
-		// for every module Divi ships. A `divi/layout` composite does not
-		// need a placeholder to write into the way a plain select does, and
-		// an empty value already means the right thing on its own: nothing
-		// configured, so `card_rules()` emits no override and the stylesheet's
-		// own `.cscs-cards`/`.cscs-card` rules (column, wrapped, gapped) stand
-		// exactly as they did before this field could be changed at all.
+		$advanced['imageSize']       = 'large';
+		$advanced['cardImageRatio']  = '';
+		$advanced['cardImageMargin'] = '';
+		// Empty, on purpose, for all eight — every choice here is optional,
+		// and an empty value already means the right thing on its own:
+		// nothing configured, so `card_rules()` emits no override and the
+		// stylesheet's own `.cscs-cards`/`.cscs-card` rules (column, wrapped,
+		// gapped) stand exactly as they did before this field could be
+		// changed at all. But a plain select still needs the placeholder
+		// declared here to have anywhere to write a choice into — leaving
+		// one out is how a setting takes a value and silently keeps it.
+		foreach ( array( 'cards', 'card' ) as $prefix ) {
+			$advanced[ $prefix . 'Direction' ] = '';
+			$advanced[ $prefix . 'Justify' ]   = '';
+			$advanced[ $prefix . 'Align' ]     = '';
+			$advanced[ $prefix . 'Wrap' ]      = '';
+		}
 	}
 
 	$defaults = array(
