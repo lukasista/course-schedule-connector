@@ -323,24 +323,34 @@ function module_metadata( string $name, array $field ): array {
 					),
 				),
 				// Row, column, and everything Divi's own Layout group offers
-				// besides — justify, align, wrap, gap, even a CSS grid. Divi
-				// writes the flex/grid class its own generated CSS depends on
-				// from exactly one decoration key on the module root
-				// (`Module.php`, `_get_layout_module_classname`) and quietly
-				// ignores any other same-shaped key, so a second copy of that
-				// group here saves a value Divi's own CSS pipeline will never
-				// read — confirmed both by reading that source and by Lukas
-				// trying an earlier attempt at this in the builder. So this
-				// group carries Divi's real `divi/layout` widget — the exact
-				// one the module's own Layout group uses, same options, same
-				// icons, same translations — but the value it writes is read
-				// and turned into CSS by this plugin's own code, not Divi's:
-				// {@see `FieldRenderer::card_rules()`}, which calls Divi's own
-				// `Layout::style_declaration()` to do it, so the CSS this
-				// produces is the CSS Divi itself would have written, one
-				// call away from the source that already works for the
-				// module. See the `designCardsLayout` group in
-				// `field_attribute()`.
+				// besides — justify, align, wrap. NOT Divi's own `divi/layout`
+				// widget a second and third time: that widget is what the
+				// module's own Layout group above already carries, one
+				// instance per module, and an earlier version of this group
+				// declared it again here and again for `designCardLayout` —
+				// which is exactly what produced the bug this group now
+				// avoids: duplicate, indistinguishable labels in the panel,
+				// and one copy's value not saving independently of the
+				// other's (confirmed by Lukas trying it in the builder).
+				// Divi's own CSS pipeline also only ever reads one
+				// `layout`-shaped decoration key, on the module root
+				// (`Module.php`, `_get_layout_module_classname`), so even a
+				// perfectly well-behaved second copy of that widget would
+				// still need this plugin's own code to turn its value into
+				// CSS for `.cscs-cards` rather than the module root.
+				//
+				// So this group instead holds four small `divi/select`
+				// fields — direction, and both axes of alignment, and
+				// wrapping — declared in `field_attribute()`, one holding no
+				// state of its own. `FieldModuleRenderer::settings()` (and
+				// its JS twin in `cscs-divi-fields.js`) reassemble the four
+				// into the one small object Divi's own widget would have
+				// written — `display`, `flexDirection`, `justifyContent`,
+				// `alignItems`, `flexWrap` — and `FieldRenderer::card_rules()`
+				// turns that into CSS the same way it always has, by calling
+				// Divi's own `Layout::style_declaration()`: the CSS this
+				// produces is the CSS Divi itself would have written, only
+				// the panel side of it changed.
 				'designCardsLayout' => empty( $field['cards'] ) ? null : array(
 					'panel'     => 'design',
 					'priority'  => 6,
@@ -363,8 +373,10 @@ function module_metadata( string $name, array $field ): array {
 				// contains: a photograph and a name, which want their own
 				// arrangement independent of how the cards holding them are
 				// arranged. "Cards" above answers how many of them sit in a
-				// row; this answers what sits in one — the same native Layout
-				// widget again, for the reason above.
+				// row; this answers what sits in one — four more
+				// `divi/select` fields, reassembled into `cardLayout` and
+				// turned into CSS on `.cscs-card`, for the same reasons as
+				// `designCardsLayout` above.
 				'designCardLayout'  => empty( $field['cards'] ) ? null : array(
 					'panel'     => 'design',
 					'priority'  => 7,

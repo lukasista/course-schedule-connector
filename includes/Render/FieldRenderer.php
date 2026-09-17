@@ -611,14 +611,17 @@ final class FieldRenderer {
 	 * Returns the rules a grid of trainer cards needs, or nothing where
 	 * nothing was asked for.
 	 *
-	 * `cardsLayout` and `cardLayout` carry Divi's own native Layout value now
-	 * — {@see self::layout_value()} for the two shapes that can mean — turned
-	 * into CSS by calling the exact function Divi's own module decoration
-	 * calls, `Layout::style_declaration()`, so a row, a centred row, a
-	 * wrapped grid or a manual CSS grid all come out exactly the way Divi's
-	 * own Layout group would have drawn them, on `.cscs-cards` for how the
-	 * cards sit next to each other and on `.cscs-card` for how the photograph
-	 * and the name sit inside one. Gutenberg, which has no such widget, still
+	 * `cardsLayout` and `cardLayout` carry the same shape Divi's own native
+	 * Layout value has — assembled by this plugin's own fields rather than
+	 * written by that widget itself, which is not safe to declare twice on
+	 * one module {@see the comment on `designCardsLayout` in
+	 * `tools/build-divi-modules.php`} — turned into CSS by calling the exact
+	 * function Divi's own module decoration calls,
+	 * `Layout::style_declaration()`, so a row, a centred row, a wrapped grid
+	 * or a manual CSS grid all come out exactly the way Divi's own Layout
+	 * group would have drawn them, on `.cscs-cards` for how the cards sit
+	 * next to each other and on `.cscs-card` for how the photograph and the
+	 * name sit inside one. Gutenberg, which has no such widget, still
 	 * reaches the same rules through a bare `"row"` or `"column"` string —
 	 * the other shape {@see self::layout_value()} accepts.
 	 *
@@ -723,12 +726,16 @@ final class FieldRenderer {
 	 * own `Layout::style_declaration()` expects, checking every part of it
 	 * against what that part is allowed to be.
 	 *
-	 * The value arrives in one of two shapes. Divi's own native Layout widget
-	 * — {@see the `designCardsLayout`/`designCardLayout` groups in
-	 * `tools/build-divi-modules.php`} — writes a small object of its own
-	 * named keys (`display`, `flexDirection`, `justifyContent`, …), the same
-	 * object `module.decoration.layout` holds for the module itself.
-	 * Gutenberg, which has no such widget, writes a bare `"row"` or
+	 * The value arrives in one of two shapes. Most of the time it is a small
+	 * object of `FieldModuleRenderer::settings()`'s own assembling — four
+	 * plain `divi/select` fields {@see the `designCardsLayout`/
+	 * `designCardLayout` groups in `tools/build-divi-modules.php`} folded
+	 * into the named keys (`display`, `flexDirection`, `justifyContent`, …)
+	 * Divi's own Layout widget would have written, the same object
+	 * `module.decoration.layout` holds for the module itself — not written
+	 * by that widget directly, which is not safe to declare a second and
+	 * third time on one module {@see the comment on `designCardsLayout`}.
+	 * Gutenberg, which has no such fields, writes a bare `"row"` or
 	 * `"column"` string, and a page saved before this change still has one
 	 * stored that way. Both mean something; only the shape differs.
 	 *
