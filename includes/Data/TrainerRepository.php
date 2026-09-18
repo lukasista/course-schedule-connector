@@ -404,6 +404,23 @@ final class TrainerRepository {
 
 		update_post_meta( $post_id, TrainerType::META_PHOTO_ID, $attachment_id );
 		update_post_meta( $post_id, TrainerType::META_PHOTO_SOURCE, $url );
+
+		// {@see self::photograph()} already prefers a hand-picked featured
+		// image over this one when a trainer's own page reads its picture —
+		// but nothing outside this plugin knows that rule. Native WordPress
+		// and Divi both read the real featured image directly, so without
+		// this a trainer synced fresh shows a picture on their own page and
+		// no picture anywhere a native block or module looks. Setting it
+		// here, rather than teaching every other reader this plugin's own
+		// fallback, is what makes the synced photograph the real featured
+		// image everywhere a real featured image is asked for.
+		//
+		// Only when nothing is set by hand: a manual upload is a deliberate
+		// replacement, and this must never overwrite it — the same promise
+		// `photograph()` already makes, kept here too.
+		if ( 0 === (int) get_post_thumbnail_id( $post_id ) ) {
+			set_post_thumbnail( $post_id, $attachment_id );
+		}
 	}
 
 	/**

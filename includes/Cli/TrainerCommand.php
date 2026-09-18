@@ -330,7 +330,7 @@ final class TrainerCommand {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp cscs trainers relate-kinds
+	 *     wp cscs trainers relate_kinds
 	 *
 	 * @return void
 	 */
@@ -338,5 +338,76 @@ final class TrainerCommand {
 		( new KindRepository() )->refresh_trainer_relationships();
 
 		\WP_CLI::success( 'Trainer/kind-page relationships rebuilt.' );
+	}
+
+	/**
+	 * Sets the real featured image from each trainer's synced photograph,
+	 * wherever nothing has been set by hand.
+	 *
+	 * Every synchronisation from now on does this the moment a photograph is
+	 * fetched {@see TrainerRepository::remember()}; this is for the trainers
+	 * a synchronisation already ran for before that existed — so that native
+	 * WordPress and Divi features reading the real featured image, not just
+	 * this plugin's own {@see TrainerRepository::photograph()}, see a
+	 * picture too.
+	 *
+	 * A trainer who already has a featured image is left alone, whether it
+	 * came from an earlier run of this same command or from someone's own
+	 * upload — the point of a manual picture is that it replaces the synced
+	 * one, always.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--dry-run]
+	 * : Say what would happen and change nothing.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp cscs trainers set_thumbnails --dry-run
+	 *     wp cscs trainers set_thumbnails
+	 *
+	 * @param array<int, string>    $args       Positional arguments.
+	 * @param array<string, string> $assoc_args Named arguments.
+	 * @return void
+	 */
+	public function set_thumbnails( array $args, array $assoc_args ): void {
+		unset( $args );
+
+		$dry     = isset( $assoc_args['dry-run'] );
+		$set     = 0;
+		$skipped = 0;
+
+		foreach ( $this->trainer_ids() as $trainer_id ) {
+			if ( 0 !== get_post_thumbnail_id( $trainer_id ) ) {
+				++$skipped;
+
+				continue;
+			}
+
+			$photo_id = (int) get_post_meta( $trainer_id, TrainerType::META_PHOTO_ID, true );
+
+			if ( 0 === $photo_id || null === get_post( $photo_id ) ) {
+				continue;
+			}
+
+			++$set;
+
+			if ( $dry ) {
+				\WP_CLI::log( sprintf( 'Would set the featured image for %s.', get_the_title( $trainer_id ) ) );
+
+				continue;
+			}
+
+			set_post_thumbnail( $trainer_id, $photo_id );
+		}
+
+		\WP_CLI::success(
+			sprintf(
+				'%d featured image(s) %s, %d already set.',
+				$set,
+				$dry ? 'would be set' : 'set',
+				$skipped
+			)
+		);
 	}
 }
