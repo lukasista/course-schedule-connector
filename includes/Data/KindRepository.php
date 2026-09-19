@@ -594,6 +594,51 @@ final class KindRepository {
 	}
 
 	/**
+	 * Returns a published kind page that currently has at least one trainer,
+	 * for the one place that needs to show real sample data instead of none.
+	 *
+	 * Reads {@see self::refresh_trainer_relationships()}'s relationship from
+	 * the trainer's side rather than the page's: finds a published trainer
+	 * already paired with some page, instead of checking every page's own
+	 * {@see self::trainers()} in turn. A trainer can carry more than one
+	 * page in {@see \CSCS\Data\TrainerType::META_KIND_PAGE}, so every row
+	 * on the first one found is tried in case an earlier one has since been
+	 * unpublished.
+	 *
+	 * @return int Kind page id, or zero where no trainer is paired with any page yet.
+	 */
+	public function example_page_with_trainers(): int {
+		$trainers = get_posts(
+			array(
+				'post_type'        => TrainerType::TRAINER,
+				'post_status'      => 'publish',
+				'posts_per_page'   => 1,
+				'fields'           => 'ids',
+				'no_found_rows'    => true,
+				'suppress_filters' => false,
+				'meta_query'       => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- One row is all a sample needs, and there is no other way to ask "which trainer has any page at all".
+					array(
+						'key'     => TrainerType::META_KIND_PAGE,
+						'compare' => 'EXISTS',
+					),
+				),
+			)
+		);
+
+		if ( array() === $trainers ) {
+			return 0;
+		}
+
+		foreach ( array_map( 'intval', get_post_meta( (int) $trainers[0], TrainerType::META_KIND_PAGE ) ) as $page_id ) {
+			if ( 'publish' === get_post_status( $page_id ) ) {
+				return $page_id;
+			}
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Recomputes which kind pages each trainer currently belongs to, and
 	 * writes the answer onto their own post.
 	 *
