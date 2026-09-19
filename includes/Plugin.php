@@ -51,6 +51,7 @@ use CSCS\Render\FieldBlocks;
 use CSCS\Divi\DesignGuard;
 use CSCS\Divi\DisplayModule;
 use CSCS\Divi\FieldModules;
+use CSCS\Divi\LoopKindPageBinding;
 use CSCS\Divi\TableColumnModule;
 use CSCS\Render\Renderer;
 use CSCS\Render\RestPreview;
@@ -176,6 +177,7 @@ final class Plugin {
 		( new FieldModules( $this ) )->register();
 		( new TableColumnModule() )->register();
 		( new DesignGuard() )->register();
+		( new LoopKindPageBinding() )->register();
 
 		add_action( 'cscs_setting_changed', array( $this, 'on_setting_changed' ) );
 
