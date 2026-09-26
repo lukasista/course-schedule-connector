@@ -20,7 +20,7 @@
     "makepot": "wp i18n make-pot . languages/course-schedule-connector.pot --exclude=node_modules,vendor,build,tests"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.25.0",
+    "@babel/preset-env": "^8.0.2",
     "@babel/preset-react": "^7.25.0",
     "@wordpress/scripts": "^30.0.0",
     "babel-loader": "^9.2.0",
