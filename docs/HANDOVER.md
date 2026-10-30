@@ -5,7 +5,7 @@
 > potřeba vědět *proč* něco vypadá, jak vypadá. Do vydaného pluginu se
 > nedistribuuje.
 
-## Stav k 25. 9. 2026
+## Stav k 28. 10. 2026
 
 Tenhle soubor je most mezi pracovními dny. Je psaný tak, aby se do něj dalo
 vstoupit bez znalosti předchozího rozhovoru: co je hotové, jak se to spouští,
@@ -20,14 +20,16 @@ zadání každé fáze je v `PLAN.md`, kapitola 9. Běží **testovací a vylep�
 fáze**: verze `1.0.0-alpha.2` je její první kolo.
 
 **Lukášova prohlídka pluginu běží dál a má přednost před F8.** Všechno, co z ní
-zatím vzešlo, je hotové a ověřené proti živým datům. Poslední dvě kola: karty
+zatím vzešlo, je hotové a ověřené proti živým datům. Poslední kola: karty
 trenérů na stránce druhu kurzu jako nativní Diviho Loop místo vlastního
-modulu (16.–19. 9.), a v administraci kurzů kategorie (nová ruční taxonomie),
+modulu (16.–19. 9.), v administraci kurzů kategorie (nová ruční taxonomie),
 kombinovatelné filtry nad tabulkou, oprava skutečné chyby ve výpočtu stavu
-kurzu s jednorázovým přepočtem dat, a filtr i sloupec pro pohlaví (22.–24. 9.).
+kurzu s jednorázovým přepočtem dat, a filtr i sloupec pro pohlaví (22.–24. 9.),
+a oprava prázdné smyčky trenérů mimo stránku druhu kurzu — karusel na úvodní
+stránce i náhled ve Visual Builderu (28. 10.).
 
-**Poslední kolo (22.–24. 9.) ještě není zacommitované** — viz konec
-příslušné podsekce v části 2 a `Otevřené body`.
+**Ani jedno z toho ještě není zacommitované** — ani 22.–24. 9., ani 28. 10. —
+viz konec příslušných podsekcí v části 2 a `Otevřené body`.
 příslušné podsekce v části 2 a `Otevřené body`.
 
 Poslední commity:
@@ -96,6 +98,54 @@ příslušné podsekce v sekci 2.
 ---
 
 ## 2. Co přibylo naposledy
+
+### Prázdná smyčka trenérů mimo stránku druhu kurzu — karusel na úvodní stránce (28. 10.)
+
+`LoopKindPageBinding` (16.–19. 9., podsekce níže) uměl sentinel
+`%current_kind_page%` dosadit jen na stránce druhu kurzu — `resolve()` se
+mimo ni rovnou vracel beze změny, takže podmínka v meta dotazu zůstala
+doslova `_cscs_trainer_kind_page = %current_kind_page%`. Kdekoli jinde ta
+samá sdílená smyčka trenérů běžela — karusel na úvodní stránce byl zadaný
+případ — to neodpovídalo ničemu a smyčka ukázala „Nebyly nalezeny žádné
+výsledky“. Náhled ve Visual Builderu se přitom nikdy nechoval stejně:
+`resolve_preview_query_args()` mimo stránku druhu vždycky dosadil nějakou
+skutečnou, publikovanou ukázkovou stránku
+(`KindRepository::example_page_with_trainers()`), takže ten, kdo šablonu
+navrhuje, viděl trenéry, ale web ne — přesně ten rozjezd, který předchozí
+zápis sám předjímal jako riziko k prověření.
+
+Oprava: mimo stránku druhu se podmínka se sentinelem teď nepřeskakuje ani
+nedostává cizí stránku, ale rozšiřuje na „trenér má jakoukoli stránku
+druhu“ — `compare => 'EXISTS'`, bez `value`. Past: samotné přepsání
+`compare` na `EXISTS` nestačí, pokud `value` (nebo `metaValue` u
+nepřevedeného tvaru podmínky) zůstane na podmínce ležet — WordPress ji
+přečte i tak a tiše se zachová, jako by `compare` bylo `=`. Ověřeno přímo
+na stejných datech: s `EXISTS` a ponechanou sentinelovou hodnotou vrátil
+dotaz 0 trenérů, s `EXISTS` a hodnotou odstraněnou 21 — přesně počet
+trenérů, kteří mají aspoň jednu stránku druhu. Na stránce druhu kurzu
+(živé i v náhledu Builderu) se nic neměnilo — tam se sentinel dál dosazuje
+na skutečné id té stránky. Oprava je v
+`includes/Divi/LoopKindPageBinding.php`, podrobně v `DEVELOPER.md`
+(„Trainers on a kind's page“) a jako nová položka 15 v sekci 4 níže.
+
+Ověřeno přes `wp_cli eval` proti Studiu (`jojogym 2`): přímým zavoláním
+`resolve()` a `resolve_preview_query_args()` se skutečným tvarem dat, jaký
+Divi doopravdy posílá (zachyceno na živé stránce druhu přes dočasný
+mu-plugin sondu, pak smazaný), a skutečným `WP_Query` nad výsledkem — 21
+trenérů mimo stránku druhu, a beze změny 1 trenér (Lukáš Moutelík) na
+stránce druhu *Ninja Movement*, shodně s `KindRepository::trainers()` i se
+skutečným vykreslením té stránky. Karusel na úvodní stránce samotný se ale
+v obsahu webu `jojogym 2` nenašel — žádná stránka ani šablona kromě stránky
+druhu v tuhle chvíli neobsahuje podmínku na `_cscs_trainer_kind_page` —
+takže ověřené je mechanismus, ne kliknutí skutečným karuselem. Až bude na
+webu existovat, stál by za to jeden skutečný průchod.
+
+Vedlejší dopad: `resolve_preview_query_args()` už nikdy nevolá
+`KindRepository::example_page_with_trainers()`, takže import
+`KindRepository` z `LoopKindPageBinding.php` zmizel a ta metoda repository
+nemá volajícího — viz `Otevřené body`.
+
+Nezacommitováno — viz `Otevřené body`.
 
 ### Administrace: kategorie, kombinovatelné filtry a oprava stavu kurzu (22.–24. 9.)
 
@@ -215,9 +265,10 @@ udělat to ze skutečné cesty, ne z rozbalené kopie v `_to_delete/`.
 ### Karty trenérů jako nativní Diviho Loop, ne vlastní modul (16.–19. 9.)
 
 Shrnutí z commit logu a čtení `includes/Divi/LoopKindPageBinding.php` — na
-rozdíl od ostatních zápisů v tomhle deníku není z první ruky, žádná session
-tenhle týden diff commit po commitu nečetla. Stojí za společný pohled, kdyby
-se karty trenérů začaly chovat divně.
+rozdíl od ostatních zápisů v tomhle deníku nebylo z první ruky v době psaní.
+Riziko, které si to psaní tehdy přiznalo, se potvrdilo: karusel na úvodní
+stránce kvůli tomu doopravdy ukazoval nulu trenérů. Oprava je v nové
+podsekci na začátku této sekce (28. 10.).
 
 Sdílená šablona stránky druhu kurzu teď kreslí trenéry přes Diviho **vlastní**
 Group/Loop modul (smyčka přes `cscs_trainer_profile`, filtrovaná meta dotazem
@@ -859,24 +910,43 @@ ne modulu.
    `moduleIcon`.
 14. Odkazy s kotvou na téže stránce Divi polyká kvůli plynulému rolování;
    posluchače je třeba věšet v **capture** fázi.
+15. **`compare => 'EXISTS'` v meta dotazu nestačí, zůstane-li u podmínky
+   `value`.** WordPress ji přečte i tak a tiše se zachová, jako by `compare`
+   bylo `=` — ověřeno přímo na stejné podmínce: s `EXISTS` a ponechanou
+   hodnotou `%current_kind_page%` vrátil dotaz 0 trenérů, se stejným
+   `EXISTS` a hodnotou odstraněnou 21. Klíč `value` (a `metaValue` u
+   nepřevedeného tvaru podmínky) je při přechodu na `EXISTS` nutné odstranit
+   úplně — `unset()`, nestačí přepsat jen `compare`. Viz
+   `LoopKindPageBinding::replace_sentinel()`.
 
 ---
 
 ## 5. Otevřené body
 
-- **Pracovní strom není čistý (od 22.–24. 9.).** Kategorie/menu/filtry/oprava
-  stavu/pohlaví (sekce 2) jsou hotové a ověřené, ale nezacommitované — šest
-  PHP souborů + tři jazykové, plus dva neverzované vadné JED soubory k
-  smazání. Přesný seznam na konci příslušné podsekce v sekci 2.
+- **Pracovní strom není čistý (od 22.–24. 9., teď navíc 28. 10.).**
+  Kategorie/menu/filtry/oprava stavu/pohlaví (sekce 2) jsou hotové a
+  ověřené, ale nezacommitované — šest PHP souborů + tři jazykové, plus dva
+  neverzované vadné JED soubory k smazání. K tomu teď
+  `includes/Divi/LoopKindPageBinding.php` (oprava prázdné smyčky mimo
+  stránku druhu, sekce 2) a tento soubor i `DEVELOPER.md`. Přesný seznam
+  první dávky na konci příslušné podsekce v sekci 2.
 - **Nová admin práce nemá PHPUnit pokrytí**, jen ruční ověření přes
   `wp_cli eval-file` proti SQL (sekce 2). Stálo by za to dopsat testy hlavně
   na `CourseRepository::is_semester_over()` a na
   `CourseList::apply_meta_filters()` (kombinace dvou a víc filtrů najednou,
   guard na neplatnou hodnotu v URL).
-- **Karty trenérů jako nativní Diviho Loop (16.–19. 9.) nejsou v tomhle
-  deníku z první ruky** — jen shrnutí z commit logu a jednoho souboru, viz
-  sekce 2. Stálo by za skutečný průchod v obou builderech, až bude Studio
-  dostupné, spíš než spoléhat na tohle shrnutí.
+- **`KindRepository::example_page_with_trainers()` už nemá volajícího.**
+  Oprava z 28. 10. (sekce 2) ji z `LoopKindPageBinding` odstranila — mimo
+  stránku druhu se teď náhled chová jako web (`EXISTS`), ne jako vzorová
+  stránka. Metoda samotná zůstala, je to rozumná obecná schopnost
+  repository, ale dokud si ji nevyžádá něco jiného, je to mrtvý kód —
+  klidně smazat, nebo nechat.
+- **Karusel na úvodní stránce se v obsahu `jojogym 2` nenašel živý** —
+  oprava z 28. 10. (sekce 2) je ověřená přímo na datech a dotazech, ne
+  kliknutím skutečným karuselem. Stálo by za to, až na webu bude skutečně
+  existovat.
+- **`LoopKindPageBinding` nemá automatizovaný test**, jen ruční ověření přes
+  `wp_cli eval` — stejná mezera jako u admin práce z 22.–24. 9. výš.
 - **Sloupce jako child prvky** — pilot hotový na `course-schedule` (13. 9.,
   viz sekce 2 a `DEVELOPER.md`), zbylé čtyři tabulky (`course-makeup`,
   `trainer-courses`, `kind-courses`, `kind-prices`) čekají na totéž — je to teď

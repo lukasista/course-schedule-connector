@@ -965,6 +965,49 @@ it fold identically on a telephone. The `kind-courses` field renders it as a
 block and a Divi module; `templates/single-kind.php` appends it to the page's
 own words rather than replacing them.
 
+## Trainers on a kind's page
+
+A kind page's trainers are not a field on the page itself — they are read
+from the trainer's own side. `KindRepository::refresh_trainer_relationships()`
+runs after every synchronisation and writes `TrainerType::META_KIND_PAGE`
+(repeatable) onto each trainer: one row per kind page whose shown courses
+they teach, so a page split across eight people gets eight rows written and
+a page with two gets two. `KindRepository::trainers( $page_id )` reads that
+relationship back.
+
+The shared Theme Builder template for a kind page draws these with Divi's
+own native Group/Loop module — looping `TrainerType::TRAINER`, filtered by a
+meta query on `TrainerType::META_KIND_PAGE` — rather than a module this
+plugin wrote. Divi's meta-query editor has no dynamic-content option for a
+condition's value (every field in it is a plain text input, confirmed by
+reading the Visual Builder's own shipped source rather than assumed), so the
+template cannot itself say "whichever page I am currently showing on". It
+stores a fixed sentinel instead (`LoopKindPageBinding::SENTINEL`,
+`%current_kind_page%`), and `CSCS\Divi\LoopKindPageBinding` is the only
+place that ever resolves it — on both of the two separate paths Divi uses to
+run this query: `divi_loop_data_before_execution` for an actual render, and
+`divi_module_options_loop_post_type_results_query_args` for the Visual
+Builder's own `/divi/v1/loop/query-results` preview endpoint.
+
+A real, singular kind page is the only context with one right answer for
+what the sentinel means — that page's own id — so that is the only place the
+condition binds to a real value, on the site and in the Builder alike.
+Everywhere else this loop ever runs — a trainer carousel somewhere else on
+the site, or any other template open in the Visual Builder — there is no one
+page to bind it to, so the condition widens instead: `compare => 'EXISTS'`
+with no value, meaning "this trainer has a kind page at all" rather than
+matching nobody.
+
+**Setting `compare` to `EXISTS` is not enough on its own.** WordPress still
+reads a `value` left on the same condition and silently treats the
+comparison as `=` against it, `EXISTS` or not — confirmed by running both
+forms against the same data: `EXISTS` with the sentinel text still sitting
+in `value` matched no trainer, the same `EXISTS` with the key removed
+matched every trainer with a kind page. `value` (and `metaValue`, on the
+condition shape Divi has not yet converted to a plain `WP_Query` array) has
+to be unset outright, not just overwritten, whenever the condition widens.
+See `LoopKindPageBinding::replace_sentinel()`.
+
 ## Markup from somewhere else
 
 `CSCS\Support\Markup::flatten_lists()` puts every list one level deep: a list

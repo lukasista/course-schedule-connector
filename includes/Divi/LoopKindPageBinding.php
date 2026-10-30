@@ -11,7 +11,6 @@ namespace CSCS\Divi;
 
 defined( 'ABSPATH' ) || exit;
 
-use CSCS\Data\KindRepository;
 use CSCS\Data\KindType;
 use CSCS\Data\TrainerType;
 
@@ -30,9 +29,10 @@ use CSCS\Data\TrainerType;
  *
  * The template therefore never stores a real page id at all: it stores
  * {@see self::SENTINEL}, and this class is the only place that ever turns it
- * into one. It has to do that twice, because Divi builds this same query
- * along two entirely separate paths and only one of them is the one this was
- * first written for.
+ * into something a database query can actually run. It has to do that twice,
+ * because Divi builds this same query along two entirely separate paths —
+ * and it has to turn it into two different things, because only one of the
+ * two things a kind page's loop can mean ever has a single right answer.
  *
  * A real visit to a kind page renders the loop straight to HTML in PHP. That
  * path fires `divi_loop_data_before_execution` on the loop's data after it is
@@ -42,7 +42,7 @@ use CSCS\Data\TrainerType;
  * that conversion: an unconverted condition list under `meta_query_attrs`, or
  * — confirmed by tracing an actual front-end request, not assumed from source
  * alone — a ready `WP_Query` `meta_query` array nested under `query_args`.
- * Both are narrowed so neither leaves every trainer showing on every page.
+ * Both are narrowed the same way, whichever shape shows up.
  *
  * Editing the shared template in the Visual Builder never takes that path at
  * all — confirmed by tracing an actual Visual Builder session and finding
@@ -50,21 +50,23 @@ use CSCS\Data\TrainerType;
  * `/divi/v1/loop/query-results`, to run the query and hand back results, and
  * that endpoint fires its own filter, `divi_module_options_loop_post_type_results_query_args`,
  * on the WP_Query arguments it is about to run — {@see self::resolve_preview_query_args()}.
- * Left unhandled, that endpoint runs the query with the literal sentinel
- * still in it, which matches no trainer, and whoever is editing the template
- * sees an empty loop to design against instead of a trainer card.
  *
- * That second path has no kind page being viewed either — a shared template
- * is not any one page — so there is no real id to bind the sentinel to the
- * way {@see self::resolve()} does. Reaching that hook at all only ever
- * happens from inside that one REST endpoint, which only the Visual Builder
- * ever calls, so it is free to bind the sentinel to a real, published example
- * page instead: whichever one {@see KindRepository::example_page_with_trainers()}
- * finds already has a trainer, so whoever is editing sees an actual photo and
- * name rather than another empty state. A real front-end visit never reaches
- * this hook, so this substitution can never show on the site itself — it only
- * ever narrows or stands in for the Visual Builder's own preview query, never
- * widens a real one.
+ * Only a real, singular kind page — on the site, or in the Visual Builder
+ * editing that exact page — has one right answer for what the sentinel
+ * means: that page's own id. Everywhere else this condition ever runs — a
+ * carousel of trainers on the home page, the shared template itself open in
+ * the Visual Builder, any other template or archive the loop happens to
+ * render on — there is no one page to bind it to. So it asks a different
+ * question instead: not "is this trainer's page the one I'm looking at",
+ * which has no answer there, but "does this trainer have a kind page at
+ * all" — a plain `EXISTS` comparison with no value. WordPress has to be
+ * given that with the value genuinely absent: a leftover value survives
+ * even under `EXISTS` and is quietly compared against as if `compare` were
+ * `=`, which with the literal sentinel text still sitting in it is exactly
+ * how this used to show no trainers at all outside a kind page. Both hooks
+ * resolve the sentinel this same way, so the Visual Builder's preview of
+ * anything that is not itself a kind page now shows what the site actually
+ * shows there, rather than standing in a borrowed page's trainers for it.
  */
 final class LoopKindPageBinding {
 
@@ -87,21 +89,18 @@ final class LoopKindPageBinding {
 	}
 
 	/**
-	 * Replaces the sentinel with the kind page actually being viewed.
+	 * Replaces the sentinel for a real front-end render of the loop.
+	 *
+	 * On a kind page, that page's own id. Everywhere else — the loop
+	 * rendering on any other template, such as a trainer carousel on the
+	 * home page — there is no one page to bind it to, so the condition
+	 * widens to "has a kind page at all" instead of matching nothing.
 	 *
 	 * @param array<string, mixed> $loop_data Loop data built from the module's saved attrs.
 	 * @return array<string, mixed>
 	 */
 	public function resolve( array $loop_data ): array {
-		if ( ! is_singular( KindType::KIND ) ) {
-			return $loop_data;
-		}
-
-		$kind_page_id = get_queried_object_id();
-
-		if ( 0 === $kind_page_id ) {
-			return $loop_data;
-		}
+		$kind_page_id = is_singular( KindType::KIND ) ? get_queried_object_id() : 0;
 
 		if ( ! empty( $loop_data['meta_query_attrs'] ) && is_array( $loop_data['meta_query_attrs'] ) ) {
 			$loop_data['meta_query_attrs'] = self::replace_sentinel( $loop_data['meta_query_attrs'], $kind_page_id );
@@ -117,6 +116,12 @@ final class LoopKindPageBinding {
 	/**
 	 * Replaces the sentinel for the Visual Builder's own preview query.
 	 *
+	 * Editing a kind page's own session resolves the same way a real visit
+	 * to it would. Editing anything else — the shared template itself, or
+	 * any other page — has no kind page being viewed, so the preview widens
+	 * the same way a real render outside a kind page now does, instead of
+	 * borrowing some other page's trainers to show something non-empty.
+	 *
 	 * @param array<string, mixed> $query_args WP_Query arguments the preview is about to run.
 	 * @param array<string, mixed> $params     The REST request's own parameters, including which post is being edited.
 	 * @return array<string, mixed>
@@ -129,15 +134,11 @@ final class LoopKindPageBinding {
 		$edited_post_id = (int) ( $params['current_post_id'] ?? 0 );
 
 		// Editing a real kind page's own Visual Builder session — same answer resolve() would give.
-		// Otherwise there is no page being viewed at all (the shared template isn't one), so an
-		// example page stands in, purely so there is something to design against.
+		// Otherwise there is no page being viewed at all (the shared template isn't one), so this
+		// widens exactly the way a real render outside a kind page now does.
 		$kind_page_id = ( $edited_post_id > 0 && KindType::KIND === get_post_type( $edited_post_id ) )
 			? $edited_post_id
-			: ( new KindRepository() )->example_page_with_trainers();
-
-		if ( 0 === $kind_page_id ) {
-			return $query_args;
-		}
+			: 0;
 
 		$query_args['meta_query'] = self::replace_sentinel( $query_args['meta_query'], $kind_page_id );
 
@@ -147,8 +148,13 @@ final class LoopKindPageBinding {
 	/**
 	 * Narrows one meta-query condition list, whichever shape it was given in.
 	 *
+	 * A `$kind_page_id` of zero means there is no one real page to bind the
+	 * sentinel to, so a condition that holds it widens to "has a kind page
+	 * at all" — `EXISTS`, with the value removed outright rather than left
+	 * for WordPress to misread as an `=` comparison against it.
+	 *
 	 * @param array<int, mixed> $conditions    Meta query conditions, raw or WP_Query-ready.
-	 * @param int                $kind_page_id The kind page to bind the sentinel to.
+	 * @param int                $kind_page_id The kind page to bind the sentinel to, or zero for none.
 	 * @return array<int, mixed>
 	 */
 	private static function replace_sentinel( array $conditions, int $kind_page_id ): array {
@@ -163,13 +169,33 @@ final class LoopKindPageBinding {
 				continue;
 			}
 
-			if ( isset( $condition['value'] ) && self::SENTINEL === $condition['value'] ) {
-				$condition['value'] = (string) $kind_page_id;
+			$has_sentinel = ( isset( $condition['value'] ) && self::SENTINEL === $condition['value'] )
+				|| ( isset( $condition['metaValue'] ) && self::SENTINEL === $condition['metaValue'] );
+
+			if ( ! $has_sentinel ) {
+				continue;
 			}
 
-			if ( isset( $condition['metaValue'] ) && self::SENTINEL === $condition['metaValue'] ) {
-				$condition['metaValue'] = (string) $kind_page_id;
+			if ( $kind_page_id > 0 ) {
+				if ( isset( $condition['value'] ) ) {
+					$condition['value'] = (string) $kind_page_id;
+				}
+
+				if ( isset( $condition['metaValue'] ) ) {
+					$condition['metaValue'] = (string) $kind_page_id;
+				}
+
+				continue;
 			}
+
+			// No one page to bind to: "has a kind page at all" instead. WordPress reads a
+			// value left behind even under EXISTS and quietly compares against it as if
+			// compare were "=" — the sentinel text itself, which matches no trainer — so
+			// the value has to go, not just the compare type.
+			unset( $condition['value'], $condition['metaValue'] );
+
+			$condition['compare']     = 'EXISTS';
+			$condition['metaCompare'] = 'EXISTS';
 		}
 		unset( $condition );
 
