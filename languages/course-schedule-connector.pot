@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-16T21:22:57+00:00\n"
+"POT-Creation-Date: 2026-09-23T16:16:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: course-schedule-connector\n"
@@ -106,6 +106,7 @@ msgid "Also read from the course name — \"9-11 let\", \"od 10 let\". Fill eith
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:208
+#: includes/Admin/CourseList.php:78
 #: includes/Admin/Screen/DisplaySetsPage.php:248
 #: includes/Render/CourseDetail.php:106
 #: includes/Render/Fields.php:139
@@ -143,14 +144,14 @@ msgid "The wording follows the group: a course for girls is worded differently f
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:232
-#: includes/Admin/CourseList.php:55
+#: includes/Admin/CourseList.php:79
 #: includes/Render/Fields.php:794
 #: _to_delete/x/includes/Render/Fields.php:774
 msgid "Booking button"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:235
-#: includes/Admin/CourseList.php:93
+#: includes/Admin/CourseList.php:125
 #: includes/Admin/Screen/DisplaySetsPage.php:292
 msgid "As the settings say"
 msgstr ""
@@ -184,14 +185,14 @@ msgstr ""
 #: includes/Admin/CourseEditor.php:292
 #: includes/Admin/Screen/MakeupPage.php:130
 #: includes/Admin/Screen/UnmatchedPage.php:165
-#: includes/Data/PostType.php:222
+#: includes/Data/PostType.php:241
 #: includes/Render/Fields.php:776
 #: _to_delete/x/includes/Render/Fields.php:756
 msgid "Activity"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:293
-#: includes/Admin/CourseList.php:54
+#: includes/Admin/CourseList.php:77
 msgid "State"
 msgstr ""
 
@@ -247,7 +248,7 @@ msgstr ""
 #: includes/Admin/CourseEditor.php:474
 #: includes/Admin/KindEditor.php:280
 #: includes/Data/KindType.php:70
-#: includes/Data/PostType.php:226
+#: includes/Data/PostType.php:245
 msgid "Kind of course"
 msgstr ""
 
@@ -260,7 +261,7 @@ msgstr ""
 #: includes/Admin/CourseEditor.php:476
 #: includes/Admin/Screen/MakeupPage.php:132
 #: includes/Admin/Screen/UnmatchedPage.php:167
-#: includes/Data/PostType.php:218
+#: includes/Data/PostType.php:237
 #: includes/Data/TrainerType.php:121
 #: includes/Render/CourseDetail.php:109
 #: includes/Render/CourseDetail.php:194
@@ -278,7 +279,7 @@ msgstr ""
 #: includes/Admin/Screen/DisplaySetsPage.php:592
 #: includes/Admin/Screen/MakeupPage.php:131
 #: includes/Admin/Screen/UnmatchedPage.php:166
-#: includes/Data/PostType.php:214
+#: includes/Data/PostType.php:233
 #: includes/Render/CourseDetail.php:108
 #: includes/Render/Fields.php:157
 #: includes/Render/Fields.php:158
@@ -291,12 +292,14 @@ msgid "Room"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:490
-#: includes/Admin/CourseList.php:76
+#: includes/Admin/CourseList.php:100
+#: includes/Admin/CourseList.php:265
 msgid "Running"
 msgstr ""
 
 #: includes/Admin/CourseEditor.php:491
-#: includes/Admin/CourseList.php:77
+#: includes/Admin/CourseList.php:101
+#: includes/Admin/CourseList.php:266
 msgid "Finished"
 msgstr ""
 
@@ -312,41 +315,71 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
-#: includes/Admin/CourseList.php:56
+#: includes/Admin/CourseList.php:80
 msgid "Contact"
 msgstr ""
 
-#: includes/Admin/CourseList.php:78
+#: includes/Admin/CourseList.php:102
+#: includes/Admin/CourseList.php:267
 msgid "No longer offered by iSport"
 msgstr ""
 
-#: includes/Admin/CourseList.php:89
+#: includes/Admin/CourseList.php:121
 msgid "Always shown"
 msgstr ""
 
-#: includes/Admin/CourseList.php:90
+#: includes/Admin/CourseList.php:122
 msgid "Never shown"
 msgstr ""
 
-#: includes/Admin/CourseList.php:122
+#: includes/Admin/CourseList.php:154
 msgid "Booking button: always show"
 msgstr ""
 
-#: includes/Admin/CourseList.php:123
+#: includes/Admin/CourseList.php:155
 msgid "Booking button: never show"
 msgstr ""
 
-#: includes/Admin/CourseList.php:124
+#: includes/Admin/CourseList.php:156
 msgid "Booking button: as the settings say"
 msgstr ""
 
 #. translators: %d: number of courses
-#: includes/Admin/CourseList.php:193
+#: includes/Admin/CourseList.php:225
 #, php-format
 msgid "Booking button changed on %d course."
 msgid_plural "Booking button changed on %d courses."
 msgstr[0] ""
 msgstr[1] ""
+
+#: includes/Admin/CourseList.php:243
+#: templates/partials/controls.php:58
+msgid "All rooms"
+msgstr ""
+
+#: includes/Admin/CourseList.php:244
+msgid "All trainers"
+msgstr ""
+
+#: includes/Admin/CourseList.php:245
+msgid "All kinds of course"
+msgstr ""
+
+#: includes/Admin/CourseList.php:246
+msgid "All tags"
+msgstr ""
+
+#: includes/Admin/CourseList.php:247
+msgid "All categories"
+msgstr ""
+
+#: includes/Admin/CourseList.php:269
+msgid "All statuses"
+msgstr ""
+
+#: includes/Admin/CourseList.php:274
+msgid "All genders"
+msgstr ""
 
 #: includes/Admin/KindEditor.php:108
 msgid "The description was taken from iSport and now stands in the editor."
@@ -542,8 +575,8 @@ msgstr ""
 #: includes/Admin/Screen/DisplaySetsPage.php:135
 #: includes/Admin/Screen/DisplaySetsPage.php:197
 #: includes/Admin/Screen/Overview.php:226
-#: includes/Data/PostType.php:75
-#: includes/Data/PostType.php:77
+#: includes/Data/PostType.php:90
+#: includes/Data/PostType.php:92
 msgid "Courses"
 msgstr ""
 
@@ -600,7 +633,7 @@ msgstr ""
 #: includes/Admin/Menu.php:138
 #: includes/Admin/Menu.php:139
 #: includes/Admin/Screen/DisplaySetsPage.php:243
-#: includes/Data/PostType.php:217
+#: includes/Data/PostType.php:236
 #: includes/Data/TrainerType.php:120
 #: includes/Data/TrainerType.php:122
 #: includes/Render/Fields.php:397
@@ -612,40 +645,46 @@ msgstr ""
 #: includes/Admin/Screen/DisplaySetsPage.php:247
 #: includes/Data/KindType.php:69
 #: includes/Data/KindType.php:71
-#: includes/Data/PostType.php:225
+#: includes/Data/PostType.php:244
 msgid "Kinds of course"
 msgstr ""
 
-#: includes/Admin/Menu.php:156
-#: includes/Admin/Menu.php:157
+#: includes/Admin/Menu.php:159
+#: includes/Admin/Menu.php:160
+#: includes/Data/PostType.php:252
+msgid "Categories"
+msgstr ""
+
+#: includes/Admin/Menu.php:169
+#: includes/Admin/Menu.php:170
 #: includes/Admin/Screen/DisplaySetsPage.php:75
 msgid "Display sets"
 msgstr ""
 
-#: includes/Admin/Menu.php:167
-#: includes/Admin/Menu.php:168
+#: includes/Admin/Menu.php:180
+#: includes/Admin/Menu.php:181
 #: includes/Admin/Screen/UnmatchedPage.php:114
 msgid "Unmatched lessons"
 msgstr ""
 
-#: includes/Admin/Menu.php:178
-#: includes/Admin/Menu.php:179
+#: includes/Admin/Menu.php:191
+#: includes/Admin/Menu.php:192
 #: includes/Admin/Screen/MakeupPage.php:100
 #: includes/Admin/Screen/Overview.php:321
 #: includes/Admin/Screen/SettingsPage.php:140
 msgid "Make-up lessons"
 msgstr ""
 
-#: includes/Admin/Menu.php:189
-#: includes/Admin/Menu.php:190
+#: includes/Admin/Menu.php:202
+#: includes/Admin/Menu.php:203
 #: includes/Admin/Screen/DisplaySetsPage.php:379
 #: includes/Admin/Screen/RoomsPage.php:68
-#: includes/Data/PostType.php:213
+#: includes/Data/PostType.php:232
 msgid "Rooms"
 msgstr ""
 
-#: includes/Admin/Menu.php:200
-#: includes/Admin/Menu.php:201
+#: includes/Admin/Menu.php:213
+#: includes/Admin/Menu.php:214
 msgid "Settings"
 msgstr ""
 
@@ -761,7 +800,7 @@ msgid "Nothing ticked means every trainer."
 msgstr ""
 
 #: includes/Admin/Screen/DisplaySetsPage.php:244
-#: includes/Data/PostType.php:221
+#: includes/Data/PostType.php:240
 msgid "Activities"
 msgstr ""
 
@@ -1847,7 +1886,7 @@ msgstr ""
 msgid "No kinds of course in the bin."
 msgstr ""
 
-#: includes/Data/PostType.php:76
+#: includes/Data/PostType.php:91
 #: includes/Render/Fields.php:774
 #: includes/Render/Fields.php:775
 #: _to_delete/x/includes/Render/Fields.php:754
@@ -1855,36 +1894,40 @@ msgstr ""
 msgid "Course"
 msgstr ""
 
-#: includes/Data/PostType.php:78
+#: includes/Data/PostType.php:93
 msgid "Search courses"
 msgstr ""
 
-#: includes/Data/PostType.php:79
+#: includes/Data/PostType.php:94
 msgid "No courses found."
 msgstr ""
 
-#: includes/Data/PostType.php:80
+#: includes/Data/PostType.php:95
 msgid "Edit course"
 msgstr ""
 
-#: includes/Data/PostType.php:149
+#: includes/Data/PostType.php:168
 msgctxt "course state"
 msgid "Cancelled"
 msgstr ""
 
-#: includes/Data/PostType.php:157
+#: includes/Data/PostType.php:176
 #, php-format
 msgid "Cancelled <span class=\"count\">(%s)</span>"
 msgid_plural "Cancelled <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Data/PostType.php:229
+#: includes/Data/PostType.php:248
 msgid "Course tags"
 msgstr ""
 
-#: includes/Data/PostType.php:230
+#: includes/Data/PostType.php:249
 msgid "Course tag"
+msgstr ""
+
+#: includes/Data/PostType.php:253
+msgid "Category"
 msgstr ""
 
 #: includes/Data/TrainerType.php:123
@@ -2936,10 +2979,6 @@ msgstr ""
 
 #: templates/partials/controls.php:42
 msgid "Next week →"
-msgstr ""
-
-#: templates/partials/controls.php:58
-msgid "All rooms"
 msgstr ""
 
 #: templates/partials/controls.php:67

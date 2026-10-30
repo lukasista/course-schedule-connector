@@ -149,6 +149,19 @@ final class Menu {
 			'edit.php?post_type=' . KindType::KIND
 		);
 
+		// The one taxonomy this plugin never fills in on its own (see
+		// {@see PostType::CATEGORY}), so unlike Rooms, Trainers and Activities it
+		// is the one that needs a screen for entering terms by hand - the native
+		// term list WordPress already builds for a hierarchical taxonomy, the
+		// same screen Posts' own Categories opens.
+		add_submenu_page(
+			self::SLUG,
+			__( 'Categories', 'course-schedule-connector' ),
+			__( 'Categories', 'course-schedule-connector' ),
+			Capabilities::MANAGE_CONTENT,
+			'edit-tags.php?taxonomy=' . PostType::CATEGORY . '&post_type=' . PostType::COURSE
+		);
+
 		$sets = new DisplaySetsPage( $this->plugin );
 
 		add_submenu_page(

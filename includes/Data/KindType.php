@@ -104,6 +104,12 @@ final class KindType {
 			)
 		);
 
+		// The same category taxonomy a course carries (see {@see PostType::CATEGORY}),
+		// so a kind's own page can say who it is generally for without waiting on
+		// every course beneath it to agree, and without a picker of its own: this
+		// is what gives the page the same checkbox meta box a course has.
+		register_taxonomy_for_object_type( PostType::CATEGORY, self::KIND );
+
 		register_post_meta(
 			self::KIND,
 			self::META_KEY_NAME,

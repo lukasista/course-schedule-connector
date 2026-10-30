@@ -5,7 +5,7 @@
 > potřeba vědět *proč* něco vypadá, jak vypadá. Do vydaného pluginu se
 > nedistribuuje.
 
-## Stav k 11. 9. 2026
+## Stav k 25. 9. 2026
 
 Tenhle soubor je most mezi pracovními dny. Je psaný tak, aby se do něj dalo
 vstoupit bez znalosti předchozího rozhovoru: co je hotové, jak se to spouští,
@@ -20,14 +20,34 @@ zadání každé fáze je v `PLAN.md`, kapitola 9. Běží **testovací a vylep�
 fáze**: verze `1.0.0-alpha.2` je její první kolo.
 
 **Lukášova prohlídka pluginu běží dál a má přednost před F8.** Všechno, co z ní
-zatím vzešlo, je hotové a ověřené proti živým datům. Poslední kolo přineslo:
-druh kurzu (taxonomie + vlastní stránka), věk, pohlaví a úroveň, popis
-z iSportu, srovnané odrážky a rozdělení panelů bloku na *Nastavení* a *Styly*.
+zatím vzešlo, je hotové a ověřené proti živým datům. Poslední dvě kola: karty
+trenérů na stránce druhu kurzu jako nativní Diviho Loop místo vlastního
+modulu (16.–19. 9.), a v administraci kurzů kategorie (nová ruční taxonomie),
+kombinovatelné filtry nad tabulkou, oprava skutečné chyby ve výpočtu stavu
+kurzu s jednorázovým přepočtem dat, a filtr i sloupec pro pohlaví (22.–24. 9.).
+
+**Poslední kolo (22.–24. 9.) ještě není zacommitované** — viz konec
+příslušné podsekce v části 2 a `Otevřené body`.
+příslušné podsekce v části 2 a `Otevřené body`.
 
 Poslední commity:
 
 | commit | co přinesl |
 |---|---|
+| `0bb2008` | Karty trenérů: vzorová data ve Visual Builderu i pro sdílenou šablonu |
+| `8b014e2` | Karty trenérů: nativní Diviho Loop místo vlastního modulu, s vazbou na druh kurzu |
+| `8cca2ae` | Synchronizovaná fotka trenéra se zrcadlí i do skutečného featured image |
+| `e328cb3` | Karty trenérů: zastaralé komentáře ještě popisovaly starý mechanismus |
+| `4583a57` | Karty trenérů: Diviho Rozvržení bylo nespolehlivé, nahrazeno osmi poli |
+| `d356bce` | Karty trenérů: Rozvržení místo Řádek/Sloupec, a Jméno trenéra místo Název |
+| `614708f` | Náhled v builderu: `cardsLayout`/`cardLayout` se tam vůbec neposílaly |
+| `d14fcab` | Řádek/sloupec u karet a u fotky se jménem: teď to v Divi funguje doopravdy |
+| `8ee9043` | Karta trenéra: vlastní rozložení fotky a jména, barva jména jde nastavit |
+| `ded0091` | Karty trenérů: fotografie a jméno dostaly Diviho vlastní Návrh a Pokročilé |
+| `61d2575` | Trenéři na stránce druhu kurzu: fotografie, jméno a odkaz na jejich stránku |
+| `07969bb` | Trenéři nesou vztah ke stránkám druhu kurzu |
+| `fe392b7` | Sloupce tabulky jako child moduly — pilot na `course-schedule` |
+| `d366100` | Deník předání dopsaný o 10. a 11. září |
 | `28e0e69` | barva pozadí tlačítka se propíše i v plátně builderu (`important`) |
 | `9dd4aa3` | tlačítko v plátně: chybějící třída v náhledu + selektor bez předpony |
 | `ff590f5` | náhled `/cscs/v1/field` dostává tytéž třídy jako frontend |
@@ -60,14 +80,174 @@ Poslední commity:
 | `ba734c1` | Den a Čas místo „Kdy“; trenéři jako typ příspěvku |
 | `49cde06` | předchozí předání práce |
 
-Testy: **260 prochází**. Spouští se `php tools/phpunit-shim/run.php` z kořene
-repozitáře.
+Testy: **260 prochází** (stav k 11. 9., tahle session je neopakovala). Spouští
+se `php tools/phpunit-shim/run.php` z kořene repozitáře. **Nové kolo
+(kategorie, filtry, oprava stavu, pohlaví) zatím nemá vlastní PHPUnit
+pokrytí** — ověřeno jen ručně přes `wp_cli eval-file` proti přímému SQL (viz
+sekce 2); stálo by za to tam dopsat testy, hlavně na
+`CourseRepository::is_semester_over()` a na kombinaci víc `meta_filters()`
+najednou.
 
-Vše je **pushnuté**; pracovní strom je čistý.
+**`origin/main` je aktuální po `0bb2008`, ale pracovní strom teď čistý
+NENÍ.** Poslední kolo (kategorie, filtry, oprava stavu, pohlaví — sekce 2) je
+hotové a ověřené, ale ještě nezacommitované. Přesný seznam souborů na konci
+příslušné podsekce v sekci 2.
 
 ---
 
 ## 2. Co přibylo naposledy
+
+### Administrace: kategorie, kombinovatelné filtry a oprava stavu kurzu (22.–24. 9.)
+
+Celé tohle kolo vzešlo z toho, že Lukáš procházel administraci kurzů a chtěl
+se v ní líp orientovat. **Zatím nezacommitované** — viz konec téhle podsekce.
+
+**Kategorie kurzů, `cscs_category` — čistě ruční, žádné odvozování z názvu.**
+Nová hierarchická taxonomie (na rozdíl od ostatních taxonomií pluginu, které
+jsou ploché), připojená k `cscs_course` i `cscs_kind_page` přes
+`register_taxonomy_for_object_type()`. Hierarchická záměrně: UI má nabízet
+krátký pevný seznam k zaškrtnutí jako u příspěvkových rubrik, ne pole na psaní
+vlastního štítku. První pokus kategorie odvozoval z názvu kurzu regexem —
+stejný vzor, jaký `Audience` dělá s pohlavím/úrovní/věkem. Lukáš to vzápětí
+opravil, jeho slova: „Chci, abys mi prostě vytvořil taxonomii pro kurzy a
+druhy kurzů... Pokud se kategorie nedají načíst pomocí API, chci je všechny
+zadávat ručně.“ Protože `Course` DTO žádné pole pro kategorii nemá (ověřeno),
+odhad z názvu se pro tohle konkrétní pole nepočítá jako „z dat“. **Rozdíl od
+`Audience`/`CourseKind` je záměrný a specifický pro tuhle taxonomii — nebrat
+jako precedens pro škrtání odvozování jinde v pluginu.** Prvních 111 ze 115
+kurzů má kategorie už přiřazené z toho prvního (staženého) pokusu — zůstaly
+jako výchozí obsah k ručním úpravám, smazané je jen to, co je dřív dopočítávalo
+(`wp cscs sync categories` je pryč).
+
+Stejná past jako u Trenérů/Druhů kurzů: taxonomie sama nezaloží položku v levém
+menu, protože `cscs_course` má `show_in_menu => false` (vlastní menu pluginu).
+Přidána položka „Kategorie“ do `Menu.php` stejným vzorem —
+`edit-tags.php?taxonomy=cscs_category&post_type=cscs_course`, žádná nová
+třída. Ověřeno přes `wp_cli eval-file`, který zavolá `Menu::add_pages()` jako
+administrátor a vypíše `$submenu['cscs']`. Cestou doplněn i chybějící český
+překlad „Categories“/„Category“ → „Kategorie“ (chybělo od zavedení taxonomie).
+
+**Sedm rozbalovacích filtrů nad tabulkou kurzů** (`edit.php?post_type=cscs_course`):
+sál, trenér, druh kurzu, štítek, kategorie (všech pět = taxonomie), stav a
+pohlaví (obojí meta). Taxonomie se filtrují úplně samy — `register_taxonomy()`
+bez vlastního `query_var` dá taxonomii veřejnou proměnnou pojmenovanou stejně
+jako ona, a `WP_Query::parse_tax_query()` ji čte automaticky i na `edit.php`
+(jádro tam volá `wp_edit_posts_query()` → `wp()` → hlavní dotaz) — stačí
+`<select name="cscs_room">`, přesně jako u kategorií/štítků příspěvků. Stav je
+jediná výjimka, protože `_cscs_status` je meta, ne term: vlastní
+`pre_get_posts`, podmíněné na `is_main_query()`.
+
+Past při testování přes `wp_cli eval-file`: ručně vytvořený `new WP_Query()`
+nikdy nesplní `is_main_query()` (porovnává se identita s `$wp_the_query`), takže
+filtr v takovém testu tiše nedělá nic — vypadá to jako chyba v kódu, není.
+Věrná simulace nastaví `$GLOBALS['wp_the_query']` před `->query()`.
+
+**Lukáš nahlásil skutečnou chybu**: „Druh kurzu = Gymnastika“ + „Stav =
+Probíhá“ nenajde nic. Měl pravdu, jen vinu neměl filtr — ten je ověřený nezávisle
+dvěma metodami (přímý `tax_query`+`meta_query` dotaz a plná simulace
+`wp_edit_posts_query()`), obě se vždy shodují. Skutečná chyba:
+`CourseRepository::status_for()` a `Retention::close_finished_courses()`
+počítaly „Ukončený“ z `stamp_to` — což je konec ČASU JEDNÉ lekce, ne konec
+pololetí — takže kurz spadl na finished, jakmile skončila jeho úplně první
+hodina, i kdyby podle `date_to` běžel ještě měsíce. Lukášovo zadání: nezajímá
+ho jednotlivá hodina, jen jestli kurz v pololetí ještě běží — na
+Ukončený/Archivováno má přejít, teprve až proběhne poslední hodina pololetí
+(`date_to`), nebo když ho iSport přestane nabízet úplně (nezávislá, už správná
+cesta — `archive_missing()`, beze změny).
+
+**Oprava:** nová sdílená `CourseRepository::is_semester_over( ?string $date_to
+): bool` — jen `date_to` (+23:59:59); `stamp_to`/`stamp_from` se pro tohle už
+vůbec nečtou (dál je legitimně používá `Matcher.php` k párování lekcí, beze
+změny). `status_for()` i `Retention::close_finished_courses()` teď volají
+tutéž metodu místo dvou nezávislých kopií téže (chybné) logiky.
+
+**Jednorázová oprava dat:** přepočítáno všech 105 nearchivovaných kurzů (10
+archivovaných záměrně vynecháno). **102 kurzů se přehodilo z `finished` na
+`running`**, 2 zůstaly running (obě „Ninja Movement“), 1 opravdu finished. Po
+opravě: Gymnastika + Probíhá = 17 (dřív 0), + Ukončený = 1, + Archivováno = 3
+(17+1+3 = 21 = celý druh, sedí).
+
+**Filtr pro pohlaví**, hned po opravě stavu, na Lukášovo přání. Zdroj možností
+`Audience::genders()` — stejný zdroj, co už dřív používal ruční výběr pohlaví
+v `CourseEditor.php`, takže popisky (Dívky/Kluci/Mix/Ženy/Muži) byly v `.po` už
+přeložené, doplnilo se jen nové „All genders“ → „Všechna pohlaví“. Meta klíč
+`CourseRepository::META_GENDER` (`_cscs_gender`), stejná mechanika jako stav.
+
+**Refaktor, protože dva meta filtry vedle sebe by se navzájem přepsaly:** dva
+nezávislé `pre_get_posts` callbacky, každý volající `$query->set('meta_query',
+...)`, by druhým voláním smazaly výsledek prvního — všimnuto při návrhu, dřív
+než se to stihlo stát chybou v provozu. Bývalé `apply_status_filter()` a
+hardcoded blok stavu ve `filters()` nahrazeny obecnými `meta_filters()` (mapa
+filtr → `meta_key`/`options`/popisek „vše“) a `apply_meta_filters()`, který
+posbírá všechny aktivní meta filtry do jednoho pole a `meta_query` nastaví jen
+jednou, s `relation => AND` při dvou a víc aktivních. Taxonomie beze změny.
+Guard navíc: neplatná/cizí hodnota v URL (např. `cscs_gender=neco`) se
+ignoruje.
+
+Ověřeno `wp_cli eval-file` proti přímému SQL — pohlaví samotné, stav samotné,
+oboje dohromady i trojkombinace stav+pohlaví+druh, přesně: dívky 26, kluci 2,
+mix 41, ženy 0, muži 0; probíhá 104/ukončený 1/archivováno 10 (shoda s
+přepočtem dat výše).
+
+**Sloupec Pohlaví**, hned po filtru, stejnou logikou jako u Stavu: vedle
+filtru k dohledání se hodí i sloupec k rychlému přehlédnutí bez klikání do
+detailu. `columns()`/`column()` v `CourseList.php`, vedle sloupce Stav. Čte
+přímo `Audience::genders()[$gender]` — žádná druhá kopie popisků vedle té, co
+používá filtr. Nový překlad nebyl potřeba: „Gender“ byl jako msgid už dřív
+přeložený na „Pohlaví“ (sdílené s popiskem pole v `Render/Fields.php`).
+
+**Stav k 25. 9.: hotovo a důkladně ověřené, ale nezacommitované.** V pracovním
+stromu: `includes/Admin/CourseList.php`, `includes/Admin/Menu.php`,
+`includes/Data/CourseRepository.php`, `includes/Data/KindType.php`,
+`includes/Data/PostType.php`, `includes/Sync/Retention.php`, plus tři
+přegenerované jazykové soubory (`.po`/`.mo`/`.pot`). Než se s tím dál pracuje:
+projít diff a rozhodnout, jestli je to jeden commit nebo dva (kategorie+menu
+je věcně jiná změna než oprava stavu+pohlaví) — commituje se s Lukášovou
+identitou (sekce 3), push dělá jako vždy on sám. Navíc dva neverzované
+soubory, `languages/course-schedule-connector-cs_CZ-ab413d42…json` a
+`…-f379702637…json`: vypadají jako zbytky sestavení JED katalogu spuštěného
+uvnitř `_to_delete/x/...` (cesty přenosu Mac↔kontejner) místo z kořene
+repozitáře — mají v sobě špatnou cestu ke zdrojovému JS (`source`), takže i
+jejich vlastní název souboru (hash té cesty) je špatně a WordPress by si je
+stejně nenašel. Bezpečně smazat; kdyby ten JED katalog potřeboval přegenerovat,
+udělat to ze skutečné cesty, ne z rozbalené kopie v `_to_delete/`.
+
+### Karty trenérů jako nativní Diviho Loop, ne vlastní modul (16.–19. 9.)
+
+Shrnutí z commit logu a čtení `includes/Divi/LoopKindPageBinding.php` — na
+rozdíl od ostatních zápisů v tomhle deníku není z první ruky, žádná session
+tenhle týden diff commit po commitu nečetla. Stojí za společný pohled, kdyby
+se karty trenérů začaly chovat divně.
+
+Sdílená šablona stránky druhu kurzu teď kreslí trenéry přes Diviho **vlastní**
+Group/Loop modul (smyčka přes `cscs_trainer_profile`, filtrovaná meta dotazem
+na vztah trenéra ke stránce druhu) místo dřívějšího vlastního modulu — poslední
+krok série, která před tím narovnala Řádek/Sloupec u karet, fotku se jménem,
+napojila Diviho vlastní panely Návrh/Pokročilé na fotku i jméno, a přidala
+trenérovi skutečný vztah ke stránkám druhu kurzu.
+
+Jedna věc, kterou nativní Diviho Loop sám neumí: „filtruj na stránku druhu,
+na které se tahle smyčka zrovna zobrazuje“ — Diviho editor meta dotazu nemá
+u hodnoty podmínky žádnou možnost dynamického obsahu (ověřeno čtením
+zdrojového kódu Visual Builderu, ne odhadem). Řešení: uložená podmínka ve
+sdílené šabloně nikdy nenese skutečné id stránky, jen pevný sentinel
+(`%current_kind_page%`, nemůže se srazit se skutečným id příspěvku) a
+`LoopKindPageBinding` je jediné místo, které ho dosazuje — a musí to dělat
+dvakrát, protože Divi staví tentýž dotaz dvěma různými cestami. Skutečná
+návštěva stránky druhu: hook `divi_loop_data_before_execution`, sentinel se
+nahradí přes `get_queried_object_id()`. Úprava sdílené šablony ve Visual
+Builderu vůbec touhle cestou neprojde (ověřeno trasováním živé VB session) —
+plátno se místo toho ptá REST endpointu `/divi/v1/loop/query-results`, který
+střílí jiný filtr (`divi_module_options_loop_post_type_results_query_args`);
+protože editace šablony není žádná konkrétní stránka, sentinel se tam dosadí
+na skutečnou, publikovanou ukázkovou stránku
+(`KindRepository::example_page_with_trainers()`), jen aby ten, kdo šablonu
+navrhuje, viděl opravdovou kartu trenéra, ne prázdnou smyčku.
+
+V tomhle kole navíc: synchronizovaná fotka trenéra se teď zrcadlí i do
+skutečného featured image příspěvku (`8cca2ae` — anglický commit message,
+stálo by za sjednocení příště), a kolo končí vzorovými daty ve Visual
+Builderu i na sdílené šabloně, aby smyčka měla co ukázat při navrhování.
 
 ### Sloupce jako child moduly — pilot na `course-schedule` (13. 9.)
 
@@ -684,6 +864,19 @@ ne modulu.
 
 ## 5. Otevřené body
 
+- **Pracovní strom není čistý (od 22.–24. 9.).** Kategorie/menu/filtry/oprava
+  stavu/pohlaví (sekce 2) jsou hotové a ověřené, ale nezacommitované — šest
+  PHP souborů + tři jazykové, plus dva neverzované vadné JED soubory k
+  smazání. Přesný seznam na konci příslušné podsekce v sekci 2.
+- **Nová admin práce nemá PHPUnit pokrytí**, jen ruční ověření přes
+  `wp_cli eval-file` proti SQL (sekce 2). Stálo by za to dopsat testy hlavně
+  na `CourseRepository::is_semester_over()` a na
+  `CourseList::apply_meta_filters()` (kombinace dvou a víc filtrů najednou,
+  guard na neplatnou hodnotu v URL).
+- **Karty trenérů jako nativní Diviho Loop (16.–19. 9.) nejsou v tomhle
+  deníku z první ruky** — jen shrnutí z commit logu a jednoho souboru, viz
+  sekce 2. Stálo by za skutečný průchod v obou builderech, až bude Studio
+  dostupné, spíš než spoléhat na tohle shrnutí.
 - **Sloupce jako child prvky** — pilot hotový na `course-schedule` (13. 9.,
   viz sekce 2 a `DEVELOPER.md`), zbylé čtyři tabulky (`course-makeup`,
   `trainer-courses`, `kind-courses`, `kind-prices`) čekají na totéž — je to teď

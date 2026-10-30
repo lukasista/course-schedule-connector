@@ -58,6 +58,21 @@ final class PostType {
 	public const TAG = 'cscs_tag';
 
 	/**
+	 * Category taxonomy: coarse, hand-curated labels such as "Pro děti" or "Pro
+	 * dospělé" - unlike {@see self::KIND}, never read from a course's name or
+	 * from anything else the API sends. iSport has no field for this, so every
+	 * term is assigned by hand, exactly like an ordinary post category.
+	 * Attached to this post type and, separately, to a kind's own page (see
+	 * {@see \CSCS\Data\KindType::register()}), because a person asks the same
+	 * question of one course and of a whole kind: who is this for.
+	 *
+	 * Hierarchical, unlike every other taxonomy here, on purpose: the admin
+	 * screen is meant to offer the short list to tick, not an open field to
+	 * type a new label into.
+	 */
+	public const CATEGORY = 'cscs_category';
+
+	/**
 	 * The state of a course the remote system has stopped offering.
 	 */
 	public const CANCELLED = 'cscs_cancelled';
@@ -117,7 +132,11 @@ final class PostType {
 				array(
 					'labels'            => $labels,
 					'public'            => true,
-					'hierarchical'      => false,
+					// Every taxonomy above reads a value out of an API-supplied name and
+					// has no fixed vocabulary of its own, so a flat, type-to-add field is
+					// right for all of them. Category is the one exception: see the
+					// constant's own docblock.
+					'hierarchical'      => self::CATEGORY === $taxonomy,
 					'show_admin_column' => true,
 					'show_in_rest'      => true,
 					'rewrite'           => false,
@@ -228,6 +247,10 @@ final class PostType {
 			self::TAG      => array(
 				'name'          => __( 'Course tags', 'course-schedule-connector' ),
 				'singular_name' => __( 'Course tag', 'course-schedule-connector' ),
+			),
+			self::CATEGORY => array(
+				'name'          => __( 'Categories', 'course-schedule-connector' ),
+				'singular_name' => __( 'Category', 'course-schedule-connector' ),
 			),
 		);
 	}

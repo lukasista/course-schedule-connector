@@ -114,20 +114,16 @@ final class Retention {
 		);
 
 		$closed = 0;
-		$now    = time();
 
 		foreach ( $posts as $post_id ) {
-			$ends = (int) get_post_meta( (int) $post_id, '_cscs_stamp_to', true );
+			$date_to = (string) get_post_meta( (int) $post_id, '_cscs_date_to', true );
 
-			if ( 0 === $ends ) {
-				$date = (string) get_post_meta( (int) $post_id, '_cscs_date_to', true );
-				$ends = '' === $date ? 0 : (int) strtotime( $date . ' 23:59:59' );
+			if ( ! CourseRepository::is_semester_over( '' === $date_to ? null : $date_to ) ) {
+				continue;
 			}
 
-			if ( 0 !== $ends && $ends < $now ) {
-				update_post_meta( (int) $post_id, CourseRepository::META_STATUS, CourseRepository::STATUS_FINISHED );
-				++$closed;
-			}
+			update_post_meta( (int) $post_id, CourseRepository::META_STATUS, CourseRepository::STATUS_FINISHED );
+			++$closed;
 		}
 
 		return $closed;

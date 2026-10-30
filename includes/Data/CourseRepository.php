@@ -685,23 +685,43 @@ final class CourseRepository {
 	}
 
 	/**
-	 * Derives the lifecycle state of a course from its dates.
+	 * Whether a semester ending on this date has already run its last lesson.
+	 *
+	 * Deliberately blind to any single lesson's own start or end time -
+	 * {@see Course::$stamp_to} can be no more than the first lesson's clock
+	 * time on its first day, so a course meeting weekly across a whole
+	 * semester would otherwise read as finished the moment that first hour
+	 * was over. A course stays active for as long as its semester does, not
+	 * for as long as its earliest scheduled hour - confirmed with Lukáš
+	 * 23. 9. 2026 after a course still four months from its real end date
+	 * (`date_to`) was showing as finished, because its `stamp_to` was only
+	 * ever that first hour's own end time.
+	 *
+	 * Shared with {@see \CSCS\Sync\Retention::close_finished_courses()},
+	 * which asks the same question of a stored course rather than a freshly
+	 * fetched one.
+	 *
+	 * @param string|null $date_to End date of the semester, Y-m-d, or null/empty when unknown.
+	 * @return bool
+	 */
+	public static function is_semester_over( ?string $date_to ): bool {
+		if ( null === $date_to || '' === $date_to ) {
+			return false;
+		}
+
+		$ends = (int) strtotime( $date_to . ' 23:59:59' );
+
+		return 0 !== $ends && $ends < time();
+	}
+
+	/**
+	 * Derives the lifecycle state of a course from its semester's end date.
 	 *
 	 * @param Course $course Course record.
 	 * @return string
 	 */
 	private function status_for( Course $course ): string {
-		$ends = $course->stamp_to;
-
-		if ( null === $ends && null !== $course->date_to ) {
-			$ends = (int) strtotime( $course->date_to . ' 23:59:59' );
-		}
-
-		if ( null === $ends || 0 === $ends ) {
-			return self::STATUS_RUNNING;
-		}
-
-		return $ends < time() ? self::STATUS_FINISHED : self::STATUS_RUNNING;
+		return self::is_semester_over( $course->date_to ) ? self::STATUS_FINISHED : self::STATUS_RUNNING;
 	}
 
 	/**
