@@ -242,6 +242,14 @@ msgstr "Adresa"
 msgid "Address of the iSport System"
 msgstr "Adresa iSport systému"
 
+#: includes/Admin/Screen/SettingsPage.php:156
+msgid "Who can manage content"
+msgstr "Kdo může spravovat obsah"
+
+#: includes/Admin/Screen/SettingsPage.php:158
+msgid "Administrator, Editor and iSport manager always have this. Tick any other role here so it can manage course content too, these Settings stay with the administrator regardless."
+msgstr "Administrator, Editor a Správce iSport tohle mají vždycky. Zaškrtněte libovolnou další roli, aby taky mohla spravovat obsah kurzů — tahle Nastavení zůstávají administrátorovi bez ohledu na to, co je zaškrtnuté níž."
+
 #: includes/Data/Audience.php:230
 msgctxt "level of a course for a mixed or male group"
 msgid "Advanced"

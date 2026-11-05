@@ -141,7 +141,7 @@ final class Plugin {
 		// version has to reach a site that was activated before it existed.
 		// Without this the admin menu is invisible on exactly those sites, and
 		// nothing anywhere says why.
-		Capabilities::ensure();
+		Capabilities::ensure( (array) $this->settings()->get( 'extra_content_roles' ) );
 
 		// A post type added in a later version brings URLs with it, and those
 		// only work once the rewrite rules have been rebuilt. Activation is the
@@ -260,6 +260,13 @@ final class Plugin {
 	 * @return void
 	 */
 	public function on_setting_changed( string $key ): void {
+		if ( 'extra_content_roles' === $key ) {
+			$this->settings()->flush();
+			Capabilities::sync_extra_roles( (array) $this->settings()->get( 'extra_content_roles' ) );
+
+			return;
+		}
+
 		$intervals = array(
 			'interval_courses'      => Scheduler::HOOK_COURSES,
 			'interval_lessons_near' => Scheduler::HOOK_NEAR,
@@ -452,7 +459,7 @@ final class Plugin {
 	public static function activate(): void {
 		Settings::seed_defaults();
 		Schema::install();
-		Capabilities::install();
+		Capabilities::install( (array) ( new Settings() )->get( 'extra_content_roles' ) );
 		PostType::register();
 		TrainerType::register();
 		KindType::register();

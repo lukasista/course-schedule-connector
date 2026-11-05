@@ -562,13 +562,14 @@ Course meta a person edits — `_cscs_show_button`, `_cscs_contact_name`, `_cscs
 
 Granted by `Capabilities::ensure()` on every boot, which returns immediately unless `cscs_capabilities_version` is behind `Capabilities::VERSION`. Raise that constant whenever a capability is added, or sites already running the plugin will never be granted it — activation happens once, and the admin menu is invisible without `cscs_manage_content`, with nothing to say why. `wp cscs caps list` prints the current state; `wp cscs caps install` grants them again.
 
+Administrator, Editor and the iSport manager role are the fixed baseline for `cscs_manage_content` and that part alone is what `VERSION` guards. Beyond it, `Capabilities::sync_extra_roles()` grants or revokes the same capability on every other role to match Settings → *Who can manage content* (stored as `extra_content_roles`) exactly — reconciled the moment the setting is saved, via the `cscs_setting_changed` action, not gated by `VERSION` at all. A role left unticked loses the capability even if something else granted it, so Settings is the single source of truth for who, beyond the baseline, may manage content. `wp cscs caps install` reconciles the same way, reading whatever Settings currently says.
 
 | Capability | Granted to | Controls |
 |---|---|---|
-| `cscs_manage_content` | *iSport Manager*, Editor, Administrator | Display sets, course content, button visibility, manual matching |
+| `cscs_manage_content` | *iSport Manager*, Editor, Administrator, plus whichever other roles are ticked under Settings → Who can manage content | Display sets, course content, button visibility, manual matching |
 | `cscs_manage_design` | Administrator | Design controls in Divi modules, plugin settings, manual synchronisation |
 
-The design restriction is enforced when settings are saved, not only in the interface.
+The design restriction is enforced when settings are saved, not only in the interface. Settings themselves stay administrator-only regardless of what is ticked above — they decide where the plugin sends requests, so extending `cscs_manage_content` never extends `cscs_manage_design`.
 
 ## Hooks
 

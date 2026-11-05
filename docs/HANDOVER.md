@@ -5,7 +5,7 @@
 > potřeba vědět *proč* něco vypadá, jak vypadá. Do vydaného pluginu se
 > nedistribuuje.
 
-## Stav k 28. 10. 2026
+## Stav k 5. 11. 2026
 
 Tenhle soubor je most mezi pracovními dny. Je psaný tak, aby se do něj dalo
 vstoupit bez znalosti předchozího rozhovoru: co je hotové, jak se to spouští,
@@ -98,6 +98,56 @@ příslušné podsekce v sekci 2.
 ---
 
 ## 2. Co přibylo naposledy
+
+### Nastavitelné role pro správu obsahu — administrátorské stránky i pro jiné role než iSport manager (5. 11.)
+
+Lukáš zjistil, že administrátorské stránky pluginu nevidí nikdo kromě
+administrátora a role *iSport manager* — potřeboval by k nim pustit i další
+role, například *Správce obchodu* (`shop_manager`). Namísto napevno
+zadrátovaného `shop_manager` do `Capabilities.php` (rychlá oprava, nabízená
+jako první varianta) si Lukáš vybral nastavitelné řešení v administraci,
+aby příští podobná role nepotřebovala zásah do kódu.
+
+Nový mechanismus: Nastavení → *Kdo může spravovat obsah* — zaškrtávací
+seznam všech rolí na webu kromě pevné trojice Administrator/Editor/iSport
+manager (ty `cscs_manage_content` mají vždycky a tady se ani nenabízejí).
+Výběr se ukládá jako `extra_content_roles` (nový klíč v
+`Settings::defaults()`), validovaný proti skutečnému seznamu rolí na webu —
+neplatná nebo duplicitní hodnota se tiše zahodí. Uložení nastavení spustí
+akci `cscs_setting_changed`, kterou `Plugin::on_setting_changed()`
+přesměruje na novou `Capabilities::sync_extra_roles( $role_slugs )` — ta
+projde všechny role na webu mimo pevnou trojici a `cscs_manage_content`
+přesně podle seznamu buď přidá, nebo odebere (prázdný seznam = odebere
+úplně všem). Platí tedy hned při uložení, ne až při příští aktivaci nebo
+zvýšení `Capabilities::VERSION` — to číslo dál hlídá jen tu pevnou trojici
+v `Capabilities::ensure()`, ze stejného důvodu, jaký popisují komentáře
+přímo v `Capabilities.php` a `CapsCommand.php`: neviditelné menu na webu,
+kde se plugin aktivoval dřív, než capability vznikla. `wp cscs caps install`
+nově čte
+`extra_content_roles` z nastavení a sesynchronizuje stejně.
+
+Ověřeno přes `wp_cli eval` i `wp cscs caps list` proti Studiu (`jojogym 2`):
+uložení `["shop_manager"]` přes skutečnou `Settings::set()` přidá
+`cscs_manage_content` roli *Shop manager* (a nikomu jinému), prázdný
+seznam ho zase odebere; administrátor, editor a iSport manager se při tom
+ani jednou nezměnili. Sanitizér v `Settings.php` správně zahodil
+`administrator`, `editor`, `cscs_manager` a neexistující roli, když byly
+poslané ve stejném požadavku. Vykreslení stránky Nastavení přes
+`SettingsPage::render()` (jako administrátor, lokalizace `cs_CZ`) proběhlo
+beze chyby, obsahuje nový oddíl i zaškrtávátko pro `shop_manager`, a
+správně žádné zaškrtávátko pro pevnou trojici.
+
+Vedlejší nález: `tools/i18n/strings.json` byl dlouho zastaralý vůči
+skutečnému zdroji — chybělo v něm 63 řetězců, které
+`course-schedule-connector.pot` už obsahuje (pole Divi modulů, popis
+pluginu, `Photo & name arrangement` a další), protože `php` v tomhle
+prostředí není k dispozici a `tools/extract-strings.php` se tak nedalo
+spustit. Oba nové řetězce z téhle práce byly proto doplněné ručně přímo do
+`strings.json`, `cs.py` a do `.pot`/`.po`/`.mo` — bez spuštění celého
+`build.py`, aby se těch 63 chybějících řetězců nesmazalo přepsáním. Viz
+`Otevřené body`.
+
+Nezacommitováno — viz `Otevřené body`.
 
 ### Prázdná smyčka trenérů mimo stránku druhu kurzu — karusel na úvodní stránce (28. 10.)
 
@@ -923,13 +973,27 @@ ne modulu.
 
 ## 5. Otevřené body
 
-- **Pracovní strom není čistý (od 22.–24. 9., teď navíc 28. 10.).**
-  Kategorie/menu/filtry/oprava stavu/pohlaví (sekce 2) jsou hotové a
-  ověřené, ale nezacommitované — šest PHP souborů + tři jazykové, plus dva
-  neverzované vadné JED soubory k smazání. K tomu teď
-  `includes/Divi/LoopKindPageBinding.php` (oprava prázdné smyčky mimo
-  stránku druhu, sekce 2) a tento soubor i `DEVELOPER.md`. Přesný seznam
-  první dávky na konci příslušné podsekce v sekci 2.
+- **Pracovní strom není čistý.** Dávky z 22.–24. 9. a z 28. 10.
+  (`LoopKindPageBinding`, sekce 2) jsou od této session zacommitované —
+  `d971c22` (první dávka) a `1b435b5` (druhá, LoopKindPageBinding) — ale
+  ještě ne pushnuté, Lukáš pushuje sám. Nově nezacommitovaná je dnešní
+  práce z 5. 11. (nastavitelné role, sekce 2): pět PHP souborů
+  (`Capabilities.php`, `Settings.php`, `SettingsPage.php`,
+  `CapsCommand.php`, `Plugin.php`), `tools/i18n/cs.py` a
+  `tools/i18n/strings.json`, tři jazykové soubory (`.pot`/`.po`/`.mo`), a
+  tento soubor i `DEVELOPER.md`. Dva neverzované vadné JED soubory
+  (`course-schedule-connector-cs_CZ-ab413d42…json` a
+  `…-f379702637…json`, oba staré z 16. 9., nepoužívané žádným kódem) čekají
+  na smazání stejně jako předtím.
+- **`tools/i18n/strings.json` je zastaralý vůči `.pot`.** Chybělo v něm 63
+  řetězců, co `course-schedule-connector.pot` má (pole Divi modulů, popis
+  pluginu a další) — zjištěno 5. 11. při zkoušce `python3
+  tools/i18n/build.py`, který by jinak tyhle existující překlady přepsal
+  kratší, neúplnou verzí. Důvod: `php` není v tomto prostředí k dispozici,
+  takže `tools/extract-strings.php` nejde spustit a `strings.json` se
+  dlouho neobnovoval. Stálo by za to nechat `php tools/extract-strings.php`
+  proběhnout na stroji, kde `php` je, a `strings.json` i `cs.py` jednou
+  provždy doplnit.
 - **Nová admin práce nemá PHPUnit pokrytí**, jen ruční ověření přes
   `wp_cli eval-file` proti SQL (sekce 2). Stálo by za to dopsat testy hlavně
   na `CourseRepository::is_semester_over()` a na

@@ -53,6 +53,15 @@ final class Capabilities {
 	public const VERSION = 1;
 
 	/**
+	 * Roles MANAGE_CONTENT always belongs to. Settings can add more roles on
+	 * top of these (see sync_extra_roles()), but can never take it away from
+	 * one of these three, and never grants MANAGE_DESIGN to anyone else.
+	 *
+	 * @var array<int, string>
+	 */
+	private const BASELINE_ROLES = array( 'administrator', 'editor', self::ROLE );
+
+	/**
 	 * Grants the capabilities when they have not been granted yet.
 	 *
 	 * Activation is the obvious moment to do this and the wrong one to rely on:
@@ -63,27 +72,34 @@ final class Capabilities {
 	 * menu simply was not there, with nothing anywhere to say why.
 	 *
 	 * The check is one autoloaded option read and returns immediately when the
-	 * stored version is current, the same way the schema check does.
+	 * stored version is current, the same way the schema check does. Note that
+	 * this guards only the fixed baseline below — the roles Settings has
+	 * chosen are reconciled every time they are saved, not gated by VERSION.
 	 *
+	 * @param array<int, string> $extra_roles Role slugs Settings currently
+	 *                                        says should also manage content.
 	 * @return void
 	 */
-	public static function ensure(): void {
+	public static function ensure( array $extra_roles = array() ): void {
 		if ( self::VERSION === (int) get_option( self::VERSION_OPTION, 0 ) ) {
 			return;
 		}
 
-		self::install();
+		self::install( $extra_roles );
 	}
 
 	/**
-	 * Creates the role and grants the capabilities.
+	 * Creates the role, grants the fixed baseline, and reconciles whichever
+	 * extra roles Settings currently names.
 	 *
 	 * Safe to run repeatedly: an existing role keeps everything else it has,
 	 * and granting a capability twice grants it once.
 	 *
+	 * @param array<int, string> $extra_roles Role slugs Settings currently
+	 *                                        says should also manage content.
 	 * @return void
 	 */
-	public static function install(): void {
+	public static function install( array $extra_roles = array() ): void {
 		add_role(
 			self::ROLE,
 			__( 'iSport manager', 'course-schedule-connector' ),
@@ -115,7 +131,47 @@ final class Capabilities {
 			$manager->add_cap( self::MANAGE_CONTENT );
 		}
 
+		self::sync_extra_roles( $extra_roles );
+
 		update_option( self::VERSION_OPTION, self::VERSION, true );
+	}
+
+	/**
+	 * Grants or revokes MANAGE_CONTENT on every role beyond the fixed
+	 * baseline, to match exactly what Settings currently says.
+	 *
+	 * Administrator, Editor and the iSport manager role are never touched
+	 * here — they are set in install() above and stay outside this list's
+	 * reach. Every other role on the site is reconciled against the given
+	 * list: named in it, the role is granted the capability; not named in
+	 * it, the role has the capability removed, whether this call granted it
+	 * earlier or something else did. Settings is this plugin's single
+	 * source of truth for who, beyond the baseline, may manage content, so
+	 * calling this with an empty list deliberately strips every extra grant.
+	 *
+	 * @param array<int, string> $role_slugs Role slugs that should manage
+	 *                                        content, in addition to the
+	 *                                        fixed baseline above.
+	 * @return void
+	 */
+	public static function sync_extra_roles( array $role_slugs ): void {
+		foreach ( wp_roles()->roles as $slug => $definition ) {
+			if ( in_array( $slug, self::BASELINE_ROLES, true ) ) {
+				continue;
+			}
+
+			$role = get_role( $slug );
+
+			if ( ! ( $role instanceof \WP_Role ) ) {
+				continue;
+			}
+
+			if ( in_array( $slug, $role_slugs, true ) ) {
+				$role->add_cap( self::MANAGE_CONTENT );
+			} else {
+				$role->remove_cap( self::MANAGE_CONTENT );
+			}
+		}
 	}
 
 	/**
@@ -124,6 +180,8 @@ final class Capabilities {
 	 * @return void
 	 */
 	public static function remove(): void {
+		self::sync_extra_roles( array() );
+
 		foreach ( array( 'administrator', 'editor' ) as $role_name ) {
 			$role = get_role( $role_name );
 

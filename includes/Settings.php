@@ -11,6 +11,7 @@ namespace CSCS;
 
 defined( 'ABSPATH' ) || exit;
 
+use CSCS\Admin\Capabilities;
 use CSCS\Support\Url;
 
 /**
@@ -88,6 +89,7 @@ final class Settings {
 			'show_canceled_lessons'    => true,
 			'table_breakpoint'         => 768,
 			'delete_data_on_uninstall' => false,
+			'extra_content_roles'      => array(),
 		);
 	}
 
@@ -285,6 +287,22 @@ final class Settings {
 			}
 
 			return $map;
+		}
+
+		if ( 'extra_content_roles' === $key ) {
+			$submitted = is_array( $value ) ? $value : array();
+			$valid     = array_diff( array_keys( wp_roles()->roles ), array( 'administrator', 'editor', Capabilities::ROLE ) );
+			$clean     = array();
+
+			foreach ( $submitted as $slug ) {
+				$slug = sanitize_key( (string) $slug );
+
+				if ( in_array( $slug, $valid, true ) && ! in_array( $slug, $clean, true ) ) {
+					$clean[] = $slug;
+				}
+			}
+
+			return $clean;
 		}
 
 		if ( in_array( $key, array( 'non_bookable_activities', 'makeup_activities' ), true ) ) {

@@ -343,6 +343,14 @@
         ]
     },
     {
+        "singular": "Administrator, Editor and iSport manager always have this. Tick any other role here so it can manage course content too, these Settings stay with the administrator regardless.",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:158"
+        ]
+    },
+    {
         "singular": "Advanced",
         "plural": null,
         "context": "level of a course for a mixed or male group",
@@ -4122,6 +4130,14 @@
         "context": null,
         "refs": [
             "templates/partials/controls.php:28"
+        ]
+    },
+    {
+        "singular": "Who can manage content",
+        "plural": null,
+        "context": null,
+        "refs": [
+            "includes/Admin/Screen/SettingsPage.php:156"
         ]
     },
     {

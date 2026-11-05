@@ -115,8 +115,8 @@ final class CapsCommand {
 	 * @return void
 	 */
 	public function install(): void {
-		Capabilities::install();
+		Capabilities::install( (array) $this->plugin->settings()->get( 'extra_content_roles' ) );
 
-		\WP_CLI::success( 'Capabilities granted. Administrators and editors can manage content; settings stay with administrators.' );
+		\WP_CLI::success( 'Capabilities granted. Administrators and editors can manage content; any extra roles chosen in Settings can manage content too; settings stay with administrators.' );
 	}
 }

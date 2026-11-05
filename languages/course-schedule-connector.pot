@@ -1444,6 +1444,14 @@ msgstr ""
 msgid "For example https://example.isportsystem.cz — https only. An address inside a private network is refused."
 msgstr ""
 
+#: includes/Admin/Screen/SettingsPage.php:156
+msgid "Who can manage content"
+msgstr ""
+
+#: includes/Admin/Screen/SettingsPage.php:158
+msgid "Administrator, Editor and iSport manager always have this. Tick any other role here so it can manage course content too, these Settings stay with the administrator regardless."
+msgstr ""
+
 #: includes/Admin/Screen/SettingsPage.php:94
 msgid "Maximum requests per hour"
 msgstr ""

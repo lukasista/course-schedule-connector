@@ -153,6 +153,14 @@ final class SettingsPage {
 					<textarea name="cscs[tag_categories]" rows="7" cols="50" class="large-text code"><?php echo esc_textarea( $this->tag_lines( (array) $settings->get( 'tag_categories' ) ) ); ?></textarea>
 				</p>
 
+				<h2><?php esc_html_e( 'Who can manage content', 'course-schedule-connector' ); ?></h2>
+				<p class="description" style="max-width:45em">
+					<?php esc_html_e( 'Administrator, Editor and iSport manager always have this. Tick any other role here so it can manage course content too, these Settings stay with the administrator regardless.', 'course-schedule-connector' ); ?>
+				</p>
+				<p>
+					<?php $this->roles_row( (array) $settings->get( 'extra_content_roles' ) ); ?>
+				</p>
+
 				<h2><?php esc_html_e( 'Removal', 'course-schedule-connector' ); ?></h2>
 				<table class="form-table" role="presentation">
 					<?php
@@ -205,6 +213,10 @@ final class SettingsPage {
 		foreach ( $defaults as $key => $default_value ) {
 			if ( is_bool( $default_value ) ) {
 				$value = isset( $submitted[ $key ] ) ? '1' : '0';
+			} elseif ( 'extra_content_roles' === $key ) {
+				// Absent from $_POST entirely when every box is unticked, the
+				// same reason booleans get their own branch above.
+				$value = isset( $submitted[ $key ] ) && is_array( $submitted[ $key ] ) ? $submitted[ $key ] : array();
 			} elseif ( ! array_key_exists( $key, $submitted ) ) {
 				continue;
 			} else {
@@ -343,5 +355,34 @@ final class SettingsPage {
 		}
 
 		echo '<p class="description" style="max-width:40em">' . esc_html( $description ) . '</p>';
+	}
+
+	/**
+	 * Renders a checkbox for every role beyond the fixed baseline.
+	 *
+	 * Administrator, Editor and iSport manager are never listed here - they
+	 * always have MANAGE_CONTENT, granted by Capabilities::install() rather
+	 * than by this screen. Every other role defined on the site appears,
+	 * whatever registered it, so a role WooCommerce or another plugin adds
+	 * (Shop manager, say) shows up here without this file needing to know
+	 * its name in advance.
+	 *
+	 * @param array<int, string> $selected Role slugs currently granted.
+	 * @return void
+	 */
+	private function roles_row( array $selected ): void {
+		$baseline = array( 'administrator', 'editor', Capabilities::ROLE );
+
+		foreach ( wp_roles()->roles as $slug => $role ) {
+			if ( in_array( $slug, $baseline, true ) ) {
+				continue;
+			}
+			?>
+			<label style="display:block;margin-bottom:4px">
+				<input type="checkbox" name="cscs[extra_content_roles][]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( in_array( $slug, $selected, true ) ); ?> />
+				<?php echo esc_html( translate_user_role( $role['name'] ) ); ?>
+			</label>
+			<?php
+		}
 	}
 }
