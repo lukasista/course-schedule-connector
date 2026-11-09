@@ -25,3 +25,9 @@ SECURITY.md
 PLAN.md
 README.md
 .gitkeep
+
+# Scratch and build-output directories that should never ship (mirrors .gitignore)
+_to_delete
+.cscs-scratch
+build
+.DS_Store
