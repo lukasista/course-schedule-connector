@@ -524,6 +524,35 @@ disagree.
 Registration is guarded throughout: without Divi 5 nothing is registered, no
 class that names Divi's own is autoloaded, and no error is raised.
 
+### A picture fills whatever box it is given
+
+`.cscs-field__image` and `.cscs-card__image` — the selectors `style_elements()`
+hands to Divi as `image` and `cardImage` — are `display: block; width: 100%;
+height: 100%; object-fit: cover;`, not `height: auto`. Divi's own Sizing group
+for an `elementType: image` attribute, aspect ratio included, writes its CSS
+straight onto that same selector, the `<img>` itself; `height: auto` there
+would leave the browser computing height from the image's own source ratio
+instead, which wins over whatever box that control is trying to give it — a
+portrait source photo would stay a portrait regardless of the ratio picked.
+
+The anchor around the photograph, when there is one — `.cscs-field__image-link`
+or `.cscs-card__image-link`, present whenever `imageLink` is set or, for a
+card, whenever the trainer has a permalink (`templates/partials/cards.php`) —
+carries the same `height: 100%` for the same reason: a `display: inline-block`
+wrapper with no height of its own has nothing to pass on. Neither rule changes
+anything where no box is imposed; a percentage height against an ancestor
+whose own height is `auto` simply computes as `auto`, same as before.
+
+`.cscs-course__image img` and `.cscs-trainer__photo-image` are not part of
+this — each is a page's own fallback image with no Divi box around it, and
+`height: auto` there is correct, not an instance of the same bug.
+
+The field and card image elements are declared `elementType: 'image'` even
+where the markup conditionally adds the link anchor (a trainer card with a
+permalink); Divi's own `elementType: 'imageLink'` exists for exactly that
+pairing and is not used here. Changing it is a live-builder question, not a
+CSS one — see `docs/HANDOVER.md`, open items.
+
 ## REST API
 
 Namespace `cscs/v1`.

@@ -468,16 +468,28 @@
  * its width, its border, its corners, its shadow — is set in the editor, on the
  * picture rather than on the box around it, which is where a designer looks
  * for it and where Divi's own image module puts it.
+ *
+ * `height: 100%` plus `object-fit: cover` is what actually makes that true.
+ * `height: auto` did not: it let the image keep its own source ratio instead
+ * of the box's, so a portrait photo (56 × 75, say) stretched whatever box a
+ * 1:1 ratio preset asked for rather than filling it. Reported on a trainer's
+ * photo on a course page; fixed here rather than with extra CSS on the page,
+ * which is where it belongs.
  */
 .cscs-field__image {
 	display: block;
-	max-width: 100%;
-	height: auto;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .cscs-field__image-link {
-	display: inline-block;
+	/* Block, and the same height as whatever box the image above is
+	 * filling, so a link in between does not break the chain the image
+	 * relies on to know how tall that box is. */
+	display: block;
 	max-width: 100%;
+	height: 100%;
 }
 
 /*
@@ -490,6 +502,9 @@
  * moment it says otherwise. The photograph's ratio and its margin work the
  * same way, one field's worth of margin aside — Divi's own Spacing group
  * on the photograph replaces it there, and Gutenberg keeps the setting.
+ *
+ * `.cscs-card__image` fills that box the same way `.cscs-field__image`
+ * above does, and for the same reason — see its comment.
  */
 .cscs-cards {
 	display: flex;
@@ -514,13 +529,16 @@
 
 .cscs-card__image {
 	display: block;
-	max-width: 100%;
-	height: auto;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .cscs-card__image-link {
-	display: inline-block;
+	/* Same reasoning as `.cscs-field__image-link` above. */
+	display: block;
 	max-width: 100%;
+	height: 100%;
 }
 
 .cscs-card__name {

@@ -5,7 +5,7 @@
 > potřeba vědět *proč* něco vypadá, jak vypadá. Do vydaného pluginu se
 > nedistribuuje.
 
-## Stav k 5. 11. 2026
+## Stav k 9. 11. 2026
 
 Tenhle soubor je most mezi pracovními dny. Je psaný tak, aby se do něj dalo
 vstoupit bez znalosti předchozího rozhovoru: co je hotové, jak se to spouští,
@@ -98,6 +98,48 @@ příslušné podsekce v sekci 2.
 ---
 
 ## 2. Co přibylo naposledy
+
+### Fotka trenéra se na stránce kurzu roztahovala do obdélníku — `height: auto` bilo se s Diviho vlastním poměrem stran (9. 11.)
+
+Lukáš nahlásil v jiné relaci šišatou fotku trenéra na stránce kurzu a dal
+k tomu diagnózu, kterou si tam nechal ověřit přímo v prohlížeči: Divi
+poměr stran 1:1 se korektně nastaví na box, který modul fotce dává, ale
+CSS pluginu má na obrázku `height: auto` — takže si prohlížeč výšku
+dopočítává ze zdrojové fotky (portrét, např. 56 × 75 px), ne z boxu, a box
+se nakonec roztáhne na obrázek, místo aby to bylo naopak. Mechanismus sedí
+s tím, co dělá `Fields::style_elements()` — `elementType: image` (sekce
+4, bod 8) dává Divimu vlastní skupinu Sizing přímo na selektor obrázku
+(`.cscs-field__image` / `.cscs-card__image`), ne na nic kolem něj, takže
+`height: auto` na témže selektoru soupeří přímo s tím, co se Divi snaží
+nastavit.
+
+Oprava v `assets/css/cscs.css`: `.cscs-field__image` a `.cscs-card__image`
+mají místo `max-width: 100%; height: auto;` teď `display: block; width:
+100%; height: 100%; object-fit: cover;` — obrázek vyplní box, který
+dostane, ořízne se, ale nerozteče. Při čtení `templates/partials/cards.php`
+navíc vyšlo najevo, že karta trenéra s vyplněným permalinkem (běžný
+případ) obaluje fotku do `<a class="cscs-card__image-link">` — a tenhle
+odkaz (stejně jako `.cscs-field__image-link` u jednotlivého pole) měl
+`display: inline-block;` bez jakékoli výšky, což by novému `height: 100%`
+na obrázku nedalo od čeho se odvíjet, kdyby box dával Divi právě odkazu,
+ne obrázku samotnému. Obě třídy mají teď `display: block; height: 100%;`
+vedle svého `max-width: 100%;` — beze změny chování tam, kde žádný box
+nikdo nenastavuje (procentuální výška proti předkovi s `auto` výškou se
+spočítá jako `auto`, stejně jako dřív).
+
+Neprovedeno v téhle relaci: živé ověření v builderu. Tu práci už udělala
+ta druhá relace (potvrzeno jako funkční — holý preset s poměrem 1:1 dá
+kulatou fotku 56 × 56 px na desktopu i telefonu) a Lukáš podle svých slov
+běží svou vlastní smyčku na klonu/Preview s dočasným CSS v presetu, které
+odstraní, až se tahle oprava pluginu potvrdí tam. Všimnuto, ale
+neopraveno: `tools/build-divi-modules.php` nastavuje pro pole s obrázkem
+vždy `elementType: 'image'`, i pro karty, kde markup podmínečně přidává
+právě ten odkazový obal — Divi pro přesně tenhle případ nabízí vlastní
+`elementType: 'imageLink'` (sekce 4, bod 8), ale nikde v kódu se
+nepoužívá; viz otevřené body. `.cscs-course__image img` (vlastní stránka
+kurzu) a `.cscs-trainer__photo-image` (vlastní stránka trenéra, omezená
+`.cscs-trainer__photo`) zůstaly beze změny záměrně — ani jedno nesedí v
+Diviho boxu, `height: auto` je tam správně.
 
 ### Nastavitelné role pro správu obsahu — administrátorské stránky i pro jiné role než iSport manager (5. 11.)
 
@@ -968,20 +1010,28 @@ ne modulu.
    nepřevedeného tvaru podmínky) je při přechodu na `EXISTS` nutné odstranit
    úplně — `unset()`, nestačí přepsat jen `compare`. Viz
    `LoopKindPageBinding::replace_sentinel()`.
+16. **Diviho vlastní skupina Sizing/poměr stran pro `elementType: image` (bod
+   8) píše CSS přímo na `<img>`, ne na nic kolem něj — selektor je tu obrázek
+   samotný (`image`/`cardImage` z `Fields::style_elements()`).** `height:
+   auto` na témže selektoru ve vlastním CSS pluginu soupeří s tím, co se
+   Divi snaží nastavit: prohlížeč si výšku dál počítá ze zdrojového poměru
+   obrázku, což vyhraje nad jakýmkoli boxem, který Divi dává — portrétová
+   fotka zůstane portrétem bez ohledu na vybraný poměr stran. Oprava:
+   vlastní CSS má obrázek nechat vyplnit box, který dostane (`width: 100%;
+   height: 100%; object-fit: cover;`), ne počítat si výšku samo. Zjištěno
+   9. 11. na fotce trenéra, která na stránce kurzu vyšla šišatá místo
+   kulaté; viz sekce 2.
 
 ---
 
 ## 5. Otevřené body
 
-- **Pracovní strom není čistý.** Dávky z 22.–24. 9. a z 28. 10.
-  (`LoopKindPageBinding`, sekce 2) jsou od této session zacommitované —
-  `d971c22` (první dávka) a `1b435b5` (druhá, LoopKindPageBinding) — ale
-  ještě ne pushnuté, Lukáš pushuje sám. Nově nezacommitovaná je dnešní
-  práce z 5. 11. (nastavitelné role, sekce 2): pět PHP souborů
-  (`Capabilities.php`, `Settings.php`, `SettingsPage.php`,
-  `CapsCommand.php`, `Plugin.php`), `tools/i18n/cs.py` a
-  `tools/i18n/strings.json`, tři jazykové soubory (`.pot`/`.po`/`.mo`), a
-  tento soubor i `DEVELOPER.md`. Dva neverzované vadné JED soubory
+- **Pracovní strom není čistý.** Zacommitované, ale ještě ne pushnuté
+  (Lukáš pushuje sám): `d971c22` a `1b435b5` (22.–24. 9. a 28. 10., sekce
+  2), `b96a7a9` (nastavitelné role, 5. 11., sekce 2) a `578ef2a`
+  (`.distignore` ve vydávaném balíčku). Nově nezacommitovaná je dnešní
+  oprava fotky trenéra (9. 11., sekce 2): `assets/css/cscs.css`, a tento
+  soubor i `DEVELOPER.md`. Dva neverzované vadné JED soubory
   (`course-schedule-connector-cs_CZ-ab413d42…json` a
   `…-f379702637…json`, oba staré z 16. 9., nepoužívané žádným kódem) čekají
   na smazání stejně jako předtím.
@@ -1067,6 +1117,16 @@ ne modulu.
   `cscs_course_rewrite_slug` a `cscs_trainer_rewrite_slug`; po každé takové
   změně je nutné zvednout `Plugin::REWRITE_VERSION`, jinak se přepisovací
   pravidla nepřestaví a adresy vrátí 404.
+- **Obrázek, který je zároveň odkaz, nese `elementType: 'image'`, ne Diviho
+  vlastní `elementType: 'imageLink'`.** `tools/build-divi-modules.php` ho
+  natvrdo nastavuje na `image` pro pole s obrázkem i pro karty — i když
+  karta trenéra s vyplněným permalinkem (běžný případ) obrázek v
+  `templates/partials/cards.php` obalí do `<a
+  class="cscs-card__image-link">`. Divi pro přesně tuhle situaci nabízí
+  `imageLink` (sekce 4, bod 8), ale tahle hodnota se v kódu nikde
+  nepoužívá. Nezměněno 9. 11. — je to hlubší zásah do toho, jak Divi
+  tenhle typ prvku styluje, a chtělo by to ověření živě v builderu, ne jen
+  čtení kódu.
 
 ## 6. Trvalá omezení, která platí bez ohledu na fázi
 
